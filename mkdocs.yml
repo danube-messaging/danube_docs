@@ -1,7 +1,14 @@
 site_name: Danube Pub-Sub messaging documentation
 nav:
   - Home: index.md
-  - Getting Started: getting_started.md
-  - Usage: usage.md
+  - Getting Started:
+      - Producers Consumers: producers_consumers.md
+  - Architecture:
+      - Danube architecture: architecture.md
+      - Danube service components: internal_danube_services.md
+      - Pub-Sub messaging: Queuing_PubSub_messaging.md
+      - PubSub vs Streaming: PubSub_messaging_vs_Streaming.md
+  - Development:
+      - Metadata Resources: internal_resources
 theme:
   name: readthedocs
