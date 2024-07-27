@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Danube service components - Danube Pub-Sub messaging documentation</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Danube service components";
+        var mkdocs_page_input_path = "internal_danube_services.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Danube Pub-Sub messaging documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../producers_consumers/">Producers Consumers</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Architecture</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../architecture/">Danube architecture</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Danube service components</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#danube-service-components">Danube Service Components</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#leader-election-service">Leader Election Service</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#load-manager-service">Load Manager Service</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#local-metadata-cache">Local Metadata Cache</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#syncronizer">Syncronizer</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#danube-broker">Danube Broker</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#external-metadata-storage-etcd">External Metadata Storage (ETCD)</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Queuing_PubSub_messaging/">Pub-Sub messaging</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../PubSub_messaging_vs_Streaming/">PubSub vs Streaming</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Development</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="" href="../internal_resources">Metadata Resources</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Danube Pub-Sub messaging documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Architecture</li>
+      <li class="breadcrumb-item active">Danube service components</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="danube-cluster-services-role">Danube Cluster Services Role</h1>
+<p>This document enumerates the principal components of the Danube Cluster and their responsibilities.</p>
+<h2 id="danube-service-components">Danube Service Components</h2>
+<h3 id="leader-election-service">Leader Election Service</h3>
+<p>The Leader Election Service selects one broker from the cluster to act as the Leader. The Broker Leader is responsible for making decisions. This service is used by the Load Manager, ensuring only one broker in the cluster posts the cluster aggregated Load Report.</p>
+<p>Leader Election Flow:</p>
+<ul>
+<li>The first broker registered in the cluster becomes the Leader by registering itself on "/cluster/leader".</li>
+<li>The field is registered with a lease, so the leader broker must periodically renew its lease to maintain leadership.</li>
+<li>Subsequent brokers attempt to become leaders but become Followers if the path is already in use.</li>
+<li>All brokers periodically check the leader path. If there is no change, the state is maintained; otherwise, brokers attempt to become the leader.</li>
+</ul>
+<h3 id="load-manager-service">Load Manager Service</h3>
+<p>The Load Manager monitors and distributes load across brokers by managing topic and partition assignments. It implements rebalancing logic to redistribute topics/partitions when brokers join or leave the cluster and is responsible for failover mechanisms to handle broker failures.</p>
+<p>Load Manager Flow:</p>
+<ul>
+<li>All brokers periodically post their Load Reports on the path "/cluster/brokers/load/{broker-id}".</li>
+<li>The leader broker watches for load reports from all brokers in the cluster.</li>
+<li>It calculates rankings using the selected Load Balance algorithm.</li>
+<li>It posts its calculations for the cluster on the "/cluster/load_balance" path.</li>
+</ul>
+<p>Creation of a New Topic:</p>
+<ul>
+<li>A broker registers the Topic on the "/cluster/unassigned" path.</li>
+<li>The Load Manager of the leader Broker watches this path and assigns the broker with the least load to host the new topic by posting the topic to the "/cluster/brokers/{broker-id}/{topic_name}" path.</li>
+<li>Each broker watches its own path: "/cluster/brokers/{broker-id}". For any event on that path, such as the addition or deletion of topics, it acts accordingly by creating a new topic locally or deleting the topic it owned and all related resources.</li>
+<li>On topic creation, the broker checks if the topic already exists locally. If not, it retrieves all data about the topic, including subscriptions and producers, from the Local Metadata Cache.</li>
+<li>On topic removal, the broker handles the disconnections of producers and consumers and removes the locally allocated resources.</li>
+</ul>
+<p>For further consideration: We may want the broker to ask the Load Manager to get the next broker and initiate topic creation. Either it just posts the topic on the "/cluster/unassigned" path, or if it is the selected broker, it also creates the topic locally.</p>
+<h3 id="local-metadata-cache">Local Metadata Cache</h3>
+<p>This cache stores various types of metadata required by Danube brokers, such as topic and namespace data, which are frequently accessed during message production and consumption. This reduces the need for frequent queries to the central metadata store, ETCD.</p>
+<p>The <a href="docs/internal_resources.md">docs/internal_resources.md</a> document describes how the resources are organized in the Metadata Store.</p>
+<p>Updates/events are received via ETCD Watch events and/or the metadata event synchronizer.</p>
+<h3 id="syncronizer">Syncronizer</h3>
+<p>The synchronizer ensures that metadata and configuration settings across different brokers remain consistent. It propagates changes to metadata and configuration settings using client Producers and Consumers.</p>
+<p>This is in addition to Metadata Storage watch events, allowing brokers to process metadata updates even if there was a communication glitch or the broker was unavailable for a short period, potentially missing the Store Watch events. The synchronizer allows for dynamic updates to configuration settings without requiring a broker service restart.</p>
+<h3 id="danube-broker">Danube Broker</h3>
+<p>The Broker owns the topics and manages their lifecycle. It also facilitates the creation of producers, subscriptions, and consumers, ensuring that producers can publish messages to topics and consumers can consume messages from topics.</p>
+<h2 id="external-metadata-storage-etcd">External Metadata Storage (ETCD)</h2>
+<p>This is the Metadata Storage responsible for the persistent storage of metadata and cluster synchronization.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../architecture/" class="btn btn-neutral float-left" title="Danube architecture"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../Queuing_PubSub_messaging/" class="btn btn-neutral float-right" title="Pub-Sub messaging">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../architecture/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../Queuing_PubSub_messaging/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

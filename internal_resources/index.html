@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Resources mapping - Danube Pub-Sub messaging documentation</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Resources mapping";
+        var mkdocs_page_input_path = "internal_resources.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Danube Pub-Sub messaging documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../producers_consumers/">Producers Consumers</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Architecture</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../architecture/">Danube architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../internal_danube_services/">Danube service components</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Queuing_PubSub_messaging/">Pub-Sub messaging</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../PubSub_messaging_vs_Streaming/">PubSub vs Streaming</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Development</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="" href=".">Metadata Resources</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Danube Pub-Sub messaging documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Resources mapping</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="resources-mapping">Resources mapping</h1>
+<p>This document describes how the resources are organized in the Metadata store</p>
+<h2 id="metadatastore-and-localcache">MetadataStore and LocalCache</h2>
+<p>Basically the entire configuration and the metadata for all the cluster's objects (topics, namespaces, etc) are stored in <strong>MetadataStorage (ETCD)</strong> and in the <strong>LocalCache</strong> to ensure fast retrieval for the local broker and to reduce the number of request to the metadata database.</p>
+<p>The pattern:</p>
+<ul>
+<li><strong>Put / Delete</strong> requests should use MetadataStore (ETCD), to ensure consistency across cluster</li>
+<li><strong>Get</strong> requests should be served from the Local Cache</li>
+</ul>
+<p>The <strong>LocalCache</strong> continuously update from 2 sources for increase consistency:</p>
+<ul>
+<li>the Watch operation on ETCD</li>
+<li>the Syncronizer topic, where all <strong>Put / Delete</strong> requests are published and read by the brokers.</li>
+</ul>
+<h2 id="resources-types">Resources Types</h2>
+<h3 id="cluster-resources">Cluster Resources</h3>
+<p>Holds information about the cluster and the cluster's brokers. Mainly read and write by Danube Service.</p>
+<ul>
+<li><strong>/cluster/cluster-name</strong></li>
+<li>holds a String with the name of the cluster</li>
+<li><strong>/cluster/register/{broker-id}</strong></li>
+<li>the broker register once it join the cluster, contain the broker metadata (broker id &amp; socket addr)  </li>
+<li><strong>/cluster/brokers/{broker-id}/{namespace}/{topic}</strong></li>
+<li>topics served by the broker, with value ()</li>
+<li><strong>Load Manager</strong> updates the path, with topic assignments to brokers</li>
+<li><strong>Brokers</strong> should watch it's own path like (/cluster/brokers/1122334455) - and perform the neccesary actions on adding or removing a topic</li>
+<li><strong>/cluster/unassigned/{namespace}/{topic}</strong></li>
+<li>New unassigned topics created by Broker</li>
+<li>Load Manager should watch this path, add assign the topic to a broker</li>
+<li><strong>/cluster/load/{broker-id}</strong></li>
+<li>broker periodically reports its load metrics on this path</li>
+<li>Load Manager watch this path to calculate broker load rankings for the cluster</li>
+<li><strong>/cluster/load_balance</strong></li>
+<li>the load_balance updated decision, posted by the Load Manager, contain a HashMap with keys the broker_id and value the list of topic_name</li>
+<li><strong>/cluster/leader</strong></li>
+<li>the value posted by Leader Election service, it holds broker_id of the current Leader of the CLuster</li>
+</ul>
+<p>Example:</p>
+<ul>
+<li>/cluster/brokers/1122334455/markets/trade-events - value is ()</li>
+<li>/cluster/brokers/1122334455/markets/trade-events - value is ()</li>
+</ul>
+<h3 id="namespace-resources">Namespace Resources</h3>
+<p>Holds information about the namespace policy and the namespace's topics</p>
+<ul>
+<li><strong>/namespaces/{namespace}/policy</strong></li>
+<li><strong>/namespaces/{namespace}/topics/{namespace}/{topic}</strong></li>
+</ul>
+<p>Example:</p>
+<ul>
+<li>/namespaces/markets/policy - the value stores a Json like { "retentionTimeInMinutes": 1440 }</li>
+<li>/namespaces/markets/topics/markets/trade-events - topics part of the namespace, value is ()</li>
+</ul>
+<h3 id="topic-resources">Topic Resources</h3>
+<p>Holds information about the topic policy and the associated producers / subscriptions, including partitioned topic.</p>
+<ul>
+<li><strong>/topics/{namespace}/{topic}/policy</strong></li>
+<li>holds the topic policy, the value stores a Json</li>
+<li><strong>/topics/{namespace}/{topic}/schema</strong></li>
+<li>holds the topic schema, the value stores the schema</li>
+<li><strong>/topics/{namespace}/{topic}/producers/{producer_id}</strong></li>
+<li>holds the producer config</li>
+<li><strong>/topics/{namespace}/{topic}/subscriptions/{subscription_name}</strong></li>
+<li>holds the subscription config</li>
+</ul>
+<p>Example:</p>
+<ul>
+<li>/topics/markets/trade-events/producers/1122334455 - with value Producer Metadata</li>
+<li>/topics/markets/trade-events/subscriptions/my_subscription - with value Subscription Metadata</li>
+<li>/topics/markets/trade-events-part-1/policy - where <em>/markets/trade-events-part-1</em> is the partitioned topic that stores partition policy</li>
+</ul>
+<h3 id="subscriptions-resources">Subscriptions Resources</h3>
+<p>Holds information about the topic subscriptions, including associated consumers</p>
+<ul>
+<li><strong>/subscriptions/{subscription_name}/{consumer_id}</strong></li>
+<li>holds the consumer metadata</li>
+</ul>
+<p>Example:</p>
+<ul>
+<li>/subscriptions/my_subscription/23232323</li>
+</ul>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

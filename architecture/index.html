@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Danube architecture - Danube Pub-Sub messaging documentation</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Danube architecture";
+        var mkdocs_page_input_path = "architecture.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Danube Pub-Sub messaging documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../producers_consumers/">Producers Consumers</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Architecture</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Danube architecture</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#danube-pubsub-messaging">Danube Pub/Sub Messaging</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#only-danube-pubsub-messaging-is-supported-for-the-moment">Only Danube Pub/Sub Messaging is supported for the moment</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#brokers">Brokers</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#metadatastore">MetadataStore</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#danube-stream-not-yet-supported">Danube Stream (not yet supported)</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_brokers">_Brokers</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_metadatastore">_MetadataStore</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#message-store">Message Store</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../internal_danube_services/">Danube service components</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Queuing_PubSub_messaging/">Pub-Sub messaging</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../PubSub_messaging_vs_Streaming/">PubSub vs Streaming</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Development</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="" href="../internal_resources">Metadata Resources</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Danube Pub-Sub messaging documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Architecture</li>
+      <li class="breadcrumb-item active">Danube architecture</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="danube-architecture">Danube Architecture</h1>
+<h2 id="danube-pubsub-messaging">Danube Pub/Sub Messaging</h2>
+<h3 id="only-danube-pubsub-messaging-is-supported-for-the-moment">Only Danube Pub/Sub Messaging is supported for the moment</h3>
+<p>Designed for decoupling producers and consumers, enabling asynchronous communication between different parts of a system. Suitable for scenarios where low latency is critical and some message loss is acceptable, such as real-time monitoring / notifications, telemetry data, event-driven architectures.</p>
+<p>The messages reside only in memory, providing low latency but not guaranteed to survive broker crashes or consumer disconnections.  The producers are allowed to send messages to Topics even if there are no active consumers. If no consumers are found the messages are droped.</p>
+<p>Read <a href="./03-PubSub_messaging_vs_Streaming.md">Here</a> for more detailed design considerations.</p>
+<p><img alt="Danube Stream Architecture" src="../pictures/Danube_architecture_non_persistent.png" title="Danube Stream Architecture" /></p>
+<h3 id="brokers">Brokers</h3>
+<p>A cluster consist of one or more Danube Brokers.</p>
+<p>The producers connect to the brokers to publish messages and the consumers connect to the brokers to consume the messages.</p>
+<p>Messages are dispatched immediatelly to available consumers, for increased performance.</p>
+<h3 id="metadatastore">MetadataStore</h3>
+<p>Used for cluster-level metadata storage, configuration and coordination. Maintain the metadata store of the Danube Cluster, such as namespace / topic metadata, broker load data and others.</p>
+<h2 id="danube-stream-not-yet-supported">Danube Stream (not yet supported)</h2>
+<p>Designed for processing and analyzing large volumes of data in real-time as it is generated.</p>
+<p>In Danube Stream the messages are stored durably on disk (across multiple disks for reliability). This ensures message survival even during broker restarts or consumer failures. Ideal for use cases requiring high reliability and message durability, such as financial transactions, order processing, logging critical events, etc.</p>
+<p><img alt="Danube Stream Architecture" src="../pictures/Danube_architecture_persistent.png" title="Danube Stream Architecture" /></p>
+<h3 id="_brokers">_Brokers</h3>
+<p>A cluster consist of one or more Danube Brokers.</p>
+<p>The producers connect to the brokers to publish messages and the consumers connect to the brokers to consume the messages.</p>
+<p>Messages are typically dispatched out of a in memory cache for the sake of performance. If the backlog grows too large for the cache, the broker will start reading entries from the distributed storage.</p>
+<h3 id="_metadatastore">_MetadataStore</h3>
+<p>Used for cluster-level metadata storage, configuration and coordination. Maintain the metadata store of the Danube Cluster, such as namespace / topic metadata, broker load data and others.</p>
+<h3 id="message-store">Message Store</h3>
+<p>It provides message delivery guarantee for applications. If a message successfully reaches the Danube broker, it will be delivered to its intended target.</p>
+<p>This guarantee requires that non-acknowledged messages are stored durably until they can be delivered to and acknowledged by consumers. This mode of messaging is commonly called persistent messaging.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../producers_consumers/" class="btn btn-neutral float-left" title="Producers Consumers"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../internal_danube_services/" class="btn btn-neutral float-right" title="Danube service components">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../producers_consumers/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../internal_danube_services/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

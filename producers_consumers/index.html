@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Producers Consumers - Danube Pub-Sub messaging documentation</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Producers Consumers";
+        var mkdocs_page_input_path = "producers_consumers.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Danube Pub-Sub messaging documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Producers Consumers</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#client-setup">Client Setup</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#producer">Producer</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#example">Example</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#consumer">Consumer</a>
+    </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Architecture</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../architecture/">Danube architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../internal_danube_services/">Danube service components</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../Queuing_PubSub_messaging/">Pub-Sub messaging</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../PubSub_messaging_vs_Streaming/">PubSub vs Streaming</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Development</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="" href="../internal_resources">Metadata Resources</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Danube Pub-Sub messaging documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Getting Started</li>
+      <li class="breadcrumb-item active">Producers Consumers</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="danube-clients">Danube Clients</h1>
+<h2 id="client-setup">Client Setup</h2>
+<p>Before an application creates a producer/consumer, the  client library needs to initiate a setup phase including two steps:</p>
+<ul>
+<li>The client attempts to determine the owner of the topic by sending a Lookup request to Broker.  </li>
+<li>Once the client library has the broker address, it creates a RPC connection (or reuses an existing connection from the pool) and (in later stage authenticates it ).</li>
+<li>Within this connection, the clients (producer, consumer) and brokers exchange RPC commands. At this point, the client sends a command to create producer/consumer to the broker, which will comply after doing some validation checks.</li>
+</ul>
+<p>TODO: Reconnection with exponential backoff .Whether the TCP connection breaks, the client immediately re-initiates this setup phase and keeps trying to re-establish the producer or consumer until the operation succeeds.</p>
+<p><img alt="Producers  Consumers" src="../pictures/producers_consumers.png" title="Producers Consumers" /></p>
+<h2 id="producer">Producer</h2>
+<p>A producer is a process that attaches to a topic and publishes messages to a Danube broker. The Danube broker processes the messages.</p>
+<p><strong>Access Mode</strong> is a mechanism to determin the permissions of producers on topics.</p>
+<ul>
+<li><strong>Shared</strong> - Multiple producers can publish on a topic.</li>
+<li><strong>Exclusive</strong> - If there is already a producer connected, other producers trying to publish on this topic get errors immediately.</li>
+</ul>
+<h3 id="example">Example</h3>
+<pre><code class="language-rust">let client = DanubeClient::builder().service_url(&quot;http://[::1]:6650&quot;).build().unwrap();
+let topic = &quot;/markets/trade-events&quot;.to_string(); // Topics are defined as /{namespace}/{tiopic_name}
+
+let json_schema = r#&quot;{&quot;type&quot;: &quot;object&quot;, &quot;properties&quot;: {&quot;field1&quot;: {&quot;type&quot;: &quot;string&quot;}, &quot;field2&quot;: {&quot;type&quot;: &quot;integer&quot;}}}&quot;#.to_string();
+
+let mut producer = client.new_producer().with_topic(topic).with_name(&quot;test_producer1&quot;)
+        .with_schema(&quot;my_app&quot;.into(), SchemaType::Json(json_schema)).build();
+producer.create().await?;
+
+let data = json!({
+            &quot;field1&quot;: format!{&quot;value{}&quot;, i},
+            &quot;field2&quot;: 2020+i,
+        });
+
+// Convert to string and encode to bytes
+let json_string = serde_json::to_string(&amp;data).unwrap();
+let encoded_data = json_string.as_bytes().to_vec();
+ producer.send(encoded_data).await?;
+
+</code></pre>
+<h2 id="consumer">Consumer</h2>
+<p>A consumer is a process that attaches to a topic via a subscription and then receives messages.</p>
+<p><strong>Subscription Types</strong> - describe the way the consumers receive the messages from topics</p>
+<ul>
+<li><strong>Exclusive</strong> -  Only one consumer can subscribe, guaranteeing message order.</li>
+<li><strong>Shared</strong> -  Multiple consumers can subscribe, messages are delivered round-robin, offering good scalability but no order guarantee.</li>
+<li><strong>Failover</strong> - Similar to shared subscriptions, but multiple consumers can subscribe, and one actively receives messages.</li>
+</ul>
+<pre><code class="language-rust">let client = DanubeClient::builder().service_url(&quot;http://[::1]:6650&quot;).build().unwrap();
+let topic = &quot;/markets/trade-events&quot;.to_string(); // Topics are defined as /{namespace}/{tiopic_name}
+
+let mut consumer = client.new_consumer().with_topic(topic).with_consumer_name(&quot;test_consumer&quot;)
+        .with_subscription(&quot;test_subscription&quot;).with_subscription_type(SubType::Exclusive).build();
+
+// Subscribe to the topic
+consumer.subscribe().await?;
+
+// Start receiving messages
+let mut message_stream = consumer.receive().await?;
+while let Some(message) = message_stream.next().await {
+    //process the message and ack for receive
+}
+
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href=".." class="btn btn-neutral float-left" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../architecture/" class="btn btn-neutral float-right" title="Danube architecture">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../architecture/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

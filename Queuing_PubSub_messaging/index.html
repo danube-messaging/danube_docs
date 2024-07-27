@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Pub-Sub messaging - Danube Pub-Sub messaging documentation</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Pub-Sub messaging";
+        var mkdocs_page_input_path = "Queuing_PubSub_messaging.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Danube Pub-Sub messaging documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../producers_consumers/">Producers Consumers</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Architecture</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../architecture/">Danube architecture</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../internal_danube_services/">Danube service components</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Pub-Sub messaging</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#messages">Messages</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#acknowledgment">Acknowledgment</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#acknowledgment-timeout">Acknowledgment timeout</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#topics">Topics</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#namespacetopic_name">/{namespace}/{topic_name}</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#subscriptions">Subscriptions</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#pub-sub-or-queuing">Pub-Sub or Queuing</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#multi-topic-subscriptions">Multi-topic subscriptions</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#partitioned-topics">Partitioned topics</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#not-yet-implemented">Not Yet Implemented</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#routing-modes">Routing modes</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#queuing-vs-pub-sub">Queuing vs Pub-Sub</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#queuing-messaging">Queuing Messaging</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#pub-sub-messaging_1">Pub-Sub Messaging</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../PubSub_messaging_vs_Streaming/">PubSub vs Streaming</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Development</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="" href="../internal_resources">Metadata Resources</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Danube Pub-Sub messaging documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Architecture</li>
+      <li class="breadcrumb-item active">Pub-Sub messaging</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="pub-sub-messaging">Pub-Sub messaging</h1>
+<p><strong>Danube</strong> is built on the <a href="https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern">publish-subscribe</a> pattern. In this pattern, producers publish messages to topics; consumers subscribe to those topics, process incoming messages, and send acknowledgments to the broker when processing is finished.</p>
+<h2 id="messages">Messages</h2>
+<p>It is the basic unit, they are what producers publish to topics and what consumers then consume from topics.</p>
+<p>Structure:</p>
+<ul>
+<li><strong>Value / data payload</strong> - The data carried by the message. The messages should contain raw bytes, and the schema, serialization / deserialization should be managed by producers / consumers.</li>
+<li><strong>Properties</strong> - An optional key/value map of user-defined properties.</li>
+<li><strong>Producer name</strong> - The name of the producer who produces the message.</li>
+<li><strong>Topic name</strong> - The name of the topic that the message is published to.</li>
+<li><strong>Sequence ID</strong> - Each message belongs to an ordered sequence on its topic..</li>
+<li><strong>Publish time</strong> - The timestamp of when the message is published.</li>
+</ul>
+<p>The default max size of a message is XX MB, that can be configured.</p>
+<h3 id="acknowledgment">Acknowledgment</h3>
+<p>A message acknowledgment is sent by a consumer to a broker after the consumer consumes a message successfully. In the Persistent mode the consumed message will be permanently stored and deleted only after all the subscriptions have acknowledged it.</p>
+<h3 id="acknowledgment-timeout">Acknowledgment timeout</h3>
+<p>In the Persistent mode, the acknowledgment timeout mechanism allows you to set a time range during which the client tracks the unacknowledged messages. After this acknowledgment timeout (ackTimeout) period, the client sends redeliver unacknowledged messages request to the broker, thus the broker resends the unacknowledged messages to the consumer.</p>
+<h2 id="topics">Topics</h2>
+<p>A topic is a unit of storage that organizes messages into a stream. As in other pub-sub systems, topics are named channels for transmitting messages from producers to consumers. Topic names are URLs that have a well-defined structure:</p>
+<h3 id="namespacetopic_name">/{namespace}/{topic_name}</h3>
+<p>Example: <strong>/default/markets</strong> (where <em>default</em> is the namespace and <em>markets</em> the topic)</p>
+<h2 id="subscriptions">Subscriptions</h2>
+<h3 id="pub-sub-or-queuing">Pub-Sub or Queuing</h3>
+<ul>
+<li>If you want to achieve <strong>message queuing</strong> among consumers, <strong>share the same subscription name</strong> among multiple consumers</li>
+<li>If you want to achieve traditional <strong>fan-out pub-sub messaging</strong> among consumers, <strong>specify a unique subscription name for each consumer</strong> with an exclusive subscription type.</li>
+</ul>
+<p><strong>A Danube subscription</strong> is a named configuration rule that determines how messages are delivered to consumers. It is a lease on a topic established by a group of consumers:</p>
+<ul>
+<li><strong>Exclusive (can be used for pub-sub)</strong> - The exclusive type is a subscription type that only allows a single consumer to attach to the subscription. If multiple consumers subscribe to a topic using the same subscription, an error occurs.</li>
+<li><strong>Shared (for queuing)</strong> - The shared subscription type Danube allows multiple consumers to attach to the same subscription. Messages are delivered in a round-robin distribution across consumers, and any given message is delivered to only one consumer.</li>
+</ul>
+<h3 id="multi-topic-subscriptions">Multi-topic subscriptions</h3>
+<p>Not intended to be supported soon !.. using regex subscription.</p>
+<h2 id="partitioned-topics">Partitioned topics</h2>
+<h3 id="not-yet-implemented">Not Yet Implemented</h3>
+<p>Normal topics are served only by a single broker, which limits the maximum throughput of the topic. Partitioned topic is a special type of topic handled by multiple brokers, thus allowing for higher throughput.</p>
+<p>A partitioned topic is implemented as N internal topics, where N is the number of partitions. When publishing messages to a partitioned topic, each message is routed to one of several brokers. The distribution of partitions across brokers is handled automatically.</p>
+<p><img alt="Partitioned Topics" src="../pictures/partitioned_topics.png" title="Partitioned topics" /></p>
+<p>Messages for the topic are broadcast to two consumers. The <strong>routing mode</strong> determines each message should be published to which partition, while the <strong>subscription type</strong> determines which messages go to which consumers.</p>
+<h3 id="routing-modes">Routing modes</h3>
+<p>When publishing to partitioned topics, you must specify a routing mode. The routing mode determines each message should be published to which partition or which internal topic.</p>
+<ul>
+<li><strong>RoundRobinPartition</strong> - The producer will publish messages across all partitions in round-robin fashion to achieve maximum throughput. If a key is specified on the message, the partitioned producer will <strong>hash the key and assign message to a particular partition</strong>.</li>
+<li><strong>SinglePartition</strong> - If no key is provided, the producer will randomly pick one single partition and publish all the messages into that partition. While if a key is specified on the message, the partitioned producer will hash the key and assign message to a particular partition.</li>
+</ul>
+<p>=============================</p>
+<h2 id="queuing-vs-pub-sub">Queuing vs Pub-Sub</h2>
+<p>Below is some general documentation about Queuing and Pub-Sub, not related to Danube implementation, but just to ensure we are aware of the standards.</p>
+<p>Messaging queuing and pub-sub are both messaging patterns used for asynchronous communication between applications, but they differ in their approach:</p>
+<h3 id="queuing-messaging">Queuing Messaging</h3>
+<ul>
+<li><strong>Model</strong>: Point-to-Point (One-to-One). A message producer sends a message to a specific queue, and only one consumer can receive and process that message.</li>
+<li><strong>Order</strong>: Messages are typically processed in the order they are received (FIFO - First-In-First-Out). This ensures tasks are completed sequentially.</li>
+<li><strong>Delivery</strong>: Messages are guaranteed to be delivered at least once. This reliability is crucial for critical tasks.</li>
+</ul>
+<p>Examples: Use cases include processing orders, sending emails, or handling failed transactions.</p>
+<h3 id="pub-sub-messaging_1">Pub-Sub Messaging</h3>
+<ul>
+<li><strong>Model</strong>: Publish-Subscribe (One-to-Many). A producer publishes messages to a topic, and any interested subscribers can receive the message. Multiple subscribers can receive the same message.</li>
+<li><strong>Order</strong>: Message order is not guaranteed. Subscribers receive messages as they are published. This is suitable for real-time updates or notifications.</li>
+<li><strong>Delivery</strong>: Delivery is often "fire-and-forget," meaning there's no guarantee a subscriber receives the message. This is acceptable for non-critical data.</li>
+</ul>
+<p>Examples: Use cases include broadcasting stock price updates, sending chat messages, or triggering real-time analytics.</p>
+<p>In Summary:</p>
+<ul>
+<li><strong>Messaging queues</strong> are for reliable, ordered delivery to a single consumer, ideal for task processing.</li>
+<li><strong>Pub-sub</strong> is for broadcasting messages to many interested parties, good for real-time updates.</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../internal_danube_services/" class="btn btn-neutral float-left" title="Danube service components"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../PubSub_messaging_vs_Streaming/" class="btn btn-neutral float-right" title="PubSub vs Streaming">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../internal_danube_services/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../PubSub_messaging_vs_Streaming/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
