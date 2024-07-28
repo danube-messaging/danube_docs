@@ -8,9 +8,9 @@ Designed for decoupling producers and consumers, enabling asynchronous communica
 
 The messages reside only in memory, providing low latency but not guaranteed to survive broker crashes or consumer disconnections.  The producers are allowed to send messages to Topics even if there are no active consumers. If no consumers are found the messages are droped.
 
-Read [Here](./03-PubSub_messaging_vs_Streaming.md) for more detailed design considerations.
+Read [Here](./PubSub_messaging_vs_Streaming.md) for more detailed design considerations.
 
-![Danube Stream Architecture](pictures/Danube_architecture_non_persistent.png "Danube Stream Architecture")
+![Danube Stream Architecture](img/Danube_architecture_non_persistent.png "Danube Stream Architecture")
 
 ### Brokers
 
@@ -30,7 +30,7 @@ Designed for processing and analyzing large volumes of data in real-time as it i
 
 In Danube Stream the messages are stored durably on disk (across multiple disks for reliability). This ensures message survival even during broker restarts or consumer failures. Ideal for use cases requiring high reliability and message durability, such as financial transactions, order processing, logging critical events, etc.
 
-![Danube Stream Architecture](pictures/Danube_architecture_persistent.png "Danube Stream Architecture")
+![Danube Stream Architecture](img/Danube_architecture_persistent.png "Danube Stream Architecture")
 
 ### _Brokers
 

@@ -10,7 +10,7 @@ Before an application creates a producer/consumer, the  client library needs to 
 
 TODO: Reconnection with exponential backoff .Whether the TCP connection breaks, the client immediately re-initiates this setup phase and keeps trying to re-establish the producer or consumer until the operation succeeds.
 
-![Producers  Consumers](pictures/producers_consumers.png "Producers Consumers")
+![Producers  Consumers](img/producers_consumers.png "Producers Consumers")
 
 ## Producer
 

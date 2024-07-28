@@ -57,7 +57,7 @@ Normal topics are served only by a single broker, which limits the maximum throu
 
 A partitioned topic is implemented as N internal topics, where N is the number of partitions. When publishing messages to a partitioned topic, each message is routed to one of several brokers. The distribution of partitions across brokers is handled automatically.
 
-![Partitioned Topics](pictures/partitioned_topics.png "Partitioned topics")
+![Partitioned Topics](img/partitioned_topics.png "Partitioned topics")
 
 Messages for the topic are broadcast to two consumers. The **routing mode** determines each message should be published to which partition, while the **subscription type** determines which messages go to which consumers.
 
