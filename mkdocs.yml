@@ -8,7 +8,27 @@ nav:
                   - Danube service components: architecture/internal_danube_services.md
                   - Pub-Sub messaging: architecture/Queuing_PubSub_messaging.md
                   - PubSub vs Streaming: architecture/PubSub_messaging_vs_Streaming.md
+        - Client Libraries:
+                  - Rust client:
+                            - Setup: client_libraries/Rust_client/setup.md
+                            - Usage: client_libraries/Rust_client/usage.md
+                  - Go client:
+                            - Setup: client_libraries/Go_client/setup.md
+        - Admin API:
+                  - Danube CLI:
+                            - Brokers: admin_API/danube_cli/brokers.md
+                            - Namespaces: admin_API/danube_cli/namespaces.md
+                            - Topics: admin_API/danube_cli/topics.md
         - Development:
+                  - Development Environment: development/dev_environment.md
                   - Metadata Resources: development/internal_resources.md
 theme:
         name: material
+markdown_extensions:
+        - pymdownx.highlight:
+                  anchor_linenums: true
+                  line_spans: __span
+                  pygments_lang_class: true
+        - pymdownx.inlinehilite
+        - pymdownx.snippets
+        - pymdownx.superfences

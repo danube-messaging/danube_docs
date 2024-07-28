@@ -55,6 +55,8 @@ A consumer is a process that attaches to a topic via a subscription and then rec
 * **Shared** -  Multiple consumers can subscribe, messages are delivered round-robin, offering good scalability but no order guarantee.
 * **Failover** - Similar to shared subscriptions, but multiple consumers can subscribe, and one actively receives messages.
 
+### Example
+
 ```rust
 let client = DanubeClient::builder().service_url("http://[::1]:6650").build().unwrap();
 let topic = "/markets/trade-events".to_string(); // Topics are defined as /{namespace}/{tiopic_name}
