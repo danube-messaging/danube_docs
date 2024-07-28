@@ -9,8 +9,10 @@
       
       
       
-        <link rel="prev" href="../dev_environment/">
+        <link rel="prev" href="../../admin_API/danube_cli/topics/">
       
+      
+        <link rel="next" href="../internal_resources/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -18,7 +20,7 @@
     
     
       
-        <title>Metadata Resources - Danube Pub-Sub messaging documentation</title>
+        <title>Development Environment - Danube Pub-Sub messaging documentation</title>
       
     
     
@@ -60,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#resources-mapping" class="md-skip">
+        <a href="#development-environment-setup-for-danube-broker" class="md-skip">
           Skip to content
         </a>
       
@@ -96,7 +98,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Metadata Resources
+              Development Environment
             
           </span>
         </div>
@@ -771,27 +773,6 @@
                 
   
   
-  
-  
-    <li class="md-nav__item">
-      <a href="../dev_environment/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Development Environment
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
     
   
   
@@ -808,7 +789,7 @@
           
   
   <span class="md-ellipsis">
-    Metadata Resources
+    Development Environment
   </span>
   
 
@@ -819,7 +800,7 @@
         
   
   <span class="md-ellipsis">
-    Metadata Resources
+    Development Environment
   </span>
   
 
@@ -841,62 +822,92 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#metadatastore-and-localcache" class="md-nav__link">
+  <a href="#prerequisites" class="md-nav__link">
     <span class="md-ellipsis">
-      MetadataStore and LocalCache
+      Prerequisites
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#resources-types" class="md-nav__link">
+  <a href="#contributing-to-the-repository" class="md-nav__link">
     <span class="md-ellipsis">
-      Resources Types
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Resources Types">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#cluster-resources" class="md-nav__link">
-    <span class="md-ellipsis">
-      Cluster Resources
+      Contributing to the Repository
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#namespace-resources" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#building-the-project" class="md-nav__link">
     <span class="md-ellipsis">
-      Namespace Resources
+      Building the Project
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#topic-resources" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#running-etcd" class="md-nav__link">
     <span class="md-ellipsis">
-      Topic Resources
+      Running ETCD
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#subscriptions-resources" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#running-a-single-broker-instance" class="md-nav__link">
     <span class="md-ellipsis">
-      Subscriptions Resources
+      Running a Single Broker Instance
     </span>
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
+      
+        <li class="md-nav__item">
+  <a href="#running-multiple-broker-instances" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running Multiple Broker Instances
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reading-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reading Logs
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inspecting-etcd-metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      Inspecting ETCD Metadata
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#makefile-targets-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Makefile Targets Summary
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting
+    </span>
+  </a>
   
 </li>
       
@@ -904,6 +915,27 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../internal_resources/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Metadata Resources
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -943,62 +975,92 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#metadatastore-and-localcache" class="md-nav__link">
+  <a href="#prerequisites" class="md-nav__link">
     <span class="md-ellipsis">
-      MetadataStore and LocalCache
+      Prerequisites
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#resources-types" class="md-nav__link">
+  <a href="#contributing-to-the-repository" class="md-nav__link">
     <span class="md-ellipsis">
-      Resources Types
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Resources Types">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#cluster-resources" class="md-nav__link">
-    <span class="md-ellipsis">
-      Cluster Resources
+      Contributing to the Repository
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#namespace-resources" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#building-the-project" class="md-nav__link">
     <span class="md-ellipsis">
-      Namespace Resources
+      Building the Project
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#topic-resources" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#running-etcd" class="md-nav__link">
     <span class="md-ellipsis">
-      Topic Resources
+      Running ETCD
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#subscriptions-resources" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#running-a-single-broker-instance" class="md-nav__link">
     <span class="md-ellipsis">
-      Subscriptions Resources
+      Running a Single Broker Instance
     </span>
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
+      
+        <li class="md-nav__item">
+  <a href="#running-multiple-broker-instances" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running Multiple Broker Instances
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reading-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reading Logs
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inspecting-etcd-metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      Inspecting ETCD Metadata
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#makefile-targets-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Makefile Targets Summary
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting
+    </span>
+  </a>
   
 </li>
       
@@ -1017,86 +1079,128 @@
                   
 
 
-<h1 id="resources-mapping">Resources mapping</h1>
-<p>This document describes how the resources are organized in the Metadata store</p>
-<h2 id="metadatastore-and-localcache">MetadataStore and LocalCache</h2>
-<p>Basically the entire configuration and the metadata for all the cluster's objects (topics, namespaces, etc) are stored in <strong>MetadataStorage (ETCD)</strong> and in the <strong>LocalCache</strong> to ensure fast retrieval for the local broker and to reduce the number of request to the metadata database.</p>
-<p>The pattern:</p>
+<h1 id="development-environment-setup-for-danube-broker">Development Environment Setup for Danube Broker</h1>
+<p>This document guides you through setting up the development environment, running danube broker instances, and be able to effectively contribute to the code.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>Before you get started, make sure you have the following installed:</p>
 <ul>
-<li><strong>Put / Delete</strong> requests should use MetadataStore (ETCD), to ensure consistency across cluster</li>
-<li><strong>Get</strong> requests should be served from the Local Cache</li>
+<li>
+<p><strong>Rust</strong>: Ensure you have Rust installed. You can download and install it from <a href="https://www.rust-lang.org/tools/install">the Rust website</a>.</p>
+</li>
+<li>
+<p><strong>Docker</strong>: Install Docker if you haven’t already. Follow the installation instructions on the <a href="https://docs.docker.com/get-docker/">Docker website</a>.</p>
+</li>
 </ul>
-<p>The <strong>LocalCache</strong> continuously update from 2 sources for increase consistency:</p>
+<h2 id="contributing-to-the-repository">Contributing to the Repository</h2>
+<ol>
+<li>
+<p><strong>Fork the Repository</strong>:</p>
+</li>
+<li>
+<p>Go to the <a href="https://github.com/danrusei/danube">Danube Broker GitHub repository</a>.</p>
+</li>
+<li>
+<p>Click the "Fork" button on the top right corner of the page to create your own copy of the repository.</p>
+</li>
+<li>
+<p><strong>Clone Your Fork</strong>:</p>
+</li>
+</ol>
+<p>Once you have forked the repository, clone your forked repository:</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/&lt;your-username&gt;/danube.git
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">cd</span><span class="w"> </span>danube
+</span></code></pre></div>
+<ol>
+<li><strong>Add the Original Repository as a Remote</strong> (optional but recommended for keeping up-to-date):</li>
+</ol>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>upstream<span class="w"> </span>https://github.com/danrusei/danube.git
+</span></code></pre></div>
+<h2 id="building-the-project">Building the Project</h2>
+<ol>
+<li><strong>Build the Project</strong>:</li>
+</ol>
+<p>To build the Danube Broker:</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>cargo<span class="w"> </span>build<span class="w"> </span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>or<span class="w">  </span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>cargo<span class="w"> </span>build<span class="w"> </span>--release
+</span></code></pre></div>
+<h2 id="running-etcd">Running ETCD</h2>
+<ol>
+<li><strong>Start ETCD</strong>:</li>
+</ol>
+<p>Use the Makefile to start an ETCD instance. This will run ETCD in a Docker container.</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>make<span class="w"> </span>etcd
+</span></code></pre></div>
+<ol>
+<li><strong>Clean Up ETCD</strong>:</li>
+</ol>
+<p>To stop and remove the ETCD instance and its data:</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>make<span class="w"> </span>etcd-clean
+</span></code></pre></div>
+<h2 id="running-a-single-broker-instance">Running a Single Broker Instance</h2>
+<ol>
+<li><strong>Start ETCD</strong>:</li>
+</ol>
+<p>Ensure ETCD is running. If not, use the <code>make etcd</code> command to start it.</p>
+<ol>
+<li><strong>Run the Broker</strong>:</li>
+</ol>
+<p>Use the following command to start a single broker instance:</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nv">RUST_LOG</span><span class="o">=</span><span class="nv">danube_broker</span><span class="o">=</span>trace<span class="w"> </span>target/debug/danube-broker<span class="w"> </span>--cluster-name<span class="w"> </span>MY_cluster<span class="w"> </span>--meta-store-addr<span class="w"> </span><span class="m">127</span>.0.0.1:2379
+</span></code></pre></div>
+<h2 id="running-multiple-broker-instances">Running Multiple Broker Instances</h2>
+<ol>
+<li><strong>Start ETCD</strong>:</li>
+</ol>
+<p>Ensure ETCD is running. Use:</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>make<span class="w"> </span>etcd
+</span></code></pre></div>
+<ol>
+<li><strong>Run Multiple Brokers</strong>:</li>
+</ol>
+<p>Use the following Makefile command to start multiple broker instances:</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>make<span class="w"> </span>brokers
+</span></code></pre></div>
+<p>This will start brokers on ports 6650, 6651, and 6652. Logs for each broker will be saved in <code>temp/</code> directory.</p>
+<ol>
+<li><strong>Clean Up Broker Instances</strong>:</li>
+</ol>
+<p>To stop all running broker instances:</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>make<span class="w"> </span>brokers-clean
+</span></code></pre></div>
+<h2 id="reading-logs">Reading Logs</h2>
+<p>Logs for each broker instance are stored in the <code>temp/</code> directory. You can view them using:</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>cat<span class="w"> </span>temp/broker_&lt;port&gt;.log
+</span></code></pre></div>
+<p>Replace <code>&lt;port&gt;</code> with the actual port number (6650, 6651, or 6652).</p>
+<h2 id="inspecting-etcd-metadata">Inspecting ETCD Metadata</h2>
+<ol>
+<li><strong>Set Up <code>etcdctl</code></strong>:</li>
+</ol>
+<p>Export the following environment variables:</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">ETCDCTL_API</span><span class="o">=</span><span class="m">3</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">ETCDCTL_ENDPOINTS</span><span class="o">=</span>http://localhost:2379
+</span></code></pre></div>
+<ol>
+<li><strong>Inspect Metadata</strong>:</li>
+</ol>
+<p>Use <code>etcdctl</code> commands to inspect metadata. For example, to list all keys:</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>etcdctl<span class="w"> </span>get<span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w"> </span>--prefix
+</span></code></pre></div>
+<p>To get a specific key:</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>etcdctl<span class="w"> </span>get<span class="w"> </span>&lt;key&gt;
+</span></code></pre></div>
+<h2 id="makefile-targets-summary">Makefile Targets Summary</h2>
 <ul>
-<li>the Watch operation on ETCD</li>
-<li>the Syncronizer topic, where all <strong>Put / Delete</strong> requests are published and read by the brokers.</li>
+<li><code>make etcd</code>: Starts an ETCD instance in Docker.</li>
+<li><code>make etcd-clean</code>: Stops and removes the ETCD instance and its data.</li>
+<li><code>make brokers</code>: Builds and starts broker instances on predefined ports.</li>
+<li><code>make brokers-clean</code>: Stops and removes all running broker instances.</li>
 </ul>
-<h2 id="resources-types">Resources Types</h2>
-<h3 id="cluster-resources">Cluster Resources</h3>
-<p>Holds information about the cluster and the cluster's brokers. Mainly read and write by Danube Service.</p>
+<h2 id="troubleshooting">Troubleshooting</h2>
 <ul>
-<li><strong>/cluster/cluster-name</strong></li>
-<li>holds a String with the name of the cluster</li>
-<li><strong>/cluster/register/{broker-id}</strong></li>
-<li>the broker register once it join the cluster, contain the broker metadata (broker id &amp; socket addr)  </li>
-<li><strong>/cluster/brokers/{broker-id}/{namespace}/{topic}</strong></li>
-<li>topics served by the broker, with value ()</li>
-<li><strong>Load Manager</strong> updates the path, with topic assignments to brokers</li>
-<li><strong>Brokers</strong> should watch it's own path like (/cluster/brokers/1122334455) - and perform the neccesary actions on adding or removing a topic</li>
-<li><strong>/cluster/unassigned/{namespace}/{topic}</strong></li>
-<li>New unassigned topics created by Broker</li>
-<li>Load Manager should watch this path, add assign the topic to a broker</li>
-<li><strong>/cluster/load/{broker-id}</strong></li>
-<li>broker periodically reports its load metrics on this path</li>
-<li>Load Manager watch this path to calculate broker load rankings for the cluster</li>
-<li><strong>/cluster/load_balance</strong></li>
-<li>the load_balance updated decision, posted by the Load Manager, contain a HashMap with keys the broker_id and value the list of topic_name</li>
-<li><strong>/cluster/leader</strong></li>
-<li>the value posted by Leader Election service, it holds broker_id of the current Leader of the CLuster</li>
-</ul>
-<p>Example:</p>
-<ul>
-<li>/cluster/brokers/1122334455/markets/trade-events - value is ()</li>
-<li>/cluster/brokers/1122334455/markets/trade-events - value is ()</li>
-</ul>
-<h3 id="namespace-resources">Namespace Resources</h3>
-<p>Holds information about the namespace policy and the namespace's topics</p>
-<ul>
-<li><strong>/namespaces/{namespace}/policy</strong></li>
-<li><strong>/namespaces/{namespace}/topics/{namespace}/{topic}</strong></li>
-</ul>
-<p>Example:</p>
-<ul>
-<li>/namespaces/markets/policy - the value stores a Json like { "retentionTimeInMinutes": 1440 }</li>
-<li>/namespaces/markets/topics/markets/trade-events - topics part of the namespace, value is ()</li>
-</ul>
-<h3 id="topic-resources">Topic Resources</h3>
-<p>Holds information about the topic policy and the associated producers / subscriptions, including partitioned topic.</p>
-<ul>
-<li><strong>/topics/{namespace}/{topic}/policy</strong></li>
-<li>holds the topic policy, the value stores a Json</li>
-<li><strong>/topics/{namespace}/{topic}/schema</strong></li>
-<li>holds the topic schema, the value stores the schema</li>
-<li><strong>/topics/{namespace}/{topic}/producers/{producer_id}</strong></li>
-<li>holds the producer config</li>
-<li><strong>/topics/{namespace}/{topic}/subscriptions/{subscription_name}</strong></li>
-<li>holds the subscription config</li>
-</ul>
-<p>Example:</p>
-<ul>
-<li>/topics/markets/trade-events/producers/1122334455 - with value Producer Metadata</li>
-<li>/topics/markets/trade-events/subscriptions/my_subscription - with value Subscription Metadata</li>
-<li>/topics/markets/trade-events-part-1/policy - where <em>/markets/trade-events-part-1</em> is the partitioned topic that stores partition policy</li>
-</ul>
-<h3 id="subscriptions-resources">Subscriptions Resources</h3>
-<p>Holds information about the topic subscriptions, including associated consumers</p>
-<ul>
-<li><strong>/subscriptions/{subscription_name}/{consumer_id}</strong></li>
-<li>holds the consumer metadata</li>
-</ul>
-<p>Example:</p>
-<ul>
-<li>/subscriptions/my_subscription/23232323</li>
+<li><strong>ETCD Not Starting</strong>: Check Docker logs and ensure no other service is using port 2379.</li>
+<li><strong>Broker Not Starting</strong>: Ensure ETCD is running and accessible at the specified address and port.</li>
 </ul>
 
 
