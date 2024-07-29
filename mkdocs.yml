@@ -2,7 +2,8 @@ site_name: Danube Pub-Sub messaging documentation
 nav:
         - Home: index.md
         - Getting Started:
-                  - Producers Consumers: getting_started/producers_consumers.md
+                  - Run Danube on VMs or Bare Metal: getting_started/Danube_on_vms.md
+                  - Run Danube on Kubernetes Cluster: getting_started/Danube_on_k8s_helm.md
         - Architecture:
                   - Danube architecture: architecture/architecture.md
                   - Danube service components: architecture/internal_danube_services.md

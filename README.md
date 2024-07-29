@@ -1,2 +1,3 @@
 # danube_docs
-Danube Pub-Sub messaging documentation
+
+This is the source repository for [Danube Pub-Sub messaging documentation](https://dev-state.com/danube_docs/)
