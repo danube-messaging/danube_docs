@@ -246,11 +246,32 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../getting_started/producers_consumers/" class="md-nav__link">
+      <a href="../../../getting_started/Danube_on_vms/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Producers Consumers
+    Run Danube on VMs or Bare Metal
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting_started/Danube_on_k8s_helm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Run Danube on Kubernetes Cluster
   </span>
   
 
@@ -504,6 +525,17 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Usage
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -513,6 +545,82 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#producer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Producer
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Producer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consumer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Consumer
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Consumer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complete-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Complete example
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -850,6 +958,71 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#producer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Producer
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Producer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consumer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Consumer
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Consumer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complete-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Complete example
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -864,7 +1037,77 @@
 
 
 <h1 id="use-danube-rust-cient">Use Danube Rust cient</h1>
-<p>ToDo</p>
+<p>The Danube permits multiple topics and subcriber to the same topic. The <a href="../../../architecture/Queuing_PubSub_messaging/">Subscription Types</a> can be combined to obtain message queueing or fan-out pub-sub messaging patterns.</p>
+<p><img alt="Producers  Consumers" src="../../../architecture/img/producers_consumers.png" title="Producers Consumers" /></p>
+<h2 id="producer">Producer</h2>
+<p>A producer is a process that attaches to a topic and publishes messages to a Danube broker. The Danube broker processes the messages.</p>
+<p><strong>Access Mode</strong> is a mechanism to determin the permissions of producers on topics.</p>
+<ul>
+<li><strong>Shared</strong> - Multiple producers can publish on a topic.</li>
+<li><strong>Exclusive</strong> - If there is already a producer connected, other producers trying to publish on this topic get errors immediately.</li>
+</ul>
+<h3 id="example">Example</h3>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">let</span><span class="w"> </span><span class="n">topic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;/default/test_topic&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">();</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kd">let</span><span class="w"> </span><span class="n">json_schema</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">r#&quot;{&quot;type&quot;: &quot;object&quot;, &quot;properties&quot;: {&quot;field1&quot;: {&quot;type&quot;: &quot;string&quot;}, &quot;field2&quot;: {&quot;type&quot;: &quot;integer&quot;}}}&quot;#</span><span class="p">.</span><span class="n">to_string</span><span class="p">();</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">producer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">        </span><span class="p">.</span><span class="n">new_producer</span><span class="p">()</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">        </span><span class="p">.</span><span class="n">with_topic</span><span class="p">(</span><span class="n">topic</span><span class="p">)</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">        </span><span class="p">.</span><span class="n">with_name</span><span class="p">(</span><span class="s">&quot;test_producer1&quot;</span><span class="p">)</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">        </span><span class="p">.</span><span class="n">with_schema</span><span class="p">(</span><span class="s">&quot;my_app&quot;</span><span class="p">.</span><span class="n">into</span><span class="p">(),</span><span class="w"> </span><span class="n">SchemaType</span><span class="p">::</span><span class="n">Json</span><span class="p">(</span><span class="n">json_schema</span><span class="p">))</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">        </span><span class="p">.</span><span class="n">build</span><span class="p">();</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="kd">let</span><span class="w"> </span><span class="n">prod_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">producer</span><span class="p">.</span><span class="n">create</span><span class="p">().</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="n">info</span><span class="o">!</span><span class="p">(</span><span class="s">&quot;The Producer was created with ID: {:?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">prod_id</span><span class="p">);</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="kd">let</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">json</span><span class="o">!</span><span class="p">({</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">            </span><span class="s">&quot;field1&quot;</span><span class="p">:</span><span class="w"> </span><span class="nc">format</span><span class="o">!</span><span class="p">{</span><span class="s">&quot;value{}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">},</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">            </span><span class="s">&quot;field2&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2020</span><span class="o">+</span><span class="n">i</span><span class="p">,</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">        </span><span class="p">});</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="c1">// Convert to string and encode to bytes</span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="kd">let</span><span class="w"> </span><span class="n">json_string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">serde_json</span><span class="p">::</span><span class="n">to_string</span><span class="p">(</span><span class="o">&amp;</span><span class="n">data</span><span class="p">).</span><span class="n">unwrap</span><span class="p">();</span>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="kd">let</span><span class="w"> </span><span class="n">encoded_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">json_string</span><span class="p">.</span><span class="n">as_bytes</span><span class="p">().</span><span class="n">to_vec</span><span class="p">();</span>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="c1">// let json_message = r#&quot;{&quot;field1&quot;: &quot;value&quot;, &quot;field2&quot;: 123}&quot;#.as_bytes().to_vec();</span>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="kd">let</span><span class="w"> </span><span class="n">message_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">producer</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="n">encoded_data</span><span class="p">).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;The Message with id {} was sent&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">message_id</span><span class="p">);</span>
+</span></code></pre></div>
+<h2 id="consumer">Consumer</h2>
+<p>A consumer is a process that attaches to a topic via a subscription and then receives messages.</p>
+<p><strong>Subscription Types</strong> - describe the way the consumers receive the messages from topics</p>
+<ul>
+<li><strong>Exclusive</strong> -  Only one consumer can subscribe, guaranteeing message order.</li>
+<li><strong>Shared</strong> -  Multiple consumers can subscribe, messages are delivered round-robin, offering good scalability but no order guarantee.</li>
+<li><strong>Failover</strong> - Similar to shared subscriptions, but multiple consumers can subscribe, and one actively receives messages.</li>
+</ul>
+<h3 id="example_1">Example</h3>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kd">let</span><span class="w"> </span><span class="n">topic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;/default/test_topic&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">();</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">consumer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">        </span><span class="p">.</span><span class="n">new_consumer</span><span class="p">()</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">        </span><span class="p">.</span><span class="n">with_topic</span><span class="p">(</span><span class="n">topic</span><span class="p">.</span><span class="n">clone</span><span class="p">())</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">        </span><span class="p">.</span><span class="n">with_consumer_name</span><span class="p">(</span><span class="s">&quot;test_consumer&quot;</span><span class="p">)</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">        </span><span class="p">.</span><span class="n">with_subscription</span><span class="p">(</span><span class="s">&quot;test_subscription&quot;</span><span class="p">)</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">        </span><span class="p">.</span><span class="n">with_subscription_type</span><span class="p">(</span><span class="n">SubType</span><span class="p">::</span><span class="n">Exclusive</span><span class="p">)</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">        </span><span class="p">.</span><span class="n">build</span><span class="p">();</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="c1">// Subscribe to the topic</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">consumer_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">consumer</span><span class="p">.</span><span class="n">subscribe</span><span class="p">().</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;The Consumer with ID: {:?} was created&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">consumer_id</span><span class="p">);</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">_schema</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">get_schema</span><span class="p">(</span><span class="n">topic</span><span class="p">).</span><span class="k">await</span><span class="p">.</span><span class="n">unwrap</span><span class="p">();</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">    </span><span class="c1">// Start receiving messages</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">message_stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">consumer</span><span class="p">.</span><span class="n">receive</span><span class="p">().</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">     </span><span class="k">while</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">message</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">message_stream</span><span class="p">.</span><span class="n">next</span><span class="p">().</span><span class="k">await</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">        </span><span class="c1">//process the message and ack for receive</span>
+</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">     </span><span class="p">}</span>
+</span></code></pre></div>
+<h2 id="complete-example">Complete example</h2>
+<p>For a complete example implementation of the above code using producers and consumers, check the <a href="https://github.com/danrusei/danube/tree/main/danube-client/examples">Examples folder</a>.</p>
 
 
 

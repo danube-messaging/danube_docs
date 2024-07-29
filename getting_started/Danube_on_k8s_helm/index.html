@@ -9,7 +9,7 @@
       
       
       
-        <link rel="prev" href="../..">
+        <link rel="prev" href="../Danube_on_vms/">
       
       
         <link rel="next" href="../../architecture/architecture/">
@@ -20,7 +20,7 @@
     
     
       
-        <title>Producers Consumers - Danube Pub-Sub messaging documentation</title>
+        <title>Run Danube on Kubernetes Cluster - Danube Pub-Sub messaging documentation</title>
       
     
     
@@ -62,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#danube-clients" class="md-skip">
+        <a href="#danube-cluster-instalation-guide-on-kubernetes-with-helm-chart" class="md-skip">
           Skip to content
         </a>
       
@@ -98,7 +98,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Producers Consumers
+              Run Danube on Kubernetes Cluster
             
           </span>
         </div>
@@ -245,6 +245,27 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../Danube_on_vms/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Run Danube on VMs or Bare Metal
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -261,7 +282,7 @@
           
   
   <span class="md-ellipsis">
-    Producers Consumers
+    Run Danube on Kubernetes Cluster
   </span>
   
 
@@ -272,7 +293,7 @@
         
   
   <span class="md-ellipsis">
-    Producers Consumers
+    Run Danube on Kubernetes Cluster
   </span>
   
 
@@ -294,28 +315,37 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#client-setup" class="md-nav__link">
+  <a href="#prerequisites" class="md-nav__link">
     <span class="md-ellipsis">
-      Client Setup
+      Prerequisites
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#producer" class="md-nav__link">
+  <a href="#installation" class="md-nav__link">
     <span class="md-ellipsis">
-      Producer
+      Installation
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Producer">
+    <nav class="md-nav" aria-label="Installation">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#example" class="md-nav__link">
+  <a href="#add-helm-repository" class="md-nav__link">
     <span class="md-ellipsis">
-      Example
+      Add Helm Repository
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-the-helm-chart" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install the Helm Chart
     </span>
   </a>
   
@@ -327,19 +357,28 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#consumer" class="md-nav__link">
+  <a href="#configuration" class="md-nav__link">
     <span class="md-ellipsis">
-      Consumer
+      Configuration
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Consumer">
+    <nav class="md-nav" aria-label="Configuration">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#example_1" class="md-nav__link">
+  <a href="#etcd-configuration" class="md-nav__link">
     <span class="md-ellipsis">
-      Example
+      ETCD Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#broker-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Broker Configuration
     </span>
   </a>
   
@@ -347,6 +386,33 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#accessing-the-brokers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Accessing the Brokers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#uninstallation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Uninstallation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting
+    </span>
+  </a>
   
 </li>
       
@@ -942,28 +1008,37 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#client-setup" class="md-nav__link">
+  <a href="#prerequisites" class="md-nav__link">
     <span class="md-ellipsis">
-      Client Setup
+      Prerequisites
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#producer" class="md-nav__link">
+  <a href="#installation" class="md-nav__link">
     <span class="md-ellipsis">
-      Producer
+      Installation
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Producer">
+    <nav class="md-nav" aria-label="Installation">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#example" class="md-nav__link">
+  <a href="#add-helm-repository" class="md-nav__link">
     <span class="md-ellipsis">
-      Example
+      Add Helm Repository
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-the-helm-chart" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install the Helm Chart
     </span>
   </a>
   
@@ -975,19 +1050,28 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#consumer" class="md-nav__link">
+  <a href="#configuration" class="md-nav__link">
     <span class="md-ellipsis">
-      Consumer
+      Configuration
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Consumer">
+    <nav class="md-nav" aria-label="Configuration">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#example_1" class="md-nav__link">
+  <a href="#etcd-configuration" class="md-nav__link">
     <span class="md-ellipsis">
-      Example
+      ETCD Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#broker-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Broker Configuration
     </span>
   </a>
   
@@ -995,6 +1079,33 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#accessing-the-brokers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Accessing the Brokers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#uninstallation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Uninstallation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting
+    </span>
+  </a>
   
 </li>
       
@@ -1013,66 +1124,179 @@
                   
 
 
-<h1 id="danube-clients">Danube Clients</h1>
-<h2 id="client-setup">Client Setup</h2>
-<p>Before an application creates a producer/consumer, the  client library needs to initiate a setup phase including two steps:</p>
+<h1 id="danube-cluster-instalation-guide-on-kubernetes-with-helm-chart">Danube Cluster Instalation Guide on Kubernetes with Helm Chart</h1>
+<p>The Helm chart deploys the Danube Cluster with ETCD as metadata storage in the same namespace.</p>
+<h2 id="prerequisites">Prerequisites</h2>
 <ul>
-<li>The client attempts to determine the owner of the topic by sending a Lookup request to Broker.  </li>
-<li>Once the client library has the broker address, it creates a RPC connection (or reuses an existing connection from the pool) and (in later stage authenticates it ).</li>
-<li>Within this connection, the clients (producer, consumer) and brokers exchange RPC commands. At this point, the client sends a command to create producer/consumer to the broker, which will comply after doing some validation checks.</li>
+<li>Kubernetes 1.19+</li>
+<li>Helm 3.2.0+</li>
 </ul>
-<p>TODO: Reconnection with exponential backoff .Whether the TCP connection breaks, the client immediately re-initiates this setup phase and keeps trying to re-establish the producer or consumer until the operation succeeds.</p>
-<p><img alt="Producers  Consumers" src="../img/producers_consumers.png" title="Producers Consumers" /></p>
-<h2 id="producer">Producer</h2>
-<p>A producer is a process that attaches to a topic and publishes messages to a Danube broker. The Danube broker processes the messages.</p>
-<p><strong>Access Mode</strong> is a mechanism to determin the permissions of producers on topics.</p>
-<ul>
-<li><strong>Shared</strong> - Multiple producers can publish on a topic.</li>
-<li><strong>Exclusive</strong> - If there is already a producer connected, other producers trying to publish on this topic get errors immediately.</li>
-</ul>
-<h3 id="example">Example</h3>
-<div class="language-rust highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">let</span><span class="w"> </span><span class="n">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DanubeClient</span><span class="p">::</span><span class="n">builder</span><span class="p">().</span><span class="n">service_url</span><span class="p">(</span><span class="s">&quot;http://[::1]:6650&quot;</span><span class="p">).</span><span class="n">build</span><span class="p">().</span><span class="n">unwrap</span><span class="p">();</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kd">let</span><span class="w"> </span><span class="n">topic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;/markets/trade-events&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">();</span><span class="w"> </span><span class="c1">// Topics are defined as /{namespace}/{tiopic_name}</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="kd">let</span><span class="w"> </span><span class="n">json_schema</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">r#&quot;{&quot;type&quot;: &quot;object&quot;, &quot;properties&quot;: {&quot;field1&quot;: {&quot;type&quot;: &quot;string&quot;}, &quot;field2&quot;: {&quot;type&quot;: &quot;integer&quot;}}}&quot;#</span><span class="p">.</span><span class="n">to_string</span><span class="p">();</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">producer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">new_producer</span><span class="p">().</span><span class="n">with_topic</span><span class="p">(</span><span class="n">topic</span><span class="p">).</span><span class="n">with_name</span><span class="p">(</span><span class="s">&quot;test_producer1&quot;</span><span class="p">)</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">        </span><span class="p">.</span><span class="n">with_schema</span><span class="p">(</span><span class="s">&quot;my_app&quot;</span><span class="p">.</span><span class="n">into</span><span class="p">(),</span><span class="w"> </span><span class="n">SchemaType</span><span class="p">::</span><span class="n">Json</span><span class="p">(</span><span class="n">json_schema</span><span class="p">)).</span><span class="n">build</span><span class="p">();</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="n">producer</span><span class="p">.</span><span class="n">create</span><span class="p">().</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="kd">let</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">json</span><span class="o">!</span><span class="p">({</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">            </span><span class="s">&quot;field1&quot;</span><span class="p">:</span><span class="w"> </span><span class="nc">format</span><span class="o">!</span><span class="p">{</span><span class="s">&quot;value{}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">},</span>
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">            </span><span class="s">&quot;field2&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2020</span><span class="o">+</span><span class="n">i</span><span class="p">,</span>
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">        </span><span class="p">});</span>
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="c1">// Convert to string and encode to bytes</span>
-</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="kd">let</span><span class="w"> </span><span class="n">json_string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">serde_json</span><span class="p">::</span><span class="n">to_string</span><span class="p">(</span><span class="o">&amp;</span><span class="n">data</span><span class="p">).</span><span class="n">unwrap</span><span class="p">();</span>
-</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="kd">let</span><span class="w"> </span><span class="n">encoded_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">json_string</span><span class="p">.</span><span class="n">as_bytes</span><span class="p">().</span><span class="n">to_vec</span><span class="p">();</span>
-</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w"> </span><span class="n">producer</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="n">encoded_data</span><span class="p">).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
+<h2 id="installation">Installation</h2>
+<h3 id="add-helm-repository">Add Helm Repository</h3>
+<p>First, add the repository to your Helm client:</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>danube<span class="w"> </span>https://danrusei.github.io/danube_helm
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>helm<span class="w"> </span>repo<span class="w"> </span>update
 </span></code></pre></div>
-<h2 id="consumer">Consumer</h2>
-<p>A consumer is a process that attaches to a topic via a subscription and then receives messages.</p>
-<p><strong>Subscription Types</strong> - describe the way the consumers receive the messages from topics</p>
-<ul>
-<li><strong>Exclusive</strong> -  Only one consumer can subscribe, guaranteeing message order.</li>
-<li><strong>Shared</strong> -  Multiple consumers can subscribe, messages are delivered round-robin, offering good scalability but no order guarantee.</li>
-<li><strong>Failover</strong> - Similar to shared subscriptions, but multiple consumers can subscribe, and one actively receives messages.</li>
-</ul>
-<h3 id="example_1">Example</h3>
-<div class="language-rust highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kd">let</span><span class="w"> </span><span class="n">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DanubeClient</span><span class="p">::</span><span class="n">builder</span><span class="p">().</span><span class="n">service_url</span><span class="p">(</span><span class="s">&quot;http://[::1]:6650&quot;</span><span class="p">).</span><span class="n">build</span><span class="p">().</span><span class="n">unwrap</span><span class="p">();</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kd">let</span><span class="w"> </span><span class="n">topic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;/markets/trade-events&quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">();</span><span class="w"> </span><span class="c1">// Topics are defined as /{namespace}/{tiopic_name}</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">consumer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">new_consumer</span><span class="p">().</span><span class="n">with_topic</span><span class="p">(</span><span class="n">topic</span><span class="p">).</span><span class="n">with_consumer_name</span><span class="p">(</span><span class="s">&quot;test_consumer&quot;</span><span class="p">)</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">        </span><span class="p">.</span><span class="n">with_subscription</span><span class="p">(</span><span class="s">&quot;test_subscription&quot;</span><span class="p">).</span><span class="n">with_subscription_type</span><span class="p">(</span><span class="n">SubType</span><span class="p">::</span><span class="n">Exclusive</span><span class="p">).</span><span class="n">build</span><span class="p">();</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1">// Subscribe to the topic</span>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="n">consumer</span><span class="p">.</span><span class="n">subscribe</span><span class="p">().</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="c1">// Start receiving messages</span>
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">message_stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">consumer</span><span class="p">.</span><span class="n">receive</span><span class="p">().</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
-</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="k">while</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">message</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">message_stream</span><span class="p">.</span><span class="n">next</span><span class="p">().</span><span class="k">await</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="c1">//process the message and ack for receive</span>
-</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="p">}</span>
+<h3 id="install-the-helm-chart">Install the Helm Chart</h3>
+<p>You can install the chart with the release name <code>my-danube-cluster</code> using the following command:</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>helm<span class="w"> </span>install<span class="w"> </span>my-danube-cluster<span class="w"> </span>danube/danube-helm-chart
+</span></code></pre></div>
+<p>This will deploy the Danube Broker and an ETCD instance with the default configuration.</p>
+<h2 id="configuration">Configuration</h2>
+<h3 id="etcd-configuration">ETCD Configuration</h3>
+<p>The following table lists the configurable parameters of the ETCD chart and their default values.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>etcd.enabled</code></td>
+<td>Enable or disable ETCD deployment</td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><code>etcd.replicaCount</code></td>
+<td>Number of ETCD instances</td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td><code>etcd.image.repository</code></td>
+<td>ETCD image repository</td>
+<td><code>bitnami/etcd</code></td>
+</tr>
+<tr>
+<td><code>etcd.image.tag</code></td>
+<td>ETCD image tag</td>
+<td><code>latest</code></td>
+</tr>
+<tr>
+<td><code>etcd.image.pullPolicy</code></td>
+<td>ETCD image pull policy</td>
+<td><code>IfNotPresent</code></td>
+</tr>
+<tr>
+<td><code>etcd.service.type</code></td>
+<td>ETCD service type</td>
+<td><code>ClusterIP</code></td>
+</tr>
+<tr>
+<td><code>etcd.service.port</code></td>
+<td>ETCD service port</td>
+<td><code>2379</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="broker-configuration">Broker Configuration</h3>
+<p>The following table lists the configurable parameters of the Danube Broker chart and their default values.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>broker.replicaCount</code></td>
+<td>Number of broker instances</td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td><code>broker.image.repository</code></td>
+<td>Broker image repository</td>
+<td><code>ghcr.io/your-username/danube-broker</code></td>
+</tr>
+<tr>
+<td><code>broker.image.tag</code></td>
+<td>Broker image tag</td>
+<td><code>latest</code></td>
+</tr>
+<tr>
+<td><code>broker.image.pullPolicy</code></td>
+<td>Broker image pull policy</td>
+<td><code>IfNotPresent</code></td>
+</tr>
+<tr>
+<td><code>broker.service.type</code></td>
+<td>Broker service type</td>
+<td><code>ClusterIP</code></td>
+</tr>
+<tr>
+<td><code>broker.service.port</code></td>
+<td>Broker service port</td>
+<td><code>6650</code></td>
+</tr>
+<tr>
+<td><code>broker.resources.limits.cpu</code></td>
+<td>CPU limit for broker container</td>
+<td><code>500m</code></td>
+</tr>
+<tr>
+<td><code>broker.resources.limits.memory</code></td>
+<td>Memory limit for broker container</td>
+<td><code>512Mi</code></td>
+</tr>
+<tr>
+<td><code>broker.resources.requests.cpu</code></td>
+<td>CPU request for broker container</td>
+<td><code>200m</code></td>
+</tr>
+<tr>
+<td><code>broker.resources.requests.memory</code></td>
+<td>Memory request for broker container</td>
+<td><code>256Mi</code></td>
+</tr>
+<tr>
+<td><code>broker.env.RUST_LOG</code></td>
+<td>Rust log level for broker</td>
+<td><code>danube_broker=trace</code></td>
+</tr>
+<tr>
+<td><code>broker.brokerAddr</code></td>
+<td>Broker address</td>
+<td><code>0.0.0.0:6650</code></td>
+</tr>
+<tr>
+<td><code>broker.clusterName</code></td>
+<td>Cluster name</td>
+<td><code>MY_CLUSTER</code></td>
+</tr>
+<tr>
+<td><code>broker.metaStoreAddr</code></td>
+<td>Metadata store address</td>
+<td><code>etcd:2379</code></td>
+</tr>
+</tbody>
+</table>
+<p>You can override the default values by providing a custom <code>values.yaml</code> file:</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>helm<span class="w"> </span>install<span class="w"> </span>my-danube-cluster<span class="w"> </span>danube/danube-helm-chart<span class="w"> </span>-f<span class="w"> </span>custom-values.yaml
+</span></code></pre></div>
+<p>Alternatively, you can specify individual values using the <code>--set</code> flag:</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>helm<span class="w"> </span>install<span class="w"> </span>my-danube-cluster<span class="w"> </span>danube/danube-helm-chart<span class="w"> </span>--set<span class="w"> </span>broker.replicaCount<span class="o">=</span><span class="m">2</span><span class="w"> </span>--set<span class="w"> </span>broker.brokerAddr<span class="o">=</span><span class="s2">&quot;0.0.0.0:6651&quot;</span>
+</span></code></pre></div>
+<h2 id="accessing-the-brokers">Accessing the Brokers</h2>
+<p>To access the broker service, you can use port forwarding:</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>kubectl<span class="w"> </span>port-forward<span class="w"> </span>svc/my-danube-cluster-broker<span class="w"> </span><span class="m">6650</span>:6650
+</span></code></pre></div>
+<p>Then you can connect to the broker at <code>localhost:6650</code>.</p>
+<h2 id="uninstallation">Uninstallation</h2>
+<p>To uninstall the <code>my-danube-cluster</code> release:</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>helm<span class="w"> </span>uninstall<span class="w"> </span>my-danube-cluster
+</span></code></pre></div>
+<p>This command removes all the Kubernetes components associated with the chart and deletes the release.</p>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<p>To get the status of the ETCD and Broker pods:</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>etcd
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>broker
+</span></code></pre></div>
+<p>To view the logs of a specific broker pod:</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>kubectl<span class="w"> </span>logs<span class="w"> </span>&lt;broker-pod-name&gt;
 </span></code></pre></div>
 
 
