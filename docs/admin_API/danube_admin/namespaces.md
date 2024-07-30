@@ -1,17 +1,17 @@
-# danube-cli: Namespaces Commands
+# danube-admin: Namespaces Commands
 
-The `danube-cli` tool provides commands to manage and view information about namespaces in your Danube cluster. Below is the documentation for the commands related to namespaces.
+The `danube-admin` tool provides commands to manage and view information about namespaces in your Danube cluster. Below is the documentation for the commands related to namespaces.
 
 ## Commands
 
-### `danube-cli namespaces topics NAMESPACE`
+### `danube-admin namespaces topics NAMESPACE`
 
 Get the list of topics for a specified namespace.
 
 **Usage:**
 
 ```sh
-danube-cli namespaces topics NAMESPACE
+danube-admin namespaces topics NAMESPACE
 ```
 
 **Description:**
@@ -26,14 +26,14 @@ Topic: topic2
 Topic: topic3
 ```
 
-### `danube-cli namespaces policies NAMESPACE`
+### `danube-admin namespaces policies NAMESPACE`
 
 Get the configuration policies for a specified namespace.
 
 **Usage:**
 
 ```sh
-danube-cli namespaces policies NAMESPACE
+danube-admin namespaces policies NAMESPACE
 ```
 
 **Description:**
@@ -49,14 +49,14 @@ Policy Name: policy2
 Policy Description: Description of policy2
 ```
 
-### `danube-cli namespaces create NAMESPACE`
+### `danube-admin namespaces create NAMESPACE`
 
 Create a new namespace.
 
 **Usage:**
 
 ```sh
-danube-cli namespaces create NAMESPACE
+danube-admin namespaces create NAMESPACE
 ```
 
 **Description:**
@@ -69,14 +69,14 @@ This command creates a new namespace with the specified name. Replace `NAMESPACE
 Namespace Created: true
 ```
 
-### `danube-cli namespaces delete NAMESPACE`
+### `danube-admin namespaces delete NAMESPACE`
 
 Delete a specified namespace. The namespace must be empty.
 
 **Usage:**
 
 ```sh
-danube-cli namespaces delete NAMESPACE
+danube-admin namespaces delete NAMESPACE
 ```
 
 **Description:**
@@ -100,31 +100,31 @@ Here are a few example commands for quick reference:
 - List all topics in a namespace:
 
   ```sh
-  danube-cli namespaces topics my-namespace
+  danube-admin namespaces topics my-namespace
   ```
 
 - Get the policies for a namespace:
 
   ```sh
-  danube-cli namespaces policies my-namespace
+  danube-admin namespaces policies my-namespace
   ```
 
 - Create a new namespace:
 
   ```sh
-  danube-cli namespaces create my-new-namespace
+  danube-admin namespaces create my-new-namespace
   ```
 
 - Delete a namespace:
 
   ```sh
-  danube-cli namespaces delete my-old-namespace
+  danube-admin namespaces delete my-old-namespace
   ```
 
-For more detailed information or help with the `danube-cli`, you can use the `--help` flag with any command.
+For more detailed information or help with the `danube-admin`, you can use the `--help` flag with any command.
 
 **Example:**
 
 ```sh
-danube-cli namespaces --help
+danube-admin namespaces --help
 ```

@@ -1,17 +1,17 @@
-# danube-cli: Topics Commands
+# danube-admin: Topics Commands
 
-The `danube-cli` tool provides commands to manage and view information about topics in your Danube cluster. Below is the documentation for the commands related to topics.
+The `danube-admin` tool provides commands to manage and view information about topics in your Danube cluster. Below is the documentation for the commands related to topics.
 
 ## Commands
 
-### `danube-cli topics list NAMESPACE`
+### `danube-admin topics list NAMESPACE`
 
 Get the list of topics in a specified namespace.
 
 **Usage:**
 
 ```sh
-danube-cli topics list NAMESPACE
+danube-admin topics list NAMESPACE
 ```
 
 **Description:**
@@ -26,14 +26,14 @@ Topic: topic2
 Topic: topic3
 ```
 
-### `danube-cli topics create TOPIC`
+### `danube-admin topics create TOPIC`
 
 Create a non-partitioned topic.
 
 **Usage:**
 
 ```sh
-danube-cli topics create TOPIC
+danube-admin topics create TOPIC
 ```
 
 **Description:**
@@ -46,14 +46,14 @@ This command creates a new non-partitioned topic with the specified name. Replac
 Topic Created: true
 ```
 
-### `danube-cli topics create-partitioned-topic TOPIC --partitions #`
+### `danube-admin topics create-partitioned-topic TOPIC --partitions #`
 
 Create a partitioned topic.
 
 **Usage:**
 
 ```sh
-danube-cli topics create-partitioned-topic TOPIC --partitions #
+danube-admin topics create-partitioned-topic TOPIC --partitions #
 ```
 
 **Description:**
@@ -66,14 +66,14 @@ This command creates a new partitioned topic with the specified name and number 
 Partitioned Topic Created: true
 ```
 
-### `danube-cli topics delete TOPIC`
+### `danube-admin topics delete TOPIC`
 
 Delete a specified topic.
 
 **Usage:**
 
 ```sh
-danube-cli topics delete TOPIC
+danube-admin topics delete TOPIC
 ```
 
 **Description:**
@@ -86,14 +86,14 @@ This command deletes the specified topic. Replace `TOPIC` with the name of the t
 Topic Deleted: true
 ```
 
-### `danube-cli topics unsubscribe --subscription SUBSCRIPTION TOPIC`
+### `danube-admin topics unsubscribe --subscription SUBSCRIPTION TOPIC`
 
 Delete a subscription from a topic.
 
 **Usage:**
 
 ```sh
-danube-cli topics unsubscribe --subscription SUBSCRIPTION TOPIC
+danube-admin topics unsubscribe --subscription SUBSCRIPTION TOPIC
 ```
 
 **Description:**
@@ -106,14 +106,14 @@ This command deletes a subscription from a specified topic. Replace `SUBSCRIPTIO
 Unsubscribed: true
 ```
 
-### `danube-cli topics subscriptions TOPIC`
+### `danube-admin topics subscriptions TOPIC`
 
 Get the list of subscriptions on a specified topic.
 
 **Usage:**
 
 ```sh
-danube-cli topics subscriptions TOPIC
+danube-admin topics subscriptions TOPIC
 ```
 
 **Description:**
@@ -126,14 +126,14 @@ This command retrieves and displays all subscriptions associated with a specifie
 Subscriptions: [subscription1, subscription2]
 ```
 
-### `danube-cli topics create-subscription --subscription SUBSCRIPTION TOPIC`
+### `danube-admin topics create-subscription --subscription SUBSCRIPTION TOPIC`
 
 Create a new subscription for a specified topic.
 
 **Usage:**
 
 ```sh
-danube-cli topics create-subscription --subscription SUBSCRIPTION TOPIC
+danube-admin topics create-subscription --subscription SUBSCRIPTION TOPIC
 ```
 
 **Description:**
@@ -157,49 +157,49 @@ Here are a few example commands for quick reference:
 - List topics in a namespace:
 
   ```sh
-  danube-cli topics list my-namespace
+  danube-admin topics list my-namespace
   ```
 
 - Create a non-partitioned topic:
 
   ```sh
-  danube-cli topics create my-topic
+  danube-admin topics create my-topic
   ```
 
 - Create a partitioned topic with 5 partitions:
 
   ```sh
-  danube-cli topics create-partitioned-topic my-partitioned-topic --partitions 5
+  danube-admin topics create-partitioned-topic my-partitioned-topic --partitions 5
   ```
 
 - Delete a topic:
 
   ```sh
-  danube-cli topics delete my-topic
+  danube-admin topics delete my-topic
   ```
 
 - Unsubscribe from a topic:
 
   ```sh
-  danube-cli topics unsubscribe --subscription my-subscription my-topic
+  danube-admin topics unsubscribe --subscription my-subscription my-topic
   ```
 
 - List subscriptions for a topic:
 
   ```sh
-  danube-cli topics subscriptions my-topic
+  danube-admin topics subscriptions my-topic
   ```
 
 - Create a new subscription for a topic:
 
   ```sh
-  danube-cli topics create-subscription --subscription my-subscription my-topic
+  danube-admin topics create-subscription --subscription my-subscription my-topic
   ```
 
-For more detailed information or help with the `danube-cli`, you can use the `--help` flag with any command.
+For more detailed information or help with the `danube-admin`, you can use the `--help` flag with any command.
 
 **Example:**
 
 ```sh
-danube-cli topics --help
+danube-admin topics --help
 ```

@@ -17,9 +17,9 @@ nav:
                             - Setup: client_libraries/Go_client/setup.md
         - Admin API:
                   - Danube CLI:
-                            - Brokers: admin_API/danube_cli/brokers.md
-                            - Namespaces: admin_API/danube_cli/namespaces.md
-                            - Topics: admin_API/danube_cli/topics.md
+                            - Brokers: admin_API/danube_admin/brokers.md
+                            - Namespaces: admin_API/danube_admin/namespaces.md
+                            - Topics: admin_API/danube_admin/topics.md
         - Development:
                   - Development Environment: development/dev_environment.md
                   - Metadata Resources: development/internal_resources.md
