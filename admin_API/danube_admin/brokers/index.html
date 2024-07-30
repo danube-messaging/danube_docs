@@ -62,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#danube-cli-brokers-commands" class="md-skip">
+        <a href="#danube-admin-brokers-commands" class="md-skip">
           Skip to content
         </a>
       
@@ -742,27 +742,27 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#danube-cli-brokers-list" class="md-nav__link">
+  <a href="#danube-admin-brokers-list" class="md-nav__link">
     <span class="md-ellipsis">
-      danube-cli brokers list
+      danube-admin brokers list
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#danube-cli-brokers-leader-broker" class="md-nav__link">
+  <a href="#danube-admin-brokers-leader-broker" class="md-nav__link">
     <span class="md-ellipsis">
-      danube-cli brokers leader-broker
+      danube-admin brokers leader-broker
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#danube-cli-brokers-namespaces" class="md-nav__link">
+  <a href="#danube-admin-brokers-namespaces" class="md-nav__link">
     <span class="md-ellipsis">
-      danube-cli brokers namespaces
+      danube-admin brokers namespaces
     </span>
   </a>
   
@@ -978,27 +978,27 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#danube-cli-brokers-list" class="md-nav__link">
+  <a href="#danube-admin-brokers-list" class="md-nav__link">
     <span class="md-ellipsis">
-      danube-cli brokers list
+      danube-admin brokers list
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#danube-cli-brokers-leader-broker" class="md-nav__link">
+  <a href="#danube-admin-brokers-leader-broker" class="md-nav__link">
     <span class="md-ellipsis">
-      danube-cli brokers leader-broker
+      danube-admin brokers leader-broker
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#danube-cli-brokers-namespaces" class="md-nav__link">
+  <a href="#danube-admin-brokers-namespaces" class="md-nav__link">
     <span class="md-ellipsis">
-      danube-cli brokers namespaces
+      danube-admin brokers namespaces
     </span>
   </a>
   
@@ -1042,13 +1042,13 @@
                   
 
 
-<h1 id="danube-cli-brokers-commands">danube-cli: Brokers Commands</h1>
-<p>The <code>danube-cli</code> tool provides commands to manage and view information about brokers in your Danube cluster. Below is the documentation for the commands related to brokers.</p>
+<h1 id="danube-admin-brokers-commands">danube-admin: Brokers Commands</h1>
+<p>The <code>danube-admin</code> tool provides commands to manage and view information about brokers in your Danube cluster. Below is the documentation for the commands related to brokers.</p>
 <h2 id="commands">Commands</h2>
-<h3 id="danube-cli-brokers-list"><code>danube-cli brokers list</code></h3>
+<h3 id="danube-admin-brokers-list"><code>danube-admin brokers list</code></h3>
 <p>List all active brokers in the cluster.</p>
 <p><strong>Usage:</strong></p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>danube-cli<span class="w"> </span>brokers<span class="w"> </span>list
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>list
 </span></code></pre></div>
 <p><strong>Description:</strong></p>
 <p>This command retrieves and displays a list of all active brokers in the cluster. The output is formatted into a table with the following columns:</p>
@@ -1065,20 +1065,20 @@
 </span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="p">|</span><span class="w"> </span><span class="m">2</span><span class="w">          </span><span class="p">|</span><span class="w"> </span><span class="m">192</span>.168.1.2:6650<span class="w">    </span><span class="p">|</span><span class="w"> </span>follower<span class="w">    </span><span class="p">|</span>
 </span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>+------------+---------------------+-------------+
 </span></code></pre></div>
-<h3 id="danube-cli-brokers-leader-broker"><code>danube-cli brokers leader-broker</code></h3>
+<h3 id="danube-admin-brokers-leader-broker"><code>danube-admin brokers leader-broker</code></h3>
 <p>Get information about the leader broker in the cluster.</p>
 <p><strong>Usage:</strong></p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>danube-cli<span class="w"> </span>brokers<span class="w"> </span>leader-broker
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>leader-broker
 </span></code></pre></div>
 <p><strong>Description:</strong></p>
 <p>This command fetches and displays the details of the current leader broker in the cluster. The information includes the broker ID, address, and role of the leader.</p>
 <p><strong>Example Output:</strong></p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Leader<span class="w"> </span>Broker:<span class="w"> </span>BrokerId:<span class="w"> </span><span class="m">1</span>,<span class="w"> </span>Address:<span class="w"> </span><span class="m">192</span>.168.1.1:6650,<span class="w"> </span>Role:<span class="w"> </span>leader
 </span></code></pre></div>
-<h3 id="danube-cli-brokers-namespaces"><code>danube-cli brokers namespaces</code></h3>
+<h3 id="danube-admin-brokers-namespaces"><code>danube-admin brokers namespaces</code></h3>
 <p>List all namespaces in the cluster.</p>
 <p><strong>Usage:</strong></p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>danube-cli<span class="w"> </span>brokers<span class="w"> </span>namespaces
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>namespaces
 </span></code></pre></div>
 <p><strong>Description:</strong></p>
 <p>This command retrieves and lists all namespaces associated with the cluster. Each namespace is printed on a new line.</p>
@@ -1094,21 +1094,21 @@
 <ul>
 <li>List all brokers:</li>
 </ul>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>danube-cli<span class="w"> </span>brokers<span class="w"> </span>list
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>list
 </span></code></pre></div>
 <ul>
 <li>Get the leader broker:</li>
 </ul>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>danube-cli<span class="w"> </span>brokers<span class="w"> </span>leader-broker
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>leader-broker
 </span></code></pre></div>
 <ul>
 <li>List all namespaces:</li>
 </ul>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>danube-cli<span class="w"> </span>brokers<span class="w"> </span>namespaces
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>namespaces
 </span></code></pre></div>
-<p>For more detailed information or help with the <code>danube-cli</code>, you can use the <code>--help</code> flag with any command.</p>
+<p>For more detailed information or help with the <code>danube-admin</code>, you can use the <code>--help</code> flag with any command.</p>
 <p><strong>Example:</strong></p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>danube-cli<span class="w"> </span>brokers<span class="w"> </span>--help
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>--help
 </span></code></pre></div>
 
 
