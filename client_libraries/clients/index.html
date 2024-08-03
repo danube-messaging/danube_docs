@@ -9,22 +9,22 @@
       
       
       
-        <link rel="prev" href="../../Rust_client/usage/">
+        <link rel="prev" href="../../architecture/PubSub_messaging_vs_Streaming/">
       
       
-        <link rel="next" href="../../../admin_API/danube_admin/brokers/">
+        <link rel="next" href="../setup/">
       
       
-      <link rel="icon" href="../../../assets/images/favicon.png">
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.30">
     
     
       
-        <title>Setup - Danube Pub-Sub messaging documentation</title>
+        <title>Danube Clients - Danube Pub-Sub messaging documentation</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.3cba04c6.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.3cba04c6.min.css">
       
       
 
@@ -43,7 +43,7 @@
       
     
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -62,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#danube-pubsub-go-client" class="md-skip">
+        <a href="#danube-client-library" class="md-skip">
           Skip to content
         </a>
       
@@ -78,7 +78,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="Danube Pub-Sub messaging documentation" class="md-header__button md-logo" aria-label="Danube Pub-Sub messaging documentation" data-md-component="logo">
+    <a href="../.." title="Danube Pub-Sub messaging documentation" class="md-header__button md-logo" aria-label="Danube Pub-Sub messaging documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -98,7 +98,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Setup
+              Danube Clients
             
           </span>
         </div>
@@ -173,7 +173,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="Danube Pub-Sub messaging documentation" class="md-nav__button md-logo" aria-label="Danube Pub-Sub messaging documentation" data-md-component="logo">
+    <a href="../.." title="Danube Pub-Sub messaging documentation" class="md-nav__button md-logo" aria-label="Danube Pub-Sub messaging documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -191,7 +191,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../.." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -246,7 +246,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../getting_started/Danube_on_vms/" class="md-nav__link">
+      <a href="../../getting_started/Danube_on_vms/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -267,7 +267,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../getting_started/Danube_on_k8s_helm/" class="md-nav__link">
+      <a href="../../getting_started/Danube_on_k8s_helm/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -330,7 +330,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../architecture/architecture/" class="md-nav__link">
+      <a href="../../architecture/architecture/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -351,7 +351,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../architecture/internal_danube_services/" class="md-nav__link">
+      <a href="../../architecture/internal_danube_services/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -372,7 +372,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../architecture/Queuing_PubSub_messaging/" class="md-nav__link">
+      <a href="../../architecture/Queuing_PubSub_messaging/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -393,7 +393,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../architecture/PubSub_messaging_vs_Streaming/" class="md-nav__link">
+      <a href="../../architecture/PubSub_messaging_vs_Streaming/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -455,128 +455,6 @@
                 
   
   
-  
-  
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" >
-        
-          
-          <label class="md-nav__link" for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    Rust client
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4_1">
-            <span class="md-nav__icon md-icon"></span>
-            Rust client
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../Rust_client/setup/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Setup
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../Rust_client/usage/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Usage
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    Go client
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_4_2">
-            <span class="md-nav__icon md-icon"></span>
-            Go client
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
     
   
   
@@ -589,7 +467,95 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Danube Clients
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Danube Clients
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Patterns
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rust-client" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rust client
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#go-client" class="md-nav__link">
+    <span class="md-ellipsis">
+      Go client
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#community-danube-clients" class="md-nav__link">
+    <span class="md-ellipsis">
+      Community Danube clients
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../setup/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -598,15 +564,48 @@
   
 
       </a>
-      
     </li>
   
 
               
             
-          </ul>
-        </nav>
-      
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../producer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Create Producer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../consumer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Create Consumer
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -696,7 +695,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../admin_API/danube_admin/brokers/" class="md-nav__link">
+      <a href="../../admin_API/danube_admin/brokers/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -717,7 +716,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../admin_API/danube_admin/namespaces/" class="md-nav__link">
+      <a href="../../admin_API/danube_admin/namespaces/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -738,7 +737,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../admin_API/danube_admin/topics/" class="md-nav__link">
+      <a href="../../admin_API/danube_admin/topics/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -809,7 +808,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../development/dev_environment/" class="md-nav__link">
+      <a href="../../development/dev_environment/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -830,7 +829,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../development/internal_resources/" class="md-nav__link">
+      <a href="../../development/internal_resources/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -871,6 +870,50 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Patterns
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rust-client" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rust client
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#go-client" class="md-nav__link">
+    <span class="md-ellipsis">
+      Go client
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#community-danube-clients" class="md-nav__link">
+    <span class="md-ellipsis">
+      Community Danube clients
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -884,8 +927,23 @@
                   
 
 
-<h1 id="danube-pubsub-go-client">Danube Pub/Sub Go client</h1>
-<p>The client is still in development</p>
+<h1 id="danube-client-library">Danube client library</h1>
+<p>Currently, the supported clients are the <a href="https://github.com/danrusei/danube/tree/main/danube-client">Rust Client</a> and <a href="https://github.com/danrusei/danube-go">Go Client</a> clients. However, the community is encouraged to contribute by developing clients in other programming languages.</p>
+<h2 id="patterns">Patterns</h2>
+<p>The Danube permits multiple topics and subcriber to the same topic. The <a href="../../architecture/Queuing_PubSub_messaging/">Subscription Types</a> can be combined to obtain message queueing or fan-out pub-sub messaging patterns.</p>
+<p><img alt="Producers  Consumers" src="../../architecture/img/producers_consumers.png" title="Producers Consumers" /></p>
+<h2 id="rust-client">Rust client</h2>
+<p>The Rust <a href="https://crates.io/crates/danube-client">danube-client</a> is an asynchronous Rust client library. To start using the <code>danube-client</code> library in your Rust project, you need to add it as a dependency. You can do this by running the following command:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>cargo<span class="w"> </span>add<span class="w"> </span>danube-client
+</span></code></pre></div>
+<p>This command will add danube-client to your <code>Cargo.toml</code> file. Once added, you can import and use the library in your Rust code to interact with the Danube Pub/Sub messaging platform.</p>
+<h2 id="go-client">Go client</h2>
+<p>To start using the <a href="https://pkg.go.dev/github.com/danrusei/danube-go">danube-go</a> library in your Go project, you need to add it as a dependency. You can do this by running the following command:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>go<span class="w"> </span>get<span class="w"> </span>github.com/danrusei/danube-go
+</span></code></pre></div>
+<p>This command will fetch the <code>danube-go</code> library and add it to your <code>go.mod</code> file. Once added, you can import and use the library in your Go code to interact with the Danube Pub/Sub messaging platform.</p>
+<h2 id="community-danube-clients">Community Danube clients</h2>
+<p>TBD</p>
 
 
 
@@ -903,6 +961,8 @@
             </div>
           
           
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
@@ -932,10 +992,10 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": [], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.tabs.link"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      <script src="../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
       
     
   </body>
