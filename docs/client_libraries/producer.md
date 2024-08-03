@@ -56,7 +56,7 @@ A producer is a process that attaches to a topic and publishes messages to a Dan
         log.Fatalf("unable to initialize the producer: %v", err)
     }
 
-    producerID, err := producer.Create(context.Background())
+    producerID, err := producer.Create(ctx)
     if err != nil {
         log.Fatalf("Failed to create producer: %v", err)
     }
@@ -72,7 +72,7 @@ A producer is a process that attaches to a topic and publishes messages to a Dan
         log.Fatalf("Failed to marshal data: %v", err)
     }
 
-    messageID, err := producer.Send(context.Background(), jsonData)
+    messageID, err := producer.Send(ctx, jsonData)
     if err != nil {
         log.Fatalf("Failed to send message: %v", err)
     }
