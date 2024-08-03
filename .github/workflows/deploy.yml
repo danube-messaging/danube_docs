@@ -4,6 +4,12 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: write   #  needed for pushing to gh-pages branch
+  packages: read    
+  deployments: read 
+  issues: read  
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
