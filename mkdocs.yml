@@ -10,11 +10,11 @@ nav:
                   - Pub-Sub messaging: architecture/Queuing_PubSub_messaging.md
                   - PubSub vs Streaming: architecture/PubSub_messaging_vs_Streaming.md
         - Client Libraries:
-                  - Rust client:
-                            - Setup: client_libraries/Rust_client/setup.md
-                            - Usage: client_libraries/Rust_client/usage.md
-                  - Go client:
-                            - Setup: client_libraries/Go_client/setup.md
+                  - Danube Clients: client_libraries/clients.md
+                  - Setup: client_libraries/setup.md
+                  - Create Producer: client_libraries/producer.md
+                  - Create Consumer: client_libraries/consumer.md
+
         - Admin API:
                   - Danube CLI:
                             - Brokers: admin_API/danube_admin/brokers.md
@@ -25,6 +25,8 @@ nav:
                   - Metadata Resources: development/internal_resources.md
 theme:
         name: material
+        features:
+                - content.tabs.link
 markdown_extensions:
         - pymdownx.highlight:
                   anchor_linenums: true
@@ -33,3 +35,5 @@ markdown_extensions:
         - pymdownx.inlinehilite
         - pymdownx.snippets
         - pymdownx.superfences
+        - pymdownx.tabbed:
+                  alternate_style: true
