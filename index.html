@@ -816,8 +816,21 @@
 <h1 id="welcome-to-danube-pubsub-messaging-docs">Welcome to Danube Pub/Sub messaging docs</h1>
 <p><a href="https://github.com/danrusei/danube">Danube</a> is an open-source, distributed publish-subscribe (Pub/Sub) message broker system developed in Rust. Inspired by the Apache Pulsar messaging and streaming platform, Danube incorporates some similar concepts but is designed to carve its own path within the distributed messaging ecosystem.</p>
 <p>Currently, the Danube platform exclusively supports Non-persistent messages. Meaning that  the messages reside solely in memory and are promptly distributed to consumers if they are available, utilizing a dispatch mechanism based on subscription types.</p>
+<p>I'm continuously working on enhancing and adding new features. Contributions are welcome, and you can also report any issues you encounter.</p>
+<p>The following crates are part of the <a href="https://github.com/danrusei/danube">Danube workspace</a>:</p>
+<ul>
+<li>danube-broker - The main crate, danube pubsub platform</li>
+<li>danube-admin - Admin CLI designed for interacting with and managing the Danube cluster</li>
+<li>danube-client - An async Rust client library for interacting with Danube Pub/Sub messaging platform</li>
+<li>danube-pubsub - CLI to handle message publishing and consumption</li>
+</ul>
+<p>The available client libraries:</p>
+<ul>
+<li><a href="https://crates.io/crates/danube-client">Rust</a> - Danube Pub/Sub async Rust client library</li>
+<li><a href="https://pkg.go.dev/github.com/danrusei/danube-go">Go</a> - Danube Pub/Sub Go client library</li>
+</ul>
+<p>Contributions in other languages, such as Python, Java, etc., are also greatly appreciated.</p>
 <p>⚠️ The messsaging platform is currently under active development and may have missing or incomplete functionalities. Use with caution.</p>
-<p>I'm continuously working on enhancing and adding new features. Contributions are welcome, and you can also report any issues you encounter. The client library is currently written in Rust, with a Go client potentially coming soon. Contributions in other languages, such as Python, Java, etc., are also greatly appreciated.</p>
 
 
 
