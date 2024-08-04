@@ -12,7 +12,7 @@
         <link rel="prev" href="../../getting_started/Danube_on_k8s_helm/">
       
       
-        <link rel="next" href="../internal_danube_services/">
+        <link rel="next" href="../danube_entities/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -388,15 +388,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#only-danube-pubsub-messaging-is-supported-for-the-moment" class="md-nav__link">
-    <span class="md-ellipsis">
-      Only Danube Pub/Sub Messaging is supported for the moment
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#brokers" class="md-nav__link">
     <span class="md-ellipsis">
       Brokers
@@ -477,6 +468,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../danube_entities/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Danube entities
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../internal_danube_services/" class="md-nav__link">
         
   
@@ -502,7 +514,7 @@
         
   
   <span class="md-ellipsis">
-    Pub-Sub messaging
+    Queuing vs Pub-Sub (fan-out) messaging
   </span>
   
 
@@ -524,6 +536,27 @@
   
   <span class="md-ellipsis">
     PubSub vs Streaming
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../other_concepts/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Other Concepts
   </span>
   
 
@@ -935,15 +968,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#only-danube-pubsub-messaging-is-supported-for-the-moment" class="md-nav__link">
-    <span class="md-ellipsis">
-      Only Danube Pub/Sub Messaging is supported for the moment
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#brokers" class="md-nav__link">
     <span class="md-ellipsis">
       Brokers
@@ -1025,9 +1049,9 @@
 
 <h1 id="danube-architecture">Danube Architecture</h1>
 <h2 id="danube-pubsub-messaging">Danube Pub/Sub Messaging</h2>
-<h3 id="only-danube-pubsub-messaging-is-supported-for-the-moment">Only Danube Pub/Sub Messaging is supported for the moment</h3>
 <p>Designed for decoupling producers and consumers, enabling asynchronous communication between different parts of a system. Suitable for scenarios where low latency is critical and some message loss is acceptable, such as real-time monitoring / notifications, telemetry data, event-driven architectures.</p>
-<p>The messages reside only in memory, providing low latency but not guaranteed to survive broker crashes or consumer disconnections.  The producers are allowed to send messages to Topics even if there are no active consumers. If no consumers are found the messages are droped.</p>
+<p><strong>Currently, the Danube platform supports only Non-persistent messaging.</strong></p>
+<p>The messages reside only in memory, providing low latency but not guaranteed to survive broker crashes or consumer disconnections.  The producers are allowed to send messages to Topics even if there are no active consumers. If no consumers are found the messages are droped. The messages are promptly distributed to consumers if they are available, utilizing a dispatch mechanism based on subscription types.</p>
 <p>Read <a href="../PubSub_messaging_vs_Streaming/">Here</a> for more detailed design considerations.</p>
 <p><img alt="Danube Stream Architecture" src="../img/Danube_architecture_non_persistent.png" title="Danube Stream Architecture" /></p>
 <h3 id="brokers">Brokers</h3>

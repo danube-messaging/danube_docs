@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../../admin_API/danube_admin/topics/">
+        <link rel="prev" href="../PubSub_messaging_vs_Streaming/">
       
       
-        <link rel="next" href="../internal_resources/">
+        <link rel="next" href="../../client_libraries/clients/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>Development Environment - Danube Pub-Sub messaging documentation</title>
+        <title>Other Concepts - Danube Pub-Sub messaging documentation</title>
       
     
     
@@ -62,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#development-environment-setup-for-danube-broker" class="md-skip">
+        <a href="#other-concepts" class="md-skip">
           Skip to content
         </a>
       
@@ -98,7 +98,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Development Environment
+              Other Concepts
             
           </span>
         </div>
@@ -292,17 +292,19 @@
       
   
   
+    
   
   
+  
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
@@ -316,7 +318,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             Architecture
@@ -330,7 +332,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/architecture/" class="md-nav__link">
+      <a href="../architecture/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -351,7 +353,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/danube_entities/" class="md-nav__link">
+      <a href="../danube_entities/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -372,7 +374,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/internal_danube_services/" class="md-nav__link">
+      <a href="../internal_danube_services/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -393,7 +395,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/Queuing_PubSub_messaging/" class="md-nav__link">
+      <a href="../Queuing_PubSub_messaging/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -414,7 +416,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/PubSub_messaging_vs_Streaming/" class="md-nav__link">
+      <a href="../PubSub_messaging_vs_Streaming/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -432,10 +434,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../architecture/other_concepts/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Other Concepts
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -444,6 +466,59 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#multi-topic-subscriptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multi-topic subscriptions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#partitioned-topics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Partitioned topics
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Partitioned topics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#routing-modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Routing modes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -734,19 +809,17 @@
       
   
   
-    
   
   
-  
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
         
           
           <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
@@ -760,7 +833,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             Development
@@ -771,30 +844,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Development Environment
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../development/dev_environment/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -803,116 +856,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#prerequisites" class="md-nav__link">
-    <span class="md-ellipsis">
-      Prerequisites
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#contributing-to-the-repository" class="md-nav__link">
-    <span class="md-ellipsis">
-      Contributing to the Repository
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#building-the-project" class="md-nav__link">
-    <span class="md-ellipsis">
-      Building the Project
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#running-etcd" class="md-nav__link">
-    <span class="md-ellipsis">
-      Running ETCD
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#running-a-single-broker-instance" class="md-nav__link">
-    <span class="md-ellipsis">
-      Running a Single Broker Instance
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#running-multiple-broker-instances" class="md-nav__link">
-    <span class="md-ellipsis">
-      Running Multiple Broker Instances
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#reading-logs" class="md-nav__link">
-    <span class="md-ellipsis">
-      Reading Logs
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#inspecting-etcd-metadata" class="md-nav__link">
-    <span class="md-ellipsis">
-      Inspecting ETCD Metadata
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#makefile-targets-summary" class="md-nav__link">
-    <span class="md-ellipsis">
-      Makefile Targets Summary
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    <span class="md-ellipsis">
-      Troubleshooting
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -925,7 +868,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../internal_resources/" class="md-nav__link">
+      <a href="../../development/internal_resources/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -973,92 +916,35 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#prerequisites" class="md-nav__link">
+  <a href="#multi-topic-subscriptions" class="md-nav__link">
     <span class="md-ellipsis">
-      Prerequisites
+      Multi-topic subscriptions
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#contributing-to-the-repository" class="md-nav__link">
+  <a href="#partitioned-topics" class="md-nav__link">
     <span class="md-ellipsis">
-      Contributing to the Repository
+      Partitioned topics
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Partitioned topics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#routing-modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Routing modes
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#building-the-project" class="md-nav__link">
-    <span class="md-ellipsis">
-      Building the Project
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#running-etcd" class="md-nav__link">
-    <span class="md-ellipsis">
-      Running ETCD
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#running-a-single-broker-instance" class="md-nav__link">
-    <span class="md-ellipsis">
-      Running a Single Broker Instance
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#running-multiple-broker-instances" class="md-nav__link">
-    <span class="md-ellipsis">
-      Running Multiple Broker Instances
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#reading-logs" class="md-nav__link">
-    <span class="md-ellipsis">
-      Reading Logs
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#inspecting-etcd-metadata" class="md-nav__link">
-    <span class="md-ellipsis">
-      Inspecting ETCD Metadata
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#makefile-targets-summary" class="md-nav__link">
-    <span class="md-ellipsis">
-      Makefile Targets Summary
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    <span class="md-ellipsis">
-      Troubleshooting
-    </span>
-  </a>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1077,128 +963,20 @@
                   
 
 
-<h1 id="development-environment-setup-for-danube-broker">Development Environment Setup for Danube Broker</h1>
-<p>This document guides you through setting up the development environment, running danube broker instances, and be able to effectively contribute to the code.</p>
-<h2 id="prerequisites">Prerequisites</h2>
-<p>Before you get started, make sure you have the following installed:</p>
+<h1 id="other-concepts">Other concepts</h1>
+<p><strong>This is a placeholder for some concepts may be considered to be implemented in the future</strong>.</p>
+<h2 id="multi-topic-subscriptions">Multi-topic subscriptions</h2>
+<p>Using regex subscription.</p>
+<h2 id="partitioned-topics">Partitioned topics</h2>
+<p>Normal topics are served only by a single broker, which limits the maximum throughput of the topic. Partitioned topic is a special type of topic handled by multiple brokers, thus allowing for higher throughput.</p>
+<p>A partitioned topic is implemented as N internal topics, where N is the number of partitions. When publishing messages to a partitioned topic, each message is routed to one of several brokers. The distribution of partitions across brokers is handled automatically.</p>
+<p><img alt="Partitioned Topics" src="../img/partitioned_topics.png" title="Partitioned topics" /></p>
+<p>Messages for the topic are broadcast to two consumers. The <strong>routing mode</strong> determines each message should be published to which partition, while the <strong>subscription type</strong> determines which messages go to which consumers.</p>
+<h3 id="routing-modes">Routing modes</h3>
+<p>When publishing to partitioned topics, you must specify a routing mode. The routing mode determines each message should be published to which partition or which internal topic.</p>
 <ul>
-<li>
-<p><strong>Rust</strong>: Ensure you have Rust installed. You can download and install it from <a href="https://www.rust-lang.org/tools/install">the Rust website</a>.</p>
-</li>
-<li>
-<p><strong>Docker</strong>: Install Docker if you haven’t already. Follow the installation instructions on the <a href="https://docs.docker.com/get-docker/">Docker website</a>.</p>
-</li>
-</ul>
-<h2 id="contributing-to-the-repository">Contributing to the Repository</h2>
-<ol>
-<li>
-<p><strong>Fork the Repository</strong>:</p>
-</li>
-<li>
-<p>Go to the <a href="https://github.com/danrusei/danube">Danube Broker GitHub repository</a>.</p>
-</li>
-<li>
-<p>Click the "Fork" button on the top right corner of the page to create your own copy of the repository.</p>
-</li>
-<li>
-<p><strong>Clone Your Fork</strong>:</p>
-</li>
-</ol>
-<p>Once you have forked the repository, clone your forked repository:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/&lt;your-username&gt;/danube.git
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nb">cd</span><span class="w"> </span>danube
-</span></code></pre></div>
-<ol>
-<li><strong>Add the Original Repository as a Remote</strong> (optional but recommended for keeping up-to-date):</li>
-</ol>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>git<span class="w"> </span>remote<span class="w"> </span>add<span class="w"> </span>upstream<span class="w"> </span>https://github.com/danrusei/danube.git
-</span></code></pre></div>
-<h2 id="building-the-project">Building the Project</h2>
-<ol>
-<li><strong>Build the Project</strong>:</li>
-</ol>
-<p>To build the Danube Broker:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>cargo<span class="w"> </span>build<span class="w"> </span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>or<span class="w">  </span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>cargo<span class="w"> </span>build<span class="w"> </span>--release
-</span></code></pre></div>
-<h2 id="running-etcd">Running ETCD</h2>
-<ol>
-<li><strong>Start ETCD</strong>:</li>
-</ol>
-<p>Use the Makefile to start an ETCD instance. This will run ETCD in a Docker container.</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>make<span class="w"> </span>etcd
-</span></code></pre></div>
-<ol>
-<li><strong>Clean Up ETCD</strong>:</li>
-</ol>
-<p>To stop and remove the ETCD instance and its data:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>make<span class="w"> </span>etcd-clean
-</span></code></pre></div>
-<h2 id="running-a-single-broker-instance">Running a Single Broker Instance</h2>
-<ol>
-<li><strong>Start ETCD</strong>:</li>
-</ol>
-<p>Ensure ETCD is running. If not, use the <code>make etcd</code> command to start it.</p>
-<ol>
-<li><strong>Run the Broker</strong>:</li>
-</ol>
-<p>Use the following command to start a single broker instance:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nv">RUST_LOG</span><span class="o">=</span><span class="nv">danube_broker</span><span class="o">=</span>trace<span class="w"> </span>target/debug/danube-broker<span class="w"> </span>--cluster-name<span class="w"> </span>MY_cluster<span class="w"> </span>--meta-store-addr<span class="w"> </span><span class="m">127</span>.0.0.1:2379
-</span></code></pre></div>
-<h2 id="running-multiple-broker-instances">Running Multiple Broker Instances</h2>
-<ol>
-<li><strong>Start ETCD</strong>:</li>
-</ol>
-<p>Ensure ETCD is running. Use:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>make<span class="w"> </span>etcd
-</span></code></pre></div>
-<ol>
-<li><strong>Run Multiple Brokers</strong>:</li>
-</ol>
-<p>Use the following Makefile command to start multiple broker instances:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>make<span class="w"> </span>brokers
-</span></code></pre></div>
-<p>This will start brokers on ports 6650, 6651, and 6652. Logs for each broker will be saved in <code>temp/</code> directory.</p>
-<ol>
-<li><strong>Clean Up Broker Instances</strong>:</li>
-</ol>
-<p>To stop all running broker instances:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>make<span class="w"> </span>brokers-clean
-</span></code></pre></div>
-<h2 id="reading-logs">Reading Logs</h2>
-<p>Logs for each broker instance are stored in the <code>temp/</code> directory. You can view them using:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>cat<span class="w"> </span>temp/broker_&lt;port&gt;.log
-</span></code></pre></div>
-<p>Replace <code>&lt;port&gt;</code> with the actual port number (6650, 6651, or 6652).</p>
-<h2 id="inspecting-etcd-metadata">Inspecting ETCD Metadata</h2>
-<ol>
-<li><strong>Set Up <code>etcdctl</code></strong>:</li>
-</ol>
-<p>Export the following environment variables:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">ETCDCTL_API</span><span class="o">=</span><span class="m">3</span>
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">ETCDCTL_ENDPOINTS</span><span class="o">=</span>http://localhost:2379
-</span></code></pre></div>
-<ol>
-<li><strong>Inspect Metadata</strong>:</li>
-</ol>
-<p>Use <code>etcdctl</code> commands to inspect metadata. For example, to list all keys:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>etcdctl<span class="w"> </span>get<span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w"> </span>--prefix
-</span></code></pre></div>
-<p>To get a specific key:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>etcdctl<span class="w"> </span>get<span class="w"> </span>&lt;key&gt;
-</span></code></pre></div>
-<h2 id="makefile-targets-summary">Makefile Targets Summary</h2>
-<ul>
-<li><code>make etcd</code>: Starts an ETCD instance in Docker.</li>
-<li><code>make etcd-clean</code>: Stops and removes the ETCD instance and its data.</li>
-<li><code>make brokers</code>: Builds and starts broker instances on predefined ports.</li>
-<li><code>make brokers-clean</code>: Stops and removes all running broker instances.</li>
-</ul>
-<h2 id="troubleshooting">Troubleshooting</h2>
-<ul>
-<li><strong>ETCD Not Starting</strong>: Check Docker logs and ensure no other service is using port 2379.</li>
-<li><strong>Broker Not Starting</strong>: Ensure ETCD is running and accessible at the specified address and port.</li>
+<li><strong>RoundRobinPartition</strong> - The producer will publish messages across all partitions in round-robin fashion to achieve maximum throughput. If a key is specified on the message, the partitioned producer will <strong>hash the key and assign message to a particular partition</strong>.</li>
+<li><strong>SinglePartition</strong> - If no key is provided, the producer will randomly pick one single partition and publish all the messages into that partition. While if a key is specified on the message, the partitioned producer will hash the key and assign message to a particular partition.</li>
 </ul>
 
 
