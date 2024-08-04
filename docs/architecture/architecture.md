@@ -2,11 +2,11 @@
 
 ## Danube Pub/Sub Messaging
 
-### Only Danube Pub/Sub Messaging is supported for the moment
-
 Designed for decoupling producers and consumers, enabling asynchronous communication between different parts of a system. Suitable for scenarios where low latency is critical and some message loss is acceptable, such as real-time monitoring / notifications, telemetry data, event-driven architectures.
 
-The messages reside only in memory, providing low latency but not guaranteed to survive broker crashes or consumer disconnections.  The producers are allowed to send messages to Topics even if there are no active consumers. If no consumers are found the messages are droped.
+**Currently, the Danube platform supports only Non-persistent messaging.**
+
+The messages reside only in memory, providing low latency but not guaranteed to survive broker crashes or consumer disconnections.  The producers are allowed to send messages to Topics even if there are no active consumers. If no consumers are found the messages are droped. The messages are promptly distributed to consumers if they are available, utilizing a dispatch mechanism based on subscription types.
 
 Read [Here](./PubSub_messaging_vs_Streaming.md) for more detailed design considerations.
 
