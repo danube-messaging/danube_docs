@@ -36,7 +36,7 @@ A producer is a process that attaches to a topic and publishes messages to a Dan
     let encoded_data = json_string.as_bytes().to_vec();
 
     // let json_message = r#"{"field1": "value", "field2": 123}"#.as_bytes().to_vec();
-    let message_id = producer.send(encoded_data).await?;
+    let message_id = producer.send(encoded_data, None).await?;
     println!("The Message with id {} was sent", message_id);
     ```
 

@@ -15,8 +15,8 @@ The following crates are part of the [Danube workspace](https://github.com/danru
 
 The available client libraries:
 
-* [Rust](https://crates.io/crates/danube-client) - Danube Pub/Sub async Rust client library
-* [Go](https://pkg.go.dev/github.com/danrusei/danube-go) - Danube Pub/Sub Go client library
+* [danube-client](https://crates.io/crates/danube-client) - Danube Pub/Sub async Rust client library
+* [danube-go](https://pkg.go.dev/github.com/danrusei/danube-go) - Danube Pub/Sub Go client library
 
 Contributions in other languages, such as Python, Java, etc., are also greatly appreciated.
 

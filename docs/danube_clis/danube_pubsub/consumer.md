@@ -11,25 +11,25 @@ danube-pubsub consume [OPTIONS] --service-addr <SERVICE_ADDR> --subscription <SU
 ### Options
 
 - `-s, --service-addr <SERVICE_ADDR>`  
-  **Description:** The service URL for the Danube broker.  
-  **Example:** `http://127.0.0.1:6650`
+  Description: The service URL for the Danube broker.  
+  Example: `http://127.0.0.1:6650`
 
 - `-t, --topic <TOPIC>`  
-  **Description:** The topic to consume messages from.  
-  **Default:** `/default/test_topic`
+  Description: The topic to consume messages from.  
+  Default: `/default/test_topic`
 
 - `-c, --consumer <CONSUMER>`  
-  **Description:** The consumer name.  
-  **Default:** `consumer_pubsub`
+  Description: The consumer name.  
+  Default: `consumer_pubsub`
 
 - `-m, --subscription <SUBSCRIPTION>`  
-  **Description:** The subscription name.  
-  **Required:** Yes
+  Description: The subscription name.  
+  Required: Yes
 
 - `--sub-type <SUB_TYPE>`  
-  **Description:** The subscription type.  
-  **Default:** `shared`  
-  **Possible values:** `exclusive`, `shared`, `fail-over`
+  Description: The subscription type.  
+  Default: `shared`  
+  Possible values: `exclusive`, `shared`, `fail-over`
 
 - `-h, --help`  
   **Description:** Print help information.

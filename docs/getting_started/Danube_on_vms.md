@@ -4,12 +4,12 @@ Danube is an open-source distributed Pub/Sub messaging platform written in Rust.
 
 ## Prerequisites
 
-1. **ETCD**: Follow the [ETCD installation instructions](https://etcd.io/docs/v3.5/install/) to set up ETCD on a VM or bare metal server.
+**ETCD**: Follow the [ETCD installation instructions](https://etcd.io/docs/v3.5/install/) to set up ETCD on a VM or bare metal server.
 
-2. **Number of VMs**: You need at least 4 Linux machines or VMs:
+**Number of VMs**: Recommended 4 Linux machines or VMs:
 
-   - or more VMs for running ETCD
-   - VMs for running Danube brokers
+* One or more VMs for running ETCD
+* 3 VMs for running Danube brokers
 
 ## Installation Steps
 
@@ -21,17 +21,17 @@ Danube is an open-source distributed Pub/Sub messaging platform written in Rust.
 ### 2. Download Danube Broker
 
 1. Visit the [Danube releases page](https://github.com/danrusei/danube/releases).
-2. Download the latest binary for Linux named `danube-broker-linux`.
+2. Download the latest binary for Linux named `danube-broker`.
 
 ### 3. Install Danube Brokers
 
-1. **Upload the `danube-broker-linux` binary** to each of the 3 VMs designated for brokers.
+1. **Upload the `danube-broker` binary** to each of the 3 VMs designated for brokers.
 
 2. **Run the Broker**: Start each broker with the appropriate configuration.
    Example command to start a broker:
 
    ```bash
-   ./danube-broker-linux --broker-addr [::1]:6650 --cluster-name "MY_CLUSTER" --meta-store-addr "ETCD_SERVER_IP:2379"
+   RUST_LOG=danube_broker=info ./danube-broker --cluster-name "MY_CLUSTER" --meta-store-addr "ETCD_SERVER_IP:2379"
    ```
 
    Replace `ETCD_SERVER_IP` with the IP address of your ETCD server.
@@ -56,8 +56,8 @@ Danube is an open-source distributed Pub/Sub messaging platform written in Rust.
 
 ## Troubleshooting
 
-- **ETCD Connection Issues**: Ensure that the `--meta-store-addr` is correctly set and that ETCD is accessible from each broker VM.
-- **Broker Not Starting**: Verify that the correct ports are available and that the Danube binary has execute permissions.
+* **ETCD Connection Issues**: Ensure that the `--meta-store-addr` is correctly set and that ETCD is accessible from each broker VM.
+* **Broker Not Starting**: Verify that the correct ports are available and that the Danube binary has execute permissions.
 
 ## Additional Information
 

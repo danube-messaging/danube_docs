@@ -23,8 +23,8 @@ nav:
                             - Namespaces: danube_clis/danube_admin/namespaces.md
                             - Topics: danube_clis/danube_admin/topics.md
                   - Danube PubSub:
-                            - Producer: danube_clis/danube_pubsub/producer.rs
-                            - Consumer: danube_clis/danube_pubsub/consumer.rs
+                            - Producer: danube_clis/danube_pubsub/producer.md
+                            - Consumer: danube_clis/danube_pubsub/consumer.md
         - Development:
                   - Development Environment: development/dev_environment.md
                   - Metadata Resources: development/internal_resources.md
