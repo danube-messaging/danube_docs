@@ -17,11 +17,14 @@ nav:
                   - Create Producer: client_libraries/producer.md
                   - Create Consumer: client_libraries/consumer.md
 
-        - Admin API:
-                  - Danube CLI:
-                            - Brokers: admin_API/danube_admin/brokers.md
-                            - Namespaces: admin_API/danube_admin/namespaces.md
-                            - Topics: admin_API/danube_admin/topics.md
+        - Danube CLIs:
+                  - Danube Admin:
+                            - Brokers: danube_clis/danube_admin/brokers.md
+                            - Namespaces: danube_clis/danube_admin/namespaces.md
+                            - Topics: danube_clis/danube_admin/topics.md
+                  - Danube PubSub:
+                            - Producer: danube_clis/danube_pubsub/producer.rs
+                            - Consumer: danube_clis/danube_pubsub/consumer.rs
         - Development:
                   - Development Environment: development/dev_environment.md
                   - Metadata Resources: development/internal_resources.md

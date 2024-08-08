@@ -46,26 +46,6 @@ This command creates a new non-partitioned topic with the specified name. Replac
 Topic Created: true
 ```
 
-### `danube-admin topics create-partitioned-topic TOPIC --partitions #`
-
-Create a partitioned topic.
-
-**Usage:**
-
-```sh
-danube-admin topics create-partitioned-topic TOPIC --partitions #
-```
-
-**Description:**
-
-This command creates a new partitioned topic with the specified name and number of partitions. Replace `TOPIC` with the desired name for the topic and `#` with the number of partitions.
-
-**Example Output:**
-
-```sh
-Partitioned Topic Created: true
-```
-
 ### `danube-admin topics delete TOPIC`
 
 Delete a specified topic.
@@ -84,26 +64,6 @@ This command deletes the specified topic. Replace `TOPIC` with the name of the t
 
 ```sh
 Topic Deleted: true
-```
-
-### `danube-admin topics unsubscribe --subscription SUBSCRIPTION TOPIC`
-
-Delete a subscription from a topic.
-
-**Usage:**
-
-```sh
-danube-admin topics unsubscribe --subscription SUBSCRIPTION TOPIC
-```
-
-**Description:**
-
-This command deletes a subscription from a specified topic. Replace `SUBSCRIPTION` with the name of the subscription and `TOPIC` with the name of the topic.
-
-**Example Output:**
-
-```sh
-Unsubscribed: true
 ```
 
 ### `danube-admin topics subscriptions TOPIC`
@@ -126,24 +86,24 @@ This command retrieves and displays all subscriptions associated with a specifie
 Subscriptions: [subscription1, subscription2]
 ```
 
-### `danube-admin topics create-subscription --subscription SUBSCRIPTION TOPIC`
+### `danube-admin topics unsubscribe --subscription SUBSCRIPTION TOPIC`
 
-Create a new subscription for a specified topic.
+Delete a subscription from a topic.
 
 **Usage:**
 
 ```sh
-danube-admin topics create-subscription --subscription SUBSCRIPTION TOPIC
+danube-admin topics unsubscribe --subscription SUBSCRIPTION TOPIC
 ```
 
 **Description:**
 
-This command creates a new subscription for a specified topic. Replace `SUBSCRIPTION` with the name of the subscription and `TOPIC` with the name of the topic.
+This command deletes a subscription from a specified topic. Replace `SUBSCRIPTION` with the name of the subscription and `TOPIC` with the name of the topic.
 
 **Example Output:**
 
 ```sh
-Subscription Created: true
+Unsubscribed: true
 ```
 
 ## Error Handling
@@ -160,16 +120,10 @@ Here are a few example commands for quick reference:
   danube-admin topics list my-namespace
   ```
 
-- Create a non-partitioned topic:
+- Create a topic:
 
   ```sh
   danube-admin topics create my-topic
-  ```
-
-- Create a partitioned topic with 5 partitions:
-
-  ```sh
-  danube-admin topics create-partitioned-topic my-partitioned-topic --partitions 5
   ```
 
 - Delete a topic:
