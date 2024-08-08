@@ -9,22 +9,18 @@
       
       
       
-        <link rel="prev" href="../..">
       
       
-        <link rel="next" href="../Danube_on_k8s_helm/">
-      
-      
-      <link rel="icon" href="../../assets/images/favicon.png">
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.30">
     
     
       
-        <title>Run Danube on VMs or Bare Metal - Danube Pub-Sub messaging documentation</title>
+        <title>Danube-Pubsub CLI - Consume messages - Danube Pub-Sub messaging documentation</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.3cba04c6.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.3cba04c6.min.css">
       
       
 
@@ -43,7 +39,7 @@
       
     
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -62,7 +58,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#danube-installation-guide" class="md-skip">
+        <a href="#danube-pubsub-cli-consume-messages" class="md-skip">
           Skip to content
         </a>
       
@@ -78,7 +74,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="Danube Pub-Sub messaging documentation" class="md-header__button md-logo" aria-label="Danube Pub-Sub messaging documentation" data-md-component="logo">
+    <a href="../../.." title="Danube Pub-Sub messaging documentation" class="md-header__button md-logo" aria-label="Danube Pub-Sub messaging documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -98,7 +94,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Run Danube on VMs or Bare Metal
+              Danube-Pubsub CLI - Consume messages
             
           </span>
         </div>
@@ -173,7 +169,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="Danube Pub-Sub messaging documentation" class="md-nav__button md-logo" aria-label="Danube Pub-Sub messaging documentation" data-md-component="logo">
+    <a href="../../.." title="Danube Pub-Sub messaging documentation" class="md-nav__button md-logo" aria-label="Danube Pub-Sub messaging documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -191,7 +187,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
+      <a href="../../.." class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -208,19 +204,17 @@
       
   
   
-    
   
   
-  
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
           <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
@@ -234,7 +228,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             Getting Started
@@ -245,30 +239,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Run Danube on VMs or Bare Metal
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../../getting_started/Danube_on_vms/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -277,104 +251,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#prerequisites" class="md-nav__link">
-    <span class="md-ellipsis">
-      Prerequisites
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#installation-steps" class="md-nav__link">
-    <span class="md-ellipsis">
-      Installation Steps
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Installation Steps">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-install-etcd" class="md-nav__link">
-    <span class="md-ellipsis">
-      1. Install ETCD
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-download-danube-broker" class="md-nav__link">
-    <span class="md-ellipsis">
-      2. Download Danube Broker
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#3-install-danube-brokers" class="md-nav__link">
-    <span class="md-ellipsis">
-      3. Install Danube Brokers
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#4-verify-the-setup" class="md-nav__link">
-    <span class="md-ellipsis">
-      4. Verify the Setup
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    <span class="md-ellipsis">
-      Troubleshooting
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#additional-information" class="md-nav__link">
-    <span class="md-ellipsis">
-      Additional Information
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -387,7 +263,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../Danube_on_k8s_helm/" class="md-nav__link">
+      <a href="../../../getting_started/Danube_on_k8s_helm/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -450,7 +326,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/architecture/" class="md-nav__link">
+      <a href="../../../architecture/architecture/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -471,7 +347,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/danube_entities/" class="md-nav__link">
+      <a href="../../../architecture/danube_entities/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -492,7 +368,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/internal_danube_services/" class="md-nav__link">
+      <a href="../../../architecture/internal_danube_services/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -513,7 +389,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/Queuing_PubSub_messaging/" class="md-nav__link">
+      <a href="../../../architecture/Queuing_PubSub_messaging/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -534,7 +410,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/PubSub_messaging_vs_Streaming/" class="md-nav__link">
+      <a href="../../../architecture/PubSub_messaging_vs_Streaming/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -555,7 +431,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/other_concepts/" class="md-nav__link">
+      <a href="../../../architecture/other_concepts/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -618,7 +494,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../client_libraries/clients/" class="md-nav__link">
+      <a href="../../../client_libraries/clients/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -639,7 +515,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../client_libraries/setup/" class="md-nav__link">
+      <a href="../../../client_libraries/setup/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -660,7 +536,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../client_libraries/producer/" class="md-nav__link">
+      <a href="../../../client_libraries/producer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -681,7 +557,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../client_libraries/consumer/" class="md-nav__link">
+      <a href="../../../client_libraries/consumer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -779,7 +655,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../danube_clis/danube_admin/brokers/" class="md-nav__link">
+      <a href="../../danube_admin/brokers/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -800,7 +676,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../danube_clis/danube_admin/namespaces/" class="md-nav__link">
+      <a href="../../danube_admin/namespaces/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -821,7 +697,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../danube_clis/danube_admin/topics/" class="md-nav__link">
+      <a href="../../danube_admin/topics/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -885,7 +761,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../danube_clis/danube_pubsub/producer.rs" class="md-nav__link">
+      <a href="../producer.rs" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -906,7 +782,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../danube_clis/danube_pubsub/consumer.rs" class="md-nav__link">
+      <a href="../consumer.rs" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -977,7 +853,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../development/dev_environment/" class="md-nav__link">
+      <a href="../../../development/dev_environment/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -998,7 +874,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../development/internal_resources/" class="md-nav__link">
+      <a href="../../../development/internal_resources/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1046,55 +922,37 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#prerequisites" class="md-nav__link">
+  <a href="#usage" class="md-nav__link">
     <span class="md-ellipsis">
-      Prerequisites
+      Usage
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#installation-steps" class="md-nav__link">
-    <span class="md-ellipsis">
-      Installation Steps
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Installation Steps">
+    <nav class="md-nav" aria-label="Usage">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#1-install-etcd" class="md-nav__link">
+  <a href="#options" class="md-nav__link">
     <span class="md-ellipsis">
-      1. Install ETCD
+      Options
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#2-download-danube-broker" class="md-nav__link">
+  <a href="#example-shared-subscription" class="md-nav__link">
     <span class="md-ellipsis">
-      2. Download Danube Broker
+      Example: Shared Subscription
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#3-install-danube-brokers" class="md-nav__link">
+  <a href="#example-exclusive-subscription" class="md-nav__link">
     <span class="md-ellipsis">
-      3. Install Danube Brokers
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#4-verify-the-setup" class="md-nav__link">
-    <span class="md-ellipsis">
-      4. Verify the Setup
+      Example: Exclusive Subscription
     </span>
   </a>
   
@@ -1106,18 +964,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
+  <a href="#resources" class="md-nav__link">
     <span class="md-ellipsis">
-      Troubleshooting
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#additional-information" class="md-nav__link">
-    <span class="md-ellipsis">
-      Additional Information
+      Resources
     </span>
   </a>
   
@@ -1138,65 +987,57 @@
                   
 
 
-<h1 id="danube-installation-guide">Danube Installation Guide</h1>
-<p>Danube is an open-source distributed Pub/Sub messaging platform written in Rust. It relies on ETCD for persistent metadata storage. This guide will walk you through installing Danube brokers and ETCD.</p>
-<h2 id="prerequisites">Prerequisites</h2>
-<ol>
-<li>
-<p><strong>ETCD</strong>: Follow the <a href="https://etcd.io/docs/v3.5/install/">ETCD installation instructions</a> to set up ETCD on a VM or bare metal server.</p>
-</li>
-<li>
-<p><strong>Number of VMs</strong>: You need at least 4 Linux machines or VMs:</p>
-</li>
-<li>
-<p>or more VMs for running ETCD</p>
-</li>
-<li>VMs for running Danube brokers</li>
-</ol>
-<h2 id="installation-steps">Installation Steps</h2>
-<h3 id="1-install-etcd">1. Install ETCD</h3>
-<ol>
-<li>Follow the <a href="https://etcd.io/docs/v3.5/install/">ETCD installation guide</a> to set up ETCD on a separate VM or server.</li>
-<li><strong>Configuration</strong>: Ensure ETCD listens on port <code>2379</code> for client requests.</li>
-</ol>
-<h3 id="2-download-danube-broker">2. Download Danube Broker</h3>
-<ol>
-<li>Visit the <a href="https://github.com/danrusei/danube/releases">Danube releases page</a>.</li>
-<li>Download the latest binary for Linux named <code>danube-broker-linux</code>.</li>
-</ol>
-<h3 id="3-install-danube-brokers">3. Install Danube Brokers</h3>
-<ol>
-<li>
-<p><strong>Upload the <code>danube-broker-linux</code> binary</strong> to each of the 3 VMs designated for brokers.</p>
-</li>
-<li>
-<p><strong>Run the Broker</strong>: Start each broker with the appropriate configuration.
-   Example command to start a broker:</p>
-</li>
-</ol>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>./danube-broker-linux<span class="w"> </span>--broker-addr<span class="w"> </span><span class="o">[</span>::1<span class="o">]</span>:6650<span class="w"> </span>--cluster-name<span class="w"> </span><span class="s2">&quot;MY_CLUSTER&quot;</span><span class="w"> </span>--meta-store-addr<span class="w"> </span><span class="s2">&quot;ETCD_SERVER_IP:2379&quot;</span>
+<h1 id="danube-pubsub-cli-consume-messages">Danube-Pubsub CLI - Consume messages</h1>
+<p>The <code>consume</code> command retrieves messages from a specified topic.</p>
+<h2 id="usage">Usage</h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>danube-pubsub<span class="w"> </span>consume<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>--service-addr<span class="w"> </span>&lt;SERVICE_ADDR&gt;<span class="w"> </span>--subscription<span class="w"> </span>&lt;SUBSCRIPTION&gt;
 </span></code></pre></div>
-<p>Replace <code>ETCD_SERVER_IP</code> with the IP address of your ETCD server.</p>
-<p><strong>Repeat</strong> for each additional broker instance.</p>
-<h3 id="4-verify-the-setup">4. Verify the Setup</h3>
-<ol>
-<li><strong>ETCD</strong>: Ensure ETCD is running and accessible. You can check its status by accessing <code>http://&lt;ETCD_SERVER_IP&gt;:2379</code> from a browser or using <code>curl</code>:</li>
-</ol>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>curl<span class="w"> </span>http://&lt;ETCD_SERVER_IP&gt;:2379/v3/version
-</span></code></pre></div>
-<ol>
-<li><strong>Danube Brokers</strong>: Ensure each broker instance is running and listening on the specified port. You can check this with <code>netstat</code> or <code>ss</code>:</li>
-</ol>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>netstat<span class="w"> </span>-tuln<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="m">6650</span>
-</span></code></pre></div>
-<p><strong>Log Files</strong>: For debugging, check the logs of each Danube broker instance.</p>
-<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="options">Options</h3>
 <ul>
-<li><strong>ETCD Connection Issues</strong>: Ensure that the <code>--meta-store-addr</code> is correctly set and that ETCD is accessible from each broker VM.</li>
-<li><strong>Broker Not Starting</strong>: Verify that the correct ports are available and that the Danube binary has execute permissions.</li>
+<li>
+<p><code>-s, --service-addr &lt;SERVICE_ADDR&gt;</code><br />
+<strong>Description:</strong> The service URL for the Danube broker.<br />
+<strong>Example:</strong> <code>http://127.0.0.1:6650</code></p>
+</li>
+<li>
+<p><code>-t, --topic &lt;TOPIC&gt;</code><br />
+<strong>Description:</strong> The topic to consume messages from.<br />
+<strong>Default:</strong> <code>/default/test_topic</code></p>
+</li>
+<li>
+<p><code>-c, --consumer &lt;CONSUMER&gt;</code><br />
+<strong>Description:</strong> The consumer name.<br />
+<strong>Default:</strong> <code>consumer_pubsub</code></p>
+</li>
+<li>
+<p><code>-m, --subscription &lt;SUBSCRIPTION&gt;</code><br />
+<strong>Description:</strong> The subscription name.<br />
+<strong>Required:</strong> Yes</p>
+</li>
+<li>
+<p><code>--sub-type &lt;SUB_TYPE&gt;</code><br />
+<strong>Description:</strong> The subscription type.<br />
+<strong>Default:</strong> <code>shared</code><br />
+<strong>Possible values:</strong> <code>exclusive</code>, <code>shared</code>, <code>fail-over</code></p>
+</li>
+<li>
+<p><code>-h, --help</code><br />
+<strong>Description:</strong> Print help information.</p>
+</li>
 </ul>
-<h2 id="additional-information">Additional Information</h2>
-<p>For more details, visit the <a href="https://github.com/danrusei/danube">Danube GitHub repository</a> or contact the project maintainers for support.</p>
+<h3 id="example-shared-subscription">Example: Shared Subscription</h3>
+<p>To receive messages from a shared subscription:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>danube-pubsub<span class="w"> </span>consume<span class="w"> </span>-s<span class="w"> </span>http://127.0.0.1:6650<span class="w"> </span>-m<span class="w"> </span>my_shared_subscription
+</span></code></pre></div>
+<h3 id="example-exclusive-subscription">Example: Exclusive Subscription</h3>
+<p>To receive messages from an exclusive subscription:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>danube-pubsub<span class="w"> </span>consume<span class="w"> </span>-s<span class="w"> </span>http://127.0.0.1:6650<span class="w"> </span>-m<span class="w"> </span>my_exclusive<span class="w"> </span>--sub-type<span class="w"> </span>exclusive
+</span></code></pre></div>
+<p><strong>To create a new exclusive subscription:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>danube-pubsub<span class="w"> </span>consume<span class="w"> </span>-s<span class="w"> </span>http://127.0.0.1:6650<span class="w"> </span>-m<span class="w"> </span>my_exclusive2<span class="w"> </span>--sub-type<span class="w"> </span>exclusive
+</span></code></pre></div>
+<h2 id="resources">Resources</h2>
+<p>Check <a href="https://dev-state.com/posts/danube_pubsub/">this article</a> that covers how to combine the subscription types in order to obtain message queueing or fan-out pub-sub messaging patterns.</p>
 
 
 
@@ -1245,10 +1086,10 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["content.tabs.link"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.tabs.link"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
       
     
   </body>

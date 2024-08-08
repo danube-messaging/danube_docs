@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../../../client_libraries/consumer/">
+        <link rel="prev" href="../brokers/">
       
       
-        <link rel="next" href="../namespaces/">
+        <link rel="next" href="../topics/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>Brokers - Danube Pub-Sub messaging documentation</title>
+        <title>Namespaces - Danube Pub-Sub messaging documentation</title>
       
     
     
@@ -62,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#danube-admin-brokers-commands" class="md-skip">
+        <a href="#danube-admin-namespaces-commands" class="md-skip">
           Skip to content
         </a>
       
@@ -98,7 +98,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Brokers
+              Namespaces
             
           </span>
         </div>
@@ -605,7 +605,7 @@
             
   
   <span class="md-ellipsis">
-    Admin API
+    Danube CLIs
   </span>
   
 
@@ -615,7 +615,7 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
-            Admin API
+            Danube CLIs
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -642,7 +642,7 @@
             
   
   <span class="md-ellipsis">
-    Danube CLI
+    Danube Admin
   </span>
   
 
@@ -652,9 +652,30 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_1_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_5_1">
             <span class="md-nav__icon md-icon"></span>
-            Danube CLI
+            Danube Admin
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../brokers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Brokers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -676,7 +697,7 @@
           
   
   <span class="md-ellipsis">
-    Brokers
+    Namespaces
   </span>
   
 
@@ -687,7 +708,7 @@
         
   
   <span class="md-ellipsis">
-    Brokers
+    Namespaces
   </span>
   
 
@@ -719,27 +740,36 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#danube-admin-brokers-list" class="md-nav__link">
+  <a href="#danube-admin-namespaces-topics-namespace" class="md-nav__link">
     <span class="md-ellipsis">
-      danube-admin brokers list
+      danube-admin namespaces topics NAMESPACE
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#danube-admin-brokers-leader-broker" class="md-nav__link">
+  <a href="#danube-admin-namespaces-policies-namespace" class="md-nav__link">
     <span class="md-ellipsis">
-      danube-admin brokers leader-broker
+      danube-admin namespaces policies NAMESPACE
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#danube-admin-brokers-namespaces" class="md-nav__link">
+  <a href="#danube-admin-namespaces-create-namespace" class="md-nav__link">
     <span class="md-ellipsis">
-      danube-admin brokers namespaces
+      danube-admin namespaces create NAMESPACE
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#danube-admin-namespaces-delete-namespace" class="md-nav__link">
+    <span class="md-ellipsis">
+      danube-admin namespaces delete NAMESPACE
     </span>
   </a>
   
@@ -784,11 +814,75 @@
   
   
     <li class="md-nav__item">
-      <a href="../namespaces/" class="md-nav__link">
+      <a href="../topics/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Namespaces
+    Topics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Danube PubSub
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            Danube PubSub
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../danube_pubsub/producer.rs" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Producer
   </span>
   
 
@@ -805,11 +899,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../topics/" class="md-nav__link">
+      <a href="../../danube_pubsub/consumer.rs" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Topics
+    Consumer
   </span>
   
 
@@ -955,27 +1049,36 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#danube-admin-brokers-list" class="md-nav__link">
+  <a href="#danube-admin-namespaces-topics-namespace" class="md-nav__link">
     <span class="md-ellipsis">
-      danube-admin brokers list
+      danube-admin namespaces topics NAMESPACE
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#danube-admin-brokers-leader-broker" class="md-nav__link">
+  <a href="#danube-admin-namespaces-policies-namespace" class="md-nav__link">
     <span class="md-ellipsis">
-      danube-admin brokers leader-broker
+      danube-admin namespaces policies NAMESPACE
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#danube-admin-brokers-namespaces" class="md-nav__link">
+  <a href="#danube-admin-namespaces-create-namespace" class="md-nav__link">
     <span class="md-ellipsis">
-      danube-admin brokers namespaces
+      danube-admin namespaces create NAMESPACE
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#danube-admin-namespaces-delete-namespace" class="md-nav__link">
+    <span class="md-ellipsis">
+      danube-admin namespaces delete NAMESPACE
     </span>
   </a>
   
@@ -1019,73 +1122,81 @@
                   
 
 
-<h1 id="danube-admin-brokers-commands">danube-admin: Brokers Commands</h1>
-<p>The <code>danube-admin</code> tool provides commands to manage and view information about brokers in your Danube cluster. Below is the documentation for the commands related to brokers.</p>
+<h1 id="danube-admin-namespaces-commands">danube-admin: Namespaces Commands</h1>
+<p>The <code>danube-admin</code> tool provides commands to manage and view information about namespaces in your Danube cluster. Below is the documentation for the commands related to namespaces.</p>
 <h2 id="commands">Commands</h2>
-<h3 id="danube-admin-brokers-list"><code>danube-admin brokers list</code></h3>
-<p>List all active brokers in the cluster.</p>
+<h3 id="danube-admin-namespaces-topics-namespace"><code>danube-admin namespaces topics NAMESPACE</code></h3>
+<p>Get the list of topics for a specified namespace.</p>
 <p><strong>Usage:</strong></p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>list
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>danube-admin<span class="w"> </span>namespaces<span class="w"> </span>topics<span class="w"> </span>NAMESPACE
 </span></code></pre></div>
 <p><strong>Description:</strong></p>
-<p>This command retrieves and displays a list of all active brokers in the cluster. The output is formatted into a table with the following columns:</p>
-<ul>
-<li><strong>BROKER ID</strong>: The unique identifier for the broker.</li>
-<li><strong>BROKER ADDRESS</strong>: The network address of the broker.</li>
-<li><strong>BROKER ROLE</strong>: The role assigned to the broker (e.g., "leader", "follower").</li>
-</ul>
+<p>This command retrieves and displays all topics associated with a specific namespace. Replace <code>NAMESPACE</code> with the name of the namespace you want to query.</p>
 <p><strong>Example Output:</strong></p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>+------------+---------------------+-------------+
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="p">|</span><span class="w"> </span>BROKER<span class="w"> </span>ID<span class="w">  </span><span class="p">|</span><span class="w"> </span>BROKER<span class="w"> </span>ADDRESS<span class="w">      </span><span class="p">|</span><span class="w"> </span>BROKER<span class="w"> </span>ROLE<span class="w"> </span><span class="p">|</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>+------------+---------------------+-------------+
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="p">|</span><span class="w"> </span><span class="m">1</span><span class="w">          </span><span class="p">|</span><span class="w"> </span><span class="m">192</span>.168.1.1:6650<span class="w">    </span><span class="p">|</span><span class="w"> </span>leader<span class="w">      </span><span class="p">|</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="p">|</span><span class="w"> </span><span class="m">2</span><span class="w">          </span><span class="p">|</span><span class="w"> </span><span class="m">192</span>.168.1.2:6650<span class="w">    </span><span class="p">|</span><span class="w"> </span>follower<span class="w">    </span><span class="p">|</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>+------------+---------------------+-------------+
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Topic:<span class="w"> </span>topic1
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Topic:<span class="w"> </span>topic2
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>Topic:<span class="w"> </span>topic3
 </span></code></pre></div>
-<h3 id="danube-admin-brokers-leader-broker"><code>danube-admin brokers leader-broker</code></h3>
-<p>Get information about the leader broker in the cluster.</p>
+<h3 id="danube-admin-namespaces-policies-namespace"><code>danube-admin namespaces policies NAMESPACE</code></h3>
+<p>Get the configuration policies for a specified namespace.</p>
 <p><strong>Usage:</strong></p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>leader-broker
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>danube-admin<span class="w"> </span>namespaces<span class="w"> </span>policies<span class="w"> </span>NAMESPACE
 </span></code></pre></div>
 <p><strong>Description:</strong></p>
-<p>This command fetches and displays the details of the current leader broker in the cluster. The information includes the broker ID, address, and role of the leader.</p>
+<p>This command fetches and displays the configuration policies for a specific namespace. Replace <code>NAMESPACE</code> with the name of the namespace you want to query.</p>
 <p><strong>Example Output:</strong></p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Leader<span class="w"> </span>Broker:<span class="w"> </span>BrokerId:<span class="w"> </span><span class="m">1</span>,<span class="w"> </span>Address:<span class="w"> </span><span class="m">192</span>.168.1.1:6650,<span class="w"> </span>Role:<span class="w"> </span>leader
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Policy<span class="w"> </span>Name:<span class="w"> </span>policy1
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>Policy<span class="w"> </span>Description:<span class="w"> </span>Description<span class="w"> </span>of<span class="w"> </span>policy1
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>Policy<span class="w"> </span>Name:<span class="w"> </span>policy2
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>Policy<span class="w"> </span>Description:<span class="w"> </span>Description<span class="w"> </span>of<span class="w"> </span>policy2
 </span></code></pre></div>
-<h3 id="danube-admin-brokers-namespaces"><code>danube-admin brokers namespaces</code></h3>
-<p>List all namespaces in the cluster.</p>
+<h3 id="danube-admin-namespaces-create-namespace"><code>danube-admin namespaces create NAMESPACE</code></h3>
+<p>Create a new namespace.</p>
 <p><strong>Usage:</strong></p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>namespaces
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>danube-admin<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>NAMESPACE
 </span></code></pre></div>
 <p><strong>Description:</strong></p>
-<p>This command retrieves and lists all namespaces associated with the cluster. Each namespace is printed on a new line.</p>
+<p>This command creates a new namespace with the specified name. Replace <code>NAMESPACE</code> with the desired name for the new namespace.</p>
 <p><strong>Example Output:</strong></p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Namespace:<span class="w"> </span>default
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>Namespace:<span class="w"> </span>public
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>Namespace:<span class="w"> </span>my-namespace
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Namespace<span class="w"> </span>Created:<span class="w"> </span><span class="nb">true</span>
+</span></code></pre></div>
+<h3 id="danube-admin-namespaces-delete-namespace"><code>danube-admin namespaces delete NAMESPACE</code></h3>
+<p>Delete a specified namespace. The namespace must be empty.</p>
+<p><strong>Usage:</strong></p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>danube-admin<span class="w"> </span>namespaces<span class="w"> </span>delete<span class="w"> </span>NAMESPACE
+</span></code></pre></div>
+<p><strong>Description:</strong></p>
+<p>This command deletes a namespace. The specified namespace must be empty before it can be deleted. Replace <code>NAMESPACE</code> with the name of the namespace you wish to delete.</p>
+<p><strong>Example Output:</strong></p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Namespace<span class="w"> </span>Deleted:<span class="w"> </span><span class="nb">true</span>
 </span></code></pre></div>
 <h2 id="error-handling">Error Handling</h2>
 <p>If there is an issue with connecting to the cluster or processing the request, the CLI will output an error message. Make sure your Danube cluster is running and accessible, and check your network connectivity.</p>
 <h2 id="examples">Examples</h2>
 <p>Here are a few example commands for quick reference:</p>
 <ul>
-<li>List all brokers:</li>
+<li>List all topics in a namespace:</li>
 </ul>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>list
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>danube-admin<span class="w"> </span>namespaces<span class="w"> </span>topics<span class="w"> </span>my-namespace
 </span></code></pre></div>
 <ul>
-<li>Get the leader broker:</li>
+<li>Get the policies for a namespace:</li>
 </ul>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>leader-broker
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>danube-admin<span class="w"> </span>namespaces<span class="w"> </span>policies<span class="w"> </span>my-namespace
 </span></code></pre></div>
 <ul>
-<li>List all namespaces:</li>
+<li>Create a new namespace:</li>
 </ul>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>namespaces
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>danube-admin<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>my-new-namespace
+</span></code></pre></div>
+<ul>
+<li>Delete a namespace:</li>
+</ul>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>danube-admin<span class="w"> </span>namespaces<span class="w"> </span>delete<span class="w"> </span>my-old-namespace
 </span></code></pre></div>
 <p>For more detailed information or help with the <code>danube-admin</code>, you can use the <code>--help</code> flag with any command.</p>
 <p><strong>Example:</strong></p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>--help
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>danube-admin<span class="w"> </span>namespaces<span class="w"> </span>--help
 </span></code></pre></div>
 
 
