@@ -9,6 +9,10 @@
       
       
       
+        <link rel="prev" href="../producer/">
+      
+      
+        <link rel="next" href="../../../development/dev_environment/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -16,7 +20,7 @@
     
     
       
-        <title>Danube-Pubsub CLI - Consume messages - Danube Pub-Sub messaging documentation</title>
+        <title>Consumer - Danube Pub-Sub messaging documentation</title>
       
     
     
@@ -94,7 +98,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Danube-Pubsub CLI - Consume messages
+              Consumer
             
           </span>
         </div>
@@ -582,17 +586,19 @@
       
   
   
+    
   
   
+  
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
         
           
           <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
@@ -606,7 +612,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             Danube CLIs
@@ -723,17 +729,19 @@
                 
   
   
+    
   
   
+  
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" checked>
         
           
           <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
@@ -747,7 +755,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_5_2">
             <span class="md-nav__icon md-icon"></span>
             Danube PubSub
@@ -761,7 +769,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../producer.rs" class="md-nav__link">
+      <a href="../producer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -779,10 +787,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../consumer.rs" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Consumer
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -791,6 +819,77 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Options
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-shared-subscription" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example: Shared Subscription
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-exclusive-subscription" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example: Exclusive Subscription
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resources
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -996,29 +1095,29 @@
 <ul>
 <li>
 <p><code>-s, --service-addr &lt;SERVICE_ADDR&gt;</code><br />
-<strong>Description:</strong> The service URL for the Danube broker.<br />
-<strong>Example:</strong> <code>http://127.0.0.1:6650</code></p>
+  Description: The service URL for the Danube broker.<br />
+  Example: <code>http://127.0.0.1:6650</code></p>
 </li>
 <li>
 <p><code>-t, --topic &lt;TOPIC&gt;</code><br />
-<strong>Description:</strong> The topic to consume messages from.<br />
-<strong>Default:</strong> <code>/default/test_topic</code></p>
+  Description: The topic to consume messages from.<br />
+  Default: <code>/default/test_topic</code></p>
 </li>
 <li>
 <p><code>-c, --consumer &lt;CONSUMER&gt;</code><br />
-<strong>Description:</strong> The consumer name.<br />
-<strong>Default:</strong> <code>consumer_pubsub</code></p>
+  Description: The consumer name.<br />
+  Default: <code>consumer_pubsub</code></p>
 </li>
 <li>
 <p><code>-m, --subscription &lt;SUBSCRIPTION&gt;</code><br />
-<strong>Description:</strong> The subscription name.<br />
-<strong>Required:</strong> Yes</p>
+  Description: The subscription name.<br />
+  Required: Yes</p>
 </li>
 <li>
 <p><code>--sub-type &lt;SUB_TYPE&gt;</code><br />
-<strong>Description:</strong> The subscription type.<br />
-<strong>Default:</strong> <code>shared</code><br />
-<strong>Possible values:</strong> <code>exclusive</code>, <code>shared</code>, <code>fail-over</code></p>
+  Description: The subscription type.<br />
+  Default: <code>shared</code><br />
+  Possible values: <code>exclusive</code>, <code>shared</code>, <code>fail-over</code></p>
 </li>
 <li>
 <p><code>-h, --help</code><br />

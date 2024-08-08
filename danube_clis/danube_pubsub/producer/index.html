@@ -9,6 +9,10 @@
       
       
       
+        <link rel="prev" href="../../danube_admin/topics/">
+      
+      
+        <link rel="next" href="../consumer/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -16,7 +20,7 @@
     
     
       
-        <title>Danube-Pubsub CLI - Produce messages - Danube Pub-Sub messaging documentation</title>
+        <title>Producer - Danube Pub-Sub messaging documentation</title>
       
     
     
@@ -94,7 +98,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Danube-Pubsub CLI - Produce messages
+              Producer
             
           </span>
         </div>
@@ -582,17 +586,19 @@
       
   
   
+    
   
   
+  
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
         
           
           <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
@@ -606,7 +612,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             Danube CLIs
@@ -723,17 +729,19 @@
                 
   
   
+    
   
   
+  
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" checked>
         
           
           <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
@@ -747,7 +755,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_5_2">
             <span class="md-nav__icon md-icon"></span>
             Danube PubSub
@@ -758,10 +766,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../producer.rs" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Producer
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -770,6 +798,59 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Options
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -782,7 +863,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../consumer.rs" class="md-nav__link">
+      <a href="../consumer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -978,47 +1059,47 @@
 <ul>
 <li>
 <p><code>-s, --service-addr &lt;SERVICE_ADDR&gt;</code><br />
-<strong>Description:</strong> The service URL for the Danube broker.<br />
-<strong>Example:</strong> <code>http://127.0.0.1:6650</code></p>
+  Description: The service URL for the Danube broker.<br />
+  Example: <code>http://127.0.0.1:6650</code></p>
 </li>
 <li>
 <p><code>-t, --topic &lt;TOPIC&gt;</code><br />
-<strong>Description:</strong> The topic to produce messages to.<br />
-<strong>Default:</strong> <code>/default/test_topic</code></p>
+  Description: The topic to produce messages to.<br />
+  Default: <code>/default/test_topic</code></p>
 </li>
 <li>
 <p><code>-p, --schema &lt;SCHEMA&gt;</code><br />
-<strong>Description:</strong> The schema type of the message.<br />
-<strong>Possible values:</strong> <code>bytes</code>, <code>string</code>, <code>int64</code>, <code>json</code></p>
+  Description: The schema type of the message.<br />
+  Possible values: <code>bytes</code>, <code>string</code>, <code>int64</code>, <code>json</code></p>
 </li>
 <li>
 <p><code>-m, --message &lt;MESSAGE&gt;</code><br />
-<strong>Description:</strong> The message to send.<br />
-<strong>Required:</strong> Yes</p>
+  Description: The message to send.<br />
+  Required: Yes</p>
 </li>
 <li>
 <p><code>--json-schema &lt;JSON_SCHEMA&gt;</code><br />
-<strong>Description:</strong> The JSON schema, required if schema type is <code>json</code>.</p>
+  Description: The JSON schema, required if schema type is <code>json</code>.</p>
 </li>
 <li>
 <p><code>-c, --count &lt;COUNT&gt;</code><br />
-<strong>Description:</strong> Number of times to send the message.<br />
-<strong>Default:</strong> <code>1</code></p>
+  Description: Number of times to send the message.<br />
+  Default: <code>1</code></p>
 </li>
 <li>
 <p><code>-i, --interval &lt;INTERVAL&gt;</code><br />
-<strong>Description:</strong> Interval between messages in milliseconds.<br />
-<strong>Default:</strong> <code>500</code><br />
-<strong>Minimum:</strong> <code>100</code></p>
+  Description: Interval between messages in milliseconds.<br />
+  Default: <code>500</code><br />
+  Minimum: <code>100</code></p>
 </li>
 <li>
 <p><code>-a, --attributes &lt;ATTRIBUTES&gt;</code><br />
-<strong>Description:</strong> Attributes in the form <code>'parameter:value'</code>.<br />
-<strong>Example:</strong> <code>'key1:value1,key2:value2'</code></p>
+  Description: Attributes in the form <code>'parameter:value'</code>.<br />
+  Example: <code>'key1:value1,key2:value2'</code></p>
 </li>
 <li>
 <p><code>-h, --help</code><br />
-<strong>Description:</strong> Print help information</p>
+  Description: Print help information</p>
 </li>
 </ul>
 <h3 id="example">Example</h3>

@@ -885,7 +885,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../danube_clis/danube_pubsub/producer.rs" class="md-nav__link">
+      <a href="../../danube_clis/danube_pubsub/producer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -906,7 +906,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../danube_clis/danube_pubsub/consumer.rs" class="md-nav__link">
+      <a href="../../danube_clis/danube_pubsub/consumer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1141,18 +1141,12 @@
 <h1 id="danube-installation-guide">Danube Installation Guide</h1>
 <p>Danube is an open-source distributed Pub/Sub messaging platform written in Rust. It relies on ETCD for persistent metadata storage. This guide will walk you through installing Danube brokers and ETCD.</p>
 <h2 id="prerequisites">Prerequisites</h2>
-<ol>
-<li>
 <p><strong>ETCD</strong>: Follow the <a href="https://etcd.io/docs/v3.5/install/">ETCD installation instructions</a> to set up ETCD on a VM or bare metal server.</p>
-</li>
-<li>
-<p><strong>Number of VMs</strong>: You need at least 4 Linux machines or VMs:</p>
-</li>
-<li>
-<p>or more VMs for running ETCD</p>
-</li>
-<li>VMs for running Danube brokers</li>
-</ol>
+<p><strong>Number of VMs</strong>: Recommended 4 Linux machines or VMs:</p>
+<ul>
+<li>One or more VMs for running ETCD</li>
+<li>3 VMs for running Danube brokers</li>
+</ul>
 <h2 id="installation-steps">Installation Steps</h2>
 <h3 id="1-install-etcd">1. Install ETCD</h3>
 <ol>
@@ -1162,19 +1156,19 @@
 <h3 id="2-download-danube-broker">2. Download Danube Broker</h3>
 <ol>
 <li>Visit the <a href="https://github.com/danrusei/danube/releases">Danube releases page</a>.</li>
-<li>Download the latest binary for Linux named <code>danube-broker-linux</code>.</li>
+<li>Download the latest binary for Linux named <code>danube-broker</code>.</li>
 </ol>
 <h3 id="3-install-danube-brokers">3. Install Danube Brokers</h3>
 <ol>
 <li>
-<p><strong>Upload the <code>danube-broker-linux</code> binary</strong> to each of the 3 VMs designated for brokers.</p>
+<p><strong>Upload the <code>danube-broker</code> binary</strong> to each of the 3 VMs designated for brokers.</p>
 </li>
 <li>
 <p><strong>Run the Broker</strong>: Start each broker with the appropriate configuration.
    Example command to start a broker:</p>
 </li>
 </ol>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>./danube-broker-linux<span class="w"> </span>--broker-addr<span class="w"> </span><span class="o">[</span>::1<span class="o">]</span>:6650<span class="w"> </span>--cluster-name<span class="w"> </span><span class="s2">&quot;MY_CLUSTER&quot;</span><span class="w"> </span>--meta-store-addr<span class="w"> </span><span class="s2">&quot;ETCD_SERVER_IP:2379&quot;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nv">RUST_LOG</span><span class="o">=</span><span class="nv">danube_broker</span><span class="o">=</span>info<span class="w"> </span>./danube-broker<span class="w"> </span>--cluster-name<span class="w"> </span><span class="s2">&quot;MY_CLUSTER&quot;</span><span class="w"> </span>--meta-store-addr<span class="w"> </span><span class="s2">&quot;ETCD_SERVER_IP:2379&quot;</span>
 </span></code></pre></div>
 <p>Replace <code>ETCD_SERVER_IP</code> with the IP address of your ETCD server.</p>
 <p><strong>Repeat</strong> for each additional broker instance.</p>

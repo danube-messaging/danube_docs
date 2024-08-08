@@ -825,7 +825,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../danube_clis/danube_pubsub/producer.rs" class="md-nav__link">
+      <a href="../../danube_clis/danube_pubsub/producer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -846,7 +846,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../danube_clis/danube_pubsub/consumer.rs" class="md-nav__link">
+      <a href="../../danube_clis/danube_pubsub/consumer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1053,7 +1053,7 @@
 </span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="kd">let</span><span class="w"> </span><span class="n">encoded_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">json_string</span><span class="p">.</span><span class="n">as_bytes</span><span class="p">().</span><span class="n">to_vec</span><span class="p">();</span>
 </span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>
 </span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="c1">// let json_message = r#&quot;{&quot;field1&quot;: &quot;value&quot;, &quot;field2&quot;: 123}&quot;#.as_bytes().to_vec();</span>
-</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="kd">let</span><span class="w"> </span><span class="n">message_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">producer</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="n">encoded_data</span><span class="p">).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="kd">let</span><span class="w"> </span><span class="n">message_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">producer</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="n">encoded_data</span><span class="p">,</span><span class="w"> </span><span class="nb">None</span><span class="p">).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
 </span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;The Message with id {} was sent&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">message_id</span><span class="p">);</span>
 </span></code></pre></div>
 </div>
