@@ -6,11 +6,12 @@ nav:
                   - Run Danube on Kubernetes Cluster: getting_started/Danube_on_k8s_helm.md
         - Architecture:
                   - Danube architecture: architecture/architecture.md
-                  - Danube entities: architecture/danube_entities.md
+                  - Messages: architecture/messages.md
+                  - Topics: architecture/topics.md
+                  - Subscriptions: architecture/subscriptions.md
                   - Danube service components: architecture/internal_danube_services.md
                   - Queuing vs Pub-Sub (fan-out) messaging: architecture/Queuing_PubSub_messaging.md
                   - PubSub vs Streaming: architecture/PubSub_messaging_vs_Streaming.md
-                  - Other Concepts: architecture/other_concepts.md
         - Client Libraries:
                   - Danube Clients: client_libraries/clients.md
                   - Setup: client_libraries/setup.md
