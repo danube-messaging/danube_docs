@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../PubSub_messaging_vs_Streaming/">
+        <link rel="prev" href="../topics/">
       
       
-        <link rel="next" href="../../client_libraries/clients/">
+        <link rel="next" href="../internal_danube_services/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>Other Concepts - Danube Pub-Sub messaging documentation</title>
+        <title>Subscriptions - Danube Pub-Sub messaging documentation</title>
       
     
     
@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#other-concepts" class="md-skip">
+        <a href="#subscription" class="md-skip">
           Skip to content
         </a>
       
@@ -108,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Other Concepts
+              Subscriptions
             
           </span>
         </div>
@@ -389,15 +389,196 @@
   
   
     <li class="md-nav__item">
-      <a href="../danube_entities/" class="md-nav__link">
+      <a href="../messages/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Danube entities
+    Messages
   </span>
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../topics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Topics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Subscriptions
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Subscriptions
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#exclusive" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exclusive
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exclusive">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exclusive-subscription-on-non-partitioned-topic" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exclusive subscription on Non-Partitioned Topic
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exclusive-subscription-on-partitioned-topic-multiple-partitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exclusive subscription on Partitioned Topic (Multiple Partitions)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#shared" class="md-nav__link">
+    <span class="md-ellipsis">
+      Shared
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Shared">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#shared-subscription-on-non-partitioned-topic" class="md-nav__link">
+    <span class="md-ellipsis">
+      Shared subscription on Non-Partitioned Topic
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#shared-subscription-on-partitioned-topic-multiple-partitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Shared subscription on Partitioned Topic (Multiple Partitions)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#failover" class="md-nav__link">
+    <span class="md-ellipsis">
+      FailOver
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FailOver">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#failover-subscription-on-non-partitioned-topic" class="md-nav__link">
+    <span class="md-ellipsis">
+      FailOver subscription on Non-Partitioned Topic
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#failover-subscription-on-partitioned-topic-multiple-partitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      FailOver subscription on Partitioned Topic (Multiple Partitions)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -461,100 +642,6 @@
   
 
       </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Other Concepts
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  <span class="md-ellipsis">
-    Other Concepts
-  </span>
-  
-
-      </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#multi-topic-subscriptions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Multi-topic subscriptions
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#partitioned-topics" class="md-nav__link">
-    <span class="md-ellipsis">
-      Partitioned topics
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Partitioned topics">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#routing-modes" class="md-nav__link">
-    <span class="md-ellipsis">
-      Routing modes
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1037,28 +1124,94 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#multi-topic-subscriptions" class="md-nav__link">
+  <a href="#exclusive" class="md-nav__link">
     <span class="md-ellipsis">
-      Multi-topic subscriptions
+      Exclusive
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exclusive">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exclusive-subscription-on-non-partitioned-topic" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exclusive subscription on Non-Partitioned Topic
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#partitioned-topics" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#exclusive-subscription-on-partitioned-topic-multiple-partitions" class="md-nav__link">
     <span class="md-ellipsis">
-      Partitioned topics
+      Exclusive subscription on Partitioned Topic (Multiple Partitions)
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Partitioned topics">
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#shared" class="md-nav__link">
+    <span class="md-ellipsis">
+      Shared
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Shared">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#routing-modes" class="md-nav__link">
+  <a href="#shared-subscription-on-non-partitioned-topic" class="md-nav__link">
     <span class="md-ellipsis">
-      Routing modes
+      Shared subscription on Non-Partitioned Topic
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#shared-subscription-on-partitioned-topic-multiple-partitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Shared subscription on Partitioned Topic (Multiple Partitions)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#failover" class="md-nav__link">
+    <span class="md-ellipsis">
+      FailOver
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FailOver">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#failover-subscription-on-non-partitioned-topic" class="md-nav__link">
+    <span class="md-ellipsis">
+      FailOver subscription on Non-Partitioned Topic
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#failover-subscription-on-partitioned-topic-multiple-partitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      FailOver subscription on Partitioned Topic (Multiple Partitions)
     </span>
   </a>
   
@@ -1084,21 +1237,53 @@
                   
 
 
-<h1 id="other-concepts">Other concepts</h1>
-<p><strong>This is a placeholder for some concepts may be considered to be implemented in the future</strong>.</p>
-<h2 id="multi-topic-subscriptions">Multi-topic subscriptions</h2>
-<p>Using regex subscription.</p>
-<h2 id="partitioned-topics">Partitioned topics</h2>
-<p>Normal topics are served only by a single broker, which limits the maximum throughput of the topic. Partitioned topic is a special type of topic handled by multiple brokers, thus allowing for higher throughput.</p>
-<p>A partitioned topic is implemented as N internal topics, where N is the number of partitions. When publishing messages to a partitioned topic, each message is routed to one of several brokers. The distribution of partitions across brokers is handled automatically.</p>
-<p><img alt="Partitioned Topics" src="../img/partitioned_topics.png" title="Partitioned topics" /></p>
-<p>Messages for the topic are broadcast to two consumers. The <strong>routing mode</strong> determines each message should be published to which partition, while the <strong>subscription type</strong> determines which messages go to which consumers.</p>
-<h3 id="routing-modes">Routing modes</h3>
-<p>When publishing to partitioned topics, you must specify a routing mode. The routing mode determines each message should be published to which partition or which internal topic.</p>
+<h1 id="subscription">Subscription</h1>
+<p><strong>A Danube subscription</strong> is a named configuration rule that determines how messages are delivered to consumers. It is a lease on a topic established by a group of consumers.</p>
+<p>The Danube permits multiple producers and subcribers to the same topic. The Subscription Types can be combined to obtain <a href="../Queuing_PubSub_messaging/">message queueing or fan-out</a> pub-sub messaging patterns.</p>
+<p><img alt="Producers  Consumers" src="../img/producers_consumers.png" title="Producers Consumers" /></p>
+<h2 id="exclusive">Exclusive</h2>
+<p>The <strong>Exclusive</strong> type is a subscription type that only allows a single consumer to attach to the subscription. If multiple consumers subscribe to a topic using the same subscription, an error occurs.
+This consumer has exclusive access to all messages published to the topic or partition.</p>
+<h3 id="exclusive-subscription-on-non-partitioned-topic">Exclusive subscription on Non-Partitioned Topic</h3>
 <ul>
-<li><strong>RoundRobinPartition</strong> - The producer will publish messages across all partitions in round-robin fashion to achieve maximum throughput. If a key is specified on the message, the partitioned producer will <strong>hash the key and assign message to a particular partition</strong>.</li>
-<li><strong>SinglePartition</strong> - If no key is provided, the producer will randomly pick one single partition and publish all the messages into that partition. While if a key is specified on the message, the partitioned producer will hash the key and assign message to a particular partition.</li>
+<li><code>Consumer</code>: Only one consumer can be attached to the topic with an Exclusive subscription.</li>
+<li><code>Message Handling</code>: The single consumer handles all messages from the topic, receiving every message published to that topic.</li>
 </ul>
+<p><img alt="Exclusive Non-Partitioned" src="../img/exclusive_subscription_non_partitioned.png" title="Exclusive Non-Partitioned" /></p>
+<h3 id="exclusive-subscription-on-partitioned-topic-multiple-partitions">Exclusive subscription on Partitioned Topic (Multiple Partitions)</h3>
+<ul>
+<li><code>Consumer</code>: One consumer is allowed to connect to the subscription across all partitions of the partitioned topic.</li>
+<li><code>Message Handling</code> : This single consumer processes messages from all partitions of the partitioned topic. If a topic is partitioned into multiple partitions, the exclusive consumer handles messages from every partition.</li>
+</ul>
+<p><img alt="Exclusive Partitioned" src="../img/exclusive_subscription_partitioned.png" title="Exclusive Partitioned" /></p>
+<h2 id="shared">Shared</h2>
+<p>The <strong>Shared</strong> subscription type Danube allows multiple consumers to attach to the same subscription. Messages are delivered in a round-robin distribution across consumers, and any given message is delivered to only one consumer.</p>
+<h3 id="shared-subscription-on-non-partitioned-topic">Shared subscription on Non-Partitioned Topic</h3>
+<ul>
+<li><code>Consumers</code>: Multiple consumers can subscribe to the same topic.</li>
+<li><code>Message Handling</code>: Messages are distributed among all consumers in a round-robin fashion.</li>
+</ul>
+<p><img alt="Shared Non-Partitioned" src="../img/shared_subscription_non_partitioned.png" title="Shared Non-Partitioned" /></p>
+<h3 id="shared-subscription-on-partitioned-topic-multiple-partitions">Shared subscription on Partitioned Topic (Multiple Partitions)</h3>
+<ul>
+<li><code>Consumers</code>: Multiple consumers can subscribe to the partitioned topic.</li>
+<li><code>Message Handling</code>: Messages are distributed across all partitions, and then among consumers in a round-robin fashion. Each message from any partition is delivered to only one consumer.</li>
+</ul>
+<p><img alt="Shared Partitioned" src="../img/shared_subscription_partitioned.png" title="Share Partitioned" /></p>
+<h2 id="failover">FailOver</h2>
+<p>The <strong>FailOver</strong> subscription type allows only one consumer (the active consumer) to receive messages at any given time. An active consumer is picked for a non-partitioned topic or for each partition of a partitioned topic and receives messages.</p>
+<h3 id="failover-subscription-on-non-partitioned-topic">FailOver subscription on Non-Partitioned Topic</h3>
+<ul>
+<li><code>Consumers</code>: Only one active consumer processes messages at a time.</li>
+<li><code>Message Handling</code>: If the active consumer fails, a standby consumer will take over.</li>
+</ul>
+<p><img alt="FailOver Non-Partitioned" src="../img/failover_subscription_non_partitioned.png" title="FailOver Non-Partitioned" /></p>
+<h3 id="failover-subscription-on-partitioned-topic-multiple-partitions">FailOver subscription on  Partitioned Topic (Multiple Partitions)</h3>
+<ul>
+<li><code>Consumers</code>: One active consumer processes messages for each partition.</li>
+<li><code>Message Handling</code>: If the active consumer for a partition fails, a standby consumer takes over.</li>
+</ul>
+<p><img alt="FailOver Partitioned" src="../img/failover_subscription_partitioned.png" title="FailOver Partitioned" /></p>
 
 
 

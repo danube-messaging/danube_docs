@@ -9,7 +9,7 @@
       
       
       
-        <link rel="prev" href="../../architecture/other_concepts/">
+        <link rel="prev" href="../../architecture/PubSub_messaging_vs_Streaming/">
       
       
         <link rel="next" href="../setup/">
@@ -387,11 +387,53 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/danube_entities/" class="md-nav__link">
+      <a href="../../architecture/messages/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Danube entities
+    Messages
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/topics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Topics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/subscriptions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Subscriptions
   </span>
   
 
@@ -455,27 +497,6 @@
   
   <span class="md-ellipsis">
     PubSub vs Streaming
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../architecture/other_concepts/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Other Concepts
   </span>
   
 
@@ -580,15 +601,6 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#patterns" class="md-nav__link">
-    <span class="md-ellipsis">
-      Patterns
-    </span>
-  </a>
-  
-</li>
       
         <li class="md-nav__item">
   <a href="#rust-client" class="md-nav__link">
@@ -1040,15 +1052,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#patterns" class="md-nav__link">
-    <span class="md-ellipsis">
-      Patterns
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#rust-client" class="md-nav__link">
     <span class="md-ellipsis">
       Rust client
@@ -1092,9 +1095,6 @@
 
 <h1 id="danube-client-library">Danube client library</h1>
 <p>Currently, the supported clients are the <a href="https://github.com/danrusei/danube/tree/main/danube-client">Rust Client</a> and <a href="https://github.com/danrusei/danube-go">Go Client</a> clients. However, the community is encouraged to contribute by developing clients in other programming languages.</p>
-<h2 id="patterns">Patterns</h2>
-<p>The Danube permits multiple topics and subcriber to the same topic. The <a href="../../architecture/Queuing_PubSub_messaging/">Subscription Types</a> can be combined to obtain message queueing or fan-out pub-sub messaging patterns.</p>
-<p><img alt="Producers  Consumers" src="../../architecture/img/producers_consumers.png" title="Producers Consumers" /></p>
 <h2 id="rust-client">Rust client</h2>
 <p>The Rust <a href="https://crates.io/crates/danube-client">danube-client</a> is an asynchronous Rust client library. To start using the <code>danube-client</code> library in your Rust project, you need to add it as a dependency. You can do this by running the following command:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>cargo<span class="w"> </span>add<span class="w"> </span>danube-client

@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../architecture/">
+        <link rel="prev" href="../messages/">
       
       
-        <link rel="next" href="../internal_danube_services/">
+        <link rel="next" href="../subscriptions/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>Danube entities - Danube Pub-Sub messaging documentation</title>
+        <title>Topics - Danube Pub-Sub messaging documentation</title>
       
     
     
@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#danube-pubsub-entities" class="md-skip">
+        <a href="#topic" class="md-skip">
           Skip to content
         </a>
       
@@ -108,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Danube entities
+              Topics
             
           </span>
         </div>
@@ -386,6 +386,27 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../messages/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Messages
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -402,7 +423,7 @@
           
   
   <span class="md-ellipsis">
-    Danube entities
+    Topics
   </span>
   
 
@@ -413,7 +434,7 @@
         
   
   <span class="md-ellipsis">
-    Danube entities
+    Topics
   </span>
   
 
@@ -435,73 +456,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#message" class="md-nav__link">
-    <span class="md-ellipsis">
-      Message
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Message">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#producer-data-managedsent-by-user" class="md-nav__link">
-    <span class="md-ellipsis">
-      Producer - data managed/sent by User
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#consumer-data-received-by-user" class="md-nav__link">
-    <span class="md-ellipsis">
-      Consumer - data received by User
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Consumer - data received by User">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#messagemetadata" class="md-nav__link">
-    <span class="md-ellipsis">
-      MessageMetadata
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#fields" class="md-nav__link">
-    <span class="md-ellipsis">
-      Fields
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#topic" class="md-nav__link">
-    <span class="md-ellipsis">
-      Topic
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Topic">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#namespacetopic_name" class="md-nav__link">
     <span class="md-ellipsis">
       /{namespace}/{topic_name}
@@ -509,6 +463,34 @@
   </a>
   
 </li>
+      
+        <li class="md-nav__item">
+  <a href="#partitioned-topics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Partitioned Topics
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Partitioned Topics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#benefits-of-the-partitioned-topics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Benefits of the Partitioned topics
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creation-of-partitioned-topics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creation of Partitioned Topics
+    </span>
+  </a>
+  
+</li>
         
       </ul>
     </nav>
@@ -516,9 +498,33 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#subscription" class="md-nav__link">
+  <a href="#producers" class="md-nav__link">
     <span class="md-ellipsis">
-      Subscription
+      Producers
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Producers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#routing-modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Routing modes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consumers-subscriptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Consumers (subscriptions)
     </span>
   </a>
   
@@ -528,6 +534,27 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../subscriptions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Subscriptions
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -587,27 +614,6 @@
   
   <span class="md-ellipsis">
     PubSub vs Streaming
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../other_concepts/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Other Concepts
   </span>
   
 
@@ -1094,73 +1100,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#message" class="md-nav__link">
-    <span class="md-ellipsis">
-      Message
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Message">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#producer-data-managedsent-by-user" class="md-nav__link">
-    <span class="md-ellipsis">
-      Producer - data managed/sent by User
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#consumer-data-received-by-user" class="md-nav__link">
-    <span class="md-ellipsis">
-      Consumer - data received by User
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Consumer - data received by User">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#messagemetadata" class="md-nav__link">
-    <span class="md-ellipsis">
-      MessageMetadata
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#fields" class="md-nav__link">
-    <span class="md-ellipsis">
-      Fields
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#topic" class="md-nav__link">
-    <span class="md-ellipsis">
-      Topic
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Topic">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#namespacetopic_name" class="md-nav__link">
     <span class="md-ellipsis">
       /{namespace}/{topic_name}
@@ -1168,6 +1107,34 @@
   </a>
   
 </li>
+      
+        <li class="md-nav__item">
+  <a href="#partitioned-topics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Partitioned Topics
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Partitioned Topics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#benefits-of-the-partitioned-topics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Benefits of the Partitioned topics
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creation-of-partitioned-topics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creation of Partitioned Topics
+    </span>
+  </a>
+  
+</li>
         
       </ul>
     </nav>
@@ -1175,9 +1142,33 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#subscription" class="md-nav__link">
+  <a href="#producers" class="md-nav__link">
     <span class="md-ellipsis">
-      Subscription
+      Producers
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Producers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#routing-modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Routing modes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consumers-subscriptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Consumers (subscriptions)
     </span>
   </a>
   
@@ -1198,66 +1189,38 @@
                   
 
 
-<h1 id="danube-pubsub-entities">Danube Pub/Sub entities</h1>
-<h2 id="message">Message</h2>
-<p>It is the basic unit, they are what producers publish to topics and what consumers then consume from topics. It includes metadata about the message as well as the actual payload.</p>
-<h3 id="producer-data-managedsent-by-user">Producer - data managed/sent by User</h3>
-<p>The user is able to send through producer the following data:</p>
-<ul>
-<li><strong>payload (bytes)</strong>:</li>
-</ul>
-<p><code>Description</code>: The actual payload of the message. This field contains the data that the consumer will process.</p>
-<p><code>Usage</code>: This is the core content of the message that is intended to be consumed by the receiving party.</p>
-<ul>
-<li><strong>attributes (map(string, string) )</strong>:</li>
-</ul>
-<p><code>Description</code>: A map of user-defined properties or attributes associated with the message. This can include custom metadata or tags.</p>
-<p><code>Usage</code>: This field provides additional flexibility for including extra context or metadata that might be required for specific processing or filtering needs.</p>
-<h3 id="consumer-data-received-by-user">Consumer - data received by User</h3>
-<ul>
-<li><strong>payload (bytes)</strong>:</li>
-</ul>
-<p><code>Description</code>: The actual payload of the message. This field contains the data that the consumer will process.</p>
-<p><code>Usage</code>: This is the core content of the message that is intended to be consumed by the receiving party.</p>
-<ul>
-<li><strong>metadata (MessageMetadata)</strong>:</li>
-</ul>
-<p><code>Description</code>: Contains additional metadata related to the message. This can include information about the producer and the message itself.
-<code>Usage</code>: This field provides context and additional information that can be used for processing, tracking, and analyzing messages.</p>
-<h4 id="messagemetadata">MessageMetadata</h4>
-<p>The <code>MessageMetadata</code> message includes supplementary information about the message itself, which is useful for managing message processing and analytics.</p>
-<h4 id="fields">Fields</h4>
-<ul>
-<li><strong>producer_name (string)</strong>:</li>
-</ul>
-<p><code>Description</code>: The name of the producer that sent the message. This can be used for identifying the source of the message.</p>
-<p><code>Usage</code>: This field is optional and can be used for logging, tracing, or any other purposes where the producer's identity is needed.</p>
-<ul>
-<li><strong>sequence_id (uint64)</strong>:</li>
-</ul>
-<p><code>Description</code>: Represents the sequence ID of the message within the topic. It helps in maintaining the order of messages.</p>
-<p><code>Usage</code>: This field is crucial for ordering messages correctly when received by consumers. It helps in ensuring that messages are processed in the correct sequence.</p>
-<ul>
-<li><strong>publish_time (uint64)</strong>:</li>
-</ul>
-<p><code>Description</code>: Indicates the time when the message was published. It is typically a timestamp value.</p>
-<p><code>Usage</code>: This field can be used for time-based processing, such as determining the age of a message or for scheduling purposes.</p>
-<ul>
-<li><strong>attributes (map(string, string))</strong>:</li>
-</ul>
-<p><code>Description</code>: A map of user-defined properties or attributes associated with the message. This can include custom metadata or tags.</p>
-<p><code>Usage</code>: This field provides additional flexibility for including extra context or metadata that might be required for specific processing or filtering needs.</p>
-<h2 id="topic">Topic</h2>
+<h1 id="topic">Topic</h1>
 <p>A topic is a unit of storage that organizes messages into a stream. As in other pub-sub systems, topics are named channels for transmitting messages from producers to consumers. Topic names are URLs that have a well-defined structure:</p>
-<h3 id="namespacetopic_name">/{namespace}/{topic_name}</h3>
+<h2 id="namespacetopic_name">/{namespace}/{topic_name}</h2>
 <p>Example: <strong>/default/markets</strong> (where <em>default</em> is the namespace and <em>markets</em> the topic)</p>
-<h2 id="subscription">Subscription</h2>
-<p><strong>A Danube subscription</strong> is a named configuration rule that determines how messages are delivered to consumers. It is a lease on a topic established by a group of consumers:</p>
+<p>⚠️ The partitioned topics feature is under development, as for now it support only non-partitioned topics, check the examples.</p>
+<h2 id="partitioned-topics">Partitioned Topics</h2>
+<p>All Danube topics are partitioned topics. The <strong>non-partitioned topics</strong> are under the hood a topic with a single parition. The non-partitioned topics are served by a single broker, which limits the maximum throughput of the topic. The partitioned topic has more partitiones that are handled by multiple brokers within the cluster, thus allowing for higher throughput.</p>
+<p>A partitioned topic is implemented as N internal topics, where N is the number of partitions. When publishing messages to a partitioned topic, each message is routed to one of several brokers. The distribution of partitions across brokers is handled automatically.</p>
+<p><img alt="Partitioned Topics" src="../img/partitioned_topics.png" title="Partitioned topics" /></p>
+<p>Messages for the topic are broadcast to two consumers. The <strong>routing mode</strong> determines each message should be published to which partition, while the <strong>subscription type</strong> determines which messages go to which consumers.</p>
+<h3 id="benefits-of-the-partitioned-topics">Benefits of the Partitioned topics</h3>
 <ul>
-<li><strong>Exclusive</strong> - The exclusive type is a subscription type that only allows a single consumer to attach to the subscription. If multiple consumers subscribe to a topic using the same subscription, an error occurs.</li>
-<li><strong>Shared</strong> - The shared subscription type Danube allows multiple consumers to attach to the same subscription. Messages are delivered in a round-robin distribution across consumers, and any given message is delivered to only one consumer.</li>
-<li><strong>FailOver</strong> - Only one consumer (the active consumer) receives messages at any given time.</li>
+<li><code>Scalability</code>: Partitioned topics enable horizontal scaling by distributing the load across multiple partitions. This is essential for high-throughput systems that need to handle large volumes of data efficiently.</li>
+<li><code>Parallel Processing</code>: It allows multiple consumers to process different partitions of the same topic concurrently, improving throughput and processing efficiency.</li>
+<li><code>Data Locality</code>: Partitioning can help in maintaining data locality and reducing processing latency, as consumers handle a specific subset of the data (key-shared distribution).</li>
 </ul>
+<h3 id="creation-of-partitioned-topics">Creation of Partitioned Topics</h3>
+<ul>
+<li><code>Static Creation</code>: Partitioned topics are created with a predefined number of partitions. When you create a partitioned topic, you specify the number of partitions it should have. This number remains fixed for the lifetime of the topic, although you can configure this number at topic creation time.</li>
+<li><code>Dynamic Scaling</code>: Not supported Yet</li>
+</ul>
+<h2 id="producers">Producers</h2>
+<p>The producers <strong>routing mechanism</strong> determine which messages go to which partition.</p>
+<h3 id="routing-modes">Routing modes</h3>
+<p>When publishing to partitioned topics, you must specify a routing mode. The routing mode determines each message should be published to which partition or which internal topic.</p>
+<ul>
+<li><strong>RoundRobinPartition</strong> - The producer will publish messages across all partitions in round-robin fashion to achieve maximum throughput. If a key is specified on the message, the partitioned producer will <strong>hash the key and assign message to a particular partition</strong>.</li>
+<li><strong>SinglePartition</strong> - If no key is provided, the producer will randomly pick one single partition and publish all the messages into that partition. While if a key is specified on the message, the partitioned producer will hash the key and assign message to a particular partition.</li>
+</ul>
+<h2 id="consumers-subscriptions">Consumers (subscriptions)</h2>
+<p>The <strong>subscription type</strong> determines which messages go to which consumers.</p>
+<p>Check the <a href="../subscriptions/">Subscription documentation</a> for details on how messages are distributed to consumers based on the subscription type.</p>
 
 
 
