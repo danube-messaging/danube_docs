@@ -1193,9 +1193,8 @@
 <p>A topic is a unit of storage that organizes messages into a stream. As in other pub-sub systems, topics are named channels for transmitting messages from producers to consumers. Topic names are URLs that have a well-defined structure:</p>
 <h2 id="namespacetopic_name">/{namespace}/{topic_name}</h2>
 <p>Example: <strong>/default/markets</strong> (where <em>default</em> is the namespace and <em>markets</em> the topic)</p>
-<p>⚠️ The partitioned topics feature is under development, as for now it support only non-partitioned topics, check the examples.</p>
 <h2 id="partitioned-topics">Partitioned Topics</h2>
-<p>All Danube topics are partitioned topics. The <strong>non-partitioned topics</strong> are under the hood a topic with a single parition. The non-partitioned topics are served by a single broker, which limits the maximum throughput of the topic. The partitioned topic has more partitiones that are handled by multiple brokers within the cluster, thus allowing for higher throughput.</p>
+<p>Danube support both <strong>partitioned and non-partitioned topics</strong>. The non-partitioned topics are served by a single broker, which limits the maximum throughput of the topic. The partitioned topic has partitiones that are handled by multiple brokers within the cluster, thus allowing for higher throughput.</p>
 <p>A partitioned topic is implemented as N internal topics, where N is the number of partitions. When publishing messages to a partitioned topic, each message is routed to one of several brokers. The distribution of partitions across brokers is handled automatically.</p>
 <p><img alt="Partitioned Topics" src="../img/partitioned_topics.png" title="Partitioned topics" /></p>
 <p>Messages for the topic are broadcast to two consumers. The <strong>routing mode</strong> determines each message should be published to which partition, while the <strong>subscription type</strong> determines which messages go to which consumers.</p>
