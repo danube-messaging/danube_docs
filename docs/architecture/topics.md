@@ -6,11 +6,9 @@ A topic is a unit of storage that organizes messages into a stream. As in other 
 
 Example: **/default/markets** (where *default* is the namespace and *markets* the topic)
 
-⚠️ The partitioned topics feature is under development, as for now it support only non-partitioned topics, check the examples.
-
 ## Partitioned Topics
 
-All Danube topics are partitioned topics. The **non-partitioned topics** are under the hood a topic with a single parition. The non-partitioned topics are served by a single broker, which limits the maximum throughput of the topic. The partitioned topic has more partitiones that are handled by multiple brokers within the cluster, thus allowing for higher throughput.
+Danube support both **partitioned and non-partitioned topics**. The non-partitioned topics are served by a single broker, which limits the maximum throughput of the topic. The partitioned topic has partitiones that are handled by multiple brokers within the cluster, thus allowing for higher throughput.
 
 A partitioned topic is implemented as N internal topics, where N is the number of partitions. When publishing messages to a partitioned topic, each message is routed to one of several brokers. The distribution of partitions across brokers is handled automatically.
 
