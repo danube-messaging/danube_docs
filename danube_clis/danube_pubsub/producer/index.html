@@ -1120,12 +1120,22 @@
   Example: <code>http://127.0.0.1:6650</code></p>
 </li>
 <li>
-<p><code>-t, --topic &lt;TOPIC&gt;</code><br />
-  Description: The topic to produce messages to.<br />
-  Default: <code>/default/test_topic</code></p>
+<p><code>-n, --producer-name &lt;PRODUCER_NAME&gt;</code><br />
+  Description: The producer name .<br />
+  If not specified: <code>test_producer</code></p>
 </li>
 <li>
-<p><code>-p, --schema &lt;SCHEMA&gt;</code><br />
+<p><code>-t, --topic &lt;TOPIC&gt;</code><br />
+  Description: The topic to produce messages to.<br />
+  If not specified: <code>/default/test_topic</code></p>
+</li>
+<li>
+<p><code>-p, --partitions &lt;number&gt;</code><br />
+  Description: The number of topic partitions.<br />
+  Default: <code>None</code></p>
+</li>
+<li>
+<p><code>-y, --schema &lt;SCHEMA&gt;</code><br />
   Description: The schema type of the message.<br />
   Possible values: <code>bytes</code>, <code>string</code>, <code>int64</code>, <code>json</code></p>
 </li>
