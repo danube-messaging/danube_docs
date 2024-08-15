@@ -16,11 +16,11 @@ danube-pubsub consume [OPTIONS] --service-addr <SERVICE_ADDR> --subscription <SU
 
 - `-t, --topic <TOPIC>`  
   Description: The topic to consume messages from.  
-  Default: `/default/test_topic`
+  If not specified: `/default/test_topic`
 
 - `-c, --consumer <CONSUMER>`  
   Description: The consumer name.  
-  Default: `consumer_pubsub`
+  If not specified: `consumer_pubsub`
 
 - `-m, --subscription <SUBSCRIPTION>`  
   Description: The subscription name.  

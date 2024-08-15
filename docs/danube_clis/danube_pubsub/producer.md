@@ -14,11 +14,19 @@ danube-pubsub produce [OPTIONS] --service-addr <SERVICE_ADDR> --message <MESSAGE
   Description: The service URL for the Danube broker.  
   Example: `http://127.0.0.1:6650`
 
+- `-n, --producer-name <PRODUCER_NAME>`  
+  Description: The producer name .  
+  If not specified: `test_producer`
+
 - `-t, --topic <TOPIC>`  
   Description: The topic to produce messages to.  
-  Default: `/default/test_topic`
+  If not specified: `/default/test_topic`
 
-- `-p, --schema <SCHEMA>`  
+- `-p, --partitions <number>`  
+  Description: The number of topic partitions.  
+  Default: `None`
+
+- `-y, --schema <SCHEMA>`  
   Description: The schema type of the message.  
   Possible values: `bytes`, `string`, `int64`, `json`
 

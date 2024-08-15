@@ -8,7 +8,7 @@ Example: **/default/markets** (where *default* is the namespace and *markets* th
 
 ## Partitioned Topics
 
-Danube support both **partitioned and non-partitioned topics**. The non-partitioned topics are served by a single broker, which limits the maximum throughput of the topic. The partitioned topic has partitiones that are handled by multiple brokers within the cluster, thus allowing for higher throughput.
+Danube support both **partitioned and non-partitioned topics**. The non-partitioned topics are served by a single broker, while the partitioned topic has partitiones that are served by multiple brokers within the cluster, thus allowing for higher throughput.
 
 A partitioned topic is implemented as N internal topics, where N is the number of partitions. When publishing messages to a partitioned topic, each message is routed to one of several brokers. The distribution of partitions across brokers is handled automatically.
 
