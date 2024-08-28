@@ -1309,15 +1309,19 @@
 <p>The default configuration is just OK for testing, but you need to reconsider the values for production env.</p>
 <h3 id="sizing-for-production">Sizing for Production</h3>
 <p><strong>Small to Medium Load</strong>:</p>
-<p>CPU Requests: 500m to 1 CPU
-CPU Limits: 1 CPU to 2 CPUs
-Memory Requests: 512Mi to 1Gi
-Memory Limits: 1Gi to 2Gi</p>
-<p><strong>Heavy Load:</strong>
-CPU Requests: 1 CPU to 2 CPUs
-CPU Limits: 2 CPUs to 4 CPUs
-Memory Requests: 1Gi to 2Gi
-Memory Limits: 2Gi to 4Gi</p>
+<ul>
+<li>CPU Requests: 500m to 1 CPU</li>
+<li>CPU Limits: 1 CPU to 2 CPUs</li>
+<li>Memory Requests: 512Mi to 1Gi</li>
+<li>Memory Limits: 1Gi to 2Gi</li>
+</ul>
+<p><strong>Heavy Load:</strong></p>
+<ul>
+<li>CPU Requests: 1 CPU to 2 CPUs</li>
+<li>CPU Limits: 2 CPUs to 4 CPUs</li>
+<li>Memory Requests: 1Gi to 2Gi</li>
+<li>Memory Limits: 2Gi to 4Gi</li>
+</ul>
 <h2 id="uninstallation">Uninstallation</h2>
 <p>To uninstall the <code>my-danube-cluster</code> release:</p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>helm<span class="w"> </span>uninstall<span class="w"> </span>my-danube-cluster
