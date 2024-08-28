@@ -81,16 +81,17 @@ For production environment you may want to increase.
 
 **Small to Medium Load**:
 
-CPU Requests: 500m to 1 CPU
-CPU Limits: 1 CPU to 2 CPUs
-Memory Requests: 512Mi to 1Gi
-Memory Limits: 1Gi to 2Gi
+- CPU Requests: 500m to 1 CPU
+- CPU Limits: 1 CPU to 2 CPUs
+- Memory Requests: 512Mi to 1Gi
+- Memory Limits: 1Gi to 2Gi
 
 **Heavy Load:**
-CPU Requests: 1 CPU to 2 CPUs
-CPU Limits: 2 CPUs to 4 CPUs
-Memory Requests: 1Gi to 2Gi
-Memory Limits: 2Gi to 4Gi
+
+- CPU Requests: 1 CPU to 2 CPUs
+- CPU Limits: 2 CPUs to 4 CPUs
+- Memory Requests: 1Gi to 2Gi
+- Memory Limits: 2Gi to 4Gi
 
 ## Check the install
 
