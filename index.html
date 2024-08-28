@@ -234,6 +234,17 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="." class="md-nav__link md-nav__link--active">
         
   
@@ -243,6 +254,43 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#danube-client-libraries" class="md-nav__link">
+    <span class="md-ellipsis">
+      Danube client libraries
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#articles" class="md-nav__link">
+    <span class="md-ellipsis">
+      Articles
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1005,6 +1053,32 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#danube-client-libraries" class="md-nav__link">
+    <span class="md-ellipsis">
+      Danube client libraries
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#articles" class="md-nav__link">
+    <span class="md-ellipsis">
+      Articles
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1020,8 +1094,8 @@
 
 <h1 id="welcome-to-danube-pubsub-messaging-docs">Welcome to Danube Pub/Sub messaging docs</h1>
 <p><a href="https://github.com/danrusei/danube">Danube</a> is an open-source, distributed publish-subscribe (Pub/Sub) message broker system developed in Rust. Inspired by the Apache Pulsar messaging and streaming platform, Danube incorporates some similar concepts but is designed to carve its own path within the distributed messaging ecosystem.</p>
-<p>Currently, the Danube platform exclusively supports Non-persistent messages. Meaning that  the messages reside solely in memory and are promptly distributed to consumers if they are available, utilizing a dispatch mechanism based on subscription types.</p>
-<p>I'm continuously working on enhancing and adding new features. Contributions are welcome, and you can also report any issues you encounter.</p>
+<p>Currently, the Danube platform exclusively supports Non-persistent messages. Meaning that the messages reside solely in memory and are promptly distributed to consumers if they are available, utilizing a dispatch mechanism based on subscription types.</p>
+<p>We are continuously working on enhancing and adding new features. Contributions are welcome, and you can also report any issues you encounter.</p>
 <p>The following crates are part of the <a href="https://github.com/danrusei/danube">Danube workspace</a>:</p>
 <ul>
 <li>danube-broker - The main crate, danube pubsub platform</li>
@@ -1029,13 +1103,19 @@
 <li>danube-client - An async Rust client library for interacting with Danube Pub/Sub messaging platform</li>
 <li>danube-pubsub - CLI to handle message publishing and consumption</li>
 </ul>
-<p>The available client libraries:</p>
+<h2 id="danube-client-libraries">Danube client libraries</h2>
 <ul>
 <li><a href="https://crates.io/crates/danube-client">danube-client</a> - Danube Pub/Sub async Rust client library</li>
 <li><a href="https://pkg.go.dev/github.com/danrusei/danube-go">danube-go</a> - Danube Pub/Sub Go client library</li>
 </ul>
 <p>Contributions in other languages, such as Python, Java, etc., are also greatly appreciated.</p>
-<p>⚠️ The messsaging platform is currently under active development and may have missing or incomplete functionalities. Use with caution.</p>
+<h2 id="articles">Articles</h2>
+<ul>
+<li><a href="https://dev-state.com/posts/danube_intro/">Danube - Pub-Sub message broker - intro</a></li>
+<li><a href="https://dev-state.com/posts/danube_pubsub/">Danube: Queuing and Pub/Sub patterns</a></li>
+<li><a href="https://dev-state.com/posts/danube_demo/">Setting Up Danube Go Client with Message Brokers on Kubernetes</a></li>
+</ul>
+<p>⚠️ The messaging platform is currently in active development, so some features might be missing or incomplete. Encourage you to use it with care.</p>
 
 
 
