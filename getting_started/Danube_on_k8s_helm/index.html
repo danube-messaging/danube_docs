@@ -12,7 +12,7 @@
         <link rel="prev" href="../Danube_on_vms/">
       
       
-        <link rel="next" href="../../architecture/architecture/">
+        <link rel="next" href="../Danube_local_machine_k8s/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -370,18 +370,27 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#add-helm-repository" class="md-nav__link">
+  <a href="#install-ngnix-ingress-controller" class="md-nav__link">
     <span class="md-ellipsis">
-      Add Helm Repository
+      Install NGNIX Ingress Controller
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#install-the-helm-chart" class="md-nav__link">
+  <a href="#add-danube-helm-repository" class="md-nav__link">
     <span class="md-ellipsis">
-      Install the Helm Chart
+      Add Danube Helm Repository
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-the-danube-helm-chart" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install the Danube Helm Chart
     </span>
   </a>
   
@@ -399,22 +408,22 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Configuration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#etcd-configuration" class="md-nav__link">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resource-consideration" class="md-nav__link">
     <span class="md-ellipsis">
-      ETCD Configuration
+      Resource consideration
     </span>
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="Resource consideration">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#broker-configuration" class="md-nav__link">
+  <a href="#sizing-for-production" class="md-nav__link">
     <span class="md-ellipsis">
-      Broker Configuration
+      Sizing for Production
     </span>
   </a>
   
@@ -422,15 +431,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#accessing-the-brokers" class="md-nav__link">
-    <span class="md-ellipsis">
-      Accessing the Brokers
-    </span>
-  </a>
   
 </li>
       
@@ -456,6 +456,27 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Danube_local_machine_k8s/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Run Danube on Kubernetes on Local Machine
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -1146,18 +1167,27 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#add-helm-repository" class="md-nav__link">
+  <a href="#install-ngnix-ingress-controller" class="md-nav__link">
     <span class="md-ellipsis">
-      Add Helm Repository
+      Install NGNIX Ingress Controller
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#install-the-helm-chart" class="md-nav__link">
+  <a href="#add-danube-helm-repository" class="md-nav__link">
     <span class="md-ellipsis">
-      Install the Helm Chart
+      Add Danube Helm Repository
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-the-danube-helm-chart" class="md-nav__link">
+    <span class="md-ellipsis">
+      Install the Danube Helm Chart
     </span>
   </a>
   
@@ -1175,22 +1205,22 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Configuration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#etcd-configuration" class="md-nav__link">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resource-consideration" class="md-nav__link">
     <span class="md-ellipsis">
-      ETCD Configuration
+      Resource consideration
     </span>
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="Resource consideration">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#broker-configuration" class="md-nav__link">
+  <a href="#sizing-for-production" class="md-nav__link">
     <span class="md-ellipsis">
-      Broker Configuration
+      Sizing for Production
     </span>
   </a>
   
@@ -1198,15 +1228,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#accessing-the-brokers" class="md-nav__link">
-    <span class="md-ellipsis">
-      Accessing the Brokers
-    </span>
-  </a>
   
 </li>
       
@@ -1245,177 +1266,69 @@
 
 <h1 id="danube-cluster-instalation-guide-on-kubernetes-with-helm-chart">Danube Cluster Instalation Guide on Kubernetes with Helm Chart</h1>
 <p>The Helm chart deploys the Danube Cluster with ETCD as metadata storage in the same namespace.</p>
+<p>If you would like to configure for testing purposes you may want to see: <a href="https://dev-state.com/danube_docs/getting_started/Danube_local_machine_k8s/">Run Danube on Kubernetes on Local Machine</a>.</p>
 <h2 id="prerequisites">Prerequisites</h2>
 <ul>
 <li>Kubernetes 1.19+</li>
 <li>Helm 3.2.0+</li>
 </ul>
 <h2 id="installation">Installation</h2>
-<h3 id="add-helm-repository">Add Helm Repository</h3>
-<p>First, add the repository to your Helm client:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>danube<span class="w"> </span>https://danrusei.github.io/danube_helm
+<h3 id="install-ngnix-ingress-controller">Install NGNIX Ingress Controller</h3>
+<p>This is required in order to route traffic to each broker service in the cluster. The configuration of the controller is already provided into the danube_helm, just need to tweak the values.yaml per your needs.</p>
+<p>You can install the NGINX Ingress Controller using Helm:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>ingress-nginx<span class="w"> </span>https://kubernetes.github.io/ingress-nginx
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>helm<span class="w"> </span>repo<span class="w"> </span>update
 </span></code></pre></div>
-<h3 id="install-the-helm-chart">Install the Helm Chart</h3>
+<p>You can expose the NGINX Ingress controller using a NodePort service so that traffic from the local machine (outside the cluster) can reach the Ingress controller.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>helm<span class="w"> </span>install<span class="w"> </span>nginx-ingress<span class="w"> </span>ingress-nginx/ingress-nginx<span class="w"> </span>--set<span class="w"> </span>controller.publishService.enabled<span class="o">=</span><span class="nb">true</span>
+</span></code></pre></div>
+<ul>
+<li>The publishService feature enables the Ingress controller to publish information about itself (such as its external IP or hostname) in a Kubernetes Service resource.</li>
+<li>This is particularly useful when you are running the Ingress controller in a cloud environment (like AWS, GCP, or Azure) and need it to publish its external IP address to handle incoming traffic</li>
+</ul>
+<p>The Danube is not dependent on ngnix, can work with any ingress controller of your choice.</p>
+<h3 id="add-danube-helm-repository">Add Danube Helm Repository</h3>
+<p>First, add the repository to your Helm client:</p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>danube<span class="w"> </span>https://danrusei.github.io/danube_helm
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>helm<span class="w"> </span>repo<span class="w"> </span>update
+</span></code></pre></div>
+<h3 id="install-the-danube-helm-chart">Install the Danube Helm Chart</h3>
 <p>You can install the chart with the release name <code>my-danube-cluster</code> using the following command:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>helm<span class="w"> </span>install<span class="w"> </span>my-danube-cluster<span class="w"> </span>danube/danube-helm-chart
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>helm<span class="w"> </span>install<span class="w"> </span>my-danube-cluster<span class="w"> </span>danube/danube-helm-chart
 </span></code></pre></div>
 <p>This will deploy the Danube Broker and an ETCD instance with the default configuration.</p>
 <h2 id="configuration">Configuration</h2>
-<h3 id="etcd-configuration">ETCD Configuration</h3>
-<p>The following table lists the configurable parameters of the ETCD chart and their default values.</p>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>etcd.enabled</code></td>
-<td>Enable or disable ETCD deployment</td>
-<td><code>true</code></td>
-</tr>
-<tr>
-<td><code>etcd.replicaCount</code></td>
-<td>Number of ETCD instances</td>
-<td><code>1</code></td>
-</tr>
-<tr>
-<td><code>etcd.image.repository</code></td>
-<td>ETCD image repository</td>
-<td><code>bitnami/etcd</code></td>
-</tr>
-<tr>
-<td><code>etcd.image.tag</code></td>
-<td>ETCD image tag</td>
-<td><code>latest</code></td>
-</tr>
-<tr>
-<td><code>etcd.image.pullPolicy</code></td>
-<td>ETCD image pull policy</td>
-<td><code>IfNotPresent</code></td>
-</tr>
-<tr>
-<td><code>etcd.service.type</code></td>
-<td>ETCD service type</td>
-<td><code>ClusterIP</code></td>
-</tr>
-<tr>
-<td><code>etcd.service.port</code></td>
-<td>ETCD service port</td>
-<td><code>2379</code></td>
-</tr>
-</tbody>
-</table>
-<h3 id="broker-configuration">Broker Configuration</h3>
-<p>The following table lists the configurable parameters of the Danube Broker chart and their default values.</p>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>broker.replicaCount</code></td>
-<td>Number of broker instances</td>
-<td><code>1</code></td>
-</tr>
-<tr>
-<td><code>broker.image.repository</code></td>
-<td>Broker image repository</td>
-<td><code>ghcr.io/your-username/danube-broker</code></td>
-</tr>
-<tr>
-<td><code>broker.image.tag</code></td>
-<td>Broker image tag</td>
-<td><code>latest</code></td>
-</tr>
-<tr>
-<td><code>broker.image.pullPolicy</code></td>
-<td>Broker image pull policy</td>
-<td><code>IfNotPresent</code></td>
-</tr>
-<tr>
-<td><code>broker.service.type</code></td>
-<td>Broker service type</td>
-<td><code>ClusterIP</code></td>
-</tr>
-<tr>
-<td><code>broker.service.port</code></td>
-<td>Broker service port</td>
-<td><code>6650</code></td>
-</tr>
-<tr>
-<td><code>broker.resources.limits.cpu</code></td>
-<td>CPU limit for broker container</td>
-<td><code>500m</code></td>
-</tr>
-<tr>
-<td><code>broker.resources.limits.memory</code></td>
-<td>Memory limit for broker container</td>
-<td><code>512Mi</code></td>
-</tr>
-<tr>
-<td><code>broker.resources.requests.cpu</code></td>
-<td>CPU request for broker container</td>
-<td><code>200m</code></td>
-</tr>
-<tr>
-<td><code>broker.resources.requests.memory</code></td>
-<td>Memory request for broker container</td>
-<td><code>256Mi</code></td>
-</tr>
-<tr>
-<td><code>broker.env.RUST_LOG</code></td>
-<td>Rust log level for broker</td>
-<td><code>danube_broker=trace</code></td>
-</tr>
-<tr>
-<td><code>broker.brokerAddr</code></td>
-<td>Broker address</td>
-<td><code>0.0.0.0:6650</code></td>
-</tr>
-<tr>
-<td><code>broker.clusterName</code></td>
-<td>Cluster name</td>
-<td><code>MY_CLUSTER</code></td>
-</tr>
-<tr>
-<td><code>broker.metaStoreAddr</code></td>
-<td>Metadata store address</td>
-<td><code>etcd:2379</code></td>
-</tr>
-</tbody>
-</table>
+<p>The Danube cluster configuration from the values.yaml file has to be adjusted for your needs.</p>
 <p>You can override the default values by providing a custom <code>values.yaml</code> file:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>helm<span class="w"> </span>install<span class="w"> </span>my-danube-cluster<span class="w"> </span>danube/danube-helm-chart<span class="w"> </span>-f<span class="w"> </span>custom-values.yaml
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>helm<span class="w"> </span>install<span class="w"> </span>my-danube-cluster<span class="w"> </span>danube/danube-helm-chart<span class="w"> </span>-f<span class="w"> </span>custom-values.yaml
 </span></code></pre></div>
 <p>Alternatively, you can specify individual values using the <code>--set</code> flag:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>helm<span class="w"> </span>install<span class="w"> </span>my-danube-cluster<span class="w"> </span>danube/danube-helm-chart<span class="w"> </span>--set<span class="w"> </span>broker.replicaCount<span class="o">=</span><span class="m">2</span><span class="w"> </span>--set<span class="w"> </span>broker.brokerAddr<span class="o">=</span><span class="s2">&quot;0.0.0.0:6651&quot;</span>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>helm<span class="w"> </span>install<span class="w"> </span>my-danube-cluster<span class="w"> </span>danube/danube-helm-chart<span class="w"> </span>--set<span class="w"> </span>broker.service.type<span class="o">=</span><span class="s2">&quot;ClusterIP&quot;</span>
 </span></code></pre></div>
-<h2 id="accessing-the-brokers">Accessing the Brokers</h2>
-<p>To access the broker service, you can use port forwarding:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>kubectl<span class="w"> </span>port-forward<span class="w"> </span>svc/my-danube-cluster-broker<span class="w"> </span><span class="m">6650</span>:6650
-</span></code></pre></div>
-<p>Then you can connect to the broker at <code>localhost:6650</code>.</p>
+<h2 id="resource-consideration">Resource consideration</h2>
+<p>The default configuration is just OK for testing, but you need to reconsider the values for production env.</p>
+<h3 id="sizing-for-production">Sizing for Production</h3>
+<p><strong>Small to Medium Load</strong>:</p>
+<p>CPU Requests: 500m to 1 CPU
+CPU Limits: 1 CPU to 2 CPUs
+Memory Requests: 512Mi to 1Gi
+Memory Limits: 1Gi to 2Gi</p>
+<p><strong>Heavy Load:</strong>
+CPU Requests: 1 CPU to 2 CPUs
+CPU Limits: 2 CPUs to 4 CPUs
+Memory Requests: 1Gi to 2Gi
+Memory Limits: 2Gi to 4Gi</p>
 <h2 id="uninstallation">Uninstallation</h2>
 <p>To uninstall the <code>my-danube-cluster</code> release:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>helm<span class="w"> </span>uninstall<span class="w"> </span>my-danube-cluster
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>helm<span class="w"> </span>uninstall<span class="w"> </span>my-danube-cluster
 </span></code></pre></div>
 <p>This command removes all the Kubernetes components associated with the chart and deletes the release.</p>
 <h2 id="troubleshooting">Troubleshooting</h2>
 <p>To get the status of the ETCD and Broker pods:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>etcd
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>broker
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>all
 </span></code></pre></div>
 <p>To view the logs of a specific broker pod:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>kubectl<span class="w"> </span>logs<span class="w"> </span>&lt;broker-pod-name&gt;
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>kubectl<span class="w"> </span>logs<span class="w"> </span>&lt;broker-pod-name&gt;
 </span></code></pre></div>
 
 

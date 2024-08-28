@@ -390,15 +390,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    <span class="md-ellipsis">
-      Troubleshooting
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#additional-information" class="md-nav__link">
     <span class="md-ellipsis">
       Additional Information
@@ -428,6 +419,27 @@
   
   <span class="md-ellipsis">
     Run Danube on Kubernetes Cluster
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Danube_local_machine_k8s/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Run Danube on Kubernetes on Local Machine
   </span>
   
 
@@ -1163,15 +1175,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#troubleshooting" class="md-nav__link">
-    <span class="md-ellipsis">
-      Troubleshooting
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#additional-information" class="md-nav__link">
     <span class="md-ellipsis">
       Additional Information
@@ -1221,11 +1224,15 @@
 <p><strong>Upload the <code>danube-broker</code> binary</strong> to each of the 3 VMs designated for brokers.</p>
 </li>
 <li>
-<p><strong>Run the Broker</strong>: Start each broker with the appropriate configuration.
-   Example command to start a broker:</p>
+<p><strong>Customize the Danube cluster config file</strong></p>
 </li>
 </ol>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nv">RUST_LOG</span><span class="o">=</span><span class="nv">danube_broker</span><span class="o">=</span>info<span class="w"> </span>./danube-broker<span class="w"> </span>--cluster-name<span class="w"> </span><span class="s2">&quot;MY_CLUSTER&quot;</span><span class="w"> </span>--meta-store-addr<span class="w"> </span><span class="s2">&quot;ETCD_SERVER_IP:2379&quot;</span>
+<p>A sample file can be found <a href="https://github.com/danrusei/danube/tree/main/config">HERE</a>.</p>
+<ol>
+<li><strong>Run the Broker</strong>: Start each broker with the appropriate configuration.</li>
+</ol>
+<p>Example command to start a broker:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nv">RUST_LOG</span><span class="o">=</span><span class="nv">danube_broker</span><span class="o">=</span>info<span class="w"> </span>./danube-broker<span class="w"> </span>--config-file<span class="w"> </span>config/danube_broker.yml
 </span></code></pre></div>
 <p>Replace <code>ETCD_SERVER_IP</code> with the IP address of your ETCD server.</p>
 <p><strong>Repeat</strong> for each additional broker instance.</p>
@@ -1241,11 +1248,6 @@
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>netstat<span class="w"> </span>-tuln<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="m">6650</span>
 </span></code></pre></div>
 <p><strong>Log Files</strong>: For debugging, check the logs of each Danube broker instance.</p>
-<h2 id="troubleshooting">Troubleshooting</h2>
-<ul>
-<li><strong>ETCD Connection Issues</strong>: Ensure that the <code>--meta-store-addr</code> is correctly set and that ETCD is accessible from each broker VM.</li>
-<li><strong>Broker Not Starting</strong>: Verify that the correct ports are available and that the Danube binary has execute permissions.</li>
-</ul>
 <h2 id="additional-information">Additional Information</h2>
 <p>For more details, visit the <a href="https://github.com/danrusei/danube">Danube GitHub repository</a> or contact the project maintainers for support.</p>
 
