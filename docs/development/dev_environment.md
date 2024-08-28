@@ -73,7 +73,7 @@ Before you get started, make sure you have the following installed:
    Use the following command to start a single broker instance:
 
    ```sh
-   RUST_LOG=danube_broker=trace target/debug/danube-broker --cluster-name MY_cluster --meta-store-addr 127.0.0.1:2379
+   RUST_LOG=danube_broker=info target/debug/danube-broker --config-file config/danube_broker.yml
    ```
 
 ## Running Multiple Broker Instances
