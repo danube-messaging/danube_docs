@@ -4,6 +4,7 @@ nav:
         - Getting Started:
                   - Run Danube on VMs or Bare Metal: getting_started/Danube_on_vms.md
                   - Run Danube on Kubernetes Cluster: getting_started/Danube_on_k8s_helm.md
+                  - Run Danube on Kubernetes on Local Machine: getting_started/Danube_local_machine_k8s.md
         - Architecture:
                   - Danube architecture: architecture/architecture.md
                   - Messages: architecture/messages.md

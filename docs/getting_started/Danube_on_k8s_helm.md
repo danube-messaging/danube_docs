@@ -2,6 +2,8 @@
 
 The Helm chart deploys the Danube Cluster with ETCD as metadata storage in the same namespace.
 
+If you would like to configure for testing purposes you may want to see: [Run Danube on Kubernetes on Local Machine](https://dev-state.com/danube_docs/getting_started/Danube_local_machine_k8s/).
+
 ## Prerequisites
 
 - Kubernetes 1.19+
@@ -9,7 +11,29 @@ The Helm chart deploys the Danube Cluster with ETCD as metadata storage in the s
 
 ## Installation
 
-### Add Helm Repository
+### Install NGNIX Ingress Controller
+
+This is required in order to route traffic to each broker service in the cluster. The configuration of the controller is already provided into the danube_helm, just need to tweak the values.yaml per your needs.
+
+You can install the NGINX Ingress Controller using Helm:
+
+```bash
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+```
+
+You can expose the NGINX Ingress controller using a NodePort service so that traffic from the local machine (outside the cluster) can reach the Ingress controller.
+
+```bash
+helm install nginx-ingress ingress-nginx/ingress-nginx --set controller.publishService.enabled=true
+```
+
+- The publishService feature enables the Ingress controller to publish information about itself (such as its external IP or hostname) in a Kubernetes Service resource.
+- This is particularly useful when you are running the Ingress controller in a cloud environment (like AWS, GCP, or Azure) and need it to publish its external IP address to handle incoming traffic
+
+The Danube is not dependent on ngnix, can work with any ingress controller of your choice.
+
+### Add Danube Helm Repository
 
 First, add the repository to your Helm client:
 
@@ -18,7 +42,7 @@ helm repo add danube https://danrusei.github.io/danube_helm
 helm repo update
 ```
 
-### Install the Helm Chart
+### Install the Danube Helm Chart
 
 You can install the chart with the release name `my-danube-cluster` using the following command:
 
@@ -30,40 +54,7 @@ This will deploy the Danube Broker and an ETCD instance with the default configu
 
 ## Configuration
 
-### ETCD Configuration
-
-The following table lists the configurable parameters of the ETCD chart and their default values.
-
-| Parameter                   | Description                        | Default               |
-|-----------------------------|------------------------------------|-----------------------|
-| `etcd.enabled`              | Enable or disable ETCD deployment  | `true`                |
-| `etcd.replicaCount`         | Number of ETCD instances           | `1`                   |
-| `etcd.image.repository`     | ETCD image repository              | `bitnami/etcd`        |
-| `etcd.image.tag`            | ETCD image tag                     | `latest`              |
-| `etcd.image.pullPolicy`     | ETCD image pull policy             | `IfNotPresent`        |
-| `etcd.service.type`         | ETCD service type                  | `ClusterIP`           |
-| `etcd.service.port`         | ETCD service port                  | `2379`                |
-
-### Broker Configuration
-
-The following table lists the configurable parameters of the Danube Broker chart and their default values.
-
-| Parameter                     | Description                          | Default                                |
-|-------------------------------|--------------------------------------|----------------------------------------|
-| `broker.replicaCount`         | Number of broker instances           | `1`                                    |
-| `broker.image.repository`     | Broker image repository              | `ghcr.io/your-username/danube-broker`  |
-| `broker.image.tag`            | Broker image tag                     | `latest`                               |
-| `broker.image.pullPolicy`     | Broker image pull policy             | `IfNotPresent`                         |
-| `broker.service.type`         | Broker service type                  | `ClusterIP`                            |
-| `broker.service.port`         | Broker service port                  | `6650`                                 |
-| `broker.resources.limits.cpu` | CPU limit for broker container       | `500m`                                 |
-| `broker.resources.limits.memory` | Memory limit for broker container | `512Mi`                                |
-| `broker.resources.requests.cpu` | CPU request for broker container   | `200m`                                 |
-| `broker.resources.requests.memory` | Memory request for broker container | `256Mi`                            |
-| `broker.env.RUST_LOG`         | Rust log level for broker            | `danube_broker=trace`                  |
-| `broker.brokerAddr`           | Broker address                       | `0.0.0.0:6650`                         |
-| `broker.clusterName`          | Cluster name                         | `MY_CLUSTER`                           |
-| `broker.metaStoreAddr`        | Metadata store address               | `etcd:2379`                            |
+The Danube cluster configuration from the values.yaml file has to be adjusted for your needs.
 
 You can override the default values by providing a custom `values.yaml` file:
 
@@ -74,18 +65,27 @@ helm install my-danube-cluster danube/danube-helm-chart -f custom-values.yaml
 Alternatively, you can specify individual values using the `--set` flag:
 
 ```sh
-helm install my-danube-cluster danube/danube-helm-chart --set broker.replicaCount=2 --set broker.brokerAddr="0.0.0.0:6651"
+helm install my-danube-cluster danube/danube-helm-chart --set broker.service.type="ClusterIP"
 ```
 
-## Accessing the Brokers
+## Resource consideration
 
-To access the broker service, you can use port forwarding:
+The default configuration is just OK for testing, but you need to reconsider the values for production env.
 
-```sh
-kubectl port-forward svc/my-danube-cluster-broker 6650:6650
-```
+### Sizing for Production
 
-Then you can connect to the broker at `localhost:6650`.
+**Small to Medium Load**:
+
+CPU Requests: 500m to 1 CPU
+CPU Limits: 1 CPU to 2 CPUs
+Memory Requests: 512Mi to 1Gi
+Memory Limits: 1Gi to 2Gi
+
+**Heavy Load:**
+CPU Requests: 1 CPU to 2 CPUs
+CPU Limits: 2 CPUs to 4 CPUs
+Memory Requests: 1Gi to 2Gi
+Memory Limits: 2Gi to 4Gi
 
 ## Uninstallation
 
@@ -102,8 +102,7 @@ This command removes all the Kubernetes components associated with the chart and
 To get the status of the ETCD and Broker pods:
 
 ```sh
-kubectl get pods -l app=etcd
-kubectl get pods -l app=broker
+kubectl get all
 ```
 
 To view the logs of a specific broker pod:

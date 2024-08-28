@@ -27,11 +27,16 @@ Danube is an open-source distributed Pub/Sub messaging platform written in Rust.
 
 1. **Upload the `danube-broker` binary** to each of the 3 VMs designated for brokers.
 
-2. **Run the Broker**: Start each broker with the appropriate configuration.
+2. **Customize the Danube cluster config file**
+
+   A sample file can be found [HERE](https://github.com/danrusei/danube/tree/main/config).
+
+3. **Run the Broker**: Start each broker with the appropriate configuration.
+
    Example command to start a broker:
 
    ```bash
-   RUST_LOG=danube_broker=info ./danube-broker --cluster-name "MY_CLUSTER" --meta-store-addr "ETCD_SERVER_IP:2379"
+   RUST_LOG=danube_broker=info ./danube-broker --config-file config/danube_broker.yml
    ```
 
    Replace `ETCD_SERVER_IP` with the IP address of your ETCD server.
@@ -53,11 +58,6 @@ Danube is an open-source distributed Pub/Sub messaging platform written in Rust.
    ```
 
 **Log Files**: For debugging, check the logs of each Danube broker instance.
-
-## Troubleshooting
-
-* **ETCD Connection Issues**: Ensure that the `--meta-store-addr` is correctly set and that ETCD is accessible from each broker VM.
-* **Broker Not Starting**: Verify that the correct ports are available and that the Danube binary has execute permissions.
 
 ## Additional Information
 
