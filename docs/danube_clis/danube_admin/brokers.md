@@ -1,17 +1,17 @@
 # danube-admin: Brokers Commands
 
-The `danube-admin` tool provides commands to manage and view information about brokers in your Danube cluster. Below is the documentation for the commands related to brokers.
+The `danube-admin-cli` tool provides commands to manage and view information about brokers in your Danube cluster. Below is the documentation for the commands related to brokers.
 
 ## Commands
 
-### `danube-admin brokers list`
+### `danube-admin-cli brokers list`
 
 List all active brokers in the cluster.
 
 **Usage:**
 
 ```sh
-danube-admin brokers list
+danube-admin-cli brokers list
 ```
 
 **Description:**
@@ -33,14 +33,14 @@ This command retrieves and displays a list of all active brokers in the cluster.
 +------------+---------------------+-------------+
 ```
 
-### `danube-admin brokers leader-broker`
+### `danube-admin-cli brokers leader-broker`
 
 Get information about the leader broker in the cluster.
 
 **Usage:**
 
 ```sh
-danube-admin brokers leader-broker
+danube-admin-cli brokers leader-broker
 ```
 
 **Description:**
@@ -53,14 +53,14 @@ This command fetches and displays the details of the current leader broker in th
 Leader Broker: BrokerId: 1, Address: 192.168.1.1:6650, Role: leader
 ```
 
-### `danube-admin brokers namespaces`
+### `danube-admin-cli brokers namespaces`
 
 List all namespaces in the cluster.
 
 **Usage:**
 
 ```sh
-danube-admin brokers namespaces
+danube-admin-cli brokers namespaces
 ```
 
 **Description:**
@@ -86,25 +86,25 @@ Here are a few example commands for quick reference:
 - List all brokers:
 
   ```sh
-  danube-admin brokers list
+  danube-admin-cli brokers list
   ```
 
 - Get the leader broker:
 
   ```sh
-  danube-admin brokers leader-broker
+  danube-admin-cli brokers leader-broker
   ```
 
 - List all namespaces:
 
   ```sh
-  danube-admin brokers namespaces
+  danube-admin-cli brokers namespaces
   ```
 
-For more detailed information or help with the `danube-admin`, you can use the `--help` flag with any command.
+For more detailed information or help with the `danube-admin-cli`, you can use the `--help` flag with any command.
 
 **Example:**
 
 ```sh
-danube-admin brokers --help
+danube-admin-cli brokers --help
 ```

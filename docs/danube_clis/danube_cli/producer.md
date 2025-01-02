@@ -5,7 +5,7 @@ The `produce` command sends messages to a specified topic.
 ## Usage
 
 ```bash
-danube-pubsub produce [OPTIONS] --service-addr <SERVICE_ADDR> --message <MESSAGE>
+danube-cli produce [OPTIONS] --service-addr <SERVICE_ADDR> --message <MESSAGE>
 ```
 
 ### Options
@@ -58,5 +58,5 @@ danube-pubsub produce [OPTIONS] --service-addr <SERVICE_ADDR> --message <MESSAGE
 To send 1000 messages with the content "Hello, Danube!" to the default topic:
 
 ```bash
-danube-pubsub produce -s http://127.0.0.1:6650 -c 1000 -m "Hello, Danube!"
+danube-cli produce -s http://127.0.0.1:6650 -c 1000 -m "Hello, Danube!"
 ```

@@ -5,7 +5,7 @@ The `consume` command retrieves messages from a specified topic.
 ## Usage
 
 ```bash
-danube-pubsub consume [OPTIONS] --service-addr <SERVICE_ADDR> --subscription <SUBSCRIPTION>
+danube-cli consume [OPTIONS] --service-addr <SERVICE_ADDR> --subscription <SUBSCRIPTION>
 ```
 
 ### Options
@@ -39,7 +39,7 @@ danube-pubsub consume [OPTIONS] --service-addr <SERVICE_ADDR> --subscription <SU
 To receive messages from a shared subscription:
 
 ```bash
-danube-pubsub consume -s http://127.0.0.1:6650 -m my_shared_subscription
+danube-cli consume -s http://127.0.0.1:6650 -m my_shared_subscription
 ```
 
 ### Example: Exclusive Subscription
@@ -47,13 +47,13 @@ danube-pubsub consume -s http://127.0.0.1:6650 -m my_shared_subscription
 To receive messages from an exclusive subscription:
 
 ```bash
-danube-pubsub consume -s http://127.0.0.1:6650 -m my_exclusive --sub-type exclusive
+danube-cli consume -s http://127.0.0.1:6650 -m my_exclusive --sub-type exclusive
 ```
 
 **To create a new exclusive subscription:**
 
 ```bash
-danube-pubsub consume -s http://127.0.0.1:6650 -m my_exclusive2 --sub-type exclusive
+danube-cli consume -s http://127.0.0.1:6650 -m my_exclusive2 --sub-type exclusive
 ```
 
 ## Resources

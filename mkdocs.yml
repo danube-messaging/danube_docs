@@ -10,6 +10,7 @@ nav:
                   - Messages: architecture/messages.md
                   - Topics: architecture/topics.md
                   - Subscriptions: architecture/subscriptions.md
+                  - Dispatch Strategy: architecture/dispatch_strategy.md
                   - Danube service components: architecture/internal_danube_services.md
                   - Queuing vs Pub-Sub (fan-out) messaging: architecture/Queuing_PubSub_messaging.md
                   - PubSub vs Streaming: architecture/PubSub_messaging_vs_Streaming.md
@@ -20,13 +21,13 @@ nav:
                   - Create Consumer: client_libraries/consumer.md
 
         - Danube CLIs:
-                  - Danube Admin:
+                  - Danube Admin CLI:
                             - Brokers: danube_clis/danube_admin/brokers.md
                             - Namespaces: danube_clis/danube_admin/namespaces.md
                             - Topics: danube_clis/danube_admin/topics.md
-                  - Danube PubSub:
-                            - Producer: danube_clis/danube_pubsub/producer.md
-                            - Consumer: danube_clis/danube_pubsub/consumer.md
+                  - Danube CLI:
+                            - Producer: danube_clis/danube_cli/producer.md
+                            - Consumer: danube_clis/danube_cli/consumer.md
         - Development:
                   - Development Environment: development/dev_environment.md
                   - Metadata Resources: development/internal_resources.md

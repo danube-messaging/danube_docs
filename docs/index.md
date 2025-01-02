@@ -1,17 +1,41 @@
 # Welcome to Danube Pub/Sub messaging docs
 
-[Danube](https://github.com/danrusei/danube) is an open-source, distributed publish-subscribe (Pub/Sub) message broker system developed in Rust. Inspired by the Apache Pulsar messaging and streaming platform, Danube incorporates some similar concepts but is designed to carve its own path within the distributed messaging ecosystem.
+[Danube](https://github.com/danrusei/danube) is an open-source, distributed publish-subscribe (Pub/Sub) message broker system developed in Rust.
+Danube aims to be a powerful, flexible and scalable messaging solution. Allows single or multiple Producers to publish on the Topics and multiple Subscriptions to consume the messages from the Topic.
+Inspired by the Apache Pulsar messaging and streaming platform, Danube incorporates some similar concepts but is designed to carve its own path within the distributed messaging ecosystem.
 
-Currently, the Danube platform exclusively supports Non-persistent messages. Meaning that the messages reside solely in memory and are promptly distributed to consumers if they are available, utilizing a dispatch mechanism based on subscription types.
+## Core Capabilities of the Danube messaging Platform
 
-We are continuously working on enhancing and adding new features. Contributions are welcome, and you can also report any issues you encounter.
+[**Topics**](architecture/topics.md): A unit of storage that organizes messages into a stream.
 
-The following crates are part of the [Danube workspace](https://github.com/danrusei/danube):
+* **Non-partitioned topics**: Served by a single broker.
+* **Partitioned topics**: Divided into partitions, served by different brokers within the cluster, enhancing scalability and fault tolerance.
 
-* danube-broker - The main crate, danube pubsub platform
-* danube-admin - Admin CLI designed for interacting with and managing the Danube cluster
-* danube-client - An async Rust client library for interacting with Danube Pub/Sub messaging platform
-* danube-pubsub - CLI to handle message publishing and consumption
+[**Message Dispatch**](architecture/dispatch_strategy.md):
+
+* **Non-reliable Message Dispatch**: Messages reside in memory and are promptly distributed to consumers, ideal for scenarios where speed is crucial.
+* **Reliable Message Dispatch**: Supports configurable storage options including in-memory, disk, and S3, ensuring message persistence and durability.
+
+**Metadata Store**:
+**ETCD as Default**: Provides a reliable and consistent Metadata store for cluster synchronization.
+**Configurable Options**: Allows customization of metadata storage to fit specific requirements.
+
+[**Subscription Types**](architecture/subscriptions.md):
+Supports various subscription types (exclusive, shared, failover) enabling different messaging patterns such as message queueing and pub-sub.
+
+**Flexible Message Schemas**:
+Supports multiple message schemas (bytes, string, int64, JSON) providing flexibility in message format and structure.
+
+### Crates within the [Danube workspace](https://github.com/danrusei/danube)
+
+The crates part of the Danube workspace:
+
+* [danube-broker](https://github.com/danrusei/danube/tree/main/danube-broker) - The main crate, danube pubsub platform
+  * [danube-reliable-dispatch](https://github.com/danrusei/danube/tree/main/danube-reliable-dispatch/src) - Part of danube-broker, responsible of reliable dispatching
+  * [danube-metadata-store](https://github.com/danrusei/danube/tree/main/danube-metadata-store/src) - Part of danube-broker, responsibile of Metadata storage
+* [danube-client](https://github.com/danrusei/danube/tree/main/danube-client) - An async Rust client library for interacting with Danube Pub/Sub messaging platform
+* [danube-cli](https://github.com/danrusei/danube/tree/main/danube-cli) - Client CLI to handle message publishing and consumption
+* [danube-admin-cli](https://github.com/danrusei/danube/tree/main/danube-admin-cli) - Admin CLI designed for interacting with and managing the Danube cluster
 
 ## Danube client libraries
 
@@ -22,8 +46,9 @@ Contributions in other languages, such as Python, Java, etc., are also greatly a
 
 ## Articles
 
+Some of the early articles may not be accurate as the API has changed significantly with the latest releases.
+
 * [Danube - Pub-Sub message broker - intro](https://dev-state.com/posts/danube_intro/)
 * [Danube: Queuing and Pub/Sub patterns](https://dev-state.com/posts/danube_pubsub/)
 * [Setting Up Danube Go Client with Message Brokers on Kubernetes](https://dev-state.com/posts/danube_demo/)
-
-⚠️ The messaging platform is currently in active development, so some features might be missing or incomplete. Encourage you to use it with care.
+* [Danube platform updates - v0.2.0](https://dev-state.com/posts/danube_update_020/)
