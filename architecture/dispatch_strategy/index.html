@@ -9,25 +9,25 @@
       
       
       
-        <link rel="prev" href="../../danube_admin/topics/">
+        <link rel="prev" href="../subscriptions/">
       
       
-        <link rel="next" href="../consumer/">
+        <link rel="next" href="../internal_danube_services/">
       
       
-      <link rel="icon" href="../../../assets/images/favicon.png">
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.30">
     
     
       
-        <title>Producer - Danube Pub-Sub messaging documentation</title>
+        <title>Dispatch Strategy - Danube Pub-Sub messaging documentation</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.3cba04c6.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.3cba04c6.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -46,7 +46,7 @@
       
     
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#danube-pubsub-cli-produce-messages" class="md-skip">
+        <a href="#dispatch-strategy" class="md-skip">
           Skip to content
         </a>
       
@@ -88,7 +88,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="Danube Pub-Sub messaging documentation" class="md-header__button md-logo" aria-label="Danube Pub-Sub messaging documentation" data-md-component="logo">
+    <a href="../.." title="Danube Pub-Sub messaging documentation" class="md-header__button md-logo" aria-label="Danube Pub-Sub messaging documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -108,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Producer
+              Dispatch Strategy
             
           </span>
         </div>
@@ -209,7 +209,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="Danube Pub-Sub messaging documentation" class="md-nav__button md-logo" aria-label="Danube Pub-Sub messaging documentation" data-md-component="logo">
+    <a href="../.." title="Danube Pub-Sub messaging documentation" class="md-nav__button md-logo" aria-label="Danube Pub-Sub messaging documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -227,7 +227,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../.." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -282,7 +282,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../getting_started/Danube_on_vms/" class="md-nav__link">
+      <a href="../../getting_started/Danube_on_vms/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -303,7 +303,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../getting_started/Danube_on_k8s_helm/" class="md-nav__link">
+      <a href="../../getting_started/Danube_on_k8s_helm/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -324,7 +324,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../getting_started/Danube_local_machine_k8s/" class="md-nav__link">
+      <a href="../../getting_started/Danube_local_machine_k8s/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -349,17 +349,19 @@
       
   
   
+    
   
   
+  
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
@@ -373,7 +375,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             Architecture
@@ -387,7 +389,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../architecture/architecture/" class="md-nav__link">
+      <a href="../architecture/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -408,7 +410,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../architecture/messages/" class="md-nav__link">
+      <a href="../messages/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -429,7 +431,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../architecture/topics/" class="md-nav__link">
+      <a href="../topics/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -450,7 +452,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../architecture/subscriptions/" class="md-nav__link">
+      <a href="../subscriptions/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -468,10 +470,41 @@
                 
   
   
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Dispatch Strategy
+  </span>
+  
+
+      </a>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
   
   
     <li class="md-nav__item">
-      <a href="../../../architecture/internal_danube_services/" class="md-nav__link">
+      <a href="../internal_danube_services/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -492,7 +525,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../architecture/Queuing_PubSub_messaging/" class="md-nav__link">
+      <a href="../Queuing_PubSub_messaging/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -513,7 +546,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../architecture/PubSub_messaging_vs_Streaming/" class="md-nav__link">
+      <a href="../PubSub_messaging_vs_Streaming/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -576,7 +609,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../client_libraries/clients/" class="md-nav__link">
+      <a href="../../client_libraries/clients/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -597,7 +630,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../client_libraries/setup/" class="md-nav__link">
+      <a href="../../client_libraries/setup/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -618,7 +651,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../client_libraries/producer/" class="md-nav__link">
+      <a href="../../client_libraries/producer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -639,7 +672,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../client_libraries/consumer/" class="md-nav__link">
+      <a href="../../client_libraries/consumer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -664,19 +697,17 @@
       
   
   
-    
   
   
-  
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
         
           
           <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
@@ -690,7 +721,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             Danube CLIs
@@ -718,7 +749,7 @@
             
   
   <span class="md-ellipsis">
-    Danube Admin
+    Danube Admin CLI
   </span>
   
 
@@ -728,7 +759,7 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5_1">
             <span class="md-nav__icon md-icon"></span>
-            Danube Admin
+            Danube Admin CLI
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -739,7 +770,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../danube_admin/brokers/" class="md-nav__link">
+      <a href="../../danube_clis/danube_admin/brokers/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -760,7 +791,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../danube_admin/namespaces/" class="md-nav__link">
+      <a href="../../danube_clis/danube_admin/namespaces/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -781,7 +812,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../danube_admin/topics/" class="md-nav__link">
+      <a href="../../danube_clis/danube_admin/topics/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -807,36 +838,34 @@
                 
   
   
-    
   
   
-  
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
         
           
           <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
             
   
   <span class="md-ellipsis">
-    Danube PubSub
+    Danube CLI
   </span>
   
 
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5_2">
             <span class="md-nav__icon md-icon"></span>
-            Danube PubSub
+            Danube CLI
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -844,30 +873,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Producer
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../danube_clis/danube_cli/producer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -876,59 +885,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    <span class="md-ellipsis">
-      Usage
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Usage">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#options" class="md-nav__link">
-    <span class="md-ellipsis">
-      Options
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#example" class="md-nav__link">
-    <span class="md-ellipsis">
-      Example
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -941,7 +897,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../consumer/" class="md-nav__link">
+      <a href="../../danube_clis/danube_cli/consumer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1012,7 +968,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../development/dev_environment/" class="md-nav__link">
+      <a href="../../development/dev_environment/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1033,7 +989,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../development/internal_resources/" class="md-nav__link">
+      <a href="../../development/internal_resources/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1074,47 +1030,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    <span class="md-ellipsis">
-      Usage
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Usage">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#options" class="md-nav__link">
-    <span class="md-ellipsis">
-      Options
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#example" class="md-nav__link">
-    <span class="md-ellipsis">
-      Example
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -1128,72 +1043,8 @@
                   
 
 
-<h1 id="danube-pubsub-cli-produce-messages">Danube-Pubsub CLI - Produce messages</h1>
-<p>The <code>produce</code> command sends messages to a specified topic.</p>
-<h2 id="usage">Usage</h2>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>danube-pubsub<span class="w"> </span>produce<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>--service-addr<span class="w"> </span>&lt;SERVICE_ADDR&gt;<span class="w"> </span>--message<span class="w"> </span>&lt;MESSAGE&gt;
-</span></code></pre></div>
-<h3 id="options">Options</h3>
-<ul>
-<li>
-<p><code>-s, --service-addr &lt;SERVICE_ADDR&gt;</code><br />
-  Description: The service URL for the Danube broker.<br />
-  Example: <code>http://127.0.0.1:6650</code></p>
-</li>
-<li>
-<p><code>-n, --producer-name &lt;PRODUCER_NAME&gt;</code><br />
-  Description: The producer name .<br />
-  If not specified: <code>test_producer</code></p>
-</li>
-<li>
-<p><code>-t, --topic &lt;TOPIC&gt;</code><br />
-  Description: The topic to produce messages to.<br />
-  If not specified: <code>/default/test_topic</code></p>
-</li>
-<li>
-<p><code>-p, --partitions &lt;number&gt;</code><br />
-  Description: The number of topic partitions.<br />
-  Default: <code>None</code></p>
-</li>
-<li>
-<p><code>-y, --schema &lt;SCHEMA&gt;</code><br />
-  Description: The schema type of the message.<br />
-  Possible values: <code>bytes</code>, <code>string</code>, <code>int64</code>, <code>json</code></p>
-</li>
-<li>
-<p><code>-m, --message &lt;MESSAGE&gt;</code><br />
-  Description: The message to send.<br />
-  Required: Yes</p>
-</li>
-<li>
-<p><code>--json-schema &lt;JSON_SCHEMA&gt;</code><br />
-  Description: The JSON schema, required if schema type is <code>json</code>.</p>
-</li>
-<li>
-<p><code>-c, --count &lt;COUNT&gt;</code><br />
-  Description: Number of times to send the message.<br />
-  Default: <code>1</code></p>
-</li>
-<li>
-<p><code>-i, --interval &lt;INTERVAL&gt;</code><br />
-  Description: Interval between messages in milliseconds.<br />
-  Default: <code>500</code><br />
-  Minimum: <code>100</code></p>
-</li>
-<li>
-<p><code>-a, --attributes &lt;ATTRIBUTES&gt;</code><br />
-  Description: Attributes in the form <code>'parameter:value'</code>.<br />
-  Example: <code>'key1:value1,key2:value2'</code></p>
-</li>
-<li>
-<p><code>-h, --help</code><br />
-  Description: Print help information</p>
-</li>
-</ul>
-<h3 id="example">Example</h3>
-<p>To send 1000 messages with the content "Hello, Danube!" to the default topic:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>danube-pubsub<span class="w"> </span>produce<span class="w"> </span>-s<span class="w"> </span>http://127.0.0.1:6650<span class="w"> </span>-c<span class="w"> </span><span class="m">1000</span><span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Hello, Danube!&quot;</span>
-</span></code></pre></div>
+<h1 id="dispatch-strategy">Dispatch Strategy</h1>
+<p>TODO to present Reliable and Non-Reliable Dispatch strategy</p>
 
 
 
@@ -1242,10 +1093,10 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.tabs.link"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.tabs.link"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      <script src="../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
       
     
   </body>

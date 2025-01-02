@@ -271,6 +271,30 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#core-capabilities-of-the-danube-messaging-platform" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core Capabilities of the Danube messaging Platform
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Capabilities of the Danube messaging Platform">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#crates-within-the-danube-workspace" class="md-nav__link">
+    <span class="md-ellipsis">
+      Crates within the Danube workspace
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#danube-client-libraries" class="md-nav__link">
     <span class="md-ellipsis">
       Danube client libraries
@@ -511,6 +535,27 @@
   
   <span class="md-ellipsis">
     Subscriptions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="architecture/dispatch_strategy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Dispatch Strategy
   </span>
   
 
@@ -772,7 +817,7 @@
             
   
   <span class="md-ellipsis">
-    Danube Admin
+    Danube Admin CLI
   </span>
   
 
@@ -782,7 +827,7 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5_1">
             <span class="md-nav__icon md-icon"></span>
-            Danube Admin
+            Danube Admin CLI
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -878,7 +923,7 @@
             
   
   <span class="md-ellipsis">
-    Danube PubSub
+    Danube CLI
   </span>
   
 
@@ -888,7 +933,7 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5_2">
             <span class="md-nav__icon md-icon"></span>
-            Danube PubSub
+            Danube CLI
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -899,7 +944,7 @@
   
   
     <li class="md-nav__item">
-      <a href="danube_clis/danube_pubsub/producer/" class="md-nav__link">
+      <a href="danube_clis/danube_cli/producer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -920,7 +965,7 @@
   
   
     <li class="md-nav__item">
-      <a href="danube_clis/danube_pubsub/consumer/" class="md-nav__link">
+      <a href="danube_clis/danube_cli/consumer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1060,6 +1105,30 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#core-capabilities-of-the-danube-messaging-platform" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core Capabilities of the Danube messaging Platform
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Capabilities of the Danube messaging Platform">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#crates-within-the-danube-workspace" class="md-nav__link">
+    <span class="md-ellipsis">
+      Crates within the Danube workspace
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#danube-client-libraries" class="md-nav__link">
     <span class="md-ellipsis">
       Danube client libraries
@@ -1093,15 +1162,36 @@
 
 
 <h1 id="welcome-to-danube-pubsub-messaging-docs">Welcome to Danube Pub/Sub messaging docs</h1>
-<p><a href="https://github.com/danrusei/danube">Danube</a> is an open-source, distributed publish-subscribe (Pub/Sub) message broker system developed in Rust. Inspired by the Apache Pulsar messaging and streaming platform, Danube incorporates some similar concepts but is designed to carve its own path within the distributed messaging ecosystem.</p>
-<p>Currently, the Danube platform exclusively supports Non-persistent messages. Meaning that the messages reside solely in memory and are promptly distributed to consumers if they are available, utilizing a dispatch mechanism based on subscription types.</p>
-<p>We are continuously working on enhancing and adding new features. Contributions are welcome, and you can also report any issues you encounter.</p>
-<p>The following crates are part of the <a href="https://github.com/danrusei/danube">Danube workspace</a>:</p>
+<p><a href="https://github.com/danrusei/danube">Danube</a> is an open-source, distributed publish-subscribe (Pub/Sub) message broker system developed in Rust.
+Danube aims to be a powerful, flexible and scalable messaging solution. Allows single or multiple Producers to publish on the Topics and multiple Subscriptions to consume the messages from the Topic.
+Inspired by the Apache Pulsar messaging and streaming platform, Danube incorporates some similar concepts but is designed to carve its own path within the distributed messaging ecosystem.</p>
+<h2 id="core-capabilities-of-the-danube-messaging-platform">Core Capabilities of the Danube messaging Platform</h2>
+<p><a href="architecture/topics/"><strong>Topics</strong></a>: A unit of storage that organizes messages into a stream.</p>
 <ul>
-<li>danube-broker - The main crate, danube pubsub platform</li>
-<li>danube-admin - Admin CLI designed for interacting with and managing the Danube cluster</li>
-<li>danube-client - An async Rust client library for interacting with Danube Pub/Sub messaging platform</li>
-<li>danube-pubsub - CLI to handle message publishing and consumption</li>
+<li><strong>Non-partitioned topics</strong>: Served by a single broker.</li>
+<li><strong>Partitioned topics</strong>: Divided into partitions, served by different brokers within the cluster, enhancing scalability and fault tolerance.</li>
+</ul>
+<p><a href="architecture/dispatch_strategy/"><strong>Message Dispatch</strong></a>:</p>
+<ul>
+<li><strong>Non-reliable Message Dispatch</strong>: Messages reside in memory and are promptly distributed to consumers, ideal for scenarios where speed is crucial.</li>
+<li><strong>Reliable Message Dispatch</strong>: Supports configurable storage options including in-memory, disk, and S3, ensuring message persistence and durability.</li>
+</ul>
+<p><strong>Metadata Store</strong>:
+<strong>ETCD as Default</strong>: Provides a reliable and consistent Metadata store for cluster synchronization.
+<strong>Configurable Options</strong>: Allows customization of metadata storage to fit specific requirements.</p>
+<p><a href="architecture/subscriptions/"><strong>Subscription Types</strong></a>:
+Supports various subscription types (exclusive, shared, failover) enabling different messaging patterns such as message queueing and pub-sub.</p>
+<p><strong>Flexible Message Schemas</strong>:
+Supports multiple message schemas (bytes, string, int64, JSON) providing flexibility in message format and structure.</p>
+<h3 id="crates-within-the-danube-workspace">Crates within the <a href="https://github.com/danrusei/danube">Danube workspace</a></h3>
+<p>The crates part of the Danube workspace:</p>
+<ul>
+<li><a href="https://github.com/danrusei/danube/tree/main/danube-broker">danube-broker</a> - The main crate, danube pubsub platform</li>
+<li><a href="https://github.com/danrusei/danube/tree/main/danube-reliable-dispatch/src">danube-reliable-dispatch</a> - Part of danube-broker, responsible of reliable dispatching</li>
+<li><a href="https://github.com/danrusei/danube/tree/main/danube-metadata-store/src">danube-metadata-store</a> - Part of danube-broker, responsibile of Metadata storage</li>
+<li><a href="https://github.com/danrusei/danube/tree/main/danube-client">danube-client</a> - An async Rust client library for interacting with Danube Pub/Sub messaging platform</li>
+<li><a href="https://github.com/danrusei/danube/tree/main/danube-cli">danube-cli</a> - Client CLI to handle message publishing and consumption</li>
+<li><a href="https://github.com/danrusei/danube/tree/main/danube-admin-cli">danube-admin-cli</a> - Admin CLI designed for interacting with and managing the Danube cluster</li>
 </ul>
 <h2 id="danube-client-libraries">Danube client libraries</h2>
 <ul>
@@ -1110,12 +1200,13 @@
 </ul>
 <p>Contributions in other languages, such as Python, Java, etc., are also greatly appreciated.</p>
 <h2 id="articles">Articles</h2>
+<p>Some of the early articles may not be accurate as the API has changed significantly with the latest releases.</p>
 <ul>
 <li><a href="https://dev-state.com/posts/danube_intro/">Danube - Pub-Sub message broker - intro</a></li>
 <li><a href="https://dev-state.com/posts/danube_pubsub/">Danube: Queuing and Pub/Sub patterns</a></li>
 <li><a href="https://dev-state.com/posts/danube_demo/">Setting Up Danube Go Client with Message Brokers on Kubernetes</a></li>
+<li><a href="https://dev-state.com/posts/danube_update_020/">Danube platform updates - v0.2.0</a></li>
 </ul>
-<p>⚠️ The messaging platform is currently in active development, so some features might be missing or incomplete. Encourage you to use it with care.</p>
 
 
 

@@ -9,25 +9,25 @@
       
       
       
-        <link rel="prev" href="../topics/">
+        <link rel="prev" href="../producer/">
       
       
-        <link rel="next" href="../dispatch_strategy/">
+        <link rel="next" href="../../../development/dev_environment/">
       
       
-      <link rel="icon" href="../../assets/images/favicon.png">
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.30">
     
     
       
-        <title>Subscriptions - Danube Pub-Sub messaging documentation</title>
+        <title>Consumer - Danube Pub-Sub messaging documentation</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.3cba04c6.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.3cba04c6.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -46,7 +46,7 @@
       
     
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#subscription" class="md-skip">
+        <a href="#danube-pubsub-cli-consume-messages" class="md-skip">
           Skip to content
         </a>
       
@@ -88,7 +88,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="Danube Pub-Sub messaging documentation" class="md-header__button md-logo" aria-label="Danube Pub-Sub messaging documentation" data-md-component="logo">
+    <a href="../../.." title="Danube Pub-Sub messaging documentation" class="md-header__button md-logo" aria-label="Danube Pub-Sub messaging documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -108,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Subscriptions
+              Consumer
             
           </span>
         </div>
@@ -209,7 +209,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="Danube Pub-Sub messaging documentation" class="md-nav__button md-logo" aria-label="Danube Pub-Sub messaging documentation" data-md-component="logo">
+    <a href="../../.." title="Danube Pub-Sub messaging documentation" class="md-nav__button md-logo" aria-label="Danube Pub-Sub messaging documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -227,7 +227,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
+      <a href="../../.." class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -282,7 +282,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting_started/Danube_on_vms/" class="md-nav__link">
+      <a href="../../../getting_started/Danube_on_vms/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -303,7 +303,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting_started/Danube_on_k8s_helm/" class="md-nav__link">
+      <a href="../../../getting_started/Danube_on_k8s_helm/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -324,7 +324,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting_started/Danube_local_machine_k8s/" class="md-nav__link">
+      <a href="../../../getting_started/Danube_local_machine_k8s/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -349,19 +349,17 @@
       
   
   
-    
   
   
-  
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
         
           
           <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
@@ -375,7 +373,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             Architecture
@@ -389,7 +387,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../architecture/" class="md-nav__link">
+      <a href="../../../architecture/architecture/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -410,7 +408,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../messages/" class="md-nav__link">
+      <a href="../../../architecture/messages/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -431,7 +429,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../topics/" class="md-nav__link">
+      <a href="../../../architecture/topics/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -449,30 +447,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Subscriptions
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../../architecture/subscriptions/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -481,125 +459,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#exclusive" class="md-nav__link">
-    <span class="md-ellipsis">
-      Exclusive
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Exclusive">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#exclusive-subscription-on-non-partitioned-topic" class="md-nav__link">
-    <span class="md-ellipsis">
-      Exclusive subscription on Non-Partitioned Topic
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#exclusive-subscription-on-partitioned-topic-multiple-partitions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Exclusive subscription on Partitioned Topic (Multiple Partitions)
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#shared" class="md-nav__link">
-    <span class="md-ellipsis">
-      Shared
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Shared">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#shared-subscription-on-non-partitioned-topic" class="md-nav__link">
-    <span class="md-ellipsis">
-      Shared subscription on Non-Partitioned Topic
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#shared-subscription-on-partitioned-topic-multiple-partitions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Shared subscription on Partitioned Topic (Multiple Partitions)
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#failover" class="md-nav__link">
-    <span class="md-ellipsis">
-      FailOver
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="FailOver">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#failover-subscription-on-non-partitioned-topic" class="md-nav__link">
-    <span class="md-ellipsis">
-      FailOver subscription on Non-Partitioned Topic
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#failover-subscription-on-partitioned-topic-multiple-partitions" class="md-nav__link">
-    <span class="md-ellipsis">
-      FailOver subscription on Partitioned Topic (Multiple Partitions)
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -612,7 +471,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../dispatch_strategy/" class="md-nav__link">
+      <a href="../../../architecture/dispatch_strategy/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -633,7 +492,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../internal_danube_services/" class="md-nav__link">
+      <a href="../../../architecture/internal_danube_services/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -654,7 +513,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../Queuing_PubSub_messaging/" class="md-nav__link">
+      <a href="../../../architecture/Queuing_PubSub_messaging/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -675,7 +534,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../PubSub_messaging_vs_Streaming/" class="md-nav__link">
+      <a href="../../../architecture/PubSub_messaging_vs_Streaming/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -738,7 +597,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../client_libraries/clients/" class="md-nav__link">
+      <a href="../../../client_libraries/clients/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -759,7 +618,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../client_libraries/setup/" class="md-nav__link">
+      <a href="../../../client_libraries/setup/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -780,7 +639,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../client_libraries/producer/" class="md-nav__link">
+      <a href="../../../client_libraries/producer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -801,7 +660,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../client_libraries/consumer/" class="md-nav__link">
+      <a href="../../../client_libraries/consumer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -826,17 +685,19 @@
       
   
   
+    
   
   
+  
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
         
           
           <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
@@ -850,7 +711,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             Danube CLIs
@@ -899,7 +760,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../danube_clis/danube_admin/brokers/" class="md-nav__link">
+      <a href="../../danube_admin/brokers/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -920,7 +781,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../danube_clis/danube_admin/namespaces/" class="md-nav__link">
+      <a href="../../danube_admin/namespaces/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -941,7 +802,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../danube_clis/danube_admin/topics/" class="md-nav__link">
+      <a href="../../danube_admin/topics/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -967,17 +828,19 @@
                 
   
   
+    
   
   
+  
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" checked>
         
           
           <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
@@ -991,7 +854,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_5_2">
             <span class="md-nav__icon md-icon"></span>
             Danube CLI
@@ -1005,7 +868,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../danube_clis/danube_cli/producer/" class="md-nav__link">
+      <a href="../producer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1023,10 +886,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../danube_clis/danube_cli/consumer/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Consumer
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -1035,6 +918,77 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Options
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-shared-subscription" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example: Shared Subscription
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-exclusive-subscription" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example: Exclusive Subscription
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resources
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1097,7 +1051,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../development/dev_environment/" class="md-nav__link">
+      <a href="../../../development/dev_environment/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1118,7 +1072,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../development/internal_resources/" class="md-nav__link">
+      <a href="../../../development/internal_resources/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1166,28 +1120,37 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#exclusive" class="md-nav__link">
+  <a href="#usage" class="md-nav__link">
     <span class="md-ellipsis">
-      Exclusive
+      Usage
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Exclusive">
+    <nav class="md-nav" aria-label="Usage">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#exclusive-subscription-on-non-partitioned-topic" class="md-nav__link">
+  <a href="#options" class="md-nav__link">
     <span class="md-ellipsis">
-      Exclusive subscription on Non-Partitioned Topic
+      Options
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#exclusive-subscription-on-partitioned-topic-multiple-partitions" class="md-nav__link">
+  <a href="#example-shared-subscription" class="md-nav__link">
     <span class="md-ellipsis">
-      Exclusive subscription on Partitioned Topic (Multiple Partitions)
+      Example: Shared Subscription
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-exclusive-subscription" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example: Exclusive Subscription
     </span>
   </a>
   
@@ -1199,68 +1162,11 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#shared" class="md-nav__link">
+  <a href="#resources" class="md-nav__link">
     <span class="md-ellipsis">
-      Shared
+      Resources
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Shared">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#shared-subscription-on-non-partitioned-topic" class="md-nav__link">
-    <span class="md-ellipsis">
-      Shared subscription on Non-Partitioned Topic
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#shared-subscription-on-partitioned-topic-multiple-partitions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Shared subscription on Partitioned Topic (Multiple Partitions)
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#failover" class="md-nav__link">
-    <span class="md-ellipsis">
-      FailOver
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="FailOver">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#failover-subscription-on-non-partitioned-topic" class="md-nav__link">
-    <span class="md-ellipsis">
-      FailOver subscription on Non-Partitioned Topic
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#failover-subscription-on-partitioned-topic-multiple-partitions" class="md-nav__link">
-    <span class="md-ellipsis">
-      FailOver subscription on Partitioned Topic (Multiple Partitions)
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1279,53 +1185,57 @@
                   
 
 
-<h1 id="subscription">Subscription</h1>
-<p><strong>A Danube subscription</strong> is a named configuration rule that determines how messages are delivered to consumers. It is a lease on a topic established by a group of consumers.</p>
-<p>The Danube permits multiple producers and subcribers to the same topic. The Subscription Types can be combined to obtain <a href="../Queuing_PubSub_messaging/">message queueing or fan-out</a> pub-sub messaging patterns.</p>
-<p><img alt="Producers  Consumers" src="../img/producers_consumers.png" title="Producers Consumers" /></p>
-<h2 id="exclusive">Exclusive</h2>
-<p>The <strong>Exclusive</strong> type is a subscription type that only allows a single consumer to attach to the subscription. If multiple consumers subscribe to a topic using the same subscription, an error occurs.
-This consumer has exclusive access to all messages published to the topic or partition.</p>
-<h3 id="exclusive-subscription-on-non-partitioned-topic">Exclusive subscription on Non-Partitioned Topic</h3>
+<h1 id="danube-pubsub-cli-consume-messages">Danube-Pubsub CLI - Consume messages</h1>
+<p>The <code>consume</code> command retrieves messages from a specified topic.</p>
+<h2 id="usage">Usage</h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>--service-addr<span class="w"> </span>&lt;SERVICE_ADDR&gt;<span class="w"> </span>--subscription<span class="w"> </span>&lt;SUBSCRIPTION&gt;
+</span></code></pre></div>
+<h3 id="options">Options</h3>
 <ul>
-<li><code>Consumer</code>: Only one consumer can be attached to the topic with an Exclusive subscription.</li>
-<li><code>Message Handling</code>: The single consumer handles all messages from the topic, receiving every message published to that topic.</li>
+<li>
+<p><code>-s, --service-addr &lt;SERVICE_ADDR&gt;</code><br />
+  Description: The service URL for the Danube broker.<br />
+  Example: <code>http://127.0.0.1:6650</code></p>
+</li>
+<li>
+<p><code>-t, --topic &lt;TOPIC&gt;</code><br />
+  Description: The topic to consume messages from.<br />
+  If not specified: <code>/default/test_topic</code></p>
+</li>
+<li>
+<p><code>-c, --consumer &lt;CONSUMER&gt;</code><br />
+  Description: The consumer name.<br />
+  If not specified: <code>consumer_pubsub</code></p>
+</li>
+<li>
+<p><code>-m, --subscription &lt;SUBSCRIPTION&gt;</code><br />
+  Description: The subscription name.<br />
+  Required: Yes</p>
+</li>
+<li>
+<p><code>--sub-type &lt;SUB_TYPE&gt;</code><br />
+  Description: The subscription type.<br />
+  Default: <code>shared</code><br />
+  Possible values: <code>exclusive</code>, <code>shared</code>, <code>fail-over</code></p>
+</li>
+<li>
+<p><code>-h, --help</code><br />
+<strong>Description:</strong> Print help information.</p>
+</li>
 </ul>
-<p><img alt="Exclusive Non-Partitioned" src="../img/exclusive_subscription_non_partitioned.png" title="Exclusive Non-Partitioned" /></p>
-<h3 id="exclusive-subscription-on-partitioned-topic-multiple-partitions">Exclusive subscription on Partitioned Topic (Multiple Partitions)</h3>
-<ul>
-<li><code>Consumer</code>: One consumer is allowed to connect to the subscription across all partitions of the partitioned topic.</li>
-<li><code>Message Handling</code> : This single consumer processes messages from all partitions of the partitioned topic. If a topic is partitioned into multiple partitions, the exclusive consumer handles messages from every partition.</li>
-</ul>
-<p><img alt="Exclusive Partitioned" src="../img/exclusive_subscription_partitioned.png" title="Exclusive Partitioned" /></p>
-<h2 id="shared">Shared</h2>
-<p>The <strong>Shared</strong> subscription type Danube allows multiple consumers to attach to the same subscription. Messages are delivered in a round-robin distribution across consumers, and any given message is delivered to only one consumer.</p>
-<h3 id="shared-subscription-on-non-partitioned-topic">Shared subscription on Non-Partitioned Topic</h3>
-<ul>
-<li><code>Consumers</code>: Multiple consumers can subscribe to the same topic.</li>
-<li><code>Message Handling</code>: Messages are distributed among all consumers in a round-robin fashion.</li>
-</ul>
-<p><img alt="Shared Non-Partitioned" src="../img/shared_subscription_non_partitioned.png" title="Shared Non-Partitioned" /></p>
-<h3 id="shared-subscription-on-partitioned-topic-multiple-partitions">Shared subscription on Partitioned Topic (Multiple Partitions)</h3>
-<ul>
-<li><code>Consumers</code>: Multiple consumers can subscribe to the partitioned topic.</li>
-<li><code>Message Handling</code>: Messages are distributed across all partitions, and then among consumers in a round-robin fashion. Each message from any partition is delivered to only one consumer.</li>
-</ul>
-<p><img alt="Shared Partitioned" src="../img/shared_subscription_partitioned.png" title="Share Partitioned" /></p>
-<h2 id="failover">FailOver</h2>
-<p>The <strong>FailOver</strong> subscription type allows only one consumer (the active consumer) to receive messages at any given time. An active consumer is picked for a non-partitioned topic or for each partition of a partitioned topic and receives messages.</p>
-<h3 id="failover-subscription-on-non-partitioned-topic">FailOver subscription on Non-Partitioned Topic</h3>
-<ul>
-<li><code>Consumers</code>: Only one active consumer processes messages at a time.</li>
-<li><code>Message Handling</code>: If the active consumer fails, a standby consumer will take over.</li>
-</ul>
-<p><img alt="FailOver Non-Partitioned" src="../img/failover_subscription_non_partitioned.png" title="FailOver Non-Partitioned" /></p>
-<h3 id="failover-subscription-on-partitioned-topic-multiple-partitions">FailOver subscription on  Partitioned Topic (Multiple Partitions)</h3>
-<ul>
-<li><code>Consumers</code>: One active consumer processes messages for each partition.</li>
-<li><code>Message Handling</code>: If the active consumer for a partition fails, a standby consumer takes over.</li>
-</ul>
-<p><img alt="FailOver Partitioned" src="../img/failover_subscription_partitioned.png" title="FailOver Partitioned" /></p>
+<h3 id="example-shared-subscription">Example: Shared Subscription</h3>
+<p>To receive messages from a shared subscription:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span>-s<span class="w"> </span>http://127.0.0.1:6650<span class="w"> </span>-m<span class="w"> </span>my_shared_subscription
+</span></code></pre></div>
+<h3 id="example-exclusive-subscription">Example: Exclusive Subscription</h3>
+<p>To receive messages from an exclusive subscription:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span>-s<span class="w"> </span>http://127.0.0.1:6650<span class="w"> </span>-m<span class="w"> </span>my_exclusive<span class="w"> </span>--sub-type<span class="w"> </span>exclusive
+</span></code></pre></div>
+<p><strong>To create a new exclusive subscription:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span>-s<span class="w"> </span>http://127.0.0.1:6650<span class="w"> </span>-m<span class="w"> </span>my_exclusive2<span class="w"> </span>--sub-type<span class="w"> </span>exclusive
+</span></code></pre></div>
+<h2 id="resources">Resources</h2>
+<p>Check <a href="https://dev-state.com/posts/danube_pubsub/">this article</a> that covers how to combine the subscription types in order to obtain message queueing or fan-out pub-sub messaging patterns.</p>
 
 
 
@@ -1374,10 +1284,10 @@ This consumer has exclusive access to all messages published to the topic or par
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["content.tabs.link"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.tabs.link"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
       
     
   </body>
