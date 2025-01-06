@@ -1,6 +1,6 @@
 # Welcome to Danube Pub/Sub messaging docs
 
-[Danube](https://github.com/danrusei/danube) is an open-source, distributed publish-subscribe (Pub/Sub) message broker system developed in Rust.
+[Danube](https://github.com/danube-messaging/danube) is an open-source, distributed publish-subscribe (Pub/Sub) message broker system developed in Rust.
 Danube aims to be a powerful, flexible and scalable messaging solution. Allows single or multiple Producers to publish on the Topics and multiple Subscriptions to consume the messages from the Topic.
 Inspired by the Apache Pulsar messaging and streaming platform, Danube incorporates some similar concepts but is designed to carve its own path within the distributed messaging ecosystem.
 
@@ -26,21 +26,21 @@ Supports various subscription types (exclusive, shared, failover) enabling diffe
 **Flexible Message Schemas**:
 Supports multiple message schemas (bytes, string, int64, JSON) providing flexibility in message format and structure.
 
-### Crates within the [Danube workspace](https://github.com/danrusei/danube)
+### Crates within the [Danube workspace](https://github.com/danube-messaging/danube)
 
 The crates part of the Danube workspace:
 
-* [danube-broker](https://github.com/danrusei/danube/tree/main/danube-broker) - The main crate, danube pubsub platform
-  * [danube-reliable-dispatch](https://github.com/danrusei/danube/tree/main/danube-reliable-dispatch/src) - Part of danube-broker, responsible of reliable dispatching
-  * [danube-metadata-store](https://github.com/danrusei/danube/tree/main/danube-metadata-store/src) - Part of danube-broker, responsibile of Metadata storage
-* [danube-client](https://github.com/danrusei/danube/tree/main/danube-client) - An async Rust client library for interacting with Danube Pub/Sub messaging platform
-* [danube-cli](https://github.com/danrusei/danube/tree/main/danube-cli) - Client CLI to handle message publishing and consumption
-* [danube-admin-cli](https://github.com/danrusei/danube/tree/main/danube-admin-cli) - Admin CLI designed for interacting with and managing the Danube cluster
+* [danube-broker](https://github.com/danube-messaging/danube/tree/main/danube-broker) - The main crate, danube pubsub platform
+  * [danube-reliable-dispatch](https://github.com/danube-messaging/danube/tree/main/danube-reliable-dispatch/src) - Part of danube-broker, responsible of reliable dispatching
+  * [danube-metadata-store](https://github.com/danube-messaging/danube/tree/main/danube-metadata-store/src) - Part of danube-broker, responsibile of Metadata storage
+* [danube-client](https://github.com/danube-messaging/danube/tree/main/danube-client) - An async Rust client library for interacting with Danube Pub/Sub messaging platform
+* [danube-cli](https://github.com/danube-messaging/danube/tree/main/danube-cli) - Client CLI to handle message publishing and consumption
+* [danube-admin-cli](https://github.com/danube-messaging/danube/tree/main/danube-admin-cli) - Admin CLI designed for interacting with and managing the Danube cluster
 
 ## Danube client libraries
 
 * [danube-client](https://crates.io/crates/danube-client) - Danube Pub/Sub async Rust client library
-* [danube-go](https://pkg.go.dev/github.com/danrusei/danube-go) - Danube Pub/Sub Go client library
+* [danube-go](https://pkg.go.dev/github.com/danube-messaging/danube-go) - Danube Pub/Sub Go client library
 
 Contributions in other languages, such as Python, Java, etc., are also greatly appreciated.
 

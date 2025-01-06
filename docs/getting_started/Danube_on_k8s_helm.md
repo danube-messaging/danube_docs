@@ -2,7 +2,7 @@
 
 The Helm chart deploys the Danube Cluster with ETCD as metadata storage in the same namespace.
 
-If you would like to configure for testing purposes you may want to see: [Run Danube on Kubernetes on Local Machine](https://dev-state.com/danube_docs/getting_started/Danube_local_machine_k8s/).
+If you would like to configure for testing purposes you may want to see: [Run Danube on Kubernetes on Local Machine](https://danube-docs.dev-state.com/getting_started/Danube_local_machine_k8s/).
 
 ## Prerequisites
 

@@ -80,5 +80,5 @@ A consumer is a process that attaches to a topic via a subscription and then rec
 
 For a complete example implementation of the above code using producers and consumers, check the examples:
 
-* [Rust Examples](https://github.com/danrusei/danube/tree/main/danube-client/examples)
-* [Go Examples](https://github.com/danrusei/danube-go/tree/main/examples)
+* [Rust Examples](https://github.com/danube-messaging/danube/tree/main/danube-client/examples)
+* [Go Examples](https://github.com/danube-messaging/danube-go/tree/main/examples)

@@ -26,7 +26,7 @@ Before an application creates a producer/consumer, the  client library needs to 
 === "Go"
 
     ```go
-    import "github.com/danrusei/danube-go"
+    import "github.com/danube-messaging/danube-go"
 
     func main() {
 

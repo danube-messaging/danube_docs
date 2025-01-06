@@ -14,7 +14,7 @@ Before you get started, make sure you have the following installed:
 
 1. **Fork the Repository**:
 
-   - Go to the [Danube Broker GitHub repository](https://github.com/danrusei/danube).
+   - Go to the [Danube Broker GitHub repository](https://github.com/danube-messaging/danube).
    - Click the "Fork" button on the top right corner of the page to create your own copy of the repository.
 
 2. **Clone Your Fork**:
@@ -29,7 +29,7 @@ Before you get started, make sure you have the following installed:
 3. **Add the Original Repository as a Remote** (optional but recommended for keeping up-to-date):
 
    ```sh
-   git remote add upstream https://github.com/danrusei/danube.git
+   git remote add upstream https://github.com/danube-messaging/danube.git
    ```
 
 ## Building the Project

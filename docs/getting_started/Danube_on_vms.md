@@ -20,7 +20,7 @@ Danube is an open-source distributed Pub/Sub messaging platform written in Rust.
 
 ### 2. Download Danube Broker
 
-1. Visit the [Danube releases page](https://github.com/danrusei/danube/releases).
+1. Visit the [Danube releases page](https://github.com/danube-messaging/danube/releases).
 2. Download the latest binary for Linux named `danube-broker`.
 
 ### 3. Install Danube Brokers
@@ -29,7 +29,7 @@ Danube is an open-source distributed Pub/Sub messaging platform written in Rust.
 
 2. **Customize the Danube cluster config file**
 
-   A sample file can be found [HERE](https://github.com/danrusei/danube/tree/main/config).
+   A sample file can be found [HERE](https://github.com/danube-messaging/danube/tree/main/config).
 
 3. **Run the Broker**: Start each broker with the appropriate configuration.
 
@@ -61,4 +61,4 @@ Danube is an open-source distributed Pub/Sub messaging platform written in Rust.
 
 ## Additional Information
 
-For more details, visit the [Danube GitHub repository](https://github.com/danrusei/danube) or contact the project maintainers for support.
+For more details, visit the [Danube GitHub repository](https://github.com/danube-messaging/danube) or contact the project maintainers for support.
