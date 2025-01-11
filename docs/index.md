@@ -1,7 +1,9 @@
 # Welcome to Danube Pub/Sub messaging docs
 
 [Danube](https://github.com/danube-messaging/danube) is an open-source, distributed messaging broker platform, developed in Rust.
-Danube aims to be a simple yet powerful, flexible and scalable messaging platform. Allows single or multiple Producers to publish on the Topics and multiple Subscriptions to consume the messages from the Topic.
+
+Danube aims to be a simple yet powerful, flexible and scalable messaging platform, suitable for event-driven applications. Allows single or multiple Producers to publish on the Topics and multiple Subscriptions to consume the messages from the Topics.
+
 Inspired by the Apache Pulsar messaging and streaming platform, Danube incorporates some similar concepts but is designed to carve its own path within the distributed messaging ecosystem.
 
 ## Core Capabilities of the Danube Messaging Platform
