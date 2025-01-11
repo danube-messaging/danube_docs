@@ -273,11 +273,20 @@
         <li class="md-nav__item">
   <a href="#core-capabilities-of-the-danube-messaging-platform" class="md-nav__link">
     <span class="md-ellipsis">
-      Core Capabilities of the Danube messaging Platform
+      Core Capabilities of the Danube Messaging Platform
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Core Capabilities of the Danube messaging Platform">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#danube-platform-capabilities-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      Danube Platform capabilities matrix
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Danube Platform capabilities matrix">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1107,11 +1116,20 @@
         <li class="md-nav__item">
   <a href="#core-capabilities-of-the-danube-messaging-platform" class="md-nav__link">
     <span class="md-ellipsis">
-      Core Capabilities of the Danube messaging Platform
+      Core Capabilities of the Danube Messaging Platform
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Core Capabilities of the Danube messaging Platform">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#danube-platform-capabilities-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      Danube Platform capabilities matrix
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Danube Platform capabilities matrix">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1162,27 +1180,125 @@
 
 
 <h1 id="welcome-to-danube-pubsub-messaging-docs">Welcome to Danube Pub/Sub messaging docs</h1>
-<p><a href="https://github.com/danube-messaging/danube">Danube</a> is an open-source, distributed publish-subscribe (Pub/Sub) message broker system developed in Rust.
-Danube aims to be a powerful, flexible and scalable messaging solution. Allows single or multiple Producers to publish on the Topics and multiple Subscriptions to consume the messages from the Topic.
+<p><a href="https://github.com/danube-messaging/danube">Danube</a> is an open-source, distributed messaging broker platform, developed in Rust.
+Danube aims to be a simple yet powerful, flexible and scalable messaging platform. Allows single or multiple Producers to publish on the Topics and multiple Subscriptions to consume the messages from the Topic.
 Inspired by the Apache Pulsar messaging and streaming platform, Danube incorporates some similar concepts but is designed to carve its own path within the distributed messaging ecosystem.</p>
-<h2 id="core-capabilities-of-the-danube-messaging-platform">Core Capabilities of the Danube messaging Platform</h2>
-<p><a href="architecture/topics/"><strong>Topics</strong></a>: A unit of storage that organizes messages into a stream.</p>
+<h2 id="core-capabilities-of-the-danube-messaging-platform">Core Capabilities of the Danube Messaging Platform</h2>
 <ul>
+<li><a href="architecture/topics/"><strong>Topics</strong></a>: A unit of storage that organizes messages into a stream.</li>
 <li><strong>Non-partitioned topics</strong>: Served by a single broker.</li>
 <li><strong>Partitioned topics</strong>: Divided into partitions, served by different brokers within the cluster, enhancing scalability and fault tolerance.</li>
+<li><a href="architecture/dispatch_strategy/"><strong>Message Dispatch</strong></a>:</li>
+<li><strong>Non-reliable Message Dispatch</strong>: Messages reside in memory and are promptly distributed to consumers, ideal for scenarios where speed is crucial. The acknowledgement mechanism is ignored.</li>
+<li><strong>Reliable Message Dispatch</strong>: The acknowledgement mechanism is used to ensure message delivery. Supports configurable storage options including in-memory, disk, and S3, ensuring message persistence and durability.</li>
+<li><a href="architecture/subscriptions/"><strong>Subscription Types:</strong></a>:</li>
+<li>Supports various subscription types (<strong>Exclusive</strong>, <strong>Shared</strong>, <strong>Failover</strong>) enabling different messaging patterns such as message queueing and pub-sub.</li>
+<li><strong>Flexible Message Schemas</strong></li>
+<li>Supports multiple message schemas (<strong>Bytes</strong>, <strong>String</strong>, <strong>Int64</strong>, <strong>JSON</strong>) providing flexibility in message format and structure.</li>
 </ul>
-<p><a href="architecture/dispatch_strategy/"><strong>Message Dispatch</strong></a>:</p>
-<ul>
-<li><strong>Non-reliable Message Dispatch</strong>: Messages reside in memory and are promptly distributed to consumers, ideal for scenarios where speed is crucial.</li>
-<li><strong>Reliable Message Dispatch</strong>: Supports configurable storage options including in-memory, disk, and S3, ensuring message persistence and durability.</li>
-</ul>
-<p><strong>Metadata Store</strong>:
-<strong>ETCD as Default</strong>: Provides a reliable and consistent Metadata store for cluster synchronization.
-<strong>Configurable Options</strong>: Allows customization of metadata storage to fit specific requirements.</p>
-<p><a href="architecture/subscriptions/"><strong>Subscription Types</strong></a>:
-Supports various subscription types (exclusive, shared, failover) enabling different messaging patterns such as message queueing and pub-sub.</p>
-<p><strong>Flexible Message Schemas</strong>:
-Supports multiple message schemas (bytes, string, int64, JSON) providing flexibility in message format and structure.</p>
+<h2 id="danube-platform-capabilities-matrix">Danube Platform capabilities matrix</h2>
+<table>
+<thead>
+<tr>
+<th>Dispatch</th>
+<th>Topics</th>
+<th>Subscription</th>
+<th>Message Persistence</th>
+<th>Ordering Guarantee</th>
+<th>Delivery Guarantee</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Non-Reliable</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><em>Non-partitioned Topic</em></td>
+<td><em>Exclusive</em></td>
+<td>No</td>
+<td>Yes</td>
+<td>At-Most-Once</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><em>Shared</em></td>
+<td>No</td>
+<td>No</td>
+<td>At-Most-Once</td>
+</tr>
+<tr>
+<td></td>
+<td><em>Partitioned Topic</em></td>
+<td><em>Exclusive</em></td>
+<td>No</td>
+<td>Per partition</td>
+<td>At-Most-Once</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><em>Shared</em></td>
+<td>No</td>
+<td>No</td>
+<td>At-Most-Once</td>
+</tr>
+<tr>
+<td>----------------</td>
+<td>-------------------</td>
+<td>--------------</td>
+<td>----------------------</td>
+<td>--------------------</td>
+<td>--------------------</td>
+</tr>
+<tr>
+<td><strong>Reliable</strong></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><em>Non-partitioned Topic</em></td>
+<td><em>Exclusive</em></td>
+<td>Yes</td>
+<td>Yes</td>
+<td>At-Least-Once</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><em>Shared</em></td>
+<td>Yes</td>
+<td>No</td>
+<td>At-Least-Once</td>
+</tr>
+<tr>
+<td></td>
+<td><em>Partitioned Topic</em></td>
+<td><em>Exclusive</em></td>
+<td>Yes</td>
+<td>Per partition</td>
+<td>At-Least-Once</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td><em>Shared</em></td>
+<td>Yes</td>
+<td>No</td>
+<td>At-Least-Once</td>
+</tr>
+</tbody>
+</table>
 <h3 id="crates-within-the-danube-workspace">Crates within the <a href="https://github.com/danube-messaging/danube">Danube workspace</a></h3>
 <p>The crates part of the Danube workspace:</p>
 <ul>
