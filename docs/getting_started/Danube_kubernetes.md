@@ -1,42 +1,28 @@
-# Setup Danube on the kubernetes cluster
+# Run Danube messaging on Kubernetes
 
-This documentation covers the instalation of the Danube cluster on the kubernetes, that is running on the local machine
+This documentation covers the instalation of the Danube cluster on the kubernetes. The Helm chart deploys the Danube Cluster with ETCD as metadata storage in the same namespace.
 
-## Create the cluster with [kind](https://kind.sigs.k8s.io/)
-
-[Kind](https://github.com/kubernetes-sigs/kind) is a tool for running local Kubernetes clusters using Docker container “nodes”.
-
-```bash
-kind create cluster
-Creating cluster "kind" ...
- ✓ Ensuring node image (kindest/node:v1.30.0) 🖼
- ✓ Preparing nodes 📦  
- ✓ Writing configuration 📜 
- ✓ Starting control-plane 🕹️ 
- ✓ Installing CNI 🔌 
- ✓ Installing StorageClass 💾 
-Set kubectl context to "kind-kind"
-You can now use your cluster with:
-
-kubectl cluster-info --context kind-kind
-```
+The documentation assumes that you have a Kubernetes cluster running and that you have installed the Helm package manager. For local testing you can use [kind](https://kind.sigs.k8s.io/).
 
 ## Install the Ngnix Ingress controller
 
-Using the Official NGINX Ingress Helm Chart
+Using the Official NGINX Ingress Helm Chart. This is required in order to route traffic to each broker service in the cluster. The Broker configuration is provisioned in the danube_helm, you can tweak the values.yaml per your needs.
 
-You can install the NGINX Ingress Controller using Helm:
+The Danube messaging **has no dependency on ngnix**, can work with any ingress controller of your choice.
+
+Install the NGINX Ingress Controller using Helm:
 
 ```bash
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 helm repo update
 ```
 
-You can expose the NGINX Ingress controller using a NodePort service so that the traffic from the local machine (outside the cluster) can reach the Ingress controller.
+### Run the NGINX Ingress Controller on your local kubernetes cluster
+
+For local testing the NGINX Ingress Controller can be exposed using a NodePort service so that the traffic from the local machine (outside the cluster) can reach the Ingress controller.
 
 ```bash
-helm install nginx-ingress ingress-nginx/ingress-nginx \
-  --set controller.service.type=NodePort
+helm install nginx-ingress ingress-nginx/ingress-nginx --set controller.service.type=NodePort
 ```
 
 You can find out which port is assigned by running
@@ -52,16 +38,27 @@ nginx-ingress-ingress-nginx-controller-admission   ClusterIP   10.96.169.82    <
 
 If ngnix is running as NodePort (usually for testing), you need local port in this case **30115**, in order to provide to danube_helm installation.
 
-## Install Danube PubSub
+### Run the NGINX Ingress Controller in a remote cluster (cloud)
+
+```bash
+helm install nginx-ingress ingress-nginx/ingress-nginx --set controller.publishService.enabled=true
+```
+
+- The publishService feature enables the Ingress controller to publish information about itself (such as its external IP or hostname) in a Kubernetes Service resource.
+- This is particularly useful when you are running the Ingress controller in a cloud environment (like AWS, GCP, or Azure) and need it to publish its external IP address to handle incoming traffic
+
+## Install Danube Messaging Brokers
 
 First, add the repository to your Helm client:
 
 ```sh
-helm repo add danube https://danrusei.github.io/danube_helm
+helm repo add danube https://danube-messaging.github.io/danube_helm
 helm repo update
 ```
 
-You can install the chart with the release name `my-danube-cluster` using the following command:
+You can install the chart with the release name `my-danube-cluster` using the below command. This will deploy the Danube Broker and an ETCD instance with the default configuration.
+
+### Running on the local kubernetes cluster
 
 ```sh
 helm install my-danube-cluster danube/danube-helm-chart --set broker.service.advertisedPort=30115
@@ -69,33 +66,29 @@ helm install my-danube-cluster danube/danube-helm-chart --set broker.service.adv
 
 The advertisedPort is used to allow the client to reach the brokers, through the ingress NodePort.
 
-You can further customize the installation, check the readme file. I'm installing it using the default configuration with 3 danube brokers.
+### Running on the remote cluster (cloud)
 
-## Resource consideration
+The Danube cluster configuration from the values.yaml file has to be adjusted for your needs.
 
-Pay attention to resource allocation, the default configuration is just OK for testing.
+You can override the default values by providing a custom `values.yaml` file:
 
-For production environment you may want to increase.
+```sh
+helm install my-danube-cluster danube/danube-helm-chart -f custom-values.yaml
+```
 
-### Sizing for Production
+Alternatively, you can specify individual values using the `--set` flag:
 
-**Small to Medium Load**:
+```sh
+helm install my-danube-cluster danube/danube-helm-chart --set broker.service.type="ClusterIP"
+```
 
-- CPU Requests: 500m to 1 CPU
-- CPU Limits: 1 CPU to 2 CPUs
-- Memory Requests: 512Mi to 1Gi
-- Memory Limits: 1Gi to 2Gi
-
-**Heavy Load:**
-
-- CPU Requests: 1 CPU to 2 CPUs
-- CPU Limits: 2 CPUs to 4 CPUs
-- Memory Requests: 1Gi to 2Gi
-- Memory Limits: 2Gi to 4Gi
+You can further customize the installation, check the readme file. The default configuration is running 3 Danube Brokers in cluster.
 
 ## Check the install
 
 Make sure that the brokers, etcd and the ngnix ingress are running properly in the cluster.
+
+### Example running on local kubernetes cluster
 
 ```bash
 kubectl get all
@@ -155,7 +148,9 @@ initializing metrics exporter
 2024-08-28T04:30:22.993274Z  INFO danube_broker::admin: Admin is listening on address: 0.0.0.0:50051
 ```
 
-## Setup in order to communicate with cluster PubSub brokers
+### Setup in order to communicate with cluster danube brokers
+
+If you would like to communicate to the messaging sytem by using the danube-cli tool, or your own danube clients running locally, you can do the following:
 
 ```bash
 kubectl get nodes -o wide
@@ -168,10 +163,9 @@ Use the **INTERNAL-IP** to route the traffic to broker hosts. Add the following 
 ```bash
 cat /etc/hosts
 172.20.0.2 broker1.example.com broker2.example.com broker3.example.com
-
 ```
 
-## Inspect the etcd instance (optional)
+### Inspect the etcd instance
 
 If you want to connect from your local machine, use kubectl port-forward to forward the etcd port to your local machine:
 
@@ -186,3 +180,13 @@ Once port forwarding is set up, you can run etcdctl commands from your local mac
 ```bash
 etcdctl --endpoints=http://localhost:2379 watch --prefix /
 ```
+
+## Cleanup
+
+To uninstall the `my-danube-cluster` release:
+
+```sh
+helm uninstall my-danube-cluster
+```
+
+This command removes all the Kubernetes components associated with the chart and deletes the release.

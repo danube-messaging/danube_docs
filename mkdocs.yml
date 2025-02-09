@@ -1,12 +1,11 @@
-site_name: Danube Pub-Sub messaging documentation
+site_name: Danube Messaging documentation
 repo_url: https://github.com/danube-messaging/danube
 repo_name: danube-messaging/danube
 nav:
         - Home: index.md
         - Getting Started:
-                  - Run Danube on VMs or Bare Metal: getting_started/Danube_on_vms.md
-                  - Run Danube on Kubernetes Cluster: getting_started/Danube_on_k8s_helm.md
-                  - Run Danube on Kubernetes on Local Machine: getting_started/Danube_local_machine_k8s.md
+                  - Run Danube on VMs or local machine: getting_started/Danube_local.md
+                  - Run Danube on Kubernetes Cluster: getting_started/Danube_kubernetes.md
         - Architecture:
                   - Danube architecture: architecture/architecture.md
                   - Messages: architecture/messages.md
