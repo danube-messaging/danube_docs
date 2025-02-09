@@ -1,6 +1,6 @@
 # Topic
 
-A topic is a unit of storage that organizes messages into a stream. As in other pub-sub systems, topics are named channels for transmitting messages from producers to consumers. Topic names are URLs that have a well-defined structure:
+A topic is a unit of storage that organizes messages into a stream. As in other messaging systems, topics are named channels for transmitting messages from producers to consumers. Topic names are URLs that have a well-defined structure:
 
 ## /{namespace}/{topic_name}
 
@@ -20,12 +20,11 @@ Messages for the topic are broadcast to two consumers. The **routing mode** dete
 
 * `Scalability`: Partitioned topics enable horizontal scaling by distributing the load across multiple partitions. This is essential for high-throughput systems that need to handle large volumes of data efficiently.
 * `Parallel Processing`: It allows multiple consumers to process different partitions of the same topic concurrently, improving throughput and processing efficiency.
-* `Data Locality`: Partitioning can help in maintaining data locality and reducing processing latency, as consumers handle a specific subset of the data (key-shared distribution).
+* `Data Locality`: Partitioning can help in maintaining data locality and reducing processing latency, as consumers handle a specific subset of the data (key-shared distribution not yet supported).
 
 ### Creation of Partitioned Topics
 
-* `Static Creation`: Partitioned topics are created with a predefined number of partitions. When you create a partitioned topic, you specify the number of partitions it should have. This number remains fixed for the lifetime of the topic, although you can configure this number at topic creation time.
-* `Dynamic Scaling`: Not supported Yet
+Partitioned topics are created with a predefined number of partitions. When you create a partitioned topic, you specify the number of partitions it should have. This number remains fixed for the lifetime of the topic, although you can configure this number at topic creation time.
 
 ## Producers
 

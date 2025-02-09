@@ -1,8 +1,10 @@
 # Danube Cluster Services Role
 
-This document enumerates the principal components of the Danube Cluster and their responsibilities.
+This document enumerates the principal internal components of the Danube Broker.
 
 ## Danube Service Components
+
+The Broker owns the topics and manages their lifecycle. It also facilitates the creation of producers, subscriptions, and consumers, ensuring that producers can publish messages to topics and consumers can consume messages from topics.
 
 ### Leader Election Service
 
@@ -46,14 +48,8 @@ Updates/events are received via ETCD Watch events and/or the metadata event sync
 
 ### Syncronizer
 
+Not yet implemented.
+
 The synchronizer ensures that metadata and configuration settings across different brokers remain consistent. It propagates changes to metadata and configuration settings using client Producers and Consumers.
 
 This is in addition to Metadata Storage watch events, allowing brokers to process metadata updates even if there was a communication glitch or the broker was unavailable for a short period, potentially missing the Store Watch events. The synchronizer allows for dynamic updates to configuration settings without requiring a broker service restart.
-
-### Danube Broker
-
-The Broker owns the topics and manages their lifecycle. It also facilitates the creation of producers, subscriptions, and consumers, ensuring that producers can publish messages to topics and consumers can consume messages from topics.
-
-## External Metadata Storage (ETCD)
-
-This is the Metadata Storage responsible for the persistent storage of metadata and cluster synchronization.

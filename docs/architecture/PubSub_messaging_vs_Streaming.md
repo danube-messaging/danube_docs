@@ -1,8 +1,8 @@
-# Danube Platform
+# Pub/Sub vs Streaming design considerations
 
-**Danube Platform** service is designed for high-performance & low-latency messaging. As for now it supports only **Pub/Sub Messaging**.
+The below documentation provides a comparison of Pub/Sub messaging and Streaming architectures, highlighting their key differences and use cases, it is intended to be used as a reference for the Danube Broker.
 
-## Danube Pub/Sub messaging
+## Pub/Sub messaging
 
 ### Purpose and Use Cases
 
@@ -39,7 +39,7 @@
 * **Consumer Availability Check**: If consumers are available, the message is delivered to them in real-time.
 * **No Consumers**: If no consumers are connected, the message is discarded.
 
-## Danube Streaming (design considerations)
+## Streaming design considerations
 
 ### Purpose and Use Cases
 

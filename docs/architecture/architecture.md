@@ -1,51 +1,66 @@
-# Danube Architecture
+# Danube Messaging Architecture
 
-## Danube Pub/Sub Messaging
+The Danube messaging system is a distributed messaging system, based on a publish-subscribe model, aiming to provide high throughput and low latency.
 
-Designed for decoupling producers and consumers, enabling asynchronous communication between different parts of a system. Suitable for scenarios where low latency is critical and some message loss is acceptable, such as real-time monitoring / notifications, telemetry data, event-driven architectures.
+The Danube Messaging system's architecture is designed for flexibility and scalability, making it suitable for event-driven and cloud native applications. Its decoupled and plugin architecture allows for independent scaling and easy integration of various storage backends. Using the dispatch strategies and the subscribtion models the system can accomodate different messaging patterns.
 
-**Currently, the Danube platform supports only Non-persistent messaging.**
-
-The messages reside only in memory, providing low latency but not guaranteed to survive broker crashes or consumer disconnections.  The producers are allowed to send messages to Topics even if there are no active consumers. If no consumers are found the messages are droped. The messages are promptly distributed to consumers if they are available, utilizing a dispatch mechanism based on subscription types.
-
-Read [Here](./PubSub_messaging_vs_Streaming.md) for more detailed design considerations.
-
-![Danube Stream Architecture](img/Danube_architecture_non_persistent.png "Danube Stream Architecture")
+![Danube Messaging Architecture](img/Danube_architecture.png "Danube Messaging Architecture")
 
 ### Brokers
 
-A cluster consist of one or more Danube Brokers.
+Brokers are the core of the Danube Messaging system, responsible for routing and distributing messages, managing client connections and subscriptions, and implementing both reliable and non-reliable dispatch strategies. They act as the main entry point for publishers and subscribers, ensuring efficient and effective message flow.
 
-The producers connect to the brokers to publish messages and the consumers connect to the brokers to consume the messages.
+The Producers and Consumers connect to the Brokers to publish and consume messages, and use the subscription and dispatch mechanisms to accommodate various messaging patterns and reliability requirements.
 
-Messages are dispatched immediatelly to available consumers, for increased performance.
+### Metadata Storage
 
-### MetadataStore
+The ETCD cluster serves as the metadata storage for the system by maintaining configuration data, topic information, and broker coordination and load-balancing, ensuring the entire system operates with high availability and consistent state management across all nodes.
 
-Used for cluster-level metadata storage, configuration and coordination. Maintain the metadata store of the Danube Cluster, such as namespace / topic metadata, broker load data and others.
+### Storage Layer
 
-## Danube Stream (not yet supported)
+The Storage Layer is where the messages are stored. It's a plugable architecture, you can choose to use immediate dispatch so the messages are not persisted and sent to the consumers immediatelly, or you can use reliable dispatch where the messages are persisted and sent to the consumers when they are available.
 
-Designed for processing and analyzing large volumes of data in real-time as it is generated.
+The Storage Layer introduces flexibility through its pluggable architecture and storing mechanisms including InMemory and Local Disk for simple persistence, or a GRPC storage interface that supports multiple remote backends like S3, GCP Storage, Redis, and TiKV to enhance scalability and durability.
 
-In Danube Stream the messages are stored durably on disk (across multiple disks for reliability). This ensures message survival even during broker restarts or consumer failures. Ideal for use cases requiring high reliability and message durability, such as financial transactions, order processing, logging critical events, etc.
+#### Non-Reliable Dispatch
 
-![Danube Stream Architecture](img/Danube_architecture_persistent.png "Danube Stream Architecture")
+Non-Reliable Dispatch operates with zero storage overhead, as messages flow directly from publishers to subscribers without intermediate persistence. This mode delivers maximum performance and lowest latency, making it ideal for scenarios where occasional message loss is acceptable, such as real-time metrics or live streaming data.
 
-### _Brokers
+#### Reliable Dispatch
 
-A cluster consist of one or more Danube Brokers.
+Reliable Dispatch offers guaranteed message delivery using the storage options:
 
-The producers connect to the brokers to publish messages and the consumers connect to the brokers to consume the messages.
+* **InMemory storage** provides quick access and is perfect for development or testing environments; **Local Disk storage** ensures message persistence on the broker's filesystem for enhanced durability.
+* **GRPC storage interface** enables connection to external storage systems like AWS S3, GCP Storage, and distributed key-value databases like Redis, TiKV, offering unlimited scalability and enterprise-grade reliability.
 
-Messages are typically dispatched out of a in memory cache for the sake of performance. If the backlog grows too large for the cache, the broker will start reading entries from the distributed storage.
+The ability to choose between these dispatch modes gives users the flexibility to optimize their messaging infrastructure based on their specific requirements for performance, reliability, and resource utilization.
 
-### _MetadataStore
+### Design Considerations
 
-Used for cluster-level metadata storage, configuration and coordination. Maintain the metadata store of the Danube Cluster, such as namespace / topic metadata, broker load data and others.
+#### Decoupled Architecture
 
-### Message Store
+The Danube Messaging system features a decoupled architecture where components are loosely coupled, allowing for independent scaling, easy maintenance and upgrades, and failure isolation.
 
-It provides message delivery guarantee for applications. If a message successfully reaches the Danube broker, it will be delivered to its intended target.
+#### Plugin Architecture
 
-This guarantee requires that non-acknowledged messages are stored durably until they can be delivered to and acknowledged by consumers. This mode of messaging is commonly called persistent messaging.
+With a plugin architecture, the system supports flexible storage backend options, making it easy to extend and customize according to different use cases. This adaptability ensures that the system can meet diverse application requirements and is cloud-native ready.
+
+#### Event-Driven Focus
+
+Optimized for event-driven systems, the Danube Messaging system supports various message delivery patterns and scalable message processing. Its design is well-suited for microservices, providing efficient and scalable handling of event-driven workloads.
+
+### Danube Platform capabilities matrix
+
+| Dispatch       | Topics            | Subscription | Message Persistence | Ordering Guarantee | Delivery Guarantee |
+|----------------|-------------------|--------------|----------------------|--------------------|--------------------|
+| **Non-Reliable** |                   |              |                      |                    |                    |
+|                | *Non-partitioned Topic*         | *Exclusive*    | No                   | Yes                | At-Most-Once       |
+|                |                   | *Shared*       | No                   | No                 | At-Most-Once       |
+|                | *Partitioned Topic* | *Exclusive*    | No                   | Per partition      | At-Most-Once       |
+|                |                   | *Shared*       | No                   | No                 | At-Most-Once       |
+|----------------|-------------------|--------------|----------------------|--------------------|--------------------|
+| **Reliable**    |                   |              |                      |                    |                    |
+|                | *Non-partitioned Topic*         | *Exclusive*    | Yes                  | Yes                | At-Least-Once      |
+|                |                   | *Shared*       | Yes                  | No                 | At-Least-Once      |
+|                | *Partitioned Topic* | *Exclusive*    | Yes                  | Per partition      | At-Least-Once      |
+|                |                   | *Shared*       | Yes                  | No                 | At-Least-Once      |

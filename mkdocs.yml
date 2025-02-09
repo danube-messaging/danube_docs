@@ -1,4 +1,6 @@
 site_name: Danube Pub-Sub messaging documentation
+repo_url: https://github.com/danube-messaging/danube
+repo_name: danube-messaging/danube
 nav:
         - Home: index.md
         - Getting Started:
@@ -33,6 +35,7 @@ nav:
                   - Metadata Resources: development/internal_resources.md
 theme:
         name: material
+        logo: assets/danube.jpeg
         features:
                 - content.tabs.link
         palette:
