@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#message" class="md-skip">
+        <a href="#message-structure-in-danube" class="md-skip">
           Skip to content
         </a>
       
@@ -90,8 +90,7 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="../.." title="Danube Pub-Sub messaging documentation" class="md-header__button md-logo" aria-label="Danube Pub-Sub messaging documentation" data-md-component="logo">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+  <img src="../../assets/danube.jpeg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -184,6 +183,18 @@
 </div>
     
     
+      <div class="md-header__source">
+        <a href="https://github.com/danube-messaging/danube" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    danube-messaging/danube
+  </div>
+</a>
+      </div>
+    
   </nav>
   
 </header>
@@ -211,12 +222,23 @@
   <label class="md-nav__title" for="__drawer">
     <a href="../.." title="Danube Pub-Sub messaging documentation" class="md-nav__button md-logo" aria-label="Danube Pub-Sub messaging documentation" data-md-component="logo">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+  <img src="../../assets/danube.jpeg" alt="logo">
 
     </a>
     Danube Pub-Sub messaging documentation
   </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/danube-messaging/danube" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    danube-messaging/danube
+  </div>
+</a>
+    </div>
   
   <ul class="md-nav__list" data-md-scrollfix>
     
@@ -456,71 +478,65 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#sent-message-by-producer" class="md-nav__link">
+  <a href="#streammessage-structure" class="md-nav__link">
     <span class="md-ellipsis">
-      Sent message - by Producer
+      StreamMessage Structure
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Sent message - by Producer">
+    <nav class="md-nav" aria-label="StreamMessage Structure">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#payload-bytes" class="md-nav__link">
+  <a href="#core-fields" class="md-nav__link">
     <span class="md-ellipsis">
-      payload (bytes)
+      Core Fields
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#attributes-mapstring-string" class="md-nav__link">
+  <a href="#messageid-fields" class="md-nav__link">
     <span class="md-ellipsis">
-      attributes (map(string, string) )
+      MessageID Fields
     </span>
   </a>
   
 </li>
         
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#received-message-by-consumer" class="md-nav__link">
+          <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
     <span class="md-ellipsis">
-      Received message - by Consumer
+      Usage
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Received message - by Consumer">
+    <nav class="md-nav" aria-label="Usage">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#payload-bytes_1" class="md-nav__link">
+  <a href="#producer-perspective" class="md-nav__link">
     <span class="md-ellipsis">
-      payload ( bytes)
+      Producer Perspective
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#metadata-messagemetadata" class="md-nav__link">
+  <a href="#consumer-perspective" class="md-nav__link">
     <span class="md-ellipsis">
-      metadata (MessageMetadata)
+      Consumer Perspective
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="metadata (MessageMetadata)">
-      <ul class="md-nav__list">
+</li>
         
           <li class="md-nav__item">
-  <a href="#messagemetadata" class="md-nav__link">
+  <a href="#message-routing" class="md-nav__link">
     <span class="md-ellipsis">
-      MessageMetadata
+      Message Routing
     </span>
   </a>
   
@@ -1148,71 +1164,65 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#sent-message-by-producer" class="md-nav__link">
+  <a href="#streammessage-structure" class="md-nav__link">
     <span class="md-ellipsis">
-      Sent message - by Producer
+      StreamMessage Structure
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Sent message - by Producer">
+    <nav class="md-nav" aria-label="StreamMessage Structure">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#payload-bytes" class="md-nav__link">
+  <a href="#core-fields" class="md-nav__link">
     <span class="md-ellipsis">
-      payload (bytes)
+      Core Fields
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#attributes-mapstring-string" class="md-nav__link">
+  <a href="#messageid-fields" class="md-nav__link">
     <span class="md-ellipsis">
-      attributes (map(string, string) )
+      MessageID Fields
     </span>
   </a>
   
 </li>
         
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#received-message-by-consumer" class="md-nav__link">
+          <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
     <span class="md-ellipsis">
-      Received message - by Consumer
+      Usage
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Received message - by Consumer">
+    <nav class="md-nav" aria-label="Usage">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#payload-bytes_1" class="md-nav__link">
+  <a href="#producer-perspective" class="md-nav__link">
     <span class="md-ellipsis">
-      payload ( bytes)
+      Producer Perspective
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#metadata-messagemetadata" class="md-nav__link">
+  <a href="#consumer-perspective" class="md-nav__link">
     <span class="md-ellipsis">
-      metadata (MessageMetadata)
+      Consumer Perspective
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="metadata (MessageMetadata)">
-      <ul class="md-nav__list">
+</li>
         
           <li class="md-nav__item">
-  <a href="#messagemetadata" class="md-nav__link">
+  <a href="#message-routing" class="md-nav__link">
     <span class="md-ellipsis">
-      MessageMetadata
+      Message Routing
     </span>
   </a>
   
@@ -1242,54 +1252,38 @@
                 
                   
 
+  
+  
 
-<h1 id="message">Message</h1>
-<p>It is the basic unit, it is what producers publish to topics and what consumers then consume from topics. It includes metadata about the message as well as the actual payload.</p>
-<h2 id="sent-message-by-producer">Sent message - by Producer</h2>
-<p>The user is able to send through producer the following data:</p>
-<h3 id="payload-bytes">payload (bytes)</h3>
+
+<h1 id="message-structure-in-danube">Message Structure in Danube</h1>
+<p>A message in Danube represents the fundamental unit of data transmission between producers and consumers. Each message contains both the payload and associated metadata for proper routing and processing.</p>
+<h2 id="streammessage-structure">StreamMessage Structure</h2>
+<h3 id="core-fields">Core Fields</h3>
 <ul>
-<li><code>Description</code>: The actual payload of the message. This field contains the data that the consumer will process.</li>
-<li><code>Usage</code>: This is the core content of the message that is intended to be consumed by the receiving party.</li>
+<li>request_id (u64): Unique identifier for tracking the message request</li>
+<li>msg_id (MessageID): Complex identifier containing routing and location information</li>
+<li>payload (Vec): The actual message content</li>
+<li>publish_time (u64): Timestamp when the message was published</li>
+<li>producer_name (String): Name of the producer that sent the message</li>
+<li>subscription_name (String): Name of the subscription for consumer acknowledgment routing</li>
+<li>attributes (HashMap<String, String>): User-defined key-value pairs for custom metadata</li>
 </ul>
-<h3 id="attributes-mapstring-string">attributes (map(string, string) )</h3>
+<h3 id="messageid-fields">MessageID Fields</h3>
 <ul>
-<li><code>Description</code>: A map of user-defined properties or attributes associated with the message. This can include custom metadata or tags.</li>
-<li><code>Usage</code>: This field provides additional flexibility for including extra context or metadata that might be required for specific processing or filtering needs.</li>
+<li>producer_id (u64): Unique identifier for the producer within a topic</li>
+<li>topic_name (String): Name of the topic the message belongs to</li>
+<li>broker_addr (String): Address of the broker handling the message</li>
+<li>segment_id (u64): Unique identifier for the topic segment</li>
+<li>segment_offset (u64): Message position within the segment</li>
 </ul>
-<h2 id="received-message-by-consumer">Received message - by Consumer</h2>
-<h3 id="payload-bytes_1">payload ( bytes)</h3>
-<ul>
-<li><code>Description</code>: The actual payload of the message. This field contains the data that the consumer will process.</li>
-<li><code>Usage</code>: This is the core content of the message that is intended to be consumed by the receiving party.</li>
-</ul>
-<h3 id="metadata-messagemetadata">metadata (MessageMetadata)</h3>
-<ul>
-<li><code>Description</code>: Contains additional metadata related to the message. This can include information about the producer and the message itself.</li>
-<li><code>Usage</code>: This field provides context and additional information that can be used for processing, tracking, and analyzing messages.</li>
-</ul>
-<h4 id="messagemetadata">MessageMetadata</h4>
-<p>The <code>MessageMetadata</code> message includes supplementary information about the message itself, which is useful for managing message processing and analytics. It contain the following fields:</p>
-<p><strong>producer_name (string)</strong>:</p>
-<ul>
-<li><code>Description</code>: The name of the producer that sent the message. This can be used for identifying the source of the message.</li>
-<li><code>Usage</code>: This field is optional and can be used for logging, tracing, or any other purposes where the producer's identity is needed.</li>
-</ul>
-<p><strong>sequence_id (uint64)</strong>:</p>
-<ul>
-<li><code>Description</code>: Represents the sequence ID of the message within the topic. It helps in maintaining the order of messages.</li>
-<li><code>Usage</code>: This field is crucial for ordering messages correctly when received by consumers. It helps in ensuring that messages are processed in the correct sequence.</li>
-</ul>
-<p><strong>publish_time (uint64)</strong>:</p>
-<ul>
-<li><code>Description</code>: Indicates the time when the message was published. It is typically a timestamp value.</li>
-<li><code>Usage</code>: This field can be used for time-based processing, such as determining the age of a message or for scheduling purposes.</li>
-</ul>
-<p><strong>attributes (map(string, string))</strong>:</p>
-<ul>
-<li><code>Description</code>: A map of user-defined properties or attributes associated with the message. This can include custom metadata or tags.</li>
-<li><code>Usage</code>: This field provides additional flexibility for including extra context or metadata that might be required for specific processing or filtering needs.</li>
-</ul>
+<h3 id="usage">Usage</h3>
+<h4 id="producer-perspective">Producer Perspective</h4>
+<p>Producers create messages by setting the payload and optional attributes. The system automatically generates and manages other fields like request_id, msg_id, and publish_time.</p>
+<h4 id="consumer-perspective">Consumer Perspective</h4>
+<p>Consumers receive the complete StreamMessage structure, providing access to both the message payload and all associated metadata for processing and acknowledgment handling.</p>
+<h4 id="message-routing">Message Routing</h4>
+<p>The MessageID structure enables efficient message routing and acknowledgment handling across the Danube messaging system, ensuring messages reach their intended destinations and can be properly tracked.</p>
 
 
 
