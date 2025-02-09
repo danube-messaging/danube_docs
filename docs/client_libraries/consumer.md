@@ -13,28 +13,27 @@ A consumer is a process that attaches to a topic via a subscription and then rec
 === "Rust"
 
     ```rust
-    let topic = "/default/test_topic".to_string();
-
-    let mut consumer = client
+    let topic = "/default/test_topic";
+    
+      // Create the Exclusive consumer
+    let mut consumer = danube_client
         .new_consumer()
-        .with_topic(topic.clone())
-        .with_consumer_name("test_consumer")
-        .with_subscription("test_subscription")
+        .with_topic(topic.to_string())
+        .with_consumer_name(consumer_name.to_string())
+        .with_subscription(format!("test_subscription_{}", consumer_name))
         .with_subscription_type(SubType::Exclusive)
         .build();
 
     // Subscribe to the topic
-    let consumer_id = consumer.subscribe().await?;
-    println!("The Consumer with ID: {:?} was created", consumer_id);
-
-    let _schema = client.get_schema(topic).await.unwrap();
+    consumer.subscribe().await?;
 
     // Start receiving messages
     let mut message_stream = consumer.receive().await?;
 
-     while let Some(message) = message_stream.next().await {
+     if let Some(stream_message) = message_stream.recv().await {
         
         //process the message and ack for receive
+        consumer.ack(&stream_message).await?
      
      }
     ```
@@ -43,42 +42,46 @@ A consumer is a process that attaches to a topic via a subscription and then rec
 
     ```go
     ctx := context.Background()
-    topic := "/default/test_topic"
+    topic := "/default/topic_test"
+    consumerName := "consumer_test"
+    subscriptionName := "subscription_test"
     subType := danube.Exclusive
 
     consumer, err := client.NewConsumer(ctx).
-        WithConsumerName("test_consumer").
+        WithConsumerName(consumerName).
         WithTopic(topic).
-        WithSubscription("test_subscription").
+        WithSubscription(subscriptionName).
         WithSubscriptionType(subType).
         Build()
     if err != nil {
         log.Fatalf("Failed to initialize the consumer: %v", err)
     }
 
-    consumerID, err := consumer.Subscribe(ctx)
-    if err != nil {
+    if err := consumer.Subscribe(ctx); err != nil {
         log.Fatalf("Failed to subscribe: %v", err)
     }
-    log.Printf("The Consumer with ID: %v was created", consumerID)
+    log.Printf("The Consumer %s was created", consumerName)
 
+
+ 
     // Receiving messages
-    streamClient, err := consumer.Receive(ctx)
+    stream, err := consumer.Receive(ctx)
     if err != nil {
         log.Fatalf("Failed to receive messages: %v", err)
     }
 
-    for {
-        msg, err := streamClient.Recv()
-       
-       //process the message and ack for receive
-    
+    for msg := range stream {
+        fmt.Printf("Received message: %+v\n", string(msg.GetPayload()))
+
+        if _, err := consumer.Ack(ctx, msg); err != nil {
+            log.Fatalf("Failed to acknowledge message: %v", err)
+        }
     }
     ```
 
 ## Complete example
 
-For a complete example implementation of the above code using producers and consumers, check the examples:
+For complete code examples of using producers and consumers, check the links:
 
 * [Rust Examples](https://github.com/danube-messaging/danube/tree/main/danube-client/examples)
 * [Go Examples](https://github.com/danube-messaging/danube-go/tree/main/examples)
