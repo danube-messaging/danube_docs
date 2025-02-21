@@ -35,7 +35,7 @@ nav:
                   - Metadata Resources: development/internal_resources.md
 theme:
         name: material
-        logo: assets/danube.jpeg
+        logo: assets/danube.png
         features:
                 - content.tabs.link
         palette:
