@@ -5,6 +5,7 @@ nav:
         - Home: index.md
         - Getting Started:
                   - Run Danube on VMs or local machine: getting_started/Danube_local.md
+                  - Run Danube on Docker: getting_started/Danube_docker_compose.md
                   - Run Danube on Kubernetes Cluster: getting_started/Danube_kubernetes.md
         - Architecture:
                   - Danube architecture: architecture/architecture.md

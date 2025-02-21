@@ -10,9 +10,9 @@ This strategy prioritizes speed and minimal resource usage by delivering message
 
 This strategy ensures guaranteed message delivery by implementing a store-and-forward mechanism. When a message arrives, it's first stored in the chosen storage backend before being dispatched to subscribers. The storage options include:
 
-* InMemory: Messages are kept in RAM for quick access, ideal for development environments
 * Local Disk: Messages are persisted to the broker's filesystem, providing durability with lightweight operation
-* GRPC Storage Interface: Connects to external storage systems using [danube-storage](https://github.com/danube-messaging/danube-storage) components. It can be implemented for cloud storage as AWS S3, GCP Storage or Azure Blob Storage, also for distributed key-value storage systems like Redis, TiKV, Caassandra, etc.
+* GRPC Storage Interface: Connects to external storage systems using [danube-storage](https://github.com/danube-messaging/danube-storage) components. It can be implemented for cloud storage as AWS S3, GCP Storage or Azure Blob Storage, also for distributed object / block storage systems like MINIO,ROOK, LONGHORN etc.
+* InMemory: Messages are kept in RAM for quick access, only for development & teting environments
 
 The Reliable Dispatch maintains message state and tracks delivery acknowledgments, ensuring messages are not lost even if subscribers are temporarily unavailable.
 

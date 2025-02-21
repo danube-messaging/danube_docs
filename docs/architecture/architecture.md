@@ -20,7 +20,7 @@ The ETCD cluster serves as the metadata storage for the system by maintaining co
 
 The Storage Layer is where the messages are stored. It's a plugable architecture, you can choose to use immediate dispatch so the messages are not persisted and sent to the consumers immediatelly, or you can use reliable dispatch where the messages are persisted and sent to the consumers when they are available.
 
-The Storage Layer introduces flexibility through its pluggable architecture and storing mechanisms including InMemory and Local Disk for simple persistence, or a GRPC storage interface that supports multiple remote backends like S3, GCP Storage, Redis, and TiKV to enhance scalability and durability.
+The Storage Layer introduces flexibility through its pluggable architecture and storing mechanisms including Local Disk for simple persistence, or enhanced scalability and durability via GRPC storage interface that can connect to any [supported object/block storage](https://github.com/danube-messaging/danube-storage) service.
 
 #### Non-Reliable Dispatch
 
@@ -30,8 +30,9 @@ Non-Reliable Dispatch operates with zero storage overhead, as messages flow dire
 
 Reliable Dispatch offers guaranteed message delivery using the storage options:
 
-* **InMemory storage** provides quick access and is perfect for development or testing environments; **Local Disk storage** ensures message persistence on the broker's filesystem for enhanced durability.
-* **GRPC storage interface** enables connection to external storage systems like AWS S3, GCP Storage, and distributed key-value databases like Redis, TiKV, offering unlimited scalability and enterprise-grade reliability.
+* **Local Disk storage** ensures message persistence on the broker's filesystem for local persistence.
+* **GRPC storage interface** enables external storage persistence, connecting to an external GRPC server that can be implemented for AWS S3, GCP Storage, or other distributed object / block storage systems like MINIO, ROOK, offering unlimited scalability and enterprise-grade reliability.
+* **InMemory storage** provides quick access and is only recommended for development or testing environments;
 
 The ability to choose between these dispatch modes gives users the flexibility to optimize their messaging infrastructure based on their specific requirements for performance, reliability, and resource utilization.
 
