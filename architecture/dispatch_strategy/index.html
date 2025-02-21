@@ -325,6 +325,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../../getting_started/Danube_docker_compose/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Run Danube on Docker
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../getting_started/Danube_kubernetes/" class="md-nav__link">
         
   
@@ -1128,9 +1149,9 @@
 <h3 id="reliable-dispatch-strategy">Reliable Dispatch Strategy</h3>
 <p>This strategy ensures guaranteed message delivery by implementing a store-and-forward mechanism. When a message arrives, it's first stored in the chosen storage backend before being dispatched to subscribers. The storage options include:</p>
 <ul>
-<li>InMemory: Messages are kept in RAM for quick access, ideal for development environments</li>
 <li>Local Disk: Messages are persisted to the broker's filesystem, providing durability with lightweight operation</li>
-<li>GRPC Storage Interface: Connects to external storage systems using <a href="https://github.com/danube-messaging/danube-storage">danube-storage</a> components. It can be implemented for cloud storage as AWS S3, GCP Storage or Azure Blob Storage, also for distributed key-value storage systems like Redis, TiKV, Caassandra, etc.</li>
+<li>GRPC Storage Interface: Connects to external storage systems using <a href="https://github.com/danube-messaging/danube-storage">danube-storage</a> components. It can be implemented for cloud storage as AWS S3, GCP Storage or Azure Blob Storage, also for distributed object / block storage systems like MINIO,ROOK, LONGHORN etc.</li>
+<li>InMemory: Messages are kept in RAM for quick access, only for development &amp; teting environments</li>
 </ul>
 <p>The Reliable Dispatch maintains message state and tracks delivery acknowledgments, ensuring messages are not lost even if subscribers are temporarily unavailable.</p>
 <p>These dispatch strategies embody Danube's design principle of flexibility, letting users choose the right balance between performance and reliability based on their specific requirements. The ability to switch between these strategies or use them simultaneously for different topics makes Danube adaptable to various messaging patterns in distributed systems.</p>

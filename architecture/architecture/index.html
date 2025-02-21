@@ -325,6 +325,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../../getting_started/Danube_docker_compose/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Run Danube on Docker
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../getting_started/Danube_kubernetes/" class="md-nav__link">
         
   
@@ -1300,14 +1321,15 @@
 <p>The ETCD cluster serves as the metadata storage for the system by maintaining configuration data, topic information, and broker coordination and load-balancing, ensuring the entire system operates with high availability and consistent state management across all nodes.</p>
 <h3 id="storage-layer">Storage Layer</h3>
 <p>The Storage Layer is where the messages are stored. It's a plugable architecture, you can choose to use immediate dispatch so the messages are not persisted and sent to the consumers immediatelly, or you can use reliable dispatch where the messages are persisted and sent to the consumers when they are available.</p>
-<p>The Storage Layer introduces flexibility through its pluggable architecture and storing mechanisms including InMemory and Local Disk for simple persistence, or a GRPC storage interface that supports multiple remote backends like S3, GCP Storage, Redis, and TiKV to enhance scalability and durability.</p>
+<p>The Storage Layer introduces flexibility through its pluggable architecture and storing mechanisms including Local Disk for simple persistence, or enhanced scalability and durability via GRPC storage interface that can connect to any <a href="https://github.com/danube-messaging/danube-storage">supported object/block storage</a> service.</p>
 <h4 id="non-reliable-dispatch">Non-Reliable Dispatch</h4>
 <p>Non-Reliable Dispatch operates with zero storage overhead, as messages flow directly from publishers to subscribers without intermediate persistence. This mode delivers maximum performance and lowest latency, making it ideal for scenarios where occasional message loss is acceptable, such as real-time metrics or live streaming data.</p>
 <h4 id="reliable-dispatch">Reliable Dispatch</h4>
 <p>Reliable Dispatch offers guaranteed message delivery using the storage options:</p>
 <ul>
-<li><strong>InMemory storage</strong> provides quick access and is perfect for development or testing environments; <strong>Local Disk storage</strong> ensures message persistence on the broker's filesystem for enhanced durability.</li>
-<li><strong>GRPC storage interface</strong> enables connection to external storage systems like AWS S3, GCP Storage, and distributed key-value databases like Redis, TiKV, offering unlimited scalability and enterprise-grade reliability.</li>
+<li><strong>Local Disk storage</strong> ensures message persistence on the broker's filesystem for local persistence.</li>
+<li><strong>GRPC storage interface</strong> enables external storage persistence, connecting to an external GRPC server that can be implemented for AWS S3, GCP Storage, or other distributed object / block storage systems like MINIO, ROOK, offering unlimited scalability and enterprise-grade reliability.</li>
+<li><strong>InMemory storage</strong> provides quick access and is only recommended for development or testing environments;</li>
 </ul>
 <p>The ability to choose between these dispatch modes gives users the flexibility to optimize their messaging infrastructure based on their specific requirements for performance, reliability, and resource utilization.</p>
 <h3 id="design-considerations">Design Considerations</h3>
