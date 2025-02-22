@@ -1,61 +1,97 @@
 # Danube-Pubsub CLI - Consume messages
 
-The `consume` command retrieves messages from a specified topic.
+The `consume` command subscribes to a topic and receives messages with support for different subscription types, schema validation, and message attributes tracking.
 
-## Usage
+## Basic Usage
 
 ```bash
 danube-cli consume [OPTIONS] --service-addr <SERVICE_ADDR> --subscription <SUBSCRIPTION>
 ```
 
-### Options
+### Required Arguments
 
-- `-s, --service-addr <SERVICE_ADDR>`  
-  Description: The service URL for the Danube broker.  
-  Example: `http://127.0.0.1:6650`
+- `-s, --service-addr <SERVICE_ADDR>`
+  The service URL for the Danube broker (e.g., `http://127.0.0.1:6650`)
 
-- `-t, --topic <TOPIC>`  
-  Description: The topic to consume messages from.  
-  If not specified: `/default/test_topic`
+- `-m, --subscription <SUBSCRIPTION>`
+  The subscription name to use for consuming messages
 
-- `-c, --consumer <CONSUMER>`  
-  Description: The consumer name.  
-  If not specified: `consumer_pubsub`
+### Optional Arguments
 
-- `-m, --subscription <SUBSCRIPTION>`  
-  Description: The subscription name.  
-  Required: Yes
+- `-t, --topic <TOPIC>`
+  Topic to consume messages from (default: /default/test_topic)
 
-- `--sub-type <SUB_TYPE>`  
-  Description: The subscription type.  
-  Default: `shared`  
-  Possible values: `exclusive`, `shared`, `fail-over`
+- `-n, --consumer <CONSUMER>`
+  Consumer identifier (default: `consumer_pubsub`)
+
+- `--sub-type <TYPE>`
+  Subscription type: `exclusive`, `shared`, `fail-over` (default: `shared`)
 
 - `-h, --help`  
-  **Description:** Print help information.
+  Print help information.
 
-### Example: Shared Subscription
+## Message Output Format
 
-To receive messages from a shared subscription:
-
-```bash
-danube-cli consume -s http://127.0.0.1:6650 -m my_shared_subscription
-```
-
-### Example: Exclusive Subscription
-
-To receive messages from an exclusive subscription:
+### Standard Messages
 
 ```bash
-danube-cli consume -s http://127.0.0.1:6650 -m my_exclusive --sub-type exclusive
+Received message: "message content"
+Size: <size> bytes, Total received: <total> bytes
+Attributes: key1=value1, key2=value2
 ```
 
-**To create a new exclusive subscription:**
+### Reliable messages
+
+```bash
+Received reliable message: "message content"
+Segment: <id>, Offset: <offset>, Size: <size> bytes, Total received: <total> bytes
+Producer: <producer_id>, Topic: <topic_name>
+Attributes: key1=value1, key2=value2
+```
+
+### Features
+
+- **Schema Validation**: Automatically validates messages against topic schema
+- **Large Message Handling**: Messages over 1KB are displayed as [binary data]
+- **Message Tracking**: Tracks total bytes received and message segments
+- **Attribute Display**: Shows message attributes if present
+- **Multiple Schema Types**: Supports `bytes`, `string`, `int64`, and `json` schemas
+
+## Examples
+
+### Shared Subscription (Default)
+
+```bash
+danube-cli consume --service-addr http://localhost:6650 --subscription my_shared_subscription
+```
+
+### Exclusive Subscription
+
+```bash
+danube-cli consume -s http://localhost:6650 -m my_exclusive --sub-type exclusive
+```
+
+**To create a new exclusive subscription on the same topic:**
 
 ```bash
 danube-cli consume -s http://127.0.0.1:6650 -m my_exclusive2 --sub-type exclusive
 ```
 
-## Resources
+### Custom Consumer Name
 
-Check [this article](https://dev-state.com/posts/danube_pubsub/) that covers how to combine the subscription types in order to obtain message queueing or fan-out pub-sub messaging patterns.
+```bash
+danube-cli consume -s http://localhost:6650 -n my_consumer -m my_subscription
+```
+
+### Specific Topic
+
+```bash
+danube-cli consume -s http://localhost:6650 -t my_topic -m my_subscription
+```
+
+## Notes
+
+- Messages are automatically acknowledged after processing
+- JSON messages are pretty-printed and validated against schema if available
+- The consumer maintains message ordering for reliable delivery
+- Connection errors and message processing failures are reported to stderr

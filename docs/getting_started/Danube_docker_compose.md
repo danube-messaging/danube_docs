@@ -14,8 +14,10 @@ This guide focus on running Danube with a reliable dispatch strategy and MINIO a
 ## Prerequisites
 
 Ensure you have the following installed on your system:
-Docker
-Docker Compose
+
+* Docker
+* Docker Compose (version v2.32.0 or higher)
+* The files mentioned below *docker-compose.yml* and *danube_broker.yml* are in [this repository](https://github.com/danube-messaging/danube-storage/tree/main/danube-minio-storage/test_minio_storage).
 
 ## Docker Compose architecture
 
@@ -175,14 +177,42 @@ volumes:
 
 3. Produce messages:
 
+    Download the [Danube CLI](https://github.com/danube-messaging/danube/releases).
+
+    Create a 100KB blob file, in order to fill faster the 5 MB segment size.
+
     ```bash
-    danube-cli produce -s http://localhost:6650 -m "Hello Danube" -c 1000 --reliable --segment-size 5 --retention expire --retention-period 7200
+    yes 'Danube messaging platform is awesome!' | head -c 100K > test.blob
+    ```
+
+    Produce messages, (creating also a topic with reliable dispatch, meaning that the messages are stored and then delivered to the consumers).
+
+    ```bash
+    danube-cli produce -s http://localhost:6650 -m "none" -f ./test.blob -c 1000 --reliable  --segment-size 5  --retention expire --retention-period 7200
     ```
 
 4. Consume messages:
 
+    Consume messages from the topic, creating an exclusive subscription.
+
     ```bash
     danube-cli consume -s http://localhost:6650 -m my_exclusive --sub-type exclusive
+    ```
+
+    The output should look like this:
+
+    ```bash
+    Received reliable message: [binary data] 
+    Segment: 2, Offset: 41, Size: 102400 bytes, Total received: 9728000 bytes
+    Producer: 9791760036514492028, Topic: /default/test_topic
+
+    Received reliable message: [binary data] 
+    Segment: 2, Offset: 42, Size: 102400 bytes, Total received: 9830400 bytes
+    Producer: 9791760036514492028, Topic: /default/test_topic
+
+    Received reliable message: [binary data] 
+    Segment: 2, Offset: 43, Size: 102400 bytes, Total received: 9932800 bytes
+    Producer: 9791760036514492028, Topic: /default/test_topic
     ```
 
 ## Checking Stored Messages
