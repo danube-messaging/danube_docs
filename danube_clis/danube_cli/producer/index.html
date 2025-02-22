@@ -936,28 +936,97 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
+  <a href="#basic-usage" class="md-nav__link">
     <span class="md-ellipsis">
-      Usage
+      Basic Usage
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Usage">
+    <nav class="md-nav" aria-label="Basic Usage">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#options" class="md-nav__link">
+  <a href="#required-arguments" class="md-nav__link">
     <span class="md-ellipsis">
-      Options
+      Required Arguments
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
+  <a href="#basic-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Options
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#message-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Message Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reliable-delivery-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reliable Delivery Options
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#example" class="md-nav__link">
     <span class="md-ellipsis">
       Example
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-message-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Message Production
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic Message Production">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#json-messages-with-schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      JSON Messages with Schema
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reliable-message-delivery" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reliable Message Delivery
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#binary-file-send-with-reliable-delivery" class="md-nav__link">
+    <span class="md-ellipsis">
+      Binary File send with Reliable Delivery
     </span>
   </a>
   
@@ -1124,28 +1193,97 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
+  <a href="#basic-usage" class="md-nav__link">
     <span class="md-ellipsis">
-      Usage
+      Basic Usage
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Usage">
+    <nav class="md-nav" aria-label="Basic Usage">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#options" class="md-nav__link">
+  <a href="#required-arguments" class="md-nav__link">
     <span class="md-ellipsis">
-      Options
+      Required Arguments
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
+  <a href="#basic-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Options
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#message-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Message Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reliable-delivery-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reliable Delivery Options
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#example" class="md-nav__link">
     <span class="md-ellipsis">
       Example
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-message-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Message Production
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic Message Production">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#json-messages-with-schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      JSON Messages with Schema
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reliable-message-delivery" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reliable Message Delivery
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#binary-file-send-with-reliable-delivery" class="md-nav__link">
+    <span class="md-ellipsis">
+      Binary File send with Reliable Delivery
     </span>
   </a>
   
@@ -1175,70 +1313,109 @@
 
 
 <h1 id="danube-pubsub-cli-produce-messages">Danube-Pubsub CLI - Produce messages</h1>
-<p>The <code>produce</code> command sends messages to a specified topic.</p>
-<h2 id="usage">Usage</h2>
+<p>The <code>produce</code> command sends messages to a specified topic with support for reliable delivery, custom schemas, and message attributes.</p>
+<h2 id="basic-usage">Basic Usage</h2>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>danube-cli<span class="w"> </span>produce<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>--service-addr<span class="w"> </span>&lt;SERVICE_ADDR&gt;<span class="w"> </span>--message<span class="w"> </span>&lt;MESSAGE&gt;
 </span></code></pre></div>
-<h3 id="options">Options</h3>
+<h3 id="required-arguments">Required Arguments</h3>
 <ul>
 <li>
-<p><code>-s, --service-addr &lt;SERVICE_ADDR&gt;</code><br />
-  Description: The service URL for the Danube broker.<br />
-  Example: <code>http://127.0.0.1:6650</code></p>
+<p><code>-s, --service-addr &lt;SERVICE_ADDR&gt;</code>
+  The service URL for the Danube broker (e.g., <code>http://127.0.0.1:6650</code>)</p>
 </li>
 <li>
-<p><code>-n, --producer-name &lt;PRODUCER_NAME&gt;</code><br />
-  Description: The producer name .<br />
-  If not specified: <code>test_producer</code></p>
+<p><code>-m, --message &lt;MESSAGE&gt;</code>
+  The message content to send</p>
 </li>
 <li>
-<p><code>-t, --topic &lt;TOPIC&gt;</code><br />
-  Description: The topic to produce messages to.<br />
-  If not specified: <code>/default/test_topic</code></p>
+<p><code>-f, --file &lt;FILE_PATH&gt;</code>
+  Binary file path to send (takes precedence over --message when specified)</p>
+</li>
+</ul>
+<h3 id="basic-options">Basic Options</h3>
+<ul>
+<li>
+<p><code>-n, --producer-name &lt;PRODUCER_NAME&gt;</code>
+  Producer identifier (default: <code>test_producer</code>)</p>
 </li>
 <li>
-<p><code>-p, --partitions &lt;number&gt;</code><br />
-  Description: The number of topic partitions.<br />
-  Default: <code>None</code></p>
+<p><code>-t, --topic &lt;TOPIC&gt;</code>
+  Destination topic (default: <code>/default/test_topic</code>)</p>
 </li>
 <li>
-<p><code>-y, --schema &lt;SCHEMA&gt;</code><br />
-  Description: The schema type of the message.<br />
-  Possible values: <code>bytes</code>, <code>string</code>, <code>int64</code>, <code>json</code></p>
+<p><code>-p, --partitions &lt;NUMBER&gt;</code>
+  Number of topic partitions</p>
+</li>
+</ul>
+<h3 id="message-configuration">Message Configuration</h3>
+<ul>
+<li>
+<p><code>-y, --schema &lt;SCHEMA&gt;</code>
+  Message schema type: <code>bytes</code>, <code>string</code>, <code>int64</code>, <code>json</code> (default: <code>string</code>)</p>
 </li>
 <li>
-<p><code>-m, --message &lt;MESSAGE&gt;</code><br />
-  Description: The message to send.<br />
-  Required: Yes</p>
+<p><code>--json-schema &lt;JSON_SCHEMA&gt;</code>
+  Required JSON schema definition when using <code>json</code> schema type</p>
 </li>
 <li>
-<p><code>--json-schema &lt;JSON_SCHEMA&gt;</code><br />
-  Description: The JSON schema, required if schema type is <code>json</code>.</p>
+<p><code>-a, --attributes &lt;ATTRIBUTES&gt;</code>
+  Message attributes in <code>key1:value1,key2:value2</code> format</p>
 </li>
 <li>
-<p><code>-c, --count &lt;COUNT&gt;</code><br />
-  Description: Number of times to send the message.<br />
-  Default: <code>1</code></p>
+<p><code>-c, --count &lt;COUNT&gt;</code>
+  Number of messages to send (default: <code>1</code>)</p>
 </li>
 <li>
-<p><code>-i, --interval &lt;INTERVAL&gt;</code><br />
-  Description: Interval between messages in milliseconds.<br />
-  Default: <code>500</code><br />
-  Minimum: <code>100</code></p>
+<p><code>-i, --interval &lt;INTERVAL&gt;</code>
+  Delay between messages in milliseconds (default: 500, minimum: 100)</p>
+</li>
+</ul>
+<h3 id="reliable-delivery-options">Reliable Delivery Options</h3>
+<ul>
+<li>
+<p><code>--reliable</code>
+  Enable reliable message delivery with storage persistence</p>
 </li>
 <li>
-<p><code>-a, --attributes &lt;ATTRIBUTES&gt;</code><br />
-  Description: Attributes in the form <code>'parameter:value'</code>.<br />
-  Example: <code>'key1:value1,key2:value2'</code></p>
+<p><code>--segment-size &lt;SIZE&gt;</code>
+  Segment size in MB for reliable delivery (default: 20)</p>
+</li>
+<li>
+<p><code>--retention &lt;POLICY&gt;</code>
+  Retention policy: <code>ack</code> (retain until acknowledged) or <code>expire</code> (retain until time expires) (default: expire)</p>
+</li>
+<li>
+<p><code>--retention-period &lt;SECONDS&gt;</code>
+  Retention period in seconds for reliable delivery (default: <code>3600</code>)</p>
 </li>
 <li>
 <p><code>-h, --help</code><br />
   Description: Print help information</p>
 </li>
 </ul>
-<h3 id="example">Example</h3>
-<p>To send 1000 messages with the content "Hello, Danube!" to the default topic:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>danube-cli<span class="w"> </span>produce<span class="w"> </span>-s<span class="w"> </span>http://127.0.0.1:6650<span class="w"> </span>-c<span class="w"> </span><span class="m">1000</span><span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Hello, Danube!&quot;</span>
+<h2 id="example">Example</h2>
+<h2 id="basic-message-production">Basic Message Production</h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>danube-cli<span class="w"> </span>produce<span class="w"> </span>--service-addr<span class="w"> </span>http://localhost:6650<span class="w"> </span>--count<span class="w"> </span><span class="m">100</span><span class="w"> </span>--message<span class="w"> </span><span class="s2">&quot;Hello Danube&quot;</span>
+</span></code></pre></div>
+<h3 id="json-messages-with-schema">JSON Messages with Schema</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>danube-cli<span class="w"> </span>produce<span class="w"> </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span>-c<span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span>-y<span class="w"> </span>json<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span>--json-schema<span class="w"> </span><span class="s1">&#39;{&quot;type&quot;: &quot;object&quot;, &quot;properties&quot;: {&quot;field1&quot;: {&quot;type&quot;: &quot;string&quot;}}}&#39;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span>-m<span class="w"> </span><span class="s1">&#39;{&quot;field1&quot;:&quot;Hello Danube&quot;}&#39;</span>
+</span></code></pre></div>
+<h3 id="reliable-message-delivery">Reliable Message Delivery</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>danube-cli<span class="w"> </span>produce<span class="w"> </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Hello Danube&quot;</span><span class="w"> </span>-c<span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span>--reliable<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span>--segment-size<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span>--retention<span class="w"> </span>expire<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span>--retention-period<span class="w"> </span><span class="m">7200</span>
+</span></code></pre></div>
+<h3 id="binary-file-send-with-reliable-delivery">Binary File send with Reliable Delivery</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>danube-cli<span class="w"> </span>produce<span class="w"> </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;none&quot;</span><span class="w"> </span>-f<span class="w"> </span>./data.blob<span class="w"> </span>-c<span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span>--reliable<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span>--segment-size<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span>--retention<span class="w"> </span>expire<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span>--retention-period<span class="w"> </span><span class="m">7200</span>
 </span></code></pre></div>
 
 
