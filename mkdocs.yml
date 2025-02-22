@@ -1,6 +1,10 @@
 site_name: Danube Messaging documentation
 repo_url: https://github.com/danube-messaging/danube
 repo_name: danube-messaging/danube
+extra:
+        analytics:
+                provider: google
+                property: G-2XEY5RCVVB
 nav:
         - Home: index.md
         - Getting Started:
