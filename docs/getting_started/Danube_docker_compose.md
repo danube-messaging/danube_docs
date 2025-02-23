@@ -19,104 +19,30 @@ Ensure you have the following installed on your system:
 * Docker Compose (version v2.32.0 or higher)
 * The files mentioned below *docker-compose.yml* and *danube_broker.yml* are in [this repository](https://github.com/danube-messaging/danube-storage/tree/main/test_minio_storage).
 
-## Docker Compose architecture
+## Docker Compose Configuration
 
 ![Danube docker Compose](img/reliable_with_minio_storage.png "Danube Docker Compose")
 
-## Docker Compose Configuration
+The **[docker-compose.yml](https://github.com/danube-messaging/danube-storage/tree/main/test_minio_storage)** file defines the following services:
 
-### Key Components
+* **ETCD (etcd)**: Stores Danube's cluster metadata.
+* **Danube Brokers (broker1, broker2)**: Handles message routing. As the prerequisites, the etcd service must be healthy.
+Ensure that your [`danube_broker.yml`](https://github.com/danube-messaging/danube-storage/tree/main/test_minio_storage) configuration file is properly configured.
+* **MinIO (minio)**: Provides object storage to persist messages.
+* **Danube MinIO Storage** (danube-minio-storage): Bridges Danube and MinIO. Implements the storage grpc service for Danube and connects to MinIO.
 
-* **ETCD (etcd)**: Stores Danube's metadata.
-* **Danube Brokers (broker1, broker2)**: Handles message routing.
-* **MinIO (minio)**: Provides object storage for persistent topics.
-* **Danube MinIO Storage** (danube-minio-storage): Bridges Danube and MinIO.
+## Setup
 
-The [docker-compose.yml](https://github.com/danube-messaging/danube-storage/tree/main/test_minio_storage) file defines the following services:
+There are 2 alternatives to run the docker compose file:
 
-### ETCD (Metadata Storage)
+1. Clone the `danube-storage` repository and run the docker compose file from the `test_minio_storage` folder.
+2. Copy the [`docker-compose.yml`](https://github.com/danube-messaging/danube-storage/blob/main/test_minio_storage/docker-compose.yml) and [`danube_broker.yml`](https://github.com/danube-messaging/danube-storage/blob/main/test_minio_storage/danube_broker.yml) files to your local folder and run the docker compose file from that folder.
 
-ETCD is used for storing metadata.
+If you go with the second option, you have to modify the `danube-minio-storage` section from `docker-compose.yml` file to use the image from Container Registry instead of the Dockerfile build.
 
-```yaml
-  etcd:
-    image: quay.io/coreos/etcd:latest
-    container_name: etcd-danube
-    environment:
-      ETCDCTL_API: 3
-      ETCD_ADVERTISE_CLIENT_URLS: "http://etcd:2379"
-      ETCD_LISTEN_CLIENT_URLS: "http://0.0.0.0:2379"
-      ETCD_INITIAL_CLUSTER: "etcd-danube=http://etcd-danube:2380"
-      ETCD_NAME: "etcd-danube"
-      ETCD_LISTEN_PEER_URLS: "http://0.0.0.0:2380"
-      ETCD_INITIAL_ADVERTISE_PEER_URLS: "http://etcd-danube:2380"
-    ports:
-      - "2379:2379"
-      - "2380:2380"
-    healthcheck:
-      test: ["CMD", "etcdctl", "--endpoints=http://127.0.0.1:2379", "endpoint", "health"]
-      interval: 2s
-      timeout: 5s
-      retries: 10
-```
-
-### Danube Brokers (Message Brokers)
-
-Two brokers are defined (broker1 and broker2) that handle messaging. As the prerequisites, the etcd service must be healthy.
-Ensure that your [`danube_broker.yml`](https://github.com/danube-messaging/danube-storage/tree/main/test_minio_storage) configuration file is correctly set up.
-
-```yaml
-  broker1:
-    image: ghcr.io/danube-messaging/danube-broker:latest
-    container_name: broker1
-    depends_on:
-      etcd:
-        condition: service_healthy
-    volumes:
-      - ./danube_broker.yml:/etc/danube_broker.yml:ro
-    environment:
-      RUST_LOG: danube_broker=info
-    command: [
-      "--config-file", "/etc/danube_broker.yml",
-      "--broker-addr", "0.0.0.0:6650",
-      "--admin-addr", "0.0.0.0:50051",
-      "--prom-exporter", "0.0.0.0:3000"
-    ]
-    ports:
-      - "6650:6650"
-      - "50051:50051"
-      - "3000:3000"
-```
-
-The second broker (broker2) is configured similarly but runs on different ports.
-
-### MinIO (Persistent Storage)
-
-MinIO is used for message persistence. [Danube-storage](https://github.com/danube-messaging/danube-storage/tree/main) implements the storage grpc service for Danube and connects to MinIO.
-
-```yaml
-  minio:
-    image: minio/minio
-    container_name: minio
-    environment:
-      MINIO_ROOT_USER: minioadmin
-      MINIO_ROOT_PASSWORD: minioadmin
-    command: server /data --console-address ":9001"
-    ports:
-      - "9000:9000"
-      - "9001:9001"
-    volumes:
-      - minio_data:/data
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
-      interval: 30s
-      timeout: 20s
-      retries: 3
-
+```bash
   danube-minio-storage:
-    build:
-      context: ../.
-      dockerfile: Dockerfile
+    image: ghcr.io/danube-messaging/danube-storage:latest
     container_name: danube-minio-storage
     environment:
       STORAGE_TYPE: minio
@@ -131,9 +57,6 @@ MinIO is used for message persistence. [Danube-storage](https://github.com/danub
         condition: service_healthy
     ports:
       - "50060:50060"
-
-volumes:
-  minio_data:
 ```
 
 ## Running Danube Messaging
@@ -151,6 +74,8 @@ volumes:
     ✔ Container broker1                   Created  
     ✔ Container danube-minio-storage      Created 
     ```
+
+    or just `docker-compose up` if you use the danube-storage image.
 
     This command will download the necessary images and start the containers. Docker Compose will ensure that ETCD and MinIO are healthy before starting the Danube brokers and storage component.
 
@@ -186,7 +111,7 @@ volumes:
     yes 'Danube messaging platform is awesome!' | head -c 100K > test.blob
     ```
 
-    Produce messages, (creating also a topic with reliable dispatch, meaning that the messages are stored and then delivered to the consumers).
+    Produce messages, (creates also a topic with reliable dispatch, meaning that the messages are stored and then delivered to the consumers).
 
     ```bash
     danube-cli produce -s http://localhost:6650 -m "none" -f ./test.blob -c 1000 --reliable  --segment-size 5  --retention expire --retention-period 7200
