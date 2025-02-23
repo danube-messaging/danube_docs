@@ -392,62 +392,20 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#docker-compose-architecture" class="md-nav__link">
-    <span class="md-ellipsis">
-      Docker Compose architecture
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#docker-compose-configuration" class="md-nav__link">
     <span class="md-ellipsis">
       Docker Compose Configuration
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Docker Compose Configuration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#key-components" class="md-nav__link">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup" class="md-nav__link">
     <span class="md-ellipsis">
-      Key Components
+      Setup
     </span>
   </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#etcd-metadata-storage" class="md-nav__link">
-    <span class="md-ellipsis">
-      ETCD (Metadata Storage)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#danube-brokers-message-brokers" class="md-nav__link">
-    <span class="md-ellipsis">
-      Danube Brokers (Message Brokers)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#minio-persistent-storage" class="md-nav__link">
-    <span class="md-ellipsis">
-      MinIO (Persistent Storage)
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1204,62 +1162,20 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#docker-compose-architecture" class="md-nav__link">
-    <span class="md-ellipsis">
-      Docker Compose architecture
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#docker-compose-configuration" class="md-nav__link">
     <span class="md-ellipsis">
       Docker Compose Configuration
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Docker Compose Configuration">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#key-components" class="md-nav__link">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup" class="md-nav__link">
     <span class="md-ellipsis">
-      Key Components
+      Setup
     </span>
   </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#etcd-metadata-storage" class="md-nav__link">
-    <span class="md-ellipsis">
-      ETCD (Metadata Storage)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#danube-brokers-message-brokers" class="md-nav__link">
-    <span class="md-ellipsis">
-      Danube Brokers (Message Brokers)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#minio-persistent-storage" class="md-nav__link">
-    <span class="md-ellipsis">
-      MinIO (Persistent Storage)
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1324,167 +1240,102 @@
 <li>Docker Compose (version v2.32.0 or higher)</li>
 <li>The files mentioned below <em>docker-compose.yml</em> and <em>danube_broker.yml</em> are in <a href="https://github.com/danube-messaging/danube-storage/tree/main/test_minio_storage">this repository</a>.</li>
 </ul>
-<h2 id="docker-compose-architecture">Docker Compose architecture</h2>
-<p><img alt="Danube docker Compose" src="../img/reliable_with_minio_storage.png" title="Danube Docker Compose" /></p>
 <h2 id="docker-compose-configuration">Docker Compose Configuration</h2>
-<h3 id="key-components">Key Components</h3>
+<p><img alt="Danube docker Compose" src="../img/reliable_with_minio_storage.png" title="Danube Docker Compose" /></p>
+<p>The <strong><a href="https://github.com/danube-messaging/danube-storage/tree/main/test_minio_storage">docker-compose.yml</a></strong> file defines the following services:</p>
 <ul>
-<li><strong>ETCD (etcd)</strong>: Stores Danube's metadata.</li>
-<li><strong>Danube Brokers (broker1, broker2)</strong>: Handles message routing.</li>
-<li><strong>MinIO (minio)</strong>: Provides object storage for persistent topics.</li>
-<li><strong>Danube MinIO Storage</strong> (danube-minio-storage): Bridges Danube and MinIO.</li>
+<li><strong>ETCD (etcd)</strong>: Stores Danube's cluster metadata.</li>
+<li><strong>Danube Brokers (broker1, broker2)</strong>: Handles message routing. As the prerequisites, the etcd service must be healthy.
+Ensure that your <a href="https://github.com/danube-messaging/danube-storage/tree/main/test_minio_storage"><code>danube_broker.yml</code></a> configuration file is properly configured.</li>
+<li><strong>MinIO (minio)</strong>: Provides object storage to persist messages.</li>
+<li><strong>Danube MinIO Storage</strong> (danube-minio-storage): Bridges Danube and MinIO. Implements the storage grpc service for Danube and connects to MinIO.</li>
 </ul>
-<p>The <a href="https://github.com/danube-messaging/danube-storage/tree/main/test_minio_storage">docker-compose.yml</a> file defines the following services:</p>
-<h3 id="etcd-metadata-storage">ETCD (Metadata Storage)</h3>
-<p>ETCD is used for storing metadata.</p>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="w">  </span><span class="nt">etcd</span><span class="p">:</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">quay.io/coreos/etcd:latest</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">etcd-danube</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">      </span><span class="nt">ETCDCTL_API</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">      </span><span class="nt">ETCD_ADVERTISE_CLIENT_URLS</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;http://etcd:2379&quot;</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">      </span><span class="nt">ETCD_LISTEN_CLIENT_URLS</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;http://0.0.0.0:2379&quot;</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">      </span><span class="nt">ETCD_INITIAL_CLUSTER</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;etcd-danube=http://etcd-danube:2380&quot;</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">      </span><span class="nt">ETCD_NAME</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;etcd-danube&quot;</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">      </span><span class="nt">ETCD_LISTEN_PEER_URLS</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;http://0.0.0.0:2380&quot;</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">      </span><span class="nt">ETCD_INITIAL_ADVERTISE_PEER_URLS</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;http://etcd-danube:2380&quot;</span>
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;2379:2379&quot;</span>
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;2380:2380&quot;</span>
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">    </span><span class="nt">healthcheck</span><span class="p">:</span>
-</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">      </span><span class="nt">test</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;CMD&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;etcdctl&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;--endpoints=http://127.0.0.1:2379&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;endpoint&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;health&quot;</span><span class="p p-Indicator">]</span>
-</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">      </span><span class="nt">interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2s</span>
-</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">      </span><span class="nt">timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5s</span>
-</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">      </span><span class="nt">retries</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
-</span></code></pre></div>
-<h3 id="danube-brokers-message-brokers">Danube Brokers (Message Brokers)</h3>
-<p>Two brokers are defined (broker1 and broker2) that handle messaging. As the prerequisites, the etcd service must be healthy.
-Ensure that your <a href="https://github.com/danube-messaging/danube-storage/tree/main/test_minio_storage"><code>danube_broker.yml</code></a> configuration file is correctly set up.</p>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="w">  </span><span class="nt">broker1</span><span class="p">:</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ghcr.io/danube-messaging/danube-broker:latest</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">broker1</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">      </span><span class="nt">etcd</span><span class="p">:</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">        </span><span class="nt">condition</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">service_healthy</span>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./danube_broker.yml:/etc/danube_broker.yml:ro</span>
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">      </span><span class="nt">RUST_LOG</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">danube_broker=info</span>
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
-</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">      </span><span class="s">&quot;--config-file&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;/etc/danube_broker.yml&quot;</span><span class="p p-Indicator">,</span>
-</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">      </span><span class="s">&quot;--broker-addr&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;0.0.0.0:6650&quot;</span><span class="p p-Indicator">,</span>
-</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">      </span><span class="s">&quot;--admin-addr&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;0.0.0.0:50051&quot;</span><span class="p p-Indicator">,</span>
-</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">      </span><span class="s">&quot;--prom-exporter&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;0.0.0.0:3000&quot;</span>
-</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">    </span><span class="p p-Indicator">]</span>
-</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
-</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;6650:6650&quot;</span>
-</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;50051:50051&quot;</span>
-</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;3000:3000&quot;</span>
-</span></code></pre></div>
-<p>The second broker (broker2) is configured similarly but runs on different ports.</p>
-<h3 id="minio-persistent-storage">MinIO (Persistent Storage)</h3>
-<p>MinIO is used for message persistence. <a href="https://github.com/danube-messaging/danube-storage/tree/main">Danube-storage</a> implements the storage grpc service for Danube and connects to MinIO.</p>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="w">  </span><span class="nt">minio</span><span class="p">:</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">minio/minio</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">minio</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">      </span><span class="nt">MINIO_ROOT_USER</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">minioadmin</span>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">      </span><span class="nt">MINIO_ROOT_PASSWORD</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">minioadmin</span>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">server /data --console-address &quot;:9001&quot;</span>
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;9000:9000&quot;</span>
-</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;9001:9001&quot;</span>
-</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
-</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">minio_data:/data</span>
-</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">    </span><span class="nt">healthcheck</span><span class="p">:</span>
-</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">      </span><span class="nt">test</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;CMD&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;curl&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;-f&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;http://localhost:9000/minio/health/live&quot;</span><span class="p p-Indicator">]</span>
-</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">      </span><span class="nt">interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30s</span>
-</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">      </span><span class="nt">timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20s</span>
-</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">      </span><span class="nt">retries</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
-</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>
-</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="w">  </span><span class="nt">danube-minio-storage</span><span class="p">:</span>
-</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">    </span><span class="nt">build</span><span class="p">:</span>
-</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">      </span><span class="nt">context</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">../.</span>
-</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="w">      </span><span class="nt">dockerfile</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Dockerfile</span>
-</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">danube-minio-storage</span>
-</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
-</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="w">      </span><span class="nt">STORAGE_TYPE</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">minio</span>
-</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="w">      </span><span class="nt">GRPC_PORT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50060</span>
-</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a><span class="w">      </span><span class="nt">MINIO_ENDPOINT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">minio:9000</span>
-</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="w">      </span><span class="nt">MINIO_ACCESS_KEY_ID</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">minioadmin</span>
-</span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a><span class="w">      </span><span class="nt">MINIO_SECRET_ACCESS_KEY</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">minioadmin</span>
-</span><span id="__span-2-30"><a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a><span class="w">      </span><span class="nt">MINIO_BUCKET_NAME</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">danube-messages</span>
-</span><span id="__span-2-31"><a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a><span class="w">      </span><span class="nt">MINIO_LOCATION</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1</span>
-</span><span id="__span-2-32"><a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a><span class="w">    </span><span class="nt">depends_on</span><span class="p">:</span>
-</span><span id="__span-2-33"><a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a><span class="w">      </span><span class="nt">minio</span><span class="p">:</span>
-</span><span id="__span-2-34"><a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a><span class="w">        </span><span class="nt">condition</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">service_healthy</span>
-</span><span id="__span-2-35"><a id="__codelineno-2-35" name="__codelineno-2-35" href="#__codelineno-2-35"></a><span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
-</span><span id="__span-2-36"><a id="__codelineno-2-36" name="__codelineno-2-36" href="#__codelineno-2-36"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;50060:50060&quot;</span>
-</span><span id="__span-2-37"><a id="__codelineno-2-37" name="__codelineno-2-37" href="#__codelineno-2-37"></a>
-</span><span id="__span-2-38"><a id="__codelineno-2-38" name="__codelineno-2-38" href="#__codelineno-2-38"></a><span class="nt">volumes</span><span class="p">:</span>
-</span><span id="__span-2-39"><a id="__codelineno-2-39" name="__codelineno-2-39" href="#__codelineno-2-39"></a><span class="w">  </span><span class="nt">minio_data</span><span class="p">:</span>
+<h2 id="setup">Setup</h2>
+<p>There are 2 alternatives to run the docker compose file:</p>
+<ol>
+<li>Clone the <code>danube-storage</code> repository and run the docker compose file from the <code>test_minio_storage</code> folder.</li>
+<li>Copy the <a href="https://github.com/danube-messaging/danube-storage/blob/main/test_minio_storage/docker-compose.yml"><code>docker-compose.yml</code></a> and <a href="https://github.com/danube-messaging/danube-storage/blob/main/test_minio_storage/danube_broker.yml"><code>danube_broker.yml</code></a> files to your local folder and run the docker compose file from that folder.</li>
+</ol>
+<p>If you go with the second option, you have to modify the <code>danube-minio-storage</code> section from <code>docker-compose.yml</code> file to use the image from Container Registry instead of the Dockerfile build.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="w">  </span>danube-minio-storage:
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span>image:<span class="w"> </span>ghcr.io/danube-messaging/danube-storage:latest
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span>container_name:<span class="w"> </span>danube-minio-storage
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span>environment:
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">      </span>STORAGE_TYPE:<span class="w"> </span>minio
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">      </span>GRPC_PORT:<span class="w"> </span><span class="m">50060</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">      </span>MINIO_ENDPOINT:<span class="w"> </span>minio:9000
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">      </span>MINIO_ACCESS_KEY_ID:<span class="w"> </span>minioadmin
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">      </span>MINIO_SECRET_ACCESS_KEY:<span class="w"> </span>minioadmin
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">      </span>MINIO_BUCKET_NAME:<span class="w"> </span>danube-messages
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">      </span>MINIO_LOCATION:<span class="w"> </span>us-east-1
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">    </span>depends_on:
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">      </span>minio:
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">        </span>condition:<span class="w"> </span>service_healthy
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">    </span>ports:
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">      </span>-<span class="w"> </span><span class="s2">&quot;50060:50060&quot;</span>
 </span></code></pre></div>
 <h2 id="running-danube-messaging">Running Danube Messaging</h2>
 <ol>
 <li>
 <p>Start the services using Docker Compose:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>docker-compose<span class="w"> </span>up<span class="w"> </span>--build
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>✔<span class="w"> </span>danube-minio-storage<span class="w">                </span>Built<span class="w">  </span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>✔<span class="w"> </span>Network<span class="w"> </span>test_minio_storage_default<span class="w">  </span>Created<span class="w"> </span>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>✔<span class="w"> </span>Container<span class="w"> </span>etcd-danube<span class="w">               </span>Created<span class="w"> </span>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>✔<span class="w"> </span>Container<span class="w"> </span>minio<span class="w">                     </span>Created<span class="w"> </span>
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>✔<span class="w"> </span>Container<span class="w"> </span>broker2<span class="w">                   </span>Created<span class="w"> </span>
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>✔<span class="w"> </span>Container<span class="w"> </span>broker1<span class="w">                   </span>Created<span class="w">  </span>
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>✔<span class="w"> </span>Container<span class="w"> </span>danube-minio-storage<span class="w">      </span>Created<span class="w"> </span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>docker-compose<span class="w"> </span>up<span class="w"> </span>--build
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>✔<span class="w"> </span>danube-minio-storage<span class="w">                </span>Built<span class="w">  </span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>✔<span class="w"> </span>Network<span class="w"> </span>test_minio_storage_default<span class="w">  </span>Created<span class="w"> </span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>✔<span class="w"> </span>Container<span class="w"> </span>etcd-danube<span class="w">               </span>Created<span class="w"> </span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>✔<span class="w"> </span>Container<span class="w"> </span>minio<span class="w">                     </span>Created<span class="w"> </span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>✔<span class="w"> </span>Container<span class="w"> </span>broker2<span class="w">                   </span>Created<span class="w"> </span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>✔<span class="w"> </span>Container<span class="w"> </span>broker1<span class="w">                   </span>Created<span class="w">  </span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>✔<span class="w"> </span>Container<span class="w"> </span>danube-minio-storage<span class="w">      </span>Created<span class="w"> </span>
 </span></code></pre></div>
+<p>or just <code>docker-compose up</code> if you use the danube-storage image.</p>
 <p>This command will download the necessary images and start the containers. Docker Compose will ensure that ETCD and MinIO are healthy before starting the Danube brokers and storage component.</p>
 </li>
 <li>
 <p>Verify running containers:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>docker<span class="w"> </span>ps
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>docker<span class="w"> </span>ps
 </span></code></pre></div>
 <p>This command will show you the running containers and their status.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>$<span class="w"> </span>docker<span class="w"> </span>ps
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>CONTAINER<span class="w"> </span>ID<span class="w">   </span>IMAGE<span class="w">                                           </span>COMMAND<span class="w">                  </span>CREATED<span class="w">          </span>STATUS<span class="w">                    </span>PORTS<span class="w">                                                                                                                                           </span>NAMES
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>d791e51e7a29<span class="w">   </span>test_minio_storage-danube-minio-storage<span class="w">         </span><span class="s2">&quot;./danube-minio-stor…&quot;</span><span class="w">   </span><span class="m">35</span><span class="w"> </span>seconds<span class="w"> </span>ago<span class="w">   </span>Up<span class="w"> </span><span class="m">4</span><span class="w"> </span>seconds<span class="w">              </span><span class="m">50051</span>/tcp,<span class="w"> </span><span class="m">0</span>.0.0.0:50060-&gt;50060/tcp,<span class="w"> </span>:::50060-&gt;50060/tcp<span class="w">                                                                                       </span>danube-minio-storage
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>ef4fe0528a57<span class="w">   </span>ghcr.io/danube-messaging/danube-broker:latest<span class="w">   </span><span class="s2">&quot;/usr/local/bin/danu…&quot;</span><span class="w">   </span><span class="m">35</span><span class="w"> </span>seconds<span class="w"> </span>ago<span class="w">   </span>Up<span class="w"> </span><span class="m">32</span><span class="w"> </span>seconds<span class="w">             </span><span class="m">0</span>.0.0.0:3000-&gt;3000/tcp,<span class="w"> </span>:::3000-&gt;3000/tcp,<span class="w"> </span><span class="m">0</span>.0.0.0:6650-&gt;6650/tcp,<span class="w"> </span>:::6650-&gt;6650/tcp,<span class="w"> </span><span class="m">0</span>.0.0.0:50051-&gt;50051/tcp,<span class="w"> </span>:::50051-&gt;50051/tcp,<span class="w"> </span><span class="m">6651</span>/tcp<span class="w">   </span>broker1
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>ca1a41d1ef62<span class="w">   </span>ghcr.io/danube-messaging/danube-broker:latest<span class="w">   </span><span class="s2">&quot;/usr/local/bin/danu…&quot;</span><span class="w">   </span><span class="m">35</span><span class="w"> </span>seconds<span class="w"> </span>ago<span class="w">   </span>Up<span class="w"> </span><span class="m">32</span><span class="w"> </span>seconds<span class="w">             </span><span class="m">0</span>.0.0.0:3001-&gt;3001/tcp,<span class="w"> </span>:::3001-&gt;3001/tcp,<span class="w"> </span><span class="m">0</span>.0.0.0:6651-&gt;6651/tcp,<span class="w"> </span>:::6651-&gt;6651/tcp,<span class="w"> </span><span class="m">0</span>.0.0.0:50052-&gt;50052/tcp,<span class="w"> </span>:::50052-&gt;50052/tcp,<span class="w"> </span><span class="m">6650</span>/tcp<span class="w">   </span>broker2
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>
-</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>8a8c4a2e2d03<span class="w">   </span>minio/minio<span class="w">                                     </span><span class="s2">&quot;/usr/bin/docker-ent…&quot;</span><span class="w">   </span><span class="m">35</span><span class="w"> </span>seconds<span class="w"> </span>ago<span class="w">   </span>Up<span class="w"> </span><span class="m">34</span><span class="w"> </span>seconds<span class="w"> </span><span class="o">(</span>healthy<span class="o">)</span><span class="w">   </span><span class="m">0</span>.0.0.0:9000-9001-&gt;9000-9001/tcp,<span class="w"> </span>:::9000-9001-&gt;9000-9001/tcp<span class="w">                                                                                   </span>minio
-</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>
-</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>b7cc1c6a2a03<span class="w">   </span>quay.io/coreos/etcd:latest<span class="w">                      </span><span class="s2">&quot;/usr/local/bin/etcd&quot;</span><span class="w">    </span><span class="m">35</span><span class="w"> </span>seconds<span class="w"> </span>ago<span class="w">   </span>Up<span class="w"> </span><span class="m">34</span><span class="w"> </span>seconds<span class="w"> </span><span class="o">(</span>healthy<span class="o">)</span><span class="w">   </span><span class="m">0</span>.0.0.0:2379-2380-&gt;2379-2380/tcp,<span class="w"> </span>:::2379-2380-&gt;2379-2380/tcp<span class="w">  </span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>$<span class="w"> </span>docker<span class="w"> </span>ps
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>CONTAINER<span class="w"> </span>ID<span class="w">   </span>IMAGE<span class="w">                                           </span>COMMAND<span class="w">                  </span>CREATED<span class="w">          </span>STATUS<span class="w">                    </span>PORTS<span class="w">                                                                                                                                           </span>NAMES
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>d791e51e7a29<span class="w">   </span>test_minio_storage-danube-minio-storage<span class="w">         </span><span class="s2">&quot;./danube-minio-stor…&quot;</span><span class="w">   </span><span class="m">35</span><span class="w"> </span>seconds<span class="w"> </span>ago<span class="w">   </span>Up<span class="w"> </span><span class="m">4</span><span class="w"> </span>seconds<span class="w">              </span><span class="m">50051</span>/tcp,<span class="w"> </span><span class="m">0</span>.0.0.0:50060-&gt;50060/tcp,<span class="w"> </span>:::50060-&gt;50060/tcp<span class="w">                                                                                       </span>danube-minio-storage
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>ef4fe0528a57<span class="w">   </span>ghcr.io/danube-messaging/danube-broker:latest<span class="w">   </span><span class="s2">&quot;/usr/local/bin/danu…&quot;</span><span class="w">   </span><span class="m">35</span><span class="w"> </span>seconds<span class="w"> </span>ago<span class="w">   </span>Up<span class="w"> </span><span class="m">32</span><span class="w"> </span>seconds<span class="w">             </span><span class="m">0</span>.0.0.0:3000-&gt;3000/tcp,<span class="w"> </span>:::3000-&gt;3000/tcp,<span class="w"> </span><span class="m">0</span>.0.0.0:6650-&gt;6650/tcp,<span class="w"> </span>:::6650-&gt;6650/tcp,<span class="w"> </span><span class="m">0</span>.0.0.0:50051-&gt;50051/tcp,<span class="w"> </span>:::50051-&gt;50051/tcp,<span class="w"> </span><span class="m">6651</span>/tcp<span class="w">   </span>broker1
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>ca1a41d1ef62<span class="w">   </span>ghcr.io/danube-messaging/danube-broker:latest<span class="w">   </span><span class="s2">&quot;/usr/local/bin/danu…&quot;</span><span class="w">   </span><span class="m">35</span><span class="w"> </span>seconds<span class="w"> </span>ago<span class="w">   </span>Up<span class="w"> </span><span class="m">32</span><span class="w"> </span>seconds<span class="w">             </span><span class="m">0</span>.0.0.0:3001-&gt;3001/tcp,<span class="w"> </span>:::3001-&gt;3001/tcp,<span class="w"> </span><span class="m">0</span>.0.0.0:6651-&gt;6651/tcp,<span class="w"> </span>:::6651-&gt;6651/tcp,<span class="w"> </span><span class="m">0</span>.0.0.0:50052-&gt;50052/tcp,<span class="w"> </span>:::50052-&gt;50052/tcp,<span class="w"> </span><span class="m">6650</span>/tcp<span class="w">   </span>broker2
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>8a8c4a2e2d03<span class="w">   </span>minio/minio<span class="w">                                     </span><span class="s2">&quot;/usr/bin/docker-ent…&quot;</span><span class="w">   </span><span class="m">35</span><span class="w"> </span>seconds<span class="w"> </span>ago<span class="w">   </span>Up<span class="w"> </span><span class="m">34</span><span class="w"> </span>seconds<span class="w"> </span><span class="o">(</span>healthy<span class="o">)</span><span class="w">   </span><span class="m">0</span>.0.0.0:9000-9001-&gt;9000-9001/tcp,<span class="w"> </span>:::9000-9001-&gt;9000-9001/tcp<span class="w">                                                                                   </span>minio
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>b7cc1c6a2a03<span class="w">   </span>quay.io/coreos/etcd:latest<span class="w">                      </span><span class="s2">&quot;/usr/local/bin/etcd&quot;</span><span class="w">    </span><span class="m">35</span><span class="w"> </span>seconds<span class="w"> </span>ago<span class="w">   </span>Up<span class="w"> </span><span class="m">34</span><span class="w"> </span>seconds<span class="w"> </span><span class="o">(</span>healthy<span class="o">)</span><span class="w">   </span><span class="m">0</span>.0.0.0:2379-2380-&gt;2379-2380/tcp,<span class="w"> </span>:::2379-2380-&gt;2379-2380/tcp<span class="w">  </span>
 </span></code></pre></div>
 </li>
 <li>
 <p>Produce messages:</p>
 <p>Download the <a href="https://github.com/danube-messaging/danube/releases">Danube CLI</a>.</p>
 <p>Create a 100KB blob file, in order to fill faster the 5 MB segment size.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>yes<span class="w"> </span><span class="s1">&#39;Danube messaging platform is awesome!&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-c<span class="w"> </span>100K<span class="w"> </span>&gt;<span class="w"> </span>test.blob
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>yes<span class="w"> </span><span class="s1">&#39;Danube messaging platform is awesome!&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-c<span class="w"> </span>100K<span class="w"> </span>&gt;<span class="w"> </span>test.blob
 </span></code></pre></div>
-<p>Produce messages, (creating also a topic with reliable dispatch, meaning that the messages are stored and then delivered to the consumers).</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>danube-cli<span class="w"> </span>produce<span class="w"> </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;none&quot;</span><span class="w"> </span>-f<span class="w"> </span>./test.blob<span class="w"> </span>-c<span class="w"> </span><span class="m">1000</span><span class="w"> </span>--reliable<span class="w">  </span>--segment-size<span class="w"> </span><span class="m">5</span><span class="w">  </span>--retention<span class="w"> </span>expire<span class="w"> </span>--retention-period<span class="w"> </span><span class="m">7200</span>
+<p>Produce messages, (creates also a topic with reliable dispatch, meaning that the messages are stored and then delivered to the consumers).</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>danube-cli<span class="w"> </span>produce<span class="w"> </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;none&quot;</span><span class="w"> </span>-f<span class="w"> </span>./test.blob<span class="w"> </span>-c<span class="w"> </span><span class="m">1000</span><span class="w"> </span>--reliable<span class="w">  </span>--segment-size<span class="w"> </span><span class="m">5</span><span class="w">  </span>--retention<span class="w"> </span>expire<span class="w"> </span>--retention-period<span class="w"> </span><span class="m">7200</span>
 </span></code></pre></div>
 </li>
 <li>
 <p>Consume messages:</p>
 <p>Consume messages from the topic, creating an exclusive subscription.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span>-m<span class="w"> </span>my_exclusive<span class="w"> </span>--sub-type<span class="w"> </span>exclusive
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span>-m<span class="w"> </span>my_exclusive<span class="w"> </span>--sub-type<span class="w"> </span>exclusive
 </span></code></pre></div>
 <p>The output should look like this:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>Received<span class="w"> </span>reliable<span class="w"> </span>message:<span class="w"> </span><span class="o">[</span>binary<span class="w"> </span>data<span class="o">]</span><span class="w"> </span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>Segment:<span class="w"> </span><span class="m">2</span>,<span class="w"> </span>Offset:<span class="w"> </span><span class="m">41</span>,<span class="w"> </span>Size:<span class="w"> </span><span class="m">102400</span><span class="w"> </span>bytes,<span class="w"> </span>Total<span class="w"> </span>received:<span class="w"> </span><span class="m">9728000</span><span class="w"> </span>bytes
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>Producer:<span class="w"> </span><span class="m">9791760036514492028</span>,<span class="w"> </span>Topic:<span class="w"> </span>/default/test_topic
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>Received<span class="w"> </span>reliable<span class="w"> </span>message:<span class="w"> </span><span class="o">[</span>binary<span class="w"> </span>data<span class="o">]</span><span class="w"> </span>
-</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>Segment:<span class="w"> </span><span class="m">2</span>,<span class="w"> </span>Offset:<span class="w"> </span><span class="m">42</span>,<span class="w"> </span>Size:<span class="w"> </span><span class="m">102400</span><span class="w"> </span>bytes,<span class="w"> </span>Total<span class="w"> </span>received:<span class="w"> </span><span class="m">9830400</span><span class="w"> </span>bytes
-</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>Producer:<span class="w"> </span><span class="m">9791760036514492028</span>,<span class="w"> </span>Topic:<span class="w"> </span>/default/test_topic
-</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>
-</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>Received<span class="w"> </span>reliable<span class="w"> </span>message:<span class="w"> </span><span class="o">[</span>binary<span class="w"> </span>data<span class="o">]</span><span class="w"> </span>
-</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>Segment:<span class="w"> </span><span class="m">2</span>,<span class="w"> </span>Offset:<span class="w"> </span><span class="m">43</span>,<span class="w"> </span>Size:<span class="w"> </span><span class="m">102400</span><span class="w"> </span>bytes,<span class="w"> </span>Total<span class="w"> </span>received:<span class="w"> </span><span class="m">9932800</span><span class="w"> </span>bytes
-</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>Producer:<span class="w"> </span><span class="m">9791760036514492028</span>,<span class="w"> </span>Topic:<span class="w"> </span>/default/test_topic
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Received<span class="w"> </span>reliable<span class="w"> </span>message:<span class="w"> </span><span class="o">[</span>binary<span class="w"> </span>data<span class="o">]</span><span class="w"> </span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>Segment:<span class="w"> </span><span class="m">2</span>,<span class="w"> </span>Offset:<span class="w"> </span><span class="m">41</span>,<span class="w"> </span>Size:<span class="w"> </span><span class="m">102400</span><span class="w"> </span>bytes,<span class="w"> </span>Total<span class="w"> </span>received:<span class="w"> </span><span class="m">9728000</span><span class="w"> </span>bytes
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>Producer:<span class="w"> </span><span class="m">9791760036514492028</span>,<span class="w"> </span>Topic:<span class="w"> </span>/default/test_topic
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>Received<span class="w"> </span>reliable<span class="w"> </span>message:<span class="w"> </span><span class="o">[</span>binary<span class="w"> </span>data<span class="o">]</span><span class="w"> </span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>Segment:<span class="w"> </span><span class="m">2</span>,<span class="w"> </span>Offset:<span class="w"> </span><span class="m">42</span>,<span class="w"> </span>Size:<span class="w"> </span><span class="m">102400</span><span class="w"> </span>bytes,<span class="w"> </span>Total<span class="w"> </span>received:<span class="w"> </span><span class="m">9830400</span><span class="w"> </span>bytes
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>Producer:<span class="w"> </span><span class="m">9791760036514492028</span>,<span class="w"> </span>Topic:<span class="w"> </span>/default/test_topic
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>Received<span class="w"> </span>reliable<span class="w"> </span>message:<span class="w"> </span><span class="o">[</span>binary<span class="w"> </span>data<span class="o">]</span><span class="w"> </span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>Segment:<span class="w"> </span><span class="m">2</span>,<span class="w"> </span>Offset:<span class="w"> </span><span class="m">43</span>,<span class="w"> </span>Size:<span class="w"> </span><span class="m">102400</span><span class="w"> </span>bytes,<span class="w"> </span>Total<span class="w"> </span>received:<span class="w"> </span><span class="m">9932800</span><span class="w"> </span>bytes
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>Producer:<span class="w"> </span><span class="m">9791760036514492028</span>,<span class="w"> </span>Topic:<span class="w"> </span>/default/test_topic
 </span></code></pre></div>
 </li>
 </ol>
@@ -1492,15 +1343,15 @@ Ensure that your <a href="https://github.com/danube-messaging/danube-storage/tre
 <p>Open the MinIO console in your browser: <code>http://localhost:9001/buckets</code>. Log in with <code>minioadmin</code> as both the username and password. You can see the buckets and objects created by Danube.</p>
 <h2 id="stopping-danube-messaging">Stopping Danube Messaging</h2>
 <p>To stop and remove the containers:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>$<span class="w"> </span>docker-compose<span class="w"> </span>down
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="o">[</span>+<span class="o">]</span><span class="w"> </span>Running<span class="w"> </span><span class="m">6</span>/6
-</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w"> </span>✔<span class="w"> </span>Container<span class="w"> </span>danube-minio-storage<span class="w">      </span>Removed<span class="w">         </span>
-</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w"> </span>✔<span class="w"> </span>Container<span class="w"> </span>broker1<span class="w">                   </span>Removed<span class="w">                  </span>
-</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w"> </span>✔<span class="w"> </span>Container<span class="w"> </span>broker2<span class="w">                   </span>Removed<span class="w">    </span>
-</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w"> </span>✔<span class="w"> </span>Container<span class="w"> </span>minio<span class="w">                     </span>Removed<span class="w">                                    </span>
-</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w"> </span>✔<span class="w"> </span>Container<span class="w"> </span>etcd-danube<span class="w">               </span>Removed<span class="w">  </span>
-</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w"> </span>✔<span class="w"> </span>Network<span class="w"> </span>test_minio_storage_default<span class="w">  </span>Removed<span class="w">   </span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>$<span class="w"> </span>docker-compose<span class="w"> </span>down
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="o">[</span>+<span class="o">]</span><span class="w"> </span>Running<span class="w"> </span><span class="m">6</span>/6
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w"> </span>✔<span class="w"> </span>Container<span class="w"> </span>danube-minio-storage<span class="w">      </span>Removed<span class="w">         </span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w"> </span>✔<span class="w"> </span>Container<span class="w"> </span>broker1<span class="w">                   </span>Removed<span class="w">                  </span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w"> </span>✔<span class="w"> </span>Container<span class="w"> </span>broker2<span class="w">                   </span>Removed<span class="w">    </span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w"> </span>✔<span class="w"> </span>Container<span class="w"> </span>minio<span class="w">                     </span>Removed<span class="w">                                    </span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w"> </span>✔<span class="w"> </span>Container<span class="w"> </span>etcd-danube<span class="w">               </span>Removed<span class="w">  </span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w"> </span>✔<span class="w"> </span>Network<span class="w"> </span>test_minio_storage_default<span class="w">  </span>Removed<span class="w">   </span>
 </span></code></pre></div>
 
 
