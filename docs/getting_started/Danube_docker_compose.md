@@ -1,6 +1,6 @@
 # Run Danube with docker-compose and MINIO as persistence storage
 
-This guide provides instructions on how to run Danube Messaging Pub/Sub using Docker and Docker Compose. It sets up ETCD for metadata storage and MinIO for topic persistence storage.
+This guide provides instructions on how to run Danube Messaging using Docker and Docker Compose. It sets up ETCD for metadata storage and MinIO for topic persistence storage.
 
 The MINIO storage is used as an example but can be used with any [implemented storage layers](https://github.com/danube-messaging/danube-storage).
 
@@ -17,7 +17,7 @@ Ensure you have the following installed on your system:
 
 * Docker
 * Docker Compose (version v2.32.0 or higher)
-* The files mentioned below *docker-compose.yml* and *danube_broker.yml* are in [this repository](https://github.com/danube-messaging/danube-storage/tree/main/danube-minio-storage/test_minio_storage).
+* The files mentioned below *docker-compose.yml* and *danube_broker.yml* are in [this repository](https://github.com/danube-messaging/danube-storage/tree/main/test_minio_storage).
 
 ## Docker Compose architecture
 
@@ -32,7 +32,7 @@ Ensure you have the following installed on your system:
 * **MinIO (minio)**: Provides object storage for persistent topics.
 * **Danube MinIO Storage** (danube-minio-storage): Bridges Danube and MinIO.
 
-The [docker-compose.yml](https://github.com/danube-messaging/danube-storage/blob/main/danube-minio-storage/test_minio_storage/docker-compose.yml) file defines the following services:
+The [docker-compose.yml](https://github.com/danube-messaging/danube-storage/tree/main/test_minio_storage) file defines the following services:
 
 ### ETCD (Metadata Storage)
 
@@ -63,7 +63,7 @@ ETCD is used for storing metadata.
 ### Danube Brokers (Message Brokers)
 
 Two brokers are defined (broker1 and broker2) that handle messaging. As the prerequisites, the etcd service must be healthy.
-Ensure that your [`danube_broker.yml`](https://github.com/danube-messaging/danube-storage/blob/main/danube-minio-storage/test_minio_storage/danube_broker.yml) configuration file is correctly set up.
+Ensure that your [`danube_broker.yml`](https://github.com/danube-messaging/danube-storage/tree/main/test_minio_storage) configuration file is correctly set up.
 
 ```yaml
   broker1:
@@ -92,7 +92,7 @@ The second broker (broker2) is configured similarly but runs on different ports.
 
 ### MinIO (Persistent Storage)
 
-MinIO is used for message persistence. [Danube-minio-storage](https://github.com/danube-messaging/danube-storage/tree/main/danube-minio-storage) implements the storage grpc service for Danube and connects to MinIO.
+MinIO is used for message persistence. [Danube-storage](https://github.com/danube-messaging/danube-storage/tree/main) implements the storage grpc service for Danube and connects to MinIO.
 
 ```yaml
   minio:
@@ -119,7 +119,8 @@ MinIO is used for message persistence. [Danube-minio-storage](https://github.com
       dockerfile: Dockerfile
     container_name: danube-minio-storage
     environment:
-      GRPC_MINIO_PORT: 50060
+      STORAGE_TYPE: minio
+      GRPC_PORT: 50060
       MINIO_ENDPOINT: minio:9000
       MINIO_ACCESS_KEY_ID: minioadmin
       MINIO_SECRET_ACCESS_KEY: minioadmin
