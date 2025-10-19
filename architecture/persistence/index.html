@@ -1310,31 +1310,20 @@
 <li><strong>ETCD</strong>: Tracks object descriptors, offsets, and indexes for efficient range reads.</li>
 </ul>
 <h2 id="core-concepts-and-components">Core Concepts and Components</h2>
-<p><strong><code>WalStorageFactory</code></strong>
-  - Creates per-topic <code>WalStorage</code> and starts one uploader and one deleter (retention) task per topic.
-  - Normalizes topic to a per-topic WAL directory under the configured root.</p>
-<p><strong><code>Wal</code></strong> 
-  - Append-only log with an in-memory ordered cache.
-  - Frames are <code>[u64 offset][u32 len][u32 crc][bytes]</code> with CRC32 validation.
-  - Background writer batches and fsyncs; supports rotation by size/time.</p>
-<p><strong><code>WalStorage</code></strong>
-  - Implements the <code>PersistentStorage</code> trait.
-  - Reader creation uses tiered logic: serve from WAL if available; otherwise chain Cloud→WAL streams transparently.</p>
-<p><strong><code>Uploader</code></strong>
-  - Streams safe frame prefixes to cloud, finalizes objects atomically, builds sparse indexes.
-  - One object per cycle; resumable via precise checkpoints.</p>
-<p><strong><code>CloudReader</code></strong>
-  - Reads objects referenced in ETCD, seeks efficiently via sparse indexes, validates frames by CRC.</p>
-<p><strong><code>Retention/Deleter</code></strong>
-  - Enforces time/size retention on WAL files once they’re safely uploaded, advancing <code>start_offset</code>.</p>
+<p><strong>WalStorageFactory</strong> creates per-topic <code>WalStorage</code>, starts one uploader and one deleter (retention) task per topic, and normalizes each topic to its own WAL directory under the configured root.</p>
+<p><strong>Wal</strong> is an append-only log with an in-memory ordered cache; records are framed as <code>[u64 offset][u32 len][u32 crc][bytes]</code> with CRC32 validation, and a background writer batches and fsyncs data, supporting rotation by size and/or time.</p>
+<p><strong>WalStorage</strong> implements the <code>PersistentStorage</code> trait; when creating readers it applies tiered logic to serve from WAL if possible, otherwise transparently chains a Cloud→WAL stream to cover historical then live data.</p>
+<p><strong>Uploader</strong> streams safe frame prefixes from WAL files to cloud, finalizes objects atomically, builds sparse offset indexes for efficient seeks, and operates one object per cycle with resumable checkpoints.</p>
+<p><strong>CloudReader</strong> reads objects referenced in ETCD metadata, uses sparse indexes to seek efficiently to the requested range, and validates each frame by CRC during decoding.</p>
+<p><strong>Retention/Deleter</strong> enforces time/size retention on WAL files after they are safely uploaded to cloud, advancing the WAL <code>start_offset</code> accordingly.</p>
 <p>For persistent storage implementation details, check the <a href="https://github.com/danube-messaging/danube/tree/main/danube-persistent-storage">source code</a>.</p>
 <h2 id="how-reads-work-cloudwal-handoff">How Reads Work (Cloud→WAL Handoff)</h2>
 <ol>
 <li>A subscription requests a reader at a <code>StartPosition</code> (latest or from a specific offset).</li>
 <li><code>WalStorage</code> checks the WAL’s local <code>start_offset</code>.</li>
-<li>If <code>start_offset</code> is older than requested, it:</li>
-<li>Streams historical range from cloud objects via <code>CloudReader</code>.</li>
-<li>Seamlessly chains into WAL tail for fresh/live data.</li>
+<li>If <code>start_offset</code> is older than requested, it:
+   Streams historical range from cloud objects via <code>CloudReader</code>.
+   Seamlessly chains into WAL tail for fresh/live data.</li>
 <li>Consumers see a single ordered stream with no gaps or duplicates.</li>
 </ol>
 <h2 id="configuration-overview">Configuration Overview</h2>
