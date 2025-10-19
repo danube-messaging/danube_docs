@@ -2,7 +2,7 @@
 
 The Danube messaging system is a distributed messaging system, based on a publish-subscribe model, aiming to provide high throughput and low latency.
 
-The Danube Messaging system's architecture is designed for flexibility and scalability, making it suitable for event-driven and cloud native applications. Its decoupled and plugin architecture allows for independent scaling and easy integration of various storage backends. Using the dispatch strategies and the subscribtion models the system can accomodate different messaging patterns.
+The Danube Messaging system's architecture is designed for flexibility and scalability, making it suitable for event-driven and cloud-native applications. Its decoupled and pluggable architecture allows for independent scaling and easy integration of various storage backends. Using the dispatch strategies and the subscription models the system can accommodate different messaging patterns.
 
 ![Danube Messaging Architecture](img/Danube_architecture.png "Danube Messaging Architecture")
 
@@ -18,23 +18,25 @@ The ETCD cluster serves as the metadata storage for the system by maintaining co
 
 ### Storage Layer
 
-The Storage Layer is where the messages are stored. It's a plugable architecture, you can choose to use immediate dispatch so the messages are not persisted and sent to the consumers immediatelly, or you can use reliable dispatch where the messages are persisted and sent to the consumers when they are available.
+The Storage Layer is responsible for message durability and replay. Danube now uses a cloud-native model based on a local Write-Ahead Log (WAL) for the hot path and background persistence to cloud object storage via OpenDAL. This keeps publish/dispatch latency low while enabling durable, elastic storage across providers (S3, GCS, Azure Blob, local FS, memory).
 
-The Storage Layer introduces flexibility through its pluggable architecture and storing mechanisms including Local Disk for simple persistence, or enhanced scalability and durability via GRPC storage interface that can connect to any [supported object/block storage](https://github.com/danube-messaging/danube-storage) service.
+Readers use tiered access: if data is within local WAL retention it is served from WAL/cache; otherwise historical data is streamed from cloud objects (using ETCD metadata) and seamlessly handed off to the WAL tail.
 
-#### Non-Reliable Dispatch
+### Non-Reliable Dispatch
 
 Non-Reliable Dispatch operates with zero storage overhead, as messages flow directly from publishers to subscribers without intermediate persistence. This mode delivers maximum performance and lowest latency, making it ideal for scenarios where occasional message loss is acceptable, such as real-time metrics or live streaming data.
 
-#### Reliable Dispatch
+### Reliable Dispatch
 
-Reliable Dispatch offers guaranteed message delivery using the storage options:
+Reliable Dispatch offers guaranteed message delivery backed by the WAL + cloud persistence:
 
-* **Local Disk storage** ensures message persistence on the broker's filesystem for local persistence.
-* **GRPC storage interface** enables external storage persistence, connecting to an external GRPC server that can be implemented for AWS S3, GCP Storage, or other distributed object / block storage systems like MINIO, ROOK, offering unlimited scalability and enterprise-grade reliability.
-* **InMemory storage** provides quick access and is only recommended for development or testing environments;
+* **WAL on local disk** for low-latency appends and fast replay from in-memory cache and WAL files.
+* **Cloud object storage via OpenDAL** (S3/GCS/Azure/FS/Memory) for durable, scalable historical data, uploaded asynchronously by a background uploader with resumable checkpoints.
+* **ETCD metadata** tracks cloud objects and sparse indexes for efficient historical reads.
 
 The ability to choose between these dispatch modes gives users the flexibility to optimize their messaging infrastructure based on their specific requirements for performance, reliability, and resource utilization.
+
+For details and provider-specific configuration, see [Persistence (WAL + Cloud)](architecture/persistence.md).
 
 ### Design Considerations
 
@@ -49,19 +51,3 @@ With a plugin architecture, the system supports flexible storage backend options
 #### Event-Driven Focus
 
 Optimized for event-driven systems, the Danube Messaging system supports various message delivery patterns and scalable message processing. Its design is well-suited for microservices, providing efficient and scalable handling of event-driven workloads.
-
-### Danube Platform capabilities matrix
-
-| Dispatch       | Topics            | Subscription | Message Persistence | Ordering Guarantee | Delivery Guarantee |
-|----------------|-------------------|--------------|----------------------|--------------------|--------------------|
-| **Non-Reliable** |                   |              |                      |                    |                    |
-|                | *Non-partitioned Topic*         | *Exclusive*    | No                   | Yes                | At-Most-Once       |
-|                |                   | *Shared*       | No                   | No                 | At-Most-Once       |
-|                | *Partitioned Topic* | *Exclusive*    | No                   | Per partition      | At-Most-Once       |
-|                |                   | *Shared*       | No                   | No                 | At-Most-Once       |
-|----------------|-------------------|--------------|----------------------|--------------------|--------------------|
-| **Reliable**    |                   |              |                      |                    |                    |
-|                | *Non-partitioned Topic*         | *Exclusive*    | Yes                  | Yes                | At-Least-Once      |
-|                |                   | *Shared*       | Yes                  | No                 | At-Least-Once      |
-|                | *Partitioned Topic* | *Exclusive*    | Yes                  | Per partition      | At-Least-Once      |
-|                |                   | *Shared*       | Yes                  | No                 | At-Least-Once      |
