@@ -35,28 +35,30 @@ flowchart LR
 
 ## Core Concepts and Components
 
-- **`WalStorageFactory`** (`danube-persistent-storage/src/wal_factory.rs`)
+**`WalStorageFactory`**
   - Creates per-topic `WalStorage` and starts one uploader and one deleter (retention) task per topic.
   - Normalizes topic to a per-topic WAL directory under the configured root.
 
-- **`Wal`** (`danube-persistent-storage/src/wal.rs`)
+**`Wal`** 
   - Append-only log with an in-memory ordered cache.
   - Frames are `[u64 offset][u32 len][u32 crc][bytes]` with CRC32 validation.
   - Background writer batches and fsyncs; supports rotation by size/time.
 
-- **`WalStorage`** (`danube-persistent-storage/src/wal_storage.rs`)
+**`WalStorage`**
   - Implements the `PersistentStorage` trait.
   - Reader creation uses tiered logic: serve from WAL if available; otherwise chain Cloud→WAL streams transparently.
 
-- **Uploader** (`danube-persistent-storage/src/cloud/uploader_stream.rs`)
+**`Uploader`**
   - Streams safe frame prefixes to cloud, finalizes objects atomically, builds sparse indexes.
   - One object per cycle; resumable via precise checkpoints.
 
-- **`CloudReader`** (`danube-persistent-storage/src/cloud/reader.rs`)
+**`CloudReader`**
   - Reads objects referenced in ETCD, seeks efficiently via sparse indexes, validates frames by CRC.
 
-- **Retention/Deleter** (`danube-persistent-storage/src/wal/deleter.rs`)
+**`Retention/Deleter`**
   - Enforces time/size retention on WAL files once they’re safely uploaded, advancing `start_offset`.
+
+For persistent storage implementation details, check the [source code](https://github.com/danube-messaging/danube/tree/main/danube-persistent-storage).
 
 ## How Reads Work (Cloud→WAL Handoff)
 
