@@ -35,28 +35,17 @@ flowchart LR
 
 ## Core Concepts and Components
 
-**`WalStorageFactory`**
-  - Creates per-topic `WalStorage` and starts one uploader and one deleter (retention) task per topic.
-  - Normalizes topic to a per-topic WAL directory under the configured root.
+**WalStorageFactory** creates per-topic `WalStorage`, starts one uploader and one deleter (retention) task per topic, and normalizes each topic to its own WAL directory under the configured root.
 
-**`Wal`** 
-  - Append-only log with an in-memory ordered cache.
-  - Frames are `[u64 offset][u32 len][u32 crc][bytes]` with CRC32 validation.
-  - Background writer batches and fsyncs; supports rotation by size/time.
+**Wal** is an append-only log with an in-memory ordered cache; records are framed as `[u64 offset][u32 len][u32 crc][bytes]` with CRC32 validation, and a background writer batches and fsyncs data, supporting rotation by size and/or time.
 
-**`WalStorage`**
-  - Implements the `PersistentStorage` trait.
-  - Reader creation uses tiered logic: serve from WAL if available; otherwise chain Cloud→WAL streams transparently.
+**WalStorage** implements the `PersistentStorage` trait; when creating readers it applies tiered logic to serve from WAL if possible, otherwise transparently chains a Cloud→WAL stream to cover historical then live data.
 
-**`Uploader`**
-  - Streams safe frame prefixes to cloud, finalizes objects atomically, builds sparse indexes.
-  - One object per cycle; resumable via precise checkpoints.
+**Uploader** streams safe frame prefixes from WAL files to cloud, finalizes objects atomically, builds sparse offset indexes for efficient seeks, and operates one object per cycle with resumable checkpoints.
 
-**`CloudReader`**
-  - Reads objects referenced in ETCD, seeks efficiently via sparse indexes, validates frames by CRC.
+**CloudReader** reads objects referenced in ETCD metadata, uses sparse indexes to seek efficiently to the requested range, and validates each frame by CRC during decoding.
 
-**`Retention/Deleter`**
-  - Enforces time/size retention on WAL files once they’re safely uploaded, advancing `start_offset`.
+**Retention/Deleter** enforces time/size retention on WAL files after they are safely uploaded to cloud, advancing the WAL `start_offset` accordingly.
 
 For persistent storage implementation details, check the [source code](https://github.com/danube-messaging/danube/tree/main/danube-persistent-storage).
 
@@ -65,8 +54,8 @@ For persistent storage implementation details, check the [source code](https://g
 1. A subscription requests a reader at a `StartPosition` (latest or from a specific offset).
 2. `WalStorage` checks the WAL’s local `start_offset`.
 3. If `start_offset` is older than requested, it:
-   - Streams historical range from cloud objects via `CloudReader`.
-   - Seamlessly chains into WAL tail for fresh/live data.
+   Streams historical range from cloud objects via `CloudReader`.
+   Seamlessly chains into WAL tail for fresh/live data.
 4. Consumers see a single ordered stream with no gaps or duplicates.
 
 ## Configuration Overview
