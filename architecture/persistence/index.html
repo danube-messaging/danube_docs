@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../../getting_started/Danube_kubernetes/">
+        <link rel="prev" href="../architecture/">
       
       
-        <link rel="next" href="../persistence/">
+        <link rel="next" href="../messages/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>Danube architecture - Danube Messaging documentation</title>
+        <title>Persistence (WAL + Cloud) - Danube Messaging documentation</title>
       
     
     
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#danube-messaging-architecture" class="md-skip">
+        <a href="#danube-persistence-architecture-wal-cloud" class="md-skip">
           Skip to content
         </a>
       
@@ -117,7 +117,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Danube architecture
+              Persistence (WAL + Cloud)
             
           </span>
         </div>
@@ -418,6 +418,27 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Danube architecture
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -434,7 +455,7 @@
           
   
   <span class="md-ellipsis">
-    Danube architecture
+    Persistence (WAL + Cloud)
   </span>
   
 
@@ -445,7 +466,7 @@
         
   
   <span class="md-ellipsis">
-    Danube architecture
+    Persistence (WAL + Cloud)
   </span>
   
 
@@ -467,89 +488,74 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#brokers" class="md-nav__link">
+  <a href="#key-benefits" class="md-nav__link">
     <span class="md-ellipsis">
-      Brokers
+      Key Benefits
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#metadata-storage" class="md-nav__link">
+  <a href="#high-level-architecture" class="md-nav__link">
     <span class="md-ellipsis">
-      Metadata Storage
+      High-level Architecture
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#storage-layer" class="md-nav__link">
+  <a href="#core-concepts-and-components" class="md-nav__link">
     <span class="md-ellipsis">
-      Storage Layer
+      Core Concepts and Components
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#non-reliable-dispatch" class="md-nav__link">
+  <a href="#how-reads-work-cloudwal-handoff" class="md-nav__link">
     <span class="md-ellipsis">
-      Non-Reliable Dispatch
+      How Reads Work (Cloud→WAL Handoff)
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#reliable-dispatch" class="md-nav__link">
+  <a href="#configuration-overview" class="md-nav__link">
     <span class="md-ellipsis">
-      Reliable Dispatch
+      Configuration Overview
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#design-considerations" class="md-nav__link">
+  <a href="#provider-examples-opendal-powered" class="md-nav__link">
     <span class="md-ellipsis">
-      Design Considerations
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Design Considerations">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#decoupled-architecture" class="md-nav__link">
-    <span class="md-ellipsis">
-      Decoupled Architecture
+      Provider Examples (OpenDAL-powered)
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#plugin-architecture" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#tuning-and-best-practices" class="md-nav__link">
     <span class="md-ellipsis">
-      Plugin Architecture
+      Tuning and Best Practices
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#event-driven-focus" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#operational-notes" class="md-nav__link">
     <span class="md-ellipsis">
-      Event-Driven Focus
+      Operational Notes
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -557,27 +563,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../persistence/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Persistence (WAL + Cloud)
-  </span>
-  
-
-      </a>
     </li>
   
 
@@ -1207,89 +1192,74 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#brokers" class="md-nav__link">
+  <a href="#key-benefits" class="md-nav__link">
     <span class="md-ellipsis">
-      Brokers
+      Key Benefits
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#metadata-storage" class="md-nav__link">
+  <a href="#high-level-architecture" class="md-nav__link">
     <span class="md-ellipsis">
-      Metadata Storage
+      High-level Architecture
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#storage-layer" class="md-nav__link">
+  <a href="#core-concepts-and-components" class="md-nav__link">
     <span class="md-ellipsis">
-      Storage Layer
+      Core Concepts and Components
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#non-reliable-dispatch" class="md-nav__link">
+  <a href="#how-reads-work-cloudwal-handoff" class="md-nav__link">
     <span class="md-ellipsis">
-      Non-Reliable Dispatch
+      How Reads Work (Cloud→WAL Handoff)
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#reliable-dispatch" class="md-nav__link">
+  <a href="#configuration-overview" class="md-nav__link">
     <span class="md-ellipsis">
-      Reliable Dispatch
+      Configuration Overview
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#design-considerations" class="md-nav__link">
+  <a href="#provider-examples-opendal-powered" class="md-nav__link">
     <span class="md-ellipsis">
-      Design Considerations
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Design Considerations">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#decoupled-architecture" class="md-nav__link">
-    <span class="md-ellipsis">
-      Decoupled Architecture
+      Provider Examples (OpenDAL-powered)
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#plugin-architecture" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#tuning-and-best-practices" class="md-nav__link">
     <span class="md-ellipsis">
-      Plugin Architecture
+      Tuning and Best Practices
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#event-driven-focus" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#operational-notes" class="md-nav__link">
     <span class="md-ellipsis">
-      Event-Driven Focus
+      Operational Notes
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1311,36 +1281,201 @@
   
 
 
-<h1 id="danube-messaging-architecture">Danube Messaging Architecture</h1>
-<p>The Danube messaging system is a distributed messaging system, based on a publish-subscribe model, aiming to provide high throughput and low latency.</p>
-<p>The Danube Messaging system's architecture is designed for flexibility and scalability, making it suitable for event-driven and cloud-native applications. Its decoupled and pluggable architecture allows for independent scaling and easy integration of various storage backends. Using the dispatch strategies and the subscription models the system can accommodate different messaging patterns.</p>
-<p><img alt="Danube Messaging Architecture" src="../img/Danube_architecture.png" title="Danube Messaging Architecture" /></p>
-<h3 id="brokers">Brokers</h3>
-<p>Brokers are the core of the Danube Messaging system, responsible for routing and distributing messages, managing client connections and subscriptions, and implementing both reliable and non-reliable dispatch strategies. They act as the main entry point for publishers and subscribers, ensuring efficient and effective message flow.</p>
-<p>The Producers and Consumers connect to the Brokers to publish and consume messages, and use the subscription and dispatch mechanisms to accommodate various messaging patterns and reliability requirements.</p>
-<h3 id="metadata-storage">Metadata Storage</h3>
-<p>The ETCD cluster serves as the metadata storage for the system by maintaining configuration data, topic information, and broker coordination and load-balancing, ensuring the entire system operates with high availability and consistent state management across all nodes.</p>
-<h3 id="storage-layer">Storage Layer</h3>
-<p>The Storage Layer is responsible for message durability and replay. Danube now uses a cloud-native model based on a local Write-Ahead Log (WAL) for the hot path and background persistence to cloud object storage via OpenDAL. This keeps publish/dispatch latency low while enabling durable, elastic storage across providers (S3, GCS, Azure Blob, local FS, memory).</p>
-<p>Readers use tiered access: if data is within local WAL retention it is served from WAL/cache; otherwise historical data is streamed from cloud objects (using ETCD metadata) and seamlessly handed off to the WAL tail.</p>
-<h3 id="non-reliable-dispatch">Non-Reliable Dispatch</h3>
-<p>Non-Reliable Dispatch operates with zero storage overhead, as messages flow directly from publishers to subscribers without intermediate persistence. This mode delivers maximum performance and lowest latency, making it ideal for scenarios where occasional message loss is acceptable, such as real-time metrics or live streaming data.</p>
-<h3 id="reliable-dispatch">Reliable Dispatch</h3>
-<p>Reliable Dispatch offers guaranteed message delivery backed by the WAL + cloud persistence:</p>
+<h1 id="danube-persistence-architecture-wal-cloud">Danube Persistence Architecture (WAL + Cloud)</h1>
+<p>Danube's persistence layer has been recently revamped to make the platform cloud‑native, aiming for sub‑second dispatch with cloud economics. </p>
+<p>Danube uses a cloud‑native persistence architecture that combines a local Write‑Ahead Log (WAL) for the hot path with background uploads to cloud object storage. This keeps publish/dispatch latency low while providing durable, elastic, and cost‑effective storage in the cloud.</p>
+<p>This page explains the main concepts, how the system works, why it scales in cloud environments, and how to configure it for major providers (S3, GCS, Azure). Danube relies on OpenDAL as a storage abstraction, so it can be plugged into any storage backend.</p>
+<h2 id="key-benefits">Key Benefits</h2>
 <ul>
-<li><strong>WAL on local disk</strong> for low-latency appends and fast replay from in-memory cache and WAL files.</li>
-<li><strong>Cloud object storage via OpenDAL</strong> (S3/GCS/Azure/FS/Memory) for durable, scalable historical data, uploaded asynchronously by a background uploader with resumable checkpoints.</li>
-<li><strong>ETCD metadata</strong> tracks cloud objects and sparse indexes for efficient historical reads.</li>
+<li><strong>Fast hot path</strong>: Producers append to a local WAL and consumers read from memory/WAL; no remote writes on the critical path.</li>
+<li><strong>Cloud-native durability</strong>: A background uploader persists WAL frames to cloud object storage.</li>
+<li><strong>Seamless reader experience</strong>: Readers transparently stream historical data from cloud, then live data from WAL.</li>
+<li><strong>Cost-effective and elastic</strong>: Object storage provides massive scale, lifecycle policies, and low TCO.</li>
+<li><strong>Portable by design</strong>: Built on OpenDAL, enabling S3, GCS, Azure Blob, local FS, memory, and more.</li>
 </ul>
-<p>The ability to choose between these dispatch modes gives users the flexibility to optimize their messaging infrastructure based on their specific requirements for performance, reliability, and resource utilization.</p>
-<p>For details and provider-specific configuration, see <a href="architecture/persistence.md">Persistence (WAL + Cloud)</a>.</p>
-<h3 id="design-considerations">Design Considerations</h3>
-<h4 id="decoupled-architecture">Decoupled Architecture</h4>
-<p>The Danube Messaging system features a decoupled architecture where components are loosely coupled, allowing for independent scaling, easy maintenance and upgrades, and failure isolation.</p>
-<h4 id="plugin-architecture">Plugin Architecture</h4>
-<p>With a plugin architecture, the system supports flexible storage backend options, making it easy to extend and customize according to different use cases. This adaptability ensures that the system can meet diverse application requirements and is cloud-native ready.</p>
-<h4 id="event-driven-focus">Event-Driven Focus</h4>
-<p>Optimized for event-driven systems, the Danube Messaging system supports various message delivery patterns and scalable message processing. Its design is well-suited for microservices, providing efficient and scalable handling of event-driven workloads.</p>
+<h2 id="high-level-architecture">High-level Architecture</h2>
+<pre class="mermaid"><code>flowchart LR
+    P[Producer] --&gt;|append| WAL[Local WAL + In-memory Cache]
+    WAL --&gt;|broadcast/live| Disp[Dispatcher]
+    UPL[Background Uploader] &lt;-- reads WAL files --&gt; WAL
+    UPL --&gt;|upload frames| OBJ[(Cloud Object Storage)]
+    ETCD[(ETCD)] &lt;---&gt; UPL
+    ETCD &lt;---&gt; CR[Cloud Reader]
+    CR --&gt;|historical stream| Disp
+    Disp --&gt;|deliver| C[Consumers]</code></pre>
+<ul>
+<li><strong>Local WAL</strong>: Append-only log with an in-memory cache for ultra-fast reads. Files periodically fsync and rotate.</li>
+<li><strong>Background Uploader</strong>: Periodically streams complete WAL frames to cloud objects. Writes object descriptors and sparse indexes to ETCD.</li>
+<li><strong>Cloud Reader</strong>: Reads historical messages from cloud using ETCD metadata, then hands off to local WAL for live data.</li>
+<li><strong>ETCD</strong>: Tracks object descriptors, offsets, and indexes for efficient range reads.</li>
+</ul>
+<h2 id="core-concepts-and-components">Core Concepts and Components</h2>
+<ul>
+<li><strong><code>WalStorageFactory</code></strong> (<code>danube-persistent-storage/src/wal_factory.rs</code>)</li>
+<li>Creates per-topic <code>WalStorage</code> and starts one uploader and one deleter (retention) task per topic.</li>
+<li>
+<p>Normalizes topic to a per-topic WAL directory under the configured root.</p>
+</li>
+<li>
+<p><strong><code>Wal</code></strong> (<code>danube-persistent-storage/src/wal.rs</code>)</p>
+</li>
+<li>Append-only log with an in-memory ordered cache.</li>
+<li>Frames are <code>[u64 offset][u32 len][u32 crc][bytes]</code> with CRC32 validation.</li>
+<li>
+<p>Background writer batches and fsyncs; supports rotation by size/time.</p>
+</li>
+<li>
+<p><strong><code>WalStorage</code></strong> (<code>danube-persistent-storage/src/wal_storage.rs</code>)</p>
+</li>
+<li>Implements the <code>PersistentStorage</code> trait.</li>
+<li>
+<p>Reader creation uses tiered logic: serve from WAL if available; otherwise chain Cloud→WAL streams transparently.</p>
+</li>
+<li>
+<p><strong>Uploader</strong> (<code>danube-persistent-storage/src/cloud/uploader_stream.rs</code>)</p>
+</li>
+<li>Streams safe frame prefixes to cloud, finalizes objects atomically, builds sparse indexes.</li>
+<li>
+<p>One object per cycle; resumable via precise checkpoints.</p>
+</li>
+<li>
+<p><strong><code>CloudReader</code></strong> (<code>danube-persistent-storage/src/cloud/reader.rs</code>)</p>
+</li>
+<li>
+<p>Reads objects referenced in ETCD, seeks efficiently via sparse indexes, validates frames by CRC.</p>
+</li>
+<li>
+<p><strong>Retention/Deleter</strong> (<code>danube-persistent-storage/src/wal/deleter.rs</code>)</p>
+</li>
+<li>Enforces time/size retention on WAL files once they’re safely uploaded, advancing <code>start_offset</code>.</li>
+</ul>
+<h2 id="how-reads-work-cloudwal-handoff">How Reads Work (Cloud→WAL Handoff)</h2>
+<ol>
+<li>A subscription requests a reader at a <code>StartPosition</code> (latest or from a specific offset).</li>
+<li><code>WalStorage</code> checks the WAL’s local <code>start_offset</code>.</li>
+<li>If <code>start_offset</code> is older than requested, it:</li>
+<li>Streams historical range from cloud objects via <code>CloudReader</code>.</li>
+<li>Seamlessly chains into WAL tail for fresh/live data.</li>
+<li>Consumers see a single ordered stream with no gaps or duplicates.</li>
+</ol>
+<h2 id="configuration-overview">Configuration Overview</h2>
+<p>Broker configuration is under the <code>wal_cloud</code> section of <code>config/danube_broker.yml</code>:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">wal_cloud</span><span class="p">:</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">wal</span><span class="p">:</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">dir</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./danube-data/wal&quot;</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">file_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;wal.log&quot;</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="nt">cache_capacity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1024</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="nt">file_sync</span><span class="p">:</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">      </span><span class="nt">interval_ms</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5000</span><span class="w">         </span><span class="c1"># fsync cadence (checkpoint frequency)</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">      </span><span class="nt">max_batch_bytes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10485760</span><span class="w"> </span><span class="c1"># 10 MiB write batch</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="nt">rotation</span><span class="p">:</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">      </span><span class="nt">max_bytes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">536870912</span><span class="w">      </span><span class="c1"># 512 MiB WAL file size</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">      </span><span class="c1"># max_hours: 24           # optional time-based rotation</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">    </span><span class="nt">retention</span><span class="p">:</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">      </span><span class="nt">time_minutes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2880</span><span class="w">        </span><span class="c1"># prune locally after 48h</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">      </span><span class="nt">size_mb</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20480</span><span class="w">            </span><span class="c1"># or when size exceeds 20 GiB</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">      </span><span class="nt">check_interval_minutes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span><span class="w"> </span><span class="c1"># deleter tick interval</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">  </span><span class="nt">uploader</span><span class="p">:</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">    </span><span class="nt">interval_seconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">300</span><span class="w">       </span><span class="c1"># one upload cycle every 5 minutes</span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="w">    </span><span class="nt">root_prefix</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/danube-data&quot;</span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="w">    </span><span class="nt">max_object_mb</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1024</span><span class="w">         </span><span class="c1"># optional cap per object</span>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="w">  </span><span class="c1"># Cloud storage backend - MinIO S3 configuration</span>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="w">  </span><span class="nt">cloud</span><span class="p">:</span>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="w">    </span><span class="nt">backend</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;s3&quot;</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="w">    </span><span class="nt">root</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;s3://danube-messages/cluster-data&quot;</span><span class="w">  </span><span class="c1"># S3 bucket and prefix</span>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="w">    </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;us-east-1&quot;</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="w">    </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;http://minio:9000&quot;</span><span class="w">     </span><span class="c1"># MinIO endpoint</span>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="w">    </span><span class="nt">access_key</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;minioadmin&quot;</span><span class="w">         </span><span class="c1"># From environment variable</span>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="w">    </span><span class="nt">secret_key</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;minioadmin123&quot;</span><span class="w">     </span><span class="c1"># From environment variable</span>
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a><span class="w">    </span><span class="nt">anonymous</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a><span class="w">    </span><span class="nt">virtual_host_style</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a><span class="w">  </span><span class="nt">metadata</span><span class="p">:</span>
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a><span class="w">    </span><span class="nt">etcd_endpoint</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;127.0.0.1:2379&quot;</span>
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a><span class="w">    </span><span class="nt">in_memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+</span></code></pre></div>
+<ul>
+<li><strong>WAL</strong>: local durability + replay cache for hot reads.</li>
+<li><strong>Uploader</strong>: cadence and object sizing knobs.</li>
+<li><strong>Cloud</strong>: provider/backend specific settings (see below).</li>
+<li><strong>Metadata</strong>: ETCD endpoint used to store object descriptors and indexes.</li>
+</ul>
+<h2 id="provider-examples-opendal-powered">Provider Examples (OpenDAL-powered)</h2>
+<p>Danube uses OpenDAL under the hood. Switch providers by changing <code>wal_cloud.cloud</code>.</p>
+<ul>
+<li><strong>Amazon S3</strong></li>
+</ul>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">wal_cloud</span><span class="p">:</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">cloud</span><span class="p">:</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="nt">backend</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;s3&quot;</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="nt">root</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;s3://my-bucket/prefix&quot;</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;us-east-1&quot;</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://s3.us-east-1.amazonaws.com&quot;</span><span class="w">   </span><span class="c1"># optional</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="nt">access_key</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;${AWS_ACCESS_KEY_ID}&quot;</span><span class="w">               </span><span class="c1"># or depend on env/IMDS</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="nt">secret_key</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;${AWS_SECRET_ACCESS_KEY}&quot;</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="nt">profile</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="nt">role_arn</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="nt">session_token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="nt">anonymous</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+</span></code></pre></div>
+<ul>
+<li><strong>Google Cloud Storage (GCS)</strong></li>
+</ul>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">wal_cloud</span><span class="p">:</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">cloud</span><span class="p">:</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="nt">backend</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;gcs&quot;</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="nt">root</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;gcs://my-bucket/prefix&quot;</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="nt">project</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;my-gcp-project&quot;</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="nt">credentials_json</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span><span class="w">                 </span><span class="c1"># inline JSON string</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="nt">credentials_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/path/to/creds.json&quot;</span><span class="w"> </span><span class="c1"># or path to file</span>
+</span></code></pre></div>
+<ul>
+<li><strong>Azure Blob Storage</strong></li>
+</ul>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">wal_cloud</span><span class="p">:</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">cloud</span><span class="p">:</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="nt">backend</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;azblob&quot;</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="nt">root</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;my-container/prefix&quot;</span><span class="w">                       </span><span class="c1"># container[/prefix]</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://&lt;account&gt;.blob.core.windows.net&quot;</span><span class="w"> </span><span class="c1"># or Azurite endpoint</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="nt">account_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&lt;account_name&gt;&quot;</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="nt">account_key</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&lt;account_key&gt;&quot;</span>
+</span></code></pre></div>
+<ul>
+<li><strong>In-memory (development)</strong></li>
+</ul>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">wal_cloud</span><span class="p">:</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">cloud</span><span class="p">:</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="nt">backend</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;memory&quot;</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="nt">root</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;mem-prefix&quot;</span><span class="w"> </span><span class="c1"># namespace-only; persisted in memory</span>
+</span></code></pre></div>
+<ul>
+<li><strong>Local filesystem</strong></li>
+</ul>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nt">wal_cloud</span><span class="p">:</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">cloud</span><span class="p">:</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="nt">backend</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fs&quot;</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="nt">root</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./object_root&quot;</span><span class="w">   </span><span class="c1"># local directory for persisted objects</span>
+</span></code></pre></div>
+<h2 id="tuning-and-best-practices">Tuning and Best Practices</h2>
+<ul>
+<li><strong>WAL cache size</strong> (<code>wal.cache_capacity</code>): increase for higher consumer hit rates; memory-bound.</li>
+<li><strong>Flush cadence</strong> (<code>wal.file_sync.interval_ms</code>): smaller values improve checkpoint freshness but increase fsync pressure.</li>
+<li><strong>Rotation thresholds</strong> (<code>wal.rotation.*</code>): tune file sizes for smoother uploads and operational hygiene.</li>
+<li><strong>Uploader interval</strong> (<code>uploader.interval_seconds</code>): shorter intervals reduce RPO and speed up historical availability in cloud.</li>
+<li><strong>Object size</strong> (<code>uploader.max_object_mb</code>): bigger objects reduce listing overhead; </li>
+<li><strong>Retention</strong>: ensure local retention is safely larger than upload interval so deleter never prunes data not yet uploaded.</li>
+<li><strong>Credentials</strong>: prefer environment-based credentials for cloud providers</li>
+</ul>
+<h2 id="operational-notes">Operational Notes</h2>
+<ul>
+<li><strong>At-least-once delivery</strong>: With reliable topics, dispatch uses the WAL to guarantee at-least-once delivery; cloud persistence is asynchronous and does not block producers/consumers.</li>
+<li><strong>Resilience</strong>: Uploader uses precise checkpoints <code>(file_seq, byte_pos)</code> and never re-uploads confirmed bytes; CloudReader validates CRCs.</li>
+<li><strong>Observability</strong>: Checkpoints and rotation metadata are stored under the per-topic WAL directory; ETCD keeps object descriptors.</li>
+<li><strong>Extensibility</strong>: Because Danube uses OpenDAL, adding a new backend typically means adding backend-specific options in config; no broker code changes needed.</li>
+</ul>
 
 
 
