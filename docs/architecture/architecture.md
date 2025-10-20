@@ -36,7 +36,7 @@ Reliable Dispatch offers guaranteed message delivery backed by the WAL + cloud p
 
 The ability to choose between these dispatch modes gives users the flexibility to optimize their messaging infrastructure based on their specific requirements for performance, reliability, and resource utilization.
 
-For details and provider-specific configuration, see [Persistence (WAL + Cloud)](architecture/persistence.md).
+For details and provider-specific configuration, see [Persistence (WAL + Cloud)](persistence.md).
 
 ### Design Considerations
 
