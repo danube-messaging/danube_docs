@@ -10,6 +10,7 @@ This page compares Pub/Sub messaging and Streaming architectures, highlights key
 * **Use Cases**: Event-driven architectures, real-time notifications, decoupled microservices, and distributed systems. Suitable when low latency is critical and some message loss is acceptable (e.g., monitoring, telemetry, ephemeral chat).
 
 **Danube support**: Yes, via Non‑Reliable dispatch.
+
   - Delivery: best‑effort (at‑most‑once).
   - Persistence: none; messages are not stored.
   - Ordering: per topic/partition within a dispatcher.
@@ -56,6 +57,7 @@ This page compares Pub/Sub messaging and Streaming architectures, highlights key
 * **Use Cases**: Real-time analytics, data pipelines, event sourcing, continuous data processing, and stream processing applications. Ideal when high reliability and durability are required (e.g., financial transactions, orders, audit logs).
 
 **Danube support**: Yes, via Reliable dispatch (WAL + Cloud persistence).
+
   - Delivery: at‑least‑once with ack‑gating.
   - Persistence: local WAL for hot path, background uploads to object storage for durability and replay.
   - Replay: historical fetch from WAL or Cloud with seamless handoff to live tail.
@@ -92,8 +94,3 @@ This page compares Pub/Sub messaging and Streaming architectures, highlights key
 * **Delivery to Consumers**: Messages are dispatched to consumers, gated by acknowledgments for reliable delivery.
 * **No Consumers**: Messages remain stored and available for later consumption within retention.
 
----
-
-Suggested alternative title: “Messaging Modes: Pub/Sub (Non‑Reliable) vs Streaming (Reliable)”.
-
-This document aligns general best practices with Danube’s implementation. For implementation details, see `architecture/dispatch_strategy.md` and `architecture/persistence.md`.
