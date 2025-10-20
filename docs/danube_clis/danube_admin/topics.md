@@ -11,12 +11,14 @@ Get the list of topics in a specified namespace.
 **Usage:**
 
 ```sh
-danube-admin-cli topics list NAMESPACE
+danube-admin-cli topics list NAMESPACE [--output json]
 ```
 
 **Description:**
 
 This command retrieves and displays all topics within a specified namespace. Replace `NAMESPACE` with the name of the namespace you want to query.
+
+Use `--output json` to print JSON instead of plain text.
 
 **Example Output:**
 
@@ -28,17 +30,19 @@ Topic: topic3
 
 ### `danube-admin-cli topics create TOPIC`
 
-Create a non-partitioned topic.
+Create a topic (non‑partitioned or partitioned). You can also set schema and dispatch strategy.
 
 **Usage:**
 
 ```sh
-danube-admin-cli topics create TOPIC
+danube-admin-cli topics create TOPIC [--namespace NS] [--partitions N] \
+  [-s, --schema String|Bytes|Int64|Json] [--schema-file PATH | --schema-data JSON] \
+  [--dispatch-strategy non_reliable|reliable]
 ```
 
 **Description:**
 
-This command creates a new non-partitioned topic with the specified name. Replace `TOPIC` with the desired name for the new topic.
+This command creates a new topic. `TOPIC` accepts either `/namespace/topic` or `topic` (when `--namespace` is provided). Use `--partitions` to create a partitioned topic. For `Json` schema, provide the schema via `--schema-file` or `--schema-data`.
 
 **Example Output:**
 
@@ -53,12 +57,12 @@ Delete a specified topic.
 **Usage:**
 
 ```sh
-danube-admin-cli topics delete TOPIC
+danube-admin-cli topics delete TOPIC [--namespace NS]
 ```
 
 **Description:**
 
-This command deletes the specified topic. Replace `TOPIC` with the name of the topic you want to delete.
+This command deletes the specified topic. `TOPIC` accepts `/namespace/topic` or `topic` with `--namespace`.
 
 **Example Output:**
 
@@ -73,18 +77,32 @@ Get the list of subscriptions on a specified topic.
 **Usage:**
 
 ```sh
-danube-admin-cli topics subscriptions TOPIC
+danube-admin-cli topics subscriptions TOPIC [--namespace NS] [--output json]
 ```
 
 **Description:**
 
-This command retrieves and displays all subscriptions associated with a specified topic. Replace `TOPIC` with the name of the topic you want to query.
+This command retrieves and displays all subscriptions associated with a specified topic. `TOPIC` accepts `/namespace/topic` or `topic` with `--namespace`. Use `--output json` for JSON output.
 
 **Example Output:**
 
 ```sh
 Subscriptions: [subscription1, subscription2]
 ```
+
+### `danube-admin-cli topics describe TOPIC`
+
+Describe a topic: schema and subscriptions.
+
+**Usage:**
+
+```sh
+danube-admin-cli topics describe TOPIC [--namespace NS] [--output json]
+```
+
+**Description:**
+
+Shows topic name, schema (pretty-printed when JSON), and subscriptions. `TOPIC` accepts `/namespace/topic` or `topic` with `--namespace`.
 
 ### `danube-admin-cli topics unsubscribe --subscription SUBSCRIPTION TOPIC`
 
@@ -93,12 +111,12 @@ Delete a subscription from a topic.
 **Usage:**
 
 ```sh
-danube-admin-cli topics unsubscribe --subscription SUBSCRIPTION TOPIC
+danube-admin-cli topics unsubscribe --subscription SUBSCRIPTION TOPIC [--namespace NS]
 ```
 
 **Description:**
 
-This command deletes a subscription from a specified topic. Replace `SUBSCRIPTION` with the name of the subscription and `TOPIC` with the name of the topic.
+This command deletes a subscription from a specified topic. `TOPIC` accepts `/namespace/topic` or `topic` with `--namespace`.
 
 **Example Output:**
 
@@ -117,37 +135,31 @@ Here are a few example commands for quick reference:
 - List topics in a namespace:
 
   ```sh
-  danube-admin-cli topics list my-namespace
+  danube-admin-cli topics list my-namespace --output json
   ```
 
 - Create a topic:
 
   ```sh
-  danube-admin-cli topics create my-topic
+  danube-admin-cli topics create /default/my-topic --dispatch-strategy reliable
   ```
 
 - Delete a topic:
 
   ```sh
-  danube-admin-cli topics delete my-topic
+  danube-admin-cli topics delete my-topic --namespace default
   ```
 
 - Unsubscribe from a topic:
 
   ```sh
-  danube-admin-cli topics unsubscribe --subscription my-subscription my-topic
+  danube-admin-cli topics unsubscribe --subscription my-subscription my-topic --namespace default
   ```
 
 - List subscriptions for a topic:
 
   ```sh
-  danube-admin-cli topics subscriptions my-topic
-  ```
-
-- Create a new subscription for a topic:
-
-  ```sh
-  danube-admin-cli topics create-subscription --subscription my-subscription my-topic
+  danube-admin-cli topics subscriptions my-topic --namespace default --output json
   ```
 
 For more detailed information or help with the `danube-admin-cli`, you can use the `--help` flag with any command.

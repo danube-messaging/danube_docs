@@ -11,12 +11,14 @@ Get the list of topics for a specified namespace.
 **Usage:**
 
 ```sh
-danube-admin-cli namespaces topics NAMESPACE
+danube-admin-cli namespaces topics NAMESPACE [--output json]
 ```
 
 **Description:**
 
 This command retrieves and displays all topics associated with a specific namespace. Replace `NAMESPACE` with the name of the namespace you want to query.
+
+Use `--output json` to print JSON instead of plain text.
 
 **Example Output:**
 
@@ -33,12 +35,14 @@ Get the configuration policies for a specified namespace.
 **Usage:**
 
 ```sh
-danube-admin-cli namespaces policies NAMESPACE
+danube-admin-cli namespaces policies NAMESPACE [--output json]
 ```
 
 **Description:**
 
 This command fetches and displays the configuration policies for a specific namespace. Replace `NAMESPACE` with the name of the namespace you want to query.
+
+Use `--output json` to pretty-print JSON when available.
 
 **Example Output:**
 

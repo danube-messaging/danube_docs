@@ -11,7 +11,7 @@ List all active brokers in the cluster.
 **Usage:**
 
 ```sh
-danube-admin-cli brokers list
+danube-admin-cli brokers list [--output json]
 ```
 
 **Description:**
@@ -21,6 +21,8 @@ This command retrieves and displays a list of all active brokers in the cluster.
 - **BROKER ID**: The unique identifier for the broker.
 - **BROKER ADDRESS**: The network address of the broker.
 - **BROKER ROLE**: The role assigned to the broker (e.g., "leader", "follower").
+
+Use `--output json` to print JSON instead of a table.
 
 **Example Output:**
 
@@ -60,12 +62,14 @@ List all namespaces in the cluster.
 **Usage:**
 
 ```sh
-danube-admin-cli brokers namespaces
+danube-admin-cli brokers namespaces [--output json]
 ```
 
 **Description:**
 
 This command retrieves and lists all namespaces associated with the cluster. Each namespace is printed on a new line.
+
+Use `--output json` to print JSON instead of plain text.
 
 **Example Output:**
 

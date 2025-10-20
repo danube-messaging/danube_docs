@@ -1,43 +1,61 @@
-# Welcome to Danube Pub/Sub messaging docs
+# Welcome to Danube Messaging
 
-[Danube](https://github.com/danube-messaging/danube) is an open-source, distributed messaging broker platform, developed in Rust.
+[Danube](https://github.com/danube-messaging/danube) is a lightweight, cloud‑native messaging platform built in Rust. It delivers sub‑second dispatch with cloud economics by combining a Write‑Ahead Log (WAL) with object storage, so you get low‑latency pub/sub and durable streaming—on one broker.
 
-Danube aims to be a lightweight yet powerful, secure and scalable messaging platform, suitable for event-driven applications. Allows single or multiple **producers** to publish messages on the **topics** and multiple **consumers**, using the **subscription** models, to consume the messages from the topics.
+Danube lets multiple **producers** publish to **topics**, and multiple **consumers** receive messages via named **subscriptions**. Choose Non‑Reliable (best‑effort pub/sub) or Reliable (at‑least‑once streaming) per topic to match your workload.
 
-Inspired by the Apache Pulsar messaging and streaming platform, Danube incorporates some similar concepts but is designed to carve its own path within the distributed messaging ecosystem. For additional design considerations, please refer to the [Danube Architecture](architecture/architecture.md) section.
+For design details, see the [Architecture](architecture/architecture.md).
 
-## Core Capabilities of the Danube Messaging Platform
+## Try Danube in minutes
 
-* [**Topics**](architecture/topics.md): A unit of storage that organizes messages into a stream.
-  * **Non-partitioned topics**: Served by a single broker.
-  * **Partitioned topics**: Divided into partitions, served by different brokers within the cluster, enhancing scalability and fault tolerance.
-* [**Message Dispatch**](architecture/dispatch_strategy.md):
-  * **Non-reliable Message Dispatch**: Messages reside in memory and are promptly distributed to consumers, ideal for scenarios where speed is crucial. The acknowledgement mechanism is ignored.
-  * **Reliable Message Dispatch**: The acknowledgement mechanism and persistent storage is used to ensure guaranteed message delivery.
-* [**Subscription Types:**](architecture/subscriptions.md):
-  * Supports various subscription types (**Exclusive**, **Shared**, **Failover**) enabling different messaging patterns such as message queueing and pub-sub.
-* **Flexible Message Schemas**
-  * Supports multiple message schemas (**Bytes**, **String**, **Int64**, **JSON**) providing flexibility in message format and structure.
+**Docker Compose Quickstart**: Use the provided HA setup with MinIO and ETCD.
 
-### Crates within the [Danube workspace](https://github.com/danube-messaging/danube)
+  - Guide: https://github.com/danube-messaging/danube/tree/main/docker
+  - Or see our docs page: [Docker Compose setup](../../docker/README.md)
 
-Danube Broker core crates:
+## Core capabilities
 
-* [danube-broker](https://github.com/danube-messaging/danube/tree/main/danube-broker) - The main crate, danube pubsub platform
-* [danube-core](https://github.com/danube-messaging/danube/tree/main/danube-core) - Danube messaging core types and traits
-* [danube-metadata-store](https://github.com/danube-messaging/danube/tree/main/danube-metadata-store) - Responsibile of Metadata storage and cluster coordination.
-* [danube-reliable-dispatch](https://github.com/danube-messaging/danube/tree/main/danube-reliable-dispatch/src) - Responsible of reliable dispatching and topic storage.
-* [danube-persisitent-storage](https://github.com/danube-messaging/danube/tree/main/danube-persistent-storage) - Responsible of persistent storage mechanism.
+**[Topics](architecture/topics.md)**
 
-Danube CLIs and client library:
+  - Non‑partitioned: served by a single broker.
+  - Partitioned: split across brokers for scale and HA.
 
-* [danube-client](https://github.com/danube-messaging/danube/tree/main/danube-client) - An async Rust client library for interacting with Danube messaging system
-* [danube-cli](https://github.com/danube-messaging/danube/tree/main/danube-cli) - Client CLI to handle message publishing and consumption
-* [danube-admin-cli](https://github.com/danube-messaging/danube/tree/main/danube-admin-cli) - Admin CLI designed for interacting with and managing the Danube cluster
+**[Dispatch strategies](architecture/dispatch_strategy.md)**
 
-## Danube client libraries
+  - Non‑Reliable: in‑memory, best‑effort delivery, lowest latency.
+  - Reliable: WAL + Cloud persistence with acknowledgments and replay.
 
-* [danube-client](https://crates.io/crates/danube-client) - Danube messaging async Rust client library
-* [danube-go](https://pkg.go.dev/github.com/danube-messaging/danube-go) - Danube messaging Go client library
+**[Subscriptions](architecture/subscriptions.md)**
 
-Contributions in other languages, such as Python, Java, etc., are greatly appreciated.
+  - Exclusive, Shared, Failover patterns for queueing and fan‑out.
+
+**[Message schemas](architecture/messages.md)**
+  
+  - Bytes, String, Int64, JSON.
+
+**Concept guides**
+
+  - [Messaging Modes (Pub/Sub vs Streaming)](architecture/messaging_modes_pubsub_vs_streaming.md)
+  - [Messaging Patterns (Queuing vs Pub/Sub)](architecture/messaging_patterns_queuing_vs_pubsub.md)
+
+## Crates in the workspace
+
+Repository: https://github.com/danube-messaging/danube
+
+- [danube-broker](https://github.com/danube-messaging/danube/tree/main/danube-broker) – The broker service (topics, producers, consumers, subscriptions).
+- [danube-core](https://github.com/danube-messaging/danube/tree/main/danube-core) – Core types, protocol, and shared logic.
+- [danube-metadata-store](https://github.com/danube-messaging/danube/tree/main/danube-metadata-store) – Metadata storage and cluster coordination.
+- [danube-persistent-storage](https://github.com/danube-messaging/danube/tree/main/danube-persistent-storage) – WAL and cloud persistence backends.
+
+CLIs and client libraries:
+
+- [danube-client](https://github.com/danube-messaging/danube/tree/main/danube-client) – Async Rust client library.
+- [danube-cli](https://github.com/danube-messaging/danube/tree/main/danube-cli) – Publish/consume client CLI.
+- [danube-admin-cli](https://github.com/danube-messaging/danube/tree/main/danube-admin-cli) – Admin CLI for cluster management.
+
+## Client libraries
+
+- [danube-client (Rust)](https://crates.io/crates/danube-client)
+- [danube-go (Go)](https://pkg.go.dev/github.com/danube-messaging/danube-go)
+
+Contributions for other languages (Python, Java, etc.) are welcome.

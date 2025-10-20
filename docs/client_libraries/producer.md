@@ -129,14 +129,11 @@ Here we create Producer with reliable dispatch topic. This strategy ensures guar
 === "Rust"
 
     ```rust
-    use danube_client::{
-    ConfigReliableOptions, ConfigRetentionPolicy, DanubeClient, SchemaType };
+    use danube_client::{DanubeClient, SchemaType };
 
     let topic = "/default/topic_test";
     let producer_name = "producer_test";
 
-    let reliable_options =
-        ConfigReliableOptions::new(5, ConfigRetentionPolicy::RetainUntilExpire, 3600);
 
     // Create the producer
     let mut producer = danube_client
@@ -144,7 +141,7 @@ Here we create Producer with reliable dispatch topic. This strategy ensures guar
         .with_topic(topic)
         .with_name(producer_name)
         .with_schema("my_schema".into(), SchemaType::String)
-        .with_reliable_dispatch(reliable_options)
+        .with_reliable_dispatch()
         .build();
     
     producer.create().await?;

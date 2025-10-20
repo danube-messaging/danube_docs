@@ -44,7 +44,7 @@ Attributes: key1=value1, key2=value2
 
 ```bash
 Received reliable message: "message content"
-Segment: <id>, Offset: <offset>, Size: <size> bytes, Total received: <total> bytes
+Topic offset: <offset>, Size: <size> bytes, Total received: <total> bytes
 Producer: <producer_id>, Topic: <topic_name>
 Attributes: key1=value1, key2=value2
 ```

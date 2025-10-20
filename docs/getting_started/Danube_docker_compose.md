@@ -1,162 +1,313 @@
-# Run Danube with docker-compose and MINIO as persistence storage
+# Run Danube with Docker Compose
 
 This guide provides instructions on how to run Danube Messaging using Docker and Docker Compose. It sets up ETCD for metadata storage and MinIO for topic persistence storage.
 
-The MINIO storage is used as an example but can be used with any [implemented storage layers](https://github.com/danube-messaging/danube-storage).
+## Architecture Overview
 
-The Danube supports two dispatch strategies:
+The setup includes:
+- **2 Danube Brokers**: High-availability message brokers with load balancing
+- **ETCD**: Distributed metadata store for cluster coordination
+- **MinIO**: S3-compatible object storage for persistent message storage
+- **MinIO Client (MC)**: Automatic bucket creation and configuration
 
-* **Non-reliable dispatch**: This strategy prioritizes speed and minimal resource usage by delivering messages directly from producers to subscribers without storing them. Messages flow through the broker in a "fire and forget" manner, achieving the lowest possible latency.
-* **Reliable dispatch**: This strategy prioritizes message delivery and reliability, by implementing a store-and-forward mechanism.
 
-This guide focus on running Danube with a reliable dispatch strategy and MINIO as persistence storage.
+![Danube Docker Compose](img/reliable_with_minio_storage.png "Danube Docker Compose")
 
 ## Prerequisites
 
-Ensure you have the following installed on your system:
+- Docker Engine 20.10+
+- Docker Compose 2.0+
+- At least 4GB RAM available for containers
+- Ports 2379, 2380, 6650-6651, 9000-9001, 9040-9041, 50051-50052 available
 
-* Docker
-* Docker Compose (version v2.32.0 or higher)
-* The files mentioned below *docker-compose.yml* and *danube_broker.yml* are in [this repository](https://github.com/danube-messaging/danube-storage/tree/main/test_minio_storage).
+## Quick Start
 
-## Docker Compose Configuration
+### Step 1: Setup (Choose One Option)
 
-![Danube docker Compose](img/reliable_with_minio_storage.png "Danube Docker Compose")
+**Option 1: Download Docker Compose Files (Recommended for running the broker)**
 
-The **[docker-compose.yml](https://github.com/danube-messaging/danube-storage/tree/main/test_minio_storage)** file defines the following services:
-
-* **ETCD (etcd)**: Stores Danube's cluster metadata.
-* **Danube Brokers (broker1, broker2)**: Handles message routing. As the prerequisites, the etcd service must be healthy.
-Ensure that your [`danube_broker.yml`](https://github.com/danube-messaging/danube-storage/tree/main/test_minio_storage) configuration file is properly configured.
-* **MinIO (minio)**: Provides object storage to persist messages.
-* **Danube MinIO Storage** (danube-minio-storage): Bridges Danube and MinIO. Implements the storage grpc service for Danube and connects to MinIO.
-
-## Setup
-
-There are 2 alternatives to run the docker compose file:
-
-1. Clone the `danube-storage` repository and run the docker compose file from the `test_minio_storage` folder.
-2. Copy the [`docker-compose.yml`](https://github.com/danube-messaging/danube-storage/blob/main/test_minio_storage/docker-compose.yml) and [`danube_broker.yml`](https://github.com/danube-messaging/danube-storage/blob/main/test_minio_storage/danube_broker.yml) files to your local folder and run the docker compose file from that folder.
-
-If you go with the second option, you have to modify the `danube-minio-storage` section from `docker-compose.yml` file to use the image from Container Registry instead of the Dockerfile build.
+Create a directory and download the required files:
 
 ```bash
-  danube-minio-storage:
-    image: ghcr.io/danube-messaging/danube-storage:latest
-    container_name: danube-minio-storage
-    environment:
-      STORAGE_TYPE: minio
-      GRPC_PORT: 50060
-      MINIO_ENDPOINT: minio:9000
-      MINIO_ACCESS_KEY_ID: minioadmin
-      MINIO_SECRET_ACCESS_KEY: minioadmin
-      MINIO_BUCKET_NAME: danube-messages
-      MINIO_LOCATION: us-east-1
-    depends_on:
-      minio:
-        condition: service_healthy
-    ports:
-      - "50060:50060"
+mkdir danube-docker && cd danube-docker
 ```
 
-## Running Danube Messaging
-
-1. Start the services using Docker Compose:
-
-    ```bash
-    docker-compose up --build
-
-    ✔ danube-minio-storage                Built  
-    ✔ Network test_minio_storage_default  Created 
-    ✔ Container etcd-danube               Created 
-    ✔ Container minio                     Created 
-    ✔ Container broker2                   Created 
-    ✔ Container broker1                   Created  
-    ✔ Container danube-minio-storage      Created 
-    ```
-
-    or just `docker-compose up` if you use the danube-storage image.
-
-    This command will download the necessary images and start the containers. Docker Compose will ensure that ETCD and MinIO are healthy before starting the Danube brokers and storage component.
-
-2. Verify running containers:
-
-    ```bash
-    docker ps
-    ```
-
-    This command will show you the running containers and their status.
-
-    ```bash
-    $ docker ps
-    CONTAINER ID   IMAGE                                           COMMAND                  CREATED          STATUS                    PORTS                                                                                                                                           NAMES
-    d791e51e7a29   test_minio_storage-danube-minio-storage         "./danube-minio-stor…"   35 seconds ago   Up 4 seconds              50051/tcp, 0.0.0.0:50060->50060/tcp, :::50060->50060/tcp                                                                                       danube-minio-storage
-    
-    ef4fe0528a57   ghcr.io/danube-messaging/danube-broker:latest   "/usr/local/bin/danu…"   35 seconds ago   Up 32 seconds             0.0.0.0:3000->3000/tcp, :::3000->3000/tcp, 0.0.0.0:6650->6650/tcp, :::6650->6650/tcp, 0.0.0.0:50051->50051/tcp, :::50051->50051/tcp, 6651/tcp   broker1
-    
-    ca1a41d1ef62   ghcr.io/danube-messaging/danube-broker:latest   "/usr/local/bin/danu…"   35 seconds ago   Up 32 seconds             0.0.0.0:3001->3001/tcp, :::3001->3001/tcp, 0.0.0.0:6651->6651/tcp, :::6651->6651/tcp, 0.0.0.0:50052->50052/tcp, :::50052->50052/tcp, 6650/tcp   broker2
-    
-    8a8c4a2e2d03   minio/minio                                     "/usr/bin/docker-ent…"   35 seconds ago   Up 34 seconds (healthy)   0.0.0.0:9000-9001->9000-9001/tcp, :::9000-9001->9000-9001/tcp                                                                                   minio
-    
-    b7cc1c6a2a03   quay.io/coreos/etcd:latest                      "/usr/local/bin/etcd"    35 seconds ago   Up 34 seconds (healthy)   0.0.0.0:2379-2380->2379-2380/tcp, :::2379-2380->2379-2380/tcp  
-    ```
-
-3. Produce messages:
-
-    Download the [Danube CLI](https://github.com/danube-messaging/danube/releases).
-
-    Create a 100KB blob file, in order to fill faster the 5 MB segment size.
-
-    ```bash
-    yes 'Danube messaging platform is awesome!' | head -c 100K > test.blob
-    ```
-
-    Produce messages, (creates also a topic with reliable dispatch, meaning that the messages are stored and then delivered to the consumers).
-
-    ```bash
-    danube-cli produce -s http://localhost:6650 -m "none" -f ./test.blob -c 1000 --reliable  --segment-size 5  --retention expire --retention-period 7200
-    ```
-
-4. Consume messages:
-
-    Consume messages from the topic, creating an exclusive subscription.
-
-    ```bash
-    danube-cli consume -s http://localhost:6650 -m my_exclusive --sub-type exclusive
-    ```
-
-    The output should look like this:
-
-    ```bash
-    Received reliable message: [binary data] 
-    Segment: 2, Offset: 41, Size: 102400 bytes, Total received: 9728000 bytes
-    Producer: 9791760036514492028, Topic: /default/test_topic
-
-    Received reliable message: [binary data] 
-    Segment: 2, Offset: 42, Size: 102400 bytes, Total received: 9830400 bytes
-    Producer: 9791760036514492028, Topic: /default/test_topic
-
-    Received reliable message: [binary data] 
-    Segment: 2, Offset: 43, Size: 102400 bytes, Total received: 9932800 bytes
-    Producer: 9791760036514492028, Topic: /default/test_topic
-    ```
-
-## Checking Stored Messages
-
-Open the MinIO console in your browser: `http://localhost:9001/buckets`. Log in with `minioadmin` as both the username and password. You can see the buckets and objects created by Danube.
-
-## Stopping Danube Messaging
-
-To stop and remove the containers:
+Download the docker-compose file:
 
 ```bash
-$ docker-compose down
-
-[+] Running 6/6
- ✔ Container danube-minio-storage      Removed         
- ✔ Container broker1                   Removed                  
- ✔ Container broker2                   Removed    
- ✔ Container minio                     Removed                                    
- ✔ Container etcd-danube               Removed  
- ✔ Network test_minio_storage_default  Removed   
+curl -O https://raw.githubusercontent.com/danube-messaging/danube/main/docker/docker-compose.yml
 ```
+
+Download the broker configuration file:
+
+```bash
+curl -O https://raw.githubusercontent.com/danube-messaging/danube/main/docker/danube_broker.yml
+```
+
+**Option 2: Clone Repository (Recommended for development and building from source)**
+
+```bash
+git clone https://github.com/danube-messaging/danube.git
+cd danube/docker
+```
+
+### Step 2: Start the Cluster
+
+Start the entire cluster:
+
+```bash
+docker-compose up -d
+```
+
+### Step 3: Verify all services are healthy
+
+Verify all services are running:
+
+```bash
+docker-compose ps
+```
+
+Expected output:
+
+```bash
+✗ docker-compose ps
+NAME        IMAGE        COMMAND       SERVICE         CREATED        STATUS       PORTS
+
+danube-broker1   docker-broker1                             "/usr/local/bin/danu…"   broker1      About a minute ago   Up 6 seconds (health: starting)   0.0.0.0:6650->6650/tcp, [::]:6650->6650/tcp, 0.0.0.0:9040->9040/tcp, [::]:9040->9040/tcp, 0.0.0.0:50051->50051/tcp, [::]:50051->50051/tcp
+
+danube-broker2   docker-broker2                             "/usr/local/bin/danu…"   broker2      About a minute ago   Up 6 seconds (health: starting)   0.0.0.0:6651->6650/tcp, [::]:6651->6650/tcp, 0.0.0.0:9041->9040/tcp, [::]:9041->9040/tcp, 0.0.0.0:50052->50051/tcp, [::]:50052->50051/tcp
+
+danube-cli       docker-danube-cli                          "sleep infinity"         danube-cli   About a minute ago   Up 6 seconds                      
+
+danube-etcd      quay.io/coreos/etcd:v3.5.9                 "/usr/local/bin/etcd"    etcd         About a minute ago   Up 12 seconds (healthy)           0.0.0.0:2379-2380->2379-2380/tcp, [::]:2379-2380->2379-2380/tcp
+
+danube-mc        minio/mc:RELEASE.2024-09-16T17-43-14Z      "/bin/sh -c ' echo '…"   mc           About a minute ago   Up About a minute                 
+
+danube-minio     minio/minio:RELEASE.2025-07-23T15-54-02Z   "/usr/bin/docker-ent…"   minio        About a minute ago   Up About a minute (healthy)       0.0.0.0:9000-9001->9000-9001/tcp, [::]:9000-9001->9000-9001/tcp
+```
+
+**Check logs** (optional):
+   ```bash
+   # View all logs
+   docker-compose logs -f
+   
+   # View specific service logs
+   docker-compose logs -f broker1
+   docker-compose logs -f broker2
+   ```
+
+## Service Endpoints
+
+| Service | Endpoint | Purpose |
+|---------|----------|---------|
+| Danube Broker 1 | `localhost:6650` | gRPC messaging |
+| Danube Broker 2 | `localhost:6651` | gRPC messaging |
+| Admin API 1 | `localhost:50051` | Broker administration |
+| Admin API 2 | `localhost:50052` | Broker administration |
+| Prometheus 1 | `localhost:9040` | Metrics and monitoring |
+| Prometheus 2 | `localhost:9041` | Metrics and monitoring |
+| MinIO API | `localhost:9000` | S3-compatible storage |
+| MinIO Console | `localhost:9001` | Web UI (minioadmin/minioadmin123) |
+| ETCD | `localhost:2379` | Metadata store |
+
+## Testing with Danube CLI
+
+### Using the CLI Container
+
+The Docker Compose setup includes a `danube-cli` container with both `danube-cli` and `danube-admin-cli` tools pre-installed. This eliminates the need to build or install Rust locally.
+
+**No local installation required** - use the containerized CLI tools directly.
+
+### Reliable Messaging with S3 Storage
+
+Test the cloud-ready persistent storage capabilities:
+
+**Produce with reliable delivery and S3 persistence:**
+
+```bash
+docker exec -it danube-cli danube-cli produce \
+  --service-addr http://broker1:6650 \
+  --topic "/default/persistent-topic" \
+  --count 1000 \
+  --message "Persistent message" \
+  --reliable
+```
+
+**Consume persistent messages:**
+
+```bash
+docker exec -it danube-cli danube-cli consume \
+  --service-addr http://broker1:6650 \
+  --topic "/default/persistent-topic" \
+  --subscription "persistent-sub" \
+  --sub-type exclusive
+```
+
+### Non-Reliable Message Flow Testing
+
+#### Basic string messages
+
+**Produce basic string messages:**
+
+```bash
+docker exec -it danube-cli danube-cli produce \
+  --service-addr http://broker1:6650 \
+  --topic "/default/test-topic" \
+  --count 100 \
+  --message "Hello from Danube Docker!"
+```
+
+**Consume from shared subscription:**
+
+```bash
+docker exec -it danube-cli danube-cli consume \
+  --service-addr http://broker1:6650 \
+  --topic "/default/test-topic" \
+  --subscription "shared-sub" \
+  --consumer "docker-consumer"
+```
+
+#### JSON schema messages
+
+**Produce JSON messages with schema:**
+
+```bash
+docker exec -it danube-cli danube-cli produce \
+  --service-addr http://broker1:6650 \
+  --topic "/default/json-topic" \
+  --count 100 \
+  --schema json \
+  --json-schema '{"type":"object","properties":{"message":{"type":"string"},"timestamp":{"type":"number"}}}' \
+  --message '{"message":"Hello JSON","timestamp":1640995200}'
+```
+
+**Consume JSON messages:**
+
+```bash
+docker exec -it danube-cli danube-cli consume \
+  --service-addr http://broker2:6650 \
+  --topic "/default/json-topic" \
+  --subscription "json-sub" \
+  --consumer "json-consumer"
+```
+
+### Admin CLI Operations
+
+**Use danube-admin-cli for cluster management:**
+
+```bash
+# List active brokers
+docker exec -it danube-cli danube-admin-cli brokers list
+
+# List namespaces in cluster
+docker exec -it danube-cli danube-admin-cli brokers namespaces
+
+# List topics in a namespace
+docker exec -it danube-cli danube-admin-cli topics list default
+
+# List subscriptions on a topic
+docker exec -it danube-cli danube-admin-cli topics subscriptions /default/test-topic
+```
+
+## Monitoring and Observability
+
+### Prometheus Metrics
+
+Access broker metrics for monitoring:
+
+```bash
+# Broker 1 metrics
+curl http://localhost:9040/metrics
+
+# Broker 2 metrics  
+curl http://localhost:9041/metrics
+```
+
+### MinIO Console
+
+1. Open http://localhost:9001 in your browser
+2. Login with credentials: `minioadmin` / `minioadmin123`
+3. Navigate to "Buckets" to see:
+   - `danube-messages`: Persistent message storage
+   - `danube-wal`: Write-ahead log storage
+
+### ETCD Inspection
+
+```bash
+# List all keys in ETCD
+docker exec danube-etcd etcdctl --endpoints=http://127.0.0.1:2379 get --prefix ""
+
+# Watch for changes
+docker exec danube-etcd etcdctl --endpoints=http://127.0.0.1:2379 watch --prefix ""
+
+# Check broker registrations
+docker exec danube-etcd etcdctl --endpoints=http://127.0.0.1:2379 get --prefix "/cluster/register"
+```
+
+## Configuration
+
+### Broker Configuration
+
+The `danube_broker.yml` file is optimized for:
+- **S3 Storage**: MinIO integration with automatic credential management
+- **High Performance**: Optimized WAL rotation and batch sizes
+- **Development**: Relaxed security and unlimited resource policies
+- **Monitoring**: Prometheus metrics enabled on all brokers
+
+### Environment Variables
+
+Key environment variables used:
+- `AWS_ACCESS_KEY_ID=minioadmin`
+- `AWS_SECRET_ACCESS_KEY=minioadmin123`
+- `AWS_REGION=us-east-1`
+- `RUST_LOG=danube_broker=info,danube_core=info`
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Port conflicts**: Ensure all required ports are available
+2. **Memory issues**: Increase Docker memory allocation if containers fail to start
+3. **Storage issues**: Check MinIO bucket creation in logs: `docker-compose logs mc`
+
+### Reset Environment
+
+```bash
+# Stop and remove all containers, networks, and volumes
+docker-compose down -v
+
+# Remove all Danube-related Docker resources
+docker volume prune -f
+docker network prune -f
+
+# Restart fresh
+docker-compose up -d
+```
+
+## Production Considerations
+
+This setup demonstrates Danube's cloud-ready capabilities. For production deployment:
+
+1. **Replace MinIO** with AWS S3, Google Cloud Storage, or Azure Blob Storage
+2. **Enable TLS/SSL** authentication in broker configuration
+3. **Configure resource limits** and health checks appropriately
+4. **Set up monitoring** with Prometheus and Grafana
+5. **Implement backup strategies** for ETCD and persistent storage
+6. **Use container orchestration** like Kubernetes for scaling
+
+## AWS S3 Migration
+
+To migrate from MinIO to AWS S3, update `danube_broker.yml`:
+
+```yaml
+wal_cloud:
+  cloud:
+    backend: "s3"
+    root: "s3://your-production-bucket/danube-cluster"
+    region: "us-west-2"
+    # Remove endpoint for AWS S3
+    # endpoint: "http://minio:9000"  
+    # Use IAM roles or environment variables for credentials
+```
+
+This Docker Compose setup showcases Danube's architecture with cloud-native storage.

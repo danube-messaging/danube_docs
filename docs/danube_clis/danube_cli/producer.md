@@ -52,15 +52,6 @@ danube-cli produce [OPTIONS] --service-addr <SERVICE_ADDR> --message <MESSAGE>
 - `--reliable`
   Enable reliable message delivery with storage persistence
 
-- `--segment-size <SIZE>`
-  Segment size in MB for reliable delivery (default: 20)
-
-- `--retention <POLICY>`
-  Retention policy: `ack` (retain until acknowledged) or `expire` (retain until time expires) (default: expire)
-
-- `--retention-period <SECONDS>`
-  Retention period in seconds for reliable delivery (default: `3600`)
-
 - `-h, --help`  
   Description: Print help information
   
@@ -84,19 +75,11 @@ danube-cli produce -s http://localhost:6650 -c 100 \
 ### Reliable Message Delivery
 
 ```bash
-danube-cli produce -s http://localhost:6650 -m "Hello Danube" -c 100 \
-  --reliable \
-  --segment-size 10 \
-  --retention expire \
-  --retention-period 7200
+danube-cli produce -s http://localhost:6650 -m "Hello Danube" -c 100 --reliable
 ```
 
 ### Binary File send with Reliable Delivery
 
 ```bash
-danube-cli produce -s http://localhost:6650 -m "none" -f ./data.blob -c 100 \
-  --reliable \
-  --segment-size 5 \
-  --retention expire \
-  --retention-period 7200
+danube-cli produce -s http://localhost:6650 -m "none" -f ./data.blob -c 100 --reliable
 ```
