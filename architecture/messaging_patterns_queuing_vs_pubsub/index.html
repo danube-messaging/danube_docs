@@ -1252,44 +1252,62 @@
 <li>For delivery semantics, see <code>architecture/dispatch_strategy.md</code>.</li>
 </ul>
 <h2 id="concepts-at-a-glance">Concepts at a Glance</h2>
-<p><strong>Queuing (Point‑to‑Point)</strong>
-  - One message is delivered to exactly one consumer in a group.
-  - Suited for work distribution (orders, tasks, jobs).
-  - Ordering is per consumer, and per partition when topics are partitioned.</p>
-<p><strong>Pub/Sub (Fan‑out)</strong>
-  - Every subscription receives every message.
-  - Suited for broadcast (notifications, analytics, multiple services reacting to events).
-  - Each subscription processes the full stream independently.</p>
+<p><strong>Queuing (Point‑to‑Point)</strong></p>
+<ul>
+<li>One message is delivered to exactly one consumer in a group.</li>
+<li>Suited for work distribution (orders, tasks, jobs).</li>
+<li>Ordering is per consumer, and per partition when topics are partitioned.</li>
+</ul>
+<p><strong>Pub/Sub (Fan‑out)</strong></p>
+<ul>
+<li>Every subscription receives every message.</li>
+<li>Suited for broadcast (notifications, analytics, multiple services reacting to events).</li>
+<li>Each subscription processes the full stream independently.</li>
+</ul>
 <h2 id="how-to-enable-in-danube">How to enable in Danube</h2>
 <p>Both patterns are built with Danube subscriptions on a topic.</p>
-<p><strong>Queuing (Point‑to‑Point)</strong>
-  - Set subscription type to <code>Shared</code>.
-  - Use the same subscription name across all workers (e.g., <code>orders-workers</code>).
-  - Result: Each message is delivered to one consumer in the group (round‑robin, per partition).</p>
-<p><strong>Pub/Sub (Fan‑out)</strong>
-  - Create distinct subscriptions per downstream consumer/team (unique subscription names), typically using <code>Exclusive</code> (or <code>Failover</code> for HA).
-  - Result: Each subscription receives every message; consumers do not contend with other subscriptions.</p>
+<p><strong>Queuing (Point‑to‑Point)</strong></p>
+<ul>
+<li>Set subscription type to <code>Shared</code>.</li>
+<li>Use the same subscription name across all workers (e.g., <code>orders-workers</code>).</li>
+<li>Result: Each message is delivered to one consumer in the group (round‑robin, per partition).</li>
+</ul>
+<p><strong>Pub/Sub (Fan‑out)</strong></p>
+<ul>
+<li>Create distinct subscriptions per downstream consumer/team (unique subscription names), typically using <code>Exclusive</code> (or <code>Failover</code> for HA).</li>
+<li>Result: Each subscription receives every message; consumers do not contend with other subscriptions.</li>
+</ul>
 <h2 id="dispatch-modes-and-guarantees">Dispatch modes and guarantees</h2>
-<p><strong>Non‑Reliable (Pub/Sub‑style, best‑effort)</strong>
-  - Lowest latency; no persistence or replay.
-  - Messages are delivered only to active consumers. Disconnections may cause loss.</p>
-<p><strong>Reliable (Streaming‑style, at‑least‑once)</strong>
-  - Messages are appended to the local WAL and asynchronously uploaded to cloud storage.
-  - Consumers can replay historical data; acknowledgments drive redelivery.</p>
+<p><strong>Non‑Reliable (Pub/Sub‑style, best‑effort)</strong></p>
+<ul>
+<li>Lowest latency; no persistence or replay.</li>
+<li>Messages are delivered only to active consumers. Disconnections may cause loss.</li>
+</ul>
+<p><strong>Reliable (Streaming‑style, at‑least‑once)</strong></p>
+<ul>
+<li>Messages are appended to the local WAL and asynchronously uploaded to cloud storage.</li>
+<li>Consumers can replay historical data; acknowledgments drive redelivery.</li>
+</ul>
 <p>See <code>architecture/persistence.md</code> for WAL + Cloud details.</p>
 <h2 id="partitioning-behavior">Partitioning behavior</h2>
-<p>With partitioned topics, both patterns apply per partition.
-  - Queuing: messages are distributed round‑robin within each partition to the consumers in that subscription.
-  - Pub/Sub: each subscription receives each partition’s messages independently.</p>
+<p>With partitioned topics, both patterns apply per partition.</p>
+<ul>
+<li>Queuing: messages are distributed round‑robin within each partition to the consumers in that subscription.</li>
+<li>Pub/Sub: each subscription receives each partition’s messages independently.</li>
+</ul>
 <h2 id="quick-examples">Quick examples</h2>
-<p><strong>Build a worker queue</strong>
-  - Topic: <code>/default/orders</code>
-  - Subscription: <code>orders-workers</code> (type <code>Shared</code>)
-  - Run N consumers with the same subscription name. Messages are load‑balanced.</p>
-<p><strong>Broadcast to multiple services</strong>
-  - Topic: <code>/default/events</code>
-  - Subscriptions: <code>billing</code> (Exclusive), <code>analytics</code> (Exclusive), <code>monitoring</code> (Failover)
-  - Each subscription receives the full event stream independently.</p>
+<p><strong>Build a worker queue</strong></p>
+<ul>
+<li>Topic: <code>/default/orders</code></li>
+<li>Subscription: <code>orders-workers</code> (type <code>Shared</code>)</li>
+<li>Run N consumers with the same subscription name. Messages are load‑balanced.</li>
+</ul>
+<p><strong>Broadcast to multiple services</strong></p>
+<ul>
+<li>Topic: <code>/default/events</code></li>
+<li>Subscriptions: <code>billing</code> (Exclusive), <code>analytics</code> (Exclusive), <code>monitoring</code> (Failover)</li>
+<li>Each subscription receives the full event stream independently.</li>
+</ul>
 <h2 id="notes-best-practices">Notes &amp; best practices</h2>
 <ul>
 <li>Use Reliable mode for durability and replay; Non‑Reliable for minimal latency when loss is acceptable.</li>

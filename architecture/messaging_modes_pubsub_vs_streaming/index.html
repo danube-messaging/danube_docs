@@ -1433,10 +1433,12 @@
 <li><strong>Purpose</strong>: Designed for decoupling producers and consumers, enabling asynchronous communication between different parts of a system.</li>
 <li><strong>Use Cases</strong>: Event-driven architectures, real-time notifications, decoupled microservices, and distributed systems. Suitable when low latency is critical and some message loss is acceptable (e.g., monitoring, telemetry, ephemeral chat).</li>
 </ul>
-<p><strong>Danube support</strong>: Yes, via Non‑Reliable dispatch.
-  - Delivery: best‑effort (at‑most‑once).
-  - Persistence: none; messages are not stored.
-  - Ordering: per topic/partition within a dispatcher.</p>
+<p><strong>Danube support</strong>: Yes, via Non‑Reliable dispatch.</p>
+<ul>
+<li>Delivery: best‑effort (at‑most‑once).</li>
+<li>Persistence: none; messages are not stored.</li>
+<li>Ordering: per topic/partition within a dispatcher.</li>
+</ul>
 <h3 id="architecture-and-design">Architecture and Design</h3>
 <ul>
 <li><strong>Components</strong>: Producers, Subscriptions (consumer groups), and the broker.</li>
@@ -1474,10 +1476,12 @@
 <li><strong>Purpose</strong>: Designed for processing and analyzing large volumes of data in real-time as it is generated.</li>
 <li><strong>Use Cases</strong>: Real-time analytics, data pipelines, event sourcing, continuous data processing, and stream processing applications. Ideal when high reliability and durability are required (e.g., financial transactions, orders, audit logs).</li>
 </ul>
-<p><strong>Danube support</strong>: Yes, via Reliable dispatch (WAL + Cloud persistence).
-  - Delivery: at‑least‑once with ack‑gating.
-  - Persistence: local WAL for hot path, background uploads to object storage for durability and replay.
-  - Replay: historical fetch from WAL or Cloud with seamless handoff to live tail.</p>
+<p><strong>Danube support</strong>: Yes, via Reliable dispatch (WAL + Cloud persistence).</p>
+<ul>
+<li>Delivery: at‑least‑once with ack‑gating.</li>
+<li>Persistence: local WAL for hot path, background uploads to object storage for durability and replay.</li>
+<li>Replay: historical fetch from WAL or Cloud with seamless handoff to live tail.</li>
+</ul>
 <h3 id="architecture-and-design_1">Architecture and Design</h3>
 <ul>
 <li><strong>Components</strong>: Producers, consumers, stream processors, and a durable log.</li>
@@ -1509,9 +1513,6 @@
 <li><strong>Delivery to Consumers</strong>: Messages are dispatched to consumers, gated by acknowledgments for reliable delivery.</li>
 <li><strong>No Consumers</strong>: Messages remain stored and available for later consumption within retention.</li>
 </ul>
-<hr />
-<p>Suggested alternative title: “Messaging Modes: Pub/Sub (Non‑Reliable) vs Streaming (Reliable)”.</p>
-<p>This document aligns general best practices with Danube’s implementation. For implementation details, see <code>architecture/dispatch_strategy.md</code> and <code>architecture/persistence.md</code>.</p>
 
 
 
