@@ -5,6 +5,7 @@ This guide provides instructions on how to run Danube Messaging using Docker and
 ## Architecture Overview
 
 The setup includes:
+
 - **2 Danube Brokers**: High-availability message brokers with load balancing
 - **ETCD**: Distributed metadata store for cluster coordination
 - **MinIO**: S3-compatible object storage for persistent message storage
@@ -87,6 +88,7 @@ danube-minio     minio/minio:RELEASE.2025-07-23T15-54-02Z   "/usr/bin/docker-ent
 ```
 
 **Check logs** (optional):
+
    ```bash
    # View all logs
    docker-compose logs -f
@@ -249,6 +251,7 @@ docker exec danube-etcd etcdctl --endpoints=http://127.0.0.1:2379 get --prefix "
 ### Broker Configuration
 
 The `danube_broker.yml` file is optimized for:
+
 - **S3 Storage**: MinIO integration with automatic credential management
 - **High Performance**: Optimized WAL rotation and batch sizes
 - **Development**: Relaxed security and unlimited resource policies
@@ -257,6 +260,7 @@ The `danube_broker.yml` file is optimized for:
 ### Environment Variables
 
 Key environment variables used:
+
 - `AWS_ACCESS_KEY_ID=minioadmin`
 - `AWS_SECRET_ACCESS_KEY=minioadmin123`
 - `AWS_REGION=us-east-1`

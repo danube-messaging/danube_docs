@@ -10,7 +10,33 @@ For design details, see the [Architecture](architecture/architecture.md).
 
 **[Docker Compose Quickstart](getting_started/Danube_docker_compose.md)**: Use the provided Docker Compose setup with MinIO and ETCD.
 
-## Core capabilities
+## Danube capabilities
+
+### 🏗️ **Cluster & Broker Characteristics**
+
+- **Stateless brokers**: Metadata in ETCD and data in WAL/Object Storage
+- **Horizontal scaling**: Add brokers in seconds; partitions rebalance automatically
+- **Leader election & HA**: Automatic failover and coordination via ETCD
+- **Rolling upgrades**: Restart or replace brokers with minimal disruption
+- **Multi-tenancy**: Isolated namespaces with policy controls
+- **Security-ready**: TLS/mTLS support in Admin and data paths
+
+**Cloud-Native by Design** - Danube's architecture separates compute from storage, enabling:
+
+### 🌩️ **Write-Ahead Log + Cloud Persistence**
+
+- **Sub-millisecond producer acknowledgments** via local WAL
+- **Asynchronous background uploads** to S3/GCS/Azure object storage
+- **Automatic failover** with shared cloud state
+- **Infinite retention** without local disk constraints
+
+### ⚡ **Performance & Scalability**
+
+- **Hot path optimization**: Messages served from in-memory WAL cache
+- **Stream per subscription**: WAL + cloud storage from selected offset 
+- **Multi-cloud support**: AWS S3, Google Cloud Storage, Azure Blob, MinIO
+
+## Core features
 
 **[Topics](architecture/topics.md)**
 
