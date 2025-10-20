@@ -314,11 +314,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../getting_started/Danube_local/" class="md-nav__link">
+      <a href="../../../getting_started/Danube_docker_compose/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Run Danube on VMs or local machine
+    Run Danube on Docker
   </span>
   
 
@@ -335,11 +335,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../getting_started/Danube_docker_compose/" class="md-nav__link">
+      <a href="../../../getting_started/Danube_local/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Run Danube on Docker
+    Run Danube on VMs or local machine
   </span>
   
 
@@ -1265,7 +1265,7 @@
 <h3 id="danube-admin-cli-brokers-list"><code>danube-admin-cli brokers list</code></h3>
 <p>List all active brokers in the cluster.</p>
 <p><strong>Usage:</strong></p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>danube-admin-cli<span class="w"> </span>brokers<span class="w"> </span>list
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>danube-admin-cli<span class="w"> </span>brokers<span class="w"> </span>list<span class="w"> </span><span class="o">[</span>--output<span class="w"> </span>json<span class="o">]</span>
 </span></code></pre></div>
 <p><strong>Description:</strong></p>
 <p>This command retrieves and displays a list of all active brokers in the cluster. The output is formatted into a table with the following columns:</p>
@@ -1274,6 +1274,7 @@
 <li><strong>BROKER ADDRESS</strong>: The network address of the broker.</li>
 <li><strong>BROKER ROLE</strong>: The role assigned to the broker (e.g., "leader", "follower").</li>
 </ul>
+<p>Use <code>--output json</code> to print JSON instead of a table.</p>
 <p><strong>Example Output:</strong></p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>+------------+---------------------+-------------+
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="p">|</span><span class="w"> </span>BROKER<span class="w"> </span>ID<span class="w">  </span><span class="p">|</span><span class="w"> </span>BROKER<span class="w"> </span>ADDRESS<span class="w">      </span><span class="p">|</span><span class="w"> </span>BROKER<span class="w"> </span>ROLE<span class="w"> </span><span class="p">|</span>
@@ -1295,10 +1296,11 @@
 <h3 id="danube-admin-cli-brokers-namespaces"><code>danube-admin-cli brokers namespaces</code></h3>
 <p>List all namespaces in the cluster.</p>
 <p><strong>Usage:</strong></p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>danube-admin-cli<span class="w"> </span>brokers<span class="w"> </span>namespaces
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>danube-admin-cli<span class="w"> </span>brokers<span class="w"> </span>namespaces<span class="w"> </span><span class="o">[</span>--output<span class="w"> </span>json<span class="o">]</span>
 </span></code></pre></div>
 <p><strong>Description:</strong></p>
 <p>This command retrieves and lists all namespaces associated with the cluster. Each namespace is printed on a new line.</p>
+<p>Use <code>--output json</code> to print JSON instead of plain text.</p>
 <p><strong>Example Output:</strong></p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Namespace:<span class="w"> </span>default
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>Namespace:<span class="w"> </span>public

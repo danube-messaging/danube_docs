@@ -314,11 +314,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../getting_started/Danube_local/" class="md-nav__link">
+      <a href="../../../getting_started/Danube_docker_compose/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Run Danube on VMs or local machine
+    Run Danube on Docker
   </span>
   
 
@@ -335,11 +335,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../getting_started/Danube_docker_compose/" class="md-nav__link">
+      <a href="../../../getting_started/Danube_local/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Run Danube on Docker
+    Run Danube on VMs or local machine
   </span>
   
 
@@ -1283,10 +1283,11 @@
 <h3 id="danube-admin-cli-namespaces-topics-namespace"><code>danube-admin-cli namespaces topics NAMESPACE</code></h3>
 <p>Get the list of topics for a specified namespace.</p>
 <p><strong>Usage:</strong></p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>topics<span class="w"> </span>NAMESPACE
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>topics<span class="w"> </span>NAMESPACE<span class="w"> </span><span class="o">[</span>--output<span class="w"> </span>json<span class="o">]</span>
 </span></code></pre></div>
 <p><strong>Description:</strong></p>
 <p>This command retrieves and displays all topics associated with a specific namespace. Replace <code>NAMESPACE</code> with the name of the namespace you want to query.</p>
+<p>Use <code>--output json</code> to print JSON instead of plain text.</p>
 <p><strong>Example Output:</strong></p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Topic:<span class="w"> </span>topic1
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Topic:<span class="w"> </span>topic2
@@ -1295,10 +1296,11 @@
 <h3 id="danube-admin-cli-namespaces-policies-namespace"><code>danube-admin-cli namespaces policies NAMESPACE</code></h3>
 <p>Get the configuration policies for a specified namespace.</p>
 <p><strong>Usage:</strong></p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>policies<span class="w"> </span>NAMESPACE
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>policies<span class="w"> </span>NAMESPACE<span class="w"> </span><span class="o">[</span>--output<span class="w"> </span>json<span class="o">]</span>
 </span></code></pre></div>
 <p><strong>Description:</strong></p>
 <p>This command fetches and displays the configuration policies for a specific namespace. Replace <code>NAMESPACE</code> with the name of the namespace you want to query.</p>
+<p>Use <code>--output json</code> to pretty-print JSON when available.</p>
 <p><strong>Example Output:</strong></p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Policy<span class="w"> </span>Name:<span class="w"> </span>policy1
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>Policy<span class="w"> </span>Description:<span class="w"> </span>Description<span class="w"> </span>of<span class="w"> </span>policy1

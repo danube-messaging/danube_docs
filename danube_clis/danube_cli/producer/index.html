@@ -314,11 +314,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../getting_started/Danube_local/" class="md-nav__link">
+      <a href="../../../getting_started/Danube_docker_compose/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Run Danube on VMs or local machine
+    Run Danube on Docker
   </span>
   
 
@@ -335,11 +335,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../getting_started/Danube_docker_compose/" class="md-nav__link">
+      <a href="../../../getting_started/Danube_local/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Run Danube on Docker
+    Run Danube on VMs or local machine
   </span>
   
 
@@ -1408,18 +1408,6 @@
   Enable reliable message delivery with storage persistence</p>
 </li>
 <li>
-<p><code>--segment-size &lt;SIZE&gt;</code>
-  Segment size in MB for reliable delivery (default: 20)</p>
-</li>
-<li>
-<p><code>--retention &lt;POLICY&gt;</code>
-  Retention policy: <code>ack</code> (retain until acknowledged) or <code>expire</code> (retain until time expires) (default: expire)</p>
-</li>
-<li>
-<p><code>--retention-period &lt;SECONDS&gt;</code>
-  Retention period in seconds for reliable delivery (default: <code>3600</code>)</p>
-</li>
-<li>
 <p><code>-h, --help</code><br />
   Description: Print help information</p>
 </li>
@@ -1435,18 +1423,10 @@
 </span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span>-m<span class="w"> </span><span class="s1">&#39;{&quot;field1&quot;:&quot;Hello Danube&quot;}&#39;</span>
 </span></code></pre></div>
 <h3 id="reliable-message-delivery">Reliable Message Delivery</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>danube-cli<span class="w"> </span>produce<span class="w"> </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Hello Danube&quot;</span><span class="w"> </span>-c<span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span>--reliable<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span>--segment-size<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span>--retention<span class="w"> </span>expire<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span>--retention-period<span class="w"> </span><span class="m">7200</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>danube-cli<span class="w"> </span>produce<span class="w"> </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Hello Danube&quot;</span><span class="w"> </span>-c<span class="w"> </span><span class="m">100</span><span class="w"> </span>--reliable
 </span></code></pre></div>
 <h3 id="binary-file-send-with-reliable-delivery">Binary File send with Reliable Delivery</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>danube-cli<span class="w"> </span>produce<span class="w"> </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;none&quot;</span><span class="w"> </span>-f<span class="w"> </span>./data.blob<span class="w"> </span>-c<span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span>--reliable<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span>--segment-size<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span>--retention<span class="w"> </span>expire<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span>--retention-period<span class="w"> </span><span class="m">7200</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>danube-cli<span class="w"> </span>produce<span class="w"> </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;none&quot;</span><span class="w"> </span>-f<span class="w"> </span>./data.blob<span class="w"> </span>-c<span class="w"> </span><span class="m">100</span><span class="w"> </span>--reliable
 </span></code></pre></div>
 
 

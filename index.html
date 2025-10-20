@@ -10,7 +10,7 @@
       
       
       
-        <link rel="next" href="getting_started/Danube_local/">
+        <link rel="next" href="getting_started/Danube_docker_compose/">
       
       
       <link rel="icon" href="assets/images/favicon.png">
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#welcome-to-danube-pubsub-messaging-docs" class="md-skip">
+        <a href="#welcome-to-danube-messaging" class="md-skip">
           Skip to content
         </a>
       
@@ -303,33 +303,36 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#core-capabilities-of-the-danube-messaging-platform" class="md-nav__link">
+  <a href="#try-danube-in-minutes" class="md-nav__link">
     <span class="md-ellipsis">
-      Core Capabilities of the Danube Messaging Platform
+      Try Danube in minutes
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Core Capabilities of the Danube Messaging Platform">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#crates-within-the-danube-workspace" class="md-nav__link">
-    <span class="md-ellipsis">
-      Crates within the Danube workspace
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#danube-client-libraries" class="md-nav__link">
+  <a href="#core-capabilities" class="md-nav__link">
     <span class="md-ellipsis">
-      Danube client libraries
+      Core capabilities
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crates-in-the-workspace" class="md-nav__link">
+    <span class="md-ellipsis">
+      Crates in the workspace
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#client-libraries" class="md-nav__link">
+    <span class="md-ellipsis">
+      Client libraries
     </span>
   </a>
   
@@ -385,11 +388,11 @@
   
   
     <li class="md-nav__item">
-      <a href="getting_started/Danube_local/" class="md-nav__link">
+      <a href="getting_started/Danube_docker_compose/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Run Danube on VMs or local machine
+    Run Danube on Docker
   </span>
   
 
@@ -406,11 +409,11 @@
   
   
     <li class="md-nav__item">
-      <a href="getting_started/Danube_docker_compose/" class="md-nav__link">
+      <a href="getting_started/Danube_local/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Run Danube on Docker
+    Run Danube on VMs or local machine
   </span>
   
 
@@ -1149,33 +1152,36 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#core-capabilities-of-the-danube-messaging-platform" class="md-nav__link">
+  <a href="#try-danube-in-minutes" class="md-nav__link">
     <span class="md-ellipsis">
-      Core Capabilities of the Danube Messaging Platform
+      Try Danube in minutes
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Core Capabilities of the Danube Messaging Platform">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#crates-within-the-danube-workspace" class="md-nav__link">
-    <span class="md-ellipsis">
-      Crates within the Danube workspace
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#danube-client-libraries" class="md-nav__link">
+  <a href="#core-capabilities" class="md-nav__link">
     <span class="md-ellipsis">
-      Danube client libraries
+      Core capabilities
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crates-in-the-workspace" class="md-nav__link">
+    <span class="md-ellipsis">
+      Crates in the workspace
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#client-libraries" class="md-nav__link">
+    <span class="md-ellipsis">
+      Client libraries
     </span>
   </a>
   
@@ -1199,44 +1205,60 @@
   
 
 
-<h1 id="welcome-to-danube-pubsub-messaging-docs">Welcome to Danube Pub/Sub messaging docs</h1>
-<p><a href="https://github.com/danube-messaging/danube">Danube</a> is an open-source, distributed messaging broker platform, developed in Rust.</p>
-<p>Danube aims to be a lightweight yet powerful, secure and scalable messaging platform, suitable for event-driven applications. Allows single or multiple <strong>producers</strong> to publish messages on the <strong>topics</strong> and multiple <strong>consumers</strong>, using the <strong>subscription</strong> models, to consume the messages from the topics.</p>
-<p>Inspired by the Apache Pulsar messaging and streaming platform, Danube incorporates some similar concepts but is designed to carve its own path within the distributed messaging ecosystem. For additional design considerations, please refer to the <a href="architecture/architecture/">Danube Architecture</a> section.</p>
-<h2 id="core-capabilities-of-the-danube-messaging-platform">Core Capabilities of the Danube Messaging Platform</h2>
+<h1 id="welcome-to-danube-messaging">Welcome to Danube Messaging</h1>
+<p><a href="https://github.com/danube-messaging/danube">Danube</a> is a lightweight, cloud‑native messaging platform built in Rust. It delivers sub‑second dispatch with cloud economics by combining a Write‑Ahead Log (WAL) with object storage, so you get low‑latency pub/sub and durable streaming—on one broker.</p>
+<p>Danube lets multiple <strong>producers</strong> publish to <strong>topics</strong>, and multiple <strong>consumers</strong> receive messages via named <strong>subscriptions</strong>. Choose Non‑Reliable (best‑effort pub/sub) or Reliable (at‑least‑once streaming) per topic to match your workload.</p>
+<p>For design details, see the <a href="architecture/architecture/">Architecture</a>.</p>
+<h2 id="try-danube-in-minutes">Try Danube in minutes</h2>
+<p><strong>Docker Compose Quickstart</strong>: Use the provided HA setup with MinIO and ETCD.</p>
 <ul>
-<li><a href="architecture/topics/"><strong>Topics</strong></a>: A unit of storage that organizes messages into a stream.</li>
-<li><strong>Non-partitioned topics</strong>: Served by a single broker.</li>
-<li><strong>Partitioned topics</strong>: Divided into partitions, served by different brokers within the cluster, enhancing scalability and fault tolerance.</li>
-<li><a href="architecture/dispatch_strategy/"><strong>Message Dispatch</strong></a>:</li>
-<li><strong>Non-reliable Message Dispatch</strong>: Messages reside in memory and are promptly distributed to consumers, ideal for scenarios where speed is crucial. The acknowledgement mechanism is ignored.</li>
-<li><strong>Reliable Message Dispatch</strong>: The acknowledgement mechanism and persistent storage is used to ensure guaranteed message delivery.</li>
-<li><a href="architecture/subscriptions/"><strong>Subscription Types:</strong></a>:</li>
-<li>Supports various subscription types (<strong>Exclusive</strong>, <strong>Shared</strong>, <strong>Failover</strong>) enabling different messaging patterns such as message queueing and pub-sub.</li>
-<li><strong>Flexible Message Schemas</strong></li>
-<li>Supports multiple message schemas (<strong>Bytes</strong>, <strong>String</strong>, <strong>Int64</strong>, <strong>JSON</strong>) providing flexibility in message format and structure.</li>
+<li>Guide: https://github.com/danube-messaging/danube/tree/main/docker</li>
+<li>Or see our docs page: <a href="../../docker/README.md">Docker Compose setup</a></li>
 </ul>
-<h3 id="crates-within-the-danube-workspace">Crates within the <a href="https://github.com/danube-messaging/danube">Danube workspace</a></h3>
-<p>Danube Broker core crates:</p>
+<h2 id="core-capabilities">Core capabilities</h2>
+<p><strong><a href="architecture/topics/">Topics</a></strong></p>
 <ul>
-<li><a href="https://github.com/danube-messaging/danube/tree/main/danube-broker">danube-broker</a> - The main crate, danube pubsub platform</li>
-<li><a href="https://github.com/danube-messaging/danube/tree/main/danube-core">danube-core</a> - Danube messaging core types and traits</li>
-<li><a href="https://github.com/danube-messaging/danube/tree/main/danube-metadata-store">danube-metadata-store</a> - Responsibile of Metadata storage and cluster coordination.</li>
-<li><a href="https://github.com/danube-messaging/danube/tree/main/danube-reliable-dispatch/src">danube-reliable-dispatch</a> - Responsible of reliable dispatching and topic storage.</li>
-<li><a href="https://github.com/danube-messaging/danube/tree/main/danube-persistent-storage">danube-persisitent-storage</a> - Responsible of persistent storage mechanism.</li>
+<li>Non‑partitioned: served by a single broker.</li>
+<li>Partitioned: split across brokers for scale and HA.</li>
 </ul>
-<p>Danube CLIs and client library:</p>
+<p><strong><a href="architecture/dispatch_strategy/">Dispatch strategies</a></strong></p>
 <ul>
-<li><a href="https://github.com/danube-messaging/danube/tree/main/danube-client">danube-client</a> - An async Rust client library for interacting with Danube messaging system</li>
-<li><a href="https://github.com/danube-messaging/danube/tree/main/danube-cli">danube-cli</a> - Client CLI to handle message publishing and consumption</li>
-<li><a href="https://github.com/danube-messaging/danube/tree/main/danube-admin-cli">danube-admin-cli</a> - Admin CLI designed for interacting with and managing the Danube cluster</li>
+<li>Non‑Reliable: in‑memory, best‑effort delivery, lowest latency.</li>
+<li>Reliable: WAL + Cloud persistence with acknowledgments and replay.</li>
 </ul>
-<h2 id="danube-client-libraries">Danube client libraries</h2>
+<p><strong><a href="architecture/subscriptions/">Subscriptions</a></strong></p>
 <ul>
-<li><a href="https://crates.io/crates/danube-client">danube-client</a> - Danube messaging async Rust client library</li>
-<li><a href="https://pkg.go.dev/github.com/danube-messaging/danube-go">danube-go</a> - Danube messaging Go client library</li>
+<li>Exclusive, Shared, Failover patterns for queueing and fan‑out.</li>
 </ul>
-<p>Contributions in other languages, such as Python, Java, etc., are greatly appreciated.</p>
+<p><strong><a href="architecture/messages/">Message schemas</a></strong></p>
+<ul>
+<li>Bytes, String, Int64, JSON.</li>
+</ul>
+<p><strong>Concept guides</strong></p>
+<ul>
+<li><a href="architecture/messaging_modes_pubsub_vs_streaming/">Messaging Modes (Pub/Sub vs Streaming)</a></li>
+<li><a href="architecture/messaging_patterns_queuing_vs_pubsub/">Messaging Patterns (Queuing vs Pub/Sub)</a></li>
+</ul>
+<h2 id="crates-in-the-workspace">Crates in the workspace</h2>
+<p>Repository: https://github.com/danube-messaging/danube</p>
+<ul>
+<li><a href="https://github.com/danube-messaging/danube/tree/main/danube-broker">danube-broker</a> – The broker service (topics, producers, consumers, subscriptions).</li>
+<li><a href="https://github.com/danube-messaging/danube/tree/main/danube-core">danube-core</a> – Core types, protocol, and shared logic.</li>
+<li><a href="https://github.com/danube-messaging/danube/tree/main/danube-metadata-store">danube-metadata-store</a> – Metadata storage and cluster coordination.</li>
+<li><a href="https://github.com/danube-messaging/danube/tree/main/danube-persistent-storage">danube-persistent-storage</a> – WAL and cloud persistence backends.</li>
+</ul>
+<p>CLIs and client libraries:</p>
+<ul>
+<li><a href="https://github.com/danube-messaging/danube/tree/main/danube-client">danube-client</a> – Async Rust client library.</li>
+<li><a href="https://github.com/danube-messaging/danube/tree/main/danube-cli">danube-cli</a> – Publish/consume client CLI.</li>
+<li><a href="https://github.com/danube-messaging/danube/tree/main/danube-admin-cli">danube-admin-cli</a> – Admin CLI for cluster management.</li>
+</ul>
+<h2 id="client-libraries">Client libraries</h2>
+<ul>
+<li><a href="https://crates.io/crates/danube-client">danube-client (Rust)</a></li>
+<li><a href="https://pkg.go.dev/github.com/danube-messaging/danube-go">danube-go (Go)</a></li>
+</ul>
+<p>Contributions for other languages (Python, Java, etc.) are welcome.</p>
 
 
 

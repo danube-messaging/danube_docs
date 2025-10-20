@@ -314,11 +314,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../getting_started/Danube_local/" class="md-nav__link">
+      <a href="../../../getting_started/Danube_docker_compose/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Run Danube on VMs or local machine
+    Run Danube on Docker
   </span>
   
 
@@ -335,11 +335,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../getting_started/Danube_docker_compose/" class="md-nav__link">
+      <a href="../../../getting_started/Danube_local/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Run Danube on Docker
+    Run Danube on VMs or local machine
   </span>
   
 
@@ -949,6 +949,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#danube-admin-cli-topics-describe-topic" class="md-nav__link">
+    <span class="md-ellipsis">
+      danube-admin-cli topics describe TOPIC
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#danube-admin-cli-topics-unsubscribe-subscription-subscription-topic" class="md-nav__link">
     <span class="md-ellipsis">
       danube-admin-cli topics unsubscribe --subscription SUBSCRIPTION TOPIC
@@ -1246,6 +1255,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#danube-admin-cli-topics-describe-topic" class="md-nav__link">
+    <span class="md-ellipsis">
+      danube-admin-cli topics describe TOPIC
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#danube-admin-cli-topics-unsubscribe-subscription-subscription-topic" class="md-nav__link">
     <span class="md-ellipsis">
       danube-admin-cli topics unsubscribe --subscription SUBSCRIPTION TOPIC
@@ -1301,54 +1319,64 @@
 <h3 id="danube-admin-cli-topics-list-namespace"><code>danube-admin-cli topics list NAMESPACE</code></h3>
 <p>Get the list of topics in a specified namespace.</p>
 <p><strong>Usage:</strong></p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>list<span class="w"> </span>NAMESPACE
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>list<span class="w"> </span>NAMESPACE<span class="w"> </span><span class="o">[</span>--output<span class="w"> </span>json<span class="o">]</span>
 </span></code></pre></div>
 <p><strong>Description:</strong></p>
 <p>This command retrieves and displays all topics within a specified namespace. Replace <code>NAMESPACE</code> with the name of the namespace you want to query.</p>
+<p>Use <code>--output json</code> to print JSON instead of plain text.</p>
 <p><strong>Example Output:</strong></p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Topic:<span class="w"> </span>topic1
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Topic:<span class="w"> </span>topic2
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>Topic:<span class="w"> </span>topic3
 </span></code></pre></div>
 <h3 id="danube-admin-cli-topics-create-topic"><code>danube-admin-cli topics create TOPIC</code></h3>
-<p>Create a non-partitioned topic.</p>
+<p>Create a topic (non‑partitioned or partitioned). You can also set schema and dispatch strategy.</p>
 <p><strong>Usage:</strong></p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>TOPIC
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>TOPIC<span class="w"> </span><span class="o">[</span>--namespace<span class="w"> </span>NS<span class="o">]</span><span class="w"> </span><span class="o">[</span>--partitions<span class="w"> </span>N<span class="o">]</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="o">[</span>-s,<span class="w"> </span>--schema<span class="w"> </span>String<span class="p">|</span>Bytes<span class="p">|</span>Int64<span class="p">|</span>Json<span class="o">]</span><span class="w"> </span><span class="o">[</span>--schema-file<span class="w"> </span>PATH<span class="w"> </span><span class="p">|</span><span class="w"> </span>--schema-data<span class="w"> </span>JSON<span class="o">]</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="o">[</span>--dispatch-strategy<span class="w"> </span>non_reliable<span class="p">|</span>reliable<span class="o">]</span>
 </span></code></pre></div>
 <p><strong>Description:</strong></p>
-<p>This command creates a new non-partitioned topic with the specified name. Replace <code>TOPIC</code> with the desired name for the new topic.</p>
+<p>This command creates a new topic. <code>TOPIC</code> accepts either <code>/namespace/topic</code> or <code>topic</code> (when <code>--namespace</code> is provided). Use <code>--partitions</code> to create a partitioned topic. For <code>Json</code> schema, provide the schema via <code>--schema-file</code> or <code>--schema-data</code>.</p>
 <p><strong>Example Output:</strong></p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Topic<span class="w"> </span>Created:<span class="w"> </span><span class="nb">true</span>
 </span></code></pre></div>
 <h3 id="danube-admin-cli-topics-delete-topic"><code>danube-admin-cli topics delete TOPIC</code></h3>
 <p>Delete a specified topic.</p>
 <p><strong>Usage:</strong></p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>delete<span class="w"> </span>TOPIC
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>delete<span class="w"> </span>TOPIC<span class="w"> </span><span class="o">[</span>--namespace<span class="w"> </span>NS<span class="o">]</span>
 </span></code></pre></div>
 <p><strong>Description:</strong></p>
-<p>This command deletes the specified topic. Replace <code>TOPIC</code> with the name of the topic you want to delete.</p>
+<p>This command deletes the specified topic. <code>TOPIC</code> accepts <code>/namespace/topic</code> or <code>topic</code> with <code>--namespace</code>.</p>
 <p><strong>Example Output:</strong></p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Topic<span class="w"> </span>Deleted:<span class="w"> </span><span class="nb">true</span>
 </span></code></pre></div>
 <h3 id="danube-admin-cli-topics-subscriptions-topic"><code>danube-admin-cli topics subscriptions TOPIC</code></h3>
 <p>Get the list of subscriptions on a specified topic.</p>
 <p><strong>Usage:</strong></p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>subscriptions<span class="w"> </span>TOPIC
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>subscriptions<span class="w"> </span>TOPIC<span class="w"> </span><span class="o">[</span>--namespace<span class="w"> </span>NS<span class="o">]</span><span class="w"> </span><span class="o">[</span>--output<span class="w"> </span>json<span class="o">]</span>
 </span></code></pre></div>
 <p><strong>Description:</strong></p>
-<p>This command retrieves and displays all subscriptions associated with a specified topic. Replace <code>TOPIC</code> with the name of the topic you want to query.</p>
+<p>This command retrieves and displays all subscriptions associated with a specified topic. <code>TOPIC</code> accepts <code>/namespace/topic</code> or <code>topic</code> with <code>--namespace</code>. Use <code>--output json</code> for JSON output.</p>
 <p><strong>Example Output:</strong></p>
 <div class="language-sh highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Subscriptions:<span class="w"> </span><span class="o">[</span>subscription1,<span class="w"> </span>subscription2<span class="o">]</span>
 </span></code></pre></div>
+<h3 id="danube-admin-cli-topics-describe-topic"><code>danube-admin-cli topics describe TOPIC</code></h3>
+<p>Describe a topic: schema and subscriptions.</p>
+<p><strong>Usage:</strong></p>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>describe<span class="w"> </span>TOPIC<span class="w"> </span><span class="o">[</span>--namespace<span class="w"> </span>NS<span class="o">]</span><span class="w"> </span><span class="o">[</span>--output<span class="w"> </span>json<span class="o">]</span>
+</span></code></pre></div>
+<p><strong>Description:</strong></p>
+<p>Shows topic name, schema (pretty-printed when JSON), and subscriptions. <code>TOPIC</code> accepts <code>/namespace/topic</code> or <code>topic</code> with <code>--namespace</code>.</p>
 <h3 id="danube-admin-cli-topics-unsubscribe-subscription-subscription-topic"><code>danube-admin-cli topics unsubscribe --subscription SUBSCRIPTION TOPIC</code></h3>
 <p>Delete a subscription from a topic.</p>
 <p><strong>Usage:</strong></p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>unsubscribe<span class="w"> </span>--subscription<span class="w"> </span>SUBSCRIPTION<span class="w"> </span>TOPIC
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>unsubscribe<span class="w"> </span>--subscription<span class="w"> </span>SUBSCRIPTION<span class="w"> </span>TOPIC<span class="w"> </span><span class="o">[</span>--namespace<span class="w"> </span>NS<span class="o">]</span>
 </span></code></pre></div>
 <p><strong>Description:</strong></p>
-<p>This command deletes a subscription from a specified topic. Replace <code>SUBSCRIPTION</code> with the name of the subscription and <code>TOPIC</code> with the name of the topic.</p>
+<p>This command deletes a subscription from a specified topic. <code>TOPIC</code> accepts <code>/namespace/topic</code> or <code>topic</code> with <code>--namespace</code>.</p>
 <p><strong>Example Output:</strong></p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>Unsubscribed:<span class="w"> </span><span class="nb">true</span>
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>Unsubscribed:<span class="w"> </span><span class="nb">true</span>
 </span></code></pre></div>
 <h2 id="error-handling">Error Handling</h2>
 <p>If there is an issue with connecting to the cluster or processing the request, the CLI will output an error message. Ensure your Danube cluster is running and accessible, and check your network connectivity.</p>
@@ -1357,32 +1385,27 @@
 <ul>
 <li>List topics in a namespace:</li>
 </ul>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>list<span class="w"> </span>my-namespace
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>list<span class="w"> </span>my-namespace<span class="w"> </span>--output<span class="w"> </span>json
 </span></code></pre></div>
 <ul>
 <li>Create a topic:</li>
 </ul>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>my-topic
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>/default/my-topic<span class="w"> </span>--dispatch-strategy<span class="w"> </span>reliable
 </span></code></pre></div>
 <ul>
 <li>Delete a topic:</li>
 </ul>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>delete<span class="w"> </span>my-topic
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>delete<span class="w"> </span>my-topic<span class="w"> </span>--namespace<span class="w"> </span>default
 </span></code></pre></div>
 <ul>
 <li>Unsubscribe from a topic:</li>
 </ul>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>unsubscribe<span class="w"> </span>--subscription<span class="w"> </span>my-subscription<span class="w"> </span>my-topic
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>unsubscribe<span class="w"> </span>--subscription<span class="w"> </span>my-subscription<span class="w"> </span>my-topic<span class="w"> </span>--namespace<span class="w"> </span>default
 </span></code></pre></div>
 <ul>
 <li>List subscriptions for a topic:</li>
 </ul>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>subscriptions<span class="w"> </span>my-topic
-</span></code></pre></div>
-<ul>
-<li>Create a new subscription for a topic:</li>
-</ul>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create-subscription<span class="w"> </span>--subscription<span class="w"> </span>my-subscription<span class="w"> </span>my-topic
+<div class="language-sh highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>subscriptions<span class="w"> </span>my-topic<span class="w"> </span>--namespace<span class="w"> </span>default<span class="w"> </span>--output<span class="w"> </span>json
 </span></code></pre></div>
 <p>For more detailed information or help with the <code>danube-admin-cli</code>, you can use the <code>--help</code> flag with any command.</p>
 <p><strong>Example:</strong></p>
