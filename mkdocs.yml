@@ -14,13 +14,13 @@ nav:
         - Architecture:
                   - Danube architecture: architecture/architecture.md
                   - Persistence (WAL + Cloud): architecture/persistence.md
+                  - Dispatch Strategy: architecture/dispatch_strategy.md
                   - Messages: architecture/messages.md
                   - Topics: architecture/topics.md
                   - Subscriptions: architecture/subscriptions.md
-                  - Dispatch Strategy: architecture/dispatch_strategy.md
+                  - Messaging Modes (Pub/Sub vs Streaming): architecture/messaging_modes_pubsub_vs_streaming.md
+                  - Messaging Patterns (Queuing vs Pub/Sub): architecture/messaging_patterns_queuing_vs_pubsub.md
                   - Danube service components: architecture/internal_danube_services.md
-                  - Queuing vs Pub-Sub (fan-out) messaging: architecture/Queuing_PubSub_messaging.md
-                  - PubSub vs Streaming: architecture/PubSub_messaging_vs_Streaming.md
         - Client Libraries:
                   - Danube Clients: client_libraries/clients.md
                   - Setup: client_libraries/setup.md
