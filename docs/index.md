@@ -2,16 +2,13 @@
 
 [Danube](https://github.com/danube-messaging/danube) is a lightweight, cloud‑native messaging platform built in Rust. It delivers sub‑second dispatch with cloud economics by combining a Write‑Ahead Log (WAL) with object storage, so you get low‑latency pub/sub and durable streaming—on one broker.
 
-Danube lets multiple **producers** publish to **topics**, and multiple **consumers** receive messages via named **subscriptions**. Choose Non‑Reliable (best‑effort pub/sub) or Reliable (at‑least‑once streaming) per topic to match your workload.
+Danube enables one or many **producers** publish to **topics**, and multiple **consumers** receive messages via named **subscriptions**. Choose Non‑Reliable (best‑effort pub/sub) or Reliable (at‑least‑once streaming) per topic to match your workload.
 
 For design details, see the [Architecture](architecture/architecture.md).
 
 ## Try Danube in minutes
 
-**Docker Compose Quickstart**: Use the provided HA setup with MinIO and ETCD.
-
-  - Guide: https://github.com/danube-messaging/danube/tree/main/docker
-  - Or see our docs page: [Docker Compose setup](../../docker/README.md)
+**[Docker Compose Quickstart](getting_started/Danube_docker_compose.md)**: Use the provided Docker Compose setup with MinIO and ETCD.
 
 ## Core capabilities
 
@@ -24,6 +21,12 @@ For design details, see the [Architecture](architecture/architecture.md).
 
   - Non‑Reliable: in‑memory, best‑effort delivery, lowest latency.
   - Reliable: WAL + Cloud persistence with acknowledgments and replay.
+
+**[Persistence (WAL + Cloud)](architecture/persistence.md)**
+
+  - Write‑Ahead Log on local disk for fast durable writes.
+  - Background uploads to object storage for durability and replay at cloud cost.
+  - Seamless handoff from historical replay to live tail.
 
 **[Subscriptions](architecture/subscriptions.md)**
 
