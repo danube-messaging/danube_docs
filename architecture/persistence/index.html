@@ -1294,18 +1294,10 @@
 <li><strong>Portable by design</strong>: Built on OpenDAL, enabling S3, GCS, Azure Blob, local FS, memory, and more.</li>
 </ul>
 <h2 id="high-level-architecture">High-level Architecture</h2>
-<pre class="mermaid"><code>flowchart LR
-    P[Producer] --&gt;|append| WAL[Local WAL + In-memory Cache]
-    WAL --&gt;|broadcast/live| Disp[Dispatcher]
-    UPL[Background Uploader] &lt;-- reads WAL files --&gt; WAL
-    UPL --&gt;|upload frames| OBJ[(Cloud Object Storage)]
-    ETCD[(ETCD)] &lt;---&gt; UPL
-    ETCD &lt;---&gt; CR[Cloud Reader]
-    CR --&gt;|historical stream| Disp
-    Disp --&gt;|deliver| C[Consumers]</code></pre>
+<p><img alt="Danube Persistence Architecture" src="img/WAL_Cloud.png" title="Danube Persistence Architecture" /></p>
 <ul>
 <li><strong>Local WAL</strong>: Append-only log with an in-memory cache for ultra-fast reads. Files periodically fsync and rotate.</li>
-<li><strong>Background Uploader</strong>: Periodically streams complete WAL frames to cloud objects. Writes object descriptors and sparse indexes to ETCD.</li>
+<li><strong>Cloud Uploader</strong>: Periodically streams complete WAL frames to cloud objects. Writes object descriptors and sparse indexes to ETCD.</li>
 <li><strong>Cloud Reader</strong>: Reads historical messages from cloud using ETCD metadata, then hands off to local WAL for live data.</li>
 <li><strong>ETCD</strong>: Tracks object descriptors, offsets, and indexes for efficient range reads.</li>
 </ul>
