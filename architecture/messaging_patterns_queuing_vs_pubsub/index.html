@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../Queuing_PubSub_messaging/">
+        <link rel="prev" href="../messaging_modes_pubsub_vs_streaming/">
       
       
-        <link rel="next" href="../../client_libraries/clients/">
+        <link rel="next" href="../internal_danube_services/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>PubSub vs Streaming - Danube Messaging documentation</title>
+        <title>Messaging Patterns (Queuing vs Pub/Sub) - Danube Messaging documentation</title>
       
     
     
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#pubsub-vs-streaming-design-considerations" class="md-skip">
+        <a href="#messaging-patterns-queuing-vs-pubsub-fanout" class="md-skip">
           Skip to content
         </a>
       
@@ -117,7 +117,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              PubSub vs Streaming
+              Messaging Patterns (Queuing vs Pub/Sub)
             
           </span>
         </div>
@@ -463,6 +463,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../dispatch_strategy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Dispatch Strategy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../messages/" class="md-nav__link">
         
   
@@ -526,53 +547,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../dispatch_strategy/" class="md-nav__link">
+      <a href="../messaging_modes_pubsub_vs_streaming/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Dispatch Strategy
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../internal_danube_services/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Danube service components
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../Queuing_PubSub_messaging/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Queuing vs Pub-Sub (fan-out) messaging
+    Messaging Modes (Pub/Sub vs Streaming)
   </span>
   
 
@@ -602,7 +581,7 @@
           
   
   <span class="md-ellipsis">
-    PubSub vs Streaming
+    Messaging Patterns (Queuing vs Pub/Sub)
   </span>
   
 
@@ -613,7 +592,7 @@
         
   
   <span class="md-ellipsis">
-    PubSub vs Streaming
+    Messaging Patterns (Queuing vs Pub/Sub)
   </span>
   
 
@@ -635,146 +614,56 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#pubsub-messaging" class="md-nav__link">
+  <a href="#concepts-at-a-glance" class="md-nav__link">
     <span class="md-ellipsis">
-      Pub/Sub messaging
+      Concepts at a Glance
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Pub/Sub messaging">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#purpose-and-use-cases" class="md-nav__link">
-    <span class="md-ellipsis">
-      Purpose and Use Cases
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#architecture-and-design" class="md-nav__link">
-    <span class="md-ellipsis">
-      Architecture and Design
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#data-handling-and-processing-models" class="md-nav__link">
-    <span class="md-ellipsis">
-      Data Handling and Processing Models
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Data Handling and Processing Models">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#pubsub-messaging-producers" class="md-nav__link">
-    <span class="md-ellipsis">
-      Pub/Sub messaging Producers
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#pubsub-messaging-consumers" class="md-nav__link">
-    <span class="md-ellipsis">
-      Pub/Sub messaging Consumers
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#order-of-operations-of-pubsub-messaging" class="md-nav__link">
-    <span class="md-ellipsis">
-      Order of Operations of Pub/Sub messaging
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#streaming-design-considerations" class="md-nav__link">
+  <a href="#how-to-enable-in-danube" class="md-nav__link">
     <span class="md-ellipsis">
-      Streaming design considerations
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Streaming design considerations">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#purpose-and-use-cases_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Purpose and Use Cases
+      How to enable in Danube
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#architecture-and-design_1" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#dispatch-modes-and-guarantees" class="md-nav__link">
     <span class="md-ellipsis">
-      Architecture and Design
+      Dispatch modes and guarantees
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#data-handling-and-processing-models_1" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#partitioning-behavior" class="md-nav__link">
     <span class="md-ellipsis">
-      Data Handling and Processing Models
+      Partitioning behavior
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#streaming-producers" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#quick-examples" class="md-nav__link">
     <span class="md-ellipsis">
-      Streaming Producers
+      Quick examples
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#streaming-consumers" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#notes-best-practices" class="md-nav__link">
     <span class="md-ellipsis">
-      Streaming Consumers
+      Notes &amp; best practices
     </span>
   </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#order-of-operations-of-streaming" class="md-nav__link">
-    <span class="md-ellipsis">
-      Order of Operations of Streaming
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -782,6 +671,27 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../internal_danube_services/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Danube service components
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -1264,146 +1174,56 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#pubsub-messaging" class="md-nav__link">
+  <a href="#concepts-at-a-glance" class="md-nav__link">
     <span class="md-ellipsis">
-      Pub/Sub messaging
+      Concepts at a Glance
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Pub/Sub messaging">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#purpose-and-use-cases" class="md-nav__link">
-    <span class="md-ellipsis">
-      Purpose and Use Cases
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#architecture-and-design" class="md-nav__link">
-    <span class="md-ellipsis">
-      Architecture and Design
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#data-handling-and-processing-models" class="md-nav__link">
-    <span class="md-ellipsis">
-      Data Handling and Processing Models
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Data Handling and Processing Models">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#pubsub-messaging-producers" class="md-nav__link">
-    <span class="md-ellipsis">
-      Pub/Sub messaging Producers
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#pubsub-messaging-consumers" class="md-nav__link">
-    <span class="md-ellipsis">
-      Pub/Sub messaging Consumers
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#order-of-operations-of-pubsub-messaging" class="md-nav__link">
-    <span class="md-ellipsis">
-      Order of Operations of Pub/Sub messaging
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#streaming-design-considerations" class="md-nav__link">
+  <a href="#how-to-enable-in-danube" class="md-nav__link">
     <span class="md-ellipsis">
-      Streaming design considerations
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Streaming design considerations">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#purpose-and-use-cases_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Purpose and Use Cases
+      How to enable in Danube
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#architecture-and-design_1" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#dispatch-modes-and-guarantees" class="md-nav__link">
     <span class="md-ellipsis">
-      Architecture and Design
+      Dispatch modes and guarantees
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#data-handling-and-processing-models_1" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#partitioning-behavior" class="md-nav__link">
     <span class="md-ellipsis">
-      Data Handling and Processing Models
+      Partitioning behavior
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#streaming-producers" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#quick-examples" class="md-nav__link">
     <span class="md-ellipsis">
-      Streaming Producers
+      Quick examples
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#streaming-consumers" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#notes-best-practices" class="md-nav__link">
     <span class="md-ellipsis">
-      Streaming Consumers
+      Notes &amp; best practices
     </span>
   </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#order-of-operations-of-streaming" class="md-nav__link">
-    <span class="md-ellipsis">
-      Order of Operations of Streaming
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1425,79 +1245,56 @@
   
 
 
-<h1 id="pubsub-vs-streaming-design-considerations">Pub/Sub vs Streaming design considerations</h1>
-<p>The below documentation provides a comparison of Pub/Sub messaging and Streaming architectures, highlighting their key differences and use cases, it is intended to be used as a reference for the Danube Broker.</p>
-<h2 id="pubsub-messaging">Pub/Sub messaging</h2>
-<h3 id="purpose-and-use-cases">Purpose and Use Cases</h3>
+<h1 id="messaging-patterns-queuing-vs-pubsub-fanout">Messaging Patterns: Queuing vs Pub/Sub (Fan‑out)</h1>
+<p>This page explains the difference between queuing (point‑to‑point) and pub/sub (fan‑out) and shows how to enable each pattern in Danube using subscriptions and dispatch modes.</p>
 <ul>
-<li><strong>Purpose</strong>: Designed for decoupling producers and consumers, enabling asynchronous communication between different parts of a system.</li>
-<li><strong>Use Cases</strong>: Event-driven architectures, real-time notifications, decoupled microservices, and distributed systems. Suitable for scenarios where low latency is critical and some message loss is acceptable, such as real-time monitoring, telemetry data, and ephemeral chat messages.</li>
+<li>For subscription details, see <code>architecture/subscriptions.md</code>.</li>
+<li>For delivery semantics, see <code>architecture/dispatch_strategy.md</code>.</li>
 </ul>
-<h3 id="architecture-and-design">Architecture and Design</h3>
+<h2 id="concepts-at-a-glance">Concepts at a Glance</h2>
+<p><strong>Queuing (Point‑to‑Point)</strong>
+  - One message is delivered to exactly one consumer in a group.
+  - Suited for work distribution (orders, tasks, jobs).
+  - Ordering is per consumer, and per partition when topics are partitioned.</p>
+<p><strong>Pub/Sub (Fan‑out)</strong>
+  - Every subscription receives every message.
+  - Suited for broadcast (notifications, analytics, multiple services reacting to events).
+  - Each subscription processes the full stream independently.</p>
+<h2 id="how-to-enable-in-danube">How to enable in Danube</h2>
+<p>Both patterns are built with Danube subscriptions on a topic.</p>
+<p><strong>Queuing (Point‑to‑Point)</strong>
+  - Set subscription type to <code>Shared</code>.
+  - Use the same subscription name across all workers (e.g., <code>orders-workers</code>).
+  - Result: Each message is delivered to one consumer in the group (round‑robin, per partition).</p>
+<p><strong>Pub/Sub (Fan‑out)</strong>
+  - Create distinct subscriptions per downstream consumer/team (unique subscription names), typically using <code>Exclusive</code> (or <code>Failover</code> for HA).
+  - Result: Each subscription receives every message; consumers do not contend with other subscriptions.</p>
+<h2 id="dispatch-modes-and-guarantees">Dispatch modes and guarantees</h2>
+<p><strong>Non‑Reliable (Pub/Sub‑style, best‑effort)</strong>
+  - Lowest latency; no persistence or replay.
+  - Messages are delivered only to active consumers. Disconnections may cause loss.</p>
+<p><strong>Reliable (Streaming‑style, at‑least‑once)</strong>
+  - Messages are appended to the local WAL and asynchronously uploaded to cloud storage.
+  - Consumers can replay historical data; acknowledgments drive redelivery.</p>
+<p>See <code>architecture/persistence.md</code> for WAL + Cloud details.</p>
+<h2 id="partitioning-behavior">Partitioning behavior</h2>
+<p>With partitioned topics, both patterns apply per partition.
+  - Queuing: messages are distributed round‑robin within each partition to the consumers in that subscription.
+  - Pub/Sub: each subscription receives each partition’s messages independently.</p>
+<h2 id="quick-examples">Quick examples</h2>
+<p><strong>Build a worker queue</strong>
+  - Topic: <code>/default/orders</code>
+  - Subscription: <code>orders-workers</code> (type <code>Shared</code>)
+  - Run N consumers with the same subscription name. Messages are load‑balanced.</p>
+<p><strong>Broadcast to multiple services</strong>
+  - Topic: <code>/default/events</code>
+  - Subscriptions: <code>billing</code> (Exclusive), <code>analytics</code> (Exclusive), <code>monitoring</code> (Failover)
+  - Each subscription receives the full event stream independently.</p>
+<h2 id="notes-best-practices">Notes &amp; best practices</h2>
 <ul>
-<li><strong>Components</strong>: Consists of Producers, Consumers (subscriptions),  and the message broker.</li>
-<li><strong>Message Flow</strong>: Producers send messages to a broker, which then distributes them to subscribers based on subscription criteria.</li>
-<li><strong>Scaling</strong>: Scales by adding more brokers or distributing load (topics / partitions) across multiple brokers.</li>
-</ul>
-<h3 id="data-handling-and-processing-models">Data Handling and Processing Models</h3>
-<h4 id="pubsub-messaging-producers">Pub/Sub messaging Producers</h4>
-<ul>
-<li><strong>Low Latency</strong>: Messages sent to topics are not stored on disk, which reduces the latency associated with producing messages.</li>
-<li><strong>Order Guarantees</strong>: Provide ordering within the topic or partition.</li>
-<li><strong>Message Delivery</strong>: There are no guarantees that messages will be delivered. If the broker crashes or if there are network issues, messages might be lost.</li>
-<li><strong>Transient Acknowledgements</strong>: Acknowledgements to the producer are quicker since they are based on in-memory operations rather than disk writes.</li>
-<li><strong>Publishing Without Consumers</strong>: Producers are allowed to publish messages to topics even if there are no active consumers. However, if no consumers are connected, these messages will effectively be dropped because the topics do not store messages.</li>
-</ul>
-<h4 id="pubsub-messaging-consumers">Pub/Sub messaging Consumers</h4>
-<ul>
-<li><strong>Real-time Consumption</strong>: Consumers of the topics typically process messages in real-time. If a consumer is not available, the message might be lost.</li>
-<li><strong>No Replay</strong>: Since messages are not stored, consumers cannot replay messages. They must process them as they arrive.</li>
-<li><strong>Reduced Overhead</strong>: The topics can handle higher throughput with lower overhead, suitable for use cases where occasional message loss is acceptable.</li>
-<li><strong>Message Delivery</strong>: Messages are delivered to consumers only if they are currently connected and subscribed to the topic. If there are no consumers, the messages are not retained and are discarded by the broker.</li>
-</ul>
-<h4 id="order-of-operations-of-pubsub-messaging">Order of Operations of Pub/Sub messaging</h4>
-<ul>
-<li><strong>Producer Publishes Message</strong>: The producer sends a message to the broker.</li>
-<li><strong>Broker Receives Message</strong>: The broker processes the message.</li>
-<li><strong>Consumer Availability Check</strong>: If consumers are available, the message is delivered to them in real-time.</li>
-<li><strong>No Consumers</strong>: If no consumers are connected, the message is discarded.</li>
-</ul>
-<h2 id="streaming-design-considerations">Streaming design considerations</h2>
-<h3 id="purpose-and-use-cases_1">Purpose and Use Cases</h3>
-<ul>
-<li><strong>Purpose</strong>: Designed for processing and analyzing large volumes of data in real-time as it is generated.</li>
-<li><strong>Use Cases</strong>: Real-time analytics, data pipelines, event sourcing, continuous data processing, and stream processing applications. Ideal for use cases requiring high reliability and message durability, such as financial transactions, order processing, and logging critical events.</li>
-</ul>
-<h3 id="architecture-and-design_1">Architecture and Design</h3>
-<ul>
-<li><strong>Components</strong>: Consists of producers, consumers, stream processors, and a distributed log.</li>
-<li><strong>Data Flow</strong>: Producers write data to a distributed log, which consumers and stream processors read from in a continuous fashion.</li>
-<li><strong>Scaling</strong>: Designed to handle high throughput and scale horizontally by partitioning data across multiple nodes in a cluster.</li>
-</ul>
-<h3 id="data-handling-and-processing-models_1">Data Handling and Processing Models</h3>
-<h3 id="streaming-producers">Streaming Producers</h3>
-<ul>
-<li><strong>Durability</strong>: Messages sent to topics are stored to persistent storage and replicated according to the topic's configuration. This ensures that messages are not lost even if brokers crash. This allows playback of streams for for historical data analysis and reprocessing.</li>
-<li><strong>Acknowledgements</strong>: Producers receive acknowledgments once the message is safely stored and replicated. This adds a small amount of latency compared to pub/sub messaging.</li>
-<li><strong>Order Guarantees</strong>: Provide ordering within the topic or partition.</li>
-<li><strong>Delivery Guarantees</strong>: Producers can rely on stronger delivery guarantees (e.g., at least once or effectively once).</li>
-<li><strong>Publishing Without Consumers</strong>: Producers can publish messages to a topic even if there are no active consumers. These messages will be stored by the broker.</li>
-<li><strong>Processing</strong>: Supports complex processing such as windowed operations, aggregations, joins, and stateful transformations.</li>
-</ul>
-<h3 id="streaming-consumers">Streaming Consumers</h3>
-<ul>
-<li><strong>Message Retention</strong>: Consumers can consume messages at any time as long as the retention policy allows. This is useful for replaying messages, ensuring that no messages are missed.</li>
-<li><strong>Consumption Acknowledgements</strong>: Consumers acknowledge each message, allowing the broker to track which messages have been consumed and manage retention accordingly.</li>
-<li><strong>Fault Tolerance</strong>: If a consumer crashes, it can resume consumption from where it left off, as the messages are stored persistently on the broker.</li>
-<li><strong>Message Retention</strong>: Messages are stored according to the configured retention policies. This ensures that even if no consumers are currently connected, the messages will be available for consumption later.</li>
-</ul>
-<h3 id="order-of-operations-of-streaming">Order of Operations of Streaming</h3>
-<ul>
-<li><strong>Producer Publishes Message</strong>: The producer sends a message to the broker.</li>
-<li><strong>Broker Receives and Stores Message</strong>: The broker stores the message on the persistent storage and replicates it according to the configuration.</li>
-<li><strong>Message Acknowledgment</strong>: The broker acknowledges the producer that the message is safely stored.</li>
-<li><strong>Consumer Availability Check</strong>: If consumers are available, the message is delivered to them.</li>
-<li><strong>No Consumers</strong>: If no consumers are connected, the message remains stored and is available for future consumption.</li>
+<li>Use Reliable mode for durability and replay; Non‑Reliable for minimal latency when loss is acceptable.</li>
+<li>Prefer <code>Failover</code> over <code>Exclusive</code> when you need quick takeover on consumer failure.</li>
+<li>Size partitions to match consumer parallelism for optimal throughput.</li>
 </ul>
 
 

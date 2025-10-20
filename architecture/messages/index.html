@@ -9,7 +9,7 @@
       
       
       
-        <link rel="prev" href="../persistence/">
+        <link rel="prev" href="../dispatch_strategy/">
       
       
         <link rel="next" href="../topics/">
@@ -460,6 +460,27 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../dispatch_strategy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Dispatch Strategy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -641,11 +662,32 @@
   
   
     <li class="md-nav__item">
-      <a href="../dispatch_strategy/" class="md-nav__link">
+      <a href="../messaging_modes_pubsub_vs_streaming/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Dispatch Strategy
+    Messaging Modes (Pub/Sub vs Streaming)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../messaging_patterns_queuing_vs_pubsub/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Messaging Patterns (Queuing vs Pub/Sub)
   </span>
   
 
@@ -667,48 +709,6 @@
   
   <span class="md-ellipsis">
     Danube service components
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../Queuing_PubSub_messaging/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Queuing vs Pub-Sub (fan-out) messaging
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../PubSub_messaging_vs_Streaming/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    PubSub vs Streaming
   </span>
   
 
@@ -1293,20 +1293,19 @@
 <h3 id="core-fields">Core Fields</h3>
 <ul>
 <li>request_id (u64): Unique identifier for tracking the message request</li>
-<li>msg_id (MessageID): Complex identifier containing routing and location information</li>
-<li>payload (Vec): The actual message content</li>
+<li>msg_id (MessageID): Identifier containing routing and location information</li>
+<li>payload (Vec<u8>): The binary message content</li>
 <li>publish_time (u64): Timestamp when the message was published</li>
 <li>producer_name (String): Name of the producer that sent the message</li>
-<li>subscription_name (String): Name of the subscription for consumer acknowledgment routing</li>
+<li>subscription_name (Option<String>): Name of the subscription for consumer acknowledgment routing, when applicable</li>
 <li>attributes (HashMap<String, String>): User-defined key-value pairs for custom metadata</li>
 </ul>
 <h3 id="messageid-fields">MessageID Fields</h3>
 <ul>
 <li>producer_id (u64): Unique identifier for the producer within a topic</li>
 <li>topic_name (String): Name of the topic the message belongs to</li>
-<li>broker_addr (String): Address of the broker handling the message</li>
-<li>segment_id (u64): Unique identifier for the topic segment</li>
-<li>segment_offset (u64): Message position within the segment</li>
+<li>broker_addr (String): Address of the broker that delivered the message to the consumer</li>
+<li>topic_offset (u64): Monotonic position of the message within the topic</li>
 </ul>
 <h3 id="usage">Usage</h3>
 <h4 id="producer-perspective">Producer Perspective</h4>

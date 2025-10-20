@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../internal_danube_services/">
+        <link rel="prev" href="../subscriptions/">
       
       
-        <link rel="next" href="../PubSub_messaging_vs_Streaming/">
+        <link rel="next" href="../messaging_patterns_queuing_vs_pubsub/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>Queuing vs Pub-Sub (fan-out) messaging - Danube Messaging documentation</title>
+        <title>Messaging Modes (Pub/Sub vs Streaming) - Danube Messaging documentation</title>
       
     
     
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#pub-sub-messaging" class="md-skip">
+        <a href="#pubsub-vs-streaming-concepts-and-danube-support" class="md-skip">
           Skip to content
         </a>
       
@@ -117,7 +117,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Queuing vs Pub-Sub (fan-out) messaging
+              Messaging Modes (Pub/Sub vs Streaming)
             
           </span>
         </div>
@@ -463,6 +463,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../dispatch_strategy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Dispatch Strategy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../messages/" class="md-nav__link">
         
   
@@ -523,48 +544,6 @@
                 
   
   
-  
-  
-    <li class="md-nav__item">
-      <a href="../dispatch_strategy/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Dispatch Strategy
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../internal_danube_services/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Danube service components
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
     
   
   
@@ -581,7 +560,7 @@
           
   
   <span class="md-ellipsis">
-    Queuing vs Pub-Sub (fan-out) messaging
+    Messaging Modes (Pub/Sub vs Streaming)
   </span>
   
 
@@ -592,7 +571,7 @@
         
   
   <span class="md-ellipsis">
-    Queuing vs Pub-Sub (fan-out) messaging
+    Messaging Modes (Pub/Sub vs Streaming)
   </span>
   
 
@@ -614,28 +593,65 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#queuing-vs-pubsub-fan-out" class="md-nav__link">
+  <a href="#pubsub-messaging" class="md-nav__link">
     <span class="md-ellipsis">
-      Queuing vs Pub/Sub (fan-out)
+      Pub/Sub messaging
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Queuing vs Pub/Sub (fan-out)">
+    <nav class="md-nav" aria-label="Pub/Sub messaging">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#queuing-messaging" class="md-nav__link">
+  <a href="#purpose-and-use-cases" class="md-nav__link">
     <span class="md-ellipsis">
-      Queuing Messaging
+      Purpose and Use Cases
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#pubsub-messaging-fan-out" class="md-nav__link">
+  <a href="#architecture-and-design" class="md-nav__link">
     <span class="md-ellipsis">
-      Pub/Sub Messaging (fan-out)
+      Architecture and Design
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-handling-and-processing-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Handling and Processing Models
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Handling and Processing Models">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pubsub-messaging-producers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pub/Sub messaging Producers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pubsub-messaging-consumers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pub/Sub messaging Consumers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#order-of-operations-of-pubsub-messaging" class="md-nav__link">
+    <span class="md-ellipsis">
+      Order of Operations of Pub/Sub messaging
     </span>
   </a>
   
@@ -645,21 +661,71 @@
     </nav>
   
 </li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#danube-subscriptions" class="md-nav__link">
+  <a href="#streaming-design-considerations" class="md-nav__link">
     <span class="md-ellipsis">
-      Danube Subscriptions
+      Streaming design considerations
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Danube Subscriptions">
+    <nav class="md-nav" aria-label="Streaming design considerations">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#queuing-or-pubsub-fan-out-using-danube" class="md-nav__link">
+  <a href="#purpose-and-use-cases_1" class="md-nav__link">
     <span class="md-ellipsis">
-      Queuing or Pub/Sub (fan-out) using Danube
+      Purpose and Use Cases
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#architecture-and-design_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Architecture and Design
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-handling-and-processing-models_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Handling and Processing Models
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#streaming-producers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Streaming Producers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#streaming-consumers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Streaming Consumers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#order-of-operations-of-streaming" class="md-nav__link">
+    <span class="md-ellipsis">
+      Order of Operations of Streaming
     </span>
   </a>
   
@@ -686,11 +752,32 @@
   
   
     <li class="md-nav__item">
-      <a href="../PubSub_messaging_vs_Streaming/" class="md-nav__link">
+      <a href="../messaging_patterns_queuing_vs_pubsub/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    PubSub vs Streaming
+    Messaging Patterns (Queuing vs Pub/Sub)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../internal_danube_services/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Danube service components
   </span>
   
 
@@ -1177,28 +1264,65 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#queuing-vs-pubsub-fan-out" class="md-nav__link">
+  <a href="#pubsub-messaging" class="md-nav__link">
     <span class="md-ellipsis">
-      Queuing vs Pub/Sub (fan-out)
+      Pub/Sub messaging
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Queuing vs Pub/Sub (fan-out)">
+    <nav class="md-nav" aria-label="Pub/Sub messaging">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#queuing-messaging" class="md-nav__link">
+  <a href="#purpose-and-use-cases" class="md-nav__link">
     <span class="md-ellipsis">
-      Queuing Messaging
+      Purpose and Use Cases
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#pubsub-messaging-fan-out" class="md-nav__link">
+  <a href="#architecture-and-design" class="md-nav__link">
     <span class="md-ellipsis">
-      Pub/Sub Messaging (fan-out)
+      Architecture and Design
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-handling-and-processing-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Handling and Processing Models
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Handling and Processing Models">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pubsub-messaging-producers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pub/Sub messaging Producers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pubsub-messaging-consumers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pub/Sub messaging Consumers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#order-of-operations-of-pubsub-messaging" class="md-nav__link">
+    <span class="md-ellipsis">
+      Order of Operations of Pub/Sub messaging
     </span>
   </a>
   
@@ -1208,21 +1332,71 @@
     </nav>
   
 </li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#danube-subscriptions" class="md-nav__link">
+  <a href="#streaming-design-considerations" class="md-nav__link">
     <span class="md-ellipsis">
-      Danube Subscriptions
+      Streaming design considerations
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Danube Subscriptions">
+    <nav class="md-nav" aria-label="Streaming design considerations">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#queuing-or-pubsub-fan-out-using-danube" class="md-nav__link">
+  <a href="#purpose-and-use-cases_1" class="md-nav__link">
     <span class="md-ellipsis">
-      Queuing or Pub/Sub (fan-out) using Danube
+      Purpose and Use Cases
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#architecture-and-design_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Architecture and Design
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-handling-and-processing-models_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Handling and Processing Models
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#streaming-producers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Streaming Producers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#streaming-consumers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Streaming Consumers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#order-of-operations-of-streaming" class="md-nav__link">
+    <span class="md-ellipsis">
+      Order of Operations of Streaming
     </span>
   </a>
   
@@ -1251,41 +1425,93 @@
   
 
 
-<h1 id="pub-sub-messaging">Pub-Sub messaging</h1>
-<p><strong>Danube</strong> is built on the <a href="https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern">publish-subscribe</a> pattern. In this pattern, producers publish messages to topics; consumers subscribe to those topics, process incoming messages, and send acknowledgments to the broker when processing is finished.</p>
-<h2 id="queuing-vs-pubsub-fan-out">Queuing vs Pub/Sub (fan-out)</h2>
-<p>Below is some general documentation about Queuing and Pub-Sub, not related to Danube implementation, but just to ensure we are aware of the standards.</p>
-<p>Messaging queuing and pub-sub are both messaging patterns used for asynchronous communication between applications, but they differ in their approach:</p>
-<h3 id="queuing-messaging">Queuing Messaging</h3>
+<h1 id="pubsub-vs-streaming-concepts-and-danube-support">Pub/Sub vs Streaming: Concepts and Danube Support</h1>
+<p>This page compares Pub/Sub messaging and Streaming architectures, highlights key differences and use cases, and indicates what Danube supports. Use it as a conceptual guide aligned with Danube’s Reliable and Non‑Reliable dispatch modes.</p>
+<h2 id="pubsub-messaging">Pub/Sub messaging</h2>
+<h3 id="purpose-and-use-cases">Purpose and Use Cases</h3>
 <ul>
-<li><strong>Model</strong>: Point-to-Point (One-to-One). A message producer sends a message to a specific queue, and only one consumer can receive and process that message.</li>
-<li><strong>Order</strong>: Messages are typically processed in the order they are received (FIFO - First-In-First-Out). This ensures tasks are completed sequentially.</li>
-<li><strong>Delivery</strong>: Messages are guaranteed to be delivered at least once. This reliability is crucial for critical tasks.</li>
+<li><strong>Purpose</strong>: Designed for decoupling producers and consumers, enabling asynchronous communication between different parts of a system.</li>
+<li><strong>Use Cases</strong>: Event-driven architectures, real-time notifications, decoupled microservices, and distributed systems. Suitable when low latency is critical and some message loss is acceptable (e.g., monitoring, telemetry, ephemeral chat).</li>
 </ul>
-<p>Examples: Use cases include processing orders, sending emails, or handling failed transactions.</p>
-<h3 id="pubsub-messaging-fan-out">Pub/Sub Messaging (fan-out)</h3>
+<p><strong>Danube support</strong>: Yes, via Non‑Reliable dispatch.
+  - Delivery: best‑effort (at‑most‑once).
+  - Persistence: none; messages are not stored.
+  - Ordering: per topic/partition within a dispatcher.</p>
+<h3 id="architecture-and-design">Architecture and Design</h3>
 <ul>
-<li><strong>Model</strong>: Publish-Subscribe (One-to-Many). A producer publishes messages to a topic, and any interested subscribers can receive the message. Multiple subscribers can receive the same message.</li>
-<li><strong>Order</strong>: Message order is not guaranteed. Subscribers receive messages as they are published. This is suitable for real-time updates or notifications.</li>
-<li><strong>Delivery</strong>: Delivery is often "fire-and-forget," meaning there's no guarantee a subscriber receives the message. This is acceptable for non-critical data.</li>
+<li><strong>Components</strong>: Producers, Subscriptions (consumer groups), and the broker.</li>
+<li><strong>Message Flow</strong>: Producers send messages to a broker, which distributes them to active subscribers according to subscription semantics.</li>
+<li><strong>Scaling</strong>: Scales by adding more brokers or distributing load (topics / partitions) across multiple brokers.</li>
 </ul>
-<p>Examples: Use cases include broadcasting stock price updates, sending chat messages, or triggering real-time analytics.</p>
-<p>In Summary:</p>
+<h3 id="data-handling-and-processing-models">Data Handling and Processing Models</h3>
+<h4 id="pubsub-messaging-producers">Pub/Sub messaging Producers</h4>
 <ul>
-<li><strong>Messaging queues</strong> are for reliable, ordered delivery to a single consumer, ideal for task processing.</li>
-<li><strong>Pub-sub</strong> is for broadcasting messages to many interested parties, good for real-time updates.</li>
+<li><strong>Low Latency</strong>: No disk persistence on the hot path; minimal overhead.</li>
+<li><strong>Ordering</strong>: Preserved per topic/partition through the dispatcher.</li>
+<li><strong>Delivery</strong>: Best‑effort; messages can be lost on failure.</li>
+<li><strong>Acks</strong>: Immediate, based on in‑memory handling.</li>
+<li><strong>No Active Consumers</strong>: Publishing is allowed; messages are dropped if no consumers are attached.</li>
 </ul>
-<h2 id="danube-subscriptions">Danube Subscriptions</h2>
-<p><strong>A Danube subscription</strong> is a named configuration rule that determines how messages are delivered to consumers. It is a lease on a topic established by a group of consumers:</p>
+<p><strong>Danube</strong>: Matches Non‑Reliable dispatch semantics.</p>
+<h4 id="pubsub-messaging-consumers">Pub/Sub messaging Consumers</h4>
 <ul>
-<li><strong>Exclusive (can be used for pub-sub)</strong> - The exclusive type is a subscription type that only allows a single consumer to attach to the subscription. If multiple consumers subscribe to a topic using the same subscription, an error occurs.</li>
-<li><strong>Shared (for queuing)</strong> - The shared subscription type Danube allows multiple consumers to attach to the same subscription. Messages are delivered in a round-robin distribution across consumers, and any given message is delivered to only one consumer.</li>
+<li><strong>Real-time</strong>: Messages are delivered only to connected consumers.</li>
+<li><strong>No Replay</strong>: No historical fetch; process as they arrive.</li>
+<li><strong>Throughput</strong>: High, with low overhead.</li>
+<li><strong>Delivery</strong>: Only to active subscribers; otherwise dropped.</li>
 </ul>
-<h3 id="queuing-or-pubsub-fan-out-using-danube">Queuing or Pub/Sub (fan-out) using Danube</h3>
+<p><strong>Danube</strong>: Supported via Exclusive, Shared, Failover subscriptions in Non‑Reliable mode.</p>
+<h4 id="order-of-operations-of-pubsub-messaging">Order of Operations of Pub/Sub messaging</h4>
 <ul>
-<li>If you want to achieve <strong>message queuing</strong> among consumers, <strong>share the same subscription name</strong> among multiple consumers</li>
-<li>If you want to achieve traditional <strong>fan-out pub-sub messaging</strong> among consumers, <strong>specify a unique subscription name for each consumer</strong> with an exclusive subscription type.</li>
+<li><strong>Producer Publishes Message</strong>: The producer sends a message to the broker.</li>
+<li><strong>Broker Receives Message</strong>: The broker processes the message.</li>
+<li><strong>Consumer Availability Check</strong>: If consumers are available, the message is delivered to them in real-time.</li>
+<li><strong>No Consumers</strong>: If no consumers are connected, the message is discarded.</li>
 </ul>
+<h2 id="streaming-design-considerations">Streaming design considerations</h2>
+<h3 id="purpose-and-use-cases_1">Purpose and Use Cases</h3>
+<ul>
+<li><strong>Purpose</strong>: Designed for processing and analyzing large volumes of data in real-time as it is generated.</li>
+<li><strong>Use Cases</strong>: Real-time analytics, data pipelines, event sourcing, continuous data processing, and stream processing applications. Ideal when high reliability and durability are required (e.g., financial transactions, orders, audit logs).</li>
+</ul>
+<p><strong>Danube support</strong>: Yes, via Reliable dispatch (WAL + Cloud persistence).
+  - Delivery: at‑least‑once with ack‑gating.
+  - Persistence: local WAL for hot path, background uploads to object storage for durability and replay.
+  - Replay: historical fetch from WAL or Cloud with seamless handoff to live tail.</p>
+<h3 id="architecture-and-design_1">Architecture and Design</h3>
+<ul>
+<li><strong>Components</strong>: Producers, consumers, stream processors, and a durable log.</li>
+<li><strong>Data Flow</strong>: Producers append to a log; consumers/processors read continuously with tracked progress.</li>
+<li><strong>Scaling</strong>: Designed to handle high throughput and scale horizontally by partitioning data across multiple nodes in a cluster.</li>
+</ul>
+<h3 id="data-handling-and-processing-models_1">Data Handling and Processing Models</h3>
+<h3 id="streaming-producers">Streaming Producers</h3>
+<ul>
+<li><strong>Durability</strong>: Messages are appended to a persistent log. In Danube, the hot path is a local WAL with asynchronous uploads to cloud object storage, enabling replay and recovery.</li>
+<li><strong>Acknowledgements</strong>: Acks are returned once the message is durably appended to the WAL (replication depends on deployment/storage backend). Latency is higher than non‑reliable but optimized for sub‑second dispatch.</li>
+<li><strong>Ordering</strong>: Preserved per topic/partition.</li>
+<li><strong>Delivery Guarantees</strong>: At‑least‑once (with redelivery on failure).</li>
+<li><strong>Publishing Without Consumers</strong>: Allowed; messages are stored and remain available for later consumption within retention.</li>
+<li><strong>Processing</strong>: Compatible with stream processing patterns (e.g., windowing, aggregations) layered above the durable log.</li>
+</ul>
+<h3 id="streaming-consumers">Streaming Consumers</h3>
+<ul>
+<li><strong>Replay &amp; Retention</strong>: Consumers can fetch historical data within retention. In Danube, reads come from WAL if available, otherwise from Cloud with seamless handoff to the live tail.</li>
+<li><strong>Acknowledgements</strong>: Consumers ack processed messages; the broker tracks subscription progress and manages redelivery.</li>
+<li><strong>Fault Tolerance</strong>: On crash/reconnect, consumers resume from the last acknowledged position.</li>
+<li><strong>Availability</strong>: Messages remain available even with no active consumers, subject to retention policies.</li>
+</ul>
+<h3 id="order-of-operations-of-streaming">Order of Operations of Streaming</h3>
+<ul>
+<li><strong>Producer Publishes Message</strong>: The producer sends a message to the broker.</li>
+<li><strong>Durable Append</strong>: The broker appends the message to the WAL (durable on disk); background tasks upload frames to cloud storage.</li>
+<li><strong>Producer Acknowledgment</strong>: The broker acknowledges once the append is durable.</li>
+<li><strong>Delivery to Consumers</strong>: Messages are dispatched to consumers, gated by acknowledgments for reliable delivery.</li>
+<li><strong>No Consumers</strong>: Messages remain stored and available for later consumption within retention.</li>
+</ul>
+<hr />
+<p>Suggested alternative title: “Messaging Modes: Pub/Sub (Non‑Reliable) vs Streaming (Reliable)”.</p>
+<p>This document aligns general best practices with Danube’s implementation. For implementation details, see <code>architecture/dispatch_strategy.md</code> and <code>architecture/persistence.md</code>.</p>
 
 
 

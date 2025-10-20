@@ -12,7 +12,7 @@
         <link rel="prev" href="../topics/">
       
       
-        <link rel="next" href="../dispatch_strategy/">
+        <link rel="next" href="../messaging_modes_pubsub_vs_streaming/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -463,6 +463,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../dispatch_strategy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Dispatch Strategy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../messages/" class="md-nav__link">
         
   
@@ -619,17 +640,17 @@
         <li class="md-nav__item">
   <a href="#failover" class="md-nav__link">
     <span class="md-ellipsis">
-      FailOver
+      Failover
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="FailOver">
+    <nav class="md-nav" aria-label="Failover">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#failover-subscription-on-non-partitioned-topic" class="md-nav__link">
     <span class="md-ellipsis">
-      FailOver subscription on Non-Partitioned Topic
+      Failover subscription on Non-Partitioned Topic
     </span>
   </a>
   
@@ -638,7 +659,7 @@
           <li class="md-nav__item">
   <a href="#failover-subscription-on-partitioned-topic-multiple-partitions" class="md-nav__link">
     <span class="md-ellipsis">
-      FailOver subscription on Partitioned Topic (Multiple Partitions)
+      Failover subscription on Partitioned Topic (Multiple Partitions)
     </span>
   </a>
   
@@ -665,11 +686,32 @@
   
   
     <li class="md-nav__item">
-      <a href="../dispatch_strategy/" class="md-nav__link">
+      <a href="../messaging_modes_pubsub_vs_streaming/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Dispatch Strategy
+    Messaging Modes (Pub/Sub vs Streaming)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../messaging_patterns_queuing_vs_pubsub/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Messaging Patterns (Queuing vs Pub/Sub)
   </span>
   
 
@@ -691,48 +733,6 @@
   
   <span class="md-ellipsis">
     Danube service components
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../Queuing_PubSub_messaging/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Queuing vs Pub-Sub (fan-out) messaging
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../PubSub_messaging_vs_Streaming/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    PubSub vs Streaming
   </span>
   
 
@@ -1287,17 +1287,17 @@
         <li class="md-nav__item">
   <a href="#failover" class="md-nav__link">
     <span class="md-ellipsis">
-      FailOver
+      Failover
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="FailOver">
+    <nav class="md-nav" aria-label="Failover">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#failover-subscription-on-non-partitioned-topic" class="md-nav__link">
     <span class="md-ellipsis">
-      FailOver subscription on Non-Partitioned Topic
+      Failover subscription on Non-Partitioned Topic
     </span>
   </a>
   
@@ -1306,7 +1306,7 @@
           <li class="md-nav__item">
   <a href="#failover-subscription-on-partitioned-topic-multiple-partitions" class="md-nav__link">
     <span class="md-ellipsis">
-      FailOver subscription on Partitioned Topic (Multiple Partitions)
+      Failover subscription on Partitioned Topic (Multiple Partitions)
     </span>
   </a>
   
@@ -1337,7 +1337,7 @@
 
 <h1 id="subscription">Subscription</h1>
 <p><strong>A Danube subscription</strong> is a named configuration rule that determines how messages are delivered to consumers. It is a lease on a topic established by a group of consumers.</p>
-<p>The Danube permits multiple producers and subcribers to the same topic. The Subscription Types can be combined to obtain <a href="../Queuing_PubSub_messaging/">message queueing or fan-out</a> pub-sub messaging patterns.</p>
+<p>Danube permits multiple producers and subscribers to the same topic. The Subscription Types can be combined to obtain <a href="Queuing_PubSub_messaging.md">message queueing or fan-out</a> pub-sub messaging patterns.</p>
 <p><img alt="Producers  Consumers" src="../img/producers_consumers.png" title="Producers Consumers" /></p>
 <h2 id="exclusive">Exclusive</h2>
 <p>The <strong>Exclusive</strong> type is a subscription type that only allows a single consumer to attach to the subscription. If multiple consumers subscribe to a topic using the same subscription, an error occurs.
@@ -1355,7 +1355,7 @@ This consumer has exclusive access to all messages published to the topic or par
 </ul>
 <p><img alt="Exclusive Partitioned" src="../img/exclusive_subscription_partitioned.png" title="Exclusive Partitioned" /></p>
 <h2 id="shared">Shared</h2>
-<p>The <strong>Shared</strong> subscription type Danube allows multiple consumers to attach to the same subscription. Messages are delivered in a round-robin distribution across consumers, and any given message is delivered to only one consumer.</p>
+<p>In Danube, the <strong>Shared</strong> subscription type allows multiple consumers to attach to the same subscription. Messages are delivered in a round-robin distribution across consumers, and any given message is delivered to only one consumer.</p>
 <h3 id="shared-subscription-on-non-partitioned-topic">Shared subscription on Non-Partitioned Topic</h3>
 <ul>
 <li><code>Consumers</code>: Multiple consumers can subscribe to the same topic.</li>
@@ -1367,21 +1367,21 @@ This consumer has exclusive access to all messages published to the topic or par
 <li><code>Consumers</code>: Multiple consumers can subscribe to the partitioned topic.</li>
 <li><code>Message Handling</code>: Messages are distributed across all partitions, and then among consumers in a round-robin fashion. Each message from any partition is delivered to only one consumer.</li>
 </ul>
-<p><img alt="Shared Partitioned" src="../img/shared_subscription_partitioned.png" title="Share Partitioned" /></p>
-<h2 id="failover">FailOver</h2>
-<p>The <strong>FailOver</strong> subscription type allows only one consumer (the active consumer) to receive messages at any given time. An active consumer is picked for a non-partitioned topic or for each partition of a partitioned topic and receives messages.</p>
-<h3 id="failover-subscription-on-non-partitioned-topic">FailOver subscription on Non-Partitioned Topic</h3>
+<p><img alt="Shared Partitioned" src="../img/shared_subscription_partitioned.png" title="Shared Partitioned" /></p>
+<h2 id="failover">Failover</h2>
+<p>The <strong>Failover</strong> subscription type allows multiple consumers to attach to the same subscription, with one active consumer at a time. If the active consumer disconnects or becomes unhealthy, another consumer automatically takes over. This preserves ordering and minimizes downtime.</p>
+<h3 id="failover-subscription-on-non-partitioned-topic">Failover subscription on Non-Partitioned Topic</h3>
 <ul>
-<li><code>Consumers</code>: Only one active consumer processes messages at a time.</li>
-<li><code>Message Handling</code>: If the active consumer fails, a standby consumer will take over.</li>
+<li><code>Consumers</code>: One active consumer processes all messages; additional consumers are in standby.</li>
+<li><code>Message Handling</code>: If the active consumer fails, a standby consumer takes over and continues from the last acknowledged position.</li>
 </ul>
-<p><img alt="FailOver Non-Partitioned" src="../img/failover_subscription_non_partitioned.png" title="FailOver Non-Partitioned" /></p>
-<h3 id="failover-subscription-on-partitioned-topic-multiple-partitions">FailOver subscription on  Partitioned Topic (Multiple Partitions)</h3>
+<p><img alt="Failover Non-Partitioned" src="../img/failover_subscription_non_partitioned.png" title="Failover Non-Partitioned" /></p>
+<h3 id="failover-subscription-on-partitioned-topic-multiple-partitions">Failover subscription on Partitioned Topic (Multiple Partitions)</h3>
 <ul>
-<li><code>Consumers</code>: One active consumer processes messages for each partition.</li>
-<li><code>Message Handling</code>: If the active consumer for a partition fails, a standby consumer takes over.</li>
+<li><code>Consumers</code>: One active consumer per partition; other consumers remain on standby for each partition.</li>
+<li><code>Message Handling</code>: Failover occurs independently per partition, ensuring continuity and ordering within each partition.</li>
 </ul>
-<p><img alt="FailOver Partitioned" src="../img/failover_subscription_partitioned.png" title="FailOver Partitioned" /></p>
+<p><img alt="Failover Partitioned" src="../img/failover_subscription_partitioned.png" title="Failover Partitioned" /></p>
 
 
 
