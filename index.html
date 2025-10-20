@@ -1207,14 +1207,10 @@
 
 <h1 id="welcome-to-danube-messaging">Welcome to Danube Messaging</h1>
 <p><a href="https://github.com/danube-messaging/danube">Danube</a> is a lightweight, cloud‑native messaging platform built in Rust. It delivers sub‑second dispatch with cloud economics by combining a Write‑Ahead Log (WAL) with object storage, so you get low‑latency pub/sub and durable streaming—on one broker.</p>
-<p>Danube lets multiple <strong>producers</strong> publish to <strong>topics</strong>, and multiple <strong>consumers</strong> receive messages via named <strong>subscriptions</strong>. Choose Non‑Reliable (best‑effort pub/sub) or Reliable (at‑least‑once streaming) per topic to match your workload.</p>
+<p>Danube enables one or many <strong>producers</strong> publish to <strong>topics</strong>, and multiple <strong>consumers</strong> receive messages via named <strong>subscriptions</strong>. Choose Non‑Reliable (best‑effort pub/sub) or Reliable (at‑least‑once streaming) per topic to match your workload.</p>
 <p>For design details, see the <a href="architecture/architecture/">Architecture</a>.</p>
 <h2 id="try-danube-in-minutes">Try Danube in minutes</h2>
-<p><strong>Docker Compose Quickstart</strong>: Use the provided HA setup with MinIO and ETCD.</p>
-<ul>
-<li>Guide: https://github.com/danube-messaging/danube/tree/main/docker</li>
-<li>Or see our docs page: <a href="../../docker/README.md">Docker Compose setup</a></li>
-</ul>
+<p><strong><a href="getting_started/Danube_docker_compose/">Docker Compose Quickstart</a></strong>: Use the provided Docker Compose setup with MinIO and ETCD.</p>
 <h2 id="core-capabilities">Core capabilities</h2>
 <p><strong><a href="architecture/topics/">Topics</a></strong></p>
 <ul>
@@ -1225,6 +1221,12 @@
 <ul>
 <li>Non‑Reliable: in‑memory, best‑effort delivery, lowest latency.</li>
 <li>Reliable: WAL + Cloud persistence with acknowledgments and replay.</li>
+</ul>
+<p><strong><a href="architecture/persistence/">Persistence (WAL + Cloud)</a></strong></p>
+<ul>
+<li>Write‑Ahead Log on local disk for fast durable writes.</li>
+<li>Background uploads to object storage for durability and replay at cloud cost.</li>
+<li>Seamless handoff from historical replay to live tail.</li>
 </ul>
 <p><strong><a href="architecture/subscriptions/">Subscriptions</a></strong></p>
 <ul>
