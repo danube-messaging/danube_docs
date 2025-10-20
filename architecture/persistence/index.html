@@ -1294,7 +1294,7 @@
 <li><strong>Portable by design</strong>: Built on OpenDAL, enabling S3, GCS, Azure Blob, local FS, memory, and more.</li>
 </ul>
 <h2 id="high-level-architecture">High-level Architecture</h2>
-<p><img alt="Danube Persistence Architecture" src="img/WAL_Cloud.png" title="Danube Persistence Architecture" /></p>
+<p><img alt="Danube Persistence Architecture" src="../img/Wal_Cloud.png" title="Danube Persistence Architecture" /></p>
 <ul>
 <li><strong>Local WAL</strong>: Append-only log with an in-memory cache for ultra-fast reads. Files periodically fsync and rotate.</li>
 <li><strong>Cloud Uploader</strong>: Periodically streams complete WAL frames to cloud objects. Writes object descriptors and sparse indexes to ETCD.</li>
