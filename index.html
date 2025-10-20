@@ -312,9 +312,51 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#core-capabilities" class="md-nav__link">
+  <a href="#danube-capabilities" class="md-nav__link">
     <span class="md-ellipsis">
-      Core capabilities
+      Danube capabilities
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Danube capabilities">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cluster-broker-characteristics" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏗️ Cluster &amp; Broker Characteristics
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#write-ahead-log-cloud-persistence" class="md-nav__link">
+    <span class="md-ellipsis">
+      🌩️ Write-Ahead Log + Cloud Persistence
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#performance-scalability" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚡ Performance &amp; Scalability
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core features
     </span>
   </a>
   
@@ -1161,9 +1203,51 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#core-capabilities" class="md-nav__link">
+  <a href="#danube-capabilities" class="md-nav__link">
     <span class="md-ellipsis">
-      Core capabilities
+      Danube capabilities
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Danube capabilities">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cluster-broker-characteristics" class="md-nav__link">
+    <span class="md-ellipsis">
+      🏗️ Cluster &amp; Broker Characteristics
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#write-ahead-log-cloud-persistence" class="md-nav__link">
+    <span class="md-ellipsis">
+      🌩️ Write-Ahead Log + Cloud Persistence
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#performance-scalability" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚡ Performance &amp; Scalability
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core features
     </span>
   </a>
   
@@ -1211,7 +1295,31 @@
 <p>For design details, see the <a href="architecture/architecture/">Architecture</a>.</p>
 <h2 id="try-danube-in-minutes">Try Danube in minutes</h2>
 <p><strong><a href="getting_started/Danube_docker_compose/">Docker Compose Quickstart</a></strong>: Use the provided Docker Compose setup with MinIO and ETCD.</p>
-<h2 id="core-capabilities">Core capabilities</h2>
+<h2 id="danube-capabilities">Danube capabilities</h2>
+<h3 id="cluster-broker-characteristics">🏗️ <strong>Cluster &amp; Broker Characteristics</strong></h3>
+<ul>
+<li><strong>Stateless brokers</strong>: Metadata in ETCD and data in WAL/Object Storage</li>
+<li><strong>Horizontal scaling</strong>: Add brokers in seconds; partitions rebalance automatically</li>
+<li><strong>Leader election &amp; HA</strong>: Automatic failover and coordination via ETCD</li>
+<li><strong>Rolling upgrades</strong>: Restart or replace brokers with minimal disruption</li>
+<li><strong>Multi-tenancy</strong>: Isolated namespaces with policy controls</li>
+<li><strong>Security-ready</strong>: TLS/mTLS support in Admin and data paths</li>
+</ul>
+<p><strong>Cloud-Native by Design</strong> - Danube's architecture separates compute from storage, enabling:</p>
+<h3 id="write-ahead-log-cloud-persistence">🌩️ <strong>Write-Ahead Log + Cloud Persistence</strong></h3>
+<ul>
+<li><strong>Sub-millisecond producer acknowledgments</strong> via local WAL</li>
+<li><strong>Asynchronous background uploads</strong> to S3/GCS/Azure object storage</li>
+<li><strong>Automatic failover</strong> with shared cloud state</li>
+<li><strong>Infinite retention</strong> without local disk constraints</li>
+</ul>
+<h3 id="performance-scalability">⚡ <strong>Performance &amp; Scalability</strong></h3>
+<ul>
+<li><strong>Hot path optimization</strong>: Messages served from in-memory WAL cache</li>
+<li><strong>Stream per subscription</strong>: WAL + cloud storage from selected offset </li>
+<li><strong>Multi-cloud support</strong>: AWS S3, Google Cloud Storage, Azure Blob, MinIO</li>
+</ul>
+<h2 id="core-features">Core features</h2>
 <p><strong><a href="architecture/topics/">Topics</a></strong></p>
 <ul>
 <li>Non‑partitioned: served by a single broker.</li>
