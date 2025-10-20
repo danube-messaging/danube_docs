@@ -16,20 +16,10 @@ This page explains the main concepts, how the system works, why it scales in clo
 
 ## High-level Architecture
 
-```mermaid
-flowchart LR
-    P[Producer] -->|append| WAL[Local WAL + In-memory Cache]
-    WAL -->|broadcast/live| Disp[Dispatcher]
-    UPL[Background Uploader] <-- reads WAL files --> WAL
-    UPL -->|upload frames| OBJ[(Cloud Object Storage)]
-    ETCD[(ETCD)] <---> UPL
-    ETCD <---> CR[Cloud Reader]
-    CR -->|historical stream| Disp
-    Disp -->|deliver| C[Consumers]
-```
+![Danube Persistence Architecture](img/WAL_Cloud.png "Danube Persistence Architecture")
 
 - **Local WAL**: Append-only log with an in-memory cache for ultra-fast reads. Files periodically fsync and rotate.
-- **Background Uploader**: Periodically streams complete WAL frames to cloud objects. Writes object descriptors and sparse indexes to ETCD.
+- **Cloud Uploader**: Periodically streams complete WAL frames to cloud objects. Writes object descriptors and sparse indexes to ETCD.
 - **Cloud Reader**: Reads historical messages from cloud using ETCD metadata, then hands off to local WAL for live data.
 - **ETCD**: Tracks object descriptors, offsets, and indexes for efficient range reads.
 
