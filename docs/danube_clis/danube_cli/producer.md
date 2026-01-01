@@ -1,85 +1,313 @@
-# Danube-Pubsub CLI - Produce messages
+# Producer Guide
 
-The `produce` command sends messages to a specified topic with support for reliable delivery, custom schemas, and message attributes.
+Learn how to produce messages to Danube topics. 📤
+
+## Table of Contents
+
+- [Basic Usage](#basic-usage)
+- [Message Content Types](#message-content-types)
+- [Multiple Messages](#multiple-messages)
+- [Message Attributes](#message-attributes)
+- [Schema-Based Production](#schema-based-production)
+- [Partitioned Topics](#partitioned-topics)
+- [Reliable Delivery](#reliable-delivery)
 
 ## Basic Usage
 
-```bash
-danube-cli produce [OPTIONS] --service-addr <SERVICE_ADDR> --message <MESSAGE>
-```
-
-### Required Arguments
-
-- `-s, --service-addr <SERVICE_ADDR>`
-  The service URL for the Danube broker (e.g., `http://127.0.0.1:6650`)
-
-- `-m, --message <MESSAGE>`
-  The message content to send
-
-- `-f, --file <FILE_PATH>`
-  Binary file path to send (takes precedence over --message when specified)
-
-### Basic Options
-
-- `-n, --producer-name <PRODUCER_NAME>`
-  Producer identifier (default: `test_producer`)
-
-- `-t, --topic <TOPIC>`
-  Destination topic (default: `/default/test_topic`)
-
-- `-p, --partitions <NUMBER>`
-  Number of topic partitions
-
-### Message Configuration
-
-- `-y, --schema <SCHEMA>`
-  Message schema type: `bytes`, `string`, `int64`, `json` (default: `string`)
-
-- `--json-schema <JSON_SCHEMA>`
-  Required JSON schema definition when using `json` schema type
-
-- `-a, --attributes <ATTRIBUTES>`
-  Message attributes in `key1:value1,key2:value2` format
-
-- `-c, --count <COUNT>`
-  Number of messages to send (default: `1`)
-
-- `-i, --interval <INTERVAL>`
-  Delay between messages in milliseconds (default: 500, minimum: 100)
-
-### Reliable Delivery Options
-
-- `--reliable`
-  Enable reliable message delivery with storage persistence
-
-- `-h, --help`  
-  Description: Print help information
-  
-## Example
-
-## Basic Message Production
+### Simple Message
 
 ```bash
-danube-cli produce --service-addr http://localhost:6650 --count 100 --message "Hello Danube"
+danube-cli produce \
+  --service-addr http://localhost:6650 \
+  --message "Hello, World!"
 ```
 
-### JSON Messages with Schema
+Sends one message to the default topic `/default/test_topic`.
+
+### Custom Topic
 
 ```bash
-danube-cli produce -s http://localhost:6650 -c 100 \
-  -y json \
-  --json-schema '{"type": "object", "properties": {"field1": {"type": "string"}}}' \
-  -m '{"field1":"Hello Danube"}'
+danube-cli produce \
+  -s http://localhost:6650 \
+  -t /default/orders \
+  -m "Order received"
 ```
 
-### Reliable Message Delivery
+### Using Short Flags
 
 ```bash
-danube-cli produce -s http://localhost:6650 -m "Hello Danube" -c 100 --reliable
+danube-cli produce -s http://localhost:6650 -t /default/events -m "Quick message"
 ```
 
-### Binary File send with Reliable Delivery
+## Message Content Types
+
+### Text Messages
 
 ```bash
-danube-cli produce -s http://localhost:6650 -m "none" -f ./data.blob -c 100 --reliable
+danube-cli produce -s http://localhost:6650 -m "Simple text message"
 ```
+
+### JSON Messages
+
+```bash
+danube-cli produce \
+  -s http://localhost:6650 \
+  -m '{"user_id":"123","action":"login","timestamp":"2024-01-15T10:30:00Z"}'
+```
+
+### Binary Files
+
+```bash
+# Send an image
+danube-cli produce -s http://localhost:6650 --file image.png
+
+# Send any binary file
+danube-cli produce -s http://localhost:6650 --file data.bin
+```
+
+## Multiple Messages
+
+### Send Multiple Times
+
+```bash
+danube-cli produce \
+  -s http://localhost:6650 \
+  -m "Repeated message" \
+  --count 10
+```
+
+### With Interval
+
+```bash
+# Send 100 messages with 500ms delay between each
+danube-cli produce \
+  -s http://localhost:6650 \
+  -m "Message" \
+  --count 100 \
+  --interval 500
+```
+
+### Rapid Fire
+
+```bash
+# Minimum interval is 100ms
+danube-cli produce \
+  -s http://localhost:6650 \
+  -m "Fast message" \
+  --count 1000 \
+  --interval 100
+```
+
+## Message Attributes
+
+### Single Attribute
+
+```bash
+danube-cli produce \
+  -s http://localhost:6650 \
+  -m "Alert!" \
+  --attributes "priority:high"
+```
+
+### Multiple Attributes
+
+```bash
+danube-cli produce \
+  -s http://localhost:6650 \
+  -m "User action" \
+  --attributes "user_id:123,region:us-west,priority:high"
+```
+
+## Schema-Based Production
+
+### With Pre-Registered Schema
+
+```bash
+# First, register the schema (one time)
+danube-cli schema register orders \
+  --schema-type json_schema \
+  --file order-schema.json
+
+# Produce with schema validation
+danube-cli produce \
+  -s http://localhost:6650 \
+  -t /default/orders \
+  --schema-subject orders \
+  -m '{"order_id":"ord_123","amount":99.99,"currency":"USD"}'
+```
+
+### Auto-Register Schema
+
+```bash
+# Schema will be registered automatically if it doesn't exist
+danube-cli produce \
+  -s http://localhost:6650 \
+  -t /default/events \
+  --schema-file event-schema.json \
+  --schema-type json_schema \
+  -m '{"event":"user_signup","user_id":"user_456"}'
+```
+
+### Schema Types
+
+**JSON Schema:**
+
+```bash
+danube-cli produce \
+  --schema-subject my-schema \
+  --schema-type json_schema \
+  -m '{"key":"value"}'
+```
+
+**Avro:**
+
+```bash
+danube-cli produce \
+  --schema-subject my-avro-schema \
+  --schema-type avro \
+  --file message.avro
+```
+
+**Protobuf:**
+
+```bash
+danube-cli produce \
+  --schema-subject my-proto-schema \
+  --schema-type protobuf \
+  --file message.pb
+```
+
+## Partitioned Topics
+
+### Create Partitioned Topic
+
+```bash
+# Specify number of partitions
+danube-cli produce \
+  -s http://localhost:6650 \
+  -t /default/events \
+  --partitions 8 \
+  -m "Partitioned message"
+```
+
+### High Throughput Example
+
+```bash
+# 16 partitions for parallel processing
+danube-cli produce \
+  -s http://localhost:6650 \
+  -t /default/high-volume \
+  --partitions 16 \
+  --schema-subject events \
+  -m '{"event":"data"}' \
+  --count 10000 \
+  --interval 100
+```
+
+## Reliable Delivery
+
+### Enable Reliable Delivery
+
+```bash
+# Messages are persisted to disk before acknowledgment
+danube-cli produce \
+  -s http://localhost:6650 \
+  -m "Critical message" \
+  --reliable
+```
+
+### Reliable + Partitioned
+
+```bash
+danube-cli produce \
+  -s http://localhost:6650 \
+  -t /default/transactions \
+  --partitions 4 \
+  --reliable \
+  --schema-subject transactions \
+  -m '{"tx_id":"tx_789","amount":1000.00}'
+```
+
+## Practical Examples
+
+### E-Commerce Orders
+
+```bash
+# Register order schema
+danube-cli schema register orders \
+  --schema-type json_schema \
+  --file order-schema.json
+
+# Send order
+danube-cli produce \
+  -s http://localhost:6650 \
+  -t /default/orders \
+  --schema-subject orders \
+  --reliable \
+  -m '{
+    "order_id":"ord_123",
+    "customer_id":"cust_456",
+    "items":[{"sku":"ITEM1","qty":2,"price":29.99}],
+    "total":59.98
+  }'
+```
+
+### Event Streaming
+
+```bash
+# High-volume event stream
+danube-cli produce \
+  -s http://localhost:6650 \
+  -t /analytics/events \
+  --partitions 16 \
+  --schema-subject user-events \
+  -m '{"event":"page_view","user_id":"user_789","page":"/home"}' \
+  --count 100000 \
+  --interval 100
+```
+
+### IoT Sensor Data
+
+```bash
+# Send sensor readings
+danube-cli produce \
+  -s http://localhost:6650 \
+  -t /iot/sensors \
+  --attributes "sensor_id:temp_001,location:warehouse-a" \
+  -m '{"temperature":22.5,"humidity":45,"timestamp":"2024-01-15T10:30:00Z"}' \
+  --count 1440 \
+  --interval 60000  # Every minute
+```
+
+### Log Aggregation
+
+```bash
+# Send application logs
+danube-cli produce \
+  -s http://localhost:6650 \
+  -t /logs/application \
+  --attributes "app:api-server,env:production,level:error" \
+  -m '{"timestamp":"2024-01-15T10:30:00Z","message":"Database connection failed","stack_trace":"..."}'
+```
+
+## Command Reference
+
+### All Producer Flags
+
+| Flag | Short | Description | Default |
+|------|-------|-------------|---------|
+| `--service-addr` | `-s` | Broker URL | `http://127.0.0.1:6650` |
+| `--topic` | `-t` | Topic name | `/default/test_topic` |
+| `--message` | `-m` | Message content | Required* |
+| `--file` | `-f` | Binary file path | - |
+| `--producer-name` | `-n` | Producer name | `test_producer` |
+| `--schema-subject` | - | Schema subject | - |
+| `--schema-file` | - | Schema file (auto-register) | - |
+| `--schema-type` | - | Schema type | - |
+| `--count` | `-c` | Number of messages | `1` |
+| `--interval` | `-i` | Interval in ms | `500` |
+| `--partitions` | `-p` | Number of partitions | - |
+| `--attributes` | `-a` | Message attributes | - |
+| `--reliable` | - | Reliable delivery | `false` |
+
+*Required unless `--file` is provided

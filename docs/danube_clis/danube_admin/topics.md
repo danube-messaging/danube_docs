@@ -1,171 +1,493 @@
-# danube-admin: Topics Commands
+# Topics Management
 
-The `danube-admin-cli` tool provides commands to manage and view information about topics in your Danube cluster. Below is the documentation for the commands related to topics.
+Create and manage topics in your Danube cluster.
+
+## Overview
+
+Topics are the fundamental messaging primitive in Danube. They provide:
+
+- Named channels for publishing and subscribing to messages
+- Schema enforcement via Schema Registry
+- Partitioning for horizontal scaling
+- Reliable or non-reliable delivery modes
 
 ## Commands
 
-### `danube-admin-cli topics list NAMESPACE`
+### List Topics
 
-Get the list of topics in a specified namespace.
+View topics in a namespace or on a specific broker.
 
-**Usage:**
-
-```sh
-danube-admin-cli topics list NAMESPACE [--output json]
+```bash
+danube-admin-cli topics list [OPTIONS]
 ```
 
-**Description:**
+**By Namespace:**
 
-This command retrieves and displays all topics within a specified namespace. Replace `NAMESPACE` with the name of the namespace you want to query.
+```bash
+# List all topics in a namespace
+danube-admin-cli topics list --namespace default
 
-Use `--output json` to print JSON instead of plain text.
+# JSON output for automation
+danube-admin-cli topics list --namespace default --output json
+```
+
+**By Broker:**
+
+```bash
+# List topics on a specific broker
+danube-admin-cli topics list --broker broker-001
+
+# JSON output
+danube-admin-cli topics list --broker broker-001 --output json
+```
+
+**Example Output (Plain Text):**
+
+```bash
+Topics in namespace 'default':
+  /default/user-events
+  /default/payment-transactions
+  /default/analytics-stream
+```
+
+**Example Output (JSON):**
+
+```json
+[
+  "/default/user-events",
+  "/default/payment-transactions",
+  "/default/analytics-stream"
+]
+```
+
+---
+
+### Create a Topic
+
+Create a new topic with optional schema validation.
+
+```bash
+danube-admin-cli topics create <TOPIC> [OPTIONS]
+```
+
+#### Basic Topic Creation
+
+**Simple Topic (No Schema):**
+
+```bash
+# Create topic without schema
+danube-admin-cli topics create /default/logs
+
+# Create with reliable delivery
+danube-admin-cli topics create /default/events --dispatch-strategy reliable
+```
+
+**Using Namespace Flag:**
+
+```bash
+# Specify namespace separately
+danube-admin-cli topics create my-topic --namespace default
+
+# Equivalent to
+danube-admin-cli topics create /default/my-topic
+```
+
+#### Schema-Validated Topics
+
+**With Schema Registry:**
+
+```bash
+# First, register a schema
+danube-admin-cli schemas register user-events \
+  --schema-type json_schema \
+  --file user-schema.json
+
+# Create topic with schema validation
+danube-admin-cli topics create /default/user-events \
+  --schema-subject user-events \
+  --dispatch-strategy reliable
+```
 
 **Example Output:**
 
-```sh
-Topic: topic1
-Topic: topic2
-Topic: topic3
+```
+✅ Topic created: /default/user-events
+   Schema subject: user-events
 ```
 
-### `danube-admin-cli topics create TOPIC`
+#### Partitioned Topics
 
-Create a topic (non‑partitioned or partitioned). You can also set schema and dispatch strategy.
+**Create with Partitions:**
 
-**Usage:**
+```bash
+# Create partitioned topic (3 partitions)
+danube-admin-cli topics create /default/high-throughput \
+  --partitions 3
 
-```sh
-danube-admin-cli topics create TOPIC [--namespace NS] [--partitions N] \
-  [-s, --schema String|Bytes|Int64|Json] [--schema-file PATH | --schema-data JSON] \
-  [--dispatch-strategy non_reliable|reliable]
+# With schema and partitions
+danube-admin-cli topics create /default/user-events \
+  --partitions 5 \
+  --schema-subject user-events \
+  --dispatch-strategy reliable
 ```
-
-**Description:**
-
-This command creates a new topic. `TOPIC` accepts either `/namespace/topic` or `topic` (when `--namespace` is provided). Use `--partitions` to create a partitioned topic. For `Json` schema, provide the schema via `--schema-file` or `--schema-data`.
 
 **Example Output:**
 
-```sh
-Topic Created: true
+```bash
+✅ Partitioned topic created: /default/high-throughput
+   Schema subject: user-events
+   Partitions: 5
 ```
 
-### `danube-admin-cli topics delete TOPIC`
+**Partitioning Guidelines:**
 
-Delete a specified topic.
+| Throughput | Recommended Partitions |
+|------------|----------------------|
+| Low (< 1K msg/s) | 1 (non-partitioned) |
+| Medium (1K-10K msg/s) | 3-5 |
+| High (10K-100K msg/s) | 10-20 |
+| Very High (> 100K msg/s) | 50+ |
 
-**Usage:**
+#### Options Reference
 
-```sh
-danube-admin-cli topics delete TOPIC [--namespace NS]
+| Option | Description | Default | Example |
+|--------|-------------|---------|---------|
+| `--namespace` | Namespace (if not in topic path) | - | `--namespace default` |
+| `--partitions` | Number of partitions | 1 | `--partitions 3` |
+| `--schema-subject` | Schema subject from registry | None | `--schema-subject user-events` |
+| `--dispatch-strategy` | Delivery mode | `non_reliable` | `--dispatch-strategy reliable` |
+
+**Dispatch Strategies:**
+
+- **non_reliable**: Fast, at-most-once delivery (fire-and-forget)
+  - Use for: Logs, metrics, non-critical events
+  - Pros: Low latency, high throughput
+  - Cons: Messages may be lost
+
+- **reliable**: Slower, at-least-once delivery (with acknowledgments)
+  - Use for: Transactions, orders, critical events
+  - Pros: Guaranteed delivery
+  - Cons: Higher latency
+
+---
+
+### Describe a Topic
+
+View detailed information about a topic including schema and subscriptions.
+
+```bash
+danube-admin-cli topics describe <TOPIC> [OPTIONS]
 ```
 
-**Description:**
+**Basic Usage:**
 
-This command deletes the specified topic. `TOPIC` accepts `/namespace/topic` or `topic` with `--namespace`.
+```bash
+danube-admin-cli topics describe /default/user-events
+```
+
+**Output Formats:**
+
+```bash
+# Plain text (default) - human-readable
+danube-admin-cli topics describe /default/user-events
+
+# JSON format - for automation
+danube-admin-cli topics describe /default/user-events --output json
+```
+
+**Example Output (Plain Text):**
+
+```bash
+Topic: /default/user-events
+Broker ID: broker-001
+Delivery: Reliable
+
+📋 Schema Registry:
+  Subject: user-events
+  Schema ID: 12345
+  Version: 2
+  Type: json_schema
+  Compatibility: BACKWARD
+
+Subscriptions: ["analytics-consumer", "audit-logger"]
+```
+
+**Example Output (JSON):**
+
+```json
+{
+  "topic": "/default/user-events",
+  "broker_id": "broker-001",
+  "delivery": "Reliable",
+  "schema_subject": "user-events",
+  "schema_id": 12345,
+  "schema_version": 2,
+  "schema_type": "json_schema",
+  "compatibility_mode": "BACKWARD",
+  "subscriptions": [
+    "analytics-consumer",
+    "audit-logger"
+  ]
+}
+```
+
+**Without Schema:**
+
+```bash
+Topic: /default/logs
+Broker ID: broker-002
+Delivery: NonReliable
+
+📋 Schema: None
+
+Subscriptions: []
+```
+
+---
+
+### List Subscriptions
+
+View all active subscriptions for a topic.
+
+```bash
+danube-admin-cli topics subscriptions <TOPIC> [OPTIONS]
+```
+
+**Basic Usage:**
+
+```bash
+danube-admin-cli topics subscriptions /default/user-events
+```
+
+**Output Formats:**
+
+```bash
+# Plain text
+danube-admin-cli topics subscriptions /default/user-events
+
+# JSON format
+danube-admin-cli topics subscriptions /default/user-events --output json
+```
 
 **Example Output:**
 
-```sh
-Topic Deleted: true
+```bash
+Subscriptions: ["consumer-1", "consumer-2", "analytics-team"]
 ```
 
-### `danube-admin-cli topics subscriptions TOPIC`
+---
 
-Get the list of subscriptions on a specified topic.
+### Delete a Topic
 
-**Usage:**
+Permanently remove a topic and all its messages.
 
-```sh
-danube-admin-cli topics subscriptions TOPIC [--namespace NS] [--output json]
+```bash
+danube-admin-cli topics delete <TOPIC> [OPTIONS]
 ```
 
-**Description:**
+**Basic Usage:**
 
-This command retrieves and displays all subscriptions associated with a specified topic. `TOPIC` accepts `/namespace/topic` or `topic` with `--namespace`. Use `--output json` for JSON output.
+```bash
+danube-admin-cli topics delete /default/old-topic
+```
+
+**With Namespace:**
+
+```bash
+danube-admin-cli topics delete old-topic --namespace default
+```
 
 **Example Output:**
 
-```sh
-Subscriptions: [subscription1, subscription2]
+```bash
+✅ Topic deleted: /default/old-topic
 ```
 
-### `danube-admin-cli topics describe TOPIC`
+**⚠️ Important Warnings:**
 
-Describe a topic: schema and subscriptions.
+1. **Data Loss**: All messages in the topic are permanently deleted
+2. **No Confirmation**: Operation is immediate and irreversible
+3. **Active Subscriptions**: All consumers will be disconnected
+4. **Schema Intact**: The schema in the registry is NOT deleted
 
-**Usage:**
+**Safety Checklist:**
 
-```sh
-danube-admin-cli topics describe TOPIC [--namespace NS] [--output json]
+```bash
+# 1. Check subscriptions
+danube-admin-cli topics subscriptions /default/my-topic
+
+# 2. Verify topic details
+danube-admin-cli topics describe /default/my-topic
+
+# 3. Backup if needed (application-level)
+
+# 4. Delete topic
+danube-admin-cli topics delete /default/my-topic
 ```
 
-**Description:**
+---
 
-Shows topic name, schema (pretty-printed when JSON), and subscriptions. `TOPIC` accepts `/namespace/topic` or `topic` with `--namespace`.
+### Unsubscribe
 
-### `danube-admin-cli topics unsubscribe --subscription SUBSCRIPTION TOPIC`
+Remove a specific subscription from a topic.
 
-Delete a subscription from a topic.
-
-**Usage:**
-
-```sh
-danube-admin-cli topics unsubscribe --subscription SUBSCRIPTION TOPIC [--namespace NS]
+```bash
+danube-admin-cli topics unsubscribe <TOPIC> --subscription <NAME> [OPTIONS]
 ```
 
-**Description:**
+**Basic Usage:**
 
-This command deletes a subscription from a specified topic. `TOPIC` accepts `/namespace/topic` or `topic` with `--namespace`.
+```bash
+danube-admin-cli topics unsubscribe /default/user-events \
+  --subscription old-consumer
+```
+
+**With Namespace:**
+
+```bash
+danube-admin-cli topics unsubscribe my-topic \
+  --namespace default \
+  --subscription old-consumer
+```
 
 **Example Output:**
 
-```sh
-Unsubscribed: true
+```
+✅ Unsubscribed: true
 ```
 
-## Error Handling
+**Use Cases:**
 
-If there is an issue with connecting to the cluster or processing the request, the CLI will output an error message. Ensure your Danube cluster is running and accessible, and check your network connectivity.
+- Remove inactive consumers
+- Clean up test subscriptions
+- Force consumer reconnection
 
-## Examples
+---
 
-Here are a few example commands for quick reference:
+### Unload a Topic
 
-- List topics in a namespace:
+Gracefully unload a topic from its current broker.
 
-  ```sh
-  danube-admin-cli topics list my-namespace --output json
-  ```
-
-- Create a topic:
-
-  ```sh
-  danube-admin-cli topics create /default/my-topic --dispatch-strategy reliable
-  ```
-
-- Delete a topic:
-
-  ```sh
-  danube-admin-cli topics delete my-topic --namespace default
-  ```
-
-- Unsubscribe from a topic:
-
-  ```sh
-  danube-admin-cli topics unsubscribe --subscription my-subscription my-topic --namespace default
-  ```
-
-- List subscriptions for a topic:
-
-  ```sh
-  danube-admin-cli topics subscriptions my-topic --namespace default --output json
-  ```
-
-For more detailed information or help with the `danube-admin-cli`, you can use the `--help` flag with any command.
-
-**Example:**
-
-```sh
-danube-admin-cli topics --help
+```bash
+danube-admin-cli topics unload <TOPIC> [OPTIONS]
 ```
+
+**Basic Usage:**
+
+```bash
+danube-admin-cli topics unload /default/user-events
+```
+
+**Example Output:**
+
+```
+✅ Topic unloaded: /default/user-events
+```
+
+**Use Cases:**
+
+- Rebalance topics across brokers
+- Prepare for broker maintenance
+- Move topic to different broker
+
+## Common Workflows
+
+### 1. Create Topic with Schema Validation
+
+**Step-by-step:**
+
+```bash
+# Step 1: Register schema
+danube-admin-cli schemas register user-events \
+  --schema-type json_schema \
+  --file schemas/user-events.json \
+  --description "User event schema" \
+  --tags users analytics
+
+# Step 2: Verify schema
+danube-admin-cli schemas get --subject user-events
+
+# Step 3: Create topic
+danube-admin-cli topics create /production/user-events \
+  --schema-subject user-events \
+  --dispatch-strategy reliable \
+  --partitions 5
+
+# Step 4: Verify topic
+danube-admin-cli topics describe /production/user-events
+```
+
+### 2. Schema Evolution
+
+**Update schema for existing topic:**
+
+```bash
+# Step 1: Check current compatibility mode
+danube-admin-cli schemas get --subject user-events
+
+# Step 2: Test new schema compatibility
+danube-admin-cli schemas check user-events \
+  --file schemas/user-events-v2.json \
+  --schema-type json_schema
+
+# Step 3: If compatible, register new version
+danube-admin-cli schemas register user-events \
+  --schema-type json_schema \
+  --file schemas/user-events-v2.json \
+  --description "Added email field"
+
+# Step 4: Verify topic picked up new version
+danube-admin-cli topics describe /production/user-events
+```
+
+### 3. Multi-Environment Deployment
+
+**Create same topics across environments:**
+
+```bash
+# Production
+danube-admin-cli topics create /production/user-events \
+  --schema-subject user-events \
+  --dispatch-strategy reliable \
+  --partitions 10
+
+# Staging
+danube-admin-cli topics create /staging/user-events \
+  --schema-subject user-events \
+  --dispatch-strategy reliable \
+  --partitions 3
+
+# Development
+danube-admin-cli topics create /development/user-events \
+  --schema-subject user-events-dev \
+  --partitions 1
+```
+
+### 4. Topic Migration
+
+**Move topic to new namespace:**
+
+```bash
+# Step 1: Create new namespace
+danube-admin-cli namespaces create new-namespace
+
+# Step 2: Get old topic schema
+OLD_SCHEMA=$(danube-admin-cli topics describe /old/topic --output json | jq -r '.schema_subject')
+
+# Step 3: Create new topic with same schema
+danube-admin-cli topics create /new-namespace/topic \
+  --schema-subject $OLD_SCHEMA \
+  --dispatch-strategy reliable
+
+# Step 4: Migrate consumers (application-level)
+
+# Step 5: Delete old topic
+danube-admin-cli topics delete /old/topic
+```
+
+## Related Commands
+
+- `danube-admin-cli schemas register` - Register schemas for validation
+- `danube-admin-cli schemas get` - View schema details
+- `danube-admin-cli namespaces create` - Create namespaces for topics
+- `danube-admin-cli brokers list` - View broker topology

@@ -1,114 +1,288 @@
-# danube-admin: Brokers Commands
+# Brokers Management
 
-The `danube-admin-cli` tool provides commands to manage and view information about brokers in your Danube cluster. Below is the documentation for the commands related to brokers.
+Manage and view broker information in your Danube cluster.
+
+## Overview
+
+The `brokers` command provides visibility and control over the brokers in your Danube cluster. Use it to:
+
+- List all brokers with their status
+- Identify the leader broker
+- View broker namespaces
+- Unload topics from brokers
+- Activate brokers
 
 ## Commands
 
-### `danube-admin-cli brokers list`
+### List All Brokers
 
-List all active brokers in the cluster.
+Display all brokers in the cluster with their details.
 
-**Usage:**
-
-```sh
-danube-admin-cli brokers list [--output json]
+```bash
+danube-admin-cli brokers list
 ```
 
-**Description:**
+**Output Formats:**
 
-This command retrieves and displays a list of all active brokers in the cluster. The output is formatted into a table with the following columns:
+```bash
+# Plain text (default) - easy to read
+danube-admin-cli brokers list
 
-- **BROKER ID**: The unique identifier for the broker.
-- **BROKER ADDRESS**: The network address of the broker.
-- **BROKER ROLE**: The role assigned to the broker (e.g., "leader", "follower").
+# JSON format - for scripting/automation
+danube-admin-cli brokers list --output json
+```
 
-Use `--output json` to print JSON instead of a table.
+**Example Output (Plain Text):**
+
+```bash
+┌──────────────┬─────────────────────┬──────────┬─────────────────────┬─────────────────────┬────────┐
+│ Broker ID    │ Address             │ Role     │ Admin Address       │ Metrics Address     │ Status │
+├──────────────┼─────────────────────┼──────────┼─────────────────────┼─────────────────────┼────────┤
+│ broker-001   │ 127.0.0.1:6650      │ leader   │ 127.0.0.1:50051     │ 127.0.0.1:9090      │ active │
+│ broker-002   │ 127.0.0.1:6651      │ follower │ 127.0.0.1:50052     │ 127.0.0.1:9091      │ active │
+└──────────────┴─────────────────────┴──────────┴─────────────────────┴─────────────────────┴────────┘
+```
+
+**Example Output (JSON):**
+
+```json
+[
+  {
+    "broker_id": "broker-001",
+    "broker_addr": "127.0.0.1:6650",
+    "broker_role": "leader",
+    "admin_addr": "127.0.0.1:50051",
+    "metrics_addr": "127.0.0.1:9090",
+    "broker_status": "active"
+  },
+  {
+    "broker_id": "broker-002",
+    "broker_addr": "127.0.0.1:6651",
+    "broker_role": "follower",
+    "admin_addr": "127.0.0.1:50052",
+    "metrics_addr": "127.0.0.1:9091",
+    "broker_status": "active"
+  }
+]
+```
+
+---
+
+### Get Leader Broker
+
+Identify which broker is currently the cluster leader.
+
+```bash
+danube-admin-cli brokers leader
+```
 
 **Example Output:**
 
-```sh
-+------------+---------------------+-------------+
-| BROKER ID  | BROKER ADDRESS      | BROKER ROLE |
-+------------+---------------------+-------------+
-| 1          | 192.168.1.1:6650    | leader      |
-| 2          | 192.168.1.2:6650    | follower    |
-+------------+---------------------+-------------+
+```bash
+Leader: broker-001
 ```
 
-### `danube-admin-cli brokers leader-broker`
+**Why This Matters:**
 
-Get information about the leader broker in the cluster.
+- The leader broker coordinates cluster operations
+- Useful for debugging cluster issues
+- Important for understanding cluster topology
 
-**Usage:**
+---
 
-```sh
-danube-admin-cli brokers leader-broker
+### List Broker Namespaces
+
+View all namespaces managed by the cluster.
+
+```bash
+danube-admin-cli brokers namespaces
 ```
 
-**Description:**
+**Output Formats:**
 
-This command fetches and displays the details of the current leader broker in the cluster. The information includes the broker ID, address, and role of the leader.
+```bash
+# Plain text
+danube-admin-cli brokers namespaces
+
+# JSON format
+danube-admin-cli brokers namespaces --output json
+```
+
+**Example Output (Plain Text):**
+
+```bash
+Namespaces: ["default", "analytics", "logs"]
+```
+
+**Example Output (JSON):**
+
+```json
+["default", "analytics", "logs"]
+```
+
+---
+
+### Unload Broker Topics
+
+Gracefully unload topics from a broker (useful for maintenance or rebalancing).
+
+```bash
+danube-admin-cli brokers unload <BROKER_ID> [OPTIONS]
+```
+
+**Basic Usage:**
+
+```bash
+# Unload all topics from broker-001
+danube-admin-cli brokers unload broker-001
+
+# Dry-run to see what would be unloaded
+danube-admin-cli brokers unload broker-001 --dry-run
+```
+
+**Advanced Options:**
+
+```bash
+# Unload with custom parallelism
+danube-admin-cli brokers unload broker-001 --max-parallel 5
+
+# Unload only specific namespaces
+danube-admin-cli brokers unload broker-001 \
+  --namespace-include default \
+  --namespace-include analytics
+
+# Exclude certain namespaces
+danube-admin-cli brokers unload broker-001 \
+  --namespace-exclude system
+
+# Set custom timeout per topic (seconds)
+danube-admin-cli brokers unload broker-001 --timeout 30
+```
+
+**Options:**
+
+| Option | Description | Default |
+|--------|-------------|---------|
+| `--dry-run` | Preview topics to be unloaded without making changes | `false` |
+| `--max-parallel` | Number of topics to unload concurrently | `1` |
+| `--namespace-include` | Only unload topics from these namespaces (repeatable) | All |
+| `--namespace-exclude` | Skip topics from these namespaces (repeatable) | None |
+| `--timeout` | Timeout in seconds for each topic unload | `30` |
 
 **Example Output:**
 
-```sh
-Leader Broker: BrokerId: 1, Address: 192.168.1.1:6650, Role: leader
+```bash
+Unload Started: true
+Total Topics: 45
+Succeeded: 45
+Failed: 0
+Pending: 0
 ```
 
-### `danube-admin-cli brokers namespaces`
+**Use Cases:**
 
-List all namespaces in the cluster.
+- **Broker Maintenance**: Drain topics before shutting down a broker
+- **Load Rebalancing**: Move topics to other brokers
+- **Rolling Upgrades**: Safely upgrade brokers one at a time
 
-**Usage:**
+---
 
-```sh
-danube-admin-cli brokers namespaces [--output json]
+### Activate Broker
+
+Mark a broker as active, allowing it to receive traffic.
+
+```bash
+danube-admin-cli brokers activate <BROKER_ID> [OPTIONS]
 ```
 
-**Description:**
+**Basic Usage:**
 
-This command retrieves and lists all namespaces associated with the cluster. Each namespace is printed on a new line.
+```bash
+danube-admin-cli brokers activate broker-002
+```
 
-Use `--output json` to print JSON instead of plain text.
+**With Audit Reason:**
+
+```bash
+danube-admin-cli brokers activate broker-002 \
+  --reason "Maintenance completed"
+```
 
 **Example Output:**
 
-```sh
-Namespace: default
-Namespace: public
-Namespace: my-namespace
+```bash
+Activated: true
 ```
 
-## Error Handling
+**Use Cases:**
 
-If there is an issue with connecting to the cluster or processing the request, the CLI will output an error message. Make sure your Danube cluster is running and accessible, and check your network connectivity.
+- **After Maintenance**: Re-enable a broker after maintenance
+- **After Unload**: Activate broker to start receiving topics again
+- **Cluster Expansion**: Activate newly added brokers
 
-## Examples
+## Common Workflows
 
-Here are a few example commands for quick reference:
+### 1. Health Check
 
-- List all brokers:
+```bash
+# Check cluster health
+danube-admin-cli brokers list
+danube-admin-cli brokers leader
 
-  ```sh
-  danube-admin-cli brokers list
-  ```
+# Verify all brokers are active
+danube-admin-cli brokers list | grep -c active
+```
 
-- Get the leader broker:
+### 2. Broker Maintenance
 
-  ```sh
-  danube-admin-cli brokers leader-broker
-  ```
+```bash
+# Step 1: Dry-run to preview unload
+danube-admin-cli brokers unload broker-001 --dry-run
 
-- List all namespaces:
+# Step 2: Unload topics
+danube-admin-cli brokers unload broker-001
 
-  ```sh
-  danube-admin-cli brokers namespaces
-  ```
+# Step 3: Perform maintenance (external)
+# ...
 
-For more detailed information or help with the `danube-admin-cli`, you can use the `--help` flag with any command.
+# Step 4: Reactivate broker
+danube-admin-cli brokers activate broker-001 --reason "Maintenance completed"
+```
 
-**Example:**
+### 3. Cluster Expansion
 
-```sh
-danube-admin-cli brokers --help
+```bash
+# List current brokers
+danube-admin-cli brokers list
+
+# Add new broker (external process)
+# ...
+
+# Activate new broker
+danube-admin-cli brokers activate broker-003 --reason "New broker added"
+
+# Verify
+danube-admin-cli brokers list
+```
+
+## Quick Reference
+
+```bash
+# List all brokers
+danube-admin-cli brokers list
+
+# Get leader
+danube-admin-cli brokers leader
+
+# List namespaces
+danube-admin-cli brokers namespaces
+
+# Unload topics (dry-run)
+danube-admin-cli brokers unload <broker-id> --dry-run
+
+# Unload topics (execute)
+danube-admin-cli brokers unload <broker-id> --max-parallel 5
+
+# Activate broker
+danube-admin-cli brokers activate <broker-id> --reason "Ready"
 ```

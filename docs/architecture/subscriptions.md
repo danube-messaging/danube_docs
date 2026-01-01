@@ -2,7 +2,7 @@
 
 **A Danube subscription** is a named configuration rule that determines how messages are delivered to consumers. It is a lease on a topic established by a group of consumers.
 
-Danube permits multiple producers and subscribers to the same topic. The Subscription Types can be combined to obtain [message queueing or fan-out](Queuing_PubSub_messaging.md) pub-sub messaging patterns.
+Danube permits multiple producers and subscribers to the same topic. The Subscription Types can be combined to obtain [message queueing or fan-out](messaging_patterns_queuing_vs_pubsub.md) pub-sub messaging patterns.
 
 ![Producers  Consumers](img/producers_consumers.png "Producers Consumers")
 
@@ -60,4 +60,3 @@ The **Failover** subscription type allows multiple consumers to attach to the sa
 * `Message Handling`: Failover occurs independently per partition, ensuring continuity and ordering within each partition.
 
 ![Failover Partitioned](img/failover_subscription_partitioned.png "Failover Partitioned")
-

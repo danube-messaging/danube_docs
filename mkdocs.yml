@@ -32,9 +32,13 @@ nav:
                             - Brokers: danube_clis/danube_admin/brokers.md
                             - Namespaces: danube_clis/danube_admin/namespaces.md
                             - Topics: danube_clis/danube_admin/topics.md
+                            - Schema Registry: danube_clis/danube_admin/schema_registry.md
                   - Danube CLI:
+                            - Getting Started: danube_clis/danube_cli/getting_started.md
                             - Producer: danube_clis/danube_cli/producer.md
                             - Consumer: danube_clis/danube_cli/consumer.md
+                            - Schema Registry: danube_clis/danube_cli/schema_registry.md
+
         - Development:
                   - Development Environment: development/dev_environment.md
                   - Metadata Resources: development/internal_resources.md
