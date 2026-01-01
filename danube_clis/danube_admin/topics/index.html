@@ -12,7 +12,7 @@
         <link rel="prev" href="../namespaces/">
       
       
-        <link rel="next" href="../../danube_cli/producer/">
+        <link rel="next" href="../schema_registry/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#danube-admin-topics-commands" class="md-skip">
+        <a href="#topics-management" class="md-skip">
           Skip to content
         </a>
       
@@ -903,6 +903,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#commands" class="md-nav__link">
     <span class="md-ellipsis">
       Commands
@@ -913,54 +922,105 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#danube-admin-cli-topics-list-namespace" class="md-nav__link">
+  <a href="#list-topics" class="md-nav__link">
     <span class="md-ellipsis">
-      danube-admin-cli topics list NAMESPACE
+      List Topics
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#danube-admin-cli-topics-create-topic" class="md-nav__link">
+  <a href="#create-a-topic" class="md-nav__link">
     <span class="md-ellipsis">
-      danube-admin-cli topics create TOPIC
+      Create a Topic
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Create a Topic">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-topic-creation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Topic Creation
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#danube-admin-cli-topics-delete-topic" class="md-nav__link">
+  <a href="#schema-validated-topics" class="md-nav__link">
     <span class="md-ellipsis">
-      danube-admin-cli topics delete TOPIC
+      Schema-Validated Topics
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#danube-admin-cli-topics-subscriptions-topic" class="md-nav__link">
+  <a href="#partitioned-topics" class="md-nav__link">
     <span class="md-ellipsis">
-      danube-admin-cli topics subscriptions TOPIC
+      Partitioned Topics
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#danube-admin-cli-topics-describe-topic" class="md-nav__link">
+  <a href="#options-reference" class="md-nav__link">
     <span class="md-ellipsis">
-      danube-admin-cli topics describe TOPIC
+      Options Reference
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#describe-a-topic" class="md-nav__link">
+    <span class="md-ellipsis">
+      Describe a Topic
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#danube-admin-cli-topics-unsubscribe-subscription-subscription-topic" class="md-nav__link">
+  <a href="#list-subscriptions" class="md-nav__link">
     <span class="md-ellipsis">
-      danube-admin-cli topics unsubscribe --subscription SUBSCRIPTION TOPIC
+      List Subscriptions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-a-topic" class="md-nav__link">
+    <span class="md-ellipsis">
+      Delete a Topic
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unsubscribe" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unsubscribe
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unload-a-topic" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unload a Topic
     </span>
   </a>
   
@@ -972,18 +1032,60 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#error-handling" class="md-nav__link">
+  <a href="#common-workflows" class="md-nav__link">
     <span class="md-ellipsis">
-      Error Handling
+      Common Workflows
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Workflows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-create-topic-with-schema-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Create Topic with Schema Validation
     </span>
   </a>
   
 </li>
+        
+          <li class="md-nav__item">
+  <a href="#2-schema-evolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Schema Evolution
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-multi-environment-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Multi-Environment Deployment
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-topic-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Topic Migration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
+  <a href="#related-commands" class="md-nav__link">
     <span class="md-ellipsis">
-      Examples
+      Related Commands
     </span>
   </a>
   
@@ -993,6 +1095,27 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schema_registry/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Schema Registry
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -1048,6 +1171,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../../danube_cli/getting_started/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Getting Started
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../danube_cli/producer/" class="md-nav__link">
         
   
@@ -1074,6 +1218,27 @@
   
   <span class="md-ellipsis">
     Consumer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../danube_cli/schema_registry/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Schema Registry
   </span>
   
 
@@ -1209,6 +1374,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#commands" class="md-nav__link">
     <span class="md-ellipsis">
       Commands
@@ -1219,54 +1393,105 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#danube-admin-cli-topics-list-namespace" class="md-nav__link">
+  <a href="#list-topics" class="md-nav__link">
     <span class="md-ellipsis">
-      danube-admin-cli topics list NAMESPACE
+      List Topics
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#danube-admin-cli-topics-create-topic" class="md-nav__link">
+  <a href="#create-a-topic" class="md-nav__link">
     <span class="md-ellipsis">
-      danube-admin-cli topics create TOPIC
+      Create a Topic
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Create a Topic">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-topic-creation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Topic Creation
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#danube-admin-cli-topics-delete-topic" class="md-nav__link">
+  <a href="#schema-validated-topics" class="md-nav__link">
     <span class="md-ellipsis">
-      danube-admin-cli topics delete TOPIC
+      Schema-Validated Topics
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#danube-admin-cli-topics-subscriptions-topic" class="md-nav__link">
+  <a href="#partitioned-topics" class="md-nav__link">
     <span class="md-ellipsis">
-      danube-admin-cli topics subscriptions TOPIC
+      Partitioned Topics
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#danube-admin-cli-topics-describe-topic" class="md-nav__link">
+  <a href="#options-reference" class="md-nav__link">
     <span class="md-ellipsis">
-      danube-admin-cli topics describe TOPIC
+      Options Reference
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#describe-a-topic" class="md-nav__link">
+    <span class="md-ellipsis">
+      Describe a Topic
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#danube-admin-cli-topics-unsubscribe-subscription-subscription-topic" class="md-nav__link">
+  <a href="#list-subscriptions" class="md-nav__link">
     <span class="md-ellipsis">
-      danube-admin-cli topics unsubscribe --subscription SUBSCRIPTION TOPIC
+      List Subscriptions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delete-a-topic" class="md-nav__link">
+    <span class="md-ellipsis">
+      Delete a Topic
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unsubscribe" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unsubscribe
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unload-a-topic" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unload a Topic
     </span>
   </a>
   
@@ -1278,18 +1503,60 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#error-handling" class="md-nav__link">
+  <a href="#common-workflows" class="md-nav__link">
     <span class="md-ellipsis">
-      Error Handling
+      Common Workflows
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Workflows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-create-topic-with-schema-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Create Topic with Schema Validation
     </span>
   </a>
   
 </li>
+        
+          <li class="md-nav__item">
+  <a href="#2-schema-evolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Schema Evolution
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-multi-environment-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Multi-Environment Deployment
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-topic-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Topic Migration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
+  <a href="#related-commands" class="md-nav__link">
     <span class="md-ellipsis">
-      Examples
+      Related Commands
     </span>
   </a>
   
@@ -1313,104 +1580,410 @@
   
 
 
-<h1 id="danube-admin-topics-commands">danube-admin: Topics Commands</h1>
-<p>The <code>danube-admin-cli</code> tool provides commands to manage and view information about topics in your Danube cluster. Below is the documentation for the commands related to topics.</p>
+<h1 id="topics-management">Topics Management</h1>
+<p>Create and manage topics in your Danube cluster.</p>
+<h2 id="overview">Overview</h2>
+<p>Topics are the fundamental messaging primitive in Danube. They provide:</p>
+<ul>
+<li>Named channels for publishing and subscribing to messages</li>
+<li>Schema enforcement via Schema Registry</li>
+<li>Partitioning for horizontal scaling</li>
+<li>Reliable or non-reliable delivery modes</li>
+</ul>
 <h2 id="commands">Commands</h2>
-<h3 id="danube-admin-cli-topics-list-namespace"><code>danube-admin-cli topics list NAMESPACE</code></h3>
-<p>Get the list of topics in a specified namespace.</p>
-<p><strong>Usage:</strong></p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>list<span class="w"> </span>NAMESPACE<span class="w"> </span><span class="o">[</span>--output<span class="w"> </span>json<span class="o">]</span>
+<h3 id="list-topics">List Topics</h3>
+<p>View topics in a namespace or on a specific broker.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>list<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </span></code></pre></div>
-<p><strong>Description:</strong></p>
-<p>This command retrieves and displays all topics within a specified namespace. Replace <code>NAMESPACE</code> with the name of the namespace you want to query.</p>
-<p>Use <code>--output json</code> to print JSON instead of plain text.</p>
+<p><strong>By Namespace:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># List all topics in a namespace</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>list<span class="w"> </span>--namespace<span class="w"> </span>default
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># JSON output for automation</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>list<span class="w"> </span>--namespace<span class="w"> </span>default<span class="w"> </span>--output<span class="w"> </span>json
+</span></code></pre></div>
+<p><strong>By Broker:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># List topics on a specific broker</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>list<span class="w"> </span>--broker<span class="w"> </span>broker-001
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># JSON output</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>list<span class="w"> </span>--broker<span class="w"> </span>broker-001<span class="w"> </span>--output<span class="w"> </span>json
+</span></code></pre></div>
+<p><strong>Example Output (Plain Text):</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Topics<span class="w"> </span><span class="k">in</span><span class="w"> </span>namespace<span class="w"> </span><span class="s1">&#39;default&#39;</span>:
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span>/default/user-events
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span>/default/payment-transactions
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span>/default/analytics-stream
+</span></code></pre></div>
+<p><strong>Example Output (JSON):</strong></p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">[</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="s2">&quot;/default/user-events&quot;</span><span class="p">,</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="s2">&quot;/default/payment-transactions&quot;</span><span class="p">,</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span><span class="s2">&quot;/default/analytics-stream&quot;</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="p">]</span>
+</span></code></pre></div>
+<hr />
+<h3 id="create-a-topic">Create a Topic</h3>
+<p>Create a new topic with optional schema validation.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>&lt;TOPIC&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</span></code></pre></div>
+<h4 id="basic-topic-creation">Basic Topic Creation</h4>
+<p><strong>Simple Topic (No Schema):</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Create topic without schema</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>/default/logs
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># Create with reliable delivery</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>/default/events<span class="w"> </span>--dispatch-strategy<span class="w"> </span>reliable
+</span></code></pre></div>
+<p><strong>Using Namespace Flag:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Specify namespace separately</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>my-topic<span class="w"> </span>--namespace<span class="w"> </span>default
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># Equivalent to</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>/default/my-topic
+</span></code></pre></div>
+<h4 id="schema-validated-topics">Schema-Validated Topics</h4>
+<p><strong>With Schema Registry:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># First, register a schema</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>register<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span>--schema-type<span class="w"> </span>json_schema<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span>--file<span class="w"> </span>user-schema.json
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="c1"># Create topic with schema validation</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>/default/user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">  </span>--schema-subject<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">  </span>--dispatch-strategy<span class="w"> </span>reliable
+</span></code></pre></div>
 <p><strong>Example Output:</strong></p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Topic:<span class="w"> </span>topic1
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Topic:<span class="w"> </span>topic2
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>Topic:<span class="w"> </span>topic3
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>✅ Topic created: /default/user-events
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>   Schema subject: user-events
 </span></code></pre></div>
-<h3 id="danube-admin-cli-topics-create-topic"><code>danube-admin-cli topics create TOPIC</code></h3>
-<p>Create a topic (non‑partitioned or partitioned). You can also set schema and dispatch strategy.</p>
-<p><strong>Usage:</strong></p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>TOPIC<span class="w"> </span><span class="o">[</span>--namespace<span class="w"> </span>NS<span class="o">]</span><span class="w"> </span><span class="o">[</span>--partitions<span class="w"> </span>N<span class="o">]</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="o">[</span>-s,<span class="w"> </span>--schema<span class="w"> </span>String<span class="p">|</span>Bytes<span class="p">|</span>Int64<span class="p">|</span>Json<span class="o">]</span><span class="w"> </span><span class="o">[</span>--schema-file<span class="w"> </span>PATH<span class="w"> </span><span class="p">|</span><span class="w"> </span>--schema-data<span class="w"> </span>JSON<span class="o">]</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="o">[</span>--dispatch-strategy<span class="w"> </span>non_reliable<span class="p">|</span>reliable<span class="o">]</span>
+<h4 id="partitioned-topics">Partitioned Topics</h4>
+<p><strong>Create with Partitions:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Create partitioned topic (3 partitions)</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>/default/high-throughput<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">  </span>--partitions<span class="w"> </span><span class="m">3</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="c1"># With schema and partitions</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>/default/user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">  </span>--partitions<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">  </span>--schema-subject<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">  </span>--dispatch-strategy<span class="w"> </span>reliable
 </span></code></pre></div>
-<p><strong>Description:</strong></p>
-<p>This command creates a new topic. <code>TOPIC</code> accepts either <code>/namespace/topic</code> or <code>topic</code> (when <code>--namespace</code> is provided). Use <code>--partitions</code> to create a partitioned topic. For <code>Json</code> schema, provide the schema via <code>--schema-file</code> or <code>--schema-data</code>.</p>
 <p><strong>Example Output:</strong></p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Topic<span class="w"> </span>Created:<span class="w"> </span><span class="nb">true</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>✅<span class="w"> </span>Partitioned<span class="w"> </span>topic<span class="w"> </span>created:<span class="w"> </span>/default/high-throughput
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">   </span>Schema<span class="w"> </span>subject:<span class="w"> </span>user-events
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">   </span>Partitions:<span class="w"> </span><span class="m">5</span>
 </span></code></pre></div>
-<h3 id="danube-admin-cli-topics-delete-topic"><code>danube-admin-cli topics delete TOPIC</code></h3>
-<p>Delete a specified topic.</p>
-<p><strong>Usage:</strong></p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>delete<span class="w"> </span>TOPIC<span class="w"> </span><span class="o">[</span>--namespace<span class="w"> </span>NS<span class="o">]</span>
+<p><strong>Partitioning Guidelines:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Throughput</th>
+<th>Recommended Partitions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Low (&lt; 1K msg/s)</td>
+<td>1 (non-partitioned)</td>
+</tr>
+<tr>
+<td>Medium (1K-10K msg/s)</td>
+<td>3-5</td>
+</tr>
+<tr>
+<td>High (10K-100K msg/s)</td>
+<td>10-20</td>
+</tr>
+<tr>
+<td>Very High (&gt; 100K msg/s)</td>
+<td>50+</td>
+</tr>
+</tbody>
+</table>
+<h4 id="options-reference">Options Reference</h4>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Description</th>
+<th>Default</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--namespace</code></td>
+<td>Namespace (if not in topic path)</td>
+<td>-</td>
+<td><code>--namespace default</code></td>
+</tr>
+<tr>
+<td><code>--partitions</code></td>
+<td>Number of partitions</td>
+<td>1</td>
+<td><code>--partitions 3</code></td>
+</tr>
+<tr>
+<td><code>--schema-subject</code></td>
+<td>Schema subject from registry</td>
+<td>None</td>
+<td><code>--schema-subject user-events</code></td>
+</tr>
+<tr>
+<td><code>--dispatch-strategy</code></td>
+<td>Delivery mode</td>
+<td><code>non_reliable</code></td>
+<td><code>--dispatch-strategy reliable</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Dispatch Strategies:</strong></p>
+<ul>
+<li><strong>non_reliable</strong>: Fast, at-most-once delivery (fire-and-forget)</li>
+<li>Use for: Logs, metrics, non-critical events</li>
+<li>Pros: Low latency, high throughput</li>
+<li>
+<p>Cons: Messages may be lost</p>
+</li>
+<li>
+<p><strong>reliable</strong>: Slower, at-least-once delivery (with acknowledgments)</p>
+</li>
+<li>Use for: Transactions, orders, critical events</li>
+<li>Pros: Guaranteed delivery</li>
+<li>Cons: Higher latency</li>
+</ul>
+<hr />
+<h3 id="describe-a-topic">Describe a Topic</h3>
+<p>View detailed information about a topic including schema and subscriptions.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>describe<span class="w"> </span>&lt;TOPIC&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </span></code></pre></div>
-<p><strong>Description:</strong></p>
-<p>This command deletes the specified topic. <code>TOPIC</code> accepts <code>/namespace/topic</code> or <code>topic</code> with <code>--namespace</code>.</p>
+<p><strong>Basic Usage:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>describe<span class="w"> </span>/default/user-events
+</span></code></pre></div>
+<p><strong>Output Formats:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Plain text (default) - human-readable</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>describe<span class="w"> </span>/default/user-events
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># JSON format - for automation</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>describe<span class="w"> </span>/default/user-events<span class="w"> </span>--output<span class="w"> </span>json
+</span></code></pre></div>
+<p><strong>Example Output (Plain Text):</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>Topic:<span class="w"> </span>/default/user-events
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>Broker<span class="w"> </span>ID:<span class="w"> </span>broker-001
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>Delivery:<span class="w"> </span>Reliable
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>📋<span class="w"> </span>Schema<span class="w"> </span>Registry:
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="w">  </span>Subject:<span class="w"> </span>user-events
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="w">  </span>Schema<span class="w"> </span>ID:<span class="w"> </span><span class="m">12345</span>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="w">  </span>Version:<span class="w"> </span><span class="m">2</span>
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="w">  </span>Type:<span class="w"> </span>json_schema
+</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="w">  </span>Compatibility:<span class="w"> </span>BACKWARD
+</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>
+</span><span id="__span-15-12"><a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a>Subscriptions:<span class="w"> </span><span class="o">[</span><span class="s2">&quot;analytics-consumer&quot;</span>,<span class="w"> </span><span class="s2">&quot;audit-logger&quot;</span><span class="o">]</span>
+</span></code></pre></div>
+<p><strong>Example Output (JSON):</strong></p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="p">{</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">  </span><span class="nt">&quot;topic&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/default/user-events&quot;</span><span class="p">,</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">  </span><span class="nt">&quot;broker_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;broker-001&quot;</span><span class="p">,</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="w">  </span><span class="nt">&quot;delivery&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Reliable&quot;</span><span class="p">,</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="w">  </span><span class="nt">&quot;schema_subject&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;user-events&quot;</span><span class="p">,</span>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="w">  </span><span class="nt">&quot;schema_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">12345</span><span class="p">,</span>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="w">  </span><span class="nt">&quot;schema_version&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="w">  </span><span class="nt">&quot;schema_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;json_schema&quot;</span><span class="p">,</span>
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="w">  </span><span class="nt">&quot;compatibility_mode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BACKWARD&quot;</span><span class="p">,</span>
+</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="w">  </span><span class="nt">&quot;subscriptions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a><span class="w">    </span><span class="s2">&quot;analytics-consumer&quot;</span><span class="p">,</span>
+</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a><span class="w">    </span><span class="s2">&quot;audit-logger&quot;</span>
+</span><span id="__span-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a><span class="w">  </span><span class="p">]</span>
+</span><span id="__span-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a><span class="p">}</span>
+</span></code></pre></div>
+<p><strong>Without Schema:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>Topic:<span class="w"> </span>/default/logs
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>Broker<span class="w"> </span>ID:<span class="w"> </span>broker-002
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>Delivery:<span class="w"> </span>NonReliable
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>📋<span class="w"> </span>Schema:<span class="w"> </span>None
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>Subscriptions:<span class="w"> </span><span class="o">[]</span>
+</span></code></pre></div>
+<hr />
+<h3 id="list-subscriptions">List Subscriptions</h3>
+<p>View all active subscriptions for a topic.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>subscriptions<span class="w"> </span>&lt;TOPIC&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</span></code></pre></div>
+<p><strong>Basic Usage:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>subscriptions<span class="w"> </span>/default/user-events
+</span></code></pre></div>
+<p><strong>Output Formats:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># Plain text</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>subscriptions<span class="w"> </span>/default/user-events
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="c1"># JSON format</span>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>subscriptions<span class="w"> </span>/default/user-events<span class="w"> </span>--output<span class="w"> </span>json
+</span></code></pre></div>
 <p><strong>Example Output:</strong></p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Topic<span class="w"> </span>Deleted:<span class="w"> </span><span class="nb">true</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>Subscriptions:<span class="w"> </span><span class="o">[</span><span class="s2">&quot;consumer-1&quot;</span>,<span class="w"> </span><span class="s2">&quot;consumer-2&quot;</span>,<span class="w"> </span><span class="s2">&quot;analytics-team&quot;</span><span class="o">]</span>
 </span></code></pre></div>
-<h3 id="danube-admin-cli-topics-subscriptions-topic"><code>danube-admin-cli topics subscriptions TOPIC</code></h3>
-<p>Get the list of subscriptions on a specified topic.</p>
-<p><strong>Usage:</strong></p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>subscriptions<span class="w"> </span>TOPIC<span class="w"> </span><span class="o">[</span>--namespace<span class="w"> </span>NS<span class="o">]</span><span class="w"> </span><span class="o">[</span>--output<span class="w"> </span>json<span class="o">]</span>
+<hr />
+<h3 id="delete-a-topic">Delete a Topic</h3>
+<p>Permanently remove a topic and all its messages.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>delete<span class="w"> </span>&lt;TOPIC&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </span></code></pre></div>
-<p><strong>Description:</strong></p>
-<p>This command retrieves and displays all subscriptions associated with a specified topic. <code>TOPIC</code> accepts <code>/namespace/topic</code> or <code>topic</code> with <code>--namespace</code>. Use <code>--output json</code> for JSON output.</p>
+<p><strong>Basic Usage:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>delete<span class="w"> </span>/default/old-topic
+</span></code></pre></div>
+<p><strong>With Namespace:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>delete<span class="w"> </span>old-topic<span class="w"> </span>--namespace<span class="w"> </span>default
+</span></code></pre></div>
 <p><strong>Example Output:</strong></p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Subscriptions:<span class="w"> </span><span class="o">[</span>subscription1,<span class="w"> </span>subscription2<span class="o">]</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>✅<span class="w"> </span>Topic<span class="w"> </span>deleted:<span class="w"> </span>/default/old-topic
 </span></code></pre></div>
-<h3 id="danube-admin-cli-topics-describe-topic"><code>danube-admin-cli topics describe TOPIC</code></h3>
-<p>Describe a topic: schema and subscriptions.</p>
-<p><strong>Usage:</strong></p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>describe<span class="w"> </span>TOPIC<span class="w"> </span><span class="o">[</span>--namespace<span class="w"> </span>NS<span class="o">]</span><span class="w"> </span><span class="o">[</span>--output<span class="w"> </span>json<span class="o">]</span>
+<p><strong>⚠️ Important Warnings:</strong></p>
+<ol>
+<li><strong>Data Loss</strong>: All messages in the topic are permanently deleted</li>
+<li><strong>No Confirmation</strong>: Operation is immediate and irreversible</li>
+<li><strong>Active Subscriptions</strong>: All consumers will be disconnected</li>
+<li><strong>Schema Intact</strong>: The schema in the registry is NOT deleted</li>
+</ol>
+<p><strong>Safety Checklist:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="c1"># 1. Check subscriptions</span>
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>subscriptions<span class="w"> </span>/default/my-topic
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>
+</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="c1"># 2. Verify topic details</span>
+</span><span id="__span-26-5"><a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>describe<span class="w"> </span>/default/my-topic
+</span><span id="__span-26-6"><a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a>
+</span><span id="__span-26-7"><a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a><span class="c1"># 3. Backup if needed (application-level)</span>
+</span><span id="__span-26-8"><a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a>
+</span><span id="__span-26-9"><a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a><span class="c1"># 4. Delete topic</span>
+</span><span id="__span-26-10"><a id="__codelineno-26-10" name="__codelineno-26-10" href="#__codelineno-26-10"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>delete<span class="w"> </span>/default/my-topic
 </span></code></pre></div>
-<p><strong>Description:</strong></p>
-<p>Shows topic name, schema (pretty-printed when JSON), and subscriptions. <code>TOPIC</code> accepts <code>/namespace/topic</code> or <code>topic</code> with <code>--namespace</code>.</p>
-<h3 id="danube-admin-cli-topics-unsubscribe-subscription-subscription-topic"><code>danube-admin-cli topics unsubscribe --subscription SUBSCRIPTION TOPIC</code></h3>
-<p>Delete a subscription from a topic.</p>
-<p><strong>Usage:</strong></p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>unsubscribe<span class="w"> </span>--subscription<span class="w"> </span>SUBSCRIPTION<span class="w"> </span>TOPIC<span class="w"> </span><span class="o">[</span>--namespace<span class="w"> </span>NS<span class="o">]</span>
+<hr />
+<h3 id="unsubscribe">Unsubscribe</h3>
+<p>Remove a specific subscription from a topic.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>unsubscribe<span class="w"> </span>&lt;TOPIC&gt;<span class="w"> </span>--subscription<span class="w"> </span>&lt;NAME&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </span></code></pre></div>
-<p><strong>Description:</strong></p>
-<p>This command deletes a subscription from a specified topic. <code>TOPIC</code> accepts <code>/namespace/topic</code> or <code>topic</code> with <code>--namespace</code>.</p>
+<p><strong>Basic Usage:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>unsubscribe<span class="w"> </span>/default/user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="w">  </span>--subscription<span class="w"> </span>old-consumer
+</span></code></pre></div>
+<p><strong>With Namespace:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>unsubscribe<span class="w"> </span>my-topic<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="w">  </span>--namespace<span class="w"> </span>default<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a><span class="w">  </span>--subscription<span class="w"> </span>old-consumer
+</span></code></pre></div>
 <p><strong>Example Output:</strong></p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>Unsubscribed:<span class="w"> </span><span class="nb">true</span>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>✅ Unsubscribed: true
 </span></code></pre></div>
-<h2 id="error-handling">Error Handling</h2>
-<p>If there is an issue with connecting to the cluster or processing the request, the CLI will output an error message. Ensure your Danube cluster is running and accessible, and check your network connectivity.</p>
-<h2 id="examples">Examples</h2>
-<p>Here are a few example commands for quick reference:</p>
+<p><strong>Use Cases:</strong></p>
 <ul>
-<li>List topics in a namespace:</li>
+<li>Remove inactive consumers</li>
+<li>Clean up test subscriptions</li>
+<li>Force consumer reconnection</li>
 </ul>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>list<span class="w"> </span>my-namespace<span class="w"> </span>--output<span class="w"> </span>json
+<hr />
+<h3 id="unload-a-topic">Unload a Topic</h3>
+<p>Gracefully unload a topic from its current broker.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>unload<span class="w"> </span>&lt;TOPIC&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </span></code></pre></div>
+<p><strong>Basic Usage:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>unload<span class="w"> </span>/default/user-events
+</span></code></pre></div>
+<p><strong>Example Output:</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>✅ Topic unloaded: /default/user-events
+</span></code></pre></div>
+<p><strong>Use Cases:</strong></p>
 <ul>
-<li>Create a topic:</li>
+<li>Rebalance topics across brokers</li>
+<li>Prepare for broker maintenance</li>
+<li>Move topic to different broker</li>
 </ul>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>/default/my-topic<span class="w"> </span>--dispatch-strategy<span class="w"> </span>reliable
+<h2 id="common-workflows">Common Workflows</h2>
+<h3 id="1-create-topic-with-schema-validation">1. Create Topic with Schema Validation</h3>
+<p><strong>Step-by-step:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="c1"># Step 1: Register schema</span>
+</span><span id="__span-34-2"><a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>register<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-34-3"><a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a><span class="w">  </span>--schema-type<span class="w"> </span>json_schema<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-34-4"><a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a><span class="w">  </span>--file<span class="w"> </span>schemas/user-events.json<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-34-5"><a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a><span class="w">  </span>--description<span class="w"> </span><span class="s2">&quot;User event schema&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-34-6"><a id="__codelineno-34-6" name="__codelineno-34-6" href="#__codelineno-34-6"></a><span class="w">  </span>--tags<span class="w"> </span>users<span class="w"> </span>analytics
+</span><span id="__span-34-7"><a id="__codelineno-34-7" name="__codelineno-34-7" href="#__codelineno-34-7"></a>
+</span><span id="__span-34-8"><a id="__codelineno-34-8" name="__codelineno-34-8" href="#__codelineno-34-8"></a><span class="c1"># Step 2: Verify schema</span>
+</span><span id="__span-34-9"><a id="__codelineno-34-9" name="__codelineno-34-9" href="#__codelineno-34-9"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>get<span class="w"> </span>--subject<span class="w"> </span>user-events
+</span><span id="__span-34-10"><a id="__codelineno-34-10" name="__codelineno-34-10" href="#__codelineno-34-10"></a>
+</span><span id="__span-34-11"><a id="__codelineno-34-11" name="__codelineno-34-11" href="#__codelineno-34-11"></a><span class="c1"># Step 3: Create topic</span>
+</span><span id="__span-34-12"><a id="__codelineno-34-12" name="__codelineno-34-12" href="#__codelineno-34-12"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>/production/user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-34-13"><a id="__codelineno-34-13" name="__codelineno-34-13" href="#__codelineno-34-13"></a><span class="w">  </span>--schema-subject<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-34-14"><a id="__codelineno-34-14" name="__codelineno-34-14" href="#__codelineno-34-14"></a><span class="w">  </span>--dispatch-strategy<span class="w"> </span>reliable<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-34-15"><a id="__codelineno-34-15" name="__codelineno-34-15" href="#__codelineno-34-15"></a><span class="w">  </span>--partitions<span class="w"> </span><span class="m">5</span>
+</span><span id="__span-34-16"><a id="__codelineno-34-16" name="__codelineno-34-16" href="#__codelineno-34-16"></a>
+</span><span id="__span-34-17"><a id="__codelineno-34-17" name="__codelineno-34-17" href="#__codelineno-34-17"></a><span class="c1"># Step 4: Verify topic</span>
+</span><span id="__span-34-18"><a id="__codelineno-34-18" name="__codelineno-34-18" href="#__codelineno-34-18"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>describe<span class="w"> </span>/production/user-events
 </span></code></pre></div>
+<h3 id="2-schema-evolution">2. Schema Evolution</h3>
+<p><strong>Update schema for existing topic:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="c1"># Step 1: Check current compatibility mode</span>
+</span><span id="__span-35-2"><a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>get<span class="w"> </span>--subject<span class="w"> </span>user-events
+</span><span id="__span-35-3"><a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a>
+</span><span id="__span-35-4"><a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a><span class="c1"># Step 2: Test new schema compatibility</span>
+</span><span id="__span-35-5"><a id="__codelineno-35-5" name="__codelineno-35-5" href="#__codelineno-35-5"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>check<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-35-6"><a id="__codelineno-35-6" name="__codelineno-35-6" href="#__codelineno-35-6"></a><span class="w">  </span>--file<span class="w"> </span>schemas/user-events-v2.json<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-35-7"><a id="__codelineno-35-7" name="__codelineno-35-7" href="#__codelineno-35-7"></a><span class="w">  </span>--schema-type<span class="w"> </span>json_schema
+</span><span id="__span-35-8"><a id="__codelineno-35-8" name="__codelineno-35-8" href="#__codelineno-35-8"></a>
+</span><span id="__span-35-9"><a id="__codelineno-35-9" name="__codelineno-35-9" href="#__codelineno-35-9"></a><span class="c1"># Step 3: If compatible, register new version</span>
+</span><span id="__span-35-10"><a id="__codelineno-35-10" name="__codelineno-35-10" href="#__codelineno-35-10"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>register<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-35-11"><a id="__codelineno-35-11" name="__codelineno-35-11" href="#__codelineno-35-11"></a><span class="w">  </span>--schema-type<span class="w"> </span>json_schema<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-35-12"><a id="__codelineno-35-12" name="__codelineno-35-12" href="#__codelineno-35-12"></a><span class="w">  </span>--file<span class="w"> </span>schemas/user-events-v2.json<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-35-13"><a id="__codelineno-35-13" name="__codelineno-35-13" href="#__codelineno-35-13"></a><span class="w">  </span>--description<span class="w"> </span><span class="s2">&quot;Added email field&quot;</span>
+</span><span id="__span-35-14"><a id="__codelineno-35-14" name="__codelineno-35-14" href="#__codelineno-35-14"></a>
+</span><span id="__span-35-15"><a id="__codelineno-35-15" name="__codelineno-35-15" href="#__codelineno-35-15"></a><span class="c1"># Step 4: Verify topic picked up new version</span>
+</span><span id="__span-35-16"><a id="__codelineno-35-16" name="__codelineno-35-16" href="#__codelineno-35-16"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>describe<span class="w"> </span>/production/user-events
+</span></code></pre></div>
+<h3 id="3-multi-environment-deployment">3. Multi-Environment Deployment</h3>
+<p><strong>Create same topics across environments:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="c1"># Production</span>
+</span><span id="__span-36-2"><a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>/production/user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-36-3"><a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a><span class="w">  </span>--schema-subject<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-36-4"><a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a><span class="w">  </span>--dispatch-strategy<span class="w"> </span>reliable<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-36-5"><a id="__codelineno-36-5" name="__codelineno-36-5" href="#__codelineno-36-5"></a><span class="w">  </span>--partitions<span class="w"> </span><span class="m">10</span>
+</span><span id="__span-36-6"><a id="__codelineno-36-6" name="__codelineno-36-6" href="#__codelineno-36-6"></a>
+</span><span id="__span-36-7"><a id="__codelineno-36-7" name="__codelineno-36-7" href="#__codelineno-36-7"></a><span class="c1"># Staging</span>
+</span><span id="__span-36-8"><a id="__codelineno-36-8" name="__codelineno-36-8" href="#__codelineno-36-8"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>/staging/user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-36-9"><a id="__codelineno-36-9" name="__codelineno-36-9" href="#__codelineno-36-9"></a><span class="w">  </span>--schema-subject<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-36-10"><a id="__codelineno-36-10" name="__codelineno-36-10" href="#__codelineno-36-10"></a><span class="w">  </span>--dispatch-strategy<span class="w"> </span>reliable<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-36-11"><a id="__codelineno-36-11" name="__codelineno-36-11" href="#__codelineno-36-11"></a><span class="w">  </span>--partitions<span class="w"> </span><span class="m">3</span>
+</span><span id="__span-36-12"><a id="__codelineno-36-12" name="__codelineno-36-12" href="#__codelineno-36-12"></a>
+</span><span id="__span-36-13"><a id="__codelineno-36-13" name="__codelineno-36-13" href="#__codelineno-36-13"></a><span class="c1"># Development</span>
+</span><span id="__span-36-14"><a id="__codelineno-36-14" name="__codelineno-36-14" href="#__codelineno-36-14"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>/development/user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-36-15"><a id="__codelineno-36-15" name="__codelineno-36-15" href="#__codelineno-36-15"></a><span class="w">  </span>--schema-subject<span class="w"> </span>user-events-dev<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-36-16"><a id="__codelineno-36-16" name="__codelineno-36-16" href="#__codelineno-36-16"></a><span class="w">  </span>--partitions<span class="w"> </span><span class="m">1</span>
+</span></code></pre></div>
+<h3 id="4-topic-migration">4. Topic Migration</h3>
+<p><strong>Move topic to new namespace:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="c1"># Step 1: Create new namespace</span>
+</span><span id="__span-37-2"><a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>new-namespace
+</span><span id="__span-37-3"><a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a>
+</span><span id="__span-37-4"><a id="__codelineno-37-4" name="__codelineno-37-4" href="#__codelineno-37-4"></a><span class="c1"># Step 2: Get old topic schema</span>
+</span><span id="__span-37-5"><a id="__codelineno-37-5" name="__codelineno-37-5" href="#__codelineno-37-5"></a><span class="nv">OLD_SCHEMA</span><span class="o">=</span><span class="k">$(</span>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>describe<span class="w"> </span>/old/topic<span class="w"> </span>--output<span class="w"> </span>json<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.schema_subject&#39;</span><span class="k">)</span>
+</span><span id="__span-37-6"><a id="__codelineno-37-6" name="__codelineno-37-6" href="#__codelineno-37-6"></a>
+</span><span id="__span-37-7"><a id="__codelineno-37-7" name="__codelineno-37-7" href="#__codelineno-37-7"></a><span class="c1"># Step 3: Create new topic with same schema</span>
+</span><span id="__span-37-8"><a id="__codelineno-37-8" name="__codelineno-37-8" href="#__codelineno-37-8"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>/new-namespace/topic<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-37-9"><a id="__codelineno-37-9" name="__codelineno-37-9" href="#__codelineno-37-9"></a><span class="w">  </span>--schema-subject<span class="w"> </span><span class="nv">$OLD_SCHEMA</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-37-10"><a id="__codelineno-37-10" name="__codelineno-37-10" href="#__codelineno-37-10"></a><span class="w">  </span>--dispatch-strategy<span class="w"> </span>reliable
+</span><span id="__span-37-11"><a id="__codelineno-37-11" name="__codelineno-37-11" href="#__codelineno-37-11"></a>
+</span><span id="__span-37-12"><a id="__codelineno-37-12" name="__codelineno-37-12" href="#__codelineno-37-12"></a><span class="c1"># Step 4: Migrate consumers (application-level)</span>
+</span><span id="__span-37-13"><a id="__codelineno-37-13" name="__codelineno-37-13" href="#__codelineno-37-13"></a>
+</span><span id="__span-37-14"><a id="__codelineno-37-14" name="__codelineno-37-14" href="#__codelineno-37-14"></a><span class="c1"># Step 5: Delete old topic</span>
+</span><span id="__span-37-15"><a id="__codelineno-37-15" name="__codelineno-37-15" href="#__codelineno-37-15"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>delete<span class="w"> </span>/old/topic
+</span></code></pre></div>
+<h2 id="related-commands">Related Commands</h2>
 <ul>
-<li>Delete a topic:</li>
+<li><code>danube-admin-cli schemas register</code> - Register schemas for validation</li>
+<li><code>danube-admin-cli schemas get</code> - View schema details</li>
+<li><code>danube-admin-cli namespaces create</code> - Create namespaces for topics</li>
+<li><code>danube-admin-cli brokers list</code> - View broker topology</li>
 </ul>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>delete<span class="w"> </span>my-topic<span class="w"> </span>--namespace<span class="w"> </span>default
-</span></code></pre></div>
-<ul>
-<li>Unsubscribe from a topic:</li>
-</ul>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>unsubscribe<span class="w"> </span>--subscription<span class="w"> </span>my-subscription<span class="w"> </span>my-topic<span class="w"> </span>--namespace<span class="w"> </span>default
-</span></code></pre></div>
-<ul>
-<li>List subscriptions for a topic:</li>
-</ul>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>subscriptions<span class="w"> </span>my-topic<span class="w"> </span>--namespace<span class="w"> </span>default<span class="w"> </span>--output<span class="w"> </span>json
-</span></code></pre></div>
-<p>For more detailed information or help with the <code>danube-admin-cli</code>, you can use the <code>--help</code> flag with any command.</p>
-<p><strong>Example:</strong></p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>--help
-</span></code></pre></div>
 
 
 

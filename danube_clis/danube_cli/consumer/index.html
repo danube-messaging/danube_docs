@@ -12,7 +12,7 @@
         <link rel="prev" href="../producer/">
       
       
-        <link rel="next" href="../../../development/dev_environment/">
+        <link rel="next" href="../schema_registry/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#danube-pubsub-cli-consume-messages" class="md-skip">
+        <a href="#consumer-guide" class="md-skip">
           Skip to content
         </a>
       
@@ -869,6 +869,27 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../danube_admin/schema_registry/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Schema Registry
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -913,6 +934,27 @@
             Danube CLI
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting_started/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Getting Started
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -988,6 +1030,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      Table of Contents
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#basic-usage" class="md-nav__link">
     <span class="md-ellipsis">
       Basic Usage
@@ -998,18 +1049,231 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#required-arguments" class="md-nav__link">
+  <a href="#simple-consumption" class="md-nav__link">
     <span class="md-ellipsis">
-      Required Arguments
+      Simple Consumption
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#optional-arguments" class="md-nav__link">
+  <a href="#custom-topic" class="md-nav__link">
     <span class="md-ellipsis">
-      Optional Arguments
+      Custom Topic
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-short-flags" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Short Flags
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-consumer-name" class="md-nav__link">
+    <span class="md-ellipsis">
+      Custom Consumer Name
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#subscription-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Subscription Types
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Subscription Types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#shared-default" class="md-nav__link">
+    <span class="md-ellipsis">
+      Shared (Default)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exclusive" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exclusive
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#failover" class="md-nav__link">
+    <span class="md-ellipsis">
+      Failover
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#schema-based-consumption" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schema-Based Consumption
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Schema-Based Consumption">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#auto-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Auto-Detection
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#without-schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      Without Schema
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schema-evolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schema Evolution
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Advanced Patterns
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Advanced Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fan-out-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fan-Out Pattern
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#worker-pool-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      Worker Pool Pattern
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multi-stage-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multi-Stage Pipeline
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Practical Examples
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Practical Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#e-commerce-order-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      E-Commerce Order Processing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#real-time-analytics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Real-Time Analytics
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#event-driven-microservices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Event-Driven Microservices
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#iot-data-collection" class="md-nav__link">
+    <span class="md-ellipsis">
+      IoT Data Collection
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#log-aggregation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Log Aggregation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#notification-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notification Service
     </span>
   </a>
   
@@ -1031,27 +1295,36 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#standard-messages" class="md-nav__link">
+  <a href="#text-messages" class="md-nav__link">
     <span class="md-ellipsis">
-      Standard Messages
+      Text Messages
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#reliable-messages" class="md-nav__link">
+  <a href="#json-messages" class="md-nav__link">
     <span class="md-ellipsis">
-      Reliable messages
+      JSON Messages
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#features" class="md-nav__link">
+  <a href="#binary-data" class="md-nav__link">
     <span class="md-ellipsis">
-      Features
+      Binary Data
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-schema-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      With Schema Validation
     </span>
   </a>
   
@@ -1063,46 +1336,28 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
+  <a href="#command-reference" class="md-nav__link">
     <span class="md-ellipsis">
-      Examples
+      Command Reference
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Examples">
+    <nav class="md-nav" aria-label="Command Reference">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#shared-subscription-default" class="md-nav__link">
+  <a href="#all-consumer-flags" class="md-nav__link">
     <span class="md-ellipsis">
-      Shared Subscription (Default)
+      All Consumer Flags
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#exclusive-subscription" class="md-nav__link">
+  <a href="#subscription-types_1" class="md-nav__link">
     <span class="md-ellipsis">
-      Exclusive Subscription
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#custom-consumer-name" class="md-nav__link">
-    <span class="md-ellipsis">
-      Custom Consumer Name
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#specific-topic" class="md-nav__link">
-    <span class="md-ellipsis">
-      Specific Topic
+      Subscription Types
     </span>
   </a>
   
@@ -1114,11 +1369,35 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#notes" class="md-nav__link">
+  <a href="#scripting-with-consumers" class="md-nav__link">
     <span class="md-ellipsis">
-      Notes
+      Scripting with Consumers
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Scripting with Consumers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-shell-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Shell Script
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filter-messages" class="md-nav__link">
+    <span class="md-ellipsis">
+      Filter Messages
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1126,6 +1405,27 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schema_registry/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Schema Registry
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -1257,6 +1557,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      Table of Contents
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#basic-usage" class="md-nav__link">
     <span class="md-ellipsis">
       Basic Usage
@@ -1267,18 +1576,231 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#required-arguments" class="md-nav__link">
+  <a href="#simple-consumption" class="md-nav__link">
     <span class="md-ellipsis">
-      Required Arguments
+      Simple Consumption
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#optional-arguments" class="md-nav__link">
+  <a href="#custom-topic" class="md-nav__link">
     <span class="md-ellipsis">
-      Optional Arguments
+      Custom Topic
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-short-flags" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Short Flags
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-consumer-name" class="md-nav__link">
+    <span class="md-ellipsis">
+      Custom Consumer Name
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#subscription-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Subscription Types
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Subscription Types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#shared-default" class="md-nav__link">
+    <span class="md-ellipsis">
+      Shared (Default)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exclusive" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exclusive
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#failover" class="md-nav__link">
+    <span class="md-ellipsis">
+      Failover
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#schema-based-consumption" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schema-Based Consumption
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Schema-Based Consumption">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#auto-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Auto-Detection
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#without-schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      Without Schema
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schema-evolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schema Evolution
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Advanced Patterns
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Advanced Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fan-out-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fan-Out Pattern
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#worker-pool-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      Worker Pool Pattern
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multi-stage-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multi-Stage Pipeline
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Practical Examples
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Practical Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#e-commerce-order-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      E-Commerce Order Processing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#real-time-analytics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Real-Time Analytics
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#event-driven-microservices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Event-Driven Microservices
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#iot-data-collection" class="md-nav__link">
+    <span class="md-ellipsis">
+      IoT Data Collection
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#log-aggregation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Log Aggregation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#notification-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      Notification Service
     </span>
   </a>
   
@@ -1300,27 +1822,36 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#standard-messages" class="md-nav__link">
+  <a href="#text-messages" class="md-nav__link">
     <span class="md-ellipsis">
-      Standard Messages
+      Text Messages
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#reliable-messages" class="md-nav__link">
+  <a href="#json-messages" class="md-nav__link">
     <span class="md-ellipsis">
-      Reliable messages
+      JSON Messages
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#features" class="md-nav__link">
+  <a href="#binary-data" class="md-nav__link">
     <span class="md-ellipsis">
-      Features
+      Binary Data
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-schema-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      With Schema Validation
     </span>
   </a>
   
@@ -1332,46 +1863,28 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
+  <a href="#command-reference" class="md-nav__link">
     <span class="md-ellipsis">
-      Examples
+      Command Reference
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Examples">
+    <nav class="md-nav" aria-label="Command Reference">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#shared-subscription-default" class="md-nav__link">
+  <a href="#all-consumer-flags" class="md-nav__link">
     <span class="md-ellipsis">
-      Shared Subscription (Default)
+      All Consumer Flags
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#exclusive-subscription" class="md-nav__link">
+  <a href="#subscription-types_1" class="md-nav__link">
     <span class="md-ellipsis">
-      Exclusive Subscription
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#custom-consumer-name" class="md-nav__link">
-    <span class="md-ellipsis">
-      Custom Consumer Name
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#specific-topic" class="md-nav__link">
-    <span class="md-ellipsis">
-      Specific Topic
+      Subscription Types
     </span>
   </a>
   
@@ -1383,11 +1896,35 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#notes" class="md-nav__link">
+  <a href="#scripting-with-consumers" class="md-nav__link">
     <span class="md-ellipsis">
-      Notes
+      Scripting with Consumers
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Scripting with Consumers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-shell-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Shell Script
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#filter-messages" class="md-nav__link">
+    <span class="md-ellipsis">
+      Filter Messages
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1409,84 +1946,342 @@
   
 
 
-<h1 id="danube-pubsub-cli-consume-messages">Danube-Pubsub CLI - Consume messages</h1>
-<p>The <code>consume</code> command subscribes to a topic and receives messages with support for different subscription types, schema validation, and message attributes tracking.</p>
+<h1 id="consumer-guide">Consumer Guide</h1>
+<p>Learn how to consume messages from Danube topics. 📥</p>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ul>
+<li><a href="#basic-usage">Basic Usage</a></li>
+<li><a href="#subscription-types">Subscription Types</a></li>
+<li><a href="#schema-based-consumption">Schema-Based Consumption</a></li>
+<li><a href="#advanced-patterns">Advanced Patterns</a></li>
+<li><a href="#practical-examples">Practical Examples</a></li>
+</ul>
 <h2 id="basic-usage">Basic Usage</h2>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>--service-addr<span class="w"> </span>&lt;SERVICE_ADDR&gt;<span class="w"> </span>--subscription<span class="w"> </span>&lt;SUBSCRIPTION&gt;
+<h3 id="simple-consumption">Simple Consumption</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span>--service-addr<span class="w"> </span>http://localhost:6650<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span>--subscription<span class="w"> </span>my-subscription
 </span></code></pre></div>
-<h3 id="required-arguments">Required Arguments</h3>
-<ul>
-<li>
-<p><code>-s, --service-addr &lt;SERVICE_ADDR&gt;</code>
-  The service URL for the Danube broker (e.g., <code>http://127.0.0.1:6650</code>)</p>
-</li>
-<li>
-<p><code>-m, --subscription &lt;SUBSCRIPTION&gt;</code>
-  The subscription name to use for consuming messages</p>
-</li>
-</ul>
-<h3 id="optional-arguments">Optional Arguments</h3>
-<ul>
-<li>
-<p><code>-t, --topic &lt;TOPIC&gt;</code>
-  Topic to consume messages from (default: /default/test_topic)</p>
-</li>
-<li>
-<p><code>-n, --consumer &lt;CONSUMER&gt;</code>
-  Consumer identifier (default: <code>consumer_pubsub</code>)</p>
-</li>
-<li>
-<p><code>--sub-type &lt;TYPE&gt;</code>
-  Subscription type: <code>exclusive</code>, <code>shared</code>, <code>fail-over</code> (default: <code>shared</code>)</p>
-</li>
-<li>
-<p><code>-h, --help</code><br />
-  Print help information.</p>
-</li>
-</ul>
-<h2 id="message-output-format">Message Output Format</h2>
-<h3 id="standard-messages">Standard Messages</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Received<span class="w"> </span>message:<span class="w"> </span><span class="s2">&quot;message content&quot;</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Size:<span class="w"> </span>&lt;size&gt;<span class="w"> </span>bytes,<span class="w"> </span>Total<span class="w"> </span>received:<span class="w"> </span>&lt;total&gt;<span class="w"> </span>bytes
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>Attributes:<span class="w"> </span><span class="nv">key1</span><span class="o">=</span>value1,<span class="w"> </span><span class="nv">key2</span><span class="o">=</span>value2
+<p>Consumes from the default topic <code>/default/test_topic</code> with a shared subscription.</p>
+<h3 id="custom-topic">Custom Topic</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span>-t<span class="w"> </span>/default/orders<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span>-m<span class="w"> </span>order-processors
 </span></code></pre></div>
-<h3 id="reliable-messages">Reliable messages</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Received<span class="w"> </span>reliable<span class="w"> </span>message:<span class="w"> </span><span class="s2">&quot;message content&quot;</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>Topic<span class="w"> </span>offset:<span class="w"> </span>&lt;offset&gt;,<span class="w"> </span>Size:<span class="w"> </span>&lt;size&gt;<span class="w"> </span>bytes,<span class="w"> </span>Total<span class="w"> </span>received:<span class="w"> </span>&lt;total&gt;<span class="w"> </span>bytes
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>Producer:<span class="w"> </span>&lt;producer_id&gt;,<span class="w"> </span>Topic:<span class="w"> </span>&lt;topic_name&gt;
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>Attributes:<span class="w"> </span><span class="nv">key1</span><span class="o">=</span>value1,<span class="w"> </span><span class="nv">key2</span><span class="o">=</span>value2
-</span></code></pre></div>
-<h3 id="features">Features</h3>
-<ul>
-<li><strong>Schema Validation</strong>: Automatically validates messages against topic schema</li>
-<li><strong>Large Message Handling</strong>: Messages over 1KB are displayed as [binary data]</li>
-<li><strong>Message Tracking</strong>: Tracks total bytes received and message segments</li>
-<li><strong>Attribute Display</strong>: Shows message attributes if present</li>
-<li><strong>Multiple Schema Types</strong>: Supports <code>bytes</code>, <code>string</code>, <code>int64</code>, and <code>json</code> schemas</li>
-</ul>
-<h2 id="examples">Examples</h2>
-<h3 id="shared-subscription-default">Shared Subscription (Default)</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span>--service-addr<span class="w"> </span>http://localhost:6650<span class="w"> </span>--subscription<span class="w"> </span>my_shared_subscription
-</span></code></pre></div>
-<h3 id="exclusive-subscription">Exclusive Subscription</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span>-m<span class="w"> </span>my_exclusive<span class="w"> </span>--sub-type<span class="w"> </span>exclusive
-</span></code></pre></div>
-<p><strong>To create a new exclusive subscription on the same topic:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span>-s<span class="w"> </span>http://127.0.0.1:6650<span class="w"> </span>-m<span class="w"> </span>my_exclusive2<span class="w"> </span>--sub-type<span class="w"> </span>exclusive
+<h3 id="using-short-flags">Using Short Flags</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span>-t<span class="w"> </span>/default/events<span class="w"> </span>-m<span class="w"> </span>event-sub
 </span></code></pre></div>
 <h3 id="custom-consumer-name">Custom Consumer Name</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span>-n<span class="w"> </span>my_consumer<span class="w"> </span>-m<span class="w"> </span>my_subscription
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span>-n<span class="w"> </span>order-consumer-1<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span>-m<span class="w"> </span>order-subscription
 </span></code></pre></div>
-<h3 id="specific-topic">Specific Topic</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span>-t<span class="w"> </span>my_topic<span class="w"> </span>-m<span class="w"> </span>my_subscription
+<h2 id="subscription-types">Subscription Types</h2>
+<h3 id="shared-default">Shared (Default)</h3>
+<p>Multiple consumers share message processing. Messages are distributed across consumers.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Consumer 1</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span>-t<span class="w"> </span>/default/events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span>-m<span class="w"> </span>shared-sub<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">  </span>--sub-type<span class="w"> </span>shared
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="c1"># Consumer 2 (run in parallel)</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">  </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">  </span>-t<span class="w"> </span>/default/events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">  </span>-m<span class="w"> </span>shared-sub<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">  </span>--sub-type<span class="w"> </span>shared
 </span></code></pre></div>
-<h2 id="notes">Notes</h2>
-<ul>
-<li>Messages are automatically acknowledged after processing</li>
-<li>JSON messages are pretty-printed and validated against schema if available</li>
-<li>The consumer maintains message ordering for reliable delivery</li>
-<li>Connection errors and message processing failures are reported to stderr</li>
-</ul>
+<p><strong>Use case:</strong> Load balancing, parallel processing</p>
+<h3 id="exclusive">Exclusive</h3>
+<p>Only one consumer can be active at a time. Ensures ordered processing.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span>-t<span class="w"> </span>/default/orders<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span>-m<span class="w"> </span>exclusive-sub<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">  </span>--sub-type<span class="w"> </span>exclusive
+</span></code></pre></div>
+<p><strong>Use case:</strong> Ordered message processing, single consumer workflows</p>
+<h3 id="failover">Failover</h3>
+<p>Multiple consumers but only one is active. Others act as standby.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Primary consumer</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span>-t<span class="w"> </span>/default/critical<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">  </span>-m<span class="w"> </span>ha-sub<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">  </span>--sub-type<span class="w"> </span>fail-over
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="c1"># Standby consumer (automatically takes over if primary fails)</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">  </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">  </span>-t<span class="w"> </span>/default/critical<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="w">  </span>-m<span class="w"> </span>ha-sub<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="w">  </span>--sub-type<span class="w"> </span>fail-over
+</span></code></pre></div>
+<p><strong>Use case:</strong> High availability, ordered processing with failover</p>
+<h2 id="schema-based-consumption">Schema-Based Consumption</h2>
+<h3 id="auto-detection">Auto-Detection</h3>
+<p>The consumer automatically detects and validates against the topic's schema:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span>-t<span class="w"> </span>/default/orders<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">  </span>-m<span class="w"> </span>order-sub
+</span></code></pre></div>
+<p>Output shows schema validation:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>🔍<span class="w"> </span>Checking<span class="w"> </span><span class="k">for</span><span class="w"> </span>schema<span class="w"> </span>associated<span class="w"> </span>with<span class="w"> </span>topic...
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>✅<span class="w"> </span>Topic<span class="w"> </span>has<span class="w"> </span>schema:<span class="w"> </span>orders<span class="w"> </span><span class="o">(</span>json_schema,<span class="w"> </span>version<span class="w"> </span><span class="m">1</span><span class="o">)</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>📥<span class="w"> </span>Consuming<span class="w"> </span>with<span class="w"> </span>schema<span class="w"> </span>validation...
+</span></code></pre></div>
+<h3 id="without-schema">Without Schema</h3>
+<p>If the topic has no schema:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span>-t<span class="w"> </span>/default/raw-data<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span>-m<span class="w"> </span>raw-sub
+</span></code></pre></div>
+<p>Output:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>🔍 Checking for schema associated with topic...
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>ℹ️  Topic has no schema - consuming raw bytes
+</span></code></pre></div>
+<h3 id="schema-evolution">Schema Evolution</h3>
+<p>Consumers automatically handle schema evolution:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Producer sends message with v1 schema</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>danube-cli<span class="w"> </span>produce<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">  </span>-t<span class="w"> </span>/default/users<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">  </span>--schema-subject<span class="w"> </span>users<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">  </span>-m<span class="w"> </span><span class="s1">&#39;{&quot;user_id&quot;:&quot;123&quot;,&quot;name&quot;:&quot;Alice&quot;}&#39;</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="c1"># Schema evolves to v2 (adds optional &quot;email&quot; field)</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>danube-cli<span class="w"> </span>schema<span class="w"> </span>register<span class="w"> </span>users<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="w">  </span>--schema-type<span class="w"> </span>json_schema<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="w">  </span>--file<span class="w"> </span>users-v2.json
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="c1"># Consumer automatically uses latest schema</span>
+</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="w">  </span>-t<span class="w"> </span>/default/users<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a><span class="w">  </span>-m<span class="w"> </span>user-processors
+</span></code></pre></div>
+<h2 id="advanced-patterns">Advanced Patterns</h2>
+<h3 id="fan-out-pattern">Fan-Out Pattern</h3>
+<p>Multiple subscriptions on the same topic for different purposes:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Subscription 1: Process orders</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span>-t<span class="w"> </span>/default/orders<span class="w"> </span>-m<span class="w"> </span>order-processing<span class="w"> </span><span class="p">&amp;</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="c1"># Subscription 2: Analytics</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span>-t<span class="w"> </span>/default/orders<span class="w"> </span>-m<span class="w"> </span>order-analytics<span class="w"> </span><span class="p">&amp;</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="c1"># Subscription 3: Notifications</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span>-t<span class="w"> </span>/default/orders<span class="w"> </span>-m<span class="w"> </span>order-notifications<span class="w"> </span><span class="p">&amp;</span>
+</span></code></pre></div>
+<h3 id="worker-pool-pattern">Worker Pool Pattern</h3>
+<p>Multiple consumers in a shared subscription for parallel processing:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Start 4 workers</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">{</span><span class="m">1</span>..4<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">  </span>danube-cli<span class="w"> </span>consume<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">    </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">    </span>-t<span class="w"> </span>/default/tasks<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">    </span>-n<span class="w"> </span><span class="s2">&quot;worker-</span><span class="nv">$i</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="w">    </span>-m<span class="w"> </span>task-workers<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="w">    </span>--sub-type<span class="w"> </span>shared<span class="w"> </span><span class="p">&amp;</span>
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="k">done</span>
+</span></code></pre></div>
+<h3 id="multi-stage-pipeline">Multi-Stage Pipeline</h3>
+<p>Process messages through multiple stages:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Stage 1: Consume from source</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span>-t<span class="w"> </span>/pipeline/raw-events<span class="w"> </span>-m<span class="w"> </span>stage1<span class="w"> </span><span class="p">&amp;</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># Stage 2: Consume from enriched</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span>-t<span class="w"> </span>/pipeline/enriched-events<span class="w"> </span>-m<span class="w"> </span>stage2<span class="w"> </span><span class="p">&amp;</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="c1"># Stage 3: Consume from processed</span>
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span>-t<span class="w"> </span>/pipeline/processed-events<span class="w"> </span>-m<span class="w"> </span>stage3<span class="w"> </span><span class="p">&amp;</span>
+</span></code></pre></div>
+<h2 id="practical-examples">Practical Examples</h2>
+<h3 id="e-commerce-order-processing">E-Commerce Order Processing</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># Multiple workers processing orders</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">{</span><span class="m">1</span>..3<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">  </span>danube-cli<span class="w"> </span>consume<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">    </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="w">    </span>-t<span class="w"> </span>/default/orders<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="w">    </span>-n<span class="w"> </span><span class="s2">&quot;order-worker-</span><span class="nv">$i</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="w">    </span>-m<span class="w"> </span>order-processors<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="w">    </span>--sub-type<span class="w"> </span>shared<span class="w"> </span><span class="p">&amp;</span>
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="k">done</span>
+</span></code></pre></div>
+<h3 id="real-time-analytics">Real-Time Analytics</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># Exclusive consumer for ordered analytics</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">  </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="w">  </span>-t<span class="w"> </span>/analytics/events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="w">  </span>-m<span class="w"> </span>analytics-processor<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="w">  </span>--sub-type<span class="w"> </span>exclusive
+</span></code></pre></div>
+<h3 id="event-driven-microservices">Event-Driven Microservices</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># Service 1: User service</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="w">  </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="w">  </span>-t<span class="w"> </span>/default/user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="w">  </span>-m<span class="w"> </span>user-service<span class="w"> </span><span class="p">&amp;</span>
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="c1"># Service 2: Email service</span>
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a><span class="w">  </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="w">  </span>-t<span class="w"> </span>/default/user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a><span class="w">  </span>-m<span class="w"> </span>email-service<span class="w"> </span><span class="p">&amp;</span>
+</span><span id="__span-17-12"><a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a>
+</span><span id="__span-17-13"><a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a><span class="c1"># Service 3: Analytics service</span>
+</span><span id="__span-17-14"><a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-17-15"><a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a><span class="w">  </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-17-16"><a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a><span class="w">  </span>-t<span class="w"> </span>/default/user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-17-17"><a id="__codelineno-17-17" name="__codelineno-17-17" href="#__codelineno-17-17"></a><span class="w">  </span>-m<span class="w"> </span>analytics-service<span class="w"> </span><span class="p">&amp;</span>
+</span></code></pre></div>
+<h3 id="iot-data-collection">IoT Data Collection</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Consume sensor data with high availability</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">  </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="w">  </span>-t<span class="w"> </span>/iot/sensors<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="w">  </span>-m<span class="w"> </span>sensor-processor<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="w">  </span>--sub-type<span class="w"> </span>fail-over
+</span></code></pre></div>
+<h3 id="log-aggregation">Log Aggregation</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># Consume logs from multiple sources</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="w">  </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="w">  </span>-t<span class="w"> </span>/logs/application<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="w">  </span>-m<span class="w"> </span>log-aggregator<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="w">  </span>--sub-type<span class="w"> </span>shared
+</span></code></pre></div>
+<h3 id="notification-service">Notification Service</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># Process notifications with worker pool</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">{</span><span class="m">1</span>..5<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="w">  </span>danube-cli<span class="w"> </span>consume<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="w">    </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="w">    </span>-t<span class="w"> </span>/notifications/queue<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="w">    </span>-n<span class="w"> </span><span class="s2">&quot;notification-worker-</span><span class="nv">$i</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="w">    </span>-m<span class="w"> </span>notification-processors<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a><span class="w">    </span>--sub-type<span class="w"> </span>shared<span class="w"> </span><span class="p">&amp;</span>
+</span><span id="__span-20-9"><a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a><span class="k">done</span>
+</span></code></pre></div>
+<h2 id="message-output-format">Message Output Format</h2>
+<h3 id="text-messages">Text Messages</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>Received<span class="w"> </span>message:<span class="w"> </span>Hello,<span class="w"> </span>World!
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>Size:<span class="w"> </span><span class="m">13</span><span class="w"> </span>bytes,<span class="w"> </span>Total<span class="w"> </span>received:<span class="w"> </span><span class="m">13</span><span class="w"> </span>bytes
+</span></code></pre></div>
+<h3 id="json-messages">JSON Messages</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>Received<span class="w"> </span>message:<span class="w"> </span><span class="o">{</span><span class="s2">&quot;user_id&quot;</span>:<span class="s2">&quot;123&quot;</span>,<span class="s2">&quot;action&quot;</span>:<span class="s2">&quot;login&quot;</span><span class="o">}</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>Size:<span class="w"> </span><span class="m">35</span><span class="w"> </span>bytes,<span class="w"> </span>Total<span class="w"> </span>received:<span class="w"> </span><span class="m">35</span><span class="w"> </span>bytes
+</span></code></pre></div>
+<h3 id="binary-data">Binary Data</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>Received<span class="w"> </span>message:<span class="w"> </span><span class="o">[</span>binary<span class="w"> </span>data<span class="w"> </span>-<span class="w"> </span><span class="m">1024</span><span class="w"> </span>bytes<span class="o">]</span>
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>Size:<span class="w"> </span><span class="m">1024</span><span class="w"> </span>bytes,<span class="w"> </span>Total<span class="w"> </span>received:<span class="w"> </span><span class="m">1024</span><span class="w"> </span>bytes
+</span></code></pre></div>
+<h3 id="with-schema-validation">With Schema Validation</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>✅<span class="w"> </span>Message<span class="w"> </span>validated<span class="w"> </span>against<span class="w"> </span>schema<span class="w"> </span><span class="s1">&#39;orders&#39;</span><span class="w"> </span><span class="o">(</span>version<span class="w"> </span><span class="m">1</span><span class="o">)</span>
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>Received<span class="w"> </span>message:<span class="w"> </span><span class="o">{</span><span class="s2">&quot;order_id&quot;</span>:<span class="s2">&quot;ord_123&quot;</span>,<span class="s2">&quot;amount&quot;</span>:99.99<span class="o">}</span>
+</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>Size:<span class="w"> </span><span class="m">42</span><span class="w"> </span>bytes,<span class="w"> </span>Total<span class="w"> </span>received:<span class="w"> </span><span class="m">42</span><span class="w"> </span>bytes
+</span></code></pre></div>
+<h2 id="command-reference">Command Reference</h2>
+<h3 id="all-consumer-flags">All Consumer Flags</h3>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Short</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--service-addr</code></td>
+<td><code>-s</code></td>
+<td>Broker URL</td>
+<td>Required</td>
+</tr>
+<tr>
+<td><code>--topic</code></td>
+<td><code>-t</code></td>
+<td>Topic name</td>
+<td><code>/default/test_topic</code></td>
+</tr>
+<tr>
+<td><code>--subscription</code></td>
+<td><code>-m</code></td>
+<td>Subscription name</td>
+<td>Required</td>
+</tr>
+<tr>
+<td><code>--consumer-name</code></td>
+<td><code>-n</code></td>
+<td>Consumer name</td>
+<td><code>consumer_pubsub</code></td>
+</tr>
+<tr>
+<td><code>--sub-type</code></td>
+<td>-</td>
+<td>Subscription type</td>
+<td><code>shared</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="subscription-types_1">Subscription Types</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+<th>Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>shared</code></td>
+<td>Load balanced across consumers</td>
+<td>Parallel processing</td>
+</tr>
+<tr>
+<td><code>exclusive</code></td>
+<td>Single active consumer</td>
+<td>Ordered processing</td>
+</tr>
+<tr>
+<td><code>fail-over</code></td>
+<td>Active/standby with failover</td>
+<td>HA ordered processing</td>
+</tr>
+</tbody>
+</table>
+<h2 id="scripting-with-consumers">Scripting with Consumers</h2>
+<h3 id="basic-shell-script">Basic Shell Script</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>
+</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="w">  </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-25-5"><a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a><span class="w">  </span>-t<span class="w"> </span>/default/events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-25-6"><a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a><span class="w">  </span>-m<span class="w"> </span>event-processor<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-25-7"><a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a><span class="k">while</span><span class="w"> </span><span class="nv">IFS</span><span class="o">=</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span>-r<span class="w"> </span>line<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+</span><span id="__span-25-8"><a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Processing: </span><span class="nv">$line</span><span class="s2">&quot;</span>
+</span><span id="__span-25-9"><a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a><span class="w">  </span><span class="c1"># Your processing logic here</span>
+</span><span id="__span-25-10"><a id="__codelineno-25-10" name="__codelineno-25-10" href="#__codelineno-25-10"></a><span class="k">done</span>
+</span></code></pre></div>
+<h3 id="filter-messages">Filter Messages</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="ch">#!/bin/bash</span>
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="w">  </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-26-5"><a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a><span class="w">  </span>-t<span class="w"> </span>/default/events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-26-6"><a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a><span class="w">  </span>-m<span class="w"> </span>event-filter<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-26-7"><a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a><span class="k">while</span><span class="w"> </span><span class="nv">IFS</span><span class="o">=</span><span class="w"> </span><span class="nb">read</span><span class="w"> </span>-r<span class="w"> </span>line<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+</span><span id="__span-26-8"><a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a><span class="w">  </span><span class="c1"># Process only specific messages</span>
+</span><span id="__span-26-9"><a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$line</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-q<span class="w"> </span><span class="s2">&quot;error&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+</span><span id="__span-26-10"><a id="__codelineno-26-10" name="__codelineno-26-10" href="#__codelineno-26-10"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Error detected: </span><span class="nv">$line</span><span class="s2">&quot;</span>
+</span><span id="__span-26-11"><a id="__codelineno-26-11" name="__codelineno-26-11" href="#__codelineno-26-11"></a><span class="w">    </span><span class="c1"># Send alert</span>
+</span><span id="__span-26-12"><a id="__codelineno-26-12" name="__codelineno-26-12" href="#__codelineno-26-12"></a><span class="w">  </span><span class="k">fi</span>
+</span><span id="__span-26-13"><a id="__codelineno-26-13" name="__codelineno-26-13" href="#__codelineno-26-13"></a><span class="k">done</span>
+</span></code></pre></div>
 
 
 
