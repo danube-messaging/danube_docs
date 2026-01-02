@@ -461,6 +461,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../architecture/schema_registry_architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Schema Registry
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../architecture/dispatch_strategy/" class="md-nav__link">
         
   
@@ -692,7 +713,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../client_libraries/producer/" class="md-nav__link">
+      <a href="../../../client_libraries/producer-basics/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -713,11 +734,74 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../client_libraries/consumer/" class="md-nav__link">
+      <a href="../../../client_libraries/consumer-basics/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     Create Consumer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../client_libraries/producer-advanced/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Advanced Producer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../client_libraries/consumer-advanced/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Advanced Consumer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../client_libraries/schema-registry/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Schema Registry
   </span>
   
 
@@ -1675,33 +1759,6 @@
 </span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">   </span>Schema<span class="w"> </span>subject:<span class="w"> </span>user-events
 </span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">   </span>Partitions:<span class="w"> </span><span class="m">5</span>
 </span></code></pre></div>
-<p><strong>Partitioning Guidelines:</strong></p>
-<table>
-<thead>
-<tr>
-<th>Throughput</th>
-<th>Recommended Partitions</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Low (&lt; 1K msg/s)</td>
-<td>1 (non-partitioned)</td>
-</tr>
-<tr>
-<td>Medium (1K-10K msg/s)</td>
-<td>3-5</td>
-</tr>
-<tr>
-<td>High (10K-100K msg/s)</td>
-<td>10-20</td>
-</tr>
-<tr>
-<td>Very High (&gt; 100K msg/s)</td>
-<td>50+</td>
-</tr>
-</tbody>
-</table>
 <h4 id="options-reference">Options Reference</h4>
 <table>
 <thead>
@@ -1874,7 +1931,7 @@
 </span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a><span class="w">  </span>--subscription<span class="w"> </span>old-consumer
 </span></code></pre></div>
 <p><strong>Example Output:</strong></p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>✅ Unsubscribed: true
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>✅<span class="w"> </span>Unsubscribed:<span class="w"> </span><span class="nb">true</span>
 </span></code></pre></div>
 <p><strong>Use Cases:</strong></p>
 <ul>
@@ -1891,7 +1948,7 @@
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>unload<span class="w"> </span>/default/user-events
 </span></code></pre></div>
 <p><strong>Example Output:</strong></p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>✅ Topic unloaded: /default/user-events
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>✅<span class="w"> </span>Topic<span class="w"> </span>unloaded:<span class="w"> </span>/default/user-events
 </span></code></pre></div>
 <p><strong>Use Cases:</strong></p>
 <ul>
