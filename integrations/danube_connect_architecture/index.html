@@ -12,13 +12,13 @@
         <meta name="author" content="Dan Rusei">
       
       
-        <link rel="canonical" href="https://danube-docs.dev-state.com/concepts/subscriptions/">
+        <link rel="canonical" href="https://danube-docs.dev-state.com/integrations/danube_connect_architecture/">
       
       
-        <link rel="prev" href="../topics/">
+        <link rel="prev" href="../danube_connect_overview/">
       
       
-        <link rel="next" href="../dispatch_strategy/">
+        <link rel="next" href="../danube_connect_development/">
       
       
       <link rel="icon" href="../../assets/favicon.ico">
@@ -26,7 +26,7 @@
     
     
       
-        <title>Subscriptions - Danube Messaging</title>
+        <title>Architecture & Concepts - Danube Messaging</title>
       
     
     
@@ -88,7 +88,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#subscription" class="md-skip">
+        <a href="#danube-connect-architecture" class="md-skip">
           Skip to content
         </a>
       
@@ -123,7 +123,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Subscriptions
+              Architecture & Concepts
             
           </span>
         </div>
@@ -394,19 +394,17 @@
       
   
   
-    
   
   
-  
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
         
           
           <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
@@ -420,7 +418,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             💡 Core Concepts
@@ -434,7 +432,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../topics/" class="md-nav__link">
+      <a href="../../concepts/topics/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -452,30 +450,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Subscriptions
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../concepts/subscriptions/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -484,125 +462,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#exclusive" class="md-nav__link">
-    <span class="md-ellipsis">
-      Exclusive
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Exclusive">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#exclusive-subscription-on-non-partitioned-topic" class="md-nav__link">
-    <span class="md-ellipsis">
-      Exclusive subscription on Non-Partitioned Topic
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#exclusive-subscription-on-partitioned-topic-multiple-partitions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Exclusive subscription on Partitioned Topic (Multiple Partitions)
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#shared" class="md-nav__link">
-    <span class="md-ellipsis">
-      Shared
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Shared">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#shared-subscription-on-non-partitioned-topic" class="md-nav__link">
-    <span class="md-ellipsis">
-      Shared subscription on Non-Partitioned Topic
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#shared-subscription-on-partitioned-topic-multiple-partitions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Shared subscription on Partitioned Topic (Multiple Partitions)
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#failover" class="md-nav__link">
-    <span class="md-ellipsis">
-      Failover
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Failover">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#failover-subscription-on-non-partitioned-topic" class="md-nav__link">
-    <span class="md-ellipsis">
-      Failover subscription on Non-Partitioned Topic
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#failover-subscription-on-partitioned-topic-multiple-partitions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Failover subscription on Partitioned Topic (Multiple Partitions)
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -615,7 +474,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../dispatch_strategy/" class="md-nav__link">
+      <a href="../../concepts/dispatch_strategy/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -636,7 +495,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../messages/" class="md-nav__link">
+      <a href="../../concepts/messages/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -692,7 +551,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../messaging_patterns_queuing_vs_pubsub/" class="md-nav__link">
+      <a href="../../concepts/messaging_patterns_queuing_vs_pubsub/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -713,7 +572,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../messaging_modes_pubsub_vs_streaming/" class="md-nav__link">
+      <a href="../../concepts/messaging_modes_pubsub_vs_streaming/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1443,17 +1302,19 @@
       
   
   
+    
   
   
+  
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
         
           
           <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
@@ -1467,7 +1328,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             🔌 Integrations
@@ -1481,7 +1342,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../integrations/danube_connect_overview/" class="md-nav__link">
+      <a href="../danube_connect_overview/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1499,10 +1360,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../integrations/danube_connect_architecture/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Architecture & Concepts
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -1511,6 +1392,221 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#design-philosophy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Design Philosophy
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Design Philosophy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#isolation-safety" class="md-nav__link">
+    <span class="md-ellipsis">
+      Isolation &amp; Safety
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#shared-core-library" class="md-nav__link">
+    <span class="md-ellipsis">
+      Shared Core Library
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-layers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Architecture Layers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connector-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Connector Types
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Connector Types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#source-connectors-external-danube" class="md-nav__link">
+    <span class="md-ellipsis">
+      Source Connectors (External → Danube)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sink-connectors-danube-external" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sink Connectors (Danube → External)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-danube-connect-core-sdk" class="md-nav__link">
+    <span class="md-ellipsis">
+      The danube-connect-core SDK
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The danube-connect-core SDK">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-traits" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core Traits
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Traits">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sourceconnector" class="md-nav__link">
+    <span class="md-ellipsis">
+      SourceConnector
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sinkconnector" class="md-nav__link">
+    <span class="md-ellipsis">
+      SinkConnector
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#message-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Message Types
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#runtime-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Runtime Management
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multi-topic-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multi-Topic Support
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration Pattern
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deployment-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deployment Architecture
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Error Handling
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#observability" class="md-nav__link">
+    <span class="md-ellipsis">
+      Observability
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Next Steps
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1523,7 +1619,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../integrations/danube_connect_development/" class="md-nav__link">
+      <a href="../danube_connect_development/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1655,28 +1751,28 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#exclusive" class="md-nav__link">
+  <a href="#design-philosophy" class="md-nav__link">
     <span class="md-ellipsis">
-      Exclusive
+      Design Philosophy
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Exclusive">
+    <nav class="md-nav" aria-label="Design Philosophy">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#exclusive-subscription-on-non-partitioned-topic" class="md-nav__link">
+  <a href="#isolation-safety" class="md-nav__link">
     <span class="md-ellipsis">
-      Exclusive subscription on Non-Partitioned Topic
+      Isolation &amp; Safety
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#exclusive-subscription-on-partitioned-topic-multiple-partitions" class="md-nav__link">
+  <a href="#shared-core-library" class="md-nav__link">
     <span class="md-ellipsis">
-      Exclusive subscription on Partitioned Topic (Multiple Partitions)
+      Shared Core Library
     </span>
   </a>
   
@@ -1688,28 +1784,37 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#shared" class="md-nav__link">
+  <a href="#architecture-layers" class="md-nav__link">
     <span class="md-ellipsis">
-      Shared
+      Architecture Layers
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Shared">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connector-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Connector Types
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Connector Types">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#shared-subscription-on-non-partitioned-topic" class="md-nav__link">
+  <a href="#source-connectors-external-danube" class="md-nav__link">
     <span class="md-ellipsis">
-      Shared subscription on Non-Partitioned Topic
+      Source Connectors (External → Danube)
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#shared-subscription-on-partitioned-topic-multiple-partitions" class="md-nav__link">
+  <a href="#sink-connectors-danube-external" class="md-nav__link">
     <span class="md-ellipsis">
-      Shared subscription on Partitioned Topic (Multiple Partitions)
+      Sink Connectors (Danube → External)
     </span>
   </a>
   
@@ -1721,28 +1826,38 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#failover" class="md-nav__link">
+  <a href="#the-danube-connect-core-sdk" class="md-nav__link">
     <span class="md-ellipsis">
-      Failover
+      The danube-connect-core SDK
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Failover">
+    <nav class="md-nav" aria-label="The danube-connect-core SDK">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#failover-subscription-on-non-partitioned-topic" class="md-nav__link">
+  <a href="#core-traits" class="md-nav__link">
     <span class="md-ellipsis">
-      Failover subscription on Non-Partitioned Topic
+      Core Traits
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Traits">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sourceconnector" class="md-nav__link">
+    <span class="md-ellipsis">
+      SourceConnector
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#failover-subscription-on-partitioned-topic-multiple-partitions" class="md-nav__link">
+  <a href="#sinkconnector" class="md-nav__link">
     <span class="md-ellipsis">
-      Failover subscription on Partitioned Topic (Multiple Partitions)
+      SinkConnector
     </span>
   </a>
   
@@ -1750,6 +1865,83 @@
         
       </ul>
     </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#message-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Message Types
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#runtime-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Runtime Management
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multi-topic-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multi-Topic Support
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration Pattern
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deployment-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deployment Architecture
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Error Handling
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#observability" class="md-nav__link">
+    <span class="md-ellipsis">
+      Observability
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Next Steps
+    </span>
+  </a>
   
 </li>
       
@@ -1768,7 +1960,7 @@
                   
 
   
-    <a href="https://github.com/danube-messaging/danube_docs/edit/main/docs/concepts/subscriptions.md" title="Edit this page" class="md-content__button md-icon">
+    <a href="https://github.com/danube-messaging/danube_docs/edit/main/docs/integrations/danube_connect_architecture.md" title="Edit this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
     </a>
@@ -1776,53 +1968,236 @@
   
 
 
-<h1 id="subscription">Subscription</h1>
-<p><strong>A Danube subscription</strong> is a named configuration rule that determines how messages are delivered to consumers. It is a lease on a topic established by a group of consumers.</p>
-<p>Danube permits multiple producers and subscribers to the same topic. The Subscription Types can be combined to obtain <a href="../messaging_patterns_queuing_vs_pubsub/">message queueing or fan-out</a> pub-sub messaging patterns.</p>
-<p><img alt="Producers  Consumers" src="../../assets/img/concepts/producers_consumers.png" title="Producers Consumers" /></p>
-<h2 id="exclusive">Exclusive</h2>
-<p>The <strong>Exclusive</strong> type is a subscription type that only allows a single consumer to attach to the subscription. If multiple consumers subscribe to a topic using the same subscription, an error occurs.
-This consumer has exclusive access to all messages published to the topic or partition.</p>
-<h3 id="exclusive-subscription-on-non-partitioned-topic">Exclusive subscription on Non-Partitioned Topic</h3>
+<h1 id="danube-connect-architecture">Danube Connect Architecture</h1>
+<p><strong>High-level design and core concepts</strong></p>
+<hr />
+<h2 id="design-philosophy">Design Philosophy</h2>
+<h3 id="isolation-safety">Isolation &amp; Safety</h3>
+<p>The Danube broker remains <strong>pure Rust</strong> with zero knowledge of external systems. Connectors run as <strong>separate processes</strong>, ensuring that a failing connector never crashes the broker.</p>
+<p><strong>Key principle:</strong> Process-level boundaries guarantee fault isolation, a misconfigured PostgreSQL connector cannot impact message delivery for other topics or tenants.</p>
+<hr />
+<h3 id="shared-core-library">Shared Core Library</h3>
+<p>The <code>danube-connect-core</code> SDK eliminates boilerplate by handling all Danube communication, lifecycle management, retries, and observability.</p>
+<p><strong>Connector developers</strong> implement simple traits:</p>
 <ul>
-<li><code>Consumer</code>: Only one consumer can be attached to the topic with an Exclusive subscription.</li>
-<li><code>Message Handling</code>: The single consumer handles all messages from the topic, receiving every message published to that topic.</li>
+<li><code>SourceConnector</code> - Import data into Danube</li>
+<li><code>SinkConnector</code> - Export data from Danube</li>
 </ul>
-<p><img alt="Exclusive Non-Partitioned" src="../../assets/img/concepts/exclusive_subscription_non_partitioned.png" title="Exclusive Non-Partitioned" /></p>
-<h3 id="exclusive-subscription-on-partitioned-topic-multiple-partitions">Exclusive subscription on Partitioned Topic (Multiple Partitions)</h3>
+<p><strong>Core SDK handles:</strong></p>
 <ul>
-<li><code>Consumer</code>: One consumer is allowed to connect to the subscription across all partitions of the partitioned topic.</li>
-<li><code>Message Handling</code> : This single consumer processes messages from all partitions of the partitioned topic. If a topic is partitioned into multiple partitions, the exclusive consumer handles messages from every partition.</li>
+<li>Danube client connection management</li>
+<li>Message processing loops</li>
+<li>Automatic retry with exponential backoff</li>
+<li>Prometheus metrics and health checks</li>
+<li>Signal handling and graceful shutdown</li>
 </ul>
-<p><img alt="Exclusive Partitioned" src="../../assets/img/concepts/exclusive_subscription_partitioned.png" title="Exclusive Partitioned" /></p>
-<h2 id="shared">Shared</h2>
-<p>In Danube, the <strong>Shared</strong> subscription type allows multiple consumers to attach to the same subscription. Messages are delivered in a round-robin distribution across consumers, and any given message is delivered to only one consumer.</p>
-<h3 id="shared-subscription-on-non-partitioned-topic">Shared subscription on Non-Partitioned Topic</h3>
+<hr />
+<h2 id="architecture-layers">Architecture Layers</h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>External<span class="w"> </span>Systems<span class="w"> </span><span class="o">(</span>MQTT,<span class="w"> </span>databases,<span class="w"> </span>APIs<span class="o">)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">          </span>↓
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>Your<span class="w"> </span>Connector<span class="w"> </span>Logic<span class="w"> </span><span class="o">(</span>implement<span class="w"> </span>trait<span class="o">)</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">          </span>↓
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>danube-connect-core<span class="w"> </span><span class="o">(</span>SDK<span class="w"> </span>framework<span class="o">)</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">          </span>↓
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>danube-client<span class="w"> </span><span class="o">(</span>gRPC<span class="w"> </span>communication<span class="o">)</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">          </span>↓
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>Danube<span class="w"> </span>Broker<span class="w"> </span>Cluster
+</span></code></pre></div>
+<p><strong>Separation of concerns:</strong></p>
 <ul>
-<li><code>Consumers</code>: Multiple consumers can subscribe to the same topic.</li>
-<li><code>Message Handling</code>: Messages are distributed among all consumers in a round-robin fashion.</li>
+<li><strong>Connector responsibility:</strong> External system integration and data transformation</li>
+<li><strong>SDK responsibility:</strong> Danube communication, lifecycle, retries, metrics</li>
 </ul>
-<p><img alt="Shared Non-Partitioned" src="../../assets/img/concepts/shared_subscription_non_partitioned.png" title="Shared Non-Partitioned" /></p>
-<h3 id="shared-subscription-on-partitioned-topic-multiple-partitions">Shared subscription on Partitioned Topic (Multiple Partitions)</h3>
+<hr />
+<h2 id="connector-types">Connector Types</h2>
+<h3 id="source-connectors-external-danube">Source Connectors (External → Danube)</h3>
+<p>Poll or subscribe to external systems and publish messages to Danube topics.</p>
+<p><strong>Key responsibilities:</strong></p>
 <ul>
-<li><code>Consumers</code>: Multiple consumers can subscribe to the partitioned topic.</li>
-<li><code>Message Handling</code>: Messages are distributed across all partitions, and then among consumers in a round-robin fashion. Each message from any partition is delivered to only one consumer.</li>
+<li>Connect to external system</li>
+<li>Poll for new data or listen for events</li>
+<li>Transform external format to Danube messages</li>
+<li>Route to appropriate Danube topics</li>
+<li>Manage offsets/checkpoints</li>
 </ul>
-<p><img alt="Shared Partitioned" src="../../assets/img/concepts/shared_subscription_partitioned.png" title="Shared Partitioned" /></p>
-<h2 id="failover">Failover</h2>
-<p>The <strong>Failover</strong> subscription type allows multiple consumers to attach to the same subscription, with one active consumer at a time. If the active consumer disconnects or becomes unhealthy, another consumer automatically takes over. This preserves ordering and minimizes downtime.</p>
-<h3 id="failover-subscription-on-non-partitioned-topic">Failover subscription on Non-Partitioned Topic</h3>
+<hr />
+<h3 id="sink-connectors-danube-external">Sink Connectors (Danube → External)</h3>
+<p>Consume messages from Danube topics and write to external systems.</p>
+<p><strong>Key responsibilities:</strong></p>
 <ul>
-<li><code>Consumers</code>: One active consumer processes all messages; additional consumers are in standby.</li>
-<li><code>Message Handling</code>: If the active consumer fails, a standby consumer takes over and continues from the last acknowledged position.</li>
+<li>Subscribe to Danube topics</li>
+<li>Transform Danube messages to external format</li>
+<li>Write to external system (with batching for efficiency)</li>
+<li>Handle acknowledgments</li>
 </ul>
-<p><img alt="Failover Non-Partitioned" src="../../assets/img/concepts/failover_subscription_non_partitioned.png" title="Failover Non-Partitioned" /></p>
-<h3 id="failover-subscription-on-partitioned-topic-multiple-partitions">Failover subscription on Partitioned Topic (Multiple Partitions)</h3>
+<hr />
+<h2 id="the-danube-connect-core-sdk">The danube-connect-core SDK</h2>
+<h3 id="core-traits">Core Traits</h3>
+<p>Connectors implements the danube-connect-core traits:</p>
+<h4 id="sourceconnector"><strong>SourceConnector</strong></h4>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="cp">#[async_trait]</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">pub</span><span class="w"> </span><span class="k">trait</span><span class="w"> </span><span class="n">SourceConnector</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="c1">// Initialize external system connection</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">initialize</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">:</span><span class="w"> </span><span class="nc">ConnectorConfig</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Result</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="p">;</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="c1">// Define destination Danube topics</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">producer_configs</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Result</span><span class="o">&lt;</span><span class="nb">Vec</span><span class="o">&lt;</span><span class="n">ProducerConfig</span><span class="o">&gt;&gt;</span><span class="p">;</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="c1">// Poll external system for data (non-blocking)</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">poll</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Result</span><span class="o">&lt;</span><span class="nb">Vec</span><span class="o">&lt;</span><span class="n">SourceRecord</span><span class="o">&gt;&gt;</span><span class="p">;</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="c1">// Optional: commit offsets after successful publish</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">commit</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">offsets</span><span class="p">:</span><span class="w"> </span><span class="nb">Vec</span><span class="o">&lt;</span><span class="n">Offset</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Result</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="p">;</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">    </span><span class="c1">// Optional: cleanup on shutdown</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">shutdown</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Result</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="p">;</span>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="p">}</span>
+</span></code></pre></div>
+<h4 id="sinkconnector"><strong>SinkConnector</strong></h4>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="cp">#[async_trait]</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="k">pub</span><span class="w"> </span><span class="k">trait</span><span class="w"> </span><span class="n">SinkConnector</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="c1">// Initialize external system connection</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">initialize</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">:</span><span class="w"> </span><span class="nc">ConnectorConfig</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Result</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="p">;</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="c1">// Define which Danube topics to consume from</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">consumer_configs</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Result</span><span class="o">&lt;</span><span class="nb">Vec</span><span class="o">&lt;</span><span class="n">ConsumerConfig</span><span class="o">&gt;&gt;</span><span class="p">;</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="c1">// Process a single message</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">process</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">record</span><span class="p">:</span><span class="w"> </span><span class="nc">SinkRecord</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Result</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="p">;</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">    </span><span class="c1">// Optional: batch processing (better performance)</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">process_batch</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">records</span><span class="p">:</span><span class="w"> </span><span class="nb">Vec</span><span class="o">&lt;</span><span class="n">SinkRecord</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Result</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="p">;</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">    </span><span class="c1">// Optional: cleanup on shutdown</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">shutdown</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nb">Result</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="p">;</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="p">}</span>
+</span></code></pre></div>
+<hr />
+<h3 id="message-types">Message Types</h3>
+<p><strong>SinkRecord</strong> - Message consumed from Danube</p>
 <ul>
-<li><code>Consumers</code>: One active consumer per partition; other consumers remain on standby for each partition.</li>
-<li><code>Message Handling</code>: Failover occurs independently per partition, ensuring continuity and ordering within each partition.</li>
+<li><code>payload()</code> - Raw bytes</li>
+<li><code>payload_str()</code> - UTF-8 string</li>
+<li><code>payload_json&lt;T&gt;()</code> - Deserialize to struct</li>
+<li><code>attributes()</code> - Metadata key-value pairs</li>
+<li><code>topic()</code>, <code>offset()</code>, <code>publish_time()</code> - Message metadata</li>
 </ul>
-<p><img alt="Failover Partitioned" src="../../assets/img/concepts/failover_subscription_partitioned.png" title="Failover Partitioned" /></p>
+<p><strong>SourceRecord</strong> - Message to publish to Danube</p>
+<ul>
+<li>Created with <code>SourceRecord::from_json(topic, &amp;data)</code></li>
+<li>Builder pattern: <code>.with_attribute(k, v)</code>, <code>.with_key(key)</code></li>
+<li>Per-record topic routing and configuration</li>
+</ul>
+<hr />
+<h3 id="runtime-management">Runtime Management</h3>
+<p>The SDK provides <code>SourceRuntime</code> and <code>SinkRuntime</code> that handle:</p>
+<ol>
+<li><strong>Lifecycle</strong> - Initialize connector, create Danube clients, start message loops</li>
+<li><strong>Message processing</strong> - Poll/consume messages, call your trait methods</li>
+<li><strong>Error handling</strong> - Automatic retry with exponential backoff</li>
+<li><strong>Acknowledgments</strong> - Ack successfully processed messages to Danube</li>
+<li><strong>Shutdown</strong> - Graceful cleanup on SIGTERM/SIGINT</li>
+<li><strong>Observability</strong> - Expose Prometheus metrics and health endpoints</li>
+</ol>
+<hr />
+<h3 id="multi-topic-support">Multi-Topic Support</h3>
+<p>A single connector can handle <strong>multiple topics</strong> with different configurations.</p>
+<p><strong>Source connector example:</strong></p>
+<ul>
+<li>One MQTT connector routes <code>sensors/#</code> → <code>/iot/sensors</code> (8 partitions, reliable)</li>
+<li>Same connector routes <code>debug/#</code> → <code>/iot/debug</code> (1 partition, non-reliable)</li>
+</ul>
+<p><strong>Sink connector example:</strong></p>
+<ul>
+<li>One ClickHouse connector consumes from <code>/analytics/events</code> and <code>/analytics/metrics</code></li>
+<li>Writes both to different tables in the same database</li>
+</ul>
+<hr />
+<h2 id="configuration-pattern">Configuration Pattern</h2>
+<p>Connectors use a <strong>single configuration file</strong> combining core Danube settings with connector-specific settings:</p>
+<div class="language-toml highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Core Danube settings (provided by danube-connect-core)</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">danube_service_url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;http://danube-broker:6650&quot;</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">connector_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;mqtt-bridge&quot;</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="c1"># Connector-specific settings</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="k">[mqtt]</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="n">broker_host</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;mosquitto&quot;</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="n">broker_port</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1883</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="k">[[mqtt.topic_mappings]]</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="n">mqtt_topic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;sensors/#&quot;</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="n">danube_topic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/iot/sensors&quot;</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="n">partitions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span>
+</span></code></pre></div>
+<p><strong>Environment variable overrides:</strong></p>
+<ul>
+<li>Mandatory fields: <code>DANUBE_SERVICE_URL</code>, <code>CONNECTOR_NAME</code></li>
+<li>Secrets: <code>MQTT_PASSWORD</code>, <code>API_KEY</code>, etc.</li>
+<li>Connector-specific overrides as needed</li>
+</ul>
+<p><strong>See:</strong> <a href="https://github.com/danube-messaging/danube-connect/blob/main/info/unified_configuration_guide.md">Configuration Guide</a> for complete details</p>
+<hr />
+<h2 id="deployment-architecture">Deployment Architecture</h2>
+<p>Connectors run as <strong>standalone Docker containers</strong> alongside your Danube cluster:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>┌─────────────────────────────┐
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>│<span class="w">  </span>External<span class="w"> </span>Systems<span class="w">           </span>│
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>│<span class="w">  </span><span class="o">(</span>MQTT,<span class="w"> </span>DBs,<span class="w"> </span>APIs<span class="o">)</span><span class="w">          </span>│
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>└──────────┬──────────────────┘
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">           </span>↓
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>┌──────────────────────────────┐
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>│<span class="w">  </span>Connector<span class="w"> </span>Layer<span class="w">             </span>│
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>│<span class="w">  </span><span class="o">(</span>Docker<span class="w"> </span>Containers<span class="o">)</span><span class="w">         </span>│
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>│<span class="w">  </span>┌────────┐<span class="w">  </span>┌────────┐<span class="w">     </span>│
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>│<span class="w">  </span>│<span class="w"> </span>MQTT<span class="w">   </span>│<span class="w">  </span>│<span class="w"> </span>Delta<span class="w">  </span>│<span class="w"> </span>...<span class="w"> </span>│
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>│<span class="w">  </span>│<span class="w"> </span>Source<span class="w"> </span>│<span class="w">  </span>│<span class="w"> </span>Sink<span class="w">   </span>│<span class="w">     </span>│
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>│<span class="w">  </span>└────┬───┘<span class="w">  </span>└───┬────┘<span class="w">     </span>│
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>└───────┼──────────┼───────────┘
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">        </span>↓<span class="w">          </span>↓
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>┌───────────────────────────────┐
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>│<span class="w">  </span>Danube<span class="w"> </span>Broker<span class="w"> </span>Cluster<span class="w">        </span>│
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>└───────────────────────────────┘
+</span></code></pre></div>
+<p><strong>Scaling:</strong></p>
+<ul>
+<li>Connectors scale independently from brokers</li>
+<li>Run multiple instances for high availability</li>
+<li>No impact on broker resources</li>
+</ul>
+<hr />
+<h2 id="error-handling">Error Handling</h2>
+<p>The SDK categorizes errors into three types:</p>
+<ol>
+<li><strong>Retryable</strong> - Temporary failures (network issues, rate limits) → automatic retry with exponential backoff</li>
+<li><strong>Invalid Data</strong> - Malformed messages that can never be processed → log and skip</li>
+<li><strong>Fatal</strong> - Unrecoverable errors → graceful shutdown, let orchestrator restart</li>
+</ol>
+<p><strong>Your connector:</strong> Return the appropriate error type, the SDK handles the rest</p>
+<hr />
+<h2 id="observability">Observability</h2>
+<p>Every connector automatically exposes:</p>
+<p><strong>Prometheus metrics</strong> (<code>http://connector:9090/metrics</code>):</p>
+<ul>
+<li><code>connector_messages_received</code> / <code>connector_messages_sent</code></li>
+<li><code>connector_errors_total</code></li>
+<li><code>connector_processing_duration_seconds</code></li>
+</ul>
+<p><strong>Health checks</strong> (<code>http://connector:9090/health</code>):</p>
+<ul>
+<li><code>healthy</code>, <code>degraded</code>, or <code>unhealthy</code></li>
+</ul>
+<p><strong>Structured logging:</strong></p>
+<ul>
+<li>JSON-formatted logs with trace IDs</li>
+<li>Configurable log levels via <code>LOG_LEVEL</code> env var</li>
+</ul>
+<hr />
+<h2 id="next-steps">Next Steps</h2>
+<ul>
+<li><strong><a href="../danube_connect_development/">Building Connectors</a></strong> - Create your first connector</li>
+<li><strong><a href="https://github.com/danube-messaging/danube-connect">GitHub Repository</a></strong> - Source code and examples</li>
+<li><strong><a href="https://docs.rs/danube-connect-core">danube-connect-core API</a></strong> - SDK documentation</li>
+<li><strong><a href="https://github.com/danube-messaging/danube-connect/tree/main/connectors/source-mqtt">MQTT Reference</a></strong> - Complete example implementation</li>
+</ul>
 
 
 

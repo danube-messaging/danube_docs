@@ -155,4 +155,19 @@
          <lastmod>2026-01-02</lastmod>
          <changefreq>daily</changefreq>
     </url>
+    <url>
+         <loc>https://danube-docs.dev-state.com/integrations/danube_connect_architecture/</loc>
+         <lastmod>2026-01-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://danube-docs.dev-state.com/integrations/danube_connect_development/</loc>
+         <lastmod>2026-01-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://danube-docs.dev-state.com/integrations/danube_connect_overview/</loc>
+         <lastmod>2026-01-02</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
 </urlset>

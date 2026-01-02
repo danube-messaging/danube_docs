@@ -12,13 +12,13 @@
         <meta name="author" content="Dan Rusei">
       
       
-        <link rel="canonical" href="https://danube-docs.dev-state.com/concepts/subscriptions/">
+        <link rel="canonical" href="https://danube-docs.dev-state.com/integrations/danube_connect_overview/">
       
       
-        <link rel="prev" href="../topics/">
+        <link rel="prev" href="../../danube_clis/danube_admin/schema_registry/">
       
       
-        <link rel="next" href="../dispatch_strategy/">
+        <link rel="next" href="../danube_connect_architecture/">
       
       
       <link rel="icon" href="../../assets/favicon.ico">
@@ -26,7 +26,7 @@
     
     
       
-        <title>Subscriptions - Danube Messaging</title>
+        <title>Danube Connect Overview - Danube Messaging</title>
       
     
     
@@ -88,7 +88,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#subscription" class="md-skip">
+        <a href="#danube-connect" class="md-skip">
           Skip to content
         </a>
       
@@ -123,7 +123,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Subscriptions
+              Danube Connect Overview
             
           </span>
         </div>
@@ -394,19 +394,17 @@
       
   
   
-    
   
   
-  
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
         
           
           <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
@@ -420,7 +418,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             💡 Core Concepts
@@ -434,7 +432,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../topics/" class="md-nav__link">
+      <a href="../../concepts/topics/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -452,30 +450,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Subscriptions
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../concepts/subscriptions/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -484,125 +462,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#exclusive" class="md-nav__link">
-    <span class="md-ellipsis">
-      Exclusive
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Exclusive">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#exclusive-subscription-on-non-partitioned-topic" class="md-nav__link">
-    <span class="md-ellipsis">
-      Exclusive subscription on Non-Partitioned Topic
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#exclusive-subscription-on-partitioned-topic-multiple-partitions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Exclusive subscription on Partitioned Topic (Multiple Partitions)
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#shared" class="md-nav__link">
-    <span class="md-ellipsis">
-      Shared
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Shared">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#shared-subscription-on-non-partitioned-topic" class="md-nav__link">
-    <span class="md-ellipsis">
-      Shared subscription on Non-Partitioned Topic
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#shared-subscription-on-partitioned-topic-multiple-partitions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Shared subscription on Partitioned Topic (Multiple Partitions)
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#failover" class="md-nav__link">
-    <span class="md-ellipsis">
-      Failover
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Failover">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#failover-subscription-on-non-partitioned-topic" class="md-nav__link">
-    <span class="md-ellipsis">
-      Failover subscription on Non-Partitioned Topic
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#failover-subscription-on-partitioned-topic-multiple-partitions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Failover subscription on Partitioned Topic (Multiple Partitions)
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -615,7 +474,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../dispatch_strategy/" class="md-nav__link">
+      <a href="../../concepts/dispatch_strategy/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -636,7 +495,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../messages/" class="md-nav__link">
+      <a href="../../concepts/messages/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -692,7 +551,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../messaging_patterns_queuing_vs_pubsub/" class="md-nav__link">
+      <a href="../../concepts/messaging_patterns_queuing_vs_pubsub/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -713,7 +572,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../messaging_modes_pubsub_vs_streaming/" class="md-nav__link">
+      <a href="../../concepts/messaging_modes_pubsub_vs_streaming/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1443,17 +1302,19 @@
       
   
   
+    
   
   
+  
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
         
           
           <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
@@ -1467,7 +1328,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             🔌 Integrations
@@ -1478,10 +1339,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../integrations/danube_connect_overview/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Danube Connect Overview
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -1490,6 +1371,254 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-danube-connect" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is Danube Connect?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Architecture
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connector-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Connector Types
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Connector Types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#source-connectors-external-danube" class="md-nav__link">
+    <span class="md-ellipsis">
+      Source Connectors (External → Danube)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sink-connectors-danube-external" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sink Connectors (Danube → External)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#available-connectors" class="md-nav__link">
+    <span class="md-ellipsis">
+      Available Connectors
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Available Connectors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#production-ready" class="md-nav__link">
+    <span class="md-ellipsis">
+      Production Ready
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#coming-soon" class="md-nav__link">
+    <span class="md-ellipsis">
+      Coming Soon
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Start
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Start">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#running-a-connector" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running a Connector
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-danube-connect" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why Danube Connect?
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Why Danube Connect?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#versus-embedding-in-broker" class="md-nav__link">
+    <span class="md-ellipsis">
+      Versus Embedding in Broker
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#versus-custom-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Versus Custom Scripts
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Features
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Key Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bidirectional-data-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔄 Bidirectional Data Flow
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modular-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      📦 Modular Architecture
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cloud-native" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Cloud Native
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#observable" class="md-nav__link">
+    <span class="md-ellipsis">
+      📊 Observable
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#high-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚡ High Performance
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pure-rust" class="md-nav__link">
+    <span class="md-ellipsis">
+      🦀 Pure Rust
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#learn-more" class="md-nav__link">
+    <span class="md-ellipsis">
+      Learn More
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#community-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      Community &amp; Support
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1502,7 +1631,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../integrations/danube_connect_architecture/" class="md-nav__link">
+      <a href="../danube_connect_architecture/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1523,7 +1652,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../integrations/danube_connect_development/" class="md-nav__link">
+      <a href="../danube_connect_development/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1655,28 +1784,46 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#exclusive" class="md-nav__link">
+  <a href="#what-is-danube-connect" class="md-nav__link">
     <span class="md-ellipsis">
-      Exclusive
+      What is Danube Connect?
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Exclusive">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Architecture
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connector-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Connector Types
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Connector Types">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#exclusive-subscription-on-non-partitioned-topic" class="md-nav__link">
+  <a href="#source-connectors-external-danube" class="md-nav__link">
     <span class="md-ellipsis">
-      Exclusive subscription on Non-Partitioned Topic
+      Source Connectors (External → Danube)
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#exclusive-subscription-on-partitioned-topic-multiple-partitions" class="md-nav__link">
+  <a href="#sink-connectors-danube-external" class="md-nav__link">
     <span class="md-ellipsis">
-      Exclusive subscription on Partitioned Topic (Multiple Partitions)
+      Sink Connectors (Danube → External)
     </span>
   </a>
   
@@ -1688,28 +1835,28 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#shared" class="md-nav__link">
+  <a href="#available-connectors" class="md-nav__link">
     <span class="md-ellipsis">
-      Shared
+      Available Connectors
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Shared">
+    <nav class="md-nav" aria-label="Available Connectors">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#shared-subscription-on-non-partitioned-topic" class="md-nav__link">
+  <a href="#production-ready" class="md-nav__link">
     <span class="md-ellipsis">
-      Shared subscription on Non-Partitioned Topic
+      Production Ready
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#shared-subscription-on-partitioned-topic-multiple-partitions" class="md-nav__link">
+  <a href="#coming-soon" class="md-nav__link">
     <span class="md-ellipsis">
-      Shared subscription on Partitioned Topic (Multiple Partitions)
+      Coming Soon
     </span>
   </a>
   
@@ -1721,28 +1868,19 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#failover" class="md-nav__link">
+  <a href="#quick-start" class="md-nav__link">
     <span class="md-ellipsis">
-      Failover
+      Quick Start
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Failover">
+    <nav class="md-nav" aria-label="Quick Start">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#failover-subscription-on-non-partitioned-topic" class="md-nav__link">
+  <a href="#running-a-connector" class="md-nav__link">
     <span class="md-ellipsis">
-      Failover subscription on Non-Partitioned Topic
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#failover-subscription-on-partitioned-topic-multiple-partitions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Failover subscription on Partitioned Topic (Multiple Partitions)
+      Running a Connector
     </span>
   </a>
   
@@ -1750,6 +1888,126 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-danube-connect" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why Danube Connect?
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Why Danube Connect?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#versus-embedding-in-broker" class="md-nav__link">
+    <span class="md-ellipsis">
+      Versus Embedding in Broker
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#versus-custom-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Versus Custom Scripts
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Features
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Key Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bidirectional-data-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      🔄 Bidirectional Data Flow
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modular-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      📦 Modular Architecture
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cloud-native" class="md-nav__link">
+    <span class="md-ellipsis">
+      🚀 Cloud Native
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#observable" class="md-nav__link">
+    <span class="md-ellipsis">
+      📊 Observable
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#high-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      ⚡ High Performance
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pure-rust" class="md-nav__link">
+    <span class="md-ellipsis">
+      🦀 Pure Rust
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#learn-more" class="md-nav__link">
+    <span class="md-ellipsis">
+      Learn More
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#community-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      Community &amp; Support
+    </span>
+  </a>
   
 </li>
       
@@ -1768,7 +2026,7 @@
                   
 
   
-    <a href="https://github.com/danube-messaging/danube_docs/edit/main/docs/concepts/subscriptions.md" title="Edit this page" class="md-content__button md-icon">
+    <a href="https://github.com/danube-messaging/danube_docs/edit/main/docs/integrations/danube_connect_overview.md" title="Edit this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
     </a>
@@ -1776,53 +2034,202 @@
   
 
 
-<h1 id="subscription">Subscription</h1>
-<p><strong>A Danube subscription</strong> is a named configuration rule that determines how messages are delivered to consumers. It is a lease on a topic established by a group of consumers.</p>
-<p>Danube permits multiple producers and subscribers to the same topic. The Subscription Types can be combined to obtain <a href="../messaging_patterns_queuing_vs_pubsub/">message queueing or fan-out</a> pub-sub messaging patterns.</p>
-<p><img alt="Producers  Consumers" src="../../assets/img/concepts/producers_consumers.png" title="Producers Consumers" /></p>
-<h2 id="exclusive">Exclusive</h2>
-<p>The <strong>Exclusive</strong> type is a subscription type that only allows a single consumer to attach to the subscription. If multiple consumers subscribe to a topic using the same subscription, an error occurs.
-This consumer has exclusive access to all messages published to the topic or partition.</p>
-<h3 id="exclusive-subscription-on-non-partitioned-topic">Exclusive subscription on Non-Partitioned Topic</h3>
+<h1 id="danube-connect">Danube Connect</h1>
+<p>Connector ecosystem for seamless integration with external systems</p>
+<hr />
+<h2 id="what-is-danube-connect">What is Danube Connect?</h2>
+<p>Danube Connect is a <strong>plug-and-play connector framework</strong> that enables Danube to integrate with external systems: databases, message queues, IoT protocols, analytics platforms, and more—without compromising the broker's safety, stability, or performance.</p>
+<p>Instead of embedding integrations directly into the Danube broker (monolithic approach), connectors run as <strong>standalone processes</strong> that communicate with Danube via gRPC. This architecture ensures:</p>
 <ul>
-<li><code>Consumer</code>: Only one consumer can be attached to the topic with an Exclusive subscription.</li>
-<li><code>Message Handling</code>: The single consumer handles all messages from the topic, receiving every message published to that topic.</li>
+<li>🛡️ <strong>Isolation</strong> - Connector failures never crash the broker</li>
+<li>📈 <strong>Scalability</strong> - Scale connectors independently from brokers</li>
+<li>🔌 <strong>Modularity</strong> - Add or remove integrations without touching core Danube</li>
+<li>🦀 <strong>Memory Safety</strong> - Pure Rust implementation with zero FFI in the broker</li>
 </ul>
-<p><img alt="Exclusive Non-Partitioned" src="../../assets/img/concepts/exclusive_subscription_non_partitioned.png" title="Exclusive Non-Partitioned" /></p>
-<h3 id="exclusive-subscription-on-partitioned-topic-multiple-partitions">Exclusive subscription on Partitioned Topic (Multiple Partitions)</h3>
+<hr />
+<h2 id="architecture">Architecture</h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>External<span class="w"> </span>Systems<span class="w"> </span>↔<span class="w"> </span>Connectors<span class="w"> </span>↔<span class="w"> </span>danube-connect-core<span class="w"> </span>↔<span class="w"> </span>danube-client<span class="w"> </span>↔<span class="w"> </span>Danube<span class="w"> </span>Broker
+</span></code></pre></div>
+<p><strong>Connectors</strong> are standalone binaries that:</p>
+<ol>
+<li>Connect to external systems (MQTT, databases, HTTP APIs, etc.)</li>
+<li>Use <strong>danube-connect-core</strong> SDK for Danube communication</li>
+<li>Transform data between external formats and Danube messages</li>
+<li>Run independently with their own lifecycle and resources</li>
+</ol>
+<p><strong>Key principle:</strong> The Danube broker remains "dumb" and pure Rust—it knows nothing about external systems.</p>
+<hr />
+<h2 id="connector-types">Connector Types</h2>
+<h3 id="source-connectors-external-danube">Source Connectors (External → Danube)</h3>
+<p>Import data <strong>into</strong> Danube from external systems.</p>
+<p><strong>Examples:</strong></p>
 <ul>
-<li><code>Consumer</code>: One consumer is allowed to connect to the subscription across all partitions of the partitioned topic.</li>
-<li><code>Message Handling</code> : This single consumer processes messages from all partitions of the partitioned topic. If a topic is partitioned into multiple partitions, the exclusive consumer handles messages from every partition.</li>
+<li><strong>MQTT Source</strong> - Bridge IoT devices to Danube topics</li>
+<li><strong>HTTP Webhook Source</strong> - Ingest webhooks from SaaS platforms</li>
+<li><strong>PostgreSQL CDC</strong> - Stream database changes to Danube</li>
+<li><strong>Kafka Source</strong> - Migrate from Kafka to Danube</li>
 </ul>
-<p><img alt="Exclusive Partitioned" src="../../assets/img/concepts/exclusive_subscription_partitioned.png" title="Exclusive Partitioned" /></p>
-<h2 id="shared">Shared</h2>
-<p>In Danube, the <strong>Shared</strong> subscription type allows multiple consumers to attach to the same subscription. Messages are delivered in a round-robin distribution across consumers, and any given message is delivered to only one consumer.</p>
-<h3 id="shared-subscription-on-non-partitioned-topic">Shared subscription on Non-Partitioned Topic</h3>
+<p><strong>Use cases:</strong> IoT data ingestion, event streaming, change data capture, system integration</p>
+<hr />
+<h3 id="sink-connectors-danube-external">Sink Connectors (Danube → External)</h3>
+<p>Export data <strong>from</strong> Danube to external systems.</p>
+<p><strong>Examples:</strong></p>
 <ul>
-<li><code>Consumers</code>: Multiple consumers can subscribe to the same topic.</li>
-<li><code>Message Handling</code>: Messages are distributed among all consumers in a round-robin fashion.</li>
+<li><strong>Qdrant Sink</strong> - Stream vectors to RAG/AI pipelines</li>
+<li><strong>Delta Lake Sink</strong> - Archive messages to data lakes (S3, Azure, GCS)</li>
+<li><strong>SurrealDB Sink</strong> - Store events in multi-model databases</li>
+<li><strong>ClickHouse Sink</strong> - Real-time analytics and feature stores</li>
 </ul>
-<p><img alt="Shared Non-Partitioned" src="../../assets/img/concepts/shared_subscription_non_partitioned.png" title="Shared Non-Partitioned" /></p>
-<h3 id="shared-subscription-on-partitioned-topic-multiple-partitions">Shared subscription on Partitioned Topic (Multiple Partitions)</h3>
+<p><strong>Use cases:</strong> Data archival, analytics, machine learning, system integration</p>
+<hr />
+<h2 id="available-connectors">Available Connectors</h2>
+<h3 id="production-ready">Production Ready</h3>
+<table>
+<thead>
+<tr>
+<th>Connector</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/danube-messaging/danube-connect/tree/main/connectors/source-mqtt">MQTT</a></td>
+<td>Source</td>
+<td>IoT device integration (MQTT 3.1.1)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/danube-messaging/danube-connect/tree/main/connectors/source-webhook">HTTP Webhook</a></td>
+<td>Source</td>
+<td>Universal webhook ingestion</td>
+</tr>
+<tr>
+<td><a href="https://github.com/danube-messaging/danube-connect/tree/main/connectors/sink-qdrant">Qdrant</a></td>
+<td>Sink</td>
+<td>Vector embeddings for RAG/AI</td>
+</tr>
+<tr>
+<td><a href="https://github.com/danube-messaging/danube-connect/tree/main/connectors/sink-surrealdb">SurrealDB</a></td>
+<td>Sink</td>
+<td>Multi-model database storage</td>
+</tr>
+<tr>
+<td><a href="https://github.com/danube-messaging/danube-connect/tree/main/connectors/sink-deltalake">Delta Lake</a></td>
+<td>Sink</td>
+<td>ACID data lake ingestion</td>
+</tr>
+</tbody>
+</table>
+<h3 id="coming-soon">Coming Soon</h3>
 <ul>
-<li><code>Consumers</code>: Multiple consumers can subscribe to the partitioned topic.</li>
-<li><code>Message Handling</code>: Messages are distributed across all partitions, and then among consumers in a round-robin fashion. Each message from any partition is delivered to only one consumer.</li>
+<li>OpenTelemetry Source (traces, metrics, logs)</li>
+<li>PostgreSQL CDC Source</li>
+<li>LanceDB Sink (vector search)</li>
+<li>ClickHouse Sink (analytics)</li>
+<li>GreptimeDB Sink (observability)</li>
 </ul>
-<p><img alt="Shared Partitioned" src="../../assets/img/concepts/shared_subscription_partitioned.png" title="Shared Partitioned" /></p>
-<h2 id="failover">Failover</h2>
-<p>The <strong>Failover</strong> subscription type allows multiple consumers to attach to the same subscription, with one active consumer at a time. If the active consumer disconnects or becomes unhealthy, another consumer automatically takes over. This preserves ordering and minimizes downtime.</p>
-<h3 id="failover-subscription-on-non-partitioned-topic">Failover subscription on Non-Partitioned Topic</h3>
+<hr />
+<h2 id="quick-start">Quick Start</h2>
+<h3 id="running-a-connector">Running a Connector</h3>
+<p>Deploy connectors using Docker:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span>-e<span class="w"> </span><span class="nv">DANUBE_SERVICE_URL</span><span class="o">=</span>http://danube-broker:6650<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span>-e<span class="w"> </span><span class="nv">CONNECTOR_NAME</span><span class="o">=</span>mqtt-bridge<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span>-v<span class="w"> </span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/config.toml:/config.toml<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span>danube-connect/source-mqtt:latest
+</span></code></pre></div>
+<p><strong>That's it!</strong> The connector handles:</p>
 <ul>
-<li><code>Consumers</code>: One active consumer processes all messages; additional consumers are in standby.</li>
-<li><code>Message Handling</code>: If the active consumer fails, a standby consumer takes over and continues from the last acknowledged position.</li>
+<li>Connection management to Danube</li>
+<li>Message transformation and routing</li>
+<li>Retry logic and error handling</li>
+<li>Metrics and health checks</li>
+<li>Graceful shutdown</li>
 </ul>
-<p><img alt="Failover Non-Partitioned" src="../../assets/img/concepts/failover_subscription_non_partitioned.png" title="Failover Non-Partitioned" /></p>
-<h3 id="failover-subscription-on-partitioned-topic-multiple-partitions">Failover subscription on Partitioned Topic (Multiple Partitions)</h3>
+<hr />
+<h2 id="why-danube-connect">Why Danube Connect?</h2>
+<h3 id="versus-embedding-in-broker">Versus Embedding in Broker</h3>
+<table>
+<thead>
+<tr>
+<th>Embedded Integrations</th>
+<th>Danube Connect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>❌ Broker crashes if integration fails</td>
+<td>✅ Isolated processes</td>
+</tr>
+<tr>
+<td>❌ Tight coupling, hard to maintain</td>
+<td>✅ Clean separation</td>
+</tr>
+<tr>
+<td>❌ Bloated broker binary</td>
+<td>✅ Lightweight core</td>
+</tr>
+<tr>
+<td>❌ All-or-nothing scaling</td>
+<td>✅ Independent scaling</td>
+</tr>
+</tbody>
+</table>
+<h3 id="versus-custom-scripts">Versus Custom Scripts</h3>
+<table>
+<thead>
+<tr>
+<th>DIY Integration Scripts</th>
+<th>Danube Connect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>❌ Manual retry logic</td>
+<td>✅ Built-in exponential backoff</td>
+</tr>
+<tr>
+<td>❌ No observability</td>
+<td>✅ Prometheus metrics + health checks</td>
+</tr>
+<tr>
+<td>❌ Ad-hoc error handling</td>
+<td>✅ Standardized error types</td>
+</tr>
+<tr>
+<td>❌ Reinvent the wheel</td>
+<td>✅ Reusable SDK framework</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="key-features">Key Features</h2>
+<h3 id="bidirectional-data-flow">🔄 Bidirectional Data Flow</h3>
+<p>Both source (import) and sink (export) connectors supported</p>
+<h3 id="modular-architecture">📦 Modular Architecture</h3>
+<p>Clean separation between connector framework and implementations</p>
+<h3 id="cloud-native">🚀 Cloud Native</h3>
+<p>Docker-first with Kubernetes support, horizontal scaling</p>
+<h3 id="observable">📊 Observable</h3>
+<p>Prometheus metrics, structured logging, health endpoints</p>
+<h3 id="high-performance">⚡ High Performance</h3>
+<p>Async I/O, batching, connection pooling, parallel processing</p>
+<h3 id="pure-rust">🦀 Pure Rust</h3>
+<p>Memory-safe, high-performance, zero-cost abstractions</p>
+<hr />
+<h2 id="learn-more">Learn More</h2>
 <ul>
-<li><code>Consumers</code>: One active consumer per partition; other consumers remain on standby for each partition.</li>
-<li><code>Message Handling</code>: Failover occurs independently per partition, ensuring continuity and ordering within each partition.</li>
+<li><strong><a href="../danube_connect_architecture/">Connector Architecture</a></strong> - Deep dive into design and concepts</li>
+<li><strong><a href="../danube_connect_development/">Building Connectors</a></strong> - Create your own connector</li>
+<li><strong><a href="https://github.com/danube-messaging/danube-connect">GitHub Repository</a></strong> - Source code and examples</li>
 </ul>
-<p><img alt="Failover Partitioned" src="../../assets/img/concepts/failover_subscription_partitioned.png" title="Failover Partitioned" /></p>
+<hr />
+<h2 id="community-support">Community &amp; Support</h2>
+<ul>
+<li><strong>GitHub Issues:</strong> <a href="https://github.com/danube-messaging/danube-connect/issues">Report bugs or request connectors</a></li>
+<li><strong>Source Code:</strong> <a href="https://github.com/danube-messaging/danube-connect">danube-messaging/danube-connect</a></li>
+<li><strong>Examples:</strong> <a href="https://github.com/danube-messaging/danube-connect/tree/main/examples">Complete connector examples</a></li>
+</ul>
 
 
 
