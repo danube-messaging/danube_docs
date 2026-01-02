@@ -1,19 +1,58 @@
-site_name: Danube Messaging documentation
-repo_url: https://github.com/danube-messaging/danube
-repo_name: danube-messaging/danube
+# ============================================================================
+# SITE METADATA
+# ============================================================================
+site_name: Danube Messaging
+site_url: https://danube-docs.dev-state.com/
+site_description: >-
+        Lightweight, cloud-native messaging platform built in Rust. 
+        Sub-second dispatch with cloud economics powered by WAL + Object Storage.
+site_author: Dan Rusei
+# ============================================================================
+# REPOSITORY
+# ============================================================================
+repo_url: https://github.com/danube-messaging/danube_docs
+repo_name: danube-messaging/danube_docs
+edit_uri: edit/main/docs/
+
+# ============================================================================
+# COPYRIGHT
+# ============================================================================
+copyright: Copyright &copy; 2024 Danube Messaging
+
+# ============================================================================
+# ANALYTICS & SOCIAL
+# ============================================================================
 extra:
         analytics:
                 provider: google
                 property: G-2XEY5RCVVB
+        
+        # Social links in footer
+        social:
+                - icon: fontawesome/brands/github
+                  link: https://github.com/danube-messaging/danube
+                  name: Danube on GitHub
+                
+                - icon: fontawesome/solid/tag
+                  link: https://github.com/danube-messaging/danube/releases
+                  name: Release Notes
+                
+                - icon: fontawesome/brands/rust
+                  link: https://crates.io/crates/danube-client
+                  name: Rust Client on Crates.io
+                
+                - icon: fontawesome/brands/golang
+                  link: https://pkg.go.dev/github.com/danube-messaging/danube-go
+                  name: Go Client Documentation
 nav:
-        - Home: index.md
+        - 🏠 Home: index.md
 
-        - Getting Started:
+        - 📚 Getting Started:
                   - Docker Compose (Recommended): getting_started/Danube_docker_compose.md
                   - Kubernetes: getting_started/Danube_kubernetes.md
                   - Local Machine / VMs: getting_started/Danube_local.md
 
-        - Core Concepts:
+        - 💡 Core Concepts:
                   - Topics: concepts/topics.md
                   - Subscriptions: concepts/subscriptions.md
                   - Dispatch Strategies: concepts/dispatch_strategy.md
@@ -22,13 +61,13 @@ nav:
                             - Queuing vs Pub/Sub: concepts/messaging_patterns_queuing_vs_pubsub.md
                             - Pub/Sub vs Streaming: concepts/messaging_modes_pubsub_vs_streaming.md
 
-        - Architecture:
+        - 🏗️ Architecture:
                   - System Overview: architecture/architecture.md
                   - Persistence (WAL + Cloud): architecture/persistence.md
                   - Schema Registry Architecture: architecture/schema_registry_architecture.md
                   - Internal Services: architecture/internal_danube_services.md
 
-        - Client Libraries:
+        - 📦 Client Libraries:
                   - Overview & Installation: client_libraries/clients.md
                   - Setup & Configuration: client_libraries/setup.md
                   - Producer Guide:
@@ -39,7 +78,7 @@ nav:
                             - Advanced Consumer: client_libraries/consumer-advanced.md
                   - Schema Registry: client_libraries/schema-registry.md
 
-        - CLI Tools:
+        - 🔧 CLI Tools:
                   - Danube CLI (Client):
                             - Getting Started: danube_clis/danube_cli/getting_started.md
                             - Producer: danube_clis/danube_cli/producer.md
@@ -51,14 +90,35 @@ nav:
                             - Topics: danube_clis/danube_admin/topics.md
                             - Schema Registry: danube_clis/danube_admin/schema_registry.md
 
-        - Contributing:
+        - 🤝 Contributing:
                   - Development Environment: contributing/dev_environment.md
                   - Internal Resources: contributing/internal_resources.md
 theme:
         name: material
         logo: assets/danube.png
+        favicon: assets/favicon.ico  # Create a favicon.ico file in docs/assets/
+        font:
+                text: Roboto
+                code: JetBrains Mono
         features:
-                - content.tabs.link
+                # Content features
+                - content.action.edit # Edit this page button
+                #- content.action.view # View source button
+                - content.code.copy # Copy button for code blocks
+                - content.tabs.link # Linked content tabs
+                - content.tooltips # Improved tooltips
+
+                # Navigation features
+                #- navigation.tabs # Top-level sections as tabs
+                #- navigation.tabs.sticky # Tabs stay visible when scrolling
+                #- navigation.sections # Sections in sidebar
+                - navigation.top # Back to top button
+                #- navigation.footer # Previous/Next links in footer
+
+                # Search features
+                - search.suggest # Autocomplete suggestions
+                #- search.highlight # Highlight search terms
+                - search.share # Shareable search URLs
         palette:
                 # Palette toggle for light mode
                 - media: "(prefers-color-scheme: light)"
@@ -84,3 +144,10 @@ markdown_extensions:
         - pymdownx.superfences
         - pymdownx.tabbed:
                   alternate_style: true
+
+        # Admonitions (callout boxes)
+        - admonition
+        - pymdownx.details
+
+        # Enhanced tables
+        - tables

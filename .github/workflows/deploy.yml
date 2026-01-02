@@ -3,6 +3,11 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+    paths:
+      - 'docs/**'
+      - 'mkdocs.yml'
+      - 'requirements.txt'
+      - '.github/workflows/deploy.yml'
 
 permissions:
   contents: write   #  needed for pushing to gh-pages branch
@@ -29,7 +34,7 @@ jobs:
         pip install -r requirements.txt
 
     - name: Build documentation
-      run: mkdocs build
+      run: mkdocs build --strict
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3

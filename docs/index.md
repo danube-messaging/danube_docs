@@ -21,7 +21,16 @@ For design details, see the [Architecture](architecture/architecture.md).
 - **Multi-tenancy**: Isolated namespaces with policy controls
 - **Security-ready**: TLS/mTLS support in Admin and data paths
 
-**Cloud-Native by Design** - Danube's architecture separates compute from storage, enabling:
+### 📋 **Schema Registry**
+
+- **Centralized schema management**: Single source of truth for message schemas across all topics
+- **Schema versioning**: Automatic version tracking with compatibility enforcement
+- **Multiple formats**: Bytes, String, Number, JSON Schema, Avro, Protobuf
+- **Validation & governance**: Prevent invalid messages and ensure data quality
+
+## Cloud-Native by Design
+
+Danube's architecture separates compute from storage, enabling:
 
 ### 🌩️ **Write-Ahead Log + Cloud Persistence**
 
@@ -36,36 +45,49 @@ For design details, see the [Architecture](architecture/architecture.md).
 - **Stream per subscription**: WAL + cloud storage from selected offset 
 - **Multi-cloud support**: AWS S3, Google Cloud Storage, Azure Blob, MinIO
 
-## Core features
 
-**[Topics](concepts/topics.md)**
+## Core Concepts
 
-  - Non‑partitioned: served by a single broker.
-  - Partitioned: split across brokers for scale and HA.
+Learn the fundamental concepts that power Danube messaging:
 
-**[Dispatch strategies](concepts/dispatch_strategy.md)**
+**[Topics](concepts/topics.md)** - Named channels for message streams
 
-  - Non‑Reliable: in‑memory, best‑effort delivery, lowest latency.
-  - Reliable: WAL + Cloud persistence with acknowledgments and replay.
+  - Non‑partitioned: served by a single broker
+  - Partitioned: split across brokers for scale and HA
 
-**[Persistence (WAL + Cloud)](architecture/persistence.md)**
+**[Subscriptions](concepts/subscriptions.md)** - Named configurations for message delivery
 
-  - Write‑Ahead Log on local disk for fast durable writes.
-  - Background uploads to object storage for durability and replay at cloud cost.
-  - Seamless handoff from historical replay to live tail.
+  - `Exclusive`, `Shared`, `Failover` patterns for queueing and fan‑out
 
-**[Subscriptions](concepts/subscriptions.md)**
+**[Dispatch Strategies](concepts/dispatch_strategy.md)** - Message delivery guarantees
 
-  - Exclusive, Shared, Failover patterns for queueing and fan‑out.
+  - `Non‑Reliable`: in‑memory, best‑effort delivery, lowest latency
+  - `Reliable`: WAL + Cloud persistence with acknowledgments and replay
 
-**[Message schemas](concepts/messages.md)**
-  
-  - Bytes, String, Int64, JSON.
+**[Danube Stream Messages](concepts/messages.md)** - Message structure 
 
-**Concept guides**
+**Messaging Patterns**
 
-  - [Messaging Modes (Pub/Sub vs Streaming)](concepts/messaging_modes_pubsub_vs_streaming.md)
-  - [Messaging Patterns (Queuing vs Pub/Sub)](concepts/messaging_patterns_queuing_vs_pubsub.md)
+  - [Pub/Sub vs Streaming](concepts/messaging_modes_pubsub_vs_streaming.md) - Compare messaging modes
+  - [Queuing vs Pub/Sub](concepts/messaging_patterns_queuing_vs_pubsub.md) - Understand delivery patterns
+
+## Architecture Deep Dives
+
+Explore how Danube works under the hood:
+
+**[System Overview](architecture/architecture.md)** - Complete architecture diagram and component interaction
+
+**[Persistence (WAL + Cloud)](architecture/persistence.md)** - Two-tier storage architecture
+  - Write‑Ahead Log on local disk for fast durable writes
+  - Background uploads to object storage for durability and replay at cloud cost
+  - Seamless handoff from historical replay to live tail
+
+**[Schema Registry](architecture/schema_registry_architecture.md)** - Centralized schema management
+  - Schema versioning and compatibility checking
+  - Support for JSON Schema, Avro, and Protobuf
+  - Data validation and governance
+
+**[Internal Services](architecture/internal_danube_services.md)** - Service discovery and coordination
 
 ## Crates in the workspace
 
