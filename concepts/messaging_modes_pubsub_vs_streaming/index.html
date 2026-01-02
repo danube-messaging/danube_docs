@@ -9,8 +9,10 @@
       
       
       
-        <link rel="prev" href="../dev_environment/">
+        <link rel="prev" href="../messaging_patterns_queuing_vs_pubsub/">
       
+      
+        <link rel="next" href="../../client_libraries/clients/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -18,7 +20,7 @@
     
     
       
-        <title>Metadata Resources - Danube Messaging documentation</title>
+        <title>Pub/Sub vs Streaming - Danube Messaging documentation</title>
       
     
     
@@ -80,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#resources-mapping" class="md-skip">
+        <a href="#pubsub-vs-streaming-concepts-and-danube-support" class="md-skip">
           Skip to content
         </a>
       
@@ -115,7 +117,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Metadata Resources
+              Pub/Sub vs Streaming
             
           </span>
         </div>
@@ -316,28 +318,7 @@
         
   
   <span class="md-ellipsis">
-    Run Danube on Docker
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../getting_started/Danube_local/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Run Danube on VMs or local machine
+    Docker Compose (Recommended)
   </span>
   
 
@@ -358,7 +339,28 @@
         
   
   <span class="md-ellipsis">
-    Run Danube on Kubernetes Cluster
+    Kubernetes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting_started/Danube_local/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Local Machine / VMs
   </span>
   
 
@@ -379,34 +381,36 @@
       
   
   
+    
   
   
+  
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
             
   
   <span class="md-ellipsis">
-    Architecture
+    Core Concepts
   </span>
   
 
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
-            Architecture
+            Core Concepts
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -417,112 +421,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/architecture/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Danube architecture
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../architecture/persistence/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Persistence (WAL + Cloud)
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../architecture/schema_registry_architecture/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Schema Registry
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../architecture/dispatch_strategy/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Dispatch Strategy
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../architecture/messages/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Messages
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../architecture/topics/" class="md-nav__link">
+      <a href="../topics/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -543,7 +442,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/subscriptions/" class="md-nav__link">
+      <a href="../subscriptions/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -564,11 +463,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/messaging_modes_pubsub_vs_streaming/" class="md-nav__link">
+      <a href="../dispatch_strategy/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Messaging Modes (Pub/Sub vs Streaming)
+    Dispatch Strategies
   </span>
   
 
@@ -585,11 +484,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/messaging_patterns_queuing_vs_pubsub/" class="md-nav__link">
+      <a href="../messages/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Messaging Patterns (Queuing vs Pub/Sub)
+    Messages & Schemas
   </span>
   
 
@@ -603,18 +502,268 @@
                 
   
   
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Messaging Patterns
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            Messaging Patterns
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/internal_danube_services/" class="md-nav__link">
+      <a href="../messaging_patterns_queuing_vs_pubsub/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Danube service components
+    Queuing vs Pub/Sub
   </span>
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Pub/Sub vs Streaming
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Pub/Sub vs Streaming
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pubsub-messaging" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pub/Sub messaging
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pub/Sub messaging">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose-and-use-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Purpose and Use Cases
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#architecture-and-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      Architecture and Design
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-handling-and-processing-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Handling and Processing Models
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Handling and Processing Models">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pubsub-messaging-producers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pub/Sub messaging Producers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pubsub-messaging-consumers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pub/Sub messaging Consumers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#order-of-operations-of-pubsub-messaging" class="md-nav__link">
+    <span class="md-ellipsis">
+      Order of Operations of Pub/Sub messaging
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#streaming-design-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Streaming design considerations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Streaming design considerations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose-and-use-cases_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Purpose and Use Cases
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#architecture-and-design_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Architecture and Design
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-handling-and-processing-models_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Handling and Processing Models
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#streaming-producers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Streaming Producers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#streaming-consumers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Streaming Consumers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#order-of-operations-of-streaming" class="md-nav__link">
+    <span class="md-ellipsis">
+      Order of Operations of Streaming
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -673,7 +822,7 @@
         
   
   <span class="md-ellipsis">
-    Danube Clients
+    Overview & Installation
   </span>
   
 
@@ -694,7 +843,7 @@
         
   
   <span class="md-ellipsis">
-    Setup
+    Setup & Configuration
   </span>
   
 
@@ -703,6 +852,41 @@
   
 
               
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Producer Guide
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            Producer Guide
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
             
               
                 
@@ -715,28 +899,7 @@
         
   
   <span class="md-ellipsis">
-    Create Producer
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../client_libraries/consumer-basics/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Create Consumer
+    Basic Producer
   </span>
   
 
@@ -767,6 +930,70 @@
 
               
             
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Consumer Guide
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            Consumer Guide
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client_libraries/consumer-basics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Basic Consumer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
               
                 
   
@@ -783,6 +1010,14 @@
   
 
       </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -837,7 +1072,7 @@
             
   
   <span class="md-ellipsis">
-    Danube CLIs
+    CLI Tools
   </span>
   
 
@@ -847,7 +1082,7 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
-            Danube CLIs
+            CLI Tools
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -872,7 +1107,7 @@
             
   
   <span class="md-ellipsis">
-    Danube Admin CLI
+    Danube CLI (Client)
   </span>
   
 
@@ -882,134 +1117,7 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5_1">
             <span class="md-nav__icon md-icon"></span>
-            Danube Admin CLI
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../danube_clis/danube_admin/brokers/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Brokers
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../danube_clis/danube_admin/namespaces/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Namespaces
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../danube_clis/danube_admin/topics/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Topics
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../danube_clis/danube_admin/schema_registry/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Schema Registry
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
-        
-          
-          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    Danube CLI
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5_2">
-            <span class="md-nav__icon md-icon"></span>
-            Danube CLI
+            Danube CLI (Client)
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -1105,6 +1213,133 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Admin CLI (Operations)
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            Admin CLI (Operations)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../danube_clis/danube_admin/brokers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Brokers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../danube_clis/danube_admin/namespaces/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Namespaces
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../danube_clis/danube_admin/topics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Topics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../danube_clis/danube_admin/schema_registry/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Schema Registry
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1116,36 +1351,34 @@
       
   
   
-    
   
   
-  
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
         
           
           <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
             
   
   <span class="md-ellipsis">
-    Development
+    Architecture
   </span>
   
 
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
-            Development
+            Architecture
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -1156,7 +1389,133 @@
   
   
     <li class="md-nav__item">
-      <a href="../dev_environment/" class="md-nav__link">
+      <a href="../../architecture/architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    System Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/persistence/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Persistence (WAL + Cloud)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/schema_registry_architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Schema Registry Architecture
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/internal_danube_services/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Internal Services
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Contributing
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Contributing
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/dev_environment/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1174,118 +1533,18 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Metadata Resources
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../contributing/internal_resources/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Metadata Resources
+    Internal Resources
   </span>
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#metadatastore-and-localcache" class="md-nav__link">
-    <span class="md-ellipsis">
-      MetadataStore and LocalCache
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#resources-types" class="md-nav__link">
-    <span class="md-ellipsis">
-      Resources Types
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Resources Types">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#cluster-resources" class="md-nav__link">
-    <span class="md-ellipsis">
-      Cluster Resources
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#namespace-resources" class="md-nav__link">
-    <span class="md-ellipsis">
-      Namespace Resources
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#topic-resources" class="md-nav__link">
-    <span class="md-ellipsis">
-      Topic Resources
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#subscriptions-resources" class="md-nav__link">
-    <span class="md-ellipsis">
-      Subscriptions Resources
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1325,55 +1584,139 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#metadatastore-and-localcache" class="md-nav__link">
+  <a href="#pubsub-messaging" class="md-nav__link">
     <span class="md-ellipsis">
-      MetadataStore and LocalCache
+      Pub/Sub messaging
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Pub/Sub messaging">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose-and-use-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Purpose and Use Cases
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#architecture-and-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      Architecture and Design
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-handling-and-processing-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Handling and Processing Models
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Data Handling and Processing Models">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pubsub-messaging-producers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pub/Sub messaging Producers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pubsub-messaging-consumers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pub/Sub messaging Consumers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#order-of-operations-of-pubsub-messaging" class="md-nav__link">
+    <span class="md-ellipsis">
+      Order of Operations of Pub/Sub messaging
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#resources-types" class="md-nav__link">
+  <a href="#streaming-design-considerations" class="md-nav__link">
     <span class="md-ellipsis">
-      Resources Types
+      Streaming design considerations
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Resources Types">
+    <nav class="md-nav" aria-label="Streaming design considerations">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#cluster-resources" class="md-nav__link">
+  <a href="#purpose-and-use-cases_1" class="md-nav__link">
     <span class="md-ellipsis">
-      Cluster Resources
+      Purpose and Use Cases
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#namespace-resources" class="md-nav__link">
+  <a href="#architecture-and-design_1" class="md-nav__link">
     <span class="md-ellipsis">
-      Namespace Resources
+      Architecture and Design
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#topic-resources" class="md-nav__link">
+  <a href="#data-handling-and-processing-models_1" class="md-nav__link">
     <span class="md-ellipsis">
-      Topic Resources
+      Data Handling and Processing Models
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#subscriptions-resources" class="md-nav__link">
+  <a href="#streaming-producers" class="md-nav__link">
     <span class="md-ellipsis">
-      Subscriptions Resources
+      Streaming Producers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#streaming-consumers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Streaming Consumers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#order-of-operations-of-streaming" class="md-nav__link">
+    <span class="md-ellipsis">
+      Order of Operations of Streaming
     </span>
   </a>
   
@@ -1402,86 +1745,93 @@
   
 
 
-<h1 id="resources-mapping">Resources mapping</h1>
-<p>This document describes how the resources are organized in the Metadata store</p>
-<h2 id="metadatastore-and-localcache">MetadataStore and LocalCache</h2>
-<p>Basically the entire configuration and the metadata for all the cluster's objects (topics, namespaces, etc) are stored in <strong>MetadataStorage (ETCD)</strong> and in the <strong>LocalCache</strong> to ensure fast retrieval for the local broker and to reduce the number of request to the metadata database.</p>
-<p>The pattern:</p>
+<h1 id="pubsub-vs-streaming-concepts-and-danube-support">Pub/Sub vs Streaming: Concepts and Danube Support</h1>
+<p>This page compares Pub/Sub messaging and Streaming architectures, highlights key differences and use cases, and indicates what Danube supports. Use it as a conceptual guide aligned with Danube’s Reliable and Non‑Reliable dispatch modes.</p>
+<h2 id="pubsub-messaging">Pub/Sub messaging</h2>
+<h3 id="purpose-and-use-cases">Purpose and Use Cases</h3>
 <ul>
-<li><strong>Put / Delete</strong> requests should use MetadataStore (ETCD), to ensure consistency across cluster</li>
-<li><strong>Get</strong> requests should be served from the Local Cache</li>
+<li><strong>Purpose</strong>: Designed for decoupling producers and consumers, enabling asynchronous communication between different parts of a system.</li>
+<li><strong>Use Cases</strong>: Event-driven architectures, real-time notifications, decoupled microservices, and distributed systems. Suitable when low latency is critical and some message loss is acceptable (e.g., monitoring, telemetry, ephemeral chat).</li>
 </ul>
-<p>The <strong>LocalCache</strong> continuously update from 2 sources for increase consistency:</p>
+<p><strong>Danube support</strong>: Yes, via Non‑Reliable dispatch.</p>
 <ul>
-<li>the Watch operation on ETCD</li>
-<li>the Syncronizer topic, where all <strong>Put / Delete</strong> requests are published and read by the brokers.</li>
+<li>Delivery: best‑effort (at‑most‑once).</li>
+<li>Persistence: none; messages are not stored.</li>
+<li>Ordering: per topic/partition within a dispatcher.</li>
 </ul>
-<h2 id="resources-types">Resources Types</h2>
-<h3 id="cluster-resources">Cluster Resources</h3>
-<p>Holds information about the cluster and the cluster's brokers. Mainly read and write by Danube Service.</p>
+<h3 id="architecture-and-design">Architecture and Design</h3>
 <ul>
-<li><strong>/cluster/cluster-name</strong></li>
-<li>holds a String with the name of the cluster</li>
-<li><strong>/cluster/register/{broker-id}</strong></li>
-<li>the broker register once it join the cluster, contain the broker metadata (broker id &amp; socket addr)  </li>
-<li><strong>/cluster/brokers/{broker-id}/{namespace}/{topic}</strong></li>
-<li>topics served by the broker, with value ()</li>
-<li><strong>Load Manager</strong> updates the path, with topic assignments to brokers</li>
-<li><strong>Brokers</strong> should watch it's own path like (/cluster/brokers/1122334455) - and perform the neccesary actions on adding or removing a topic</li>
-<li><strong>/cluster/unassigned/{namespace}/{topic}</strong></li>
-<li>New unassigned topics created by Broker</li>
-<li>Load Manager should watch this path, add assign the topic to a broker</li>
-<li><strong>/cluster/load/{broker-id}</strong></li>
-<li>broker periodically reports its load metrics on this path</li>
-<li>Load Manager watch this path to calculate broker load rankings for the cluster</li>
-<li><strong>/cluster/load_balance</strong></li>
-<li>the load_balance updated decision, posted by the Load Manager, contain a HashMap with keys the broker_id and value the list of topic_name</li>
-<li><strong>/cluster/leader</strong></li>
-<li>the value posted by Leader Election service, it holds broker_id of the current Leader of the CLuster</li>
+<li><strong>Components</strong>: Producers, Subscriptions (consumer groups), and the broker.</li>
+<li><strong>Message Flow</strong>: Producers send messages to a broker, which distributes them to active subscribers according to subscription semantics.</li>
+<li><strong>Scaling</strong>: Scales by adding more brokers or distributing load (topics / partitions) across multiple brokers.</li>
 </ul>
-<p>Example:</p>
+<h3 id="data-handling-and-processing-models">Data Handling and Processing Models</h3>
+<h4 id="pubsub-messaging-producers">Pub/Sub messaging Producers</h4>
 <ul>
-<li>/cluster/brokers/1122334455/markets/trade-events - value is ()</li>
-<li>/cluster/brokers/1122334455/markets/trade-events - value is ()</li>
+<li><strong>Low Latency</strong>: No disk persistence on the hot path; minimal overhead.</li>
+<li><strong>Ordering</strong>: Preserved per topic/partition through the dispatcher.</li>
+<li><strong>Delivery</strong>: Best‑effort; messages can be lost on failure.</li>
+<li><strong>Acks</strong>: Immediate, based on in‑memory handling.</li>
+<li><strong>No Active Consumers</strong>: Publishing is allowed; messages are dropped if no consumers are attached.</li>
 </ul>
-<h3 id="namespace-resources">Namespace Resources</h3>
-<p>Holds information about the namespace policy and the namespace's topics</p>
+<p><strong>Danube</strong>: Matches Non‑Reliable dispatch semantics.</p>
+<h4 id="pubsub-messaging-consumers">Pub/Sub messaging Consumers</h4>
 <ul>
-<li><strong>/namespaces/{namespace}/policy</strong></li>
-<li><strong>/namespaces/{namespace}/topics/{namespace}/{topic}</strong></li>
+<li><strong>Real-time</strong>: Messages are delivered only to connected consumers.</li>
+<li><strong>No Replay</strong>: No historical fetch; process as they arrive.</li>
+<li><strong>Throughput</strong>: High, with low overhead.</li>
+<li><strong>Delivery</strong>: Only to active subscribers; otherwise dropped.</li>
 </ul>
-<p>Example:</p>
+<p><strong>Danube</strong>: Supported via Exclusive, Shared, Failover subscriptions in Non‑Reliable mode.</p>
+<h4 id="order-of-operations-of-pubsub-messaging">Order of Operations of Pub/Sub messaging</h4>
 <ul>
-<li>/namespaces/markets/policy - the value stores a Json like { "retentionTimeInMinutes": 1440 }</li>
-<li>/namespaces/markets/topics/markets/trade-events - topics part of the namespace, value is ()</li>
+<li><strong>Producer Publishes Message</strong>: The producer sends a message to the broker.</li>
+<li><strong>Broker Receives Message</strong>: The broker processes the message.</li>
+<li><strong>Consumer Availability Check</strong>: If consumers are available, the message is delivered to them in real-time.</li>
+<li><strong>No Consumers</strong>: If no consumers are connected, the message is discarded.</li>
 </ul>
-<h3 id="topic-resources">Topic Resources</h3>
-<p>Holds information about the topic policy and the associated producers / subscriptions, including partitioned topic.</p>
+<h2 id="streaming-design-considerations">Streaming design considerations</h2>
+<h3 id="purpose-and-use-cases_1">Purpose and Use Cases</h3>
 <ul>
-<li><strong>/topics/{namespace}/{topic}/policy</strong></li>
-<li>holds the topic policy, the value stores a Json</li>
-<li><strong>/topics/{namespace}/{topic}/schema</strong></li>
-<li>holds the topic schema, the value stores the schema</li>
-<li><strong>/topics/{namespace}/{topic}/producers/{producer_id}</strong></li>
-<li>holds the producer config</li>
-<li><strong>/topics/{namespace}/{topic}/subscriptions/{subscription_name}</strong></li>
-<li>holds the subscription config</li>
+<li><strong>Purpose</strong>: Designed for processing and analyzing large volumes of data in real-time as it is generated.</li>
+<li><strong>Use Cases</strong>: Real-time analytics, data pipelines, event sourcing, continuous data processing, and stream processing applications. Ideal when high reliability and durability are required (e.g., financial transactions, orders, audit logs).</li>
 </ul>
-<p>Example:</p>
+<p><strong>Danube support</strong>: Yes, via Reliable dispatch (WAL + Cloud persistence).</p>
 <ul>
-<li>/topics/markets/trade-events/producers/1122334455 - with value Producer Metadata</li>
-<li>/topics/markets/trade-events/subscriptions/my_subscription - with value Subscription Metadata</li>
-<li>/topics/markets/trade-events-part-1/policy - where <em>/markets/trade-events-part-1</em> is the partitioned topic that stores partition policy</li>
+<li>Delivery: at‑least‑once with ack‑gating.</li>
+<li>Persistence: local WAL for hot path, background uploads to object storage for durability and replay.</li>
+<li>Replay: historical fetch from WAL or Cloud with seamless handoff to live tail.</li>
 </ul>
-<h3 id="subscriptions-resources">Subscriptions Resources</h3>
-<p>Holds information about the topic subscriptions, including associated consumers</p>
+<h3 id="architecture-and-design_1">Architecture and Design</h3>
 <ul>
-<li><strong>/subscriptions/{subscription_name}/{consumer_id}</strong></li>
-<li>holds the consumer metadata</li>
+<li><strong>Components</strong>: Producers, consumers, stream processors, and a durable log.</li>
+<li><strong>Data Flow</strong>: Producers append to a log; consumers/processors read continuously with tracked progress.</li>
+<li><strong>Scaling</strong>: Designed to handle high throughput and scale horizontally by partitioning data across multiple nodes in a cluster.</li>
 </ul>
-<p>Example:</p>
+<h3 id="data-handling-and-processing-models_1">Data Handling and Processing Models</h3>
+<h3 id="streaming-producers">Streaming Producers</h3>
 <ul>
-<li>/subscriptions/my_subscription/23232323</li>
+<li><strong>Durability</strong>: Messages are appended to a persistent log. In Danube, the hot path is a local WAL with asynchronous uploads to cloud object storage, enabling replay and recovery.</li>
+<li><strong>Acknowledgements</strong>: Acks are returned once the message is durably appended to the WAL (replication depends on deployment/storage backend). Latency is higher than non‑reliable but optimized for sub‑second dispatch.</li>
+<li><strong>Ordering</strong>: Preserved per topic/partition.</li>
+<li><strong>Delivery Guarantees</strong>: At‑least‑once (with redelivery on failure).</li>
+<li><strong>Publishing Without Consumers</strong>: Allowed; messages are stored and remain available for later consumption within retention.</li>
+<li><strong>Processing</strong>: Compatible with stream processing patterns (e.g., windowing, aggregations) layered above the durable log.</li>
+</ul>
+<h3 id="streaming-consumers">Streaming Consumers</h3>
+<ul>
+<li><strong>Replay &amp; Retention</strong>: Consumers can fetch historical data within retention. In Danube, reads come from WAL if available, otherwise from Cloud with seamless handoff to the live tail.</li>
+<li><strong>Acknowledgements</strong>: Consumers ack processed messages; the broker tracks subscription progress and manages redelivery.</li>
+<li><strong>Fault Tolerance</strong>: On crash/reconnect, consumers resume from the last acknowledged position.</li>
+<li><strong>Availability</strong>: Messages remain available even with no active consumers, subject to retention policies.</li>
+</ul>
+<h3 id="order-of-operations-of-streaming">Order of Operations of Streaming</h3>
+<ul>
+<li><strong>Producer Publishes Message</strong>: The producer sends a message to the broker.</li>
+<li><strong>Durable Append</strong>: The broker appends the message to the WAL (durable on disk); background tasks upload frames to cloud storage.</li>
+<li><strong>Producer Acknowledgment</strong>: The broker acknowledges once the append is durable.</li>
+<li><strong>Delivery to Consumers</strong>: Messages are dispatched to consumers, gated by acknowledgments for reliable delivery.</li>
+<li><strong>No Consumers</strong>: Messages remain stored and available for later consumption within retention.</li>
 </ul>
 
 

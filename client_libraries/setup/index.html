@@ -20,7 +20,7 @@
     
     
       
-        <title>Setup - Danube Messaging documentation</title>
+        <title>Setup & Configuration - Danube Messaging documentation</title>
       
     
     
@@ -117,7 +117,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Setup
+              Setup & Configuration
             
           </span>
         </div>
@@ -318,28 +318,7 @@
         
   
   <span class="md-ellipsis">
-    Run Danube on Docker
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../getting_started/Danube_local/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Run Danube on VMs or local machine
+    Docker Compose (Recommended)
   </span>
   
 
@@ -360,7 +339,28 @@
         
   
   <span class="md-ellipsis">
-    Run Danube on Kubernetes Cluster
+    Kubernetes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting_started/Danube_local/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Local Machine / VMs
   </span>
   
 
@@ -398,7 +398,7 @@
             
   
   <span class="md-ellipsis">
-    Architecture
+    Core Concepts
   </span>
   
 
@@ -408,7 +408,7 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
-            Architecture
+            Core Concepts
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -419,112 +419,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/architecture/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Danube architecture
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../architecture/persistence/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Persistence (WAL + Cloud)
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../architecture/schema_registry_architecture/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Schema Registry
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../architecture/dispatch_strategy/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Dispatch Strategy
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../architecture/messages/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Messages
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../architecture/topics/" class="md-nav__link">
+      <a href="../../concepts/topics/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -545,7 +440,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/subscriptions/" class="md-nav__link">
+      <a href="../../concepts/subscriptions/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -566,11 +461,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/messaging_modes_pubsub_vs_streaming/" class="md-nav__link">
+      <a href="../../concepts/dispatch_strategy/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Messaging Modes (Pub/Sub vs Streaming)
+    Dispatch Strategies
   </span>
   
 
@@ -587,11 +482,67 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/messaging_patterns_queuing_vs_pubsub/" class="md-nav__link">
+      <a href="../../concepts/messages/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Messaging Patterns (Queuing vs Pub/Sub)
+    Messages & Schemas
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Messaging Patterns
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            Messaging Patterns
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/messaging_patterns_queuing_vs_pubsub/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Queuing vs Pub/Sub
   </span>
   
 
@@ -608,15 +559,23 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/internal_danube_services/" class="md-nav__link">
+      <a href="../../concepts/messaging_modes_pubsub_vs_streaming/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Danube service components
+    Pub/Sub vs Streaming
   </span>
   
 
       </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -677,7 +636,7 @@
         
   
   <span class="md-ellipsis">
-    Danube Clients
+    Overview & Installation
   </span>
   
 
@@ -707,7 +666,7 @@
           
   
   <span class="md-ellipsis">
-    Setup
+    Setup & Configuration
   </span>
   
 
@@ -718,7 +677,7 @@
         
   
   <span class="md-ellipsis">
-    Setup
+    Setup & Configuration
   </span>
   
 
@@ -874,20 +833,34 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../producer-basics/" class="md-nav__link">
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
         
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
   
   <span class="md-ellipsis">
-    Create Producer
+    Producer Guide
   </span>
   
 
-      </a>
-    </li>
-  
-
-              
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            Producer Guide
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
             
               
                 
@@ -896,11 +869,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../consumer-basics/" class="md-nav__link">
+      <a href="../producer-basics/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Create Consumer
+    Basic Producer
   </span>
   
 
@@ -931,6 +904,70 @@
 
               
             
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Consumer Guide
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            Consumer Guide
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../consumer-basics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Basic Consumer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
               
                 
   
@@ -947,6 +984,14 @@
   
 
       </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -1001,7 +1046,7 @@
             
   
   <span class="md-ellipsis">
-    Danube CLIs
+    CLI Tools
   </span>
   
 
@@ -1011,7 +1056,7 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
-            Danube CLIs
+            CLI Tools
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -1036,7 +1081,7 @@
             
   
   <span class="md-ellipsis">
-    Danube Admin CLI
+    Danube CLI (Client)
   </span>
   
 
@@ -1046,134 +1091,7 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5_1">
             <span class="md-nav__icon md-icon"></span>
-            Danube Admin CLI
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../danube_clis/danube_admin/brokers/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Brokers
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../danube_clis/danube_admin/namespaces/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Namespaces
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../danube_clis/danube_admin/topics/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Topics
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../danube_clis/danube_admin/schema_registry/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Schema Registry
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
-        
-          
-          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    Danube CLI
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5_2">
-            <span class="md-nav__icon md-icon"></span>
-            Danube CLI
+            Danube CLI (Client)
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -1269,6 +1187,133 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Admin CLI (Operations)
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            Admin CLI (Operations)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../danube_clis/danube_admin/brokers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Brokers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../danube_clis/danube_admin/namespaces/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Namespaces
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../danube_clis/danube_admin/topics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Topics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../danube_clis/danube_admin/schema_registry/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Schema Registry
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1297,7 +1342,7 @@
             
   
   <span class="md-ellipsis">
-    Development
+    Architecture
   </span>
   
 
@@ -1307,7 +1352,7 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
-            Development
+            Architecture
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -1318,7 +1363,133 @@
   
   
     <li class="md-nav__item">
-      <a href="../../development/dev_environment/" class="md-nav__link">
+      <a href="../../architecture/architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    System Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/persistence/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Persistence (WAL + Cloud)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/schema_registry_architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Schema Registry Architecture
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/internal_danube_services/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Internal Services
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Contributing
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Contributing
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/dev_environment/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1339,11 +1510,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../development/internal_resources/" class="md-nav__link">
+      <a href="../../contributing/internal_resources/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Metadata Resources
+    Internal Resources
   </span>
   
 
@@ -1685,31 +1856,31 @@
 </div>
 <h3 id="service-discovery">Service Discovery</h3>
 <p>For clustered deployments, the client performs automatic topic lookup:</p>
-<div class="language-text highlight"><pre><span></span><code>```rust
-</code></pre></div>
-<p>// Client connects to any broker in the cluster
-let client = DanubeClient::builder()
-    .service_url("<a href="http://broker1:6650">http://broker1:6650</a>")
-    .build()
-    .await?;</p>
-<p>// Topic lookup finds the owning broker
-let producer = client.new_producer()
-    .with_topic("/default/my-topic")
-    .build();</p>
-<p>// Producer connects to the correct broker automatically
-producer.create().await?;
-    ```</p>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1">// Client connects to any broker in the cluster</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kd">let</span><span class="w"> </span><span class="n">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DanubeClient</span><span class="p">::</span><span class="n">builder</span><span class="p">()</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="p">.</span><span class="n">service_url</span><span class="p">(</span><span class="s">&quot;&lt;http://broker1:6650&gt;&quot;</span><span class="p">)</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="p">.</span><span class="n">build</span><span class="p">()</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="p">.</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="c1">// Topic lookup finds the owning broker</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="kd">let</span><span class="w"> </span><span class="n">producer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">new_producer</span><span class="p">()</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">    </span><span class="p">.</span><span class="n">with_topic</span><span class="p">(</span><span class="s">&quot;/default/my-topic&quot;</span><span class="p">)</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="w">    </span><span class="p">.</span><span class="n">build</span><span class="p">();</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="c1">// Producer connects to the correct broker automatically</span>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="n">producer</span><span class="p">.</span><span class="n">create</span><span class="p">().</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
+</span></code></pre></div>
 <hr />
 <h2 id="environment-based-configuration">Environment-Based Configuration</h2>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Production</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">DANUBE_URL</span><span class="o">=</span>https://danube.example.com:6650
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="nb">export</span><span class="w"> </span><span class="nv">DANUBE_CA_CERT</span><span class="o">=</span>/etc/danube/certs/ca.pem
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="nb">export</span><span class="w"> </span><span class="nv">DANUBE_API_KEY</span><span class="o">=</span>your-secret-api-key
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Production</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">DANUBE_URL</span><span class="o">=</span>https://danube.example.com:6650
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="nb">export</span><span class="w"> </span><span class="nv">DANUBE_CA_CERT</span><span class="o">=</span>/etc/danube/certs/ca.pem
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="nb">export</span><span class="w"> </span><span class="nv">DANUBE_API_KEY</span><span class="o">=</span>your-secret-api-key
 </span></code></pre></div>
 <hr />
 <h2 id="troubleshooting">Troubleshooting</h2>
 <h3 id="connection-refused">Connection Refused</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Error:<span class="w"> </span>Connection<span class="w"> </span>refused<span class="w"> </span><span class="o">(</span>os<span class="w"> </span>error<span class="w"> </span><span class="m">111</span><span class="o">)</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>Error:<span class="w"> </span>Connection<span class="w"> </span>refused<span class="w"> </span><span class="o">(</span>os<span class="w"> </span>error<span class="w"> </span><span class="m">111</span><span class="o">)</span>
 </span></code></pre></div>
 <p><strong>Solutions:</strong></p>
 <ul>
@@ -1718,7 +1889,7 @@ producer.create().await?;
 <li>Confirm correct host and port</li>
 </ul>
 <h3 id="tls-certificate-errors">TLS Certificate Errors</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>Error:<span class="w"> </span>InvalidCertificate
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>Error:<span class="w"> </span>InvalidCertificate
 </span></code></pre></div>
 <p><strong>Solutions:</strong></p>
 <ul>
@@ -1728,7 +1899,7 @@ producer.create().await?;
 <li>Confirm broker TLS configuration matches client</li>
 </ul>
 <h3 id="authentication-failures">Authentication Failures</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>Error:<span class="w"> </span>Unauthenticated
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>Error:<span class="w"> </span>Unauthenticated
 </span></code></pre></div>
 <p><strong>Solutions:</strong></p>
 <ul>
