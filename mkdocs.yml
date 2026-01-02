@@ -14,6 +14,7 @@ nav:
         - Architecture:
                   - Danube architecture: architecture/architecture.md
                   - Persistence (WAL + Cloud): architecture/persistence.md
+                  - Schema Registry: architecture/schema_registry_architecture.md
                   - Dispatch Strategy: architecture/dispatch_strategy.md
                   - Messages: architecture/messages.md
                   - Topics: architecture/topics.md
@@ -24,8 +25,11 @@ nav:
         - Client Libraries:
                   - Danube Clients: client_libraries/clients.md
                   - Setup: client_libraries/setup.md
-                  - Create Producer: client_libraries/producer.md
-                  - Create Consumer: client_libraries/consumer.md
+                  - Create Producer: client_libraries/producer-basics.md
+                  - Create Consumer: client_libraries/consumer-basics.md
+                  - Advanced Producer: client_libraries/producer-advanced.md
+                  - Advanced Consumer: client_libraries/consumer-advanced.md
+                  - Schema Registry: client_libraries/schema-registry.md
 
         - Danube CLIs:
                   - Danube Admin CLI:

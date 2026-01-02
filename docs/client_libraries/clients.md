@@ -1,27 +1,119 @@
-# Danube client library
+# Danube Client Libraries
 
-Currently, the supported clients are the [Rust Client](https://github.com/danube-messaging/danube/tree/main/danube-client) and [Go Client](https://github.com/danube-messaging/danube/danube-go) clients. However, the community is encouraged to contribute by developing clients in other programming languages.
+Danube provides official client libraries for multiple programming languages, allowing you to integrate messaging capabilities into your applications. All clients follow consistent patterns and support core Danube features including topics, subscriptions, partitions, and schema registry.
 
-## Rust client
+## Supported Languages
 
-The Rust [danube-client](https://crates.io/crates/danube-client) is an asynchronous Rust client library. To start using the `danube-client` library in your Rust project, you need to add it as a dependency. You can do this by running the following command:
+### Rust Client
+
+The official [danube-client](https://crates.io/crates/danube-client) is an asynchronous Rust client library built on Tokio.
+
+**Installation:**
 
 ```bash
 cargo add danube-client
 ```
 
-This command will add danube-client to your `Cargo.toml` file. Once added, you can import and use the library in your Rust code to interact with the Danube Pub/Sub messaging platform.
+**Features:**
 
-## Go client
+- ✅ Full async/await support with Tokio
+- ✅ Type-safe schema registry integration
+- ✅ Partitioned topics
+- ✅ Reliable dispatch
+- ✅ TLS and JWT authentication
+- ✅ All subscription types (Exclusive, Shared, Failover)
+- ✅ Schema validation (JSON Schema, Avro, Protobuf)
 
-To start using the [danube-go](https://pkg.go.dev/github.com/danube-messaging/danube-go) library in your Go project, you need to add it as a dependency. You can do this by running the following command:
+**Learn more:** [Rust Examples](https://github.com/danube-messaging/danube/tree/main/danube-client/examples)
+
+---
+
+### Go Client
+
+The official [danube-go](https://pkg.go.dev/github.com/danube-messaging/danube-go) library provides Go language bindings.
+
+**Installation:**
 
 ```bash
 go get github.com/danube-messaging/danube-go
 ```
 
-This command will fetch the `danube-go` library and add it to your `go.mod` file. Once added, you can import and use the library in your Go code to interact with the Danube Pub/Sub messaging platform.
+**Features:**
 
-## Community Danube clients
+- ✅ Context-based operations
+- ✅ Partitioned topics
+- ✅ Reliable dispatch
+- ✅ All subscription types (Exclusive, Shared, Failover)
+- ⏳ TLS support (coming soon)
+- ⏳ Schema registry (coming soon)
 
-TBD
+**Learn more:** [Go Examples](https://github.com/danube-messaging/danube-go/tree/main/examples)
+
+---
+
+## Feature Comparison Matrix
+
+| Feature | Rust | Go | Python* | Java* |
+|---------|------|-----|---------|-------|
+| **Core Messaging** |
+| Producers | ✅ | ✅ | ⏳ | ⏳ |
+| Consumers | ✅ | ✅ | ⏳ | ⏳ |
+| Partitioned Topics | ✅ | ✅ | ⏳ | ⏳ |
+| Reliable Dispatch | ✅ | ✅ | ⏳ | ⏳ |
+| **Subscriptions** |
+| Exclusive | ✅ | ✅ | ⏳ | ⏳ |
+| Shared | ✅ | ✅ | ⏳ | ⏳ |
+| Failover | ✅ | ✅ | ⏳ | ⏳ |
+| **Schema Registry** |
+| JSON Schema | ✅ | ⏳ | ⏳ | ⏳ |
+| Avro | ✅ | ⏳ | ⏳ | ⏳ |
+| Protobuf | ✅ | ⏳ | ⏳ | ⏳ |
+| Compatibility Checking | ✅ | ⏳ | ⏳ | ⏳ |
+| **Security** |
+| TLS | ✅ | ⏳ | ⏳ | ⏳ |
+| JWT Authentication | ✅ | ⏳ | ⏳ | ⏳ |
+
+_* Coming soon - community contributions welcome_
+
+---
+
+## Community Clients
+
+We encourage the community to develop and maintain clients for additional languages. If you're building a Danube client:
+
+- Follow the [protocol specification](https://github.com/danube-messaging/danube/tree/main/danube-core/proto)
+- Reference existing clients for patterns
+- Submit a PR to add your client to this list
+
+### Guidelines for Client Development
+
+**Core Requirements:**
+
+- Support for producer/consumer operations
+- Schema registry integration
+- Topic lookup and partitioning
+- Subscription management (Exclusive, Shared, Failover)
+- Message acknowledgment
+- Error handling and retries
+
+**Recommended Features:**
+
+- TLS support
+- JWT authentication
+- Connection pooling
+- Graceful shutdown
+
+---
+
+## Next Steps
+
+- **[Client Setup](setup.md)** - Configure and connect your client
+- **[Producer Guide](producer-basics.md)** - Send messages to topics
+- **[Consumer Guide](consumer-basics.md)** - Receive and process messages
+- **[Schema Registry](schema-registry.md)** - Work with typed messages
+
+## Getting Help
+
+- **Documentation:** [Danube Docs](https://github.com/danube-messaging/danube_docs)
+- **Examples:** [Rust](https://github.com/danube-messaging/danube/tree/main/danube-client/examples) | [Go](https://github.com/danube-messaging/danube-go/tree/main/examples)
+- **Issues:** [GitHub Issues](https://github.com/danube-messaging/danube/issues)

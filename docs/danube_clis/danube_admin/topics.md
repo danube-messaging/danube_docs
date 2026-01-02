@@ -139,15 +139,6 @@ danube-admin-cli topics create /default/user-events \
    Partitions: 5
 ```
 
-**Partitioning Guidelines:**
-
-| Throughput | Recommended Partitions |
-|------------|----------------------|
-| Low (< 1K msg/s) | 1 (non-partitioned) |
-| Medium (1K-10K msg/s) | 3-5 |
-| High (10K-100K msg/s) | 10-20 |
-| Very High (> 100K msg/s) | 50+ |
-
 #### Options Reference
 
 | Option | Description | Default | Example |
@@ -352,7 +343,7 @@ danube-admin-cli topics unsubscribe my-topic \
 
 **Example Output:**
 
-```
+```bash
 ✅ Unsubscribed: true
 ```
 
@@ -380,7 +371,7 @@ danube-admin-cli topics unload /default/user-events
 
 **Example Output:**
 
-```
+``` bash
 ✅ Topic unloaded: /default/user-events
 ```
 
