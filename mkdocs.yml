@@ -7,12 +7,12 @@ extra:
                 property: G-2XEY5RCVVB
 nav:
         - Home: index.md
-        
+
         - Getting Started:
                   - Docker Compose (Recommended): getting_started/Danube_docker_compose.md
                   - Kubernetes: getting_started/Danube_kubernetes.md
                   - Local Machine / VMs: getting_started/Danube_local.md
-        
+
         - Core Concepts:
                   - Topics: concepts/topics.md
                   - Subscriptions: concepts/subscriptions.md
@@ -21,7 +21,13 @@ nav:
                   - Messaging Patterns:
                             - Queuing vs Pub/Sub: concepts/messaging_patterns_queuing_vs_pubsub.md
                             - Pub/Sub vs Streaming: concepts/messaging_modes_pubsub_vs_streaming.md
-        
+
+        - Architecture:
+                  - System Overview: architecture/architecture.md
+                  - Persistence (WAL + Cloud): architecture/persistence.md
+                  - Schema Registry Architecture: architecture/schema_registry_architecture.md
+                  - Internal Services: architecture/internal_danube_services.md
+
         - Client Libraries:
                   - Overview & Installation: client_libraries/clients.md
                   - Setup & Configuration: client_libraries/setup.md
@@ -32,7 +38,7 @@ nav:
                             - Basic Consumer: client_libraries/consumer-basics.md
                             - Advanced Consumer: client_libraries/consumer-advanced.md
                   - Schema Registry: client_libraries/schema-registry.md
-        
+
         - CLI Tools:
                   - Danube CLI (Client):
                             - Getting Started: danube_clis/danube_cli/getting_started.md
@@ -44,13 +50,7 @@ nav:
                             - Namespaces: danube_clis/danube_admin/namespaces.md
                             - Topics: danube_clis/danube_admin/topics.md
                             - Schema Registry: danube_clis/danube_admin/schema_registry.md
-        
-        - Architecture:
-                  - System Overview: architecture/architecture.md
-                  - Persistence (WAL + Cloud): architecture/persistence.md
-                  - Schema Registry Architecture: architecture/schema_registry_architecture.md
-                  - Internal Services: architecture/internal_danube_services.md
-        
+
         - Contributing:
                   - Development Environment: contributing/dev_environment.md
                   - Internal Resources: contributing/internal_resources.md
