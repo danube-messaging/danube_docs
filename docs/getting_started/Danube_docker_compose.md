@@ -12,7 +12,7 @@ The setup includes:
 - **MinIO Client (MC)**: Automatic bucket creation and configuration
 
 
-![Danube Docker Compose](img/reliable_with_minio_storage.png "Danube Docker Compose")
+![Danube Docker Compose](../assets/img/getting_started/reliable_with_minio_storage.png "Danube Docker Compose")
 
 ## Prerequisites
 

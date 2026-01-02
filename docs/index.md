@@ -38,12 +38,12 @@ For design details, see the [Architecture](architecture/architecture.md).
 
 ## Core features
 
-**[Topics](architecture/topics.md)**
+**[Topics](concepts/topics.md)**
 
   - Non‑partitioned: served by a single broker.
   - Partitioned: split across brokers for scale and HA.
 
-**[Dispatch strategies](architecture/dispatch_strategy.md)**
+**[Dispatch strategies](concepts/dispatch_strategy.md)**
 
   - Non‑Reliable: in‑memory, best‑effort delivery, lowest latency.
   - Reliable: WAL + Cloud persistence with acknowledgments and replay.
@@ -54,18 +54,18 @@ For design details, see the [Architecture](architecture/architecture.md).
   - Background uploads to object storage for durability and replay at cloud cost.
   - Seamless handoff from historical replay to live tail.
 
-**[Subscriptions](architecture/subscriptions.md)**
+**[Subscriptions](concepts/subscriptions.md)**
 
   - Exclusive, Shared, Failover patterns for queueing and fan‑out.
 
-**[Message schemas](architecture/messages.md)**
+**[Message schemas](concepts/messages.md)**
   
   - Bytes, String, Int64, JSON.
 
 **Concept guides**
 
-  - [Messaging Modes (Pub/Sub vs Streaming)](architecture/messaging_modes_pubsub_vs_streaming.md)
-  - [Messaging Patterns (Queuing vs Pub/Sub)](architecture/messaging_patterns_queuing_vs_pubsub.md)
+  - [Messaging Modes (Pub/Sub vs Streaming)](concepts/messaging_modes_pubsub_vs_streaming.md)
+  - [Messaging Patterns (Queuing vs Pub/Sub)](concepts/messaging_patterns_queuing_vs_pubsub.md)
 
 ## Crates in the workspace
 

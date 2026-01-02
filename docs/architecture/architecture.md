@@ -4,7 +4,7 @@ The Danube messaging system is a distributed messaging system, based on a publis
 
 The Danube Messaging system's architecture is designed for flexibility and scalability, making it suitable for event-driven and cloud-native applications. Its decoupled and pluggable architecture allows for independent scaling and easy integration of various storage backends. Using the dispatch strategies and the subscription models the system can accommodate different messaging patterns.
 
-![Danube Messaging Architecture](img/Danube_architecture.png "Danube Messaging Architecture")
+![Danube Messaging Architecture](../assets/img/architecture/Danube_architecture.png "Danube Messaging Architecture")
 
 ### Brokers
 

@@ -7,45 +7,53 @@ extra:
                 property: G-2XEY5RCVVB
 nav:
         - Home: index.md
+        
         - Getting Started:
-                  - Run Danube on Docker: getting_started/Danube_docker_compose.md
-                  - Run Danube on VMs or local machine: getting_started/Danube_local.md
-                  - Run Danube on Kubernetes Cluster: getting_started/Danube_kubernetes.md
-        - Architecture:
-                  - Danube architecture: architecture/architecture.md
-                  - Persistence (WAL + Cloud): architecture/persistence.md
-                  - Schema Registry: architecture/schema_registry_architecture.md
-                  - Dispatch Strategy: architecture/dispatch_strategy.md
-                  - Messages: architecture/messages.md
-                  - Topics: architecture/topics.md
-                  - Subscriptions: architecture/subscriptions.md
-                  - Messaging Modes (Pub/Sub vs Streaming): architecture/messaging_modes_pubsub_vs_streaming.md
-                  - Messaging Patterns (Queuing vs Pub/Sub): architecture/messaging_patterns_queuing_vs_pubsub.md
-                  - Danube service components: architecture/internal_danube_services.md
+                  - Docker Compose (Recommended): getting_started/Danube_docker_compose.md
+                  - Kubernetes: getting_started/Danube_kubernetes.md
+                  - Local Machine / VMs: getting_started/Danube_local.md
+        
+        - Core Concepts:
+                  - Topics: concepts/topics.md
+                  - Subscriptions: concepts/subscriptions.md
+                  - Dispatch Strategies: concepts/dispatch_strategy.md
+                  - Messages & Schemas: concepts/messages.md
+                  - Messaging Patterns:
+                            - Queuing vs Pub/Sub: concepts/messaging_patterns_queuing_vs_pubsub.md
+                            - Pub/Sub vs Streaming: concepts/messaging_modes_pubsub_vs_streaming.md
+        
         - Client Libraries:
-                  - Danube Clients: client_libraries/clients.md
-                  - Setup: client_libraries/setup.md
-                  - Create Producer: client_libraries/producer-basics.md
-                  - Create Consumer: client_libraries/consumer-basics.md
-                  - Advanced Producer: client_libraries/producer-advanced.md
-                  - Advanced Consumer: client_libraries/consumer-advanced.md
+                  - Overview & Installation: client_libraries/clients.md
+                  - Setup & Configuration: client_libraries/setup.md
+                  - Producer Guide:
+                            - Basic Producer: client_libraries/producer-basics.md
+                            - Advanced Producer: client_libraries/producer-advanced.md
+                  - Consumer Guide:
+                            - Basic Consumer: client_libraries/consumer-basics.md
+                            - Advanced Consumer: client_libraries/consumer-advanced.md
                   - Schema Registry: client_libraries/schema-registry.md
-
-        - Danube CLIs:
-                  - Danube Admin CLI:
-                            - Brokers: danube_clis/danube_admin/brokers.md
-                            - Namespaces: danube_clis/danube_admin/namespaces.md
-                            - Topics: danube_clis/danube_admin/topics.md
-                            - Schema Registry: danube_clis/danube_admin/schema_registry.md
-                  - Danube CLI:
+        
+        - CLI Tools:
+                  - Danube CLI (Client):
                             - Getting Started: danube_clis/danube_cli/getting_started.md
                             - Producer: danube_clis/danube_cli/producer.md
                             - Consumer: danube_clis/danube_cli/consumer.md
                             - Schema Registry: danube_clis/danube_cli/schema_registry.md
-
-        - Development:
-                  - Development Environment: development/dev_environment.md
-                  - Metadata Resources: development/internal_resources.md
+                  - Admin CLI (Operations):
+                            - Brokers: danube_clis/danube_admin/brokers.md
+                            - Namespaces: danube_clis/danube_admin/namespaces.md
+                            - Topics: danube_clis/danube_admin/topics.md
+                            - Schema Registry: danube_clis/danube_admin/schema_registry.md
+        
+        - Architecture:
+                  - System Overview: architecture/architecture.md
+                  - Persistence (WAL + Cloud): architecture/persistence.md
+                  - Schema Registry Architecture: architecture/schema_registry_architecture.md
+                  - Internal Services: architecture/internal_danube_services.md
+        
+        - Contributing:
+                  - Development Environment: contributing/dev_environment.md
+                  - Internal Resources: contributing/internal_resources.md
 theme:
         name: material
         logo: assets/danube.png

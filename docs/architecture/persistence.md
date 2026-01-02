@@ -16,7 +16,7 @@ This page explains the main concepts, how the system works, why it scales in clo
 
 ## High-level Architecture
 
-![Danube Persistence Architecture](img/Wal_Cloud.png "Danube Persistence Architecture")
+![Danube Persistence Architecture](../assets/img/architecture/Wal_Cloud.png "Danube Persistence Architecture")
 
 - **Local WAL**: Append-only log with an in-memory cache for ultra-fast reads. Files periodically fsync and rotate.
 - **Cloud Uploader**: Periodically streams complete WAL frames to cloud objects. Writes object descriptors and sparse indexes to ETCD.

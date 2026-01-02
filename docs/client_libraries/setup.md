@@ -174,7 +174,7 @@ Clients automatically manage connection pools. Multiple producers/consumers shar
 
 For clustered deployments, the client performs automatic topic lookup:
 
-    ```rust
+```rust
 // Client connects to any broker in the cluster
 let client = DanubeClient::builder()
     .service_url("<http://broker1:6650>")
@@ -188,7 +188,7 @@ let producer = client.new_producer()
 
 // Producer connects to the correct broker automatically
 producer.create().await?;
-    ```
+```
 
 ---
 
