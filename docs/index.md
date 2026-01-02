@@ -89,6 +89,19 @@ Explore how Danube works under the hood:
 
 **[Internal Services](architecture/internal_danube_services.md)** - Service discovery and coordination
 
+---
+
+## Integrations
+
+**[Danube Connect](integrations/danube_connect_overview.md)** - Plug-and-play connector ecosystem
+  - Source connectors: Import data from MQTT, HTTP webhooks, databases, Kafka , etc.
+  - Sink connectors: Export to Delta Lake, ClickHouse, vector databases, APIs, etc.
+  - Pure Rust framework with automatic retries, metrics, and health checks
+
+**Learn more:** [Architecture](integrations/danube_connect_architecture.md) | [Building Connectors](integrations/danube_connect_development.md) | [GitHub](https://github.com/danube-messaging/danube-connect)
+
+---
+
 ## Crates in the workspace
 
 Repository: https://github.com/danube-messaging/danube

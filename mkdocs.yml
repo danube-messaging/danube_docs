@@ -90,6 +90,11 @@ nav:
                             - Topics: danube_clis/danube_admin/topics.md
                             - Schema Registry: danube_clis/danube_admin/schema_registry.md
 
+        - 🔌 Integrations:
+                  - Danube Connect Overview: integrations/danube_connect_overview.md
+                  - Architecture & Concepts: integrations/danube_connect_architecture.md
+                  - Building Connectors: integrations/danube_connect_development.md
+
         - 🤝 Contributing:
                   - Development Environment: contributing/dev_environment.md
                   - Internal Resources: contributing/internal_resources.md
