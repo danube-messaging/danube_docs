@@ -68,7 +68,7 @@ Export data **from** Danube to external systems.
 
 ## Available Connectors
 
-### Production Ready
+### Already Available
 
 | Connector | Type | Description |
 |-----------|------|-------------|

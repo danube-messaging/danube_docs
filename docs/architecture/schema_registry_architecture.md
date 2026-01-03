@@ -1,6 +1,6 @@
 # Danube Schema Registry Architecture
 
-Danube's Schema Registry is a centralized service that manages message schemas with versioning, compatibility checking, and validation capabilities. It ensures data quality, enables safe schema evolution, and provides a governance layer for all messages flowing through the Danube messaging system.
+[Danube](https://github.com/danube-messaging/danube)'s Schema Registry is a centralized service that manages message schemas with versioning, compatibility checking, and validation capabilities. It ensures data quality, enables safe schema evolution, and provides a governance layer for all messages flowing through the Danube messaging system.
 
 This page explains what the Schema Registry is, why it's essential for Danube messaging systems, how it works at a high level, and how to interact with it through APIs and CLI tools.
 
@@ -17,26 +17,6 @@ A **Schema Registry** is a standalone service that stores, versions, and validat
 - **Data governance** - Audit who created schemas, when they changed, and track dependencies
 
 Think of it as a "contract repository" where producers and consumers agree on message structure, ensuring everyone speaks the same language.
-
-### Key Benefits
-
-✅ **Data Quality Guarantee**  
-Every message is validated against its schema before being sent. Invalid messages are rejected, preventing data corruption from reaching consumers.
-
-✅ **Safe Schema Evolution**  
-Compatibility checking ensures new schema versions don't break existing consumers. Add fields safely, knowing old clients will continue working.
-
-✅ **Reduced Bandwidth**  
-Instead of sending the full schema with every message (potentially kilobytes), only a small schema ID (8 bytes) is transmitted.
-
-✅ **Development Velocity**  
-Developers can evolve schemas confidently, knowing the system prevents breaking changes from reaching production.
-
-✅ **Operational Insight**  
-Track all schema changes with full metadata: who created it, when, what changed, and which topics use it.
-
-✅ **Industry Standard**  
-Follows the proven model from Confluent Schema Registry and Apache Pulsar, ensuring familiar patterns and easy migration.
 
 ---
 
@@ -124,7 +104,7 @@ Each subject has its own compatibility mode, configurable independently.
 
 ### Schema Types
 
-Danube supports multiple schema formats:
+[Danube](https://github.com/danube-messaging/danube) supports multiple schema formats:
 
 - **JSON Schema** - Fully validated and production-ready
 - **Avro** - Apache Avro format (registration and storage ready)
@@ -141,12 +121,31 @@ Danube supports multiple schema formats:
 
 When you register a schema:
 
+**Using CLI:**
+
 ```bash
-# Using CLI
 danube-admin-cli schemas register user-events \
   --schema-type json_schema \
   --file user-events.json \
   --description "User activity events"
+```
+
+**Using Rust SDK:**
+
+```rust
+use danube_client::{SchemaRegistryClient, SchemaType};
+
+let mut schema_client = SchemaRegistryClient::new(&client).await?;
+
+// Register the schema and get schema ID
+let schema_id = schema_client
+    .register_schema("user-events")
+    .with_type(SchemaType::Avro)
+    .with_schema_data(avro_schema.as_bytes())
+    .execute()
+    .await?;
+
+println!("✅ Registered schema with ID: {}", schema_id);
 ```
 
 The Schema Registry:
@@ -163,6 +162,8 @@ The Schema Registry:
 
 When you update a schema:
 
+**Using CLI:**
+
 ```bash
 # Test compatibility first
 danube-admin-cli schemas check user-events \
@@ -173,6 +174,33 @@ danube-admin-cli schemas check user-events \
 danube-admin-cli schemas register user-events \
   --schema-type json_schema \
   --file user-events-v2.json
+```
+
+**Using Rust SDK:**
+
+```rust
+// Check compatibility before registering
+let compatibility_result = schema_client
+    .check_compatibility(
+        "user-events",
+        schema_v2.as_bytes().to_vec(),
+        SchemaType::Avro,
+        None,
+    )
+    .await?;
+
+if compatibility_result.is_compatible {
+    // Safe to register new version
+    let schema_id_v2 = schema_client
+        .register_schema("user-events")
+        .with_type(SchemaType::Avro)
+        .with_schema_data(schema_v2.as_bytes())
+        .execute()
+        .await?;
+    println!("✅ Schema v2 registered with ID: {}", schema_id_v2);
+} else {
+    println!("❌ Schema incompatible: {:?}", compatibility_result.errors);
+}
 ```
 
 The compatibility checker:
@@ -187,12 +215,34 @@ The compatibility checker:
 
 Producers reference schemas when sending messages:
 
+**Using CLI:**
+
 ```bash
-# Using CLI
 danube-cli produce \
   -t /default/user-events \
   --schema-subject user-events \
   -m '{"user_id": "123", "action": "login"}'
+```
+
+**Using Rust SDK:**
+
+```rust
+// Create producer with schema reference
+let mut producer = client
+    .new_producer()
+    .with_topic("/default/user-events")
+    .with_name("user_events_producer")
+    .with_schema_subject("user-events")  // Links to schema
+    .build();
+
+producer.create().await?;
+
+// Serialize and send message
+let event = UserEvent { user_id: "123", action: "login", ... };
+let avro_data = serde_json::to_vec(&event)?;
+
+let message_id = producer.send(avro_data, None).await?;
+println!("📤 Sent message: {}", message_id);
 ```
 
 The flow:
@@ -208,11 +258,38 @@ The flow:
 
 Consumers fetch schemas to deserialize messages:
 
+**Using CLI:**
+
 ```bash
-# Using CLI
 danube-cli consume \
   -t /default/user-events \
   -m my-subscription
+```
+
+**Using Rust SDK:**
+
+```rust
+// Create consumer
+let mut consumer = client
+    .new_consumer()
+    .with_topic("/default/user-events")
+    .with_consumer_name("user_events_consumer")
+    .with_subscription("my-subscription")
+    .with_subscription_type(SubType::Exclusive)
+    .build();
+
+consumer.subscribe().await?;
+let mut message_stream = consumer.receive().await?;
+
+// Receive and deserialize messages
+while let Some(message) = message_stream.recv().await {
+    // Deserialize using schema
+    let event = serde_json::from_slice::<UserEvent>(&message.payload)?;
+    println!("📥 Received: {:?}", event);
+    
+    // Acknowledge
+    consumer.ack(&message).await?;
+}
 ```
 
 The flow:
@@ -252,76 +329,6 @@ Danube provides **three validation layers** for maximum flexibility:
 - **Recommended:** Validate structs at consumer startup
 
 This multi-layer approach ensures data quality at every stage while maintaining flexibility.
-
----
-
-## Integration Points
-
-### CLI Tools
-
-**Admin CLI** - Schema management operations:
-
-```bash
-# Register schema
-danube-admin-cli schemas register <subject> --file schema.json
-
-# Get schema
-danube-admin-cli schemas get --subject <subject>
-
-# List versions
-danube-admin-cli schemas versions <subject>
-
-# Check compatibility
-danube-admin-cli schemas check <subject> --file new-schema.json
-
-# Set compatibility mode
-danube-admin-cli schemas set-compatibility <subject> --mode backward
-
-# Delete version
-danube-admin-cli schemas delete <subject> --version N --confirm
-```
-
-**Danube CLI** - Producer/Consumer with schemas:
-
-```bash
-# Produce with schema
-danube-cli produce -t /topic --schema-subject events -m '{"data": "value"}'
-
-# Consume with schema validation
-danube-cli consume -t /topic -m subscription
-```
-
-### gRPC API
-
-The Schema Registry exposes 7 core operations via gRPC:
-
-- **RegisterSchema** - Register new schema or version
-- **GetSchema** - Retrieve schema by ID
-- **GetLatestSchema** - Get newest version by subject
-- **ListVersions** - Get all versions for subject
-- **CheckCompatibility** - Validate schema changes
-- **DeleteSchemaVersion** - Remove specific version
-- **SetCompatibilityMode** - Configure compatibility rules
-
-All operations use standard gRPC with Protobuf definitions available in `danube-core/proto/SchemaRegistry.proto`.
-
-### Client SDK
-
-Type-safe Rust client for schema operations:
-
-```rust
-// Registration
-schema_client.register_schema("events")
-    .with_type(SchemaType::JsonSchema)
-    .with_description("Event schema v1")
-    .execute().await?;
-
-// Retrieval
-let schema = schema_client.get_latest("events").await?;
-
-// Compatibility check
-schema_client.check_compatibility("events", new_schema).await?;
-```
 
 ---
 
@@ -428,7 +435,7 @@ Use these metrics to:
 
 ## Summary
 
-The Danube Schema Registry transforms schema management from an ad-hoc, error-prone process into a robust, centralized governance layer. It enables:
+The [Danube](https://github.com/danube-messaging/danube) Schema Registry transforms schema management from an ad-hoc, error-prone process into a robust, centralized governance layer. It enables:
 
 - **Safe evolution** of message contracts without breaking consumers
 - **Data quality guarantees** through multi-layer validation
