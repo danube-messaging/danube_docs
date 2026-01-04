@@ -26,21 +26,21 @@ extra:
         analytics:
                 provider: google
                 property: G-2XEY5RCVVB
-        
+
         # Social links in footer
         social:
                 - icon: fontawesome/brands/github
                   link: https://github.com/danube-messaging/danube
                   name: Danube on GitHub
-                
+
                 - icon: fontawesome/solid/tag
                   link: https://github.com/danube-messaging/danube/releases
                   name: Release Notes
-                
+
                 - icon: fontawesome/brands/rust
                   link: https://crates.io/crates/danube-client
                   name: Rust Client on Crates.io
-                
+
                 - icon: fontawesome/brands/golang
                   link: https://pkg.go.dev/github.com/danube-messaging/danube-go
                   name: Go Client Documentation
@@ -100,8 +100,8 @@ nav:
                   - Internal Resources: contributing/internal_resources.md
 theme:
         name: material
-        logo: assets/danube.png
-        favicon: assets/favicon.ico  # Create a favicon.ico file in docs/assets/
+        logo: assets/Wave.png
+        favicon: assets/favicon.ico # Create a favicon.ico file in docs/assets/
         font:
                 text: Roboto
                 code: JetBrains Mono

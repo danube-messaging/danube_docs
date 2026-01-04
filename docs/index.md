@@ -1,6 +1,6 @@
 # Welcome to Danube Messaging
 
-[Danube](https://github.com/danube-messaging/danube) is a lightweight, cloud‑native messaging platform built in Rust. It delivers sub‑second dispatch with cloud economics by combining a Write‑Ahead Log (WAL) with object storage, so you get low‑latency pub/sub and durable streaming—on one broker.
+🌊 [Danube Messaging](https://github.com/danube-messaging/danube) is a lightweight, cloud‑native messaging platform built in Rust. It delivers sub‑second dispatch with cloud economics by combining a Write‑Ahead Log (WAL) with object storage, so you get low‑latency pub/sub and durable streaming—on one broker.
 
 Danube enables one or many **producers** publish to **topics**, and multiple **consumers** receive messages via named **subscriptions**. Choose Non‑Reliable (best‑effort pub/sub) or Reliable (at‑least‑once streaming) per topic to match your workload.
 
@@ -42,9 +42,8 @@ Danube's architecture separates compute from storage, enabling:
 ### ⚡ **Performance & Scalability**
 
 - **Hot path optimization**: Messages served from in-memory WAL cache
-- **Stream per subscription**: WAL + cloud storage from selected offset 
+- **Stream per subscription**: WAL + cloud storage from selected offset
 - **Multi-cloud support**: AWS S3, Google Cloud Storage, Azure Blob, MinIO
-
 
 ## Core Concepts
 
@@ -52,24 +51,24 @@ Learn the fundamental concepts that power Danube messaging:
 
 **[Topics](concepts/topics.md)** - Named channels for message streams
 
-  - Non‑partitioned: served by a single broker
-  - Partitioned: split across brokers for scale and HA
+- Non‑partitioned: served by a single broker
+- Partitioned: split across brokers for scale and HA
 
 **[Subscriptions](concepts/subscriptions.md)** - Named configurations for message delivery
 
-  - `Exclusive`, `Shared`, `Failover` patterns for queueing and fan‑out
+- `Exclusive`, `Shared`, `Failover` patterns for queueing and fan‑out
 
 **[Dispatch Strategies](concepts/dispatch_strategy.md)** - Message delivery guarantees
 
-  - `Non‑Reliable`: in‑memory, best‑effort delivery, lowest latency
-  - `Reliable`: WAL + Cloud persistence with acknowledgments and replay
+- `Non‑Reliable`: in‑memory, best‑effort delivery, lowest latency
+- `Reliable`: WAL + Cloud persistence with acknowledgments and replay
 
-**[Danube Stream Messages](concepts/messages.md)** - Message structure 
+**[Danube Stream Messages](concepts/messages.md)** - Message structure
 
 **Messaging Patterns**
 
-  - [Pub/Sub vs Streaming](concepts/messaging_modes_pubsub_vs_streaming.md) - Compare messaging modes
-  - [Queuing vs Pub/Sub](concepts/messaging_patterns_queuing_vs_pubsub.md) - Understand delivery patterns
+- [Pub/Sub vs Streaming](concepts/messaging_modes_pubsub_vs_streaming.md) - Compare messaging modes
+- [Queuing vs Pub/Sub](concepts/messaging_patterns_queuing_vs_pubsub.md) - Understand delivery patterns
 
 ## Architecture Deep Dives
 
@@ -78,14 +77,16 @@ Explore how Danube works under the hood:
 **[System Overview](architecture/architecture.md)** - Complete architecture diagram and component interaction
 
 **[Persistence (WAL + Cloud)](architecture/persistence.md)** - Two-tier storage architecture
-  - Write‑Ahead Log on local disk for fast durable writes
-  - Background uploads to object storage for durability and replay at cloud cost
-  - Seamless handoff from historical replay to live tail
+
+- Write‑Ahead Log on local disk for fast durable writes
+- Background uploads to object storage for durability and replay at cloud cost
+- Seamless handoff from historical replay to live tail
 
 **[Schema Registry](architecture/schema_registry_architecture.md)** - Centralized schema management
-  - Schema versioning and compatibility checking
-  - Support for JSON Schema, Avro, and Protobuf
-  - Data validation and governance
+
+- Schema versioning and compatibility checking
+- Support for JSON Schema, Avro, and Protobuf
+- Data validation and governance
 
 **[Internal Services](architecture/internal_danube_services.md)** - Service discovery and coordination
 
@@ -94,9 +95,10 @@ Explore how Danube works under the hood:
 ## Integrations
 
 **[Danube Connect](integrations/danube_connect_overview.md)** - Plug-and-play connector ecosystem
-  - Source connectors: Import data from MQTT, HTTP webhooks, databases, Kafka , etc.
-  - Sink connectors: Export to Delta Lake, ClickHouse, vector databases, APIs, etc.
-  - Pure Rust framework with automatic retries, metrics, and health checks
+
+- Source connectors: Import data from MQTT, HTTP webhooks, databases, Kafka , etc.
+- Sink connectors: Export to Delta Lake, ClickHouse, vector databases, APIs, etc.
+- Pure Rust framework with automatic retries, metrics, and health checks
 
 **Learn more:** [Architecture](integrations/danube_connect_architecture.md) | [Building Connectors](integrations/danube_connect_development.md) | [GitHub](https://github.com/danube-messaging/danube-connect)
 
@@ -104,7 +106,7 @@ Explore how Danube works under the hood:
 
 ## Crates in the workspace
 
-Repository: https://github.com/danube-messaging/danube
+Repository: <https://github.com/danube-messaging/danube>
 
 - [danube-broker](https://github.com/danube-messaging/danube/tree/main/danube-broker) – The broker service (topics, producers, consumers, subscriptions).
 - [danube-core](https://github.com/danube-messaging/danube/tree/main/danube-core) – Core types, protocol, and shared logic.
