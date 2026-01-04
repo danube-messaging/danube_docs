@@ -10,9 +10,9 @@ site_author: Dan Rusei
 # ============================================================================
 # REPOSITORY
 # ============================================================================
-repo_url: https://github.com/danube-messaging/danube_docs
-repo_name: danube-messaging/danube_docs
-edit_uri: edit/main/docs/
+repo_url: https://github.com/danube-messaging/danube
+repo_name: danube-messaging/danube
+edit_uri: https://github.com/danube-messaging/danube_docs/edit/main/docs/
 
 # ============================================================================
 # COPYRIGHT
@@ -100,7 +100,7 @@ nav:
                   - Internal Resources: contributing/internal_resources.md
 theme:
         name: material
-        logo: assets/Wave.png
+        logo: assets/wave.png
         favicon: assets/favicon.ico # Create a favicon.ico file in docs/assets/
         font:
                 text: Roboto
