@@ -104,7 +104,7 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="." title="Danube Messaging" class="md-header__button md-logo" aria-label="Danube Messaging" data-md-component="logo">
       
-  <img src="assets/danube.png" alt="logo">
+  <img src="assets/Wave.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -243,7 +243,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href="." title="Danube Messaging" class="md-nav__button md-logo" aria-label="Danube Messaging" data-md-component="logo">
       
-  <img src="assets/danube.png" alt="logo">
+  <img src="assets/Wave.png" alt="logo">
 
     </a>
     Danube Messaging
@@ -1815,7 +1815,7 @@
 
 
 <h1 id="welcome-to-danube-messaging">Welcome to Danube Messaging</h1>
-<p><a href="https://github.com/danube-messaging/danube">Danube</a> is a lightweight, cloud‑native messaging platform built in Rust. It delivers sub‑second dispatch with cloud economics by combining a Write‑Ahead Log (WAL) with object storage, so you get low‑latency pub/sub and durable streaming—on one broker.</p>
+<p>🌊 <a href="https://github.com/danube-messaging/danube">Danube Messaging</a> is a lightweight, cloud‑native messaging platform built in Rust. It delivers sub‑second dispatch with cloud economics by combining a Write‑Ahead Log (WAL) with object storage, so you get low‑latency pub/sub and durable streaming—on one broker.</p>
 <p>Danube enables one or many <strong>producers</strong> publish to <strong>topics</strong>, and multiple <strong>consumers</strong> receive messages via named <strong>subscriptions</strong>. Choose Non‑Reliable (best‑effort pub/sub) or Reliable (at‑least‑once streaming) per topic to match your workload.</p>
 <p>For design details, see the <a href="architecture/architecture/">Architecture</a>.</p>
 <h2 id="try-danube-in-minutes">Try Danube in minutes</h2>
@@ -1849,7 +1849,7 @@
 <h3 id="performance-scalability">⚡ <strong>Performance &amp; Scalability</strong></h3>
 <ul>
 <li><strong>Hot path optimization</strong>: Messages served from in-memory WAL cache</li>
-<li><strong>Stream per subscription</strong>: WAL + cloud storage from selected offset </li>
+<li><strong>Stream per subscription</strong>: WAL + cloud storage from selected offset</li>
 <li><strong>Multi-cloud support</strong>: AWS S3, Google Cloud Storage, Azure Blob, MinIO</li>
 </ul>
 <h2 id="core-concepts">Core Concepts</h2>
@@ -1868,7 +1868,7 @@
 <li><code>Non‑Reliable</code>: in‑memory, best‑effort delivery, lowest latency</li>
 <li><code>Reliable</code>: WAL + Cloud persistence with acknowledgments and replay</li>
 </ul>
-<p><strong><a href="concepts/messages/">Danube Stream Messages</a></strong> - Message structure </p>
+<p><strong><a href="concepts/messages/">Danube Stream Messages</a></strong> - Message structure</p>
 <p><strong>Messaging Patterns</strong></p>
 <ul>
 <li><a href="concepts/messaging_modes_pubsub_vs_streaming/">Pub/Sub vs Streaming</a> - Compare messaging modes</li>
@@ -1877,25 +1877,31 @@
 <h2 id="architecture-deep-dives">Architecture Deep Dives</h2>
 <p>Explore how Danube works under the hood:</p>
 <p><strong><a href="architecture/architecture/">System Overview</a></strong> - Complete architecture diagram and component interaction</p>
-<p><strong><a href="architecture/persistence/">Persistence (WAL + Cloud)</a></strong> - Two-tier storage architecture
-  - Write‑Ahead Log on local disk for fast durable writes
-  - Background uploads to object storage for durability and replay at cloud cost
-  - Seamless handoff from historical replay to live tail</p>
-<p><strong><a href="architecture/schema_registry_architecture/">Schema Registry</a></strong> - Centralized schema management
-  - Schema versioning and compatibility checking
-  - Support for JSON Schema, Avro, and Protobuf
-  - Data validation and governance</p>
+<p><strong><a href="architecture/persistence/">Persistence (WAL + Cloud)</a></strong> - Two-tier storage architecture</p>
+<ul>
+<li>Write‑Ahead Log on local disk for fast durable writes</li>
+<li>Background uploads to object storage for durability and replay at cloud cost</li>
+<li>Seamless handoff from historical replay to live tail</li>
+</ul>
+<p><strong><a href="architecture/schema_registry_architecture/">Schema Registry</a></strong> - Centralized schema management</p>
+<ul>
+<li>Schema versioning and compatibility checking</li>
+<li>Support for JSON Schema, Avro, and Protobuf</li>
+<li>Data validation and governance</li>
+</ul>
 <p><strong><a href="architecture/internal_danube_services/">Internal Services</a></strong> - Service discovery and coordination</p>
 <hr />
 <h2 id="integrations">Integrations</h2>
-<p><strong><a href="integrations/danube_connect_overview/">Danube Connect</a></strong> - Plug-and-play connector ecosystem
-  - Source connectors: Import data from MQTT, HTTP webhooks, databases, Kafka , etc.
-  - Sink connectors: Export to Delta Lake, ClickHouse, vector databases, APIs, etc.
-  - Pure Rust framework with automatic retries, metrics, and health checks</p>
+<p><strong><a href="integrations/danube_connect_overview/">Danube Connect</a></strong> - Plug-and-play connector ecosystem</p>
+<ul>
+<li>Source connectors: Import data from MQTT, HTTP webhooks, databases, Kafka , etc.</li>
+<li>Sink connectors: Export to Delta Lake, ClickHouse, vector databases, APIs, etc.</li>
+<li>Pure Rust framework with automatic retries, metrics, and health checks</li>
+</ul>
 <p><strong>Learn more:</strong> <a href="integrations/danube_connect_architecture/">Architecture</a> | <a href="integrations/danube_connect_development/">Building Connectors</a> | <a href="https://github.com/danube-messaging/danube-connect">GitHub</a></p>
 <hr />
 <h2 id="crates-in-the-workspace">Crates in the workspace</h2>
-<p>Repository: https://github.com/danube-messaging/danube</p>
+<p>Repository: <a href="https://github.com/danube-messaging/danube">https://github.com/danube-messaging/danube</a></p>
 <ul>
 <li><a href="https://github.com/danube-messaging/danube/tree/main/danube-broker">danube-broker</a> – The broker service (topics, producers, consumers, subscriptions).</li>
 <li><a href="https://github.com/danube-messaging/danube/tree/main/danube-core">danube-core</a> – Core types, protocol, and shared logic.</li>
