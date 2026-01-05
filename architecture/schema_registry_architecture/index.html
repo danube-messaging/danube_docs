@@ -515,6 +515,27 @@
   
   
   
+    <li class="md-nav__item">
+      <a href="../../concepts/schema_registry_guide/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Schema Registry Guide
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
     
     
     
@@ -523,10 +544,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" >
         
           
-          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -537,8 +558,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_5">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_6">
             <span class="md-nav__icon md-icon"></span>
             Messaging Patterns
           </label>
@@ -794,9 +815,18 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#compatibility-modes" class="md-nav__link">
+  <a href="#compatibility-modes-subject-level" class="md-nav__link">
     <span class="md-ellipsis">
-      Compatibility Modes
+      Compatibility Modes (Subject-Level)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validation-policies-topic-level" class="md-nav__link">
+    <span class="md-ellipsis">
+      Validation Policies (Topic-Level)
     </span>
   </a>
   
@@ -806,6 +836,15 @@
   <a href="#schema-types" class="md-nav__link">
     <span class="md-ellipsis">
       Schema Types
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#topic-schema-binding" class="md-nav__link">
+    <span class="md-ellipsis">
+      Topic-Schema Binding
     </span>
   </a>
   
@@ -887,9 +926,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#broker-side-validation" class="md-nav__link">
+  <a href="#broker-side-validation-topic-level-policy" class="md-nav__link">
     <span class="md-ellipsis">
-      Broker-Side Validation
+      Broker-Side Validation (Topic-Level Policy)
     </span>
   </a>
   
@@ -1896,9 +1935,18 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#compatibility-modes" class="md-nav__link">
+  <a href="#compatibility-modes-subject-level" class="md-nav__link">
     <span class="md-ellipsis">
-      Compatibility Modes
+      Compatibility Modes (Subject-Level)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#validation-policies-topic-level" class="md-nav__link">
+    <span class="md-ellipsis">
+      Validation Policies (Topic-Level)
     </span>
   </a>
   
@@ -1908,6 +1956,15 @@
   <a href="#schema-types" class="md-nav__link">
     <span class="md-ellipsis">
       Schema Types
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#topic-schema-binding" class="md-nav__link">
+    <span class="md-ellipsis">
+      Topic-Schema Binding
     </span>
   </a>
   
@@ -1989,9 +2046,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#broker-side-validation" class="md-nav__link">
+  <a href="#broker-side-validation-topic-level-policy" class="md-nav__link">
     <span class="md-ellipsis">
-      Broker-Side Validation
+      Broker-Side Validation (Topic-Level Policy)
     </span>
   </a>
   
@@ -2205,8 +2262,8 @@ Fetch schemas from registry, deserialize messages using correct schema version, 
 <li>Full version history is preserved indefinitely</li>
 <li>Duplicate schemas are detected via fingerprinting (no duplicate versions created)</li>
 </ul>
-<h3 id="compatibility-modes">Compatibility Modes</h3>
-<p><strong>Compatibility modes</strong> control what schema changes are allowed when registering new versions:</p>
+<h3 id="compatibility-modes-subject-level">Compatibility Modes (Subject-Level)</h3>
+<p><strong>Compatibility modes</strong> control what schema changes are allowed when registering new versions. This is a <strong>subject-level</strong> setting, meaning all topics sharing the same subject inherit the same compatibility rules.</p>
 <table>
 <thead>
 <tr>
@@ -2244,7 +2301,37 @@ Fetch schemas from registry, deserialize messages using correct schema version, 
 </tbody>
 </table>
 <p><strong>Default:</strong> Backward (industry standard, covers 90% of use cases)</p>
-<p>Each subject has its own compatibility mode, configurable independently.</p>
+<p>Each subject has its own compatibility mode, configurable by administrators only.</p>
+<h3 id="validation-policies-topic-level">Validation Policies (Topic-Level)</h3>
+<p><strong>Validation policies</strong> control how the broker enforces schema validation for messages on a specific topic. This is a <strong>topic-level</strong> setting, meaning different topics using the same schema subject can have different validation strictness.</p>
+<table>
+<thead>
+<tr>
+<th>Policy</th>
+<th>Behavior</th>
+<th>Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>None</strong></td>
+<td>No validation</td>
+<td>Development topics, unstructured data</td>
+</tr>
+<tr>
+<td><strong>Warn</strong></td>
+<td>Validate and log errors, but accept messages</td>
+<td>Monitoring/debugging production issues</td>
+</tr>
+<tr>
+<td><strong>Enforce</strong></td>
+<td>Reject invalid messages</td>
+<td>Production topics requiring strict data quality</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Default:</strong> None</p>
+<p><strong>Example:</strong> A <code>user-events-dev</code> topic might use <code>Warn</code> policy for flexibility, while <code>user-events-prod</code> uses <code>Enforce</code> for strict validation—both sharing the same schema subject.</p>
 <h3 id="schema-types">Schema Types</h3>
 <p><a href="https://github.com/danube-messaging/danube">Danube</a> supports multiple schema formats:</p>
 <ul>
@@ -2255,30 +2342,46 @@ Fetch schemas from registry, deserialize messages using correct schema version, 
 <li><strong>Number</strong> - Numeric types</li>
 <li><strong>Bytes</strong> - Raw binary (no validation)</li>
 </ul>
+<h3 id="topic-schema-binding">Topic-Schema Binding</h3>
+<p>Every topic can be associated with exactly one schema subject:</p>
+<ul>
+<li><strong>One Topic → One Subject</strong> - Each topic uses a single schema subject</li>
+<li><strong>One Subject → Many Topics</strong> - Multiple topics can share the same schema subject</li>
+<li><strong>First Producer Privilege</strong> - The first producer to create a topic assigns its schema subject</li>
+<li><strong>Immutable Binding</strong> - Once set, only administrators can change a topic's schema subject</li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>SUBJECT:<span class="w"> </span><span class="s2">&quot;user-events-value&quot;</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span>├─<span class="w"> </span>Version<span class="w"> </span><span class="m">1</span>,<span class="w"> </span><span class="m">2</span>,<span class="w"> </span><span class="m">3</span>...<span class="w"> </span><span class="o">(</span>evolves<span class="w"> </span>over<span class="w"> </span><span class="nb">time</span><span class="o">)</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span>├─<span class="w"> </span>Compatibility:<span class="w"> </span>BACKWARD<span class="w"> </span><span class="o">(</span>subject-level<span class="o">)</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span>└─<span class="w"> </span>Used<span class="w"> </span>by:
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">      </span>├─<span class="w"> </span>TOPIC:<span class="w"> </span><span class="s2">&quot;user-events-dev&quot;</span><span class="w"> </span><span class="o">(</span>ValidationPolicy:<span class="w"> </span>WARN<span class="o">)</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">      </span>└─<span class="w"> </span>TOPIC:<span class="w"> </span><span class="s2">&quot;user-events-prod&quot;</span><span class="w"> </span><span class="o">(</span>ValidationPolicy:<span class="w"> </span>ENFORCE<span class="o">)</span>
+</span></code></pre></div>
 <hr />
 <h2 id="how-it-works">How It Works</h2>
 <h3 id="1-schema-registration">1. Schema Registration</h3>
 <p>When you register a schema:</p>
 <p><strong>Using CLI:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>register<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span>--schema-type<span class="w"> </span>json_schema<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span>--file<span class="w"> </span>user-events.json<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span>--description<span class="w"> </span><span class="s2">&quot;User activity events&quot;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>register<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span>--schema-type<span class="w"> </span>json_schema<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span>--file<span class="w"> </span>user-events.json<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span>--description<span class="w"> </span><span class="s2">&quot;User activity events&quot;</span>
 </span></code></pre></div>
 <p><strong>Using Rust SDK:</strong></p>
-<div class="language-rust highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">use</span><span class="w"> </span><span class="n">danube_client</span><span class="p">::{</span><span class="n">SchemaRegistryClient</span><span class="p">,</span><span class="w"> </span><span class="n">SchemaType</span><span class="p">};</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">schema_client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SchemaRegistryClient</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="o">&amp;</span><span class="n">client</span><span class="p">).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="c1">// Register the schema and get schema ID</span>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="kd">let</span><span class="w"> </span><span class="n">schema_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">schema_client</span>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="p">.</span><span class="n">register_schema</span><span class="p">(</span><span class="s">&quot;user-events&quot;</span><span class="p">)</span>
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="p">.</span><span class="n">with_type</span><span class="p">(</span><span class="n">SchemaType</span><span class="p">::</span><span class="n">Avro</span><span class="p">)</span>
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="p">.</span><span class="n">with_schema_data</span><span class="p">(</span><span class="n">avro_schema</span><span class="p">.</span><span class="n">as_bytes</span><span class="p">())</span>
-</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">    </span><span class="p">.</span><span class="n">execute</span><span class="p">()</span>
-</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span><span class="p">.</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
-</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
-</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;✅ Registered schema with ID: {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">schema_id</span><span class="p">);</span>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">use</span><span class="w"> </span><span class="n">danube_client</span><span class="p">::{</span><span class="n">SchemaRegistryClient</span><span class="p">,</span><span class="w"> </span><span class="n">SchemaType</span><span class="p">};</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">schema_client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SchemaRegistryClient</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="o">&amp;</span><span class="n">client</span><span class="p">).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="c1">// Register the schema and get schema ID</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="kd">let</span><span class="w"> </span><span class="n">schema_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">schema_client</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="p">.</span><span class="n">register_schema</span><span class="p">(</span><span class="s">&quot;user-events&quot;</span><span class="p">)</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="p">.</span><span class="n">with_type</span><span class="p">(</span><span class="n">SchemaType</span><span class="p">::</span><span class="n">Avro</span><span class="p">)</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="p">.</span><span class="n">with_schema_data</span><span class="p">(</span><span class="n">avro_schema</span><span class="p">.</span><span class="n">as_bytes</span><span class="p">())</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="p">.</span><span class="n">execute</span><span class="p">()</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">    </span><span class="p">.</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;✅ Registered schema with ID: {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">schema_id</span><span class="p">);</span>
 </span></code></pre></div>
 <p>The Schema Registry:</p>
 <ol>
@@ -2293,39 +2396,39 @@ Fetch schemas from registry, deserialize messages using correct schema version, 
 <h3 id="2-schema-evolution">2. Schema Evolution</h3>
 <p>When you update a schema:</p>
 <p><strong>Using CLI:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Test compatibility first</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>check<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span>--file<span class="w"> </span>user-events-v2.json<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span>--schema-type<span class="w"> </span>json_schema
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="c1"># If compatible, register new version</span>
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>register<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">  </span>--schema-type<span class="w"> </span>json_schema<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">  </span>--file<span class="w"> </span>user-events-v2.json
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Test compatibility first</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>check<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span>--file<span class="w"> </span>user-events-v2.json<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span>--schema-type<span class="w"> </span>json_schema
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="c1"># If compatible, register new version</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>register<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">  </span>--schema-type<span class="w"> </span>json_schema<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">  </span>--file<span class="w"> </span>user-events-v2.json
 </span></code></pre></div>
 <p><strong>Using Rust SDK:</strong></p>
-<div class="language-rust highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1">// Check compatibility before registering</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kd">let</span><span class="w"> </span><span class="n">compatibility_result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">schema_client</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="p">.</span><span class="n">check_compatibility</span><span class="p">(</span>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">        </span><span class="s">&quot;user-events&quot;</span><span class="p">,</span>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">        </span><span class="n">schema_v2</span><span class="p">.</span><span class="n">as_bytes</span><span class="p">().</span><span class="n">to_vec</span><span class="p">(),</span>
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">        </span><span class="n">SchemaType</span><span class="p">::</span><span class="n">Avro</span><span class="p">,</span>
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">        </span><span class="nb">None</span><span class="p">,</span>
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="p">)</span>
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">    </span><span class="p">.</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
-</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>
-</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="k">if</span><span class="w"> </span><span class="n">compatibility_result</span><span class="p">.</span><span class="n">is_compatible</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">    </span><span class="c1">// Safe to register new version</span>
-</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">schema_id_v2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">schema_client</span>
-</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">        </span><span class="p">.</span><span class="n">register_schema</span><span class="p">(</span><span class="s">&quot;user-events&quot;</span><span class="p">)</span>
-</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="w">        </span><span class="p">.</span><span class="n">with_type</span><span class="p">(</span><span class="n">SchemaType</span><span class="p">::</span><span class="n">Avro</span><span class="p">)</span>
-</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">        </span><span class="p">.</span><span class="n">with_schema_data</span><span class="p">(</span><span class="n">schema_v2</span><span class="p">.</span><span class="n">as_bytes</span><span class="p">())</span>
-</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="w">        </span><span class="p">.</span><span class="n">execute</span><span class="p">()</span>
-</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="w">        </span><span class="p">.</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
-</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;✅ Schema v2 registered with ID: {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">schema_id_v2</span><span class="p">);</span>
-</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;❌ Schema incompatible: {:?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">compatibility_result</span><span class="p">.</span><span class="n">errors</span><span class="p">);</span>
-</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="p">}</span>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1">// Check compatibility before registering</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kd">let</span><span class="w"> </span><span class="n">compatibility_result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">schema_client</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="p">.</span><span class="n">check_compatibility</span><span class="p">(</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">        </span><span class="s">&quot;user-events&quot;</span><span class="p">,</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">        </span><span class="n">schema_v2</span><span class="p">.</span><span class="n">as_bytes</span><span class="p">().</span><span class="n">to_vec</span><span class="p">(),</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">        </span><span class="n">SchemaType</span><span class="p">::</span><span class="n">Avro</span><span class="p">,</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">        </span><span class="nb">None</span><span class="p">,</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span><span class="p">)</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">    </span><span class="p">.</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="k">if</span><span class="w"> </span><span class="n">compatibility_result</span><span class="p">.</span><span class="n">is_compatible</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">    </span><span class="c1">// Safe to register new version</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">schema_id_v2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">schema_client</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="w">        </span><span class="p">.</span><span class="n">register_schema</span><span class="p">(</span><span class="s">&quot;user-events&quot;</span><span class="p">)</span>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="w">        </span><span class="p">.</span><span class="n">with_type</span><span class="p">(</span><span class="n">SchemaType</span><span class="p">::</span><span class="n">Avro</span><span class="p">)</span>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="w">        </span><span class="p">.</span><span class="n">with_schema_data</span><span class="p">(</span><span class="n">schema_v2</span><span class="p">.</span><span class="n">as_bytes</span><span class="p">())</span>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="w">        </span><span class="p">.</span><span class="n">execute</span><span class="p">()</span>
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="w">        </span><span class="p">.</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;✅ Schema v2 registered with ID: {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">schema_id_v2</span><span class="p">);</span>
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;❌ Schema incompatible: {:?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">compatibility_result</span><span class="p">.</span><span class="n">errors</span><span class="p">);</span>
+</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a><span class="p">}</span>
 </span></code></pre></div>
 <p>The compatibility checker:</p>
 <ol>
@@ -2338,76 +2441,129 @@ Fetch schemas from registry, deserialize messages using correct schema version, 
 <h3 id="3-message-production">3. Message Production</h3>
 <p>Producers reference schemas when sending messages:</p>
 <p><strong>Using CLI:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>danube-cli<span class="w"> </span>produce<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span>-t<span class="w"> </span>/default/user-events<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span>--schema-subject<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span>-m<span class="w"> </span><span class="s1">&#39;{&quot;user_id&quot;: &quot;123&quot;, &quot;action&quot;: &quot;login&quot;}&#39;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>danube-cli<span class="w"> </span>produce<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span>-t<span class="w"> </span>/default/user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span>--schema-subject<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span>-m<span class="w"> </span><span class="s1">&#39;{&quot;user_id&quot;: &quot;123&quot;, &quot;action&quot;: &quot;login&quot;}&#39;</span>
 </span></code></pre></div>
 <p><strong>Using Rust SDK:</strong></p>
-<div class="language-rust highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1">// Create producer with schema reference</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">producer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="p">.</span><span class="n">new_producer</span><span class="p">()</span>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="p">.</span><span class="n">with_topic</span><span class="p">(</span><span class="s">&quot;/default/user-events&quot;</span><span class="p">)</span>
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="p">.</span><span class="n">with_name</span><span class="p">(</span><span class="s">&quot;user_events_producer&quot;</span><span class="p">)</span>
-</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">    </span><span class="p">.</span><span class="n">with_schema_subject</span><span class="p">(</span><span class="s">&quot;user-events&quot;</span><span class="p">)</span><span class="w">  </span><span class="c1">// Links to schema</span>
-</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">    </span><span class="p">.</span><span class="n">build</span><span class="p">();</span>
-</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>
-</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="n">producer</span><span class="p">.</span><span class="n">create</span><span class="p">().</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
-</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>
-</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="c1">// Serialize and send message</span>
-</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="kd">let</span><span class="w"> </span><span class="n">event</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UserEvent</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">user_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;123&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">action</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;login&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">..</span><span class="p">.</span><span class="w"> </span><span class="p">};</span>
-</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="kd">let</span><span class="w"> </span><span class="n">avro_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">serde_json</span><span class="p">::</span><span class="n">to_vec</span><span class="p">(</span><span class="o">&amp;</span><span class="n">event</span><span class="p">)</span><span class="o">?</span><span class="p">;</span>
-</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>
-</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="kd">let</span><span class="w"> </span><span class="n">message_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">producer</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="n">avro_data</span><span class="p">,</span><span class="w"> </span><span class="nb">None</span><span class="p">).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
-</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;📤 Sent message: {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">message_id</span><span class="p">);</span>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">use</span><span class="w"> </span><span class="n">danube_client</span><span class="p">::</span><span class="n">DanubeClient</span><span class="p">;</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="c1">// Create producer with schema reference</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">producer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="p">.</span><span class="n">producer</span><span class="p">()</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">    </span><span class="p">.</span><span class="n">with_topic</span><span class="p">(</span><span class="s">&quot;/default/user-events&quot;</span><span class="p">)</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">    </span><span class="p">.</span><span class="n">with_name</span><span class="p">(</span><span class="s">&quot;user_events_producer&quot;</span><span class="p">)</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">    </span><span class="p">.</span><span class="n">with_schema_subject</span><span class="p">(</span><span class="s">&quot;user-events&quot;</span><span class="p">)</span><span class="w">  </span><span class="c1">// Links to schema (latest version)</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">    </span><span class="p">.</span><span class="n">build</span><span class="p">();</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="n">producer</span><span class="p">.</span><span class="n">create</span><span class="p">().</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="c1">// Or pin to specific version</span>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">producer_v2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="w">    </span><span class="p">.</span><span class="n">producer</span><span class="p">()</span>
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="w">    </span><span class="p">.</span><span class="n">with_topic</span><span class="p">(</span><span class="s">&quot;/default/user-events&quot;</span><span class="p">)</span>
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="w">    </span><span class="p">.</span><span class="n">with_name</span><span class="p">(</span><span class="s">&quot;user_events_producer_v2&quot;</span><span class="p">)</span>
+</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="w">    </span><span class="p">.</span><span class="n">with_schema_version</span><span class="p">(</span><span class="s">&quot;user-events&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">  </span><span class="c1">// Pin to version 2</span>
+</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="w">    </span><span class="p">.</span><span class="n">build</span><span class="p">();</span>
+</span><span id="__span-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a>
+</span><span id="__span-7-21"><a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a><span class="n">producer_v2</span><span class="p">.</span><span class="n">create</span><span class="p">().</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-7-22"><a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a>
+</span><span id="__span-7-23"><a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a><span class="c1">// Serialize and send message</span>
+</span><span id="__span-7-24"><a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a><span class="kd">let</span><span class="w"> </span><span class="n">event</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UserEvent</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">user_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;123&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">action</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;login&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">..</span><span class="p">.</span><span class="w"> </span><span class="p">};</span>
+</span><span id="__span-7-25"><a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a><span class="kd">let</span><span class="w"> </span><span class="n">avro_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">serde_json</span><span class="p">::</span><span class="n">to_vec</span><span class="p">(</span><span class="o">&amp;</span><span class="n">event</span><span class="p">)</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-7-26"><a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a>
+</span><span id="__span-7-27"><a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a><span class="kd">let</span><span class="w"> </span><span class="n">message_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">producer</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="n">avro_data</span><span class="p">,</span><span class="w"> </span><span class="nb">None</span><span class="p">).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-7-28"><a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;📤 Sent message: {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">message_id</span><span class="p">);</span>
+</span></code></pre></div>
+<p><strong>First Producer Privilege:</strong></p>
+<p>The first producer to create a topic automatically assigns its schema subject to that topic. Subsequent producers must use the same subject:</p>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1">// First producer - assigns schema subject to topic</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kd">let</span><span class="w"> </span><span class="n">first</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">producer</span><span class="p">()</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="p">.</span><span class="n">with_topic</span><span class="p">(</span><span class="s">&quot;new-topic&quot;</span><span class="p">)</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="p">.</span><span class="n">with_schema_subject</span><span class="p">(</span><span class="s">&quot;user-events&quot;</span><span class="p">)</span><span class="w">  </span><span class="c1">// ✅ Sets topic&#39;s schema</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">    </span><span class="p">.</span><span class="n">build</span><span class="p">();</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="c1">// Second producer - must match</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="kd">let</span><span class="w"> </span><span class="n">second</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">producer</span><span class="p">()</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">    </span><span class="p">.</span><span class="n">with_topic</span><span class="p">(</span><span class="s">&quot;new-topic&quot;</span><span class="p">)</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">    </span><span class="p">.</span><span class="n">with_schema_subject</span><span class="p">(</span><span class="s">&quot;user-events&quot;</span><span class="p">)</span><span class="w">  </span><span class="c1">// ✅ Matches, allowed</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">    </span><span class="p">.</span><span class="n">build</span><span class="p">();</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="c1">// Third producer - mismatched subject</span>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="kd">let</span><span class="w"> </span><span class="n">third</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">producer</span><span class="p">()</span>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="w">    </span><span class="p">.</span><span class="n">with_topic</span><span class="p">(</span><span class="s">&quot;new-topic&quot;</span><span class="p">)</span>
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="w">    </span><span class="p">.</span><span class="n">with_schema_subject</span><span class="p">(</span><span class="s">&quot;order-events&quot;</span><span class="p">)</span><span class="w">  </span><span class="c1">// ❌ ERROR: Subject mismatch</span>
+</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="w">    </span><span class="p">.</span><span class="n">build</span><span class="p">();</span>
 </span></code></pre></div>
 <p>The flow:</p>
 <ol>
-<li>Producer retrieves schema ID from registry (cached locally)</li>
+<li>Producer validates schema subject exists in registry</li>
+<li>If topic doesn't exist, creates it with the specified schema subject</li>
+<li>If topic exists, validates subject matches topic's assigned subject</li>
+<li>Retrieves schema ID from registry (cached locally)</li>
 <li>Serializes message according to schema (validation happens client-side)</li>
 <li>Includes schema ID in message metadata (8 bytes overhead)</li>
 <li>Sends message to broker</li>
-<li>Broker validates schema ID matches topic requirements</li>
+<li>Broker validates schema ID matches topic's subject</li>
+<li>Applies topic's validation policy (None/Warn/Enforce)</li>
 <li>Message is accepted and routed to consumers</li>
 </ol>
 <h3 id="4-message-consumption">4. Message Consumption</h3>
 <p>Consumers fetch schemas to deserialize messages:</p>
 <p><strong>Using CLI:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span>-t<span class="w"> </span>/default/user-events<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span>-m<span class="w"> </span>my-subscription
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span>-t<span class="w"> </span>/default/user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span>-m<span class="w"> </span>my-subscription
 </span></code></pre></div>
 <p><strong>Using Rust SDK:</strong></p>
-<div class="language-rust highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1">// Create consumer</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">consumer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span>
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="p">.</span><span class="n">new_consumer</span><span class="p">()</span>
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="p">.</span><span class="n">with_topic</span><span class="p">(</span><span class="s">&quot;/default/user-events&quot;</span><span class="p">)</span>
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">    </span><span class="p">.</span><span class="n">with_consumer_name</span><span class="p">(</span><span class="s">&quot;user_events_consumer&quot;</span><span class="p">)</span>
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">    </span><span class="p">.</span><span class="n">with_subscription</span><span class="p">(</span><span class="s">&quot;my-subscription&quot;</span><span class="p">)</span>
-</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">    </span><span class="p">.</span><span class="n">with_subscription_type</span><span class="p">(</span><span class="n">SubType</span><span class="p">::</span><span class="n">Exclusive</span><span class="p">)</span>
-</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">    </span><span class="p">.</span><span class="n">build</span><span class="p">();</span>
-</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>
-</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="n">consumer</span><span class="p">.</span><span class="n">subscribe</span><span class="p">().</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
-</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">message_stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">consumer</span><span class="p">.</span><span class="n">receive</span><span class="p">().</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
-</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>
-</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="c1">// Receive and deserialize messages</span>
-</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="k">while</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">message</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">message_stream</span><span class="p">.</span><span class="n">recv</span><span class="p">().</span><span class="k">await</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="w">    </span><span class="c1">// Deserialize using schema</span>
-</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">event</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">serde_json</span><span class="p">::</span><span class="n">from_slice</span><span class="p">::</span><span class="o">&lt;</span><span class="n">UserEvent</span><span class="o">&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="n">message</span><span class="p">.</span><span class="n">payload</span><span class="p">)</span><span class="o">?</span><span class="p">;</span>
-</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;📥 Received: {:?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">event</span><span class="p">);</span>
-</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>
-</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a><span class="w">    </span><span class="c1">// Acknowledge</span>
-</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a><span class="w">    </span><span class="n">consumer</span><span class="p">.</span><span class="n">ack</span><span class="p">(</span><span class="o">&amp;</span><span class="n">message</span><span class="p">).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
-</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a><span class="p">}</span>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">use</span><span class="w"> </span><span class="n">danube_client</span><span class="p">::{</span><span class="n">DanubeClient</span><span class="p">,</span><span class="w"> </span><span class="n">SchemaRegistryClient</span><span class="p">,</span><span class="w"> </span><span class="n">SchemaInfo</span><span class="p">,</span><span class="w"> </span><span class="n">SubType</span><span class="p">};</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="c1">// Create consumer</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">consumer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">    </span><span class="p">.</span><span class="n">consumer</span><span class="p">()</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">    </span><span class="p">.</span><span class="n">with_topic</span><span class="p">(</span><span class="s">&quot;/default/user-events&quot;</span><span class="p">)</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">    </span><span class="p">.</span><span class="n">with_consumer_name</span><span class="p">(</span><span class="s">&quot;user_events_consumer&quot;</span><span class="p">)</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">    </span><span class="p">.</span><span class="n">with_subscription</span><span class="p">(</span><span class="s">&quot;my-subscription&quot;</span><span class="p">)</span>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">    </span><span class="p">.</span><span class="n">with_subscription_type</span><span class="p">(</span><span class="n">SubType</span><span class="p">::</span><span class="n">Exclusive</span><span class="p">)</span>
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="w">    </span><span class="p">.</span><span class="n">build</span><span class="p">();</span>
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="n">consumer</span><span class="p">.</span><span class="n">subscribe</span><span class="p">().</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">message_stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">consumer</span><span class="p">.</span><span class="n">receive</span><span class="p">().</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>
+</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="c1">// Create schema client for validation (optional)</span>
+</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">schema_client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SchemaRegistryClient</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="o">&amp;</span><span class="n">client</span><span class="p">).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-10-17"><a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a>
+</span><span id="__span-10-18"><a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a><span class="c1">// Receive and deserialize messages</span>
+</span><span id="__span-10-19"><a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a><span class="k">while</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">message</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">message_stream</span><span class="p">.</span><span class="n">recv</span><span class="p">().</span><span class="k">await</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-10-20"><a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a><span class="w">    </span><span class="c1">// Option 1: Trust broker validation (most common)</span>
+</span><span id="__span-10-21"><a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">event</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">serde_json</span><span class="p">::</span><span class="n">from_slice</span><span class="p">::</span><span class="o">&lt;</span><span class="n">UserEvent</span><span class="o">&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="n">message</span><span class="p">.</span><span class="n">payload</span><span class="p">)</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-10-22"><a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;📥 Received: {:?}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">event</span><span class="p">);</span>
+</span><span id="__span-10-23"><a id="__codelineno-10-23" name="__codelineno-10-23" href="#__codelineno-10-23"></a>
+</span><span id="__span-10-24"><a id="__codelineno-10-24" name="__codelineno-10-24" href="#__codelineno-10-24"></a><span class="w">    </span><span class="c1">// Option 2: Client-side validation (if broker policy is Warn/None)</span>
+</span><span id="__span-10-25"><a id="__codelineno-10-25" name="__codelineno-10-25" href="#__codelineno-10-25"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">schema_id</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">message</span><span class="p">.</span><span class="n">schema_id</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-10-26"><a id="__codelineno-10-26" name="__codelineno-10-26" href="#__codelineno-10-26"></a><span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">schema</span><span class="p">:</span><span class="w"> </span><span class="nc">SchemaInfo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">schema_client</span><span class="p">.</span><span class="n">get_schema_by_id</span><span class="p">(</span><span class="n">schema_id</span><span class="p">).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-10-27"><a id="__codelineno-10-27" name="__codelineno-10-27" href="#__codelineno-10-27"></a><span class="w">        </span><span class="c1">// Validate payload against schema if needed</span>
+</span><span id="__span-10-28"><a id="__codelineno-10-28" name="__codelineno-10-28" href="#__codelineno-10-28"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-10-29"><a id="__codelineno-10-29" name="__codelineno-10-29" href="#__codelineno-10-29"></a>
+</span><span id="__span-10-30"><a id="__codelineno-10-30" name="__codelineno-10-30" href="#__codelineno-10-30"></a><span class="w">    </span><span class="c1">// Acknowledge</span>
+</span><span id="__span-10-31"><a id="__codelineno-10-31" name="__codelineno-10-31" href="#__codelineno-10-31"></a><span class="w">    </span><span class="n">consumer</span><span class="p">.</span><span class="n">ack</span><span class="p">(</span><span class="o">&amp;</span><span class="n">message</span><span class="p">).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-10-32"><a id="__codelineno-10-32" name="__codelineno-10-32" href="#__codelineno-10-32"></a><span class="p">}</span>
 </span></code></pre></div>
 <p>The flow:</p>
 <ol>
-<li>Consumer receives message with schema ID</li>
-<li>Fetches schema definition from registry (cached locally)</li>
+<li>Consumer receives message with schema ID and version</li>
+<li>Can fetch schema definition from registry (cached locally) if needed</li>
 <li>Deserializes message using schema</li>
-<li>Optional: Validates deserialized data against struct definition</li>
+<li>Optional: Client-side validation for extra safety</li>
 <li>Processes validated message</li>
 </ol>
+<p><strong>Consumer Validation Options:</strong></p>
+<ul>
+<li><strong>Trust broker</strong> - If topic has <code>Enforce</code> policy, no client validation needed</li>
+<li><strong>Cache + validate</strong> - Fetch schemas once, cache locally, validate on consumption</li>
+<li><strong>Always fetch</strong> - Query registry for every message (high latency, not recommended)</li>
+</ul>
 <hr />
 <h2 id="validation-layers">Validation Layers</h2>
 <p>Danube provides <strong>three validation layers</strong> for maximum flexibility:</p>
@@ -2418,13 +2574,15 @@ Fetch schemas from registry, deserialize messages using correct schema version, 
 <li>Catches errors at source before data enters system</li>
 <li><strong>Recommended:</strong> Always validate at producer</li>
 </ul>
-<h3 id="broker-side-validation">Broker-Side Validation</h3>
+<h3 id="broker-side-validation-topic-level-policy">Broker-Side Validation (Topic-Level Policy)</h3>
 <ul>
-<li>Broker checks message schema ID matches topic requirements</li>
-<li>Three policy levels: None, Warn, Enforce</li>
-<li><strong>Enforce mode:</strong> Rejects invalid messages before routing</li>
-<li><strong>Warn mode:</strong> Logs warnings but allows message (for monitoring)</li>
+<li>Broker checks message schema ID matches topic's assigned subject</li>
+<li>Three policy levels: None, Warn, Enforce (configured per topic by admin)</li>
+<li><strong>Enforce mode:</strong> Rejects invalid messages before routing (production)</li>
+<li><strong>Warn mode:</strong> Logs warnings but allows message (monitoring/debugging)</li>
 <li><strong>None mode:</strong> No validation (development only)</li>
+<li>Controlled by <code>ValidationPolicy</code> (topic-level setting)</li>
+<li>Configurable independently per topic using same schema subject</li>
 </ul>
 <h3 id="consumer-side-validation">Consumer-Side Validation</h3>
 <ul>
@@ -2437,17 +2595,29 @@ Fetch schemas from registry, deserialize messages using correct schema version, 
 <hr />
 <h2 id="storage-model">Storage Model</h2>
 <h3 id="etcd-organization">ETCD Organization</h3>
-<p>Schemas are stored hierarchically in ETCD:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>/schemas/
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span>├──<span class="w"> </span><span class="o">{</span>subject<span class="o">}</span>/
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span>│<span class="w">   </span>├──<span class="w"> </span>metadata<span class="w">              </span><span class="c1"># Subject-level metadata</span>
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>compatibility_mode
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">  </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>created_at
-</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">  </span>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>created_by
-</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">  </span>│<span class="w">   </span>└──<span class="w"> </span>versions/
-</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">  </span>│<span class="w">       </span>├──<span class="w"> </span><span class="m">1</span><span class="w">                 </span><span class="c1"># Version 1 data</span>
-</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">  </span>│<span class="w">       </span>├──<span class="w"> </span><span class="m">2</span><span class="w">                 </span><span class="c1"># Version 2 data</span>
-</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">  </span>│<span class="w">       </span>└──<span class="w"> </span><span class="m">3</span><span class="w">                 </span><span class="c1"># Version 3 data</span>
+<p>Schemas and topic configurations are stored hierarchically in ETCD:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>/schemas/
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span>├──<span class="w"> </span><span class="o">{</span>subject<span class="o">}</span>/
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">  </span>│<span class="w">   </span>├──<span class="w"> </span>metadata<span class="w">                    </span><span class="c1"># Subject-level metadata</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">  </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>compatibility_mode<span class="w">      </span><span class="c1"># BACKWARD/FORWARD/FULL/NONE</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">  </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>created_at
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">  </span>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>created_by
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="w">  </span>│<span class="w">   </span>├──<span class="w"> </span>compatibility<span class="w">               </span><span class="c1"># Current compatibility mode</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="w">  </span>│<span class="w">   </span>└──<span class="w"> </span>versions/
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="w">  </span>│<span class="w">       </span>├──<span class="w"> </span><span class="m">1</span><span class="w">                       </span><span class="c1"># Version 1 data</span>
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="w">  </span>│<span class="w">       </span>├──<span class="w"> </span><span class="m">2</span><span class="w">                       </span><span class="c1"># Version 2 data</span>
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="w">  </span>│<span class="w">       </span>└──<span class="w"> </span><span class="m">3</span><span class="w">                       </span><span class="c1"># Version 3 data</span>
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="w">  </span>├──<span class="w"> </span>_global/
+</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="w">  </span>│<span class="w">   </span>└──<span class="w"> </span>next_schema_id<span class="w">              </span><span class="c1"># Global schema ID counter</span>
+</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="w">  </span>└──<span class="w"> </span>_index/
+</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a><span class="w">      </span>└──<span class="w"> </span>by_id/<span class="o">{</span>schema_id<span class="o">}</span><span class="w">           </span><span class="c1"># Reverse index: ID → subject</span>
+</span><span id="__span-11-16"><a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a>
+</span><span id="__span-11-17"><a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a>/topics/
+</span><span id="__span-11-18"><a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a><span class="w">  </span>└──<span class="w"> </span><span class="o">{</span>topic_name<span class="o">}</span>/
+</span><span id="__span-11-19"><a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a><span class="w">      </span>└──<span class="w"> </span>schema_config<span class="w">               </span><span class="c1"># Topic-level schema settings</span>
+</span><span id="__span-11-20"><a id="__codelineno-11-20" name="__codelineno-11-20" href="#__codelineno-11-20"></a><span class="w">          </span>├──<span class="w"> </span>subject<span class="w">                 </span><span class="c1"># Schema subject for this topic</span>
+</span><span id="__span-11-21"><a id="__codelineno-11-21" name="__codelineno-11-21" href="#__codelineno-11-21"></a><span class="w">          </span>├──<span class="w"> </span>validation_policy<span class="w">       </span><span class="c1"># NONE/WARN/ENFORCE</span>
+</span><span id="__span-11-22"><a id="__codelineno-11-22" name="__codelineno-11-22" href="#__codelineno-11-22"></a><span class="w">          </span>└──<span class="w"> </span>enable_payload_validation<span class="w">  </span><span class="c1"># true/false</span>
 </span></code></pre></div>
 <h3 id="caching-strategy">Caching Strategy</h3>
 <p>To optimize performance, Danube uses distributed caching:</p>
