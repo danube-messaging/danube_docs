@@ -87,9 +87,9 @@ Every time you register a schema, it creates a **new version** if the content di
 - Full version history is preserved indefinitely
 - Duplicate schemas are detected via fingerprinting (no duplicate versions created)
 
-### Compatibility Modes
+### Compatibility Modes (Subject-Level)
 
-**Compatibility modes** control what schema changes are allowed when registering new versions:
+**Compatibility modes** control what schema changes are allowed when registering new versions. This is a **subject-level** setting, meaning all topics sharing the same subject inherit the same compatibility rules.
 
 | Mode | Description | When to Use | Example Change |
 |------|-------------|-------------|----------------|
@@ -100,7 +100,21 @@ Every time you register a schema, it creates a **new version** if the content di
 
 **Default:** Backward (industry standard, covers 90% of use cases)
 
-Each subject has its own compatibility mode, configurable independently.
+Each subject has its own compatibility mode, configurable by administrators only.
+
+### Validation Policies (Topic-Level)
+
+**Validation policies** control how the broker enforces schema validation for messages on a specific topic. This is a **topic-level** setting, meaning different topics using the same schema subject can have different validation strictness.
+
+| Policy | Behavior | Use Case |
+|--------|----------|----------|
+| **None** | No validation | Development topics, unstructured data |
+| **Warn** | Validate and log errors, but accept messages | Monitoring/debugging production issues |
+| **Enforce** | Reject invalid messages | Production topics requiring strict data quality |
+
+**Default:** None
+
+**Example:** A `user-events-dev` topic might use `Warn` policy for flexibility, while `user-events-prod` uses `Enforce` for strict validation—both sharing the same schema subject.
 
 ### Schema Types
 
@@ -112,6 +126,26 @@ Each subject has its own compatibility mode, configurable independently.
 - **String** - UTF-8 text validation
 - **Number** - Numeric types
 - **Bytes** - Raw binary (no validation)
+
+### Topic-Schema Binding
+
+Every topic can be associated with exactly one schema subject:
+
+- **One Topic → One Subject** - Each topic uses a single schema subject
+- **One Subject → Many Topics** - Multiple topics can share the same schema subject
+- **First Producer Privilege** - The first producer to create a topic assigns its schema subject
+- **Immutable Binding** - Once set, only administrators can change a topic's schema subject
+
+**Example:**
+
+```bash
+SUBJECT: "user-events-value"
+  ├─ Version 1, 2, 3... (evolves over time)
+  ├─ Compatibility: BACKWARD (subject-level)
+  └─ Used by:
+      ├─ TOPIC: "user-events-dev" (ValidationPolicy: WARN)
+      └─ TOPIC: "user-events-prod" (ValidationPolicy: ENFORCE)
+```
 
 ---
 
@@ -227,15 +261,27 @@ danube-cli produce \
 **Using Rust SDK:**
 
 ```rust
+use danube_client::DanubeClient;
+
 // Create producer with schema reference
 let mut producer = client
-    .new_producer()
+    .producer()
     .with_topic("/default/user-events")
     .with_name("user_events_producer")
-    .with_schema_subject("user-events")  // Links to schema
+    .with_schema_subject("user-events")  // Links to schema (latest version)
     .build();
 
 producer.create().await?;
+
+// Or pin to specific version
+let mut producer_v2 = client
+    .producer()
+    .with_topic("/default/user-events")
+    .with_name("user_events_producer_v2")
+    .with_schema_version("user-events", 2)  // Pin to version 2
+    .build();
+
+producer_v2.create().await?;
 
 // Serialize and send message
 let event = UserEvent { user_id: "123", action: "login", ... };
@@ -245,14 +291,42 @@ let message_id = producer.send(avro_data, None).await?;
 println!("📤 Sent message: {}", message_id);
 ```
 
+**First Producer Privilege:**
+
+The first producer to create a topic automatically assigns its schema subject to that topic. Subsequent producers must use the same subject:
+
+```rust
+// First producer - assigns schema subject to topic
+let first = client.producer()
+    .with_topic("new-topic")
+    .with_schema_subject("user-events")  // ✅ Sets topic's schema
+    .build();
+
+// Second producer - must match
+let second = client.producer()
+    .with_topic("new-topic")
+    .with_schema_subject("user-events")  // ✅ Matches, allowed
+    .build();
+
+// Third producer - mismatched subject
+let third = client.producer()
+    .with_topic("new-topic")
+    .with_schema_subject("order-events")  // ❌ ERROR: Subject mismatch
+    .build();
+```
+
 The flow:
 
-1. Producer retrieves schema ID from registry (cached locally)
-2. Serializes message according to schema (validation happens client-side)
-3. Includes schema ID in message metadata (8 bytes overhead)
-4. Sends message to broker
-5. Broker validates schema ID matches topic requirements
-6. Message is accepted and routed to consumers
+1. Producer validates schema subject exists in registry
+2. If topic doesn't exist, creates it with the specified schema subject
+3. If topic exists, validates subject matches topic's assigned subject
+4. Retrieves schema ID from registry (cached locally)
+5. Serializes message according to schema (validation happens client-side)
+6. Includes schema ID in message metadata (8 bytes overhead)
+7. Sends message to broker
+8. Broker validates schema ID matches topic's subject
+9. Applies topic's validation policy (None/Warn/Enforce)
+10. Message is accepted and routed to consumers
 
 ### 4. Message Consumption
 
@@ -269,9 +343,11 @@ danube-cli consume \
 **Using Rust SDK:**
 
 ```rust
+use danube_client::{DanubeClient, SchemaRegistryClient, SchemaInfo, SubType};
+
 // Create consumer
 let mut consumer = client
-    .new_consumer()
+    .consumer()
     .with_topic("/default/user-events")
     .with_consumer_name("user_events_consumer")
     .with_subscription("my-subscription")
@@ -281,11 +357,20 @@ let mut consumer = client
 consumer.subscribe().await?;
 let mut message_stream = consumer.receive().await?;
 
+// Create schema client for validation (optional)
+let mut schema_client = SchemaRegistryClient::new(&client).await?;
+
 // Receive and deserialize messages
 while let Some(message) = message_stream.recv().await {
-    // Deserialize using schema
+    // Option 1: Trust broker validation (most common)
     let event = serde_json::from_slice::<UserEvent>(&message.payload)?;
     println!("📥 Received: {:?}", event);
+    
+    // Option 2: Client-side validation (if broker policy is Warn/None)
+    if let Some(schema_id) = message.schema_id {
+        let schema: SchemaInfo = schema_client.get_schema_by_id(schema_id).await?;
+        // Validate payload against schema if needed
+    }
     
     // Acknowledge
     consumer.ack(&message).await?;
@@ -294,11 +379,17 @@ while let Some(message) = message_stream.recv().await {
 
 The flow:
 
-1. Consumer receives message with schema ID
-2. Fetches schema definition from registry (cached locally)
+1. Consumer receives message with schema ID and version
+2. Can fetch schema definition from registry (cached locally) if needed
 3. Deserializes message using schema
-4. Optional: Validates deserialized data against struct definition
+4. Optional: Client-side validation for extra safety
 5. Processes validated message
+
+**Consumer Validation Options:**
+
+- **Trust broker** - If topic has `Enforce` policy, no client validation needed
+- **Cache + validate** - Fetch schemas once, cache locally, validate on consumption
+- **Always fetch** - Query registry for every message (high latency, not recommended)
 
 ---
 
@@ -313,13 +404,15 @@ Danube provides **three validation layers** for maximum flexibility:
 - Catches errors at source before data enters system
 - **Recommended:** Always validate at producer
 
-### Broker-Side Validation
+### Broker-Side Validation (Topic-Level Policy)
 
-- Broker checks message schema ID matches topic requirements
-- Three policy levels: None, Warn, Enforce
-- **Enforce mode:** Rejects invalid messages before routing
-- **Warn mode:** Logs warnings but allows message (for monitoring)
+- Broker checks message schema ID matches topic's assigned subject
+- Three policy levels: None, Warn, Enforce (configured per topic by admin)
+- **Enforce mode:** Rejects invalid messages before routing (production)
+- **Warn mode:** Logs warnings but allows message (monitoring/debugging)
 - **None mode:** No validation (development only)
+- Controlled by `ValidationPolicy` (topic-level setting)
+- Configurable independently per topic using same schema subject
 
 ### Consumer-Side Validation
 
@@ -336,19 +429,31 @@ This multi-layer approach ensures data quality at every stage while maintaining 
 
 ### ETCD Organization
 
-Schemas are stored hierarchically in ETCD:
+Schemas and topic configurations are stored hierarchically in ETCD:
 
 ```bash
 /schemas/
   ├── {subject}/
-  │   ├── metadata              # Subject-level metadata
-  │   │   ├── compatibility_mode
+  │   ├── metadata                    # Subject-level metadata
+  │   │   ├── compatibility_mode      # BACKWARD/FORWARD/FULL/NONE
   │   │   ├── created_at
   │   │   └── created_by
+  │   ├── compatibility               # Current compatibility mode
   │   └── versions/
-  │       ├── 1                 # Version 1 data
-  │       ├── 2                 # Version 2 data
-  │       └── 3                 # Version 3 data
+  │       ├── 1                       # Version 1 data
+  │       ├── 2                       # Version 2 data
+  │       └── 3                       # Version 3 data
+  ├── _global/
+  │   └── next_schema_id              # Global schema ID counter
+  └── _index/
+      └── by_id/{schema_id}           # Reverse index: ID → subject
+
+/topics/
+  └── {topic_name}/
+      └── schema_config               # Topic-level schema settings
+          ├── subject                 # Schema subject for this topic
+          ├── validation_policy       # NONE/WARN/ENFORCE
+          └── enable_payload_validation  # true/false
 ```
 
 ### Caching Strategy

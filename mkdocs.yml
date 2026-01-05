@@ -57,6 +57,7 @@ nav:
                   - Subscriptions: concepts/subscriptions.md
                   - Dispatch Strategies: concepts/dispatch_strategy.md
                   - Messages & Schemas: concepts/messages.md
+                  - Schema Registry Guide: concepts/schema_registry_guide.md
                   - Messaging Patterns:
                             - Queuing vs Pub/Sub: concepts/messaging_patterns_queuing_vs_pubsub.md
                             - Pub/Sub vs Streaming: concepts/messaging_modes_pubsub_vs_streaming.md
