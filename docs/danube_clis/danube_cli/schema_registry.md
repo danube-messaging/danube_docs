@@ -654,8 +654,9 @@ danube-cli schema check my-subject \
 ❌ **Delete schemas** - Dangerous operation (use `danube-admin-cli schemas delete`)
 
 **See Also:**
-- [Admin Schema Registry Guide](../../danube_admin/schema_registry.md) - For admin-only operations
-- [Admin Topics Guide](../../danube_admin/topics.md) - For topic schema configuration
+
+- [Admin Schema Registry Guide](../danube_admin/schema_registry.md) - For admin-only operations
+- [Admin Topics Guide](../danube_admin/topics.md) - For topic schema configuration
 
 ---
 
@@ -668,6 +669,7 @@ danube-cli consume -s http://localhost:6650 -t /default/events -m my-sub
 ```
 
 **How it works:**
+
 1. Consumer receives message with `schema_id` in metadata
 2. Automatically fetches schema from registry using `schema_id`
 3. Caches schema for performance
@@ -675,6 +677,7 @@ danube-cli consume -s http://localhost:6650 -t /default/events -m my-sub
 5. Pretty-prints validated JSON messages
 
 **Benefits:**
+
 - No manual schema configuration needed
 - Always uses the exact schema the producer used
 - Handles schema evolution automatically
