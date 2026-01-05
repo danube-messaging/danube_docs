@@ -1448,6 +1448,48 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#schema-configuration-commands-admin-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schema Configuration Commands (Admin-Only)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Schema Configuration Commands (Admin-Only)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configure-topic-schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Topic Schema
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#set-validation-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Set Validation Policy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-schema-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Get Schema Configuration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#common-workflows" class="md-nav__link">
     <span class="md-ellipsis">
       Common Workflows
@@ -1493,6 +1535,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#5-admin-schema-configuration-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Admin Schema Configuration (Production)
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1504,6 +1555,39 @@
       Related Commands
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Related Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#schema-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schema Management
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#topic-schema-configuration-admin" class="md-nav__link">
+    <span class="md-ellipsis">
+      Topic Schema Configuration (Admin)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cluster-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cluster Management
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1897,6 +1981,48 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#schema-configuration-commands-admin-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schema Configuration Commands (Admin-Only)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Schema Configuration Commands (Admin-Only)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configure-topic-schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure Topic Schema
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#set-validation-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Set Validation Policy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-schema-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Get Schema Configuration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#common-workflows" class="md-nav__link">
     <span class="md-ellipsis">
       Common Workflows
@@ -1942,6 +2068,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#5-admin-schema-configuration-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Admin Schema Configuration (Production)
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1953,6 +2088,39 @@
       Related Commands
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Related Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#schema-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schema Management
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#topic-schema-configuration-admin" class="md-nav__link">
+    <span class="md-ellipsis">
+      Topic Schema Configuration (Admin)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cluster-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cluster Management
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -2271,88 +2439,363 @@
 <li>Prepare for broker maintenance</li>
 <li>Move topic to different broker</li>
 </ul>
+<hr />
+<h2 id="schema-configuration-commands-admin-only">Schema Configuration Commands (Admin-Only)</h2>
+<h3 id="configure-topic-schema">Configure Topic Schema</h3>
+<p>Configure complete schema settings for a topic including schema subject, validation policy, and payload validation (admin-only operation).</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>configure-schema<span class="w"> </span>&lt;TOPIC&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</span></code></pre></div>
+<p><strong>Basic Usage:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="c1"># Configure topic with schema and strict validation</span>
+</span><span id="__span-35-2"><a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>configure-schema<span class="w"> </span>/default/user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-35-3"><a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a><span class="w">  </span>--subject<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-35-4"><a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a><span class="w">  </span>--validation-policy<span class="w"> </span>enforce<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-35-5"><a id="__codelineno-35-5" name="__codelineno-35-5" href="#__codelineno-35-5"></a><span class="w">  </span>--enable-payload-validation
+</span></code></pre></div>
+<p><strong>Options:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Required</th>
+<th>Values</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--subject</code></td>
+<td>Yes</td>
+<td>String</td>
+<td>Schema subject name from registry</td>
+</tr>
+<tr>
+<td><code>--validation-policy</code></td>
+<td>No</td>
+<td><code>none</code>, <code>warn</code>, <code>enforce</code></td>
+<td>Validation strictness (default: <code>none</code>)</td>
+</tr>
+<tr>
+<td><code>--enable-payload-validation</code></td>
+<td>No</td>
+<td>Flag</td>
+<td>Enable deep payload validation</td>
+</tr>
+<tr>
+<td><code>--namespace</code></td>
+<td>No</td>
+<td>String</td>
+<td>Namespace if not in topic path</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Validation Policies:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Policy</th>
+<th>Behavior</th>
+<th>Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>none</code></td>
+<td>No validation</td>
+<td>Development topics, unstructured data</td>
+</tr>
+<tr>
+<td><code>warn</code></td>
+<td>Validate and log errors, accept messages</td>
+<td>Monitoring/debugging production</td>
+</tr>
+<tr>
+<td><code>enforce</code></td>
+<td>Reject invalid messages</td>
+<td>Production requiring strict data quality</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Examples:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="c1"># Production: Strict validation</span>
+</span><span id="__span-36-2"><a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>configure-schema<span class="w"> </span>/production/orders<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-36-3"><a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a><span class="w">  </span>--subject<span class="w"> </span>order-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-36-4"><a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a><span class="w">  </span>--validation-policy<span class="w"> </span>enforce<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-36-5"><a id="__codelineno-36-5" name="__codelineno-36-5" href="#__codelineno-36-5"></a><span class="w">  </span>--enable-payload-validation
+</span><span id="__span-36-6"><a id="__codelineno-36-6" name="__codelineno-36-6" href="#__codelineno-36-6"></a>
+</span><span id="__span-36-7"><a id="__codelineno-36-7" name="__codelineno-36-7" href="#__codelineno-36-7"></a><span class="c1"># Staging: Warn on validation errors</span>
+</span><span id="__span-36-8"><a id="__codelineno-36-8" name="__codelineno-36-8" href="#__codelineno-36-8"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>configure-schema<span class="w"> </span>/staging/orders<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-36-9"><a id="__codelineno-36-9" name="__codelineno-36-9" href="#__codelineno-36-9"></a><span class="w">  </span>--subject<span class="w"> </span>order-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-36-10"><a id="__codelineno-36-10" name="__codelineno-36-10" href="#__codelineno-36-10"></a><span class="w">  </span>--validation-policy<span class="w"> </span>warn<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-36-11"><a id="__codelineno-36-11" name="__codelineno-36-11" href="#__codelineno-36-11"></a><span class="w">  </span>--enable-payload-validation
+</span><span id="__span-36-12"><a id="__codelineno-36-12" name="__codelineno-36-12" href="#__codelineno-36-12"></a>
+</span><span id="__span-36-13"><a id="__codelineno-36-13" name="__codelineno-36-13" href="#__codelineno-36-13"></a><span class="c1"># Development: No validation</span>
+</span><span id="__span-36-14"><a id="__codelineno-36-14" name="__codelineno-36-14" href="#__codelineno-36-14"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>configure-schema<span class="w"> </span>/dev/orders<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-36-15"><a id="__codelineno-36-15" name="__codelineno-36-15" href="#__codelineno-36-15"></a><span class="w">  </span>--subject<span class="w"> </span>order-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-36-16"><a id="__codelineno-36-16" name="__codelineno-36-16" href="#__codelineno-36-16"></a><span class="w">  </span>--validation-policy<span class="w"> </span>none
+</span><span id="__span-36-17"><a id="__codelineno-36-17" name="__codelineno-36-17" href="#__codelineno-36-17"></a>
+</span><span id="__span-36-18"><a id="__codelineno-36-18" name="__codelineno-36-18" href="#__codelineno-36-18"></a><span class="c1"># Using namespace flag</span>
+</span><span id="__span-36-19"><a id="__codelineno-36-19" name="__codelineno-36-19" href="#__codelineno-36-19"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>configure-schema<span class="w"> </span>my-topic<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-36-20"><a id="__codelineno-36-20" name="__codelineno-36-20" href="#__codelineno-36-20"></a><span class="w">  </span>--namespace<span class="w"> </span>production<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-36-21"><a id="__codelineno-36-21" name="__codelineno-36-21" href="#__codelineno-36-21"></a><span class="w">  </span>--subject<span class="w"> </span>events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-36-22"><a id="__codelineno-36-22" name="__codelineno-36-22" href="#__codelineno-36-22"></a><span class="w">  </span>--validation-policy<span class="w"> </span>enforce
+</span></code></pre></div>
+<p><strong>Example Output:</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>✅ Schema configuration set for topic &#39;/production/orders&#39;
+</span><span id="__span-37-2"><a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a>   Schema Subject: order-events
+</span><span id="__span-37-3"><a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a>   Validation Policy: ENFORCE
+</span><span id="__span-37-4"><a id="__codelineno-37-4" name="__codelineno-37-4" href="#__codelineno-37-4"></a>   Payload Validation: ENABLED
+</span></code></pre></div>
+<p><strong>⚠️ Important Notes:</strong></p>
+<ol>
+<li><strong>Admin-Only</strong>: Only administrators can change topic schema configuration</li>
+<li><strong>Schema Must Exist</strong>: The schema subject must be registered before configuring</li>
+<li><strong>Overrides First Producer</strong>: This overrides the schema set by first producer</li>
+<li><strong>Affects All Producers</strong>: All producers must use the configured schema subject</li>
+</ol>
+<hr />
+<h3 id="set-validation-policy">Set Validation Policy</h3>
+<p>Update the validation policy for a topic without changing its schema subject (admin-only operation).</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>set-validation-policy<span class="w"> </span>&lt;TOPIC&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</span></code></pre></div>
+<p><strong>Basic Usage:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-39-1"><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="c1"># Change validation policy to warn</span>
+</span><span id="__span-39-2"><a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>set-validation-policy<span class="w"> </span>/production/events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-39-3"><a id="__codelineno-39-3" name="__codelineno-39-3" href="#__codelineno-39-3"></a><span class="w">  </span>--policy<span class="w"> </span>warn<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-39-4"><a id="__codelineno-39-4" name="__codelineno-39-4" href="#__codelineno-39-4"></a><span class="w">  </span>--enable-payload-validation
+</span></code></pre></div>
+<p><strong>Options:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Required</th>
+<th>Values</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--policy</code></td>
+<td>Yes</td>
+<td><code>none</code>, <code>warn</code>, <code>enforce</code></td>
+<td>Validation policy to set</td>
+</tr>
+<tr>
+<td><code>--enable-payload-validation</code></td>
+<td>No</td>
+<td>Flag</td>
+<td>Enable/disable payload validation</td>
+</tr>
+<tr>
+<td><code>--namespace</code></td>
+<td>No</td>
+<td>String</td>
+<td>Namespace if not in topic path</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Examples:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-40-1"><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="c1"># Enable strict validation for production</span>
+</span><span id="__span-40-2"><a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>set-validation-policy<span class="w"> </span>/production/events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-40-3"><a id="__codelineno-40-3" name="__codelineno-40-3" href="#__codelineno-40-3"></a><span class="w">  </span>--policy<span class="w"> </span>enforce<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-40-4"><a id="__codelineno-40-4" name="__codelineno-40-4" href="#__codelineno-40-4"></a><span class="w">  </span>--enable-payload-validation
+</span><span id="__span-40-5"><a id="__codelineno-40-5" name="__codelineno-40-5" href="#__codelineno-40-5"></a>
+</span><span id="__span-40-6"><a id="__codelineno-40-6" name="__codelineno-40-6" href="#__codelineno-40-6"></a><span class="c1"># Switch to warn mode for debugging</span>
+</span><span id="__span-40-7"><a id="__codelineno-40-7" name="__codelineno-40-7" href="#__codelineno-40-7"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>set-validation-policy<span class="w"> </span>/production/events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-40-8"><a id="__codelineno-40-8" name="__codelineno-40-8" href="#__codelineno-40-8"></a><span class="w">  </span>--policy<span class="w"> </span>warn<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-40-9"><a id="__codelineno-40-9" name="__codelineno-40-9" href="#__codelineno-40-9"></a><span class="w">  </span>--enable-payload-validation
+</span><span id="__span-40-10"><a id="__codelineno-40-10" name="__codelineno-40-10" href="#__codelineno-40-10"></a>
+</span><span id="__span-40-11"><a id="__codelineno-40-11" name="__codelineno-40-11" href="#__codelineno-40-11"></a><span class="c1"># Disable validation temporarily</span>
+</span><span id="__span-40-12"><a id="__codelineno-40-12" name="__codelineno-40-12" href="#__codelineno-40-12"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>set-validation-policy<span class="w"> </span>/production/events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-40-13"><a id="__codelineno-40-13" name="__codelineno-40-13" href="#__codelineno-40-13"></a><span class="w">  </span>--policy<span class="w"> </span>none
+</span></code></pre></div>
+<p><strong>Example Output:</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-41-1"><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a>✅ Validation policy updated for topic &#39;/production/events&#39;
+</span><span id="__span-41-2"><a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a>   Policy: WARN
+</span><span id="__span-41-3"><a id="__codelineno-41-3" name="__codelineno-41-3" href="#__codelineno-41-3"></a>   Payload Validation: ENABLED
+</span></code></pre></div>
+<p><strong>Use Cases:</strong></p>
+<ul>
+<li><strong>Production Issue</strong>: Temporarily switch to <code>warn</code> mode to allow messages through while debugging</li>
+<li><strong>Gradual Rollout</strong>: Start with <code>warn</code>, monitor errors, then switch to <code>enforce</code></li>
+<li><strong>Performance Tuning</strong>: Disable payload validation if schema ID matching is sufficient</li>
+<li><strong>Emergency Override</strong>: Switch to <code>none</code> if validation is blocking critical messages</li>
+</ul>
+<hr />
+<h3 id="get-schema-configuration">Get Schema Configuration</h3>
+<p>Retrieve the current schema configuration for a topic.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-42-1"><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>get-schema-config<span class="w"> </span>&lt;TOPIC&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+</span></code></pre></div>
+<p><strong>Basic Usage:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-43-1"><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="c1"># Get schema configuration</span>
+</span><span id="__span-43-2"><a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>get-schema-config<span class="w"> </span>/production/events
+</span></code></pre></div>
+<p><strong>Output Formats:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-44-1"><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a><span class="c1"># Plain text (default)</span>
+</span><span id="__span-44-2"><a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>get-schema-config<span class="w"> </span>/production/events
+</span><span id="__span-44-3"><a id="__codelineno-44-3" name="__codelineno-44-3" href="#__codelineno-44-3"></a>
+</span><span id="__span-44-4"><a id="__codelineno-44-4" name="__codelineno-44-4" href="#__codelineno-44-4"></a><span class="c1"># JSON format for automation</span>
+</span><span id="__span-44-5"><a id="__codelineno-44-5" name="__codelineno-44-5" href="#__codelineno-44-5"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>get-schema-config<span class="w"> </span>/production/events<span class="w"> </span>--output<span class="w"> </span>json
+</span></code></pre></div>
+<p><strong>Example Output (Plain Text):</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-45-1"><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>Topic: /production/events
+</span><span id="__span-45-2"><a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a>Schema Subject: user-events
+</span><span id="__span-45-3"><a id="__codelineno-45-3" name="__codelineno-45-3" href="#__codelineno-45-3"></a>Validation Policy: ENFORCE
+</span><span id="__span-45-4"><a id="__codelineno-45-4" name="__codelineno-45-4" href="#__codelineno-45-4"></a>Payload Validation: ENABLED
+</span><span id="__span-45-5"><a id="__codelineno-45-5" name="__codelineno-45-5" href="#__codelineno-45-5"></a>Cached Schema ID: 12345
+</span></code></pre></div>
+<p><strong>Example Output (No Schema Configured):</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-46-1"><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>Topic: /production/logs
+</span><span id="__span-46-2"><a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a>No schema configured for this topic
+</span></code></pre></div>
+<p><strong>Example Output (JSON):</strong></p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-47-1"><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a><span class="p">{</span>
+</span><span id="__span-47-2"><a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a><span class="w">  </span><span class="nt">&quot;topic&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/production/events&quot;</span><span class="p">,</span>
+</span><span id="__span-47-3"><a id="__codelineno-47-3" name="__codelineno-47-3" href="#__codelineno-47-3"></a><span class="w">  </span><span class="nt">&quot;schema_subject&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;user-events&quot;</span><span class="p">,</span>
+</span><span id="__span-47-4"><a id="__codelineno-47-4" name="__codelineno-47-4" href="#__codelineno-47-4"></a><span class="w">  </span><span class="nt">&quot;validation_policy&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ENFORCE&quot;</span><span class="p">,</span>
+</span><span id="__span-47-5"><a id="__codelineno-47-5" name="__codelineno-47-5" href="#__codelineno-47-5"></a><span class="w">  </span><span class="nt">&quot;enable_payload_validation&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+</span><span id="__span-47-6"><a id="__codelineno-47-6" name="__codelineno-47-6" href="#__codelineno-47-6"></a><span class="w">  </span><span class="nt">&quot;schema_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">12345</span>
+</span><span id="__span-47-7"><a id="__codelineno-47-7" name="__codelineno-47-7" href="#__codelineno-47-7"></a><span class="p">}</span>
+</span></code></pre></div>
+<p><strong>Use Cases:</strong></p>
+<ul>
+<li>Verify schema configuration after changes</li>
+<li>Audit which topics have schema validation enabled</li>
+<li>Automation scripts that need to query topic settings</li>
+<li>Troubleshoot validation issues by checking current configuration</li>
+</ul>
+<hr />
 <h2 id="common-workflows">Common Workflows</h2>
 <h3 id="1-create-topic-with-schema-validation">1. Create Topic with Schema Validation</h3>
 <p><strong>Step-by-step:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="c1"># Step 1: Register schema</span>
-</span><span id="__span-34-2"><a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>register<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-34-3"><a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a><span class="w">  </span>--schema-type<span class="w"> </span>json_schema<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-34-4"><a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a><span class="w">  </span>--file<span class="w"> </span>schemas/user-events.json<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-34-5"><a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a><span class="w">  </span>--description<span class="w"> </span><span class="s2">&quot;User event schema&quot;</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-34-6"><a id="__codelineno-34-6" name="__codelineno-34-6" href="#__codelineno-34-6"></a><span class="w">  </span>--tags<span class="w"> </span>users<span class="w"> </span>analytics
-</span><span id="__span-34-7"><a id="__codelineno-34-7" name="__codelineno-34-7" href="#__codelineno-34-7"></a>
-</span><span id="__span-34-8"><a id="__codelineno-34-8" name="__codelineno-34-8" href="#__codelineno-34-8"></a><span class="c1"># Step 2: Verify schema</span>
-</span><span id="__span-34-9"><a id="__codelineno-34-9" name="__codelineno-34-9" href="#__codelineno-34-9"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>get<span class="w"> </span>--subject<span class="w"> </span>user-events
-</span><span id="__span-34-10"><a id="__codelineno-34-10" name="__codelineno-34-10" href="#__codelineno-34-10"></a>
-</span><span id="__span-34-11"><a id="__codelineno-34-11" name="__codelineno-34-11" href="#__codelineno-34-11"></a><span class="c1"># Step 3: Create topic</span>
-</span><span id="__span-34-12"><a id="__codelineno-34-12" name="__codelineno-34-12" href="#__codelineno-34-12"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>/production/user-events<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-34-13"><a id="__codelineno-34-13" name="__codelineno-34-13" href="#__codelineno-34-13"></a><span class="w">  </span>--schema-subject<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-34-14"><a id="__codelineno-34-14" name="__codelineno-34-14" href="#__codelineno-34-14"></a><span class="w">  </span>--dispatch-strategy<span class="w"> </span>reliable<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-34-15"><a id="__codelineno-34-15" name="__codelineno-34-15" href="#__codelineno-34-15"></a><span class="w">  </span>--partitions<span class="w"> </span><span class="m">5</span>
-</span><span id="__span-34-16"><a id="__codelineno-34-16" name="__codelineno-34-16" href="#__codelineno-34-16"></a>
-</span><span id="__span-34-17"><a id="__codelineno-34-17" name="__codelineno-34-17" href="#__codelineno-34-17"></a><span class="c1"># Step 4: Verify topic</span>
-</span><span id="__span-34-18"><a id="__codelineno-34-18" name="__codelineno-34-18" href="#__codelineno-34-18"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>describe<span class="w"> </span>/production/user-events
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-48-1"><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a><span class="c1"># Step 1: Register schema</span>
+</span><span id="__span-48-2"><a id="__codelineno-48-2" name="__codelineno-48-2" href="#__codelineno-48-2"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>register<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-48-3"><a id="__codelineno-48-3" name="__codelineno-48-3" href="#__codelineno-48-3"></a><span class="w">  </span>--schema-type<span class="w"> </span>json_schema<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-48-4"><a id="__codelineno-48-4" name="__codelineno-48-4" href="#__codelineno-48-4"></a><span class="w">  </span>--file<span class="w"> </span>schemas/user-events.json<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-48-5"><a id="__codelineno-48-5" name="__codelineno-48-5" href="#__codelineno-48-5"></a><span class="w">  </span>--description<span class="w"> </span><span class="s2">&quot;User event schema&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-48-6"><a id="__codelineno-48-6" name="__codelineno-48-6" href="#__codelineno-48-6"></a><span class="w">  </span>--tags<span class="w"> </span>users<span class="w"> </span>analytics
+</span><span id="__span-48-7"><a id="__codelineno-48-7" name="__codelineno-48-7" href="#__codelineno-48-7"></a>
+</span><span id="__span-48-8"><a id="__codelineno-48-8" name="__codelineno-48-8" href="#__codelineno-48-8"></a><span class="c1"># Step 2: Verify schema</span>
+</span><span id="__span-48-9"><a id="__codelineno-48-9" name="__codelineno-48-9" href="#__codelineno-48-9"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>get<span class="w"> </span>--subject<span class="w"> </span>user-events
+</span><span id="__span-48-10"><a id="__codelineno-48-10" name="__codelineno-48-10" href="#__codelineno-48-10"></a>
+</span><span id="__span-48-11"><a id="__codelineno-48-11" name="__codelineno-48-11" href="#__codelineno-48-11"></a><span class="c1"># Step 3: Create topic</span>
+</span><span id="__span-48-12"><a id="__codelineno-48-12" name="__codelineno-48-12" href="#__codelineno-48-12"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>/production/user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-48-13"><a id="__codelineno-48-13" name="__codelineno-48-13" href="#__codelineno-48-13"></a><span class="w">  </span>--schema-subject<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-48-14"><a id="__codelineno-48-14" name="__codelineno-48-14" href="#__codelineno-48-14"></a><span class="w">  </span>--dispatch-strategy<span class="w"> </span>reliable<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-48-15"><a id="__codelineno-48-15" name="__codelineno-48-15" href="#__codelineno-48-15"></a><span class="w">  </span>--partitions<span class="w"> </span><span class="m">5</span>
+</span><span id="__span-48-16"><a id="__codelineno-48-16" name="__codelineno-48-16" href="#__codelineno-48-16"></a>
+</span><span id="__span-48-17"><a id="__codelineno-48-17" name="__codelineno-48-17" href="#__codelineno-48-17"></a><span class="c1"># Step 4: Verify topic</span>
+</span><span id="__span-48-18"><a id="__codelineno-48-18" name="__codelineno-48-18" href="#__codelineno-48-18"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>describe<span class="w"> </span>/production/user-events
 </span></code></pre></div>
 <h3 id="2-schema-evolution">2. Schema Evolution</h3>
 <p><strong>Update schema for existing topic:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="c1"># Step 1: Check current compatibility mode</span>
-</span><span id="__span-35-2"><a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>get<span class="w"> </span>--subject<span class="w"> </span>user-events
-</span><span id="__span-35-3"><a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a>
-</span><span id="__span-35-4"><a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a><span class="c1"># Step 2: Test new schema compatibility</span>
-</span><span id="__span-35-5"><a id="__codelineno-35-5" name="__codelineno-35-5" href="#__codelineno-35-5"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>check<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-35-6"><a id="__codelineno-35-6" name="__codelineno-35-6" href="#__codelineno-35-6"></a><span class="w">  </span>--file<span class="w"> </span>schemas/user-events-v2.json<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-35-7"><a id="__codelineno-35-7" name="__codelineno-35-7" href="#__codelineno-35-7"></a><span class="w">  </span>--schema-type<span class="w"> </span>json_schema
-</span><span id="__span-35-8"><a id="__codelineno-35-8" name="__codelineno-35-8" href="#__codelineno-35-8"></a>
-</span><span id="__span-35-9"><a id="__codelineno-35-9" name="__codelineno-35-9" href="#__codelineno-35-9"></a><span class="c1"># Step 3: If compatible, register new version</span>
-</span><span id="__span-35-10"><a id="__codelineno-35-10" name="__codelineno-35-10" href="#__codelineno-35-10"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>register<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-35-11"><a id="__codelineno-35-11" name="__codelineno-35-11" href="#__codelineno-35-11"></a><span class="w">  </span>--schema-type<span class="w"> </span>json_schema<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-35-12"><a id="__codelineno-35-12" name="__codelineno-35-12" href="#__codelineno-35-12"></a><span class="w">  </span>--file<span class="w"> </span>schemas/user-events-v2.json<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-35-13"><a id="__codelineno-35-13" name="__codelineno-35-13" href="#__codelineno-35-13"></a><span class="w">  </span>--description<span class="w"> </span><span class="s2">&quot;Added email field&quot;</span>
-</span><span id="__span-35-14"><a id="__codelineno-35-14" name="__codelineno-35-14" href="#__codelineno-35-14"></a>
-</span><span id="__span-35-15"><a id="__codelineno-35-15" name="__codelineno-35-15" href="#__codelineno-35-15"></a><span class="c1"># Step 4: Verify topic picked up new version</span>
-</span><span id="__span-35-16"><a id="__codelineno-35-16" name="__codelineno-35-16" href="#__codelineno-35-16"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>describe<span class="w"> </span>/production/user-events
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-49-1"><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a><span class="c1"># Step 1: Check current compatibility mode</span>
+</span><span id="__span-49-2"><a id="__codelineno-49-2" name="__codelineno-49-2" href="#__codelineno-49-2"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>get<span class="w"> </span>--subject<span class="w"> </span>user-events
+</span><span id="__span-49-3"><a id="__codelineno-49-3" name="__codelineno-49-3" href="#__codelineno-49-3"></a>
+</span><span id="__span-49-4"><a id="__codelineno-49-4" name="__codelineno-49-4" href="#__codelineno-49-4"></a><span class="c1"># Step 2: Test new schema compatibility</span>
+</span><span id="__span-49-5"><a id="__codelineno-49-5" name="__codelineno-49-5" href="#__codelineno-49-5"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>check<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-49-6"><a id="__codelineno-49-6" name="__codelineno-49-6" href="#__codelineno-49-6"></a><span class="w">  </span>--file<span class="w"> </span>schemas/user-events-v2.json<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-49-7"><a id="__codelineno-49-7" name="__codelineno-49-7" href="#__codelineno-49-7"></a><span class="w">  </span>--schema-type<span class="w"> </span>json_schema
+</span><span id="__span-49-8"><a id="__codelineno-49-8" name="__codelineno-49-8" href="#__codelineno-49-8"></a>
+</span><span id="__span-49-9"><a id="__codelineno-49-9" name="__codelineno-49-9" href="#__codelineno-49-9"></a><span class="c1"># Step 3: If compatible, register new version</span>
+</span><span id="__span-49-10"><a id="__codelineno-49-10" name="__codelineno-49-10" href="#__codelineno-49-10"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>register<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-49-11"><a id="__codelineno-49-11" name="__codelineno-49-11" href="#__codelineno-49-11"></a><span class="w">  </span>--schema-type<span class="w"> </span>json_schema<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-49-12"><a id="__codelineno-49-12" name="__codelineno-49-12" href="#__codelineno-49-12"></a><span class="w">  </span>--file<span class="w"> </span>schemas/user-events-v2.json<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-49-13"><a id="__codelineno-49-13" name="__codelineno-49-13" href="#__codelineno-49-13"></a><span class="w">  </span>--description<span class="w"> </span><span class="s2">&quot;Added email field&quot;</span>
+</span><span id="__span-49-14"><a id="__codelineno-49-14" name="__codelineno-49-14" href="#__codelineno-49-14"></a>
+</span><span id="__span-49-15"><a id="__codelineno-49-15" name="__codelineno-49-15" href="#__codelineno-49-15"></a><span class="c1"># Step 4: Verify topic picked up new version</span>
+</span><span id="__span-49-16"><a id="__codelineno-49-16" name="__codelineno-49-16" href="#__codelineno-49-16"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>describe<span class="w"> </span>/production/user-events
 </span></code></pre></div>
 <h3 id="3-multi-environment-deployment">3. Multi-Environment Deployment</h3>
 <p><strong>Create same topics across environments:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="c1"># Production</span>
-</span><span id="__span-36-2"><a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>/production/user-events<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-36-3"><a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a><span class="w">  </span>--schema-subject<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-36-4"><a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a><span class="w">  </span>--dispatch-strategy<span class="w"> </span>reliable<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-36-5"><a id="__codelineno-36-5" name="__codelineno-36-5" href="#__codelineno-36-5"></a><span class="w">  </span>--partitions<span class="w"> </span><span class="m">10</span>
-</span><span id="__span-36-6"><a id="__codelineno-36-6" name="__codelineno-36-6" href="#__codelineno-36-6"></a>
-</span><span id="__span-36-7"><a id="__codelineno-36-7" name="__codelineno-36-7" href="#__codelineno-36-7"></a><span class="c1"># Staging</span>
-</span><span id="__span-36-8"><a id="__codelineno-36-8" name="__codelineno-36-8" href="#__codelineno-36-8"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>/staging/user-events<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-36-9"><a id="__codelineno-36-9" name="__codelineno-36-9" href="#__codelineno-36-9"></a><span class="w">  </span>--schema-subject<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-36-10"><a id="__codelineno-36-10" name="__codelineno-36-10" href="#__codelineno-36-10"></a><span class="w">  </span>--dispatch-strategy<span class="w"> </span>reliable<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-36-11"><a id="__codelineno-36-11" name="__codelineno-36-11" href="#__codelineno-36-11"></a><span class="w">  </span>--partitions<span class="w"> </span><span class="m">3</span>
-</span><span id="__span-36-12"><a id="__codelineno-36-12" name="__codelineno-36-12" href="#__codelineno-36-12"></a>
-</span><span id="__span-36-13"><a id="__codelineno-36-13" name="__codelineno-36-13" href="#__codelineno-36-13"></a><span class="c1"># Development</span>
-</span><span id="__span-36-14"><a id="__codelineno-36-14" name="__codelineno-36-14" href="#__codelineno-36-14"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>/development/user-events<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-36-15"><a id="__codelineno-36-15" name="__codelineno-36-15" href="#__codelineno-36-15"></a><span class="w">  </span>--schema-subject<span class="w"> </span>user-events-dev<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-36-16"><a id="__codelineno-36-16" name="__codelineno-36-16" href="#__codelineno-36-16"></a><span class="w">  </span>--partitions<span class="w"> </span><span class="m">1</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-50-1"><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a><span class="c1"># Production</span>
+</span><span id="__span-50-2"><a id="__codelineno-50-2" name="__codelineno-50-2" href="#__codelineno-50-2"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>/production/user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-50-3"><a id="__codelineno-50-3" name="__codelineno-50-3" href="#__codelineno-50-3"></a><span class="w">  </span>--schema-subject<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-50-4"><a id="__codelineno-50-4" name="__codelineno-50-4" href="#__codelineno-50-4"></a><span class="w">  </span>--dispatch-strategy<span class="w"> </span>reliable<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-50-5"><a id="__codelineno-50-5" name="__codelineno-50-5" href="#__codelineno-50-5"></a><span class="w">  </span>--partitions<span class="w"> </span><span class="m">10</span>
+</span><span id="__span-50-6"><a id="__codelineno-50-6" name="__codelineno-50-6" href="#__codelineno-50-6"></a>
+</span><span id="__span-50-7"><a id="__codelineno-50-7" name="__codelineno-50-7" href="#__codelineno-50-7"></a><span class="c1"># Staging</span>
+</span><span id="__span-50-8"><a id="__codelineno-50-8" name="__codelineno-50-8" href="#__codelineno-50-8"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>/staging/user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-50-9"><a id="__codelineno-50-9" name="__codelineno-50-9" href="#__codelineno-50-9"></a><span class="w">  </span>--schema-subject<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-50-10"><a id="__codelineno-50-10" name="__codelineno-50-10" href="#__codelineno-50-10"></a><span class="w">  </span>--dispatch-strategy<span class="w"> </span>reliable<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-50-11"><a id="__codelineno-50-11" name="__codelineno-50-11" href="#__codelineno-50-11"></a><span class="w">  </span>--partitions<span class="w"> </span><span class="m">3</span>
+</span><span id="__span-50-12"><a id="__codelineno-50-12" name="__codelineno-50-12" href="#__codelineno-50-12"></a>
+</span><span id="__span-50-13"><a id="__codelineno-50-13" name="__codelineno-50-13" href="#__codelineno-50-13"></a><span class="c1"># Development</span>
+</span><span id="__span-50-14"><a id="__codelineno-50-14" name="__codelineno-50-14" href="#__codelineno-50-14"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>/development/user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-50-15"><a id="__codelineno-50-15" name="__codelineno-50-15" href="#__codelineno-50-15"></a><span class="w">  </span>--schema-subject<span class="w"> </span>user-events-dev<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-50-16"><a id="__codelineno-50-16" name="__codelineno-50-16" href="#__codelineno-50-16"></a><span class="w">  </span>--partitions<span class="w"> </span><span class="m">1</span>
 </span></code></pre></div>
 <h3 id="4-topic-migration">4. Topic Migration</h3>
 <p><strong>Move topic to new namespace:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="c1"># Step 1: Create new namespace</span>
-</span><span id="__span-37-2"><a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>new-namespace
-</span><span id="__span-37-3"><a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a>
-</span><span id="__span-37-4"><a id="__codelineno-37-4" name="__codelineno-37-4" href="#__codelineno-37-4"></a><span class="c1"># Step 2: Get old topic schema</span>
-</span><span id="__span-37-5"><a id="__codelineno-37-5" name="__codelineno-37-5" href="#__codelineno-37-5"></a><span class="nv">OLD_SCHEMA</span><span class="o">=</span><span class="k">$(</span>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>describe<span class="w"> </span>/old/topic<span class="w"> </span>--output<span class="w"> </span>json<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.schema_subject&#39;</span><span class="k">)</span>
-</span><span id="__span-37-6"><a id="__codelineno-37-6" name="__codelineno-37-6" href="#__codelineno-37-6"></a>
-</span><span id="__span-37-7"><a id="__codelineno-37-7" name="__codelineno-37-7" href="#__codelineno-37-7"></a><span class="c1"># Step 3: Create new topic with same schema</span>
-</span><span id="__span-37-8"><a id="__codelineno-37-8" name="__codelineno-37-8" href="#__codelineno-37-8"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>/new-namespace/topic<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-37-9"><a id="__codelineno-37-9" name="__codelineno-37-9" href="#__codelineno-37-9"></a><span class="w">  </span>--schema-subject<span class="w"> </span><span class="nv">$OLD_SCHEMA</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-37-10"><a id="__codelineno-37-10" name="__codelineno-37-10" href="#__codelineno-37-10"></a><span class="w">  </span>--dispatch-strategy<span class="w"> </span>reliable
-</span><span id="__span-37-11"><a id="__codelineno-37-11" name="__codelineno-37-11" href="#__codelineno-37-11"></a>
-</span><span id="__span-37-12"><a id="__codelineno-37-12" name="__codelineno-37-12" href="#__codelineno-37-12"></a><span class="c1"># Step 4: Migrate consumers (application-level)</span>
-</span><span id="__span-37-13"><a id="__codelineno-37-13" name="__codelineno-37-13" href="#__codelineno-37-13"></a>
-</span><span id="__span-37-14"><a id="__codelineno-37-14" name="__codelineno-37-14" href="#__codelineno-37-14"></a><span class="c1"># Step 5: Delete old topic</span>
-</span><span id="__span-37-15"><a id="__codelineno-37-15" name="__codelineno-37-15" href="#__codelineno-37-15"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>delete<span class="w"> </span>/old/topic
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-51-1"><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a><span class="c1"># Step 1: Create new namespace</span>
+</span><span id="__span-51-2"><a id="__codelineno-51-2" name="__codelineno-51-2" href="#__codelineno-51-2"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>new-namespace
+</span><span id="__span-51-3"><a id="__codelineno-51-3" name="__codelineno-51-3" href="#__codelineno-51-3"></a>
+</span><span id="__span-51-4"><a id="__codelineno-51-4" name="__codelineno-51-4" href="#__codelineno-51-4"></a><span class="c1"># Step 2: Get old topic schema</span>
+</span><span id="__span-51-5"><a id="__codelineno-51-5" name="__codelineno-51-5" href="#__codelineno-51-5"></a><span class="nv">OLD_SCHEMA</span><span class="o">=</span><span class="k">$(</span>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>describe<span class="w"> </span>/old/topic<span class="w"> </span>--output<span class="w"> </span>json<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.schema_subject&#39;</span><span class="k">)</span>
+</span><span id="__span-51-6"><a id="__codelineno-51-6" name="__codelineno-51-6" href="#__codelineno-51-6"></a>
+</span><span id="__span-51-7"><a id="__codelineno-51-7" name="__codelineno-51-7" href="#__codelineno-51-7"></a><span class="c1"># Step 3: Create new topic with same schema</span>
+</span><span id="__span-51-8"><a id="__codelineno-51-8" name="__codelineno-51-8" href="#__codelineno-51-8"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>/new-namespace/topic<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-51-9"><a id="__codelineno-51-9" name="__codelineno-51-9" href="#__codelineno-51-9"></a><span class="w">  </span>--schema-subject<span class="w"> </span><span class="nv">$OLD_SCHEMA</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-51-10"><a id="__codelineno-51-10" name="__codelineno-51-10" href="#__codelineno-51-10"></a><span class="w">  </span>--dispatch-strategy<span class="w"> </span>reliable
+</span><span id="__span-51-11"><a id="__codelineno-51-11" name="__codelineno-51-11" href="#__codelineno-51-11"></a>
+</span><span id="__span-51-12"><a id="__codelineno-51-12" name="__codelineno-51-12" href="#__codelineno-51-12"></a><span class="c1"># Step 4: Migrate consumers (application-level)</span>
+</span><span id="__span-51-13"><a id="__codelineno-51-13" name="__codelineno-51-13" href="#__codelineno-51-13"></a>
+</span><span id="__span-51-14"><a id="__codelineno-51-14" name="__codelineno-51-14" href="#__codelineno-51-14"></a><span class="c1"># Step 5: Delete old topic</span>
+</span><span id="__span-51-15"><a id="__codelineno-51-15" name="__codelineno-51-15" href="#__codelineno-51-15"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>delete<span class="w"> </span>/old/topic
+</span></code></pre></div>
+<h3 id="5-admin-schema-configuration-production">5. Admin Schema Configuration (Production)</h3>
+<p><strong>Configure validation policies for existing topics:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-52-1"><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a><span class="c1"># Step 1: Register schema with full compatibility</span>
+</span><span id="__span-52-2"><a id="__codelineno-52-2" name="__codelineno-52-2" href="#__codelineno-52-2"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>register<span class="w"> </span>order-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-52-3"><a id="__codelineno-52-3" name="__codelineno-52-3" href="#__codelineno-52-3"></a><span class="w">  </span>--schema-type<span class="w"> </span>json_schema<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-52-4"><a id="__codelineno-52-4" name="__codelineno-52-4" href="#__codelineno-52-4"></a><span class="w">  </span>--file<span class="w"> </span>schemas/orders.json<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-52-5"><a id="__codelineno-52-5" name="__codelineno-52-5" href="#__codelineno-52-5"></a><span class="w">  </span>--description<span class="w"> </span><span class="s2">&quot;Order transaction schema&quot;</span>
+</span><span id="__span-52-6"><a id="__codelineno-52-6" name="__codelineno-52-6" href="#__codelineno-52-6"></a>
+</span><span id="__span-52-7"><a id="__codelineno-52-7" name="__codelineno-52-7" href="#__codelineno-52-7"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>set-compatibility<span class="w"> </span>order-events<span class="w"> </span>--mode<span class="w"> </span>full
+</span><span id="__span-52-8"><a id="__codelineno-52-8" name="__codelineno-52-8" href="#__codelineno-52-8"></a>
+</span><span id="__span-52-9"><a id="__codelineno-52-9" name="__codelineno-52-9" href="#__codelineno-52-9"></a><span class="c1"># Step 2: Create topic (no schema initially)</span>
+</span><span id="__span-52-10"><a id="__codelineno-52-10" name="__codelineno-52-10" href="#__codelineno-52-10"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>/production/orders<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-52-11"><a id="__codelineno-52-11" name="__codelineno-52-11" href="#__codelineno-52-11"></a><span class="w">  </span>--dispatch-strategy<span class="w"> </span>reliable<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-52-12"><a id="__codelineno-52-12" name="__codelineno-52-12" href="#__codelineno-52-12"></a><span class="w">  </span>--partitions<span class="w"> </span><span class="m">5</span>
+</span><span id="__span-52-13"><a id="__codelineno-52-13" name="__codelineno-52-13" href="#__codelineno-52-13"></a>
+</span><span id="__span-52-14"><a id="__codelineno-52-14" name="__codelineno-52-14" href="#__codelineno-52-14"></a><span class="c1"># Step 3: Configure schema with strict validation (admin-only)</span>
+</span><span id="__span-52-15"><a id="__codelineno-52-15" name="__codelineno-52-15" href="#__codelineno-52-15"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>configure-schema<span class="w"> </span>/production/orders<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-52-16"><a id="__codelineno-52-16" name="__codelineno-52-16" href="#__codelineno-52-16"></a><span class="w">  </span>--subject<span class="w"> </span>order-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-52-17"><a id="__codelineno-52-17" name="__codelineno-52-17" href="#__codelineno-52-17"></a><span class="w">  </span>--validation-policy<span class="w"> </span>enforce<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-52-18"><a id="__codelineno-52-18" name="__codelineno-52-18" href="#__codelineno-52-18"></a><span class="w">  </span>--enable-payload-validation
+</span><span id="__span-52-19"><a id="__codelineno-52-19" name="__codelineno-52-19" href="#__codelineno-52-19"></a>
+</span><span id="__span-52-20"><a id="__codelineno-52-20" name="__codelineno-52-20" href="#__codelineno-52-20"></a><span class="c1"># Step 4: Verify configuration</span>
+</span><span id="__span-52-21"><a id="__codelineno-52-21" name="__codelineno-52-21" href="#__codelineno-52-21"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>get-schema-config<span class="w"> </span>/production/orders
+</span><span id="__span-52-22"><a id="__codelineno-52-22" name="__codelineno-52-22" href="#__codelineno-52-22"></a>
+</span><span id="__span-52-23"><a id="__codelineno-52-23" name="__codelineno-52-23" href="#__codelineno-52-23"></a><span class="c1"># Step 5: Monitor for issues, adjust if needed</span>
+</span><span id="__span-52-24"><a id="__codelineno-52-24" name="__codelineno-52-24" href="#__codelineno-52-24"></a><span class="c1"># If issues found, temporarily switch to warn mode</span>
+</span><span id="__span-52-25"><a id="__codelineno-52-25" name="__codelineno-52-25" href="#__codelineno-52-25"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>set-validation-policy<span class="w"> </span>/production/orders<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-52-26"><a id="__codelineno-52-26" name="__codelineno-52-26" href="#__codelineno-52-26"></a><span class="w">  </span>--policy<span class="w"> </span>warn<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-52-27"><a id="__codelineno-52-27" name="__codelineno-52-27" href="#__codelineno-52-27"></a><span class="w">  </span>--enable-payload-validation
+</span><span id="__span-52-28"><a id="__codelineno-52-28" name="__codelineno-52-28" href="#__codelineno-52-28"></a>
+</span><span id="__span-52-29"><a id="__codelineno-52-29" name="__codelineno-52-29" href="#__codelineno-52-29"></a><span class="c1"># Step 6: After fixes, re-enable strict validation</span>
+</span><span id="__span-52-30"><a id="__codelineno-52-30" name="__codelineno-52-30" href="#__codelineno-52-30"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>set-validation-policy<span class="w"> </span>/production/orders<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-52-31"><a id="__codelineno-52-31" name="__codelineno-52-31" href="#__codelineno-52-31"></a><span class="w">  </span>--policy<span class="w"> </span>enforce<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-52-32"><a id="__codelineno-52-32" name="__codelineno-52-32" href="#__codelineno-52-32"></a><span class="w">  </span>--enable-payload-validation
 </span></code></pre></div>
 <h2 id="related-commands">Related Commands</h2>
+<h3 id="schema-management">Schema Management</h3>
 <ul>
 <li><code>danube-admin-cli schemas register</code> - Register schemas for validation</li>
 <li><code>danube-admin-cli schemas get</code> - View schema details</li>
+<li><code>danube-admin-cli schemas get-compatibility</code> - Get compatibility mode</li>
+<li><code>danube-admin-cli schemas set-compatibility</code> - Set compatibility mode</li>
+<li><code>danube-admin-cli schemas delete</code> - Delete schema versions</li>
+</ul>
+<h3 id="topic-schema-configuration-admin">Topic Schema Configuration (Admin)</h3>
+<ul>
+<li><code>danube-admin-cli topics configure-schema</code> - Configure topic schema settings</li>
+<li><code>danube-admin-cli topics set-validation-policy</code> - Update validation policy</li>
+<li><code>danube-admin-cli topics get-schema-config</code> - Get topic schema configuration</li>
+</ul>
+<h3 id="cluster-management">Cluster Management</h3>
+<ul>
 <li><code>danube-admin-cli namespaces create</code> - Create namespaces for topics</li>
 <li><code>danube-admin-cli brokers list</code> - View broker topology</li>
 </ul>

@@ -1540,6 +1540,48 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#client-vs-admin-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Client vs Admin Operations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Client vs Admin Operations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-clients-can-do-danube-cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      What Clients Can Do (danube-cli)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-requires-admin-danube-admin-cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      What Requires Admin (danube-admin-cli)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consumer-schema-fetching" class="md-nav__link">
+    <span class="md-ellipsis">
+      Consumer Schema Fetching
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#json-output-for-automation" class="md-nav__link">
     <span class="md-ellipsis">
       JSON Output for Automation
@@ -2242,6 +2284,48 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#client-vs-admin-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Client vs Admin Operations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Client vs Admin Operations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-clients-can-do-danube-cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      What Clients Can Do (danube-cli)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-requires-admin-danube-admin-cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      What Requires Admin (danube-admin-cli)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consumer-schema-fetching" class="md-nav__link">
+    <span class="md-ellipsis">
+      Consumer Schema Fetching
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#json-output-for-automation" class="md-nav__link">
     <span class="md-ellipsis">
       JSON Output for Automation
@@ -2629,13 +2713,19 @@
 </span></code></pre></div>
 <h2 id="compatibility-modes">Compatibility Modes</h2>
 <p>Compatibility modes control how schemas can evolve.</p>
+<blockquote>
+<p><strong>⚠️ Note:</strong> Setting compatibility mode is an <strong>admin-only</strong> operation using <code>danube-admin-cli</code>. Clients can only <strong>check</strong> compatibility, not set it.</p>
+</blockquote>
 <h3 id="backward-default">Backward (Default)</h3>
 <p>New schema can read data written with old schema.</p>
 <p><strong>Use when:</strong> Consumers are upgraded before producers</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="c1"># Check backward compatibility</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="c1"># Check backward compatibility (client operation)</span>
 </span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>danube-cli<span class="w"> </span>schema<span class="w"> </span>check<span class="w"> </span>orders<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-31-3"><a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a><span class="w">  </span>--schema-type<span class="w"> </span>json_schema<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-31-4"><a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="w">  </span>--file<span class="w"> </span>orders-v2.json
+</span><span id="__span-31-5"><a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a>
+</span><span id="__span-31-6"><a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a><span class="c1"># Set compatibility mode (admin-only - use danube-admin-cli)</span>
+</span><span id="__span-31-7"><a id="__codelineno-31-7" name="__codelineno-31-7" href="#__codelineno-31-7"></a><span class="c1"># danube-admin-cli schemas set-compatibility orders --mode backward</span>
 </span></code></pre></div>
 <p><strong>Allowed changes:</strong></p>
 <ul>
@@ -2709,11 +2799,12 @@
 </span><span id="__span-32-27"><a id="__codelineno-32-27" name="__codelineno-32-27" href="#__codelineno-32-27"></a><span class="w">  </span>--schema-subject<span class="w"> </span>payment-events<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-32-28"><a id="__codelineno-32-28" name="__codelineno-32-28" href="#__codelineno-32-28"></a><span class="w">  </span>-m<span class="w"> </span><span class="s1">&#39;{&quot;payment_id&quot;:&quot;pay_123&quot;,&quot;amount&quot;:99.99,&quot;currency&quot;:&quot;USD&quot;,&quot;status&quot;:&quot;completed&quot;}&#39;</span>
 </span><span id="__span-32-29"><a id="__codelineno-32-29" name="__codelineno-32-29" href="#__codelineno-32-29"></a>
-</span><span id="__span-32-30"><a id="__codelineno-32-30" name="__codelineno-32-30" href="#__codelineno-32-30"></a><span class="c1"># Step 5: Start consumer (automatic validation)</span>
+</span><span id="__span-32-30"><a id="__codelineno-32-30" name="__codelineno-32-30" href="#__codelineno-32-30"></a><span class="c1"># Step 5: Start consumer (automatic schema fetching and validation)</span>
 </span><span id="__span-32-31"><a id="__codelineno-32-31" name="__codelineno-32-31" href="#__codelineno-32-31"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-32-32"><a id="__codelineno-32-32" name="__codelineno-32-32" href="#__codelineno-32-32"></a><span class="w">  </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-32-33"><a id="__codelineno-32-33" name="__codelineno-32-33" href="#__codelineno-32-33"></a><span class="w">  </span>-t<span class="w"> </span>/production/payments<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-32-34"><a id="__codelineno-32-34" name="__codelineno-32-34" href="#__codelineno-32-34"></a><span class="w">  </span>-m<span class="w"> </span>payment-processor
+</span><span id="__span-32-35"><a id="__codelineno-32-35" name="__codelineno-32-35" href="#__codelineno-32-35"></a><span class="c1"># Consumer automatically fetches schema using schema_id from message metadata</span>
 </span></code></pre></div>
 <h3 id="workflow-2-schema-evolution">Workflow 2: Schema Evolution</h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="c1"># Step 1: Check current schema</span>
@@ -2777,19 +2868,57 @@
 </span><span id="__span-36-6"><a id="__codelineno-36-6" name="__codelineno-36-6" href="#__codelineno-36-6"></a><span class="w">  </span>--schema-type<span class="w"> </span>json_schema<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-36-7"><a id="__codelineno-36-7" name="__codelineno-36-7" href="#__codelineno-36-7"></a><span class="w">  </span>--file<span class="w"> </span>new-schema.json
 </span></code></pre></div>
+<h2 id="client-vs-admin-operations">Client vs Admin Operations</h2>
+<h3 id="what-clients-can-do-danube-cli">What Clients Can Do (danube-cli)</h3>
+<p>✅ <strong>Register schemas</strong> - Add new schemas or versions
+✅ <strong>Get schema details</strong> - Fetch schema information
+✅ <strong>List versions</strong> - View version history
+✅ <strong>Check compatibility</strong> - Validate before registering
+✅ <strong>Choose schema version</strong> - Producers can pin to specific versions
+✅ <strong>Auto-register schemas</strong> - Register during production</p>
+<h3 id="what-requires-admin-danube-admin-cli">What Requires Admin (danube-admin-cli)</h3>
+<p>❌ <strong>Set compatibility mode</strong> - Governance control (use <code>danube-admin-cli schemas set-compatibility</code>)
+❌ <strong>Configure topic schemas</strong> - Topic-level validation policies (use <code>danube-admin-cli topics configure-schema</code>)
+❌ <strong>Delete schemas</strong> - Dangerous operation (use <code>danube-admin-cli schemas delete</code>)</p>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href="../../danube_admin/schema_registry/">Admin Schema Registry Guide</a> - For admin-only operations</li>
+<li><a href="../../danube_admin/topics/">Admin Topics Guide</a> - For topic schema configuration</li>
+</ul>
+<hr />
+<h2 id="consumer-schema-fetching">Consumer Schema Fetching</h2>
+<p>Consumers automatically fetch and validate schemas:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span>-t<span class="w"> </span>/default/events<span class="w"> </span>-m<span class="w"> </span>my-sub
+</span></code></pre></div>
+<p><strong>How it works:</strong></p>
+<ol>
+<li>Consumer receives message with <code>schema_id</code> in metadata</li>
+<li>Automatically fetches schema from registry using <code>schema_id</code></li>
+<li>Caches schema for performance</li>
+<li>Validates JSON messages against schema (if JSON Schema type)</li>
+<li>Pretty-prints validated JSON messages</li>
+</ol>
+<p><strong>Benefits:</strong></p>
+<ul>
+<li>No manual schema configuration needed</li>
+<li>Always uses the exact schema the producer used</li>
+<li>Handles schema evolution automatically</li>
+<li>Efficient caching reduces registry calls</li>
+</ul>
+<hr />
 <h2 id="json-output-for-automation">JSON Output for Automation</h2>
 <p>All schema commands support JSON output:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="c1"># Get schema as JSON</span>
-</span><span id="__span-37-2"><a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a>danube-cli<span class="w"> </span>schema<span class="w"> </span>get<span class="w"> </span>user-events<span class="w"> </span>--output<span class="w"> </span>json<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>.
-</span><span id="__span-37-3"><a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a>
-</span><span id="__span-37-4"><a id="__codelineno-37-4" name="__codelineno-37-4" href="#__codelineno-37-4"></a><span class="c1"># List versions as JSON</span>
-</span><span id="__span-37-5"><a id="__codelineno-37-5" name="__codelineno-37-5" href="#__codelineno-37-5"></a>danube-cli<span class="w"> </span>schema<span class="w"> </span>versions<span class="w"> </span>user-events<span class="w"> </span>--output<span class="w"> </span>json<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>.
-</span><span id="__span-37-6"><a id="__codelineno-37-6" name="__codelineno-37-6" href="#__codelineno-37-6"></a>
-</span><span id="__span-37-7"><a id="__codelineno-37-7" name="__codelineno-37-7" href="#__codelineno-37-7"></a><span class="c1"># Check compatibility with JSON output</span>
-</span><span id="__span-37-8"><a id="__codelineno-37-8" name="__codelineno-37-8" href="#__codelineno-37-8"></a>danube-cli<span class="w"> </span>schema<span class="w"> </span>check<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-37-9"><a id="__codelineno-37-9" name="__codelineno-37-9" href="#__codelineno-37-9"></a><span class="w">  </span>--schema-type<span class="w"> </span>json_schema<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-37-10"><a id="__codelineno-37-10" name="__codelineno-37-10" href="#__codelineno-37-10"></a><span class="w">  </span>--file<span class="w"> </span>new-schema.json<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-37-11"><a id="__codelineno-37-11" name="__codelineno-37-11" href="#__codelineno-37-11"></a><span class="w">  </span>--output<span class="w"> </span>json<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>.
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a><span class="c1"># Get schema as JSON</span>
+</span><span id="__span-38-2"><a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a>danube-cli<span class="w"> </span>schema<span class="w"> </span>get<span class="w"> </span>user-events<span class="w"> </span>--output<span class="w"> </span>json<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>.
+</span><span id="__span-38-3"><a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a>
+</span><span id="__span-38-4"><a id="__codelineno-38-4" name="__codelineno-38-4" href="#__codelineno-38-4"></a><span class="c1"># List versions as JSON</span>
+</span><span id="__span-38-5"><a id="__codelineno-38-5" name="__codelineno-38-5" href="#__codelineno-38-5"></a>danube-cli<span class="w"> </span>schema<span class="w"> </span>versions<span class="w"> </span>user-events<span class="w"> </span>--output<span class="w"> </span>json<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>.
+</span><span id="__span-38-6"><a id="__codelineno-38-6" name="__codelineno-38-6" href="#__codelineno-38-6"></a>
+</span><span id="__span-38-7"><a id="__codelineno-38-7" name="__codelineno-38-7" href="#__codelineno-38-7"></a><span class="c1"># Check compatibility with JSON output</span>
+</span><span id="__span-38-8"><a id="__codelineno-38-8" name="__codelineno-38-8" href="#__codelineno-38-8"></a>danube-cli<span class="w"> </span>schema<span class="w"> </span>check<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-38-9"><a id="__codelineno-38-9" name="__codelineno-38-9" href="#__codelineno-38-9"></a><span class="w">  </span>--schema-type<span class="w"> </span>json_schema<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-38-10"><a id="__codelineno-38-10" name="__codelineno-38-10" href="#__codelineno-38-10"></a><span class="w">  </span>--file<span class="w"> </span>new-schema.json<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-38-11"><a id="__codelineno-38-11" name="__codelineno-38-11" href="#__codelineno-38-11"></a><span class="w">  </span>--output<span class="w"> </span>json<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>.
 </span></code></pre></div>
 
 
