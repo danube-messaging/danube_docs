@@ -370,6 +370,51 @@ fi
 
 ---
 
+### Get Compatibility Mode
+
+Retrieve the current compatibility mode for a schema subject.
+
+```bash
+danube-admin-cli schemas get-compatibility <SUBJECT> [OPTIONS]
+```
+
+**Basic Usage:**
+
+```bash
+# Get compatibility mode for a subject
+danube-admin-cli schemas get-compatibility user-events
+```
+
+**Example Output:**
+
+```
+Subject: user-events
+Compatibility Mode: BACKWARD
+```
+
+**JSON Output:**
+
+```bash
+danube-admin-cli schemas get-compatibility user-events --output json
+```
+
+**Example JSON:**
+
+```json
+{
+  "subject": "user-events",
+  "compatibility_mode": "BACKWARD"
+}
+```
+
+**Use Cases:**
+
+- Verify current compatibility settings before making changes
+- Audit schema governance across subjects
+- Automation scripts that need to check compatibility mode
+
+---
+
 ### Set Compatibility Mode
 
 Configure how schema evolution is enforced.

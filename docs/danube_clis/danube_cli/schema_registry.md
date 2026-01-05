@@ -450,6 +450,8 @@ danube-cli schema versions orders
 
 Compatibility modes control how schemas can evolve.
 
+> **⚠️ Note:** Setting compatibility mode is an **admin-only** operation using `danube-admin-cli`. Clients can only **check** compatibility, not set it.
+
 ### Backward (Default)
 
 New schema can read data written with old schema.
@@ -457,10 +459,13 @@ New schema can read data written with old schema.
 **Use when:** Consumers are upgraded before producers
 
 ```bash
-# Check backward compatibility
+# Check backward compatibility (client operation)
 danube-cli schema check orders \
   --schema-type json_schema \
   --file orders-v2.json
+
+# Set compatibility mode (admin-only - use danube-admin-cli)
+# danube-admin-cli schemas set-compatibility orders --mode backward
 ```
 
 **Allowed changes:**
@@ -548,11 +553,12 @@ danube-cli produce \
   --schema-subject payment-events \
   -m '{"payment_id":"pay_123","amount":99.99,"currency":"USD","status":"completed"}'
 
-# Step 5: Start consumer (automatic validation)
+# Step 5: Start consumer (automatic schema fetching and validation)
 danube-cli consume \
   -s http://localhost:6650 \
   -t /production/payments \
   -m payment-processor
+# Consumer automatically fetches schema using schema_id from message metadata
 ```
 
 ### Workflow 2: Schema Evolution
@@ -629,6 +635,52 @@ danube-cli schema check my-subject \
   --schema-type json_schema \
   --file new-schema.json
 ```
+
+## Client vs Admin Operations
+
+### What Clients Can Do (danube-cli)
+
+✅ **Register schemas** - Add new schemas or versions
+✅ **Get schema details** - Fetch schema information
+✅ **List versions** - View version history
+✅ **Check compatibility** - Validate before registering
+✅ **Choose schema version** - Producers can pin to specific versions
+✅ **Auto-register schemas** - Register during production
+
+### What Requires Admin (danube-admin-cli)
+
+❌ **Set compatibility mode** - Governance control (use `danube-admin-cli schemas set-compatibility`)
+❌ **Configure topic schemas** - Topic-level validation policies (use `danube-admin-cli topics configure-schema`)
+❌ **Delete schemas** - Dangerous operation (use `danube-admin-cli schemas delete`)
+
+**See Also:**
+- [Admin Schema Registry Guide](../../danube_admin/schema_registry.md) - For admin-only operations
+- [Admin Topics Guide](../../danube_admin/topics.md) - For topic schema configuration
+
+---
+
+## Consumer Schema Fetching
+
+Consumers automatically fetch and validate schemas:
+
+```bash
+danube-cli consume -s http://localhost:6650 -t /default/events -m my-sub
+```
+
+**How it works:**
+1. Consumer receives message with `schema_id` in metadata
+2. Automatically fetches schema from registry using `schema_id`
+3. Caches schema for performance
+4. Validates JSON messages against schema (if JSON Schema type)
+5. Pretty-prints validated JSON messages
+
+**Benefits:**
+- No manual schema configuration needed
+- Always uses the exact schema the producer used
+- Handles schema evolution automatically
+- Efficient caching reduces registry calls
+
+---
 
 ## JSON Output for Automation
 

@@ -120,7 +120,7 @@ danube-cli produce \
 
 ## Schema-Based Production
 
-### With Pre-Registered Schema
+### With Pre-Registered Schema (Latest Version)
 
 ```bash
 # First, register the schema (one time)
@@ -128,13 +128,47 @@ danube-cli schema register orders \
   --schema-type json_schema \
   --file order-schema.json
 
-# Produce with schema validation
+# Produce with schema validation (uses latest version)
 danube-cli produce \
   -s http://localhost:6650 \
   -t /default/orders \
   --schema-subject orders \
   -m '{"order_id":"ord_123","amount":99.99,"currency":"USD"}'
 ```
+
+### Pin to Specific Schema Version
+
+Use a specific version instead of latest (useful for compatibility testing or controlled rollouts):
+
+```bash
+# Use version 2 of the schema
+danube-cli produce \
+  -s http://localhost:6650 \
+  -t /default/orders \
+  --schema-subject orders \
+  --schema-version 2 \
+  -m '{"order_id":"ord_456","amount":149.99,"currency":"USD"}'
+```
+
+### Use Minimum Schema Version
+
+Require a minimum schema version or newer:
+
+```bash
+# Use version 3 or newer
+danube-cli produce \
+  -s http://localhost:6650 \
+  -t /default/orders \
+  --schema-subject orders \
+  --schema-min-version 3 \
+  -m '{"order_id":"ord_789","amount":199.99,"currency":"USD"}'
+```
+
+**Version Control Notes:**
+- `--schema-subject` alone uses the **latest** version
+- `--schema-version` pins to a **specific** version
+- `--schema-min-version` uses the specified version **or newer**
+- Cannot use both `--schema-version` and `--schema-min-version` together
 
 ### Auto-Register Schema
 
@@ -301,7 +335,9 @@ danube-cli produce \
 | `--message` | `-m` | Message content | Required* |
 | `--file` | `-f` | Binary file path | - |
 | `--producer-name` | `-n` | Producer name | `test_producer` |
-| `--schema-subject` | - | Schema subject | - |
+| `--schema-subject` | - | Schema subject (latest version) | - |
+| `--schema-version` | - | Pin to specific schema version | - |
+| `--schema-min-version` | - | Use minimum version or newer | - |
 | `--schema-file` | - | Schema file (auto-register) | - |
 | `--schema-type` | - | Schema type | - |
 | `--count` | `-c` | Number of messages | `1` |

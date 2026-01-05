@@ -381,6 +381,213 @@ danube-admin-cli topics unload /default/user-events
 - Prepare for broker maintenance
 - Move topic to different broker
 
+---
+
+## Schema Configuration Commands (Admin-Only)
+
+### Configure Topic Schema
+
+Configure complete schema settings for a topic including schema subject, validation policy, and payload validation (admin-only operation).
+
+```bash
+danube-admin-cli topics configure-schema <TOPIC> [OPTIONS]
+```
+
+**Basic Usage:**
+
+```bash
+# Configure topic with schema and strict validation
+danube-admin-cli topics configure-schema /default/user-events \
+  --subject user-events \
+  --validation-policy enforce \
+  --enable-payload-validation
+```
+
+**Options:**
+
+| Option | Required | Values | Description |
+|--------|----------|--------|-------------|
+| `--subject` | Yes | String | Schema subject name from registry |
+| `--validation-policy` | No | `none`, `warn`, `enforce` | Validation strictness (default: `none`) |
+| `--enable-payload-validation` | No | Flag | Enable deep payload validation |
+| `--namespace` | No | String | Namespace if not in topic path |
+
+**Validation Policies:**
+
+| Policy | Behavior | Use Case |
+|--------|----------|----------|
+| `none` | No validation | Development topics, unstructured data |
+| `warn` | Validate and log errors, accept messages | Monitoring/debugging production |
+| `enforce` | Reject invalid messages | Production requiring strict data quality |
+
+**Examples:**
+
+```bash
+# Production: Strict validation
+danube-admin-cli topics configure-schema /production/orders \
+  --subject order-events \
+  --validation-policy enforce \
+  --enable-payload-validation
+
+# Staging: Warn on validation errors
+danube-admin-cli topics configure-schema /staging/orders \
+  --subject order-events \
+  --validation-policy warn \
+  --enable-payload-validation
+
+# Development: No validation
+danube-admin-cli topics configure-schema /dev/orders \
+  --subject order-events \
+  --validation-policy none
+
+# Using namespace flag
+danube-admin-cli topics configure-schema my-topic \
+  --namespace production \
+  --subject events \
+  --validation-policy enforce
+```
+
+**Example Output:**
+
+```
+✅ Schema configuration set for topic '/production/orders'
+   Schema Subject: order-events
+   Validation Policy: ENFORCE
+   Payload Validation: ENABLED
+```
+
+**⚠️ Important Notes:**
+
+1. **Admin-Only**: Only administrators can change topic schema configuration
+2. **Schema Must Exist**: The schema subject must be registered before configuring
+3. **Overrides First Producer**: This overrides the schema set by first producer
+4. **Affects All Producers**: All producers must use the configured schema subject
+
+---
+
+### Set Validation Policy
+
+Update the validation policy for a topic without changing its schema subject (admin-only operation).
+
+```bash
+danube-admin-cli topics set-validation-policy <TOPIC> [OPTIONS]
+```
+
+**Basic Usage:**
+
+```bash
+# Change validation policy to warn
+danube-admin-cli topics set-validation-policy /production/events \
+  --policy warn \
+  --enable-payload-validation
+```
+
+**Options:**
+
+| Option | Required | Values | Description |
+|--------|----------|--------|-------------|
+| `--policy` | Yes | `none`, `warn`, `enforce` | Validation policy to set |
+| `--enable-payload-validation` | No | Flag | Enable/disable payload validation |
+| `--namespace` | No | String | Namespace if not in topic path |
+
+**Examples:**
+
+```bash
+# Enable strict validation for production
+danube-admin-cli topics set-validation-policy /production/events \
+  --policy enforce \
+  --enable-payload-validation
+
+# Switch to warn mode for debugging
+danube-admin-cli topics set-validation-policy /production/events \
+  --policy warn \
+  --enable-payload-validation
+
+# Disable validation temporarily
+danube-admin-cli topics set-validation-policy /production/events \
+  --policy none
+```
+
+**Example Output:**
+
+```
+✅ Validation policy updated for topic '/production/events'
+   Policy: WARN
+   Payload Validation: ENABLED
+```
+
+**Use Cases:**
+
+- **Production Issue**: Temporarily switch to `warn` mode to allow messages through while debugging
+- **Gradual Rollout**: Start with `warn`, monitor errors, then switch to `enforce`
+- **Performance Tuning**: Disable payload validation if schema ID matching is sufficient
+- **Emergency Override**: Switch to `none` if validation is blocking critical messages
+
+---
+
+### Get Schema Configuration
+
+Retrieve the current schema configuration for a topic.
+
+```bash
+danube-admin-cli topics get-schema-config <TOPIC> [OPTIONS]
+```
+
+**Basic Usage:**
+
+```bash
+# Get schema configuration
+danube-admin-cli topics get-schema-config /production/events
+```
+
+**Output Formats:**
+
+```bash
+# Plain text (default)
+danube-admin-cli topics get-schema-config /production/events
+
+# JSON format for automation
+danube-admin-cli topics get-schema-config /production/events --output json
+```
+
+**Example Output (Plain Text):**
+
+```
+Topic: /production/events
+Schema Subject: user-events
+Validation Policy: ENFORCE
+Payload Validation: ENABLED
+Cached Schema ID: 12345
+```
+
+**Example Output (No Schema Configured):**
+
+```
+Topic: /production/logs
+No schema configured for this topic
+```
+
+**Example Output (JSON):**
+
+```json
+{
+  "topic": "/production/events",
+  "schema_subject": "user-events",
+  "validation_policy": "ENFORCE",
+  "enable_payload_validation": true,
+  "schema_id": 12345
+}
+```
+
+**Use Cases:**
+
+- Verify schema configuration after changes
+- Audit which topics have schema validation enabled
+- Automation scripts that need to query topic settings
+- Troubleshoot validation issues by checking current configuration
+
+---
+
 ## Common Workflows
 
 ### 1. Create Topic with Schema Validation
@@ -476,9 +683,59 @@ danube-admin-cli topics create /new-namespace/topic \
 danube-admin-cli topics delete /old/topic
 ```
 
+### 5. Admin Schema Configuration (Production)
+
+**Configure validation policies for existing topics:**
+
+```bash
+# Step 1: Register schema with full compatibility
+danube-admin-cli schemas register order-events \
+  --schema-type json_schema \
+  --file schemas/orders.json \
+  --description "Order transaction schema"
+
+danube-admin-cli schemas set-compatibility order-events --mode full
+
+# Step 2: Create topic (no schema initially)
+danube-admin-cli topics create /production/orders \
+  --dispatch-strategy reliable \
+  --partitions 5
+
+# Step 3: Configure schema with strict validation (admin-only)
+danube-admin-cli topics configure-schema /production/orders \
+  --subject order-events \
+  --validation-policy enforce \
+  --enable-payload-validation
+
+# Step 4: Verify configuration
+danube-admin-cli topics get-schema-config /production/orders
+
+# Step 5: Monitor for issues, adjust if needed
+# If issues found, temporarily switch to warn mode
+danube-admin-cli topics set-validation-policy /production/orders \
+  --policy warn \
+  --enable-payload-validation
+
+# Step 6: After fixes, re-enable strict validation
+danube-admin-cli topics set-validation-policy /production/orders \
+  --policy enforce \
+  --enable-payload-validation
+```
+
 ## Related Commands
 
+### Schema Management
 - `danube-admin-cli schemas register` - Register schemas for validation
 - `danube-admin-cli schemas get` - View schema details
+- `danube-admin-cli schemas get-compatibility` - Get compatibility mode
+- `danube-admin-cli schemas set-compatibility` - Set compatibility mode
+- `danube-admin-cli schemas delete` - Delete schema versions
+
+### Topic Schema Configuration (Admin)
+- `danube-admin-cli topics configure-schema` - Configure topic schema settings
+- `danube-admin-cli topics set-validation-policy` - Update validation policy
+- `danube-admin-cli topics get-schema-config` - Get topic schema configuration
+
+### Cluster Management
 - `danube-admin-cli namespaces create` - Create namespaces for topics
 - `danube-admin-cli brokers list` - View broker topology
