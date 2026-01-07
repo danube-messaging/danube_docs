@@ -1580,6 +1580,84 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#schema-registry-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schema Registry Integration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Schema Registry Integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      How It Works
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schema-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schema Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-schema-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Supported Schema Types
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Version Strategies
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connector-benefits" class="md-nav__link">
+    <span class="md-ellipsis">
+      Connector Benefits
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-schema-aware-sink" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example: Schema-Aware Sink
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-schema-aware-source" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example: Schema-Aware Source
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#configuration-pattern" class="md-nav__link">
     <span class="md-ellipsis">
       Configuration Pattern
@@ -1922,6 +2000,84 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#schema-registry-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schema Registry Integration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Schema Registry Integration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      How It Works
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#schema-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Schema Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-schema-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Supported Schema Types
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Version Strategies
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connector-benefits" class="md-nav__link">
+    <span class="md-ellipsis">
+      Connector Benefits
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-schema-aware-sink" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example: Schema-Aware Sink
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-schema-aware-source" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example: Schema-Aware Source
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#configuration-pattern" class="md-nav__link">
     <span class="md-ellipsis">
       Configuration Pattern
@@ -2095,20 +2251,65 @@
 </span></code></pre></div>
 <hr />
 <h3 id="message-types">Message Types</h3>
-<p><strong>SinkRecord</strong> - Message consumed from Danube</p>
+<p><strong>SinkRecord</strong> - Message consumed from Danube (Danube → External System)</p>
+<p><strong>The runtime handles schema-aware deserialization automatically.</strong> Your connector receives typed data as <code>serde_json::Value</code>, already deserialized based on the message's schema.</p>
+<p><strong>API:</strong></p>
 <ul>
-<li><code>payload()</code> - Raw bytes</li>
-<li><code>payload_str()</code> - UTF-8 string</li>
-<li><code>payload_json&lt;T&gt;()</code> - Deserialize to struct</li>
-<li><code>attributes()</code> - Metadata key-value pairs</li>
-<li><code>topic()</code>, <code>offset()</code>, <code>publish_time()</code> - Message metadata</li>
+<li><code>payload()</code> - Returns <code>&amp;serde_json::Value</code> (typed data, not raw bytes)</li>
+<li><code>as_type&lt;T&gt;()</code> - Deserialize payload to specific Rust type</li>
+<li><code>schema()</code> - Get schema information (subject, version, type) if message has schema</li>
+<li><code>attributes()</code> - Metadata key-value pairs from producer</li>
+<li><code>topic()</code>, <code>offset()</code>, <code>publish_time()</code>, <code>producer_name()</code> - Message metadata</li>
+<li><code>message_id()</code> - Formatted ID for logging/debugging</li>
 </ul>
-<p><strong>SourceRecord</strong> - Message to publish to Danube</p>
+<p><strong>Example:</strong></p>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">process</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">record</span><span class="p">:</span><span class="w"> </span><span class="nc">SinkRecord</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">ConnectorResult</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="c1">// Access as typed data (already deserialized by runtime)</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">payload</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">record</span><span class="p">.</span><span class="n">payload</span><span class="p">();</span><span class="w">  </span><span class="c1">// &amp;serde_json::Value</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">user_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">payload</span><span class="p">[</span><span class="s">&quot;user_id&quot;</span><span class="p">].</span><span class="n">as_str</span><span class="p">().</span><span class="n">unwrap</span><span class="p">();</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="c1">// Or deserialize to struct</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">event</span><span class="p">:</span><span class="w"> </span><span class="nc">MyEvent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">record</span><span class="p">.</span><span class="n">as_type</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="c1">// Check schema info</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">record</span><span class="p">.</span><span class="n">schema</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">        </span><span class="fm">println!</span><span class="p">(</span><span class="s">&quot;Schema: {} v{}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">schema</span><span class="p">.</span><span class="n">subject</span><span class="p">,</span><span class="w"> </span><span class="n">schema</span><span class="p">.</span><span class="n">version</span><span class="p">);</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">    </span><span class="nb">Ok</span><span class="p">(())</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="p">}</span>
+</span></code></pre></div>
+<hr />
+<p><strong>SourceRecord</strong> - Message to publish to Danube (External System → Danube)</p>
+<p><strong>You provide typed data as <code>serde_json::Value</code>.</strong> The runtime handles schema-aware serialization before sending to Danube.</p>
+<p><strong>API:</strong></p>
 <ul>
-<li>Created with <code>SourceRecord::from_json(topic, &amp;data)</code></li>
-<li>Builder pattern: <code>.with_attribute(k, v)</code>, <code>.with_key(key)</code></li>
-<li>Per-record topic routing and configuration</li>
+<li><code>new(topic, payload)</code> - Create from <code>serde_json::Value</code></li>
+<li><code>from_json(topic, data)</code> - Create from any JSON-serializable type</li>
+<li><code>from_string(topic, text)</code> - Create from string</li>
+<li><code>with_attribute(key, value)</code> - Add metadata attribute</li>
+<li><code>with_attributes(map)</code> - Add multiple attributes</li>
+<li><code>with_key(key)</code> - Set routing key for partitioning</li>
+<li><code>payload()</code> - Get payload reference</li>
 </ul>
+<p><strong>Example:</strong></p>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">use</span><span class="w"> </span><span class="n">serde_json</span><span class="p">::</span><span class="n">json</span><span class="p">;</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1">// From JSON value</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="kd">let</span><span class="w"> </span><span class="n">record</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SourceRecord</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="s">&quot;/events/users&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">json</span><span class="o">!</span><span class="p">({</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="s">&quot;user_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;123&quot;</span><span class="p">,</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="s">&quot;action&quot;</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;login&quot;</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="p">})).</span><span class="n">with_attribute</span><span class="p">(</span><span class="s">&quot;source&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;api&quot;</span><span class="p">);</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="c1">// From struct (automatically serialized to JSON)</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="cp">#[derive(Serialize)]</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="k">struct</span><span class="w"> </span><span class="nc">Event</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">user_id</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="n">action</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="kd">let</span><span class="w"> </span><span class="n">event</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Event</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">user_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;123&quot;</span><span class="p">.</span><span class="n">into</span><span class="p">(),</span><span class="w"> </span><span class="n">action</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;login&quot;</span><span class="p">.</span><span class="n">into</span><span class="p">()</span><span class="w"> </span><span class="p">};</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="kd">let</span><span class="w"> </span><span class="n">record</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SourceRecord</span><span class="p">::</span><span class="n">from_json</span><span class="p">(</span><span class="s">&quot;/events/users&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">event</span><span class="p">)</span><span class="o">?</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="w">    </span><span class="p">.</span><span class="n">with_attribute</span><span class="p">(</span><span class="s">&quot;source&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;api&quot;</span><span class="p">)</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">    </span><span class="p">.</span><span class="n">with_key</span><span class="p">(</span><span class="o">&amp;</span><span class="n">event</span><span class="p">.</span><span class="n">user_id</span><span class="p">);</span><span class="w">  </span><span class="c1">// For partitioning</span>
+</span></code></pre></div>
 <hr />
 <h3 id="runtime-management">Runtime Management</h3>
 <p>The SDK provides <code>SourceRuntime</code> and <code>SinkRuntime</code> that handle:</p>
@@ -2134,21 +2335,199 @@
 <li>Writes both to different tables in the same database</li>
 </ul>
 <hr />
+<h2 id="schema-registry-integration">Schema Registry Integration</h2>
+<p><strong>Critical feature:</strong> The runtime automatically handles schema-aware serialization and deserialization, eliminating the need for connectors to manage schema logic.</p>
+<h3 id="how-it-works">How It Works</h3>
+<p><strong>For Sink Connectors (Consuming):</strong></p>
+<ol>
+<li><strong>Message arrives</strong> with schema ID</li>
+<li><strong>Runtime fetches schema</strong> from registry (cached for performance)</li>
+<li><strong>Runtime deserializes</strong> payload based on schema type (JSON, String, Bytes, Avro, Protobuf)</li>
+<li><strong>Your connector receives</strong> <code>SinkRecord</code> with typed <code>serde_json::Value</code> payload</li>
+<li><strong>You process</strong> the typed data without worrying about raw bytes or schemas</li>
+</ol>
+<p><strong>For Source Connectors (Publishing):</strong></p>
+<ol>
+<li><strong>You create</strong> <code>SourceRecord</code> with <code>serde_json::Value</code> payload</li>
+<li><strong>Runtime serializes</strong> payload based on configured schema type</li>
+<li><strong>Runtime registers/validates</strong> schema with registry</li>
+<li><strong>Message is sent</strong> to Danube with schema ID attached</li>
+<li><strong>Consumers</strong> automatically deserialize using the schema</li>
+</ol>
+<h3 id="schema-configuration">Schema Configuration</h3>
+<p>Define schemas per topic in your connector configuration:</p>
+<div class="language-toml highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Core Danube settings</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">danube_service_url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;http://danube-broker:6650&quot;</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">connector_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;my-connector&quot;</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># Schema mappings for topics</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="k">[[schemas]]</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="n">topic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/events/users&quot;</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="n">subject</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;user-events&quot;</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="n">schema_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;json_schema&quot;</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="n">schema_file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;schemas/user-event.json&quot;</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="n">version_strategy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;latest&quot;</span><span class="w">  </span><span class="c1"># or &quot;pinned&quot; or &quot;minimum&quot;</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="k">[[schemas]]</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="n">topic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/iot/sensors&quot;</span>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="n">subject</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;sensor-data&quot;</span>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="n">schema_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;json_schema&quot;</span>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="n">schema_file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;schemas/sensor.json&quot;</span>
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="n">version_strategy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">pinned</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="p">}</span><span class="w">  </span><span class="c1"># Pin to version 2</span>
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="k">[[schemas]]</span>
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="n">topic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/raw/telemetry&quot;</span>
+</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a><span class="n">subject</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;telemetry&quot;</span>
+</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a><span class="n">schema_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;bytes&quot;</span><span class="w">  </span><span class="c1"># Binary data</span>
+</span></code></pre></div>
+<h3 id="supported-schema-types">Supported Schema Types</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+<th>Serialization</th>
+<th>Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>json_schema</code></td>
+<td>JSON Schema</td>
+<td>JSON</td>
+<td>Structured events, APIs</td>
+</tr>
+<tr>
+<td><code>string</code></td>
+<td>UTF-8 text</td>
+<td>String bytes</td>
+<td>Logs, text messages</td>
+</tr>
+<tr>
+<td><code>bytes</code></td>
+<td>Raw binary</td>
+<td>Base64 in JSON</td>
+<td>Binary data, images</td>
+</tr>
+<tr>
+<td><code>number</code></td>
+<td>Numeric data</td>
+<td>JSON number</td>
+<td>Metrics, counters</td>
+</tr>
+<tr>
+<td><code>avro</code></td>
+<td>Apache Avro</td>
+<td>Avro binary</td>
+<td>High-performance schemas</td>
+</tr>
+<tr>
+<td><code>protobuf</code></td>
+<td>Protocol Buffers</td>
+<td>Protobuf binary</td>
+<td>gRPC, microservices</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Note:</strong> Avro and Protobuf support coming soon. Currently JSON, String, Bytes, and Number are fully supported.</p>
+<h3 id="version-strategies">Version Strategies</h3>
+<p>Control schema evolution with version strategies:</p>
+<div class="language-toml highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Latest version (default)</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">version_strategy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;latest&quot;</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># Pin to specific version</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="n">version_strategy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">pinned</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1"># Minimum version (use &gt;= version)</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="n">version_strategy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">minimum</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="connector-benefits">Connector Benefits</h3>
+<p><strong>What you DON'T need to do:</strong></p>
+<ul>
+<li>❌ Fetch schemas from registry</li>
+<li>❌ Deserialize/serialize payloads manually</li>
+<li>❌ Handle schema versions</li>
+<li>❌ Manage schema caching</li>
+<li>❌ Deal with raw bytes</li>
+</ul>
+<p><strong>What you DO:</strong></p>
+<ul>
+<li>✅ Work with typed <code>serde_json::Value</code> data</li>
+<li>✅ Focus on business logic</li>
+<li>✅ Let the runtime handle all schema operations</li>
+</ul>
+<h3 id="example-schema-aware-sink">Example: Schema-Aware Sink</h3>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">process</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">record</span><span class="p">:</span><span class="w"> </span><span class="nc">SinkRecord</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">ConnectorResult</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="c1">// Payload is already deserialized based on schema</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">payload</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">record</span><span class="p">.</span><span class="n">payload</span><span class="p">();</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="c1">// Check what schema was used</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">record</span><span class="p">.</span><span class="n">schema</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">        </span><span class="n">info</span><span class="o">!</span><span class="p">(</span><span class="s">&quot;Processing message with schema: {} v{}&quot;</span><span class="p">,</span><span class="w"> </span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">              </span><span class="n">schema</span><span class="p">.</span><span class="n">subject</span><span class="p">,</span><span class="w"> </span><span class="n">schema</span><span class="p">.</span><span class="n">version</span><span class="p">);</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">    </span><span class="c1">// Access typed data directly</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">user_id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">payload</span><span class="p">[</span><span class="s">&quot;user_id&quot;</span><span class="p">].</span><span class="n">as_str</span><span class="p">()</span>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="w">        </span><span class="p">.</span><span class="n">ok_or_else</span><span class="p">(</span><span class="o">||</span><span class="w"> </span><span class="n">ConnectorError</span><span class="p">::</span><span class="n">invalid_data</span><span class="p">(</span><span class="s">&quot;Missing user_id&quot;</span><span class="p">,</span><span class="w"> </span><span class="fm">vec!</span><span class="p">[]))</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="w">    </span><span class="c1">// Or deserialize to struct</span>
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="w">    </span><span class="cp">#[derive(Deserialize)]</span>
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">UserEvent</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="w">        </span><span class="n">user_id</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span>
+</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="w">        </span><span class="n">action</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">,</span>
+</span><span id="__span-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a><span class="w">        </span><span class="n">timestamp</span><span class="p">:</span><span class="w"> </span><span class="kt">u64</span><span class="p">,</span>
+</span><span id="__span-7-21"><a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-7-22"><a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a>
+</span><span id="__span-7-23"><a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">event</span><span class="p">:</span><span class="w"> </span><span class="nc">UserEvent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">record</span><span class="p">.</span><span class="n">as_type</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-7-24"><a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a>
+</span><span id="__span-7-25"><a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a><span class="w">    </span><span class="c1">// Write to external system with typed data</span>
+</span><span id="__span-7-26"><a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a><span class="w">    </span><span class="bp">self</span><span class="p">.</span><span class="n">database</span><span class="p">.</span><span class="n">insert_user_event</span><span class="p">(</span><span class="n">event</span><span class="p">).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-7-27"><a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a>
+</span><span id="__span-7-28"><a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a><span class="w">    </span><span class="nb">Ok</span><span class="p">(())</span>
+</span><span id="__span-7-29"><a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="example-schema-aware-source">Example: Schema-Aware Source</h3>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">poll</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">ConnectorResult</span><span class="o">&lt;</span><span class="nb">Vec</span><span class="o">&lt;</span><span class="n">SourceRecord</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">external_data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">client</span><span class="p">.</span><span class="n">fetch_events</span><span class="p">().</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">records</span><span class="p">:</span><span class="w"> </span><span class="nb">Vec</span><span class="o">&lt;</span><span class="n">SourceRecord</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">external_data</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">        </span><span class="p">.</span><span class="n">into_iter</span><span class="p">()</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">        </span><span class="p">.</span><span class="n">map</span><span class="p">(</span><span class="o">|</span><span class="n">event</span><span class="o">|</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">            </span><span class="c1">// Create record with typed JSON data</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">            </span><span class="c1">// Runtime will serialize based on configured schema</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">            </span><span class="n">SourceRecord</span><span class="p">::</span><span class="n">from_json</span><span class="p">(</span><span class="s">&quot;/events/users&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">event</span><span class="p">)</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">                </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">                </span><span class="p">.</span><span class="n">with_attribute</span><span class="p">(</span><span class="s">&quot;source&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;external-api&quot;</span><span class="p">)</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="w">        </span><span class="p">})</span>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="w">        </span><span class="p">.</span><span class="n">collect</span><span class="p">();</span>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="w">    </span><span class="nb">Ok</span><span class="p">(</span><span class="n">records</span><span class="p">)</span>
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="p">}</span>
+</span></code></pre></div>
+<p><strong>The runtime automatically:</strong></p>
+<ul>
+<li>Serializes each record's payload based on <code>/events/users</code> topic's configured schema</li>
+<li>Registers schema with registry if needed</li>
+<li>Attaches schema ID to messages</li>
+<li>Handles schema validation errors</li>
+</ul>
+<hr />
 <h2 id="configuration-pattern">Configuration Pattern</h2>
 <p>Connectors use a <strong>single configuration file</strong> combining core Danube settings with connector-specific settings:</p>
-<div class="language-toml highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Core Danube settings (provided by danube-connect-core)</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">danube_service_url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;http://danube-broker:6650&quot;</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">connector_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;mqtt-bridge&quot;</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="c1"># Connector-specific settings</span>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="k">[mqtt]</span>
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="n">broker_host</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;mosquitto&quot;</span>
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="n">broker_port</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1883</span>
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="k">[[mqtt.topic_mappings]]</span>
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="n">mqtt_topic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;sensors/#&quot;</span>
-</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="n">danube_topic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/iot/sensors&quot;</span>
-</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="n">partitions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span>
+<div class="language-toml highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Core Danube settings (provided by danube-connect-core)</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">danube_service_url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;http://danube-broker:6650&quot;</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="n">connector_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;mqtt-bridge&quot;</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="c1"># Connector-specific settings</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="k">[mqtt]</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="n">broker_host</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;mosquitto&quot;</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="n">broker_port</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1883</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="k">[[mqtt.topic_mappings]]</span>
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="n">mqtt_topic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;sensors/#&quot;</span>
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="n">danube_topic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/iot/sensors&quot;</span>
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="n">partitions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span>
 </span></code></pre></div>
 <p><strong>Environment variable overrides:</strong></p>
 <ul>
@@ -2160,23 +2539,23 @@
 <hr />
 <h2 id="deployment-architecture">Deployment Architecture</h2>
 <p>Connectors run as <strong>standalone Docker containers</strong> alongside your Danube cluster:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>┌─────────────────────────────┐
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>│<span class="w">  </span>External<span class="w"> </span>Systems<span class="w">           </span>│
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>│<span class="w">  </span><span class="o">(</span>MQTT,<span class="w"> </span>DBs,<span class="w"> </span>APIs<span class="o">)</span><span class="w">          </span>│
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>└──────────┬──────────────────┘
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">           </span>↓
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>┌──────────────────────────────┐
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>│<span class="w">  </span>Connector<span class="w"> </span>Layer<span class="w">             </span>│
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>│<span class="w">  </span><span class="o">(</span>Docker<span class="w"> </span>Containers<span class="o">)</span><span class="w">         </span>│
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>│<span class="w">  </span>┌────────┐<span class="w">  </span>┌────────┐<span class="w">     </span>│
-</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>│<span class="w">  </span>│<span class="w"> </span>MQTT<span class="w">   </span>│<span class="w">  </span>│<span class="w"> </span>Delta<span class="w">  </span>│<span class="w"> </span>...<span class="w"> </span>│
-</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>│<span class="w">  </span>│<span class="w"> </span>Source<span class="w"> </span>│<span class="w">  </span>│<span class="w"> </span>Sink<span class="w">   </span>│<span class="w">     </span>│
-</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>│<span class="w">  </span>└────┬───┘<span class="w">  </span>└───┬────┘<span class="w">     </span>│
-</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>└───────┼──────────┼───────────┘
-</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">        </span>↓<span class="w">          </span>↓
-</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>┌───────────────────────────────┐
-</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>│<span class="w">  </span>Danube<span class="w"> </span>Broker<span class="w"> </span>Cluster<span class="w">        </span>│
-</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>└───────────────────────────────┘
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>┌─────────────────────────────┐
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>│<span class="w">  </span>External<span class="w"> </span>Systems<span class="w">           </span>│
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>│<span class="w">  </span><span class="o">(</span>MQTT,<span class="w"> </span>DBs,<span class="w"> </span>APIs<span class="o">)</span><span class="w">          </span>│
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>└──────────┬──────────────────┘
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">           </span>↓
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>┌──────────────────────────────┐
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>│<span class="w">  </span>Connector<span class="w"> </span>Layer<span class="w">             </span>│
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>│<span class="w">  </span><span class="o">(</span>Docker<span class="w"> </span>Containers<span class="o">)</span><span class="w">         </span>│
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>│<span class="w">  </span>┌────────┐<span class="w">  </span>┌────────┐<span class="w">     </span>│
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>│<span class="w">  </span>│<span class="w"> </span>MQTT<span class="w">   </span>│<span class="w">  </span>│<span class="w"> </span>Delta<span class="w">  </span>│<span class="w"> </span>...<span class="w"> </span>│
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>│<span class="w">  </span>│<span class="w"> </span>Source<span class="w"> </span>│<span class="w">  </span>│<span class="w"> </span>Sink<span class="w">   </span>│<span class="w">     </span>│
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>│<span class="w">  </span>└────┬───┘<span class="w">  </span>└───┬────┘<span class="w">     </span>│
+</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>└───────┼──────────┼───────────┘
+</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="w">        </span>↓<span class="w">          </span>↓
+</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>┌───────────────────────────────┐
+</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>│<span class="w">  </span>Danube<span class="w"> </span>Broker<span class="w"> </span>Cluster<span class="w">        </span>│
+</span><span id="__span-10-17"><a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a>└───────────────────────────────┘
 </span></code></pre></div>
 <p><strong>Scaling:</strong></p>
 <ul>

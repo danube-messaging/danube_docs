@@ -1569,6 +1569,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#schema-registry-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      📋 Schema Registry Integration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#modular-architecture" class="md-nav__link">
     <span class="md-ellipsis">
       📦 Modular Architecture
@@ -1965,6 +1974,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#schema-registry-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      📋 Schema Registry Integration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#modular-architecture" class="md-nav__link">
     <span class="md-ellipsis">
       📦 Modular Architecture
@@ -2115,27 +2133,27 @@
 </thead>
 <tbody>
 <tr>
-<td><a href="https://github.com/danube-messaging/danube-connect/tree/main/connectors/source-mqtt">MQTT</a></td>
+<td><a href="https://github.com/danube-messaging/danube-connectors/tree/main/source-mqtt">MQTT</a></td>
 <td>Source</td>
 <td>IoT device integration (MQTT 3.1.1)</td>
 </tr>
 <tr>
-<td><a href="https://github.com/danube-messaging/danube-connect/tree/main/connectors/source-webhook">HTTP Webhook</a></td>
+<td><a href="https://github.com/danube-messaging/danube-connectors/tree/main/source-webhook">HTTP Webhook</a></td>
 <td>Source</td>
 <td>Universal webhook ingestion</td>
 </tr>
 <tr>
-<td><a href="https://github.com/danube-messaging/danube-connect/tree/main/connectors/sink-qdrant">Qdrant</a></td>
+<td><a href="https://github.com/danube-messaging/danube-connectors/tree/main/sink-qdrant">Qdrant</a></td>
 <td>Sink</td>
 <td>Vector embeddings for RAG/AI</td>
 </tr>
 <tr>
-<td><a href="https://github.com/danube-messaging/danube-connect/tree/main/connectors/sink-surrealdb">SurrealDB</a></td>
+<td><a href="https://github.com/danube-messaging/danube-connectors/tree/main/sink-surrealdb">SurrealDB</a></td>
 <td>Sink</td>
 <td>Multi-model database storage</td>
 </tr>
 <tr>
-<td><a href="https://github.com/danube-messaging/danube-connect/tree/main/connectors/sink-deltalake">Delta Lake</a></td>
+<td><a href="https://github.com/danube-messaging/danube-connectors/tree/main/sink-deltalake">Delta Lake</a></td>
 <td>Sink</td>
 <td>ACID data lake ingestion</td>
 </tr>
@@ -2227,6 +2245,15 @@
 <h2 id="key-features">Key Features</h2>
 <h3 id="bidirectional-data-flow">🔄 Bidirectional Data Flow</h3>
 <p>Both source (import) and sink (export) connectors supported</p>
+<h3 id="schema-registry-integration">📋 Schema Registry Integration</h3>
+<p><strong>Automatic schema-aware serialization/deserialization</strong></p>
+<ul>
+<li>Connectors work with typed <code>serde_json::Value</code> data, not raw bytes</li>
+<li>Runtime handles all schema operations (fetch, cache, validate, serialize)</li>
+<li>Support for JSON Schema, String, Bytes, Number (Avro &amp; Protobuf coming soon)</li>
+<li>Schema evolution with version strategies (latest, pinned, minimum)</li>
+<li><strong>Zero schema boilerplate</strong> in your connector code</li>
+</ul>
 <h3 id="modular-architecture">📦 Modular Architecture</h3>
 <p>Clean separation between connector framework and implementations</p>
 <h3 id="cloud-native">🚀 Cloud Native</h3>
@@ -2234,7 +2261,7 @@
 <h3 id="observable">📊 Observable</h3>
 <p>Prometheus metrics, structured logging, health endpoints</p>
 <h3 id="high-performance">⚡ High Performance</h3>
-<p>Async I/O, batching, connection pooling, parallel processing</p>
+<p>Async I/O, batching, connection pooling, parallel processing, schema caching</p>
 <h3 id="pure-rust">🦀 Pure Rust</h3>
 <p>Memory-safe, high-performance, zero-cost abstractions</p>
 <hr />
@@ -2242,14 +2269,15 @@
 <ul>
 <li><strong><a href="../danube_connect_architecture/">Connector Architecture</a></strong> - Deep dive into design and concepts</li>
 <li><strong><a href="../danube_connect_development/">Building Connectors</a></strong> - Create your own connector</li>
-<li><strong><a href="https://github.com/danube-messaging/danube-connect">GitHub Repository</a></strong> - Source code and examples</li>
+<li><strong><a href="https://github.com/danube-messaging/danube-connect-core">Github Connector Core</a></strong> - Connector SDK source code</li>
+<li><strong><a href="https://github.com/danube-messaging/danube-connectors">GitHub Connectors Repo</a></strong> - Connectors source code and full examples</li>
 </ul>
 <hr />
 <h2 id="community-support">Community &amp; Support</h2>
 <ul>
-<li><strong>GitHub Issues:</strong> <a href="https://github.com/danube-messaging/danube-connect/issues">Report bugs or request connectors</a></li>
-<li><strong>Source Code:</strong> <a href="https://github.com/danube-messaging/danube-connect">danube-messaging/danube-connect</a></li>
-<li><strong>Examples:</strong> <a href="https://github.com/danube-messaging/danube-connect/tree/main/examples">Complete connector examples</a></li>
+<li><strong>GitHub Issues:</strong> <a href="https://github.com/danube-messaging/danube-connectors/issues">Report bugs or request connectors</a></li>
+<li><strong>Source Code:</strong> <a href="https://github.com/danube-messaging/danube-connectors">danube-messaging/danube-connect</a></li>
+<li><strong>Examples:</strong> <a href="https://github.com/danube-messaging/danube-connectors/tree/main/examples">Complete connector examples</a></li>
 </ul>
 
 
