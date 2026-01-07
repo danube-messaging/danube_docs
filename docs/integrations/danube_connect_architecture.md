@@ -137,19 +137,75 @@ pub trait SinkConnector {
 
 ### Message Types
 
-**SinkRecord** - Message consumed from Danube
+**SinkRecord** - Message consumed from Danube (Danube → External System)
 
-- `payload()` - Raw bytes
-- `payload_str()` - UTF-8 string
-- `payload_json<T>()` - Deserialize to struct
-- `attributes()` - Metadata key-value pairs
-- `topic()`, `offset()`, `publish_time()` - Message metadata
+**The runtime handles schema-aware deserialization automatically.** Your connector receives typed data as `serde_json::Value`, already deserialized based on the message's schema.
 
-**SourceRecord** - Message to publish to Danube
+**API:**
 
-- Created with `SourceRecord::from_json(topic, &data)`
-- Builder pattern: `.with_attribute(k, v)`, `.with_key(key)`
-- Per-record topic routing and configuration
+- `payload()` - Returns `&serde_json::Value` (typed data, not raw bytes)
+- `as_type<T>()` - Deserialize payload to specific Rust type
+- `schema()` - Get schema information (subject, version, type) if message has schema
+- `attributes()` - Metadata key-value pairs from producer
+- `topic()`, `offset()`, `publish_time()`, `producer_name()` - Message metadata
+- `message_id()` - Formatted ID for logging/debugging
+
+**Example:**
+
+```rust
+async fn process(&mut self, record: SinkRecord) -> ConnectorResult<()> {
+    // Access as typed data (already deserialized by runtime)
+    let payload = record.payload();  // &serde_json::Value
+    let user_id = payload["user_id"].as_str().unwrap();
+    
+    // Or deserialize to struct
+    let event: MyEvent = record.as_type()?;
+    
+    // Check schema info
+    if let Some(schema) = record.schema() {
+        println!("Schema: {} v{}", schema.subject, schema.version);
+    }
+    
+    Ok(())
+}
+```
+
+---
+
+**SourceRecord** - Message to publish to Danube (External System → Danube)
+
+**You provide typed data as `serde_json::Value`.** The runtime handles schema-aware serialization before sending to Danube.
+
+**API:**
+
+- `new(topic, payload)` - Create from `serde_json::Value`
+- `from_json(topic, data)` - Create from any JSON-serializable type
+- `from_string(topic, text)` - Create from string
+- `with_attribute(key, value)` - Add metadata attribute
+- `with_attributes(map)` - Add multiple attributes
+- `with_key(key)` - Set routing key for partitioning
+- `payload()` - Get payload reference
+
+**Example:**
+
+```rust
+use serde_json::json;
+
+// From JSON value
+let record = SourceRecord::new("/events/users", json!({
+    "user_id": "123",
+    "action": "login"
+})).with_attribute("source", "api");
+
+// From struct (automatically serialized to JSON)
+#[derive(Serialize)]
+struct Event { user_id: String, action: String }
+
+let event = Event { user_id: "123".into(), action: "login".into() };
+let record = SourceRecord::from_json("/events/users", &event)?
+    .with_attribute("source", "api")
+    .with_key(&event.user_id);  // For partitioning
+```
 
 ---
 
@@ -179,6 +235,166 @@ A single connector can handle **multiple topics** with different configurations.
 
 - One ClickHouse connector consumes from `/analytics/events` and `/analytics/metrics`
 - Writes both to different tables in the same database
+
+---
+
+## Schema Registry Integration
+
+**Critical feature:** The runtime automatically handles schema-aware serialization and deserialization, eliminating the need for connectors to manage schema logic.
+
+### How It Works
+
+**For Sink Connectors (Consuming):**
+
+1. **Message arrives** with schema ID
+2. **Runtime fetches schema** from registry (cached for performance)
+3. **Runtime deserializes** payload based on schema type (JSON, String, Bytes, Avro, Protobuf)
+4. **Your connector receives** `SinkRecord` with typed `serde_json::Value` payload
+5. **You process** the typed data without worrying about raw bytes or schemas
+
+**For Source Connectors (Publishing):**
+
+1. **You create** `SourceRecord` with `serde_json::Value` payload
+2. **Runtime serializes** payload based on configured schema type
+3. **Runtime registers/validates** schema with registry
+4. **Message is sent** to Danube with schema ID attached
+5. **Consumers** automatically deserialize using the schema
+
+### Schema Configuration
+
+Define schemas per topic in your connector configuration:
+
+```toml
+# Core Danube settings
+danube_service_url = "http://danube-broker:6650"
+connector_name = "my-connector"
+
+# Schema mappings for topics
+[[schemas]]
+topic = "/events/users"
+subject = "user-events"
+schema_type = "json_schema"
+schema_file = "schemas/user-event.json"
+version_strategy = "latest"  # or "pinned" or "minimum"
+
+[[schemas]]
+topic = "/iot/sensors"
+subject = "sensor-data"
+schema_type = "json_schema"
+schema_file = "schemas/sensor.json"
+version_strategy = { pinned = 2 }  # Pin to version 2
+
+[[schemas]]
+topic = "/raw/telemetry"
+subject = "telemetry"
+schema_type = "bytes"  # Binary data
+```
+
+### Supported Schema Types
+
+| Type | Description | Serialization | Use Case |
+|------|-------------|---------------|----------|
+| `json_schema` | JSON Schema | JSON | Structured events, APIs |
+| `string` | UTF-8 text | String bytes | Logs, text messages |
+| `bytes` | Raw binary | Base64 in JSON | Binary data, images |
+| `number` | Numeric data | JSON number | Metrics, counters |
+| `avro` | Apache Avro | Avro binary | High-performance schemas |
+| `protobuf` | Protocol Buffers | Protobuf binary | gRPC, microservices |
+
+**Note:** Avro and Protobuf support coming soon. Currently JSON, String, Bytes, and Number are fully supported.
+
+### Version Strategies
+
+Control schema evolution with version strategies:
+
+```toml
+# Latest version (default)
+version_strategy = "latest"
+
+# Pin to specific version
+version_strategy = { pinned = 3 }
+
+# Minimum version (use >= version)
+version_strategy = { minimum = 2 }
+```
+
+### Connector Benefits
+
+**What you DON'T need to do:**
+
+- ❌ Fetch schemas from registry
+- ❌ Deserialize/serialize payloads manually
+- ❌ Handle schema versions
+- ❌ Manage schema caching
+- ❌ Deal with raw bytes
+
+**What you DO:**
+
+- ✅ Work with typed `serde_json::Value` data
+- ✅ Focus on business logic
+- ✅ Let the runtime handle all schema operations
+
+### Example: Schema-Aware Sink
+
+```rust
+async fn process(&mut self, record: SinkRecord) -> ConnectorResult<()> {
+    // Payload is already deserialized based on schema
+    let payload = record.payload();
+    
+    // Check what schema was used
+    if let Some(schema) = record.schema() {
+        info!("Processing message with schema: {} v{}", 
+              schema.subject, schema.version);
+    }
+    
+    // Access typed data directly
+    let user_id = payload["user_id"].as_str()
+        .ok_or_else(|| ConnectorError::invalid_data("Missing user_id", vec![]))?;
+    
+    // Or deserialize to struct
+    #[derive(Deserialize)]
+    struct UserEvent {
+        user_id: String,
+        action: String,
+        timestamp: u64,
+    }
+    
+    let event: UserEvent = record.as_type()?;
+    
+    // Write to external system with typed data
+    self.database.insert_user_event(event).await?;
+    
+    Ok(())
+}
+```
+
+### Example: Schema-Aware Source
+
+```rust
+async fn poll(&mut self) -> ConnectorResult<Vec<SourceRecord>> {
+    let external_data = self.client.fetch_events().await?;
+    
+    let records: Vec<SourceRecord> = external_data
+        .into_iter()
+        .map(|event| {
+            // Create record with typed JSON data
+            // Runtime will serialize based on configured schema
+            SourceRecord::from_json("/events/users", &event)
+                .unwrap()
+                .with_attribute("source", "external-api")
+        })
+        .collect();
+    
+    Ok(records)
+}
+```
+
+**The runtime automatically:**
+
+- Serializes each record's payload based on `/events/users` topic's configured schema
+- Registers schema with registry if needed
+- Attaches schema ID to messages
+- Handles schema validation errors
 
 ---
 

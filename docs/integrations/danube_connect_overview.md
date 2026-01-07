@@ -72,11 +72,11 @@ Export data **from** Danube to external systems.
 
 | Connector | Type | Description |
 |-----------|------|-------------|
-| [MQTT](https://github.com/danube-messaging/danube-connect/tree/main/connectors/source-mqtt) | Source | IoT device integration (MQTT 3.1.1) |
-| [HTTP Webhook](https://github.com/danube-messaging/danube-connect/tree/main/connectors/source-webhook) | Source | Universal webhook ingestion |
-| [Qdrant](https://github.com/danube-messaging/danube-connect/tree/main/connectors/sink-qdrant) | Sink | Vector embeddings for RAG/AI |
-| [SurrealDB](https://github.com/danube-messaging/danube-connect/tree/main/connectors/sink-surrealdb) | Sink | Multi-model database storage |
-| [Delta Lake](https://github.com/danube-messaging/danube-connect/tree/main/connectors/sink-deltalake) | Sink | ACID data lake ingestion |
+| [MQTT](https://github.com/danube-messaging/danube-connectors/tree/main/source-mqtt) | Source | IoT device integration (MQTT 3.1.1) |
+| [HTTP Webhook](https://github.com/danube-messaging/danube-connectors/tree/main/source-webhook) | Source | Universal webhook ingestion |
+| [Qdrant](https://github.com/danube-messaging/danube-connectors/tree/main/sink-qdrant) | Sink | Vector embeddings for RAG/AI |
+| [SurrealDB](https://github.com/danube-messaging/danube-connectors/tree/main/sink-surrealdb) | Sink | Multi-model database storage |
+| [Delta Lake](https://github.com/danube-messaging/danube-connectors/tree/main/sink-deltalake) | Sink | ACID data lake ingestion |
 
 ### Coming Soon
 
@@ -140,6 +140,16 @@ docker run -d \
 
 Both source (import) and sink (export) connectors supported
 
+### 📋 Schema Registry Integration
+
+**Automatic schema-aware serialization/deserialization**
+
+- Connectors work with typed `serde_json::Value` data, not raw bytes
+- Runtime handles all schema operations (fetch, cache, validate, serialize)
+- Support for JSON Schema, String, Bytes, Number (Avro & Protobuf coming soon)
+- Schema evolution with version strategies (latest, pinned, minimum)
+- **Zero schema boilerplate** in your connector code
+
 ### 📦 Modular Architecture
 
 Clean separation between connector framework and implementations
@@ -154,7 +164,7 @@ Prometheus metrics, structured logging, health endpoints
 
 ### ⚡ High Performance
 
-Async I/O, batching, connection pooling, parallel processing
+Async I/O, batching, connection pooling, parallel processing, schema caching
 
 ### 🦀 Pure Rust
 
@@ -166,12 +176,13 @@ Memory-safe, high-performance, zero-cost abstractions
 
 - **[Connector Architecture](danube_connect_architecture.md)** - Deep dive into design and concepts
 - **[Building Connectors](danube_connect_development.md)** - Create your own connector
-- **[GitHub Repository](https://github.com/danube-messaging/danube-connect)** - Source code and examples
+- **[Github Connector Core](https://github.com/danube-messaging/danube-connect-core)** - Connector SDK source code
+- **[GitHub Connectors Repo](https://github.com/danube-messaging/danube-connectors)** - Connectors source code and full examples
 
 ---
 
 ## Community & Support
 
-- **GitHub Issues:** [Report bugs or request connectors](https://github.com/danube-messaging/danube-connect/issues)
-- **Source Code:** [danube-messaging/danube-connect](https://github.com/danube-messaging/danube-connect)
-- **Examples:** [Complete connector examples](https://github.com/danube-messaging/danube-connect/tree/main/examples)
+- **GitHub Issues:** [Report bugs or request connectors](https://github.com/danube-messaging/danube-connectors/issues)
+- **Source Code:** [danube-messaging/danube-connect](https://github.com/danube-messaging/danube-connectors)
+- **Examples:** [Complete connector examples](https://github.com/danube-messaging/danube-connectors/tree/main/examples)

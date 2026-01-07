@@ -119,23 +119,38 @@ pub trait SourceConnector: Send + Sync {
 
 #### 3. **Message Transformation**
 
-Transform external data to Danube `SourceRecord`:
+Transform external data to Danube `SourceRecord` with typed JSON data:
 
 ```rust
-// From JSON data
-let record = SourceRecord::from_json(&danube_topic, &external_data)
+use serde_json::json;
+
+// From JSON-serializable struct (recommended)
+#[derive(Serialize)]
+struct SensorData {
+    device_id: String,
+    temperature: f64,
+    timestamp: u64,
+}
+
+let data = SensorData { /* ... */ };
+let record = SourceRecord::from_json(&danube_topic, &data)?
     .with_attribute("source", "mqtt")
-    .with_attribute("timestamp", &timestamp)
-    .with_key(&device_id);  // For partitioning
+    .with_attribute("device_type", "sensor")
+    .with_key(&data.device_id);  // For partitioning
 
-// From raw bytes
-let record = SourceRecord::new(danube_topic, payload_bytes)
-    .with_attribute("content-type", "application/octet-stream");
+// From JSON value directly
+let record = SourceRecord::new(&danube_topic, json!({
+    "device_id": device_id,
+    "temperature": 23.5,
+    "timestamp": now
+})).with_attribute("source", "mqtt");
 
-// From string
+// From string (for text messages)
 let record = SourceRecord::from_string(&danube_topic, &text)
-    .with_attribute("encoding", "utf-8");
+    .with_attribute("content-type", "text/plain");
 ```
+
+**Important:** The runtime will serialize your `serde_json::Value` payload based on the topic's configured schema type (JSON, String, Bytes, etc.). You work with typed data, not raw bytes.
 
 #### 4. **Topic Routing**
 
@@ -294,14 +309,29 @@ async fn consumer_configs(&self) -> ConnectorResult<Vec<ConsumerConfig>> {
 
 #### 3. **Message Transformation**
 
-Transform Danube `SinkRecord` to external format:
+Transform Danube `SinkRecord` to external format.
+
+**The runtime automatically deserializes messages based on their schema.** You receive typed `serde_json::Value` data, not raw bytes:
 
 ```rust
 async fn process(&mut self, record: SinkRecord) -> ConnectorResult<()> {
-    // Extract payload
-    let payload_bytes = record.payload();  // Raw bytes
-    let payload_str = record.payload_str()?;  // UTF-8 string
-    let event: Event = record.payload_json()?;  // Deserialize to struct
+    // Payload is already deserialized by runtime based on schema
+    let payload = record.payload();  // &serde_json::Value
+    
+    // Option 1: Access JSON value directly
+    let user_id = payload["user_id"].as_str()
+        .ok_or_else(|| ConnectorError::invalid_data("Missing user_id", vec![]))?;
+    let action = payload["action"].as_str().unwrap_or("unknown");
+    
+    // Option 2: Deserialize to struct (type-safe)
+    #[derive(Deserialize)]
+    struct Event {
+        user_id: String,
+        action: String,
+        timestamp: u64,
+    }
+    
+    let event: Event = record.as_type()?;
     
     // Extract metadata
     let topic = record.topic();
@@ -309,11 +339,16 @@ async fn process(&mut self, record: SinkRecord) -> ConnectorResult<()> {
     let timestamp = record.publish_time();
     let attributes = record.attributes();
     
+    // Check schema info (if message has schema)
+    if let Some(schema) = record.schema() {
+        info!("Processing with schema: {} v{}", schema.subject, schema.version);
+    }
+    
     // Transform to external format
     let external_row = DatabaseRow {
-        id: event.id,
-        data: event.data,
-        source_topic: topic,
+        user_id: event.user_id,
+        action: event.action,
+        source_topic: topic.to_string(),
         ingested_at: timestamp,
     };
     
@@ -479,21 +514,223 @@ partitions = 8
 
 ---
 
-## Project Structure
+## Schema Registry Configuration
 
+**Critical for production:** Configure schemas for your connector topics to enable automatic serialization/deserialization and schema validation.
+
+### Why Use Schemas?
+
+**Without schemas:**
+
+- Manual serialization/deserialization in every connector
+- No data validation or type safety
+- Schema drift between producers and consumers
+- Difficult schema evolution
+
+**With schemas:**
+
+- ✅ Automatic serialization/deserialization by runtime
+- ✅ Schema validation at message ingestion
+- ✅ Type safety and data contracts
+- ✅ Managed schema evolution with versions
+- ✅ Your connector works with typed `serde_json::Value`, not raw bytes
+
+### Schema Configuration Format
+
+Add schema mappings to your `ConnectorConfig`:
+
+```toml
+# Core Danube settings
+danube_service_url = "http://danube-broker:6650"
+connector_name = "my-connector"
+
+# Schema registry configuration
+[[schemas]]
+topic = "/events/users"              # Danube topic
+subject = "user-events-schema"       # Schema registry subject
+schema_type = "json_schema"          # Schema type
+schema_file = "schemas/user.json"    # Path to schema file (relative to config)
+version_strategy = "latest"          # Version strategy
+
+[[schemas]]
+topic = "/iot/sensors"
+subject = "sensor-data"
+schema_type = "json_schema"
+schema_file = "schemas/sensor.json"
+version_strategy = { pinned = 2 }    # Pin to specific version
+
+[[schemas]]
+topic = "/raw/telemetry"
+subject = "telemetry-bytes"
+schema_type = "bytes"                # Binary data (no schema file needed)
 ```
+
+### Schema Types
+
+| Type | Description | When to Use | Schema File Required |
+|------|-------------|-------------|---------------------|
+| `json_schema` | JSON Schema validation | Structured data, events | ✅ Yes |
+| `string` | UTF-8 text | Logs, plain text | ❌ No |
+| `bytes` | Binary data | Images, binary formats | ❌ No |
+| `number` | Numeric values | Metrics, counters | ❌ No |
+| `avro` | Apache Avro | High-performance serialization | ✅ Yes (coming soon) |
+| `protobuf` | Protocol Buffers | gRPC, microservices | ✅ Yes (coming soon) |
+
+### Version Strategies
+
+Control how your connector handles schema versions:
+
+```toml
+# 1. Latest (default) - Always use the latest version
+version_strategy = "latest"
+
+# 2. Pinned - Lock to specific version
+version_strategy = { pinned = 3 }
+
+# 3. Minimum - Use version >= specified version
+version_strategy = { minimum = 2 }
+```
+
+**Use cases:**
+
+- **Latest:** Development, flexible evolution
+- **Pinned:** Production stability, controlled upgrades
+- **Minimum:** Backward compatibility with version floor
+
+### Schema File Examples
+
+**JSON Schema (`schemas/user-event.json`):**
+
+```json
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["user_id", "action", "timestamp"],
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "Unique user identifier"
+    },
+    "action": {
+      "type": "string",
+      "enum": ["login", "logout", "signup", "update"]
+    },
+    "timestamp": {
+      "type": "integer",
+      "description": "Unix timestamp in milliseconds"
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}
+```
+
+### How It Works in Your Connector
+
+#### For Source Connectors (Publishing)
+
+```rust
+// You create records with typed JSON data
+let record = SourceRecord::from_json("/events/users", &UserEvent {
+    user_id: "123".to_string(),
+    action: "login".to_string(),
+    timestamp: now(),
+})?;
+
+// Runtime automatically:
+// 1. Serializes payload based on /events/users topic's schema_type
+// 2. Validates against JSON schema (if configured)
+// 3. Registers schema with registry (if new)
+// 4. Attaches schema ID to message
+// 5. Sends to Danube
+```
+
+#### For Sink Connectors (Consuming)
+
+```rust
+async fn process(&mut self, record: SinkRecord) -> ConnectorResult<()> {
+    // Runtime already:
+    // 1. Fetched schema from registry (cached)
+    // 2. Deserialized payload based on schema_type
+    // 3. Validated against schema
+    
+    // You receive typed data ready to use
+    let payload = record.payload();  // &serde_json::Value
+    let event: UserEvent = record.as_type()?;
+    
+    // Check which schema was used
+    if let Some(schema) = record.schema() {
+        println!("Schema: {} v{} ({})", 
+                 schema.subject, schema.version, schema.schema_type);
+    }
+    
+    Ok(())
+}
+```
+
+**The runtime automatically connects to the schema registry via the Danube client** - no additional configuration needed in your connector!
+
+### Project Structure with Schemas
+
+```bash
 connectors/my-connector/
 ├── Cargo.toml
 ├── src/
-│   ├── main.rs          # Entry point with runtime
-│   ├── connector.rs     # Trait implementation
-│   ├── config.rs        # Configuration structs
-│   └── client.rs        # External system client
+│   ├── main.rs
+│   ├── connector.rs
+│   └── config.rs
 ├── config/
-│   └── connector.toml   # Example configuration
+│   └── connector.toml
+├── schemas/                    # Schema files
+│   ├── user-event.json
+│   ├── sensor-data.json
+│   └── README.md
 ├── Dockerfile
 └── README.md
 ```
+
+### Schema Evolution Best Practices
+
+1. **Backward compatible changes** (safe):
+   - Add optional fields
+   - Remove required fields (make them optional first)
+   - Widen validation (e.g., increase max length)
+
+2. **Breaking changes** (requires version bump):
+   - Remove fields
+   - Change field types
+   - Add required fields
+   - Narrow validation
+
+3. **Version strategy recommendations:**
+   - **Development:** Use `latest` for flexibility
+   - **Staging:** Use `pinned` to specific version for testing
+   - **Production:** Use `pinned` for stability, upgrade deliberately
+
+### Testing with Schemas
+
+**Start Danube with schema registry:**
+
+```bash
+cd danube-connect/docker
+docker-compose up -d  # Includes schema registry
+```
+
+**Register your schema manually (for testing):**
+
+```bash
+# Using danube-cli (if available)
+danube-admin-cli schema register \
+  --subject user-events-schema \
+  --file schemas/user-event.json \
+  --type json_schema
+```
+
+**Or let the runtime register automatically** when your connector starts!
+
+---
 
 ### Minimal main.rs
 
@@ -560,17 +797,9 @@ danube-cli produce \
 curl http://localhost:9090/metrics
 ```
 
-### Development Guides
-
-For detailed patterns and best practices:
-
-- **[Connector Development Guide](https://github.com/danube-messaging/danube-connect/blob/main/info/connector-development-guide.md)** - Complete implementation guide
-- **[Configuration Guide](https://github.com/danube-messaging/danube-connect/blob/main/info/unified_configuration_guide.md)** - Configuration patterns
-- **[Message Patterns](https://github.com/danube-messaging/danube-connect/blob/main/info/connector-message-patterns.md)** - Message transformation strategies
-
 ## Next Steps
 
 - **[Architecture Guide](danube_connect_architecture.md)** - Understand the framework design
-- **[GitHub Repository](https://github.com/danube-messaging/danube-connect)** - Source code and full examples
+- **[Github Connector Core](https://github.com/danube-messaging/danube-connect-core)** - Connector SDK source code
+- **[GitHub Connectors Repo](https://github.com/danube-messaging/danube-connectors)** - Source code and full examples
 - **[API Documentation](https://docs.rs/danube-connect-core)** - SDK reference
-- **[MQTT Example](https://github.com/danube-messaging/danube-connect/tree/main/examples/source-mqtt)** - Complete working setup
