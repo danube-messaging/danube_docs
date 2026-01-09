@@ -94,7 +94,8 @@ nav:
         - 🔌 Integrations:
                   - Danube Connect Overview: integrations/danube_connect_overview.md
                   - Architecture & Concepts: integrations/danube_connect_architecture.md
-                  - Building Connectors: integrations/danube_connect_development.md
+                  - Sink Connector Development: integrations/sink_connector_development.md
+                  - Source Connector Development: integrations/source_connector_development.md
 
         - 🤝 Contributing:
                   - Development Environment: contributing/dev_environment.md

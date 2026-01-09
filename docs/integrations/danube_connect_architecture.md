@@ -495,7 +495,7 @@ Every connector automatically exposes:
 
 ## Next Steps
 
-- **[Building Connectors](danube_connect_development.md)** - Create your first connector
-- **[GitHub Repository](https://github.com/danube-messaging/danube-connect)** - Source code and examples
+- **[Build Source Connector](source_connector_development.md)** - How to build a source connector
+- **[Build Sink Connector](sink_connector_development.md)** - How to build a sink connector
+- **[GitHub Repository](https://github.com/danube-messaging/danube-connectors)** - Source code and examples
 - **[danube-connect-core API](https://docs.rs/danube-connect-core)** - SDK documentation
-- **[MQTT Reference](https://github.com/danube-messaging/danube-connect/tree/main/connectors/source-mqtt)** - Complete example implementation

@@ -100,7 +100,7 @@ Explore how Danube works under the hood:
 - Sink connectors: Export to Delta Lake, ClickHouse, vector databases, APIs, etc.
 - Pure Rust framework with automatic retries, metrics, and health checks
 
-**Learn more:** [Architecture](integrations/danube_connect_architecture.md) | [Building Connectors](integrations/danube_connect_development.md) | [GitHub](https://github.com/danube-messaging/danube-connect)
+**Learn more:** [Architecture](integrations/danube_connect_architecture.md) | [Build Source Connector](integrations/source_connector_development.md) | [Build Sink Connector](integrations/sink_connector_development.md)
 
 ---
 

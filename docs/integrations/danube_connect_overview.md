@@ -175,7 +175,8 @@ Memory-safe, high-performance, zero-cost abstractions
 ## Learn More
 
 - **[Connector Architecture](danube_connect_architecture.md)** - Deep dive into design and concepts
-- **[Building Connectors](danube_connect_development.md)** - Create your own connector
+- **[Buil Source Connector](source_connector_development.md)** - Create your own source connector
+- **[Build Sink Connector](sink_connector_development.md)** - Create your own sink connector
 - **[Github Connector Core](https://github.com/danube-messaging/danube-connect-core)** - Connector SDK source code
 - **[GitHub Connectors Repo](https://github.com/danube-messaging/danube-connectors)** - Connectors source code and full examples
 
