@@ -2611,11 +2611,13 @@
 </span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">my_sink</span><span class="p">:</span><span class="w"> </span><span class="nc">MySettings</span><span class="p">,</span><span class="w">    </span><span class="c1">// Connector-specific</span>
 </span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="p">}</span>
 </span></code></pre></div>
-<p><strong>Critical for Sink Connectors:</strong>
-- ✅ Sink connectors <strong>do not</strong> use <code>config.core.schemas</code>
-- ✅ Schema validation happens on the <strong>producer side</strong> (source connectors)
-- ✅ You receive already-deserialized, validated data
-- ✅ Schema info available via <code>record.schema()</code> if message has schema metadata</p>
+<p><strong>Critical for Sink Connectors:</strong></p>
+<ul>
+<li>✅ Sink connectors <strong>do not</strong> use <code>config.core.schemas</code></li>
+<li>✅ Schema validation happens on the <strong>producer side</strong> (source connectors)</li>
+<li>✅ You receive already-deserialized, validated data</li>
+<li>✅ Schema info available via <code>record.schema()</code> if message has schema metadata</li>
+</ul>
 <h3 id="toml-structure">TOML Structure</h3>
 <div class="language-toml highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># At root level (flattened from ConnectorConfig)</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">danube_service_url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;http://danube-broker:6650&quot;</span>
@@ -2646,47 +2648,59 @@
 </span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a><span class="n">batch_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">500</span>
 </span></code></pre></div>
 <h3 id="configuration-loading">Configuration Loading</h3>
-<p><strong>Mechanism:</strong>
-1. Load TOML file from <code>CONNECTOR_CONFIG_PATH</code> environment variable
-2. Apply environment variable overrides (secrets only)
-3. Validate configuration
-4. Pass to connector and runtime</p>
-<p><strong>Environment overrides:</strong>
-- Core: <code>DANUBE_SERVICE_URL</code>, <code>CONNECTOR_NAME</code>
-- Secrets: Database passwords, API keys, credentials</p>
+<p><strong>Mechanism:</strong></p>
+<ol>
+<li>Load TOML file from <code>CONNECTOR_CONFIG_PATH</code> environment variable</li>
+<li>Apply environment variable overrides (secrets only)</li>
+<li>Validate configuration</li>
+<li>Pass to connector and runtime</li>
+</ol>
+<p><strong>Environment overrides:</strong></p>
+<ul>
+<li>Core: <code>DANUBE_SERVICE_URL</code>, <code>CONNECTOR_NAME</code></li>
+<li>Secrets: Database passwords, API keys, credentials</li>
+</ul>
 <p><strong>Not overridable:</strong> Topic mappings, subscription settings (must be in TOML)</p>
 <hr />
 <h2 id="implementation-steps">Implementation Steps</h2>
 <h3 id="1-initialize-connection">1. Initialize Connection</h3>
 <p><strong><code>async fn initialize(&amp;mut self, config: ConnectorConfig)</code></strong></p>
 <p><strong>Purpose:</strong> Establish connection to external system and prepare for writing.</p>
-<p><strong>What to do:</strong>
-- Create client/connection to target system
-- Configure authentication (credentials, API tokens, certificates)
-- Set up connection pools for parallel writes
-- Validate write permissions with test write/query
-- Create tables/collections/indexes if needed
-- Store client in struct for later use in <code>process()</code></p>
-<p><strong>Error handling:</strong>
-- Return <code>ConnectorError::Initialization</code> for connection failures
-- Log detailed error context
-- Fail fast - don't retry in <code>initialize()</code></p>
-<p><strong>Examples:</strong>
-- <strong>Database:</strong> Create connection pool, validate table schema, test insert
-- <strong>HTTP API:</strong> Set up client with auth headers, test endpoint availability
-- <strong>Object Storage:</strong> Configure S3/GCS client, verify bucket access
-- <strong>Search Engine:</strong> Connect, create index if needed, validate mappings</p>
+<p><strong>What to do:</strong></p>
+<ul>
+<li>Create client/connection to target system</li>
+<li>Configure authentication (credentials, API tokens, certificates)</li>
+<li>Set up connection pools for parallel writes</li>
+<li>Validate write permissions with test write/query</li>
+<li>Create tables/collections/indexes if needed</li>
+<li>Store client in struct for later use in <code>process()</code></li>
+</ul>
+<p><strong>Error handling:</strong></p>
+<ul>
+<li>Return <code>ConnectorError::Initialization</code> for connection failures</li>
+<li>Log detailed error context</li>
+<li>Fail fast - don't retry in <code>initialize()</code></li>
+</ul>
+<p><strong>Examples:</strong></p>
+<ul>
+<li><strong>Database:</strong> Create connection pool, validate table schema, test insert</li>
+<li><strong>HTTP API:</strong> Set up client with auth headers, test endpoint availability</li>
+<li><strong>Object Storage:</strong> Configure S3/GCS client, verify bucket access</li>
+<li><strong>Search Engine:</strong> Connect, create index if needed, validate mappings</li>
+</ul>
 <hr />
 <h3 id="2-define-consumer-configs">2. Define Consumer Configs</h3>
 <p><strong><code>async fn consumer_configs(&amp;self) -&gt; Vec&lt;ConsumerConfig&gt;</code></strong></p>
 <p><strong>Purpose:</strong> Tell the runtime which Danube topics to consume from and how.</p>
-<p><strong>What to do:</strong>
-- Map your topic configuration to Danube consumer configs
-- For each source topic, create a <code>ConsumerConfig</code>
-- Specify subscription type (Shared, Exclusive, Failover)
-- Set consumer name and subscription name
-- Optionally specify expected schema subject for validation</p>
-<p><strong>Consumer config structure:</strong>
+<p><strong>What to do:</strong></p>
+<ul>
+<li>Map your topic configuration to Danube consumer configs</li>
+<li>For each source topic, create a <code>ConsumerConfig</code></li>
+<li>Specify subscription type (Shared, Exclusive, Failover)</li>
+<li>Set consumer name and subscription name</li>
+<li>Optionally specify expected schema subject for validation</li>
+</ul>
+<p><strong>Consumer config structure:</strong></p>
 <div class="language-rust highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">ConsumerConfig</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="n">topic</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/events/users&quot;</span><span class="p">,</span>
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="n">consumer_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;my-sink-1&quot;</span><span class="p">,</span>
@@ -2694,11 +2708,13 @@
 </span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="n">subscription_type</span><span class="p">:</span><span class="w"> </span><span class="nc">SubscriptionType</span><span class="p">::</span><span class="n">Shared</span><span class="p">,</span>
 </span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="n">expected_schema_subject</span><span class="p">:</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="s">&quot;user-events-v1&quot;</span><span class="p">),</span><span class="w">  </span><span class="c1">// Optional</span>
 </span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="p">}</span>
-</span></code></pre></div></p>
-<p><strong>Subscription types:</strong>
-- <strong>Shared:</strong> Load balancing across multiple consumers (most common)
-- <strong>Exclusive:</strong> Single consumer, ordered processing
-- <strong>Failover:</strong> Active-passive, automatic failover</p>
+</span></code></pre></div>
+<p><strong>Subscription types:</strong></p>
+<ul>
+<li><strong>Shared:</strong> Load balancing across multiple consumers (most common)</li>
+<li><strong>Exclusive:</strong> Single consumer, ordered processing</li>
+<li><strong>Failover:</strong> Active-passive, automatic failover</li>
+</ul>
 <p><strong>Called once</strong> at startup after <code>initialize()</code>. Runtime creates consumers based on these configs.</p>
 <hr />
 <h3 id="3-process-records">3. Process Records</h3>
@@ -2713,7 +2729,7 @@
 <li><strong>Write</strong> - Send to external system</li>
 <li><strong>Handle errors</strong> - Return appropriate error type</li>
 </ol>
-<p><strong>SinkRecord API:</strong>
+<p><strong>SinkRecord API:</strong></p>
 <div class="language-rust highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kd">let</span><span class="w"> </span><span class="n">payload</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">record</span><span class="p">.</span><span class="n">payload</span><span class="p">();</span><span class="w">           </span><span class="c1">// &amp;serde_json::Value</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kd">let</span><span class="w"> </span><span class="n">topic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">record</span><span class="p">.</span><span class="n">topic</span><span class="p">();</span><span class="w">               </span><span class="c1">// &amp;str</span>
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="kd">let</span><span class="w"> </span><span class="n">offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">record</span><span class="p">.</span><span class="n">offset</span><span class="p">();</span><span class="w">             </span><span class="c1">// u64</span>
@@ -2727,21 +2743,25 @@
 </span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>
 </span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="c1">// Deserialize to struct (type-safe)</span>
 </span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="kd">let</span><span class="w"> </span><span class="n">event</span><span class="p">:</span><span class="w"> </span><span class="nc">MyStruct</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">record</span><span class="p">.</span><span class="n">as_type</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
-</span></code></pre></div></p>
-<p><strong>Runtime provides:</strong>
-- Pre-deserialized JSON data
-- Schema validation already done
-- Type-safe access methods
-- Metadata extraction</p>
+</span></code></pre></div>
+<p><strong>Runtime provides:</strong></p>
+<ul>
+<li>Pre-deserialized JSON data</li>
+<li>Schema validation already done</li>
+<li>Type-safe access methods</li>
+<li>Metadata extraction</li>
+</ul>
 <hr />
 <h3 id="4-batch-processing-recommended">4. Batch Processing (Recommended)</h3>
 <p><strong><code>async fn process_batch(&amp;mut self, records: Vec&lt;SinkRecord&gt;)</code></strong></p>
 <p><strong>Purpose:</strong> Process multiple records together for better throughput.</p>
-<p><strong>Why batching:</strong>
-- 10-100x better performance for bulk operations
-- Reduced network round trips
-- More efficient resource usage
-- Lower latency at scale</p>
+<p><strong>Why batching:</strong></p>
+<ul>
+<li>10-100x better performance for bulk operations</li>
+<li>Reduced network round trips</li>
+<li>More efficient resource usage</li>
+<li>Lower latency at scale</li>
+</ul>
 <p><strong>What to do:</strong></p>
 <ol>
 <li><strong>Group by target</strong> - If multi-topic, group by destination table/collection</li>
@@ -2749,14 +2769,18 @@
 <li><strong>Bulk write</strong> - Single operation for entire batch</li>
 <li><strong>Handle partial failures</strong> - Some systems support partial success</li>
 </ol>
-<p><strong>Batch triggers:</strong>
-- <strong>Size:</strong> <code>batch_size</code> records buffered (e.g., 100)
-- <strong>Time:</strong> <code>flush_interval_ms</code> elapsed (e.g., 1000ms)
-- <strong>Shutdown:</strong> Flush remaining records</p>
-<p><strong>Performance guidance:</strong>
-- High throughput: 500-1000 records per batch
-- Low latency: 10-50 records per batch
-- Balanced: 100 records per batch</p>
+<p><strong>Batch triggers:</strong></p>
+<ul>
+<li><strong>Size:</strong> <code>batch_size</code> records buffered (e.g., 100)</li>
+<li><strong>Time:</strong> <code>flush_interval_ms</code> elapsed (e.g., 1000ms)</li>
+<li><strong>Shutdown:</strong> Flush remaining records</li>
+</ul>
+<p><strong>Performance guidance:</strong></p>
+<ul>
+<li>High throughput: 500-1000 records per batch</li>
+<li>Low latency: 10-50 records per batch</li>
+<li>Balanced: 100 records per batch</li>
+</ul>
 <p><strong>Per-topic configuration:</strong>
 Different topics can have different batch sizes based on workload characteristics.</p>
 <hr />
@@ -2788,30 +2812,38 @@ Different topics can have different batch sizes based on workload characteristic
 </tr>
 </tbody>
 </table>
-<p><strong>Mechanism:</strong>
-- <strong>Temporary errors:</strong> Rate limits, timeouts, transient failures → <code>Retryable</code>
-- <strong>Invalid data:</strong> Log warning, skip record → <code>Ok()</code> (acknowledge anyway)
-- <strong>Fatal errors:</strong> Auth failure, connection lost → <code>Fatal</code> (stops connector)</p>
-<p><strong>The runtime:</strong>
-- Retries <code>Retryable</code> errors with exponential backoff
-- Stops connector on <code>Fatal</code> errors
-- Acknowledges and continues on <code>Ok(())</code></p>
+<p><strong>Mechanism:</strong></p>
+<ul>
+<li><strong>Temporary errors:</strong> Rate limits, timeouts, transient failures → <code>Retryable</code></li>
+<li><strong>Invalid data:</strong> Log warning, skip record → <code>Ok()</code> (acknowledge anyway)</li>
+<li><strong>Fatal errors:</strong> Auth failure, connection lost → <code>Fatal</code> (stops connector)</li>
+</ul>
+<p><strong>The runtime:</strong></p>
+<ul>
+<li>Retries <code>Retryable</code> errors with exponential backoff</li>
+<li>Stops connector on <code>Fatal</code> errors</li>
+<li>Acknowledges and continues on <code>Ok(())</code></li>
+</ul>
 <p><strong>Partial batch failures:</strong>
 For systems that support it, process successful records and retry only failed ones.</p>
 <hr />
 <h3 id="6-graceful-shutdown">6. Graceful Shutdown</h3>
 <p><strong><code>async fn shutdown(&amp;mut self)</code></strong></p>
 <p><strong>Purpose:</strong> Clean up resources and flush pending data before stopping.</p>
-<p><strong>What to do:</strong>
-- Flush any buffered records (if using internal batching)
-- Complete any in-flight writes
-- Close connections to external system
-- Save any state if needed
-- Log shutdown completion</p>
-<p><strong>Runtime guarantees:</strong>
-- <code>shutdown()</code> called on SIGTERM/SIGINT
-- No new messages delivered after shutdown starts
-- Time to complete graceful shutdown</p>
+<p><strong>What to do:</strong></p>
+<ul>
+<li>Flush any buffered records (if using internal batching)</li>
+<li>Complete any in-flight writes</li>
+<li>Close connections to external system</li>
+<li>Save any state if needed</li>
+<li>Log shutdown completion</li>
+</ul>
+<p><strong>Runtime guarantees:</strong></p>
+<ul>
+<li><code>shutdown()</code> called on SIGTERM/SIGINT</li>
+<li>No new messages delivered after shutdown starts</li>
+<li>Time to complete graceful shutdown</li>
+</ul>
 <hr />
 <h2 id="schema-handling-in-sink-connectors">Schema Handling in Sink Connectors</h2>
 <h3 id="how-schemas-work">How Schemas Work</h3>
@@ -2823,65 +2855,83 @@ For systems that support it, process successful records and retry only failed on
 <li><strong>Runtime deserializes</strong> payload based on schema type</li>
 <li><strong>You receive</strong> validated, typed <code>serde_json::Value</code></li>
 </ol>
-<p><strong>You never:</strong>
-- ❌ Validate schemas (producer already did)
-- ❌ Deserialize raw bytes (runtime already did)
-- ❌ Fetch schemas from registry (runtime caches them)
-- ❌ Configure schemas in <code>ConnectorConfig</code> (no <code>[[schemas]]</code> section)</p>
-<p><strong>You can:</strong>
-- ✅ Access schema metadata via <code>record.schema()</code>
-- ✅ Specify <code>expected_schema_subject</code> for validation
-- ✅ Use different logic based on schema version
-- ✅ Access pre-validated typed data</p>
+<p><strong>You never:</strong></p>
+<ul>
+<li>❌ Validate schemas (producer already did)</li>
+<li>❌ Deserialize raw bytes (runtime already did)</li>
+<li>❌ Fetch schemas from registry (runtime caches them)</li>
+<li>❌ Configure schemas in <code>ConnectorConfig</code> (no <code>[[schemas]]</code> section)</li>
+</ul>
+<p><strong>You can:</strong></p>
+<ul>
+<li>✅ Access schema metadata via <code>record.schema()</code></li>
+<li>✅ Specify <code>expected_schema_subject</code> for validation</li>
+<li>✅ Use different logic based on schema version</li>
+<li>✅ Access pre-validated typed data</li>
+</ul>
 <h3 id="expected-schema-subject">Expected Schema Subject</h3>
 <p>Optional verification that messages have expected schema:</p>
 <div class="language-toml highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">[[my_sink.topic_mappings]]</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">topic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/events/users&quot;</span>
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">expected_schema_subject</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;user-events-v1&quot;</span><span class="w">  </span><span class="c1"># Verify schema subject</span>
 </span></code></pre></div>
-<p><strong>What happens:</strong>
-- Runtime checks if message schema subject matches
-- Mismatch results in error (configurable behavior)
-- Useful for ensuring data contracts</p>
-<p><strong>When to use:</strong>
-- ✅ Strict data contracts required
-- ✅ Multiple producers on same topic
-- ✅ Critical data pipelines</p>
-<p><strong>When to skip:</strong>
-- Schema evolution in progress
-- Flexible data formats
-- Mixed content topics</p>
+<p><strong>What happens:</strong></p>
+<ul>
+<li>Runtime checks if message schema subject matches</li>
+<li>Mismatch results in error (configurable behavior)</li>
+<li>Useful for ensuring data contracts</li>
+</ul>
+<p><strong>When to use:</strong></p>
+<ul>
+<li>✅ Strict data contracts required</li>
+<li>✅ Multiple producers on same topic</li>
+<li>✅ Critical data pipelines</li>
+</ul>
+<p><strong>When to skip:</strong></p>
+<ul>
+<li>Schema evolution in progress</li>
+<li>Flexible data formats</li>
+<li>Mixed content topics</li>
+</ul>
 <hr />
 <h2 id="subscription-types">Subscription Types</h2>
 <h3 id="shared-most-common">Shared (Most Common)</h3>
 <p><strong>Behavior:</strong> Messages load-balanced across all active consumers</p>
-<p><strong>Use cases:</strong>
-- High-volume parallel processing
-- Horizontal scaling
-- Order doesn't matter within topic</p>
+<p><strong>Use cases:</strong></p>
+<ul>
+<li>High-volume parallel processing</li>
+<li>Horizontal scaling</li>
+<li>Order doesn't matter within topic</li>
+</ul>
 <p><strong>Example:</strong> Processing events where each event is independent</p>
 <h3 id="exclusive">Exclusive</h3>
 <p><strong>Behavior:</strong> Only one consumer receives messages, strictly ordered</p>
-<p><strong>Use cases:</strong>
-- Order-dependent processing
-- Sequential operations
-- Single-threaded requirements</p>
+<p><strong>Use cases:</strong></p>
+<ul>
+<li>Order-dependent processing</li>
+<li>Sequential operations</li>
+<li>Single-threaded requirements</li>
+</ul>
 <p><strong>Example:</strong> Bank transactions that must be processed in order</p>
 <h3 id="failover">Failover</h3>
 <p><strong>Behavior:</strong> Active-passive setup with automatic failover</p>
-<p><strong>Use cases:</strong>
-- Ordered processing with high availability
-- Standby consumer for reliability
-- Graceful failover</p>
+<p><strong>Use cases:</strong></p>
+<ul>
+<li>Ordered processing with high availability</li>
+<li>Standby consumer for reliability</li>
+<li>Graceful failover</li>
+</ul>
 <p><strong>Example:</strong> Critical pipeline with backup consumer</p>
 <hr />
 <h2 id="multi-topic-routing">Multi-Topic Routing</h2>
 <h3 id="pattern">Pattern</h3>
-<p>Each topic mapping is independent:
-- Different target entities (tables, collections, indexes)
-- Different batch sizes and flush intervals
-- Different transformations
-- Different schema expectations</p>
+<p>Each topic mapping is independent:</p>
+<ul>
+<li>Different target entities (tables, collections, indexes)</li>
+<li>Different batch sizes and flush intervals</li>
+<li>Different transformations</li>
+<li>Different schema expectations</li>
+</ul>
 <h3 id="mechanism">Mechanism</h3>
 <ol>
 <li><strong>Store topic → config mapping</strong> in connector</li>
@@ -2918,15 +2968,17 @@ For systems that support it, process successful records and retry only failed on
 </span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="w">    </span><span class="n">runtime</span><span class="p">.</span><span class="n">run</span><span class="p">().</span><span class="k">await</span>
 </span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="p">}</span>
 </span></code></pre></div>
-<p><strong>Runtime handles:</strong>
-- Danube connection
-- Consumer creation with subscription configs
-- Message consumption and buffering
-- Schema fetching and deserialization
-- Calling <code>process()</code> or <code>process_batch()</code>
-- Retries and error handling
-- Metrics and health monitoring
-- Graceful shutdown on signals</p>
+<p><strong>Runtime handles:</strong></p>
+<ul>
+<li>Danube connection</li>
+<li>Consumer creation with subscription configs</li>
+<li>Message consumption and buffering</li>
+<li>Schema fetching and deserialization</li>
+<li>Calling <code>process()</code> or <code>process_batch()</code></li>
+<li>Retries and error handling</li>
+<li>Metrics and health monitoring</li>
+<li>Graceful shutdown on signals</li>
+</ul>
 <hr />
 <h2 id="best-practices">Best Practices</h2>
 <h3 id="configuration">Configuration</h3>
@@ -3010,26 +3062,32 @@ For systems that support it, process successful records and retry only failed on
 </ul>
 <hr />
 <h2 id="summary">Summary</h2>
-<p><strong>You implement:</strong>
-- <code>SinkConnector</code> trait (3 required, 2-3 optional methods)
-- Configuration with flattened <code>ConnectorConfig</code> (no schemas!)
-- External system integration (connection, writes, batching)
-- Message transformation from <code>SinkRecord</code> to target format
-- Topic routing and multi-topic handling</p>
-<p><strong>Runtime handles:</strong>
-- Danube connection &amp; consumption
-- Schema fetching &amp; deserialization
-- Message buffering &amp; delivery
-- Calling your <code>process</code> methods
-- Retries &amp; error handling
-- Lifecycle &amp; monitoring
-- Metrics &amp; health</p>
-<p><strong>Remember:</strong> 
-- Configuration uses flattened <code>ConnectorConfig</code> without schemas field
-- Schemas already validated by producers - you receive typed data
-- <code>expected_schema_subject</code> is optional verification, not validation
-- Use <code>process_batch()</code> for best performance
-- Focus on external system integration and data transformation</p>
+<p><strong>You implement:</strong></p>
+<ul>
+<li><code>SinkConnector</code> trait (3 required, 2-3 optional methods)</li>
+<li>Configuration with flattened <code>ConnectorConfig</code> (no schemas!)</li>
+<li>External system integration (connection, writes, batching)</li>
+<li>Message transformation from <code>SinkRecord</code> to target format</li>
+<li>Topic routing and multi-topic handling</li>
+</ul>
+<p><strong>Runtime handles:</strong></p>
+<ul>
+<li>Danube connection &amp; consumption</li>
+<li>Schema fetching &amp; deserialization</li>
+<li>Message buffering &amp; delivery</li>
+<li>Calling your <code>process</code> methods</li>
+<li>Retries &amp; error handling</li>
+<li>Lifecycle &amp; monitoring</li>
+<li>Metrics &amp; health</li>
+</ul>
+<p><strong>Remember:</strong></p>
+<ul>
+<li>Configuration uses flattened <code>ConnectorConfig</code> without schemas field</li>
+<li>Schemas already validated by producers - you receive typed data</li>
+<li><code>expected_schema_subject</code> is optional verification, not validation</li>
+<li>Use <code>process_batch()</code> for best performance</li>
+<li>Focus on external system integration and data transformation</li>
+</ul>
 
 
 

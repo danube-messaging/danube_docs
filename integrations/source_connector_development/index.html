@@ -2442,11 +2442,13 @@
 </span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">my_source</span><span class="p">:</span><span class="w"> </span><span class="nc">MySettings</span><span class="p">,</span><span class="w">  </span><span class="c1">// Connector-specific</span>
 </span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="p">}</span>
 </span></code></pre></div>
-<p><strong>Critical:</strong> <code>ConnectorConfig</code> is <strong>flattened</strong> to the root level. This means:
-- ✅ Core fields appear at TOML root: <code>danube_service_url</code>, <code>connector_name</code>
-- ✅ <code>[[schemas]]</code> sections at root level (not nested)
-- ✅ Access schemas via <code>config.core.schemas</code>
-- ❌ <strong>Never</strong> duplicate schemas field in your config struct</p>
+<p><strong>Critical:</strong> <code>ConnectorConfig</code> is <strong>flattened</strong> to the root level. This means:</p>
+<ul>
+<li>✅ Core fields appear at TOML root: <code>danube_service_url</code>, <code>connector_name</code></li>
+<li>✅ <code>[[schemas]]</code> sections at root level (not nested)</li>
+<li>✅ Access schemas via <code>config.core.schemas</code></li>
+<li>❌ <strong>Never</strong> duplicate schemas field in your config struct</li>
+</ul>
 <h3 id="toml-structure">TOML Structure</h3>
 <div class="language-toml highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># At root level (flattened from ConnectorConfig)</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">danube_service_url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;http://danube-broker:6650&quot;</span>
@@ -2471,46 +2473,58 @@
 </span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="n">partitions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span>
 </span></code></pre></div>
 <h3 id="configuration-loading">Configuration Loading</h3>
-<p><strong>Mechanism:</strong>
-1. Load TOML file from <code>CONNECTOR_CONFIG_PATH</code> environment variable
-2. Apply environment variable overrides (secrets only)
-3. Validate configuration
-4. Pass to connector and runtime</p>
-<p><strong>Environment overrides:</strong>
-- Core: <code>DANUBE_SERVICE_URL</code>, <code>CONNECTOR_NAME</code>
-- Secrets: System-specific credentials (e.g., <code>API_KEY</code>, <code>PASSWORD</code>)</p>
+<p><strong>Mechanism:</strong></p>
+<ol>
+<li>Load TOML file from <code>CONNECTOR_CONFIG_PATH</code> environment variable</li>
+<li>Apply environment variable overrides (secrets only)</li>
+<li>Validate configuration</li>
+<li>Pass to connector and runtime</li>
+</ol>
+<p><strong>Environment overrides:</strong></p>
+<ul>
+<li>Core: <code>DANUBE_SERVICE_URL</code>, <code>CONNECTOR_NAME</code></li>
+<li>Secrets: System-specific credentials (e.g., <code>API_KEY</code>, <code>PASSWORD</code>)</li>
+</ul>
 <p><strong>Not overridable:</strong> Topic mappings, schemas, processing settings (must be in TOML)</p>
 <hr />
 <h2 id="implementation-steps">Implementation Steps</h2>
 <h3 id="1-initialize-connection">1. Initialize Connection</h3>
 <p><strong><code>async fn initialize(&amp;mut self, config: ConnectorConfig)</code></strong></p>
 <p><strong>Purpose:</strong> Establish connection to external system and prepare for data collection.</p>
-<p><strong>What to do:</strong>
-- Create client/connection to external system
-- Configure authentication (API keys, certificates, tokens)
-- Set up connection pools if needed
-- Subscribe to data sources (topics, streams, tables)
-- Validate connectivity with test query/ping
-- Store client in struct for later use in <code>poll()</code></p>
-<p><strong>Error handling:</strong>
-- Return <code>ConnectorError::Initialization</code> for connection failures
-- Log detailed error context for debugging
-- Fail fast - don't retry in <code>initialize()</code></p>
-<p><strong>Examples:</strong>
-- <strong>MQTT:</strong> Connect to broker, authenticate, subscribe to topic patterns
-- <strong>Database:</strong> Create connection pool, validate table access
-- <strong>HTTP:</strong> Set up client with auth headers, test endpoint
-- <strong>Kafka:</strong> Configure consumer group, set deserializers</p>
+<p><strong>What to do:</strong></p>
+<ul>
+<li>Create client/connection to external system</li>
+<li>Configure authentication (API keys, certificates, tokens)</li>
+<li>Set up connection pools if needed</li>
+<li>Subscribe to data sources (topics, streams, tables)</li>
+<li>Validate connectivity with test query/ping</li>
+<li>Store client in struct for later use in <code>poll()</code></li>
+</ul>
+<p><strong>Error handling:</strong></p>
+<ul>
+<li>Return <code>ConnectorError::Initialization</code> for connection failures</li>
+<li>Log detailed error context for debugging</li>
+<li>Fail fast - don't retry in <code>initialize()</code></li>
+</ul>
+<p><strong>Examples:</strong></p>
+<ul>
+<li><strong>MQTT:</strong> Connect to broker, authenticate, subscribe to topic patterns</li>
+<li><strong>Database:</strong> Create connection pool, validate table access</li>
+<li><strong>HTTP:</strong> Set up client with auth headers, test endpoint</li>
+<li><strong>Kafka:</strong> Configure consumer group, set deserializers</li>
+</ul>
 <hr />
 <h3 id="2-define-producer-configs">2. Define Producer Configs</h3>
 <p><strong><code>async fn producer_configs(&amp;self) -&gt; Vec&lt;ProducerConfig&gt;</code></strong></p>
 <p><strong>Purpose:</strong> Tell the runtime which Danube topics you'll publish to and their configurations.</p>
-<p><strong>What to do:</strong>
-- Map your topic routing logic to Danube topics
-- For each destination topic, create a <code>ProducerConfig</code>
-- Attach schema configuration if defined for that topic
-- Specify partitions and reliability settings</p>
-<p><strong>Schema mapping:</strong>
+<p><strong>What to do:</strong></p>
+<ul>
+<li>Map your topic routing logic to Danube topics</li>
+<li>For each destination topic, create a <code>ProducerConfig</code></li>
+<li>Attach schema configuration if defined for that topic</li>
+<li>Specify partitions and reliability settings</li>
+</ul>
+<p><strong>Schema mapping:</strong></p>
 <div class="language-rust highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">// Find schema for this Danube topic from config.core.schemas</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kd">let</span><span class="w"> </span><span class="n">schema_config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">schemas</span><span class="p">.</span><span class="n">iter</span><span class="p">()</span>
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="o">|</span><span class="n">s</span><span class="o">|</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">topic</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">danube_topic</span><span class="p">)</span>
@@ -2522,7 +2536,7 @@
 </span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="n">reliable_dispatch</span><span class="p">:</span><span class="w"> </span><span class="nc">true</span><span class="p">,</span>
 </span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="n">schema_config</span><span class="p">,</span><span class="w">  </span><span class="c1">// Runtime uses this for serialization</span>
 </span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="p">}</span>
-</span></code></pre></div></p>
+</span></code></pre></div>
 <p><strong>Called once</strong> at startup after <code>initialize()</code>. Runtime creates producers based on these configs.</p>
 <hr />
 <h3 id="3-poll-for-data">3. Poll for Data</h3>
@@ -2537,7 +2551,7 @@
 <li><strong>Transform</strong> - convert to <code>SourceRecord</code> with typed data</li>
 <li><strong>Return</strong> batch of records</li>
 </ol>
-<p><strong>Transformation mechanism:</strong>
+<p><strong>Transformation mechanism:</strong></p>
 <div class="language-rust highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1">// From JSON-serializable struct</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">SourceRecord</span><span class="p">::</span><span class="n">from_json</span><span class="p">(</span><span class="n">topic</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">struct_data</span><span class="p">)</span><span class="o">?</span>
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
@@ -2549,20 +2563,26 @@
 </span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>
 </span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="c1">// From number</span>
 </span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="n">SourceRecord</span><span class="p">::</span><span class="n">from_number</span><span class="p">(</span><span class="n">topic</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">)</span>
-</span></code></pre></div></p>
-<p><strong>Runtime handles:</strong>
-- Schema validation (if configured)
-- Serialization based on schema type
-- Publishing to Danube
-- Retries and delivery guarantees</p>
-<p><strong>Polling patterns:</strong>
-- <strong>Pull:</strong> Query with cursor/offset, track last position
-- <strong>Push:</strong> Drain in-memory buffer filled by subscriptions/callbacks
-- <strong>Stream:</strong> Read batch from continuous stream</p>
-<p><strong>Return empty <code>Vec</code></strong> when:
-- No data available (normal, not an error)
-- External system returns empty result
-- Rate limited (after logging warning)</p>
+</span></code></pre></div>
+<p><strong>Runtime handles:</strong></p>
+<ul>
+<li>Schema validation (if configured)</li>
+<li>Serialization based on schema type</li>
+<li>Publishing to Danube</li>
+<li>Retries and delivery guarantees</li>
+</ul>
+<p><strong>Polling patterns:</strong></p>
+<ul>
+<li><strong>Pull:</strong> Query with cursor/offset, track last position</li>
+<li><strong>Push:</strong> Drain in-memory buffer filled by subscriptions/callbacks</li>
+<li><strong>Stream:</strong> Read batch from continuous stream</li>
+</ul>
+<p><strong>Return empty <code>Vec</code></strong> when:</p>
+<ul>
+<li>No data available (normal, not an error)</li>
+<li>External system returns empty result</li>
+<li>Rate limited (after logging warning)</li>
+</ul>
 <hr />
 <h3 id="4-error-handling">4. Error Handling</h3>
 <p><strong>Error types guide runtime behavior:</strong></p>
@@ -2592,57 +2612,75 @@
 </tr>
 </tbody>
 </table>
-<p><strong>Mechanism:</strong>
-- <strong>Temporary errors:</strong> Network blips, rate limits, timeouts → <code>Retryable</code>
-- <strong>Invalid data:</strong> Log warning, skip message → <code>Ok(vec![])</code> with empty result
-- <strong>Fatal errors:</strong> Auth failure, config error → <code>Fatal</code> (stops connector)</p>
-<p><strong>The runtime:</strong>
-- Retries <code>Retryable</code> errors with exponential backoff
-- Stops connector on <code>Fatal</code> errors
-- Continues normally on <code>Ok(vec![])</code></p>
+<p><strong>Mechanism:</strong></p>
+<ul>
+<li><strong>Temporary errors:</strong> Network blips, rate limits, timeouts → <code>Retryable</code></li>
+<li><strong>Invalid data:</strong> Log warning, skip message → <code>Ok(vec![])</code> with empty result</li>
+<li><strong>Fatal errors:</strong> Auth failure, config error → <code>Fatal</code> (stops connector)</li>
+</ul>
+<p><strong>The runtime:</strong></p>
+<ul>
+<li>Retries <code>Retryable</code> errors with exponential backoff</li>
+<li>Stops connector on <code>Fatal</code> errors</li>
+<li>Continues normally on <code>Ok(vec![])</code></li>
+</ul>
 <hr />
 <h3 id="5-optional-offset-management">5. Optional: Offset Management</h3>
 <p><strong><code>async fn commit(&amp;mut self, offsets: Vec&lt;Offset&gt;)</code></strong></p>
 <p><strong>Purpose:</strong> Track processing position for exactly-once semantics and resumability.</p>
-<p><strong>When to implement:</strong>
-- Exactly-once processing required
-- Need to resume from specific position after restart
-- External system supports offset/cursor tracking</p>
-<p><strong>When to skip:</strong>
-- At-least-once is acceptable (most cases)
-- Stateless data sources (webhooks, streams)
-- Idempotent downstream consumers</p>
-<p><strong>Mechanism:</strong>
-1. Runtime calls <code>commit()</code> after successfully publishing batch to Danube
-2. You save offsets to external system or local storage
-3. On restart, load offsets and resume from last committed position</p>
+<p><strong>When to implement:</strong></p>
+<ul>
+<li>Exactly-once processing required</li>
+<li>Need to resume from specific position after restart</li>
+<li>External system supports offset/cursor tracking</li>
+</ul>
+<p><strong>When to skip:</strong></p>
+<ul>
+<li>At-least-once is acceptable (most cases)</li>
+<li>Stateless data sources (webhooks, streams)</li>
+<li>Idempotent downstream consumers</li>
+</ul>
+<p><strong>Mechanism:</strong></p>
+<ol>
+<li>Runtime calls <code>commit()</code> after successfully publishing batch to Danube</li>
+<li>You save offsets to external system or local storage</li>
+<li>On restart, load offsets and resume from last committed position</li>
+</ol>
 <hr />
 <h3 id="6-optional-graceful-shutdown">6. Optional: Graceful Shutdown</h3>
 <p><strong><code>async fn shutdown(&amp;mut self)</code></strong></p>
 <p><strong>Purpose:</strong> Clean up resources before connector stops.</p>
-<p><strong>What to do:</strong>
-- Unsubscribe from data sources
-- Flush any buffered data
-- Close connections to external system
-- Save final state/offsets</p>
-<p><strong>Runtime guarantees:</strong>
-- <code>shutdown()</code> called on SIGTERM/SIGINT
-- All pending <code>SourceRecord</code>s published before shutdown
-- No new <code>poll()</code> calls after shutdown starts</p>
+<p><strong>What to do:</strong></p>
+<ul>
+<li>Unsubscribe from data sources</li>
+<li>Flush any buffered data</li>
+<li>Close connections to external system</li>
+<li>Save final state/offsets</li>
+</ul>
+<p><strong>Runtime guarantees:</strong></p>
+<ul>
+<li><code>shutdown()</code> called on SIGTERM/SIGINT</li>
+<li>All pending <code>SourceRecord</code>s published before shutdown</li>
+<li>No new <code>poll()</code> calls after shutdown starts</li>
+</ul>
 <hr />
 <h2 id="schema-registry-integration">Schema Registry Integration</h2>
 <h3 id="why-use-schemas">Why Use Schemas?</h3>
-<p><strong>Without schemas:</strong>
-- Manual serialization/deserialization
-- No validation or type safety
-- Schema drift between producers/consumers
-- Difficult evolution</p>
-<p><strong>With schemas:</strong>
-- ✅ Runtime handles serialization based on schema type
-- ✅ Automatic validation at message ingestion
-- ✅ Type safety and data contracts
-- ✅ Managed schema evolution
-- ✅ You work with <code>serde_json::Value</code>, not bytes</p>
+<p><strong>Without schemas:</strong></p>
+<ul>
+<li>Manual serialization/deserialization</li>
+<li>No validation or type safety</li>
+<li>Schema drift between producers/consumers</li>
+<li>Difficult evolution</li>
+</ul>
+<p><strong>With schemas:</strong></p>
+<ul>
+<li>✅ Runtime handles serialization based on schema type</li>
+<li>✅ Automatic validation at message ingestion</li>
+<li>✅ Type safety and data contracts</li>
+<li>✅ Managed schema evolution</li>
+<li>✅ You work with <code>serde_json::Value</code>, not bytes</li>
+</ul>
 <h3 id="schema-configuration">Schema Configuration</h3>
 <p>Schemas are defined in <code>ConnectorConfig</code> and accessed via <code>config.core.schemas</code>:</p>
 <div class="language-toml highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">[[schemas]]</span>
@@ -2692,19 +2730,23 @@
 <li><strong><code>{ minimum = 1 }</code></strong> - Use version ≥ 1 (backward compatibility)</li>
 </ul>
 <h3 id="how-it-works">How It Works</h3>
-<p><strong>You create records:</strong>
+<p><strong>You create records:</strong></p>
 <div class="language-rust highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kd">let</span><span class="w"> </span><span class="n">record</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SourceRecord</span><span class="p">::</span><span class="n">from_json</span><span class="p">(</span><span class="s">&quot;/iot/sensors&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">sensor_data</span><span class="p">)</span><span class="o">?</span><span class="p">;</span>
-</span></code></pre></div></p>
-<p><strong>Runtime automatically:</strong>
-1. Validates payload against JSON schema (if <code>json_schema</code> type)
-2. Serializes based on <code>schema_type</code>
-3. Registers schema with registry (if <code>auto_register = true</code>)
-4. Attaches schema ID to message
-5. Publishes to Danube</p>
-<p><strong>Consumers receive:</strong>
-- Typed data already deserialized
-- Schema metadata (subject, version)
-- No manual schema operations needed</p>
+</span></code></pre></div>
+<p><strong>Runtime automatically:</strong></p>
+<ol>
+<li>Validates payload against JSON schema (if <code>json_schema</code> type)</li>
+<li>Serializes based on <code>schema_type</code></li>
+<li>Registers schema with registry (if <code>auto_register = true</code>)</li>
+<li>Attaches schema ID to message</li>
+<li>Publishes to Danube</li>
+</ol>
+<p><strong>Consumers receive:</strong></p>
+<ul>
+<li>Typed data already deserialized</li>
+<li>Schema metadata (subject, version)</li>
+<li>No manual schema operations needed</li>
+</ul>
 <hr />
 <h2 id="main-entry-point">Main Entry Point</h2>
 <div class="language-rust highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="cp">#[tokio::main]</span>
@@ -2726,13 +2768,15 @@
 </span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="w">    </span><span class="n">runtime</span><span class="p">.</span><span class="n">run</span><span class="p">().</span><span class="k">await</span>
 </span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="p">}</span>
 </span></code></pre></div>
-<p><strong>Runtime handles:</strong>
-- Danube connection
-- Producer creation with schema configs
-- Polling loop at configured interval
-- Publishing records with retries
-- Metrics and health monitoring
-- Graceful shutdown on signals</p>
+<p><strong>Runtime handles:</strong></p>
+<ul>
+<li>Danube connection</li>
+<li>Producer creation with schema configs</li>
+<li>Polling loop at configured interval</li>
+<li>Publishing records with retries</li>
+<li>Metrics and health monitoring</li>
+<li>Graceful shutdown on signals</li>
+</ul>
 <hr />
 <h2 id="best-practices">Best Practices</h2>
 <h3 id="configuration">Configuration</h3>
@@ -2801,18 +2845,22 @@
 </ul>
 <hr />
 <h2 id="summary">Summary</h2>
-<p><strong>You implement:</strong>
-- <code>SourceConnector</code> trait (3 required, 3 optional methods)
-- Configuration with flattened <code>ConnectorConfig</code>
-- External system integration
-- Message transformation to <code>SourceRecord</code>
-- Topic routing logic</p>
-<p><strong>Runtime handles:</strong>
-- Danube connection
-- Schema validation &amp; serialization
-- Message publishing &amp; retries
-- Lifecycle &amp; monitoring
-- Metrics &amp; health</p>
+<p><strong>You implement:</strong></p>
+<ul>
+<li><code>SourceConnector</code> trait (3 required, 3 optional methods)</li>
+<li>Configuration with flattened <code>ConnectorConfig</code></li>
+<li>External system integration</li>
+<li>Message transformation to <code>SourceRecord</code></li>
+<li>Topic routing logic</li>
+</ul>
+<p><strong>Runtime handles:</strong></p>
+<ul>
+<li>Danube connection</li>
+<li>Schema validation &amp; serialization</li>
+<li>Message publishing &amp; retries</li>
+<li>Lifecycle &amp; monitoring</li>
+<li>Metrics &amp; health</li>
+</ul>
 <p><strong>Remember:</strong> Configuration uses flattened <code>ConnectorConfig</code>. Access schemas via <code>config.core.schemas</code>. Never duplicate schema fields. Focus on external system integration and data transformation - runtime handles Danube operations.</p>
 
 
