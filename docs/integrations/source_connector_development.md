@@ -67,6 +67,7 @@ pub struct MySourceConfig {
 ```
 
 **Critical:** `ConnectorConfig` is **flattened** to the root level. This means:
+
 - ✅ Core fields appear at TOML root: `danube_service_url`, `connector_name`
 - ✅ `[[schemas]]` sections at root level (not nested)
 - ✅ Access schemas via `config.core.schemas`
@@ -101,12 +102,14 @@ partitions = 4
 ### Configuration Loading
 
 **Mechanism:**
+
 1. Load TOML file from `CONNECTOR_CONFIG_PATH` environment variable
 2. Apply environment variable overrides (secrets only)
 3. Validate configuration
 4. Pass to connector and runtime
 
 **Environment overrides:**
+
 - Core: `DANUBE_SERVICE_URL`, `CONNECTOR_NAME`
 - Secrets: System-specific credentials (e.g., `API_KEY`, `PASSWORD`)
 
@@ -123,6 +126,7 @@ partitions = 4
 **Purpose:** Establish connection to external system and prepare for data collection.
 
 **What to do:**
+
 - Create client/connection to external system
 - Configure authentication (API keys, certificates, tokens)
 - Set up connection pools if needed
@@ -131,11 +135,13 @@ partitions = 4
 - Store client in struct for later use in `poll()`
 
 **Error handling:**
+
 - Return `ConnectorError::Initialization` for connection failures
 - Log detailed error context for debugging
 - Fail fast - don't retry in `initialize()`
 
 **Examples:**
+
 - **MQTT:** Connect to broker, authenticate, subscribe to topic patterns
 - **Database:** Create connection pool, validate table access
 - **HTTP:** Set up client with auth headers, test endpoint
@@ -150,12 +156,14 @@ partitions = 4
 **Purpose:** Tell the runtime which Danube topics you'll publish to and their configurations.
 
 **What to do:**
+
 - Map your topic routing logic to Danube topics
 - For each destination topic, create a `ProducerConfig`
 - Attach schema configuration if defined for that topic
 - Specify partitions and reliability settings
 
 **Schema mapping:**
+
 ```rust
 // Find schema for this Danube topic from config.core.schemas
 let schema_config = self.schemas.iter()
@@ -191,6 +199,7 @@ ProducerConfig {
 5. **Return** batch of records
 
 **Transformation mechanism:**
+
 ```rust
 // From JSON-serializable struct
 SourceRecord::from_json(topic, &struct_data)?
@@ -206,17 +215,20 @@ SourceRecord::from_number(topic, value)
 ```
 
 **Runtime handles:**
+
 - Schema validation (if configured)
 - Serialization based on schema type
 - Publishing to Danube
 - Retries and delivery guarantees
 
 **Polling patterns:**
+
 - **Pull:** Query with cursor/offset, track last position
 - **Push:** Drain in-memory buffer filled by subscriptions/callbacks
 - **Stream:** Read batch from continuous stream
 
 **Return empty `Vec`** when:
+
 - No data available (normal, not an error)
 - External system returns empty result
 - Rate limited (after logging warning)
@@ -234,11 +246,13 @@ SourceRecord::from_number(topic, value)
 | `Ok(vec![])` | No data or skippable errors | Continue polling |
 
 **Mechanism:**
+
 - **Temporary errors:** Network blips, rate limits, timeouts → `Retryable`
 - **Invalid data:** Log warning, skip message → `Ok(vec![])` with empty result
 - **Fatal errors:** Auth failure, config error → `Fatal` (stops connector)
 
 **The runtime:**
+
 - Retries `Retryable` errors with exponential backoff
 - Stops connector on `Fatal` errors
 - Continues normally on `Ok(vec![])`
@@ -252,16 +266,19 @@ SourceRecord::from_number(topic, value)
 **Purpose:** Track processing position for exactly-once semantics and resumability.
 
 **When to implement:**
+
 - Exactly-once processing required
 - Need to resume from specific position after restart
 - External system supports offset/cursor tracking
 
 **When to skip:**
+
 - At-least-once is acceptable (most cases)
 - Stateless data sources (webhooks, streams)
 - Idempotent downstream consumers
 
 **Mechanism:**
+
 1. Runtime calls `commit()` after successfully publishing batch to Danube
 2. You save offsets to external system or local storage
 3. On restart, load offsets and resume from last committed position
@@ -275,12 +292,14 @@ SourceRecord::from_number(topic, value)
 **Purpose:** Clean up resources before connector stops.
 
 **What to do:**
+
 - Unsubscribe from data sources
 - Flush any buffered data
 - Close connections to external system
 - Save final state/offsets
 
 **Runtime guarantees:**
+
 - `shutdown()` called on SIGTERM/SIGINT
 - All pending `SourceRecord`s published before shutdown
 - No new `poll()` calls after shutdown starts
@@ -292,12 +311,14 @@ SourceRecord::from_number(topic, value)
 ### Why Use Schemas?
 
 **Without schemas:**
+
 - Manual serialization/deserialization
 - No validation or type safety
 - Schema drift between producers/consumers
 - Difficult evolution
 
 **With schemas:**
+
 - ✅ Runtime handles serialization based on schema type
 - ✅ Automatic validation at message ingestion
 - ✅ Type safety and data contracts
@@ -336,11 +357,13 @@ version_strategy = "latest"         # Version
 ### How It Works
 
 **You create records:**
+
 ```rust
 let record = SourceRecord::from_json("/iot/sensors", &sensor_data)?;
 ```
 
 **Runtime automatically:**
+
 1. Validates payload against JSON schema (if `json_schema` type)
 2. Serializes based on `schema_type`
 3. Registers schema with registry (if `auto_register = true`)
@@ -348,6 +371,7 @@ let record = SourceRecord::from_json("/iot/sensors", &sensor_data)?;
 5. Publishes to Danube
 
 **Consumers receive:**
+
 - Typed data already deserialized
 - Schema metadata (subject, version)
 - No manual schema operations needed
@@ -378,6 +402,7 @@ async fn main() -> ConnectorResult<()> {
 ```
 
 **Runtime handles:**
+
 - Danube connection
 - Producer creation with schema configs
 - Polling loop at configured interval
@@ -390,12 +415,14 @@ async fn main() -> ConnectorResult<()> {
 ## Best Practices
 
 ### Configuration
+
 - ✅ Use flattened `ConnectorConfig` - schemas via `config.core.schemas`
 - ✅ Never duplicate schemas field in your config
 - ✅ Keep secrets in environment variables, not TOML
 - ✅ Validate configuration at startup
 
 ### Schema Management
+
 - ✅ Use `json_schema` for structured data validation
 - ✅ Set `auto_register = true` for development
 - ✅ Pin versions in production (`{ pinned = N }`)
@@ -403,6 +430,7 @@ async fn main() -> ConnectorResult<()> {
 - ✅ Access via `config.core.schemas`, not separate field
 
 ### Data Polling
+
 - ✅ Return empty `Vec` when no data (non-blocking)
 - ✅ Use appropriate batch sizes (100-1000 records)
 - ✅ Handle rate limits gracefully
@@ -410,12 +438,14 @@ async fn main() -> ConnectorResult<()> {
 - ✅ Add attributes for routing metadata
 
 ### Error Handling
+
 - ✅ `Retryable` for temporary failures
 - ✅ `Fatal` for permanent failures
 - ✅ `Ok(vec![])` for no data or skippable errors
 - ✅ Log detailed context for debugging
 
 ### Performance
+
 - ✅ Batch data retrieval when possible
 - ✅ Avoid blocking operations in `poll()`
 - ✅ Use connection pooling
@@ -427,15 +457,19 @@ async fn main() -> ConnectorResult<()> {
 ## Common Patterns
 
 ### Pull-Based Polling
+
 Query external system with cursor/offset tracking. Suitable for databases, REST APIs.
 
 ### Push-Based Subscription
+
 External system pushes data to in-memory buffer. Drain buffer in `poll()`. Suitable for MQTT, webhooks.
 
 ### Stream-Based
+
 Continuous stream reader. Read batches in `poll()`. Suitable for Kafka, message queues.
 
 ### Topic Routing
+
 Map external identifiers to Danube topics using pattern matching, lookup tables, or configuration mappings.
 
 ---
@@ -443,12 +477,14 @@ Map external identifiers to Danube topics using pattern matching, lookup tables,
 ## Testing
 
 ### Local Development
+
 1. Start Danube: `docker-compose up -d`
 2. Set config: `export CONNECTOR_CONFIG_PATH=./config/connector.toml`
 3. Run: `cargo run`
 4. Verify: `danube-cli consume --topic /your/topic`
 
 ### Unit Tests
+
 - Test message transformation logic
 - Test pattern matching/routing
 - Mock external system for isolated testing
@@ -459,6 +495,7 @@ Map external identifiers to Danube topics using pattern matching, lookup tables,
 ## Summary
 
 **You implement:**
+
 - `SourceConnector` trait (3 required, 3 optional methods)
 - Configuration with flattened `ConnectorConfig`
 - External system integration
@@ -466,6 +503,7 @@ Map external identifiers to Danube topics using pattern matching, lookup tables,
 - Topic routing logic
 
 **Runtime handles:**
+
 - Danube connection
 - Schema validation & serialization
 - Message publishing & retries
@@ -473,4 +511,3 @@ Map external identifiers to Danube topics using pattern matching, lookup tables,
 - Metrics & health
 
 **Remember:** Configuration uses flattened `ConnectorConfig`. Access schemas via `config.core.schemas`. Never duplicate schema fields. Focus on external system integration and data transformation - runtime handles Danube operations.
-

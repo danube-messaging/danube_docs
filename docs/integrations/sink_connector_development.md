@@ -68,6 +68,7 @@ pub struct MySinkConfig {
 ```
 
 **Critical for Sink Connectors:**
+
 - ✅ Sink connectors **do not** use `config.core.schemas`
 - ✅ Schema validation happens on the **producer side** (source connectors)
 - ✅ You receive already-deserialized, validated data
@@ -108,12 +109,14 @@ batch_size = 500
 ### Configuration Loading
 
 **Mechanism:**
+
 1. Load TOML file from `CONNECTOR_CONFIG_PATH` environment variable
 2. Apply environment variable overrides (secrets only)
 3. Validate configuration
 4. Pass to connector and runtime
 
 **Environment overrides:**
+
 - Core: `DANUBE_SERVICE_URL`, `CONNECTOR_NAME`
 - Secrets: Database passwords, API keys, credentials
 
@@ -130,6 +133,7 @@ batch_size = 500
 **Purpose:** Establish connection to external system and prepare for writing.
 
 **What to do:**
+
 - Create client/connection to target system
 - Configure authentication (credentials, API tokens, certificates)
 - Set up connection pools for parallel writes
@@ -138,11 +142,13 @@ batch_size = 500
 - Store client in struct for later use in `process()`
 
 **Error handling:**
+
 - Return `ConnectorError::Initialization` for connection failures
 - Log detailed error context
 - Fail fast - don't retry in `initialize()`
 
 **Examples:**
+
 - **Database:** Create connection pool, validate table schema, test insert
 - **HTTP API:** Set up client with auth headers, test endpoint availability
 - **Object Storage:** Configure S3/GCS client, verify bucket access
@@ -157,6 +163,7 @@ batch_size = 500
 **Purpose:** Tell the runtime which Danube topics to consume from and how.
 
 **What to do:**
+
 - Map your topic configuration to Danube consumer configs
 - For each source topic, create a `ConsumerConfig`
 - Specify subscription type (Shared, Exclusive, Failover)
@@ -164,6 +171,7 @@ batch_size = 500
 - Optionally specify expected schema subject for validation
 
 **Consumer config structure:**
+
 ```rust
 ConsumerConfig {
     topic: "/events/users",
@@ -175,6 +183,7 @@ ConsumerConfig {
 ```
 
 **Subscription types:**
+
 - **Shared:** Load balancing across multiple consumers (most common)
 - **Exclusive:** Single consumer, ordered processing
 - **Failover:** Active-passive, automatic failover
@@ -200,6 +209,7 @@ ConsumerConfig {
 5. **Handle errors** - Return appropriate error type
 
 **SinkRecord API:**
+
 ```rust
 let payload = record.payload();           // &serde_json::Value
 let topic = record.topic();               // &str
@@ -217,6 +227,7 @@ let event: MyStruct = record.as_type()?;
 ```
 
 **Runtime provides:**
+
 - Pre-deserialized JSON data
 - Schema validation already done
 - Type-safe access methods
@@ -231,6 +242,7 @@ let event: MyStruct = record.as_type()?;
 **Purpose:** Process multiple records together for better throughput.
 
 **Why batching:**
+
 - 10-100x better performance for bulk operations
 - Reduced network round trips
 - More efficient resource usage
@@ -244,11 +256,13 @@ let event: MyStruct = record.as_type()?;
 4. **Handle partial failures** - Some systems support partial success
 
 **Batch triggers:**
+
 - **Size:** `batch_size` records buffered (e.g., 100)
 - **Time:** `flush_interval_ms` elapsed (e.g., 1000ms)
 - **Shutdown:** Flush remaining records
 
 **Performance guidance:**
+
 - High throughput: 500-1000 records per batch
 - Low latency: 10-50 records per batch
 - Balanced: 100 records per batch
@@ -269,11 +283,13 @@ Different topics can have different batch sizes based on workload characteristic
 | `Ok(())` | Success or skippable errors | Acknowledge message |
 
 **Mechanism:**
+
 - **Temporary errors:** Rate limits, timeouts, transient failures → `Retryable`
 - **Invalid data:** Log warning, skip record → `Ok()` (acknowledge anyway)
 - **Fatal errors:** Auth failure, connection lost → `Fatal` (stops connector)
 
 **The runtime:**
+
 - Retries `Retryable` errors with exponential backoff
 - Stops connector on `Fatal` errors
 - Acknowledges and continues on `Ok(())`
@@ -290,6 +306,7 @@ For systems that support it, process successful records and retry only failed on
 **Purpose:** Clean up resources and flush pending data before stopping.
 
 **What to do:**
+
 - Flush any buffered records (if using internal batching)
 - Complete any in-flight writes
 - Close connections to external system
@@ -297,6 +314,7 @@ For systems that support it, process successful records and retry only failed on
 - Log shutdown completion
 
 **Runtime guarantees:**
+
 - `shutdown()` called on SIGTERM/SIGINT
 - No new messages delivered after shutdown starts
 - Time to complete graceful shutdown
@@ -316,12 +334,14 @@ For systems that support it, process successful records and retry only failed on
 5. **You receive** validated, typed `serde_json::Value`
 
 **You never:**
+
 - ❌ Validate schemas (producer already did)
 - ❌ Deserialize raw bytes (runtime already did)
 - ❌ Fetch schemas from registry (runtime caches them)
 - ❌ Configure schemas in `ConnectorConfig` (no `[[schemas]]` section)
 
 **You can:**
+
 - ✅ Access schema metadata via `record.schema()`
 - ✅ Specify `expected_schema_subject` for validation
 - ✅ Use different logic based on schema version
@@ -338,16 +358,19 @@ expected_schema_subject = "user-events-v1"  # Verify schema subject
 ```
 
 **What happens:**
+
 - Runtime checks if message schema subject matches
 - Mismatch results in error (configurable behavior)
 - Useful for ensuring data contracts
 
 **When to use:**
+
 - ✅ Strict data contracts required
 - ✅ Multiple producers on same topic
 - ✅ Critical data pipelines
 
 **When to skip:**
+
 - Schema evolution in progress
 - Flexible data formats
 - Mixed content topics
@@ -361,6 +384,7 @@ expected_schema_subject = "user-events-v1"  # Verify schema subject
 **Behavior:** Messages load-balanced across all active consumers
 
 **Use cases:**
+
 - High-volume parallel processing
 - Horizontal scaling
 - Order doesn't matter within topic
@@ -372,6 +396,7 @@ expected_schema_subject = "user-events-v1"  # Verify schema subject
 **Behavior:** Only one consumer receives messages, strictly ordered
 
 **Use cases:**
+
 - Order-dependent processing
 - Sequential operations
 - Single-threaded requirements
@@ -383,6 +408,7 @@ expected_schema_subject = "user-events-v1"  # Verify schema subject
 **Behavior:** Active-passive setup with automatic failover
 
 **Use cases:**
+
 - Ordered processing with high availability
 - Standby consumer for reliability
 - Graceful failover
@@ -396,6 +422,7 @@ expected_schema_subject = "user-events-v1"  # Verify schema subject
 ### Pattern
 
 Each topic mapping is independent:
+
 - Different target entities (tables, collections, indexes)
 - Different batch sizes and flush intervals
 - Different transformations
@@ -445,6 +472,7 @@ async fn main() -> ConnectorResult<()> {
 ```
 
 **Runtime handles:**
+
 - Danube connection
 - Consumer creation with subscription configs
 - Message consumption and buffering
@@ -459,36 +487,42 @@ async fn main() -> ConnectorResult<()> {
 ## Best Practices
 
 ### Configuration
+
 - ✅ Use flattened `ConnectorConfig` - no schemas field needed
 - ✅ Keep secrets in environment variables, not TOML
 - ✅ Validate configuration at startup
 - ✅ Provide per-topic batch configuration
 
 ### Data Processing
+
 - ✅ Use `process_batch()` for performance (10-100x faster)
 - ✅ Group records by target entity in multi-topic scenarios
 - ✅ Make metadata addition optional (configurable)
 - ✅ Handle missing fields gracefully
 
 ### Batching
+
 - ✅ Configure both size and time triggers
 - ✅ Adjust per-topic for different workloads
 - ✅ Flush on shutdown to avoid data loss
 - ✅ Document batch size recommendations
 
 ### Error Handling
+
 - ✅ `Retryable` for temporary failures (rate limits, network)
 - ✅ `Fatal` for permanent failures (auth, config)
 - ✅ `Ok(())` for success or skippable data issues
 - ✅ Log detailed error context
 
 ### Subscription Types
+
 - ✅ Use `Shared` for scalable parallel processing (default)
 - ✅ Use `Exclusive` only when ordering is critical
 - ✅ Use `Failover` for ordered + high availability
 - ✅ Document ordering requirements
 
 ### Performance
+
 - ✅ Use connection pooling for concurrent writes
 - ✅ Batch operations whenever possible
 - ✅ Configure appropriate timeouts
@@ -499,18 +533,23 @@ async fn main() -> ConnectorResult<()> {
 ## Common Patterns
 
 ### Direct Write
+
 Receive data, transform, write directly. Simplest approach for low-volume or low-latency requirements.
 
 ### Buffered Batch Write
+
 Buffer records until batch size/timeout reached, then bulk write. Best for throughput.
 
 ### Grouped Multi-Topic Write
+
 Group records by target entity, write each group as batch. Efficient for multi-topic routing.
 
 ### Enriched Write
+
 Add metadata from Danube (topic, offset, timestamp) to records before writing. Useful for auditing.
 
 ### Upsert Pattern
+
 Use record attributes or payload fields to determine insert vs. update. Common for CDC scenarios.
 
 ---
@@ -518,6 +557,7 @@ Use record attributes or payload fields to determine insert vs. update. Common f
 ## Testing
 
 ### Local Development
+
 1. Start Danube: `docker-compose up -d`
 2. Set config: `export CONNECTOR_CONFIG_PATH=./config/connector.toml`
 3. Run: `cargo run`
@@ -525,12 +565,14 @@ Use record attributes or payload fields to determine insert vs. update. Common f
 5. Verify: Check target system for data
 
 ### Unit Tests
+
 - Test transformation logic with sample `SinkRecord`s
 - Test topic routing and configuration lookup
 - Mock external system for isolated testing
 - Validate error handling paths
 
 ### Integration Tests
+
 - Full stack: Danube + Connector + Target system
 - Produce messages with schemas
 - Verify data in target system
@@ -542,6 +584,7 @@ Use record attributes or payload fields to determine insert vs. update. Common f
 ## Summary
 
 **You implement:**
+
 - `SinkConnector` trait (3 required, 2-3 optional methods)
 - Configuration with flattened `ConnectorConfig` (no schemas!)
 - External system integration (connection, writes, batching)
@@ -549,6 +592,7 @@ Use record attributes or payload fields to determine insert vs. update. Common f
 - Topic routing and multi-topic handling
 
 **Runtime handles:**
+
 - Danube connection & consumption
 - Schema fetching & deserialization
 - Message buffering & delivery
@@ -557,10 +601,10 @@ Use record attributes or payload fields to determine insert vs. update. Common f
 - Lifecycle & monitoring
 - Metrics & health
 
-**Remember:** 
+**Remember:**
+
 - Configuration uses flattened `ConnectorConfig` without schemas field
 - Schemas already validated by producers - you receive typed data
 - `expected_schema_subject` is optional verification, not validation
 - Use `process_batch()` for best performance
 - Focus on external system integration and data transformation
-
