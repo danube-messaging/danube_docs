@@ -42,7 +42,7 @@ For further consideration: We may want the broker to ask the Load Manager to get
 
 This cache stores various types of metadata required by Danube brokers, such as topic and namespace data, which are frequently accessed during message production and consumption. This reduces the need for frequent queries to the central metadata store, ETCD.
 
-The [docs/internal_resources.md](../contributing/internal_resources.md) document describes how the resources are organized in the Metadata Store.
+The [docs/etc_metadata_structure.md](../contributing/etcd_metadata_structure.md) document describes how the resources are organized in the Metadata Store.
 
 Updates/events are received via ETCD Watch events and/or the metadata event synchronizer.
 

@@ -65,6 +65,7 @@ nav:
         - 🏗️ Architecture:
                   - System Overview: architecture/architecture.md
                   - Persistence (WAL + Cloud): architecture/persistence.md
+                  - Reliable Topic Workflow: architecture/reliable_topic_move.md
                   - Schema Registry Architecture: architecture/schema_registry_architecture.md
                   - Internal Services: architecture/internal_danube_services.md
 
@@ -99,7 +100,7 @@ nav:
 
         - 🤝 Contributing:
                   - Development Environment: contributing/dev_environment.md
-                  - Internal Resources: contributing/internal_resources.md
+                  - ETCD Metadata Structure: contributing/etcd_metadata_structure.md
 theme:
         name: material
         logo: assets/wave.png
