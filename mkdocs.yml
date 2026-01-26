@@ -64,9 +64,10 @@ nav:
 
         - 🏗️ Architecture:
                   - System Overview: architecture/architecture.md
+                  - Load Manager & Rebalancing: architecture/load_manager_architecture.md
+                  - Schema Registry Architecture: architecture/schema_registry_architecture.md
                   - Persistence (WAL + Cloud): architecture/persistence.md
                   - Reliable Topic Workflow: architecture/reliable_topic_move.md
-                  - Schema Registry Architecture: architecture/schema_registry_architecture.md
                   - Internal Services: architecture/internal_danube_services.md
 
         - 📦 Client Libraries:
