@@ -1,0 +1,3621 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Lightweight, cloud-native messaging platform built in Rust.  Sub-second dispatch with cloud economics powered by WAL + Object Storage.">
+      
+      
+        <meta name="author" content="Dan Rusei">
+      
+      
+        <link rel="canonical" href="https://danube-docs.dev-state.com/architecture/load_manager_architecture/">
+      
+      
+        <link rel="prev" href="../architecture/">
+      
+      
+        <link rel="next" href="../schema_registry_architecture/">
+      
+      
+      <link rel="icon" href="../../assets/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.30">
+    
+    
+      
+        <title>Load Manager & Rebalancing - Danube Messaging</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.3cba04c6.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function n(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],n("js",new Date),n("config","G-2XEY5RCVVB"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&n("event","search",{search_term:this.value})}),document$.subscribe(function(){var a=document.forms.feedback;if(void 0!==a)for(var e of a.querySelectorAll("[type=submit]"))e.addEventListener("click",function(e){e.preventDefault();var t=document.location.pathname,e=this.getAttribute("data-md-value");n("event","feedback",{page:t,data:e}),a.firstElementChild.disabled=!0;e=a.querySelector(".md-feedback__note [data-md-value='"+e+"']");e&&(e.hidden=!1)}),a.hidden=!1}),location$.subscribe(function(e){n("config","G-2XEY5RCVVB",{page_path:e.pathname})})});var e=document.createElement("script");e.async=!0,e.src="https://www.googletagmanager.com/gtag/js?id=G-2XEY5RCVVB",document.getElementById("__analytics").insertAdjacentElement("afterEnd",e)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#danube-load-manager-rebalancing-architecture" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Danube Messaging" class="md-header__button md-logo" aria-label="Danube Messaging" data-md-component="logo">
+      
+  <img src="../../assets/wave.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Danube Messaging
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Load Manager & Rebalancing
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/danube-messaging/danube" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    danube-messaging/danube
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Danube Messaging" class="md-nav__button md-logo" aria-label="Danube Messaging" data-md-component="logo">
+      
+  <img src="../../assets/wave.png" alt="logo">
+
+    </a>
+    Danube Messaging
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/danube-messaging/danube" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    danube-messaging/danube
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    🏠 Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    📚 Getting Started
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            📚 Getting Started
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting_started/Danube_docker_compose/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Docker Compose (Recommended)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting_started/Danube_kubernetes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Kubernetes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting_started/Danube_local/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Local Machine / VMs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    💡 Core Concepts
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            💡 Core Concepts
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/topics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Topics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/subscriptions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Subscriptions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/dispatch_strategy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Dispatch Strategies
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/messages/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Messages & Schemas
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/schema_registry_guide/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Schema Registry Guide
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Messaging Patterns
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            Messaging Patterns
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/messaging_patterns_queuing_vs_pubsub/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Queuing vs Pub/Sub
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/messaging_modes_pubsub_vs_streaming/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pub/Sub vs Streaming
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    🏗️ Architecture
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            🏗️ Architecture
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    System Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Load Manager & Rebalancing
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Load Manager & Rebalancing
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-the-load-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is the Load Manager?
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What is the Load Manager?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-responsibilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core Responsibilities
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-it-matters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why It Matters
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#high-level-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      High-Level Architecture
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="High-Level Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#component-roles" class="md-nav__link">
+    <span class="md-ellipsis">
+      Component Roles
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core Concepts
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#brokers-and-broker-states" class="md-nav__link">
+    <span class="md-ellipsis">
+      Brokers and Broker States
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#load-reports" class="md-nav__link">
+    <span class="md-ellipsis">
+      Load Reports
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#broker-rankings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Broker Rankings
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#coefficient-of-variation-cv" class="md-nav__link">
+    <span class="md-ellipsis">
+      Coefficient of Variation (CV)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#assignment-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Assignment Strategies
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rebalancing-aggressiveness" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rebalancing Aggressiveness
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#topic-blacklists" class="md-nav__link">
+    <span class="md-ellipsis">
+      Topic Blacklists
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-works-topic-assignment" class="md-nav__link">
+    <span class="md-ellipsis">
+      How It Works: Topic Assignment
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How It Works: Topic Assignment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-by-step-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step-by-Step Flow
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#assignment-visualization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Assignment Visualization
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#special-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Special Cases
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-works-automated-rebalancing" class="md-nav__link">
+    <span class="md-ellipsis">
+      How It Works: Automated Rebalancing
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How It Works: Automated Rebalancing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rebalancing-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rebalancing Lifecycle
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#imbalance-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Imbalance Detection
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#candidate-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Candidate Selection
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#target-broker-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Target Broker Selection
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#move-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Move Execution
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rebalancing-visualization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rebalancing Visualization
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#safety-mechanisms" class="md-nav__link">
+    <span class="md-ellipsis">
+      Safety Mechanisms
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-and-tuning" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration and Tuning
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration and Tuning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#assignment-strategy-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Assignment Strategy Selection
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aggressiveness-tuning" class="md-nav__link">
+    <span class="md-ellipsis">
+      Aggressiveness Tuning
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#load-report-interval-tuning" class="md-nav__link">
+    <span class="md-ellipsis">
+      Load Report Interval Tuning
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rate-limiting-tuning" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rate Limiting Tuning
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#blacklist-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Blacklist Patterns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#metrics-and-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      Metrics and Monitoring
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Metrics and Monitoring">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#load-manager-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Load Manager Metrics
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-cases-and-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Use Cases and Best Practices
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Use Cases and Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario-1-adding-brokers-to-a-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario 1: Adding Brokers to a Cluster
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-2-handling-broker-failure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario 2: Handling Broker Failure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-3-workload-changes-over-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario 3: Workload Changes Over Time
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-4-heterogeneous-hardware" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario 4: Heterogeneous Hardware
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rebalancing-not-triggering" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rebalancing Not Triggering
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#topics-moving-too-frequently" class="md-nav__link">
+    <span class="md-ellipsis">
+      Topics Moving Too Frequently
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#imbalance-after-rebalancing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Imbalance After Rebalancing
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../schema_registry_architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Schema Registry Architecture
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../persistence/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Persistence (WAL + Cloud)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reliable_topic_move/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Reliable Topic Workflow
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../internal_danube_services/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Internal Services
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    📦 Client Libraries
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            📦 Client Libraries
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client_libraries/clients/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview & Installation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client_libraries/setup/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Setup & Configuration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Producer Guide
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            Producer Guide
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client_libraries/producer-basics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Basic Producer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client_libraries/producer-advanced/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Advanced Producer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_4" id="__nav_5_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Consumer Guide
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            Consumer Guide
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client_libraries/consumer-basics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Basic Consumer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client_libraries/consumer-advanced/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Advanced Consumer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client_libraries/schema-registry/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Schema Registry
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    🔧 CLI Tools
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            🔧 CLI Tools
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_1" id="__nav_6_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Danube CLI (Client)
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1">
+            <span class="md-nav__icon md-icon"></span>
+            Danube CLI (Client)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../danube_clis/danube_cli/getting_started/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Getting Started
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../danube_clis/danube_cli/producer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Producer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../danube_clis/danube_cli/consumer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Consumer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../danube_clis/danube_cli/schema_registry/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Schema Registry
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Admin CLI (Operations)
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            Admin CLI (Operations)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../danube_clis/danube_admin/brokers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Brokers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../danube_clis/danube_admin/namespaces/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Namespaces
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../danube_clis/danube_admin/topics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Topics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../danube_clis/danube_admin/schema_registry/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Schema Registry
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    🔌 Integrations
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            🔌 Integrations
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../integrations/danube_connect_overview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Danube Connect Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../integrations/danube_connect_architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Architecture & Concepts
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../integrations/sink_connector_development/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Sink Connector Development
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../integrations/source_connector_development/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Source Connector Development
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    🤝 Contributing
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            🤝 Contributing
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/dev_environment/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Development Environment
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/etcd_metadata_structure/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ETCD Metadata Structure
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-the-load-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is the Load Manager?
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What is the Load Manager?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-responsibilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core Responsibilities
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-it-matters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why It Matters
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#high-level-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      High-Level Architecture
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="High-Level Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#component-roles" class="md-nav__link">
+    <span class="md-ellipsis">
+      Component Roles
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core Concepts
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#brokers-and-broker-states" class="md-nav__link">
+    <span class="md-ellipsis">
+      Brokers and Broker States
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#load-reports" class="md-nav__link">
+    <span class="md-ellipsis">
+      Load Reports
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#broker-rankings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Broker Rankings
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#coefficient-of-variation-cv" class="md-nav__link">
+    <span class="md-ellipsis">
+      Coefficient of Variation (CV)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#assignment-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Assignment Strategies
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rebalancing-aggressiveness" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rebalancing Aggressiveness
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#topic-blacklists" class="md-nav__link">
+    <span class="md-ellipsis">
+      Topic Blacklists
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-works-topic-assignment" class="md-nav__link">
+    <span class="md-ellipsis">
+      How It Works: Topic Assignment
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How It Works: Topic Assignment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-by-step-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step-by-Step Flow
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#assignment-visualization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Assignment Visualization
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#special-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Special Cases
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-works-automated-rebalancing" class="md-nav__link">
+    <span class="md-ellipsis">
+      How It Works: Automated Rebalancing
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How It Works: Automated Rebalancing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rebalancing-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rebalancing Lifecycle
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#imbalance-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Imbalance Detection
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#candidate-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Candidate Selection
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#target-broker-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Target Broker Selection
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#move-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Move Execution
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rebalancing-visualization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rebalancing Visualization
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#safety-mechanisms" class="md-nav__link">
+    <span class="md-ellipsis">
+      Safety Mechanisms
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration-and-tuning" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration and Tuning
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration and Tuning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#assignment-strategy-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Assignment Strategy Selection
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aggressiveness-tuning" class="md-nav__link">
+    <span class="md-ellipsis">
+      Aggressiveness Tuning
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#load-report-interval-tuning" class="md-nav__link">
+    <span class="md-ellipsis">
+      Load Report Interval Tuning
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rate-limiting-tuning" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rate Limiting Tuning
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#blacklist-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Blacklist Patterns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#metrics-and-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      Metrics and Monitoring
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Metrics and Monitoring">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#load-manager-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Load Manager Metrics
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-cases-and-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Use Cases and Best Practices
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Use Cases and Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario-1-adding-brokers-to-a-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario 1: Adding Brokers to a Cluster
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-2-handling-broker-failure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario 2: Handling Broker Failure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-3-workload-changes-over-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario 3: Workload Changes Over Time
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-4-heterogeneous-hardware" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario 4: Heterogeneous Hardware
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rebalancing-not-triggering" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rebalancing Not Triggering
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#topics-moving-too-frequently" class="md-nav__link">
+    <span class="md-ellipsis">
+      Topics Moving Too Frequently
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#imbalance-after-rebalancing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Imbalance After Rebalancing
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+    <a href="https://github.com/danube-messaging/danube_docs/edit/main/docs/architecture/load_manager_architecture.md" title="Edit this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="danube-load-manager-rebalancing-architecture">Danube Load Manager &amp; Rebalancing Architecture</h1>
+<p><a href="https://github.com/danube-messaging/danube">Danube</a>'s Load Manager is a distributed system that ensures optimal topic placement across broker clusters. It combines intelligent topic assignment for new topics with automated rebalancing to maintain cluster health as workloads evolve. This creates a self-optimizing messaging infrastructure that adapts to changing conditions without manual intervention.</p>
+<p>This page explains what the Load Manager is, why it's essential for production Danube clusters, how it assigns topics to brokers, and how automated rebalancing keeps your cluster balanced over time.</p>
+<hr />
+<h2 id="what-is-the-load-manager">What is the Load Manager?</h2>
+<p>The <strong>Load Manager</strong> is a critical subsystem in Danube that handles the distribution of topics across brokers in a cluster. Think of it as the "traffic controller" that decides which broker should handle which topic, ensuring that no single broker becomes overwhelmed while others sit idle.</p>
+<h3 id="core-responsibilities">Core Responsibilities</h3>
+<ul>
+<li><strong>Topic Assignment</strong> - Places new topics on the least loaded broker using intelligent ranking algorithms</li>
+<li><strong>Load Monitoring</strong> - Continuously tracks broker resource utilization (CPU, memory, throughput, topic count)</li>
+<li><strong>Cluster Rebalancing</strong> - Automatically moves topics between brokers to maintain balanced load distribution</li>
+<li><strong>Failover Management</strong> - Reassigns topics from failed brokers to healthy ones</li>
+<li><strong>Resource Optimization</strong> - Prevents hotspots and ensures efficient cluster utilization</li>
+</ul>
+<h3 id="why-it-matters">Why It Matters</h3>
+<p>Without intelligent load management, clusters suffer from:</p>
+<ul>
+<li><strong>Hotspots</strong> - One broker handles most traffic while others are idle</li>
+<li><strong>Resource waste</strong> - Underutilized brokers mean wasted infrastructure costs</li>
+<li><strong>Performance degradation</strong> - Overloaded brokers cause latency spikes and message backlogs</li>
+<li><strong>Manual toil</strong> - Operators spend time manually moving topics to fix imbalances</li>
+<li><strong>Scaling challenges</strong> - Hard to add/remove brokers without disrupting service</li>
+</ul>
+<p>The Load Manager solves these problems automatically, keeping your cluster healthy 24/7.</p>
+<hr />
+<h2 id="high-level-architecture">High-Level Architecture</h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>┌─────────────────────────────────────────────────────────────────┐
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>│<span class="w">                        </span>ETCD<span class="w"> </span>Metadata<span class="w"> </span>Store<span class="w">                       </span>│
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│<span class="w">  </span>•<span class="w"> </span>Broker<span class="w"> </span>registrations<span class="w">    </span>•<span class="w"> </span>Topic<span class="w"> </span>assignments<span class="w">                  </span>│
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>│<span class="w">  </span>•<span class="w"> </span>Load<span class="w"> </span>reports<span class="w">            </span>•<span class="w"> </span>Rebalancing<span class="w"> </span><span class="nb">history</span><span class="w">                </span>│
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>└────────────────┬────────────────────────────────────────────────┘
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">                 </span>│
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">                 </span>│<span class="w"> </span>Watch<span class="w"> </span>events
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">                 </span>│
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>┌────────────────▼───────────────┐<span class="w">         </span>┌────────────────────┐
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>│<span class="w">      </span>Load<span class="w"> </span>Manager<span class="w"> </span><span class="o">(</span>Leader<span class="o">)</span><span class="w">      </span>│<span class="w">         </span>│<span class="w">   </span>Other<span class="w"> </span>Brokers<span class="w">    </span>│
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>│<span class="w">                                 </span>│<span class="w">         </span>│<span class="w">  </span><span class="o">(</span>Followers<span class="o">)</span><span class="w">       </span>│
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>│<span class="w">  </span><span class="m">1</span>.<span class="w"> </span>Monitor<span class="w"> </span>Load<span class="w"> </span>Reports<span class="w">        </span>│◄────────┤<span class="w">  </span>•<span class="w"> </span>Publish<span class="w"> </span>loads<span class="w">   </span>│
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>│<span class="w">  </span><span class="m">2</span>.<span class="w"> </span>Calculate<span class="w"> </span>Rankings<span class="w">          </span>│<span class="w">         </span>│<span class="w">  </span>•<span class="w"> </span>Watch<span class="w"> </span>events<span class="w">    </span>│
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>│<span class="w">  </span><span class="m">3</span>.<span class="w"> </span>Assign<span class="w"> </span>New<span class="w"> </span>Topics<span class="w">           </span>│<span class="w">         </span>│<span class="w">  </span>•<span class="w"> </span>Execute<span class="w"> </span>unloads<span class="w"> </span>│
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>│<span class="w">  </span><span class="m">4</span>.<span class="w"> </span>Detect<span class="w"> </span>Imbalance<span class="w"> </span><span class="o">(</span>CV<span class="o">)</span><span class="w">       </span>│<span class="w">         </span>└────────────────────┘
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>│<span class="w">  </span><span class="m">5</span>.<span class="w"> </span>Select<span class="w"> </span>Topics<span class="w"> </span>to<span class="w"> </span>Move<span class="w">       </span>│
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>│<span class="w">  </span><span class="m">6</span>.<span class="w"> </span>Execute<span class="w"> </span>Rebalancing<span class="w">         </span>│
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>│<span class="w">                                 </span>│
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>│<span class="w">  </span>Components:<span class="w">                    </span>│
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>│<span class="w">  </span>├─<span class="w"> </span>Rankings<span class="w"> </span>Calculator<span class="w">         </span>│
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>│<span class="w">  </span>├─<span class="w"> </span>Imbalance<span class="w"> </span>Detector<span class="w">          </span>│
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>│<span class="w">  </span>├─<span class="w"> </span>Candidate<span class="w"> </span>Selector<span class="w">          </span>│
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>│<span class="w">  </span>└─<span class="w"> </span>Rebalancing<span class="w"> </span>Executor<span class="w">        </span>│
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>└─────────────────────────────────┘
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>Flow<span class="w"> </span><span class="k">for</span><span class="w"> </span>New<span class="w"> </span>Topic<span class="w"> </span>Assignment:
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="m">1</span>.<span class="w"> </span>Topic<span class="w"> </span>created<span class="w"> </span>→<span class="w"> </span>Added<span class="w"> </span>to<span class="w"> </span>/unassigned/<span class="w"> </span>path
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="m">2</span>.<span class="w"> </span>Load<span class="w"> </span>Manager<span class="w"> </span><span class="o">(</span>leader<span class="o">)</span><span class="w"> </span>watches<span class="w"> </span>unassigned<span class="w"> </span>topics
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="m">3</span>.<span class="w"> </span>Calculates<span class="w"> </span>broker<span class="w"> </span>rankings<span class="w"> </span><span class="o">(</span>least<span class="w"> </span>loaded<span class="w"> </span>first<span class="o">)</span>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="m">4</span>.<span class="w"> </span>Assigns<span class="w"> </span>topic<span class="w"> </span>to<span class="w"> </span>top-ranked<span class="w"> </span>broker
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a><span class="m">5</span>.<span class="w"> </span>Broker<span class="w"> </span>receives<span class="w"> </span>assignment<span class="w"> </span>and<span class="w"> </span>loads<span class="w"> </span>topic
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>Flow<span class="w"> </span><span class="k">for</span><span class="w"> </span>Automated<span class="w"> </span>Rebalancing:
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a><span class="m">1</span>.<span class="w"> </span>Load<span class="w"> </span>Manager<span class="w"> </span>checks<span class="w"> </span>cluster<span class="w"> </span>balance<span class="w"> </span>every<span class="w"> </span>N<span class="w"> </span>minutes
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a><span class="m">2</span>.<span class="w"> </span>Calculates<span class="w"> </span>imbalance<span class="w"> </span><span class="o">(</span>coefficient<span class="w"> </span>of<span class="w"> </span>variation<span class="o">)</span>
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a><span class="m">3</span>.<span class="w"> </span>If<span class="w"> </span>CV<span class="w"> </span>&gt;<span class="w"> </span>threshold<span class="w"> </span>→<span class="w"> </span>Select<span class="w"> </span>topics<span class="w"> </span>to<span class="w"> </span>move
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a><span class="m">4</span>.<span class="w"> </span>Creates<span class="w"> </span>unassigned<span class="w"> </span>marker<span class="w"> </span>with<span class="w"> </span>target<span class="w"> </span>broker<span class="w"> </span>hint
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a><span class="m">5</span>.<span class="w"> </span>Deletes<span class="w"> </span>assignment<span class="w"> </span>from<span class="w"> </span>overloaded<span class="w"> </span>broker
+</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a><span class="m">6</span>.<span class="w"> </span>Topic<span class="w"> </span>moves<span class="w"> </span>to<span class="w"> </span>underloaded<span class="w"> </span>broker
+</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a><span class="m">7</span>.<span class="w"> </span>Records<span class="w"> </span>move<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nb">history</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>rate<span class="w"> </span>limiting
+</span></code></pre></div>
+<h3 id="component-roles">Component Roles</h3>
+<p><strong>Load Manager (Leader-Only)</strong><br />
+Centralized coordinator that assigns topics and executes rebalancing. Only the elected cluster leader runs these operations to ensure consistency.</p>
+<p><strong>Broker Load Reports</strong><br />
+Every broker publishes resource utilization metrics (CPU, memory, disk I/O, network I/O) and per-topic statistics (throughput, connections, backlog) to ETCD every 30 seconds.</p>
+<p><strong>Rankings Calculator</strong><br />
+Scores all brokers based on their current load using configurable strategies (Fair, Balanced, WeightedLoad). Lower scores mean less loaded.</p>
+<p><strong>Imbalance Detector</strong><br />
+Calculates statistical measures (coefficient of variation, standard deviation) to determine if cluster needs rebalancing.</p>
+<p><strong>Rebalancing Executor</strong><br />
+Orchestrates topic moves using graceful unload workflow. Enforces rate limits and cooldowns to prevent disruption.</p>
+<p><strong>ETCD Metadata Store</strong><br />
+Single source of truth for cluster state. Stores broker registrations, topic assignments, load reports, and rebalancing history.</p>
+<hr />
+<h2 id="core-concepts">Core Concepts</h2>
+<h3 id="brokers-and-broker-states">Brokers and Broker States</h3>
+<p>A <strong>broker</strong> is a server instance running the Danube broker process. Each broker has a unique ID and maintains:</p>
+<ul>
+<li><strong>Topic assignments</strong> - Which topics it currently serves</li>
+<li><strong>Resource metrics</strong> - CPU, memory, disk I/O, network I/O usage</li>
+<li><strong>Topic metrics</strong> - Per-topic throughput, connections, backlog</li>
+</ul>
+<p><strong>Broker states:</strong></p>
+<ul>
+<li><strong>Active</strong> - Normal operation, can receive new topics</li>
+<li><strong>Draining</strong> - Preparing to shut down, topics being unloaded</li>
+<li><strong>Drained</strong> - All topics moved, ready for removal</li>
+</ul>
+<p>Only active brokers are considered for topic assignment and rebalancing calculations.</p>
+<h3 id="load-reports">Load Reports</h3>
+<p>Every broker generates a <strong>LoadReport</strong> every 30 seconds containing:</p>
+<p><strong>System-Level Metrics:</strong></p>
+<ul>
+<li>CPU usage percentage (0-100%)</li>
+<li>Memory usage percentage (0-100%)</li>
+<li>Disk I/O throughput (bytes/second)</li>
+<li>Network I/O throughput (bytes/second)</li>
+</ul>
+<p><strong>Topic-Level Metrics:</strong></p>
+<ul>
+<li>Message rate (messages/second)</li>
+<li>Byte rate (bytes/second, converted to Mbps)</li>
+<li>Producer count</li>
+<li>Consumer count</li>
+<li>Subscription count</li>
+<li>Backlog messages</li>
+</ul>
+<p><strong>Aggregate Metrics:</strong></p>
+<ul>
+<li>Total throughput (Mbps across all topics)</li>
+<li>Total message rate</li>
+<li>Total lag/backlog</li>
+</ul>
+<p>These reports are published to ETCD where the Load Manager consumes them for ranking and rebalancing decisions.</p>
+<h3 id="broker-rankings">Broker Rankings</h3>
+<p><strong>Rankings</strong> are a sorted list of <code>(broker_id, load_score)</code> pairs ordered by load (ascending = less loaded first). The Load Manager maintains these rankings in-memory and updates them whenever new load reports arrive.</p>
+<p>Rankings determine:</p>
+<ul>
+<li>Which broker receives the next topic assignment</li>
+<li>Which brokers are overloaded (candidates for offloading)</li>
+<li>Which brokers are underloaded (candidates for receiving topics)</li>
+</ul>
+<p>The ranking algorithm is configurable (see Assignment Strategies).</p>
+<h3 id="coefficient-of-variation-cv">Coefficient of Variation (CV)</h3>
+<p>The <strong>coefficient of variation</strong> measures cluster balance:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>CV = (standard_deviation / mean_load) × 100%
+</span></code></pre></div>
+<p><strong>Interpretation:</strong></p>
+<ul>
+<li><strong>CV &lt; 20%</strong> - Excellent balance, loads are very similar</li>
+<li><strong>CV 20-30%</strong> - Good balance, acceptable variance</li>
+<li><strong>CV 30-40%</strong> - Moderate imbalance, consider rebalancing</li>
+<li><strong>CV &gt; 40%</strong> - Significant imbalance, rebalancing recommended</li>
+</ul>
+<p>The Load Manager uses CV thresholds to trigger automated rebalancing based on the configured aggressiveness level.</p>
+<h3 id="assignment-strategies">Assignment Strategies</h3>
+<p>Three strategies control how new topics are assigned:</p>
+<table>
+<thead>
+<tr>
+<th>Strategy</th>
+<th>Algorithm</th>
+<th>Best For</th>
+<th>Overhead</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Fair</strong></td>
+<td>Topic count only</td>
+<td>Development, testing, predictable placement</td>
+<td>Lowest</td>
+</tr>
+<tr>
+<td><strong>Balanced</strong></td>
+<td>Weighted: topic_load (30%) + CPU (35%) + Memory (35%)</td>
+<td>General production, mixed workloads</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td><strong>WeightedLoad</strong></td>
+<td>Adaptive bottleneck detection</td>
+<td>Variable workloads, auto-optimization</td>
+<td>Highest</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Fair Strategy:</strong><br />
+Simple topic counting. Broker with fewest topics gets the next assignment. Ignores actual resource usage and topic throughput.</p>
+<p><strong>Balanced Strategy (RECOMMENDED):</strong><br />
+Multi-factor scoring combining weighted topic load (message rate, connections, backlog) with system resources. Most reliable for production clusters.</p>
+<p><strong>WeightedLoad Strategy:</strong><br />
+Smart algorithm that detects which resource is under most pressure (CPU, memory, throughput, etc.) and prioritizes it in scoring. Adapts automatically to workload patterns.</p>
+<h3 id="rebalancing-aggressiveness">Rebalancing Aggressiveness</h3>
+<p>Three aggressiveness levels control automated rebalancing behavior:</p>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>CV Threshold</th>
+<th>Check Interval</th>
+<th>Max Moves/Hour</th>
+<th>Best For</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Conservative</strong></td>
+<td>40%</td>
+<td>10 minutes</td>
+<td>5</td>
+<td>Stable clusters, minimal disruption</td>
+</tr>
+<tr>
+<td><strong>Balanced</strong></td>
+<td>30%</td>
+<td>5 minutes</td>
+<td>10</td>
+<td>General production use</td>
+</tr>
+<tr>
+<td><strong>Aggressive</strong></td>
+<td>20%</td>
+<td>2 minutes</td>
+<td>20</td>
+<td>Fast-changing workloads, test clusters</td>
+</tr>
+</tbody>
+</table>
+<p>Higher aggressiveness means:</p>
+<ul>
+<li>More frequent balance checks</li>
+<li>Lower tolerance for imbalance</li>
+<li>More topic moves per hour</li>
+<li>Faster response to load changes</li>
+<li>Higher metadata store overhead</li>
+</ul>
+<h3 id="topic-blacklists">Topic Blacklists</h3>
+<p>Administrators can configure topic patterns that should <strong>never be rebalanced</strong>. This is useful for:</p>
+<ul>
+<li>Critical topics that must stay on specific brokers</li>
+<li>Low-latency topics where moves would cause disruption</li>
+<li>Topics with large backlogs (expensive to move)</li>
+<li>System topics used for coordination</li>
+</ul>
+<p>Blacklist patterns support wildcards:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">blacklist_topics</span><span class="p">:</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;/system/*&quot;</span><span class="w">           </span><span class="c1"># All system topics</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;/default/critical-*&quot;</span><span class="w"> </span><span class="c1"># Critical workload topics</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;/analytics/logs&quot;</span><span class="w">     </span><span class="c1"># Specific high-volume topic</span>
+</span></code></pre></div>
+<hr />
+<h2 id="how-it-works-topic-assignment">How It Works: Topic Assignment</h2>
+<p>When a new topic is created, it must be assigned to a broker. This process ensures the topic lands on the broker best suited to handle it.</p>
+<h3 id="step-by-step-flow">Step-by-Step Flow</h3>
+<p><strong>1. Topic Creation</strong></p>
+<p>A producer creates a topic by sending a message to a topic that doesn't exist yet. The broker creates the topic metadata in ETCD under <code>/topics/{namespace}/{topic}</code>.</p>
+<p><strong>2. Unassigned Entry Creation</strong></p>
+<p>The broker creates an entry in ETCD at:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>/cluster/unassigned/<span class="o">{</span>namespace<span class="o">}</span>/<span class="o">{</span>topic<span class="o">}</span>
+</span></code></pre></div>
+<p>This signals to the Load Manager that a topic needs assignment. The value is empty (no marker data).</p>
+<p><strong>3. Load Manager Detection</strong></p>
+<p>The Load Manager (running on the leader broker) watches the <code>/cluster/unassigned/</code> path. When a new entry appears, it triggers the assignment workflow.</p>
+<p><strong>4. Rankings Calculation</strong></p>
+<p>The Load Manager retrieves the latest load reports for all active brokers and calculates rankings using the configured strategy:</p>
+<p><strong>Fair Strategy:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nv">score</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>topic_count
+</span></code></pre></div>
+<p><strong>Balanced Strategy:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nv">weighted_topic_load</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">(</span>count<span class="w"> </span>×<span class="w"> </span><span class="m">0</span>.2<span class="w"> </span>+<span class="w"> </span>throughput<span class="w"> </span>×<span class="w"> </span><span class="m">0</span>.3<span class="w"> </span>+<span class="w"> </span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">                       </span>connections<span class="w"> </span>×<span class="w"> </span><span class="m">0</span>.3<span class="w"> </span>+<span class="w"> </span>backlog<span class="w"> </span>×<span class="w"> </span><span class="m">0</span>.2<span class="o">)</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="nv">score</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">(</span>weighted_topic_load<span class="w"> </span>×<span class="w"> </span><span class="m">0</span>.3<span class="o">)</span><span class="w"> </span>+<span class="w"> </span><span class="o">(</span>CPU<span class="w"> </span>×<span class="w"> </span><span class="m">0</span>.35<span class="o">)</span><span class="w"> </span>+<span class="w"> </span><span class="o">(</span>Memory<span class="w"> </span>×<span class="w"> </span><span class="m">0</span>.35<span class="o">)</span>
+</span></code></pre></div>
+<p><strong>WeightedLoad Strategy:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="m">1</span>.<span class="w"> </span>Normalize<span class="w"> </span>all<span class="w"> </span>metrics<span class="w"> </span><span class="o">(</span><span class="m">0</span>.0<span class="w"> </span>to<span class="w"> </span><span class="m">1</span>.0<span class="o">)</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="m">2</span>.<span class="w"> </span>Find<span class="w"> </span>bottleneck<span class="w"> </span><span class="o">(</span>max<span class="w"> </span>utilization<span class="w"> </span>metric<span class="o">)</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="m">3</span>.<span class="w"> </span>If<span class="w"> </span>bottleneck<span class="w"> </span>&gt;<span class="w"> </span><span class="m">70</span>%<span class="w"> </span>→<span class="w"> </span>Weight<span class="w"> </span>it<span class="w"> </span>heavily<span class="w"> </span><span class="o">(</span><span class="m">50</span>%<span class="o">)</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="m">4</span>.<span class="w"> </span>Otherwise<span class="w"> </span>→<span class="w"> </span>Balance<span class="w"> </span>evenly<span class="w"> </span><span class="o">(</span><span class="m">25</span>%<span class="w"> </span>each<span class="w"> </span>metric<span class="o">)</span>
+</span></code></pre></div>
+<p>Brokers are sorted by score (ascending), so the least loaded broker appears first.</p>
+<p><strong>5. Broker Selection</strong></p>
+<p>The Load Manager selects brokers from the top of the rankings (lowest scores). To prevent all assignments going to one broker when multiple brokers have similar loads, it uses <strong>round-robin within threshold</strong>:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="m">1</span>.<span class="w"> </span>Get<span class="w"> </span>minimum<span class="w"> </span>score<span class="w"> </span>from<span class="w"> </span>rankings
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="m">2</span>.<span class="w"> </span>Find<span class="w"> </span>all<span class="w"> </span>brokers<span class="w"> </span>within<span class="w"> </span><span class="m">10</span>%<span class="w"> </span>of<span class="w"> </span>minimum<span class="w"> </span>score
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="m">3</span>.<span class="w"> </span>Round-robin<span class="w"> </span>through<span class="w"> </span>these<span class="w"> </span>candidates
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="m">4</span>.<span class="w"> </span>Track<span class="w"> </span>last<span class="w"> </span>selected<span class="w"> </span>broker<span class="w"> </span>to<span class="w"> </span>ensure<span class="w"> </span>rotation
+</span></code></pre></div>
+<p>This ensures even distribution when brokers have comparable loads.</p>
+<p><strong>6. Assignment Creation</strong></p>
+<p>The Load Manager writes the assignment to ETCD:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>/cluster/brokers/<span class="o">{</span>broker_id<span class="o">}</span>/<span class="o">{</span>namespace<span class="o">}</span>/<span class="o">{</span>topic<span class="o">}</span><span class="w"> </span>→<span class="w"> </span>null
+</span></code></pre></div>
+<p>The target broker watches this path and receives the assignment event.</p>
+<p><strong>7. Topic Loading</strong></p>
+<p>The target broker:</p>
+<ol>
+<li>Creates the topic instance locally</li>
+<li>Initializes subscriptions and storage</li>
+<li>Begins accepting producer connections</li>
+<li>Starts reporting topic metrics in load reports</li>
+</ol>
+<p><strong>8. Cleanup</strong></p>
+<p>The Load Manager deletes the unassigned entry:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>DELETE<span class="w"> </span>/cluster/unassigned/<span class="o">{</span>namespace<span class="o">}</span>/<span class="o">{</span>topic<span class="o">}</span>
+</span></code></pre></div>
+<p>This prevents duplicate assignments.</p>
+<p><strong>9. Internal State Update</strong></p>
+<p>The Load Manager updates its in-memory broker usage map:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>brokers_usage<span class="o">[</span>broker_id<span class="o">]</span>.topics.push<span class="o">(</span>new_topic_placeholder<span class="o">)</span>
+</span></code></pre></div>
+<p>This ensures the next assignment sees the updated load, even before the broker's next load report arrives.</p>
+<h3 id="assignment-visualization">Assignment Visualization</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>New<span class="w"> </span>Topic<span class="w"> </span>Created
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">       </span>│
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">       </span>▼
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">  </span>┌─────────────────┐
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">  </span>│<span class="w"> </span>/topics/ns/top<span class="w">  </span>│<span class="w">  </span>Topic<span class="w"> </span>metadata<span class="w"> </span>created
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">  </span>└─────────────────┘
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="w">       </span>│
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="w">       </span>▼
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="w">  </span>┌─────────────────┐
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="w">  </span>│<span class="w"> </span>/unassigned/...<span class="w"> </span>│<span class="w">  </span>Unassigned<span class="w"> </span>marker<span class="w"> </span>created
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="w">  </span>└─────────────────┘
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="w">       </span>│
+</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="w">       </span>│<span class="w"> </span>Watch<span class="w"> </span>event
+</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="w">       </span>▼
+</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a><span class="w">  </span>┌──────────────────────────────────────┐
+</span><span id="__span-11-16"><a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a><span class="w">  </span>│<span class="w">        </span>Load<span class="w"> </span>Manager<span class="w"> </span><span class="o">(</span>Leader<span class="o">)</span><span class="w">         </span>│
+</span><span id="__span-11-17"><a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a><span class="w">  </span>│<span class="w">                                      </span>│
+</span><span id="__span-11-18"><a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a><span class="w">  </span>│<span class="w">  </span><span class="m">1</span>.<span class="w"> </span>Read<span class="w"> </span>load<span class="w"> </span>reports<span class="w"> </span>from<span class="w"> </span>ETCD<span class="w">     </span>│
+</span><span id="__span-11-19"><a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a><span class="w">  </span>│<span class="w">  </span><span class="m">2</span>.<span class="w"> </span>Calculate<span class="w"> </span>broker<span class="w"> </span>rankings<span class="w">        </span>│
+</span><span id="__span-11-20"><a id="__codelineno-11-20" name="__codelineno-11-20" href="#__codelineno-11-20"></a><span class="w">  </span>│<span class="w">     </span>Broker<span class="w"> </span><span class="m">1</span>:<span class="w"> </span><span class="nv">score</span><span class="o">=</span><span class="m">20</span><span class="w">  </span>←<span class="w"> </span>least<span class="w">     </span>│
+</span><span id="__span-11-21"><a id="__codelineno-11-21" name="__codelineno-11-21" href="#__codelineno-11-21"></a><span class="w">  </span>│<span class="w">     </span>Broker<span class="w"> </span><span class="m">2</span>:<span class="w"> </span><span class="nv">score</span><span class="o">=</span><span class="m">25</span><span class="w">              </span>│
+</span><span id="__span-11-22"><a id="__codelineno-11-22" name="__codelineno-11-22" href="#__codelineno-11-22"></a><span class="w">  </span>│<span class="w">     </span>Broker<span class="w"> </span><span class="m">3</span>:<span class="w"> </span><span class="nv">score</span><span class="o">=</span><span class="m">45</span><span class="w">  </span>←<span class="w"> </span>most<span class="w">      </span>│
+</span><span id="__span-11-23"><a id="__codelineno-11-23" name="__codelineno-11-23" href="#__codelineno-11-23"></a><span class="w">  </span>│<span class="w">  </span><span class="m">3</span>.<span class="w"> </span>Select<span class="w"> </span>Broker<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">(</span>round-robin<span class="o">)</span><span class="w">   </span>│
+</span><span id="__span-11-24"><a id="__codelineno-11-24" name="__codelineno-11-24" href="#__codelineno-11-24"></a><span class="w">  </span>└──────────────────────────────────────┘
+</span><span id="__span-11-25"><a id="__codelineno-11-25" name="__codelineno-11-25" href="#__codelineno-11-25"></a><span class="w">       </span>│
+</span><span id="__span-11-26"><a id="__codelineno-11-26" name="__codelineno-11-26" href="#__codelineno-11-26"></a><span class="w">       </span>▼
+</span><span id="__span-11-27"><a id="__codelineno-11-27" name="__codelineno-11-27" href="#__codelineno-11-27"></a><span class="w">  </span>┌─────────────────────┐
+</span><span id="__span-11-28"><a id="__codelineno-11-28" name="__codelineno-11-28" href="#__codelineno-11-28"></a><span class="w">  </span>│<span class="w"> </span>/brokers/1/ns/top<span class="w">   </span>│<span class="w">  </span>Assignment<span class="w"> </span>created
+</span><span id="__span-11-29"><a id="__codelineno-11-29" name="__codelineno-11-29" href="#__codelineno-11-29"></a><span class="w">  </span>└─────────────────────┘
+</span><span id="__span-11-30"><a id="__codelineno-11-30" name="__codelineno-11-30" href="#__codelineno-11-30"></a><span class="w">       </span>│
+</span><span id="__span-11-31"><a id="__codelineno-11-31" name="__codelineno-11-31" href="#__codelineno-11-31"></a><span class="w">       </span>│<span class="w"> </span>Watch<span class="w"> </span>event
+</span><span id="__span-11-32"><a id="__codelineno-11-32" name="__codelineno-11-32" href="#__codelineno-11-32"></a><span class="w">       </span>▼
+</span><span id="__span-11-33"><a id="__codelineno-11-33" name="__codelineno-11-33" href="#__codelineno-11-33"></a><span class="w">  </span>┌─────────────────┐
+</span><span id="__span-11-34"><a id="__codelineno-11-34" name="__codelineno-11-34" href="#__codelineno-11-34"></a><span class="w">  </span>│<span class="w">   </span>Broker<span class="w"> </span><span class="m">1</span><span class="w">      </span>│<span class="w">  </span>Loads<span class="w"> </span>topic,<span class="w"> </span>starts<span class="w"> </span>serving
+</span><span id="__span-11-35"><a id="__codelineno-11-35" name="__codelineno-11-35" href="#__codelineno-11-35"></a><span class="w">  </span>└─────────────────┘
+</span><span id="__span-11-36"><a id="__codelineno-11-36" name="__codelineno-11-36" href="#__codelineno-11-36"></a><span class="w">       </span>│
+</span><span id="__span-11-37"><a id="__codelineno-11-37" name="__codelineno-11-37" href="#__codelineno-11-37"></a><span class="w">       </span>▼
+</span><span id="__span-11-38"><a id="__codelineno-11-38" name="__codelineno-11-38" href="#__codelineno-11-38"></a><span class="w">  </span>┌─────────────────┐
+</span><span id="__span-11-39"><a id="__codelineno-11-39" name="__codelineno-11-39" href="#__codelineno-11-39"></a><span class="w">  </span>│<span class="w"> </span>DELETE<span class="w"> </span>/unassigned/...<span class="w"> </span>│<span class="w">  </span>Cleanup
+</span><span id="__span-11-40"><a id="__codelineno-11-40" name="__codelineno-11-40" href="#__codelineno-11-40"></a><span class="w">  </span>└─────────────────┘
+</span></code></pre></div>
+<h3 id="special-cases">Special Cases</h3>
+<p><strong>Broker Unload (Manual):</strong><br />
+When an administrator unloads a broker, topics create unassigned markers with:</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="p">{</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span><span class="nt">&quot;reason&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;unload&quot;</span><span class="p">,</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">  </span><span class="nt">&quot;from_broker&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">12345</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>The Load Manager excludes the source broker when selecting the target.</p>
+<p><strong>Broker Failure:</strong><br />
+When a broker crashes, the leader detects the registration deletion in ETCD and:</p>
+<ol>
+<li>Deletes all assignments from the failed broker</li>
+<li>Creates unassigned markers for all topics (no hint)</li>
+<li>Normal assignment workflow reassigns topics to healthy brokers</li>
+</ol>
+<p><strong>All Brokers Equally Loaded:</strong><br />
+When all brokers have identical scores, the Load Manager uses stable round-robin rotation to distribute topics evenly.</p>
+<hr />
+<h2 id="how-it-works-automated-rebalancing">How It Works: Automated Rebalancing</h2>
+<p>As workloads change over time, clusters can become imbalanced. Some brokers handle more traffic than others, leading to hotspots and inefficiency. Automated rebalancing solves this by continuously monitoring cluster health and moving topics to restore balance.</p>
+<h3 id="rebalancing-lifecycle">Rebalancing Lifecycle</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>┌──────────────────────────────────────────────────────────────┐
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>│<span class="w">                  </span>Rebalancing<span class="w"> </span>Loop<span class="w"> </span><span class="o">(</span>Leader<span class="o">)</span><span class="w">                    </span>│
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>│<span class="w">                                                               </span>│
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>│<span class="w">  </span>Every<span class="w"> </span>N<span class="w"> </span>minutes<span class="w"> </span><span class="o">(</span>configured<span class="w"> </span>by<span class="w"> </span>check_interval<span class="o">)</span>:<span class="w">             </span>│
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>│<span class="w">                                                               </span>│
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>│<span class="w">  </span><span class="m">1</span>.<span class="w"> </span>Check<span class="w"> </span>Leadership<span class="w">                                          </span>│
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>│<span class="w">     </span>├─<span class="w"> </span>If<span class="w"> </span>follower<span class="w"> </span>→<span class="w"> </span>Skip<span class="w"> </span>cycle<span class="w">                              </span>│
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>│<span class="w">     </span>└─<span class="w"> </span>If<span class="w"> </span>leader<span class="w"> </span>→<span class="w"> </span>Continue<span class="w">                                   </span>│
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>│<span class="w">                                                               </span>│
+</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>│<span class="w">  </span><span class="m">2</span>.<span class="w"> </span>Check<span class="w"> </span>Configuration<span class="w">                                       </span>│
+</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>│<span class="w">     </span>├─<span class="w"> </span>If<span class="w"> </span>rebalancing<span class="w"> </span>disabled<span class="w"> </span>→<span class="w"> </span>Skip<span class="w"> </span>cycle<span class="w">                  </span>│
+</span><span id="__span-13-12"><a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>│<span class="w">     </span>└─<span class="w"> </span>If<span class="w"> </span>enabled<span class="w"> </span>→<span class="w"> </span>Continue<span class="w">                                  </span>│
+</span><span id="__span-13-13"><a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>│<span class="w">                                                               </span>│
+</span><span id="__span-13-14"><a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a>│<span class="w">  </span><span class="m">3</span>.<span class="w"> </span>Check<span class="w"> </span>Cluster<span class="w"> </span>Health<span class="w">                                      </span>│
+</span><span id="__span-13-15"><a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a>│<span class="w">     </span>├─<span class="w"> </span>If<span class="w"> </span>&lt;<span class="w"> </span><span class="m">2</span><span class="w"> </span>brokers<span class="w"> </span>→<span class="w"> </span>Skip<span class="w"> </span>cycle<span class="w">                          </span>│
+</span><span id="__span-13-16"><a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a>│<span class="w">     </span>└─<span class="w"> </span>If<span class="w"> </span>&gt;<span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="w"> </span>brokers<span class="w"> </span>→<span class="w"> </span>Continue<span class="w">                            </span>│
+</span><span id="__span-13-17"><a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a>│<span class="w">                                                               </span>│
+</span><span id="__span-13-18"><a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a>│<span class="w">  </span><span class="m">4</span>.<span class="w"> </span>Calculate<span class="w"> </span>Imbalance<span class="w"> </span>Metrics<span class="w">                               </span>│
+</span><span id="__span-13-19"><a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a>│<span class="w">     </span>├─<span class="w"> </span>Get<span class="w"> </span>broker<span class="w"> </span>rankings<span class="w">                                    </span>│
+</span><span id="__span-13-20"><a id="__codelineno-13-20" name="__codelineno-13-20" href="#__codelineno-13-20"></a>│<span class="w">     </span>├─<span class="w"> </span>Calculate<span class="w"> </span>mean,<span class="w"> </span>std_deviation,<span class="w"> </span>CV<span class="w">                     </span>│
+</span><span id="__span-13-21"><a id="__codelineno-13-21" name="__codelineno-13-21" href="#__codelineno-13-21"></a>│<span class="w">     </span>└─<span class="w"> </span>Identify<span class="w"> </span>overloaded/underloaded<span class="w"> </span>brokers<span class="w">               </span>│
+</span><span id="__span-13-22"><a id="__codelineno-13-22" name="__codelineno-13-22" href="#__codelineno-13-22"></a>│<span class="w">                                                               </span>│
+</span><span id="__span-13-23"><a id="__codelineno-13-23" name="__codelineno-13-23" href="#__codelineno-13-23"></a>│<span class="w">  </span><span class="m">5</span>.<span class="w"> </span>Decide<span class="w"> </span>If<span class="w"> </span>Rebalancing<span class="w"> </span>Needed<span class="w">                             </span>│
+</span><span id="__span-13-24"><a id="__codelineno-13-24" name="__codelineno-13-24" href="#__codelineno-13-24"></a>│<span class="w">     </span>├─<span class="w"> </span>If<span class="w"> </span>CV<span class="w"> </span>&lt;<span class="w"> </span>threshold<span class="w"> </span>→<span class="w"> </span>Cluster<span class="w"> </span>balanced,<span class="w"> </span>skip<span class="w">            </span>│
+</span><span id="__span-13-25"><a id="__codelineno-13-25" name="__codelineno-13-25" href="#__codelineno-13-25"></a>│<span class="w">     </span>└─<span class="w"> </span>If<span class="w"> </span>CV<span class="w"> </span>&gt;<span class="w"> </span>threshold<span class="w"> </span>→<span class="w"> </span>Continue<span class="w">                          </span>│
+</span><span id="__span-13-26"><a id="__codelineno-13-26" name="__codelineno-13-26" href="#__codelineno-13-26"></a>│<span class="w">                                                               </span>│
+</span><span id="__span-13-27"><a id="__codelineno-13-27" name="__codelineno-13-27" href="#__codelineno-13-27"></a>│<span class="w">  </span><span class="m">6</span>.<span class="w"> </span>Select<span class="w"> </span>Topics<span class="w"> </span>to<span class="w"> </span>Move<span class="w">                                     </span>│
+</span><span id="__span-13-28"><a id="__codelineno-13-28" name="__codelineno-13-28" href="#__codelineno-13-28"></a>│<span class="w">     </span>├─<span class="w"> </span>For<span class="w"> </span>each<span class="w"> </span>overloaded<span class="w"> </span>broker<span class="w">                            </span>│
+</span><span id="__span-13-29"><a id="__codelineno-13-29" name="__codelineno-13-29" href="#__codelineno-13-29"></a>│<span class="w">     </span>├─<span class="w"> </span>Filter<span class="w"> </span>blacklisted<span class="w"> </span>topics<span class="w">                             </span>│
+</span><span id="__span-13-30"><a id="__codelineno-13-30" name="__codelineno-13-30" href="#__codelineno-13-30"></a>│<span class="w">     </span>├─<span class="w"> </span>Filter<span class="w"> </span>recently<span class="w"> </span>moved<span class="w"> </span>topics<span class="w"> </span><span class="o">(</span>cooldown<span class="o">)</span><span class="w">               </span>│
+</span><span id="__span-13-31"><a id="__codelineno-13-31" name="__codelineno-13-31" href="#__codelineno-13-31"></a>│<span class="w">     </span>├─<span class="w"> </span>Filter<span class="w"> </span>topics<span class="w"> </span>too<span class="w"> </span>young<span class="w"> </span><span class="o">(</span>min_topic_age<span class="o">)</span><span class="w">               </span>│
+</span><span id="__span-13-32"><a id="__codelineno-13-32" name="__codelineno-13-32" href="#__codelineno-13-32"></a>│<span class="w">     </span>├─<span class="w"> </span>Sort<span class="w"> </span>by<span class="w"> </span>load<span class="w"> </span><span class="o">(</span>lightest<span class="w"> </span>first<span class="o">)</span><span class="w">                         </span>│
+</span><span id="__span-13-33"><a id="__codelineno-13-33" name="__codelineno-13-33" href="#__codelineno-13-33"></a>│<span class="w">     </span>└─<span class="w"> </span>Select<span class="w"> </span>lightest<span class="w"> </span>topic<span class="w">                                 </span>│
+</span><span id="__span-13-34"><a id="__codelineno-13-34" name="__codelineno-13-34" href="#__codelineno-13-34"></a>│<span class="w">                                                               </span>│
+</span><span id="__span-13-35"><a id="__codelineno-13-35" name="__codelineno-13-35" href="#__codelineno-13-35"></a>│<span class="w">  </span><span class="m">7</span>.<span class="w"> </span>Select<span class="w"> </span>Target<span class="w"> </span>Brokers<span class="w">                                     </span>│
+</span><span id="__span-13-36"><a id="__codelineno-13-36" name="__codelineno-13-36" href="#__codelineno-13-36"></a>│<span class="w">     </span>├─<span class="w"> </span>Find<span class="w"> </span>underloaded<span class="w"> </span>brokers<span class="w"> </span>from<span class="w"> </span>rankings<span class="w">                </span>│
+</span><span id="__span-13-37"><a id="__codelineno-13-37" name="__codelineno-13-37" href="#__codelineno-13-37"></a>│<span class="w">     </span>├─<span class="w"> </span>Exclude<span class="w"> </span><span class="nb">source</span><span class="w"> </span>broker<span class="w">                                 </span>│
+</span><span id="__span-13-38"><a id="__codelineno-13-38" name="__codelineno-13-38" href="#__codelineno-13-38"></a>│<span class="w">     </span>└─<span class="w"> </span>Select<span class="w"> </span>least<span class="w"> </span>loaded<span class="w"> </span>active<span class="w"> </span>broker<span class="w">                     </span>│
+</span><span id="__span-13-39"><a id="__codelineno-13-39" name="__codelineno-13-39" href="#__codelineno-13-39"></a>│<span class="w">                                                               </span>│
+</span><span id="__span-13-40"><a id="__codelineno-13-40" name="__codelineno-13-40" href="#__codelineno-13-40"></a>│<span class="w">  </span><span class="m">8</span>.<span class="w"> </span>Execute<span class="w"> </span>Rebalancing<span class="w"> </span>Moves<span class="w">                                 </span>│
+</span><span id="__span-13-41"><a id="__codelineno-13-41" name="__codelineno-13-41" href="#__codelineno-13-41"></a>│<span class="w">     </span>├─<span class="w"> </span>Check<span class="w"> </span>rate<span class="w"> </span>limit<span class="w"> </span><span class="o">(</span>max_moves_per_hour<span class="o">)</span><span class="w">                </span>│
+</span><span id="__span-13-42"><a id="__codelineno-13-42" name="__codelineno-13-42" href="#__codelineno-13-42"></a>│<span class="w">     </span>├─<span class="w"> </span>Create<span class="w"> </span>unassigned<span class="w"> </span>marker<span class="w"> </span>with<span class="w"> </span>target<span class="w"> </span>hint<span class="w">             </span>│
+</span><span id="__span-13-43"><a id="__codelineno-13-43" name="__codelineno-13-43" href="#__codelineno-13-43"></a>│<span class="w">     </span>├─<span class="w"> </span>Delete<span class="w"> </span>assignment<span class="w"> </span>from<span class="w"> </span><span class="nb">source</span><span class="w"> </span>broker<span class="w">                  </span>│
+</span><span id="__span-13-44"><a id="__codelineno-13-44" name="__codelineno-13-44" href="#__codelineno-13-44"></a>│<span class="w">     </span>├─<span class="w"> </span>Wait<span class="w"> </span><span class="k">for</span><span class="w"> </span>topic<span class="w"> </span>reassignment<span class="w">                           </span>│
+</span><span id="__span-13-45"><a id="__codelineno-13-45" name="__codelineno-13-45" href="#__codelineno-13-45"></a>│<span class="w">     </span>├─<span class="w"> </span>Record<span class="w"> </span>move<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="nb">history</span><span class="w">                                </span>│
+</span><span id="__span-13-46"><a id="__codelineno-13-46" name="__codelineno-13-46" href="#__codelineno-13-46"></a>│<span class="w">     </span>├─<span class="w"> </span>Apply<span class="w"> </span>cooldown<span class="w"> </span>delay<span class="w">                                  </span>│
+</span><span id="__span-13-47"><a id="__codelineno-13-47" name="__codelineno-13-47" href="#__codelineno-13-47"></a>│<span class="w">     </span>└─<span class="w"> </span>Repeat<span class="w"> </span><span class="k">for</span><span class="w"> </span>next<span class="w"> </span>move<span class="w">                                  </span>│
+</span><span id="__span-13-48"><a id="__codelineno-13-48" name="__codelineno-13-48" href="#__codelineno-13-48"></a>│<span class="w">                                                               </span>│
+</span><span id="__span-13-49"><a id="__codelineno-13-49" name="__codelineno-13-49" href="#__codelineno-13-49"></a>│<span class="w">  </span><span class="m">9</span>.<span class="w"> </span>Update<span class="w"> </span>Metrics<span class="w"> </span><span class="p">&amp;</span><span class="w"> </span>Logs<span class="w">                                     </span>│
+</span><span id="__span-13-50"><a id="__codelineno-13-50" name="__codelineno-13-50" href="#__codelineno-13-50"></a>│<span class="w">     </span>└─<span class="w"> </span>Log<span class="w"> </span>cycle<span class="w"> </span>completion<span class="w"> </span>and<span class="w"> </span>move<span class="w"> </span>count<span class="w">                   </span>│
+</span><span id="__span-13-51"><a id="__codelineno-13-51" name="__codelineno-13-51" href="#__codelineno-13-51"></a>└──────────────────────────────────────────────────────────────┘
+</span></code></pre></div>
+<h3 id="imbalance-detection">Imbalance Detection</h3>
+<p>The Load Manager calculates statistical measures to determine if rebalancing is needed:</p>
+<p><strong>Metrics Calculated:</strong></p>
+<ul>
+<li><strong>Mean load</strong> - Average load across all active brokers</li>
+<li><strong>Standard deviation</strong> - Spread of loads around the mean</li>
+<li><strong>Coefficient of variation (CV)</strong> - <code>(std_dev / mean) × 100%</code></li>
+<li><strong>Max load</strong> - Highest loaded broker</li>
+<li><strong>Min load</strong> - Lowest loaded broker</li>
+</ul>
+<p><strong>Broker Classification:</strong></p>
+<ul>
+<li><strong>Overloaded</strong> - Load &gt; (mean + 1 std_dev)</li>
+<li><strong>Underloaded</strong> - Load &lt; (mean - 1 std_dev) AND load &lt; (mean × 0.5)</li>
+<li><strong>Normal</strong> - Between overloaded and underloaded</li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>Broker<span class="w"> </span><span class="m">1</span>:<span class="w"> </span><span class="nv">load</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">45</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>Broker<span class="w"> </span><span class="m">2</span>:<span class="w"> </span><span class="nv">load</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">30</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>Broker<span class="w"> </span><span class="m">3</span>:<span class="w"> </span><span class="nv">load</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">25</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="nv">mean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">33</span>.33
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="nv">std_dev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span>.50
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="nv">CV</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">(</span><span class="m">8</span>.50<span class="w"> </span>/<span class="w"> </span><span class="m">33</span>.33<span class="o">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.255<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">25</span>.5%
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>
+</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>Overloaded:<span class="w"> </span>load<span class="w"> </span>&gt;<span class="w"> </span><span class="m">41</span>.83<span class="w"> </span>→<span class="w"> </span>Broker<span class="w"> </span><span class="m">1</span>
+</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>Underloaded:<span class="w"> </span>load<span class="w"> </span>&lt;<span class="w"> </span><span class="m">25</span>.00<span class="w"> </span>AND<span class="w"> </span>load<span class="w"> </span>&lt;<span class="w"> </span><span class="m">16</span>.67<span class="w"> </span>→<span class="w"> </span>None
+</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>Normal:<span class="w"> </span>Broker<span class="w"> </span><span class="m">2</span>,<span class="w"> </span>Broker<span class="w"> </span><span class="m">3</span>
+</span></code></pre></div>
+<p>If <code>CV &gt; threshold</code> (based on aggressiveness level), rebalancing is triggered.</p>
+<h3 id="candidate-selection">Candidate Selection</h3>
+<p>Once imbalance is detected, the Load Manager selects topics to move:</p>
+<p><strong>Selection Criteria:</strong></p>
+<ol>
+<li><strong>Source brokers</strong> - Only overloaded brokers (load &gt; mean + std_dev)</li>
+<li><strong>Topic age</strong> - Skip topics younger than <code>min_topic_age_seconds</code> (default 5 minutes)</li>
+<li><strong>Blacklist</strong> - Skip topics matching blacklist patterns</li>
+<li><strong>Cooldown</strong> - Skip topics moved in the last <code>cooldown_seconds</code> (default 60 seconds)</li>
+<li><strong>Load score</strong> - Prefer lightest topics (easier to move, less disruption)</li>
+</ol>
+<p><strong>Topic Load Scoring:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nv">load_score</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">(</span>topic_count<span class="w"> </span>×<span class="w"> </span><span class="m">0</span>.2<span class="o">)</span><span class="w"> </span>+<span class="w"> </span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">             </span><span class="o">(</span>throughput_mbps<span class="w"> </span>×<span class="w"> </span><span class="m">0</span>.3<span class="o">)</span><span class="w"> </span>+<span class="w"> </span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">             </span><span class="o">(</span>connections<span class="w"> </span>×<span class="w"> </span><span class="m">0</span>.3<span class="o">)</span><span class="w"> </span>+<span class="w"> </span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">             </span><span class="o">(</span>backlog/10000<span class="w"> </span>×<span class="w"> </span><span class="m">0</span>.2<span class="o">)</span>
+</span></code></pre></div>
+<p>Topics are sorted by score (ascending), and the lightest topic is selected first.</p>
+<p><strong>Move Limits:</strong></p>
+<ul>
+<li>Maximum 1 topic moved per rebalancing cycle (single-move design)</li>
+<li>Maximum N moves per hour (rate limiting, configurable)</li>
+<li>Cooldown delay between individual moves (prevents oscillations)</li>
+</ul>
+<h3 id="target-broker-selection">Target Broker Selection</h3>
+<p>For each topic to move, the Load Manager selects a target broker:</p>
+<ol>
+<li><strong>Get rankings</strong> - Sorted list of brokers by load (ascending)</li>
+<li><strong>Filter active</strong> - Exclude brokers in draining/drained state</li>
+<li><strong>Exclude source</strong> - Can't move topic to same broker</li>
+<li><strong>Select first</strong> - Pick the least loaded broker meeting criteria</li>
+</ol>
+<p>If no suitable target exists (e.g., only one broker active), the move is skipped with a warning.</p>
+<h3 id="move-execution">Move Execution</h3>
+<p>The Load Manager executes moves using the existing graceful unload workflow:</p>
+<p><strong>Step 1: Create Unassigned Marker</strong></p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="err">Pa</span><span class="kc">t</span><span class="err">h</span><span class="p">:</span><span class="w"> </span><span class="err">/clus</span><span class="kc">ter</span><span class="err">/u</span><span class="kc">nass</span><span class="err">ig</span><span class="kc">ne</span><span class="err">d/</span><span class="p">{</span><span class="kc">na</span><span class="err">mespace</span><span class="p">}</span><span class="err">/</span><span class="p">{</span><span class="kc">t</span><span class="err">opic</span><span class="p">}</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="err">Value</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">  </span><span class="nt">&quot;reason&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rebalance&quot;</span><span class="p">,</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="w">  </span><span class="nt">&quot;from_broker&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">12345</span><span class="p">,</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="w">  </span><span class="nt">&quot;to_broker&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">67890</span><span class="p">,</span>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="w">  </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1234567890</span>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>The <code>to_broker</code> hint tells the assignment logic to prefer broker 67890 (if active).</p>
+<p><strong>Step 2: Delete Source Assignment</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>DELETE<span class="w"> </span>/cluster/brokers/12345/<span class="o">{</span>namespace<span class="o">}</span>/<span class="o">{</span>topic<span class="o">}</span>
+</span></code></pre></div>
+<p>This triggers the source broker's topic watcher, which:</p>
+<ol>
+<li>Seals the topic (no new producers)</li>
+<li>Drains in-flight messages</li>
+<li>Unloads the topic from memory</li>
+<li>Releases resources</li>
+</ol>
+<p><strong>Step 3: Target Receives Assignment</strong></p>
+<p>The Load Manager's assignment logic sees the unassigned marker and:</p>
+<ol>
+<li>Checks if target broker (67890) is active</li>
+<li>If active → Assign to target broker (respecting hint)</li>
+<li>If not active → Select alternative broker from rankings</li>
+</ol>
+<p><strong>Step 4: Topic Loads on Target</strong></p>
+<p>The target broker:</p>
+<ol>
+<li>Receives assignment from ETCD watch</li>
+<li>Loads topic metadata</li>
+<li>Initializes subscriptions</li>
+<li>Accepts producer reconnections</li>
+<li>Begins serving traffic</li>
+</ol>
+<p><strong>Step 5: Record Move in History</strong></p>
+<p>The Load Manager records the move:</p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="err">Pa</span><span class="kc">t</span><span class="err">h</span><span class="p">:</span><span class="w"> </span><span class="err">/clus</span><span class="kc">ter</span><span class="err">/rebala</span><span class="kc">n</span><span class="err">ci</span><span class="kc">n</span><span class="err">g_his</span><span class="kc">t</span><span class="err">ory/</span><span class="p">{</span><span class="kc">t</span><span class="err">imes</span><span class="kc">ta</span><span class="err">mp</span><span class="p">}</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="err">Value</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">  </span><span class="nt">&quot;topic&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/default/my-topic&quot;</span><span class="p">,</span>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="w">  </span><span class="nt">&quot;from_broker&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">12345</span><span class="p">,</span>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="w">  </span><span class="nt">&quot;to_broker&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">67890</span><span class="p">,</span>
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="w">  </span><span class="nt">&quot;reason&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;LoadImbalance&quot;</span><span class="p">,</span>
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="w">  </span><span class="nt">&quot;estimated_load&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">15.3</span><span class="p">,</span>
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a><span class="w">  </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1234567890</span>
+</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>This history is used for:</p>
+<ul>
+<li>Rate limiting (counting moves in last hour)</li>
+<li>Cooldown enforcement (preventing rapid re-moves)</li>
+<li>Audit trail (troubleshooting and analysis)</li>
+<li>Metrics (tracking rebalancing activity)</li>
+</ul>
+<p><strong>Step 6: Cooldown Delay</strong></p>
+<p>After a successful move, the Load Manager waits for <code>cooldown_seconds</code> before the next move. This prevents:</p>
+<ul>
+<li>Rapid oscillations (topic bouncing between brokers)</li>
+<li>Metadata store overload (too many writes)</li>
+<li>Cluster instability (constant topic movements)</li>
+</ul>
+<h3 id="rebalancing-visualization">Rebalancing Visualization</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>Imbalance<span class="w"> </span>Detected<span class="w"> </span><span class="o">(</span>CV<span class="w"> </span>&gt;<span class="w"> </span>threshold<span class="o">)</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="w">       </span>│
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="w">       </span>▼
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="w">  </span>┌──────────────────────────────────┐
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="w">  </span>│<span class="w">  </span>Select<span class="w"> </span>Topics<span class="w"> </span>to<span class="w"> </span>Move<span class="w">           </span>│
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="w">  </span>│<span class="w">                                  </span>│
+</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="w">  </span>│<span class="w">  </span>Broker<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">(</span>overloaded<span class="o">)</span>:<span class="w">         </span>│
+</span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a><span class="w">  </span>│<span class="w">    </span>├─<span class="w"> </span>topic-A:<span class="w"> </span><span class="nv">load</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span>.2<span class="w">       </span>│
+</span><span id="__span-19-9"><a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a><span class="w">  </span>│<span class="w">    </span>├─<span class="w"> </span>topic-B:<span class="w"> </span><span class="nv">load</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8</span>.1<span class="w">       </span>│
+</span><span id="__span-19-10"><a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a><span class="w">  </span>│<span class="w">    </span>└─<span class="w"> </span>topic-C:<span class="w"> </span><span class="nv">load</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">12</span>.3<span class="w">      </span>│
+</span><span id="__span-19-11"><a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a><span class="w">  </span>│<span class="w">                                  </span>│
+</span><span id="__span-19-12"><a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a><span class="w">  </span>│<span class="w">  </span>Select<span class="w"> </span>lightest:<span class="w"> </span>topic-A<span class="w">       </span>│
+</span><span id="__span-19-13"><a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a><span class="w">  </span>└──────────────────────────────────┘
+</span><span id="__span-19-14"><a id="__codelineno-19-14" name="__codelineno-19-14" href="#__codelineno-19-14"></a><span class="w">       </span>│
+</span><span id="__span-19-15"><a id="__codelineno-19-15" name="__codelineno-19-15" href="#__codelineno-19-15"></a><span class="w">       </span>▼
+</span><span id="__span-19-16"><a id="__codelineno-19-16" name="__codelineno-19-16" href="#__codelineno-19-16"></a><span class="w">  </span>┌──────────────────────────────────┐
+</span><span id="__span-19-17"><a id="__codelineno-19-17" name="__codelineno-19-17" href="#__codelineno-19-17"></a><span class="w">  </span>│<span class="w">  </span>Select<span class="w"> </span>Target<span class="w"> </span>Broker<span class="w">            </span>│
+</span><span id="__span-19-18"><a id="__codelineno-19-18" name="__codelineno-19-18" href="#__codelineno-19-18"></a><span class="w">  </span>│<span class="w">                                  </span>│
+</span><span id="__span-19-19"><a id="__codelineno-19-19" name="__codelineno-19-19" href="#__codelineno-19-19"></a><span class="w">  </span>│<span class="w">  </span>Rankings:<span class="w">                       </span>│
+</span><span id="__span-19-20"><a id="__codelineno-19-20" name="__codelineno-19-20" href="#__codelineno-19-20"></a><span class="w">  </span>│<span class="w">    </span>Broker<span class="w"> </span><span class="m">3</span>:<span class="w"> </span><span class="nv">load</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">20</span><span class="w"> </span>←<span class="w"> </span>target<span class="w"> </span>│
+</span><span id="__span-19-21"><a id="__codelineno-19-21" name="__codelineno-19-21" href="#__codelineno-19-21"></a><span class="w">  </span>│<span class="w">    </span>Broker<span class="w"> </span><span class="m">2</span>:<span class="w"> </span><span class="nv">load</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">30</span><span class="w">          </span>│
+</span><span id="__span-19-22"><a id="__codelineno-19-22" name="__codelineno-19-22" href="#__codelineno-19-22"></a><span class="w">  </span>│<span class="w">    </span>Broker<span class="w"> </span><span class="m">1</span>:<span class="w"> </span><span class="nv">load</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">45</span><span class="w">          </span>│
+</span><span id="__span-19-23"><a id="__codelineno-19-23" name="__codelineno-19-23" href="#__codelineno-19-23"></a><span class="w">  </span>└──────────────────────────────────┘
+</span><span id="__span-19-24"><a id="__codelineno-19-24" name="__codelineno-19-24" href="#__codelineno-19-24"></a><span class="w">       </span>│
+</span><span id="__span-19-25"><a id="__codelineno-19-25" name="__codelineno-19-25" href="#__codelineno-19-25"></a><span class="w">       </span>▼
+</span><span id="__span-19-26"><a id="__codelineno-19-26" name="__codelineno-19-26" href="#__codelineno-19-26"></a><span class="w">  </span>┌───────────────────────────────────┐
+</span><span id="__span-19-27"><a id="__codelineno-19-27" name="__codelineno-19-27" href="#__codelineno-19-27"></a><span class="w">  </span>│<span class="w">  </span>Create<span class="w"> </span>Move<span class="w"> </span>Plan<span class="w">                 </span>│
+</span><span id="__span-19-28"><a id="__codelineno-19-28" name="__codelineno-19-28" href="#__codelineno-19-28"></a><span class="w">  </span>│<span class="w">  </span>topic-A:<span class="w"> </span>Broker<span class="w"> </span><span class="m">1</span><span class="w"> </span>→<span class="w"> </span>Broker<span class="w"> </span><span class="m">3</span><span class="w">    </span>│
+</span><span id="__span-19-29"><a id="__codelineno-19-29" name="__codelineno-19-29" href="#__codelineno-19-29"></a><span class="w">  </span>└───────────────────────────────────┘
+</span><span id="__span-19-30"><a id="__codelineno-19-30" name="__codelineno-19-30" href="#__codelineno-19-30"></a><span class="w">       </span>│
+</span><span id="__span-19-31"><a id="__codelineno-19-31" name="__codelineno-19-31" href="#__codelineno-19-31"></a><span class="w">       </span>▼
+</span><span id="__span-19-32"><a id="__codelineno-19-32" name="__codelineno-19-32" href="#__codelineno-19-32"></a><span class="w">  </span>┌─────────────────────────────┐
+</span><span id="__span-19-33"><a id="__codelineno-19-33" name="__codelineno-19-33" href="#__codelineno-19-33"></a><span class="w">  </span>│<span class="w">  </span>Execute<span class="w"> </span>Move<span class="w">                </span>│
+</span><span id="__span-19-34"><a id="__codelineno-19-34" name="__codelineno-19-34" href="#__codelineno-19-34"></a><span class="w">  </span>│<span class="w">  </span><span class="m">1</span>.<span class="w"> </span>Create<span class="w"> </span>unassigned<span class="w"> </span>marker<span class="w"> </span>│
+</span><span id="__span-19-35"><a id="__codelineno-19-35" name="__codelineno-19-35" href="#__codelineno-19-35"></a><span class="w">  </span>│<span class="w">     </span>with<span class="w"> </span>target<span class="w"> </span>hint<span class="w">         </span>│
+</span><span id="__span-19-36"><a id="__codelineno-19-36" name="__codelineno-19-36" href="#__codelineno-19-36"></a><span class="w">  </span>│<span class="w">  </span><span class="m">2</span>.<span class="w"> </span>Delete<span class="w"> </span>assignment<span class="w">        </span>│
+</span><span id="__span-19-37"><a id="__codelineno-19-37" name="__codelineno-19-37" href="#__codelineno-19-37"></a><span class="w">  </span>│<span class="w">     </span>from<span class="w"> </span>Broker<span class="w"> </span><span class="m">1</span><span class="w">            </span>│
+</span><span id="__span-19-38"><a id="__codelineno-19-38" name="__codelineno-19-38" href="#__codelineno-19-38"></a><span class="w">  </span>└─────────────────────────────┘
+</span><span id="__span-19-39"><a id="__codelineno-19-39" name="__codelineno-19-39" href="#__codelineno-19-39"></a><span class="w">       </span>│
+</span><span id="__span-19-40"><a id="__codelineno-19-40" name="__codelineno-19-40" href="#__codelineno-19-40"></a><span class="w">       </span>├──────────────────┬──────────────────┐
+</span><span id="__span-19-41"><a id="__codelineno-19-41" name="__codelineno-19-41" href="#__codelineno-19-41"></a><span class="w">       </span>▼<span class="w">                  </span>▼<span class="w">                  </span>▼
+</span><span id="__span-19-42"><a id="__codelineno-19-42" name="__codelineno-19-42" href="#__codelineno-19-42"></a><span class="w">  </span>┌──────────┐<span class="w">     </span>┌────────────┐<span class="w">     </span>┌──────────┐
+</span><span id="__span-19-43"><a id="__codelineno-19-43" name="__codelineno-19-43" href="#__codelineno-19-43"></a><span class="w">  </span>│<span class="w"> </span>Broker<span class="w"> </span><span class="m">1</span><span class="w"> </span>│<span class="w">     </span>│Load<span class="w"> </span>Manager│<span class="w">     </span>│<span class="w"> </span>Broker<span class="w"> </span><span class="m">3</span><span class="w"> </span>│
+</span><span id="__span-19-44"><a id="__codelineno-19-44" name="__codelineno-19-44" href="#__codelineno-19-44"></a><span class="w">  </span>│<span class="w">          </span>│<span class="w">     </span>│<span class="w">            </span>│<span class="w">     </span>│<span class="w">          </span>│
+</span><span id="__span-19-45"><a id="__codelineno-19-45" name="__codelineno-19-45" href="#__codelineno-19-45"></a><span class="w">  </span>│<span class="w"> </span>Unload<span class="w">   </span>│<span class="w">     </span>│<span class="w"> </span>Assign<span class="w"> </span>to<span class="w">  </span>│<span class="w">     </span>│<span class="w"> </span>Load<span class="w">     </span>│
+</span><span id="__span-19-46"><a id="__codelineno-19-46" name="__codelineno-19-46" href="#__codelineno-19-46"></a><span class="w">  </span>│<span class="w"> </span>topic-A<span class="w">  </span>│<span class="w">     </span>│<span class="w"> </span>Broker<span class="w"> </span><span class="m">3</span><span class="w">   </span>│<span class="w">     </span>│<span class="w"> </span>topic-A<span class="w">  </span>│
+</span><span id="__span-19-47"><a id="__codelineno-19-47" name="__codelineno-19-47" href="#__codelineno-19-47"></a><span class="w">  </span>└──────────┘<span class="w">     </span>└────────────┘<span class="w">     </span>└──────────┘
+</span><span id="__span-19-48"><a id="__codelineno-19-48" name="__codelineno-19-48" href="#__codelineno-19-48"></a><span class="w">       </span>│<span class="w">                  </span>│<span class="w">                  </span>│
+</span><span id="__span-19-49"><a id="__codelineno-19-49" name="__codelineno-19-49" href="#__codelineno-19-49"></a><span class="w">       </span>└──────────────────┴──────────────────┘
+</span><span id="__span-19-50"><a id="__codelineno-19-50" name="__codelineno-19-50" href="#__codelineno-19-50"></a><span class="w">                          </span>│
+</span><span id="__span-19-51"><a id="__codelineno-19-51" name="__codelineno-19-51" href="#__codelineno-19-51"></a><span class="w">                          </span>▼
+</span><span id="__span-19-52"><a id="__codelineno-19-52" name="__codelineno-19-52" href="#__codelineno-19-52"></a><span class="w">                 </span>┌─────────────────┐
+</span><span id="__span-19-53"><a id="__codelineno-19-53" name="__codelineno-19-53" href="#__codelineno-19-53"></a><span class="w">                 </span>│<span class="w"> </span>Record<span class="w"> </span><span class="k">in</span><span class="w">       </span>│
+</span><span id="__span-19-54"><a id="__codelineno-19-54" name="__codelineno-19-54" href="#__codelineno-19-54"></a><span class="w">                 </span>│<span class="w"> </span>History<span class="w">         </span>│
+</span><span id="__span-19-55"><a id="__codelineno-19-55" name="__codelineno-19-55" href="#__codelineno-19-55"></a><span class="w">                 </span>│<span class="w"> </span>Apply<span class="w"> </span>Cooldown<span class="w">  </span>│
+</span><span id="__span-19-56"><a id="__codelineno-19-56" name="__codelineno-19-56" href="#__codelineno-19-56"></a><span class="w">                 </span>└─────────────────┘
+</span></code></pre></div>
+<h3 id="safety-mechanisms">Safety Mechanisms</h3>
+<p>Automated rebalancing includes multiple safety mechanisms to prevent disruption:</p>
+<p><strong>1. Single Move Per Cycle</strong>  </p>
+<p>Only one topic is moved per rebalancing check cycle. This prevents:</p>
+<ul>
+<li>Overshooting (moving too many topics at once)</li>
+<li>Cascading imbalances (fixing one problem creates another)</li>
+<li>Metadata store overload</li>
+</ul>
+<p><strong>2. Rate Limiting</strong><br />
+Maximum moves per hour enforced via history tracking. Prevents rebalancing storms during cluster instability.</p>
+<p><strong>3. Cooldown Period</strong><br />
+Topics can't be moved again within <code>cooldown_seconds</code> (default 60s). Prevents oscillations where topics bounce back and forth.</p>
+<p><strong>4. Minimum Topic Age</strong><br />
+Topics younger than <code>min_topic_age_seconds</code> (default 300s) are never moved. Allows topics to stabilize after creation before considering them for rebalancing.</p>
+<p><strong>5. Blacklist</strong><br />
+Critical topics can be permanently excluded from rebalancing using pattern matching.</p>
+<p><strong>6. Leader-Only Execution</strong><br />
+Only the elected cluster leader performs rebalancing. Prevents multiple brokers from executing conflicting moves.</p>
+<p><strong>7. Active Broker Check</strong><br />
+Target brokers must be in "active" state. Draining or drained brokers are excluded.</p>
+<p><strong>8. Graceful Unload</strong><br />
+Topic moves use the same graceful unload workflow as manual operations:</p>
+<ul>
+<li>Seal topic (no new producers)</li>
+<li>Drain in-flight messages</li>
+<li>Unload cleanly</li>
+</ul>
+<p><strong>9. Metrics Logging</strong><br />
+All rebalancing activity is logged with full context for troubleshooting and auditing.</p>
+<hr />
+<h2 id="configuration-and-tuning">Configuration and Tuning</h2>
+<h3 id="basic-configuration">Basic Configuration</h3>
+<p>Load Manager configuration in <code>config/danube_broker.yml</code>:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="nt">load_manager</span><span class="p">:</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="w">  </span><span class="c1"># How often brokers report load to ETCD</span>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="w">  </span><span class="nt">load_report_interval_seconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30</span>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="w">  </span><span class="c1"># Assignment strategy for new topics</span>
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="w">  </span><span class="c1"># Options: fair, balanced, weighted_load</span>
+</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="w">  </span><span class="nt">assignment_strategy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">balanced</span>
+</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>
+</span><span id="__span-20-9"><a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a><span class="w">  </span><span class="c1"># Automated rebalancing settings</span>
+</span><span id="__span-20-10"><a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a><span class="w">  </span><span class="nt">rebalancing</span><span class="p">:</span>
+</span><span id="__span-20-11"><a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a><span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">                    </span><span class="c1"># Start disabled, enable after testing</span>
+</span><span id="__span-20-12"><a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a><span class="w">    </span><span class="nt">aggressiveness</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">balanced</span><span class="w">          </span><span class="c1"># conservative | balanced | aggressive</span>
+</span><span id="__span-20-13"><a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a><span class="w">    </span><span class="nt">check_interval_seconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">300</span><span class="w">       </span><span class="c1"># How often to check balance (5 min)</span>
+</span><span id="__span-20-14"><a id="__codelineno-20-14" name="__codelineno-20-14" href="#__codelineno-20-14"></a><span class="w">    </span><span class="nt">max_moves_per_hour</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span><span class="w">            </span><span class="c1"># Rate limit</span>
+</span><span id="__span-20-15"><a id="__codelineno-20-15" name="__codelineno-20-15" href="#__codelineno-20-15"></a><span class="w">    </span><span class="nt">cooldown_seconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">60</span><span class="w">              </span><span class="c1"># Wait between moves</span>
+</span><span id="__span-20-16"><a id="__codelineno-20-16" name="__codelineno-20-16" href="#__codelineno-20-16"></a><span class="w">    </span><span class="nt">min_brokers_for_rebalance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span><span class="w">      </span><span class="c1"># Need at least 2 brokers</span>
+</span><span id="__span-20-17"><a id="__codelineno-20-17" name="__codelineno-20-17" href="#__codelineno-20-17"></a><span class="w">    </span><span class="nt">min_topic_age_seconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">300</span><span class="w">        </span><span class="c1"># Don&#39;t move young topics (5 min)</span>
+</span><span id="__span-20-18"><a id="__codelineno-20-18" name="__codelineno-20-18" href="#__codelineno-20-18"></a><span class="w">    </span><span class="nt">blacklist_topics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span><span class="w">              </span><span class="c1"># Topics to never rebalance</span>
+</span></code></pre></div>
+<h3 id="assignment-strategy-selection">Assignment Strategy Selection</h3>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Recommended Strategy</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Development/testing</td>
+<td><code>fair</code></td>
+<td>Simple, predictable, low overhead</td>
+</tr>
+<tr>
+<td>Production (general)</td>
+<td><code>balanced</code></td>
+<td>Best balance of accuracy and overhead</td>
+</tr>
+<tr>
+<td>Heterogeneous hardware</td>
+<td><code>balanced</code></td>
+<td>Accounts for CPU/memory differences</td>
+</tr>
+<tr>
+<td>Uniform hardware</td>
+<td><code>fair</code> or <code>balanced</code></td>
+<td>Fair works well when brokers are identical</td>
+</tr>
+<tr>
+<td>Variable workloads</td>
+<td><code>weighted_load</code></td>
+<td>Adapts to changing resource bottlenecks</td>
+</tr>
+<tr>
+<td>High-throughput topics</td>
+<td><code>balanced</code> or <code>weighted_load</code></td>
+<td>Considers throughput in scoring</td>
+</tr>
+</tbody>
+</table>
+<h3 id="aggressiveness-tuning">Aggressiveness Tuning</h3>
+<p><strong>Conservative</strong> - Use when:</p>
+<ul>
+<li>Cluster is mostly stable</li>
+<li>Topic moves are expensive (large backlogs)</li>
+<li>Minimizing disruption is critical</li>
+<li>Resources are plentiful</li>
+</ul>
+<p><strong>Balanced</strong> - Use when:</p>
+<ul>
+<li>General production workloads</li>
+<li>Normal mix of topic sizes</li>
+<li>Moderate load variability</li>
+<li>Default choice for most clusters</li>
+</ul>
+<p><strong>Aggressive</strong> - Use when:</p>
+<ul>
+<li>Workloads change frequently</li>
+<li>Fast response to imbalance is needed</li>
+<li>Testing/development environments</li>
+<li>Cluster has capacity for frequent moves</li>
+</ul>
+<h3 id="load-report-interval-tuning">Load Report Interval Tuning</h3>
+<p><strong>Lower intervals (5-10s):</strong></p>
+<ul>
+<li>Faster response to load changes</li>
+<li>More accurate rankings</li>
+<li>Higher ETCD traffic</li>
+<li>Better for testing</li>
+</ul>
+<p><strong>Higher intervals (30-60s):</strong></p>
+<ul>
+<li>Lower overhead</li>
+<li>Suitable for stable production clusters</li>
+<li>Slower response to changes</li>
+<li>Industry standard</li>
+</ul>
+<p><strong>Recommendation:</strong> Start with 30s, reduce only if needed for fast-changing workloads.</p>
+<h3 id="rate-limiting-tuning">Rate Limiting Tuning</h3>
+<p>The <code>max_moves_per_hour</code> setting prevents rebalancing storms:</p>
+<p><strong>Conservative:</strong></p>
+<ul>
+<li><code>max_moves_per_hour: 5</code></li>
+<li>Maximum 5 topics moved per hour</li>
+<li>Best for large topics with backlogs</li>
+</ul>
+<p><strong>Balanced:</strong></p>
+<ul>
+<li><code>max_moves_per_hour: 10</code></li>
+<li>Moderate rebalancing speed</li>
+<li>Good for most clusters</li>
+</ul>
+<p><strong>Aggressive:</strong></p>
+<ul>
+<li><code>max_moves_per_hour: 20</code></li>
+<li>Faster rebalancing</li>
+<li>Suitable for test clusters or small topics</li>
+</ul>
+<h3 id="blacklist-patterns">Blacklist Patterns</h3>
+<p>Exclude critical topics from rebalancing:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="nt">blacklist_topics</span><span class="p">:</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="w">  </span><span class="c1"># System topics</span>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;/system/*&quot;</span>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="w">  </span><span class="c1"># Critical low-latency topics</span>
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;/default/critical-*&quot;</span>
+</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>
+</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a><span class="w">  </span><span class="c1"># High-volume topics (expensive to move)</span>
+</span><span id="__span-21-9"><a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;/analytics/logs&quot;</span>
+</span><span id="__span-21-10"><a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;/metrics/*&quot;</span>
+</span><span id="__span-21-11"><a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a>
+</span><span id="__span-21-12"><a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a><span class="w">  </span><span class="c1"># Topics with specific placement requirements</span>
+</span><span id="__span-21-13"><a id="__codelineno-21-13" name="__codelineno-21-13" href="#__codelineno-21-13"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;/pinned/special-topic&quot;</span>
+</span></code></pre></div>
+<hr />
+<h2 id="metrics-and-monitoring">Metrics and Monitoring</h2>
+<h3 id="load-manager-metrics">Load Manager Metrics</h3>
+<p>The Load Manager exposes Prometheus metrics for observability:</p>
+<p><strong>Cluster Health Metrics:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>danube_cluster_balance_cv<span class="w">            </span><span class="c1"># Current coefficient of variation</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>danube_cluster_balance_mean_load<span class="w">     </span><span class="c1"># Mean broker load</span>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>danube_cluster_balance_max_load<span class="w">      </span><span class="c1"># Max broker load</span>
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>danube_cluster_balance_min_load<span class="w">      </span><span class="c1"># Min broker load</span>
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>danube_cluster_balance_std_dev<span class="w">       </span><span class="c1"># Standard deviation</span>
+</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>danube_cluster_active_brokers<span class="w">        </span><span class="c1"># Count of active brokers</span>
+</span></code></pre></div>
+<p><strong>Rebalancing Metrics:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>danube_rebalancing_checks_total<span class="w">      </span><span class="c1"># Total balance check cycles</span>
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>danube_rebalancing_moves_total<span class="w">       </span><span class="c1"># Total topic moves executed</span>
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>danube_rebalancing_failures_total<span class="w">    </span><span class="c1"># Failed move attempts</span>
+</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>danube_rebalancing_cycle_duration_seconds<span class="w">  </span><span class="c1"># Duration of rebalancing cycles</span>
+</span></code></pre></div>
+<p><strong>Topic Assignment Metrics:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>danube_topic_assignments_total<span class="w">       </span><span class="c1"># Total topic assignments</span>
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="w">  </span>labels:<span class="w"> </span>broker_id,<span class="w"> </span>action<span class="w"> </span><span class="o">(</span>assign/unassign<span class="o">)</span>
+</span></code></pre></div>
+<p><strong>Broker Load Metrics:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>danube_broker_topics_owned<span class="w">           </span><span class="c1"># Topics per broker</span>
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>danube_broker_cpu_usage<span class="w">              </span><span class="c1"># CPU percentage</span>
+</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>danube_broker_memory_usage<span class="w">           </span><span class="c1"># Memory percentage</span>
+</span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>danube_broker_throughput_mbps<span class="w">        </span><span class="c1"># Aggregate throughput</span>
+</span></code></pre></div>
+<hr />
+<h2 id="use-cases-and-best-practices">Use Cases and Best Practices</h2>
+<h3 id="scenario-1-adding-brokers-to-a-cluster">Scenario 1: Adding Brokers to a Cluster</h3>
+<p><strong>Situation:</strong><br />
+You start with 3 brokers, each handling 100 topics. You add 2 new brokers to scale capacity.</p>
+<p><strong>Without Rebalancing:</strong></p>
+<ul>
+<li>New brokers sit idle (0 topics each)</li>
+<li>Old brokers remain at 100 topics</li>
+<li>Cluster is imbalanced (CV = 100%)</li>
+<li>New capacity is wasted</li>
+</ul>
+<p><strong>With Rebalancing:</strong></p>
+<ol>
+<li>New brokers join and register</li>
+<li>Load Manager detects imbalance (CV &gt; threshold)</li>
+<li>Selects 40 lightest topics from old brokers</li>
+<li>Moves them to new brokers over time (rate limited)</li>
+<li>Final state: 60 topics per broker (balanced)</li>
+<li>CV drops to &lt; 10%</li>
+</ol>
+<p><strong>Best Practice:</strong></p>
+<ul>
+<li>Enable rebalancing before adding brokers</li>
+<li>Use aggressive mode temporarily for faster rebalancing</li>
+<li>Monitor rebalancing progress via metrics</li>
+<li>Return to balanced mode after completion</li>
+</ul>
+<h3 id="scenario-2-handling-broker-failure">Scenario 2: Handling Broker Failure</h3>
+<p><strong>Situation:</strong><br />
+A broker crashes, and its 150 topics need reassignment.</p>
+<p><strong>Without Load Manager:</strong></p>
+<ul>
+<li>Manual intervention required</li>
+<li>Topics go offline until reassigned</li>
+<li>Risk of creating new hotspots</li>
+</ul>
+<p><strong>With Load Manager:</strong></p>
+<ol>
+<li>Leader detects broker deregistration</li>
+<li>Deletes all assignments from failed broker</li>
+<li>Creates 150 unassigned markers</li>
+<li>Assignment workflow distributes topics across remaining brokers</li>
+<li>Topics reassigned in &lt; 1 minute</li>
+</ol>
+<p><strong>Best Practice:</strong></p>
+<ul>
+<li>Ensure at least 3 brokers for redundancy</li>
+<li>Use balanced or weighted_load strategy for failover</li>
+<li>Monitor failover metrics</li>
+<li>Set appropriate <code>min_brokers_for_rebalance</code></li>
+</ul>
+<h3 id="scenario-3-workload-changes-over-time">Scenario 3: Workload Changes Over Time</h3>
+<p><strong>Situation:</strong><br />
+Topics created in the morning (low traffic) grow to high traffic in the afternoon, creating imbalance.</p>
+<p><strong>Without Rebalancing:</strong></p>
+<ul>
+<li>Initial assignment is fair</li>
+<li>As traffic grows, some brokers become hotspots</li>
+<li>Performance degrades on overloaded brokers</li>
+</ul>
+<p><strong>With Rebalancing:</strong></p>
+<ol>
+<li>Load reports show increasing CPU/throughput on some brokers</li>
+<li>CV rises above threshold</li>
+<li>Rebalancing moves high-traffic topics to underloaded brokers</li>
+<li>Cluster remains balanced throughout the day</li>
+</ol>
+<p><strong>Best Practice:</strong></p>
+<ul>
+<li>Use balanced or weighted_load strategy (accounts for throughput)</li>
+<li>Enable rebalancing for dynamic workloads</li>
+<li>Set check_interval to match workload variability (5-10 minutes)</li>
+<li>Use balanced aggressiveness</li>
+</ul>
+<h3 id="scenario-4-heterogeneous-hardware">Scenario 4: Heterogeneous Hardware</h3>
+<p><strong>Situation:</strong><br />
+Cluster has mix of hardware: 2 high-memory brokers, 3 standard brokers.</p>
+<p><strong>Without Intelligence:</strong></p>
+<ul>
+<li>Fair strategy distributes topics evenly</li>
+<li>High-memory brokers are underutilized</li>
+<li>Standard brokers may run out of memory</li>
+</ul>
+<p><strong>With Balanced Strategy:</strong></p>
+<ul>
+<li>Memory usage is factored into scoring (35% weight)</li>
+<li>High-memory brokers receive more topics</li>
+<li>Standard brokers stay within capacity</li>
+<li>Resources are optimized</li>
+</ul>
+<p><strong>Best Practice:</strong></p>
+<ul>
+<li>Always use balanced or weighted_load for heterogeneous clusters</li>
+<li>Monitor per-broker resource utilization</li>
+<li>Adjust load_report_interval if needed (lower = more responsive)</li>
+</ul>
+<hr />
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="rebalancing-not-triggering">Rebalancing Not Triggering</h3>
+<p><strong>Symptoms:</strong></p>
+<ul>
+<li>CV is high but no moves occur</li>
+<li>Logs show "cluster is balanced"</li>
+</ul>
+<p><strong>Possible Causes:</strong></p>
+<ol>
+<li>Rebalancing disabled: Check <code>rebalancing.enabled: true</code></li>
+<li>Not leader: Only leader executes rebalancing</li>
+<li>CV below threshold: Increase aggressiveness or lower threshold</li>
+<li>Too few brokers: Check <code>min_brokers_for_rebalance</code></li>
+<li>All topics blacklisted: Review blacklist patterns</li>
+</ol>
+<h3 id="topics-moving-too-frequently">Topics Moving Too Frequently</h3>
+<p><strong>Symptoms:</strong></p>
+<ul>
+<li>Topics move multiple times per hour</li>
+<li>Cluster never stabilizes</li>
+<li>High metadata store traffic</li>
+</ul>
+<p><strong>Possible Causes:</strong></p>
+<ol>
+<li>Cooldown too short: Increase <code>cooldown_seconds</code></li>
+<li>Threshold too low: Use less aggressive mode</li>
+<li>Topic age check disabled: Set <code>min_topic_age_seconds &gt; 0</code></li>
+<li>Workload is truly unstable</li>
+</ol>
+<h3 id="imbalance-after-rebalancing">Imbalance After Rebalancing</h3>
+<p><strong>Symptoms:</strong></p>
+<ul>
+<li>Rebalancing executes but CV remains high</li>
+<li>Moves don't reduce imbalance</li>
+</ul>
+<p><strong>Possible Causes:</strong></p>
+<ol>
+<li>Moving wrong topics (heavy topics not moving)</li>
+<li>New traffic creating imbalance faster than moves fix it</li>
+<li>Assignment strategy doesn't match rebalancing goals</li>
+</ol>
+<p><strong>Solutions:</strong></p>
+<ul>
+<li>Review topic load scores (ensure heaviest topics are candidates)</li>
+<li>Increase <code>max_moves_per_hour</code></li>
+<li>Switch to weighted_load strategy</li>
+<li>Check for blacklisted heavy topics</li>
+</ul>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>The <a href="https://github.com/danube-messaging/danube">Danube</a> Load Manager is a sophisticated system that keeps broker clusters healthy and balanced automatically. By combining intelligent topic assignment with proactive rebalancing, it ensures:</p>
+<ul>
+<li><strong>Optimal resource utilization</strong> - No broker is overloaded or idle</li>
+<li><strong>High availability</strong> - Automatic failover when brokers crash</li>
+<li><strong>Performance consistency</strong> - Even load distribution prevents hotspots</li>
+<li><strong>Operational simplicity</strong> - Self-optimizing cluster reduces manual intervention</li>
+<li><strong>Scalability</strong> - Easy to add/remove brokers without manual rebalancing</li>
+</ul>
+<p>The system is production-ready with multiple safety mechanisms, configurable strategies, and comprehensive monitoring. Start with defaults (balanced strategy, disabled rebalancing) and gradually tune based on your workload characteristics.</p>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 Danube Messaging
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://github.com/danube-messaging/danube" target="_blank" rel="noopener" title="Danube on GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/danube-messaging/danube/releases" target="_blank" rel="noopener" title="Release Notes" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M0 80v149.5c0 17 6.7 33.3 18.7 45.3l176 176c25 25 65.5 25 90.5 0l133.5-133.5c25-25 25-65.5 0-90.5l-176-176c-12-12-28.3-18.7-45.3-18.7L48 32C21.5 32 0 53.5 0 80zm112 32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://crates.io/crates/danube-client" target="_blank" rel="noopener" title="Rust Client on Crates.io" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="m508.52 249.75-21.82-13.51c-.17-2-.34-3.93-.55-5.88l18.72-17.5a7.35 7.35 0 0 0-2.44-12.25l-24-9c-.54-1.88-1.08-3.78-1.67-5.64l15-20.83a7.35 7.35 0 0 0-4.79-11.54l-25.42-4.15c-.9-1.73-1.79-3.45-2.73-5.15l10.68-23.42a7.35 7.35 0 0 0-6.95-10.39l-25.82.91q-1.79-2.22-3.61-4.4L439 81.84a7.36 7.36 0 0 0-8.84-8.84L405 78.93q-2.17-1.83-4.4-3.61l.91-25.82a7.35 7.35 0 0 0-10.39-7L367.7 53.23c-1.7-.94-3.43-1.84-5.15-2.73l-4.15-25.42a7.35 7.35 0 0 0-11.54-4.79L326 35.26c-1.86-.59-3.75-1.13-5.64-1.67l-9-24a7.35 7.35 0 0 0-12.25-2.44l-17.5 18.72c-1.95-.21-3.91-.38-5.88-.55L262.25 3.48a7.35 7.35 0 0 0-12.5 0L236.24 25.3c-2 .17-3.93.34-5.88.55l-17.5-18.72a7.35 7.35 0 0 0-12.25 2.44l-9 24c-1.89.55-3.79 1.08-5.66 1.68l-20.82-15a7.35 7.35 0 0 0-11.54 4.79l-4.15 25.41c-1.73.9-3.45 1.79-5.16 2.73l-23.4-10.63a7.35 7.35 0 0 0-10.39 7l.92 25.81c-1.49 1.19-3 2.39-4.42 3.61L81.84 73A7.36 7.36 0 0 0 73 81.84L78.93 107c-1.23 1.45-2.43 2.93-3.62 4.41l-25.81-.91a7.42 7.42 0 0 0-6.37 3.26 7.35 7.35 0 0 0-.57 7.13l10.66 23.41c-.94 1.7-1.83 3.43-2.73 5.16l-25.41 4.14a7.35 7.35 0 0 0-4.79 11.54l15 20.82c-.59 1.87-1.13 3.77-1.68 5.66l-24 9a7.35 7.35 0 0 0-2.44 12.25l18.72 17.5c-.21 1.95-.38 3.91-.55 5.88l-21.86 13.5a7.35 7.35 0 0 0 0 12.5l21.82 13.51c.17 2 .34 3.92.55 5.87l-18.72 17.5a7.35 7.35 0 0 0 2.44 12.25l24 9c.55 1.89 1.08 3.78 1.68 5.65l-15 20.83a7.35 7.35 0 0 0 4.79 11.54l25.42 4.15c.9 1.72 1.79 3.45 2.73 5.14l-10.63 23.43a7.35 7.35 0 0 0 .57 7.13 7.13 7.13 0 0 0 6.37 3.26l25.83-.91q1.77 2.22 3.6 4.4L73 430.16a7.36 7.36 0 0 0 8.84 8.84l25.16-5.93q2.18 1.83 4.41 3.61l-.92 25.82a7.35 7.35 0 0 0 10.39 6.95l23.43-10.68c1.69.94 3.42 1.83 5.14 2.73l4.15 25.42a7.34 7.34 0 0 0 11.54 4.78l20.83-15c1.86.6 3.76 1.13 5.65 1.68l9 24a7.36 7.36 0 0 0 12.25 2.44l17.5-18.72c1.95.21 3.92.38 5.88.55l13.51 21.82a7.35 7.35 0 0 0 12.5 0l13.51-21.82c2-.17 3.93-.34 5.88-.56l17.5 18.73a7.36 7.36 0 0 0 12.25-2.44l9-24c1.89-.55 3.78-1.08 5.65-1.68l20.82 15a7.34 7.34 0 0 0 11.54-4.78l4.15-25.42c1.72-.9 3.45-1.79 5.15-2.73l23.42 10.68a7.35 7.35 0 0 0 10.39-6.95l-.91-25.82q2.22-1.79 4.4-3.61l25.15 5.93a7.36 7.36 0 0 0 8.84-8.84L433.07 405q1.83-2.17 3.61-4.4l25.82.91a7.23 7.23 0 0 0 6.37-3.26 7.35 7.35 0 0 0 .58-7.13l-10.68-23.42c.94-1.7 1.83-3.43 2.73-5.15l25.42-4.15a7.35 7.35 0 0 0 4.79-11.54l-15-20.83c.59-1.87 1.13-3.76 1.67-5.65l24-9a7.35 7.35 0 0 0 2.44-12.25l-18.72-17.5c.21-1.95.38-3.91.55-5.87l21.82-13.51a7.35 7.35 0 0 0 0-12.5Zm-151 129.08A13.91 13.91 0 0 0 341 389.51l-7.64 35.67a187.51 187.51 0 0 1-156.36-.74l-7.64-35.66a13.87 13.87 0 0 0-16.46-10.68l-31.51 6.76a187.38 187.38 0 0 1-16.26-19.21H258.3c1.72 0 2.89-.29 2.89-1.91v-54.19c0-1.57-1.17-1.91-2.89-1.91h-44.83l.05-34.35H262c4.41 0 23.66 1.28 29.79 25.87 1.91 7.55 6.17 32.14 9.06 40 2.89 8.82 14.6 26.46 27.1 26.46H407a187.3 187.3 0 0 1-17.34 20.09Zm25.77 34.49A15.24 15.24 0 1 1 368 398.08h.44a15.23 15.23 0 0 1 14.8 15.24Zm-225.62-.68a15.24 15.24 0 1 1-15.25-15.25h.45a15.25 15.25 0 0 1 14.75 15.25Zm-88.1-178.49 32.83-14.6a13.88 13.88 0 0 0 7.06-18.33L102.69 186h26.56v119.73h-53.6a187.65 187.65 0 0 1-6.08-71.58Zm-11.26-36.06a15.24 15.24 0 0 1 15.23-15.25H74a15.24 15.24 0 1 1-15.67 15.24Zm155.16 24.49.05-35.32h63.26c3.28 0 23.07 3.77 23.07 18.62 0 12.29-15.19 16.7-27.68 16.7ZM399 306.71c-9.8 1.13-20.63-4.12-22-10.09-5.78-32.49-15.39-39.4-30.57-51.4 18.86-11.95 38.46-29.64 38.46-53.26 0-25.52-17.49-41.59-29.4-49.48-16.76-11-35.28-13.23-40.27-13.23h-198.9a187.49 187.49 0 0 1 104.89-59.19l23.47 24.6a13.82 13.82 0 0 0 19.6.44l26.26-25a187.51 187.51 0 0 1 128.37 91.43l-18 40.57a14 14 0 0 0 7.09 18.33l34.59 15.33a187.12 187.12 0 0 1 .4 32.54h-19.28c-1.91 0-2.69 1.27-2.69 3.13v8.82C421 301 409.31 305.58 399 306.71ZM240 60.21A15.24 15.24 0 0 1 255.21 45h.45A15.24 15.24 0 1 1 240 60.21ZM436.84 214a15.24 15.24 0 1 1 0-30.48h.44a15.24 15.24 0 0 1-.44 30.48Z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://pkg.go.dev/github.com/danube-messaging/danube-go" target="_blank" rel="noopener" title="Go Client Documentation" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M400.1 194.8c-10.9 2.8-19.9 4.3-29.1 7.6-7.3 1.9-14.7 3.9-23.2 6.1l-.6.1c-4.2 1.2-4.6 1.3-8.5-3.2-4.7-5.3-8.1-8.7-14.6-11.9-19.7-9.6-38.7-6.8-56.4 4.7-21.2 13.7-32.1 34-31.8 59.2.3 25 17.4 45.5 41.2 48.9 22 2.8 39.8-4.6 53.8-20.5 2.1-2.6 4-5.3 6.1-8.3.8-1 1.5-2.1 2.3-3.3h-60.1c-6.5 0-8.1-4-5.9-9.3 4-9.7 11.5-25.9 15.9-34 .9-1.8 3.1-5.8 6.9-5.8h101.1c4.5-13.4 11.8-26.9 21.6-39.7 22.7-29.9 49.3-45.5 87.2-52 31.8-5.6 61.7-2.5 88.9 15.9 24.6 16.8 39.8 39.6 43.9 69.5 5.3 42.1-6.9 76.3-36.7 105.6-19.7 20.9-44.9 34-73.9 39.9-5.6 1-11.1 1.5-16.5 2-2.9.2-5.7.5-8.5.8-28.3-.6-54.2-8.7-76-27.4-15.3-13.3-25.9-29.6-31.1-48.5-3.7 7.3-8 14.4-14 21.1-21.6 29.6-50.9 48-87.9 52.9-30.6 4.1-58.9-1.8-83.9-20.5-23-17.5-36.1-40.5-39.5-69.2-4.1-34 5.9-65.4 26.4-91.3 22.2-29 51.5-47.4 87.3-53.9 29.3-6.2 57.3-1.9 82.6 15.3 16.5 10.9 28.3 25.8 36.1 43.9 1.9 2.8.6 4.4-3.1 5.3zm-351.8 5.6c-1.25 0-1.56-.6-.94-1.6l6.55-8.4c.62-.9 2.18-1.5 3.43-1.5H168.6c1.2 0 1.5.9.9 1.8l-5.3 8.1c-.6 1-2.2 1.9-3.1 1.9l-112.8-.3zM1.246 229.1c-1.246 0-1.558-.7-.934-1.6l6.543-8.4c.624-.9 2.182-1.6 3.425-1.6H152.4c1.2 0 1.8 1 1.5 1.9l-2.5 7.5c-.3 1.2-1.5 1.9-2.8 1.9l-147.354.3zm74.474 26.8c-.62.9-.31 1.8.93 1.8l67.95.3c.9 0 2.2-.9 2.2-2.1l.6-7.5c0-1.3-.6-2.2-1.9-2.2H83.2c-1.25 0-2.49.9-3.12 1.9l-4.36 7.8zm501.48-18c-.2-2.6-.3-4.8-.7-7-5.6-30.8-34-48.3-63.6-41.4-29 6.5-47.7 24.9-54.5 54.2-5.6 24.3 6.2 48.9 28.6 58.9 17.2 7.5 34.3 6.6 50.8-1.9 24.6-13.6 38-32.7 39.6-59.5-.1-1.2-.1-2.3-.2-3.3z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.action.edit", "content.code.copy", "content.tabs.link", "content.tooltips", "navigation.top", "search.suggest", "search.share"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      
+    
+  </body>
+</html>
