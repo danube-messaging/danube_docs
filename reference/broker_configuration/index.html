@@ -1,0 +1,3212 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Lightweight, cloud-native messaging platform built in Rust.  Sub-second dispatch with cloud economics powered by WAL + Object Storage.">
+      
+      
+        <meta name="author" content="Dan Rusei">
+      
+      
+        <link rel="canonical" href="https://danube-docs.dev-state.com/reference/broker_configuration/">
+      
+      
+        <link rel="prev" href="../../integrations/source_connector_development/">
+      
+      
+        <link rel="next" href="../../contributing/dev_environment/">
+      
+      
+      <link rel="icon" href="../../assets/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.30">
+    
+    
+      
+        <title>Broker Configuration Reference - Danube Messaging</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.3cba04c6.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function n(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],n("js",new Date),n("config","G-2XEY5RCVVB"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){this.value&&n("event","search",{search_term:this.value})}),document$.subscribe(function(){var a=document.forms.feedback;if(void 0!==a)for(var e of a.querySelectorAll("[type=submit]"))e.addEventListener("click",function(e){e.preventDefault();var t=document.location.pathname,e=this.getAttribute("data-md-value");n("event","feedback",{page:t,data:e}),a.firstElementChild.disabled=!0;e=a.querySelector(".md-feedback__note [data-md-value='"+e+"']");e&&(e.hidden=!1)}),a.hidden=!1}),location$.subscribe(function(e){n("config","G-2XEY5RCVVB",{page_path:e.pathname})})});var e=document.createElement("script");e.async=!0,e.src="https://www.googletagmanager.com/gtag/js?id=G-2XEY5RCVVB",document.getElementById("__analytics").insertAdjacentElement("afterEnd",e)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#broker-configuration-reference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Danube Messaging" class="md-header__button md-logo" aria-label="Danube Messaging" data-md-component="logo">
+      
+  <img src="../../assets/wave.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Danube Messaging
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Broker Configuration Reference
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/danube-messaging/danube" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    danube-messaging/danube
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Danube Messaging" class="md-nav__button md-logo" aria-label="Danube Messaging" data-md-component="logo">
+      
+  <img src="../../assets/wave.png" alt="logo">
+
+    </a>
+    Danube Messaging
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/danube-messaging/danube" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    danube-messaging/danube
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    🏠 Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    📚 Getting Started
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            📚 Getting Started
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting_started/Danube_docker_compose/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Docker Compose (Recommended)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting_started/Danube_kubernetes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Kubernetes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting_started/Danube_local/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Local Machine / VMs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    💡 Core Concepts
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            💡 Core Concepts
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/topics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Topics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/subscriptions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Subscriptions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/dispatch_strategy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Dispatch Strategies
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/messages/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Messages & Schemas
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/schema_registry_guide/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Schema Registry Guide
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Messaging Patterns
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            Messaging Patterns
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/messaging_patterns_queuing_vs_pubsub/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Queuing vs Pub/Sub
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/messaging_modes_pubsub_vs_streaming/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pub/Sub vs Streaming
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    🏗️ Architecture
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            🏗️ Architecture
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    System Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/load_manager_architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Load Manager & Rebalancing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/schema_registry_architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Schema Registry Architecture
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/persistence/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Persistence (WAL + Cloud)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/reliable_topic_move/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Reliable Topic Workflow
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/internal_danube_services/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Internal Services
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    📦 Client Libraries
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            📦 Client Libraries
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client_libraries/clients/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview & Installation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client_libraries/setup/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Setup & Configuration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Producer Guide
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            Producer Guide
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client_libraries/producer-basics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Basic Producer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client_libraries/producer-advanced/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Advanced Producer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_4" id="__nav_5_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Consumer Guide
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            Consumer Guide
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client_libraries/consumer-basics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Basic Consumer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client_libraries/consumer-advanced/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Advanced Consumer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client_libraries/schema-registry/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Schema Registry
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    🔧 CLI Tools
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            🔧 CLI Tools
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_1" id="__nav_6_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Danube CLI (Client)
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_1">
+            <span class="md-nav__icon md-icon"></span>
+            Danube CLI (Client)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../danube_clis/danube_cli/getting_started/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Getting Started
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../danube_clis/danube_cli/producer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Producer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../danube_clis/danube_cli/consumer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Consumer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../danube_clis/danube_cli/schema_registry/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Schema Registry
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Admin CLI (Operations)
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            Admin CLI (Operations)
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../danube_clis/danube_admin/brokers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Brokers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../danube_clis/danube_admin/namespaces/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Namespaces
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../danube_clis/danube_admin/topics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Topics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../danube_clis/danube_admin/schema_registry/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Schema Registry
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    🔌 Integrations
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            🔌 Integrations
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../integrations/danube_connect_overview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Danube Connect Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../integrations/danube_connect_architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Architecture & Concepts
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../integrations/sink_connector_development/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Sink Connector Development
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../integrations/source_connector_development/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Source Connector Development
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    📚 Reference
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            📚 Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Broker Configuration Reference
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Broker Configuration Reference
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#basic-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Configuration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cluster-identity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cluster Identity
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#broker-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      Broker Services
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#metadata-store-etcd" class="md-nav__link">
+    <span class="md-ellipsis">
+      Metadata Store (ETCD)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bootstrap-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bootstrap Configuration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#security-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Security Configuration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Security Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#authentication-modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authentication Modes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tls-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      TLS Settings
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jwt-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      JWT Settings
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#load-manager-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Load Manager Configuration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Load Manager Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#topic-assignment-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Topic Assignment Strategy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#load-report-interval" class="md-nav__link">
+    <span class="md-ellipsis">
+      Load Report Interval
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#automated-rebalancing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Automated Rebalancing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aggressiveness-levels" class="md-nav__link">
+    <span class="md-ellipsis">
+      Aggressiveness Levels
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rebalancing-knobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rebalancing Knobs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#topic-blacklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      Topic Blacklist
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wal-and-cloud-storage-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      WAL and Cloud Storage Configuration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="WAL and Cloud Storage Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#local-write-ahead-log-wal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Local Write-Ahead Log (WAL)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-sync-durability" class="md-nav__link">
+    <span class="md-ellipsis">
+      File Sync (Durability)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-rotation" class="md-nav__link">
+    <span class="md-ellipsis">
+      File Rotation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wal-retention-local-cleanup" class="md-nav__link">
+    <span class="md-ellipsis">
+      WAL Retention (Local Cleanup)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cloud-uploader" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cloud Uploader
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cloud-storage-backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cloud Storage Backend
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backend-specific-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Backend-Specific Options
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#metadata-store" class="md-nav__link">
+    <span class="md-ellipsis">
+      Metadata Store
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#broker-policies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Broker Policies
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Broker Policies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connection-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      Connection Limits
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rate-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rate Limits
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#message-size" class="md-nav__link">
+    <span class="md-ellipsis">
+      Message Size
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    🤝 Contributing
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            🤝 Contributing
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/dev_environment/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Development Environment
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/etcd_metadata_structure/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ETCD Metadata Structure
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#basic-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Configuration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cluster-identity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cluster Identity
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#broker-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      Broker Services
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#metadata-store-etcd" class="md-nav__link">
+    <span class="md-ellipsis">
+      Metadata Store (ETCD)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bootstrap-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bootstrap Configuration
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#security-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Security Configuration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Security Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#authentication-modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authentication Modes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tls-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      TLS Settings
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jwt-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      JWT Settings
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#load-manager-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Load Manager Configuration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Load Manager Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#topic-assignment-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Topic Assignment Strategy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#load-report-interval" class="md-nav__link">
+    <span class="md-ellipsis">
+      Load Report Interval
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#automated-rebalancing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Automated Rebalancing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aggressiveness-levels" class="md-nav__link">
+    <span class="md-ellipsis">
+      Aggressiveness Levels
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rebalancing-knobs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rebalancing Knobs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#topic-blacklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      Topic Blacklist
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wal-and-cloud-storage-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      WAL and Cloud Storage Configuration
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="WAL and Cloud Storage Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#local-write-ahead-log-wal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Local Write-Ahead Log (WAL)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-sync-durability" class="md-nav__link">
+    <span class="md-ellipsis">
+      File Sync (Durability)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-rotation" class="md-nav__link">
+    <span class="md-ellipsis">
+      File Rotation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wal-retention-local-cleanup" class="md-nav__link">
+    <span class="md-ellipsis">
+      WAL Retention (Local Cleanup)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cloud-uploader" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cloud Uploader
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cloud-storage-backend" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cloud Storage Backend
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backend-specific-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Backend-Specific Options
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#metadata-store" class="md-nav__link">
+    <span class="md-ellipsis">
+      Metadata Store
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#broker-policies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Broker Policies
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Broker Policies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connection-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      Connection Limits
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rate-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rate Limits
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#message-size" class="md-nav__link">
+    <span class="md-ellipsis">
+      Message Size
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+    <a href="https://github.com/danube-messaging/danube_docs/edit/main/docs/reference/broker_configuration.md" title="Edit this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="broker-configuration-reference">Broker Configuration Reference</h1>
+<p>Complete reference for <code>danube_broker.yml</code> configuration options. This guide explains each parameter, its impact, and when to adjust it.</p>
+<hr />
+<h2 id="basic-configuration">Basic Configuration</h2>
+<h3 id="cluster-identity">Cluster Identity</h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">cluster_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;MY_CLUSTER&quot;</span>
+</span></code></pre></div>
+<p><strong>cluster_name</strong></p>
+<ul>
+<li><strong>Type</strong>: String</li>
+<li><strong>Default</strong>: None (required)</li>
+<li><strong>Impact</strong>: Identifies your Danube cluster in metrics, logs, and multi-cluster setups</li>
+<li><strong>When to change</strong>: Set a meaningful name for production environments (e.g., <code>production-us-east</code>, <code>staging-cluster</code>)</li>
+</ul>
+<hr />
+<h3 id="broker-services">Broker Services</h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">broker</span><span class="p">:</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0.0.0.0&quot;</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nt">ports</span><span class="p">:</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="nt">client</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6650</span><span class="w">      </span><span class="c1"># Producer/consumer connections</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="nt">admin</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50051</span><span class="w">      </span><span class="c1"># Admin API (gRPC)</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="nt">prometheus</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">9040</span><span class="w">  </span><span class="c1"># Metrics exporter</span>
+</span></code></pre></div>
+<p><strong>broker.host</strong></p>
+<ul>
+<li><strong>Type</strong>: String (IP address or hostname)</li>
+<li><strong>Default</strong>: <code>0.0.0.0</code> (all interfaces)</li>
+<li><strong>Impact</strong>: Controls which network interfaces the broker binds to</li>
+<li><strong>When to change</strong>:</li>
+<li>Use <code>0.0.0.0</code> for containers or multi-interface servers</li>
+<li>Use specific IP for security/isolation</li>
+<li>Use <code>127.0.0.1</code> for local-only testing</li>
+</ul>
+<p><strong>broker.ports.client</strong></p>
+<ul>
+<li><strong>Type</strong>: Integer</li>
+<li><strong>Default</strong>: <code>6650</code></li>
+<li><strong>Impact</strong>: Port where producers and consumers connect</li>
+<li><strong>When to change</strong>: Resolve port conflicts or follow network policies</li>
+</ul>
+<p><strong>broker.ports.admin</strong></p>
+<ul>
+<li><strong>Type</strong>: Integer</li>
+<li><strong>Default</strong>: <code>50051</code></li>
+<li><strong>Impact</strong>: gRPC port for admin operations (topic creation, subscriptions, etc.)</li>
+<li><strong>When to change</strong>: Avoid conflicts with other gRPC services</li>
+</ul>
+<p><strong>broker.ports.prometheus</strong></p>
+<ul>
+<li><strong>Type</strong>: Integer (optional)</li>
+<li><strong>Default</strong>: <code>9040</code></li>
+<li><strong>Impact</strong>: Prometheus metrics scraping endpoint</li>
+<li><strong>When to change</strong>: Set to <code>null</code> to disable metrics exporter</li>
+</ul>
+<hr />
+<h3 id="metadata-store-etcd">Metadata Store (ETCD)</h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">meta_store</span><span class="p">:</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;127.0.0.1&quot;</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2379</span>
+</span></code></pre></div>
+<p><strong>meta_store.host</strong></p>
+<ul>
+<li><strong>Type</strong>: String</li>
+<li><strong>Default</strong>: <code>127.0.0.1</code></li>
+<li><strong>Impact</strong>: ETCD connection endpoint for cluster metadata</li>
+<li><strong>When to change</strong>: Point to your ETCD cluster (single node or load balancer)</li>
+</ul>
+<p><strong>meta_store.port</strong></p>
+<ul>
+<li><strong>Type</strong>: Integer</li>
+<li><strong>Default</strong>: <code>2379</code></li>
+<li><strong>Impact</strong>: ETCD port</li>
+<li><strong>When to change</strong>: Rarely (ETCD standard port is 2379)</li>
+</ul>
+<hr />
+<h3 id="bootstrap-configuration">Bootstrap Configuration</h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">bootstrap_namespaces</span><span class="p">:</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;default&quot;</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="nt">auto_create_topics</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span></code></pre></div>
+<p><strong>bootstrap_namespaces</strong></p>
+<ul>
+<li><strong>Type</strong>: Array of strings</li>
+<li><strong>Default</strong>: <code>["default"]</code></li>
+<li><strong>Impact</strong>: Namespaces created automatically on broker startup</li>
+<li><strong>When to change</strong>: Pre-create namespaces for multi-tenant environments (e.g., <code>["default", "team-a", "team-b"]</code>)</li>
+</ul>
+<p><strong>auto_create_topics</strong></p>
+<ul>
+<li><strong>Type</strong>: Boolean</li>
+<li><strong>Default</strong>: <code>true</code></li>
+<li><strong>Impact</strong>: Whether producers can create topics automatically when publishing</li>
+<li><strong>When to change</strong>:</li>
+<li><code>true</code>: Development, rapid prototyping</li>
+<li><code>false</code>: Production with controlled topic creation via Admin API</li>
+</ul>
+<hr />
+<h2 id="security-configuration">Security Configuration</h2>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">auth</span><span class="p">:</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tls</span><span class="w">  </span><span class="c1"># Options: none | tls | tlswithjwt</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="nt">tls</span><span class="p">:</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="nt">cert_file</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./cert/server-cert.pem&quot;</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="nt">key_file</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./cert/server-key.pem&quot;</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="nt">ca_file</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./cert/ca-cert.pem&quot;</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="nt">verify_client</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">  </span><span class="nt">jwt</span><span class="p">:</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">    </span><span class="nt">secret_key</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;your-secret-key&quot;</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">    </span><span class="nt">issuer</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;danube-auth&quot;</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">    </span><span class="nt">expiration_time</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3600</span>
+</span></code></pre></div>
+<h3 id="authentication-modes">Authentication Modes</h3>
+<table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>Description</th>
+<th>Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>none</code></td>
+<td>No authentication</td>
+<td>Local development, trusted networks</td>
+</tr>
+<tr>
+<td><code>tls</code></td>
+<td>Mutual TLS (mTLS)</td>
+<td>Secure production, service-to-service</td>
+</tr>
+<tr>
+<td><code>tlswithjwt</code></td>
+<td>TLS + JWT tokens</td>
+<td>Multi-tenant, user-level auth</td>
+</tr>
+</tbody>
+</table>
+<p><strong>auth.mode</strong></p>
+<ul>
+<li><strong>Type</strong>: String enum</li>
+<li><strong>Default</strong>: <code>none</code></li>
+<li><strong>Impact</strong>: Security layer for client connections</li>
+<li><strong>When to change</strong>: Always use <code>tls</code> or <code>tlswithjwt</code> in production</li>
+</ul>
+<h3 id="tls-settings">TLS Settings</h3>
+<p><strong>auth.tls.cert_file</strong></p>
+<ul>
+<li><strong>Type</strong>: File path</li>
+<li><strong>Impact</strong>: Server certificate (public key)</li>
+<li><strong>When to change</strong>: Use valid certificates from your PKI/CA</li>
+</ul>
+<p><strong>auth.tls.key_file</strong></p>
+<ul>
+<li><strong>Type</strong>: File path</li>
+<li><strong>Impact</strong>: Server private key</li>
+<li><strong>When to change</strong>: Keep secure, rotate periodically</li>
+</ul>
+<p><strong>auth.tls.ca_file</strong></p>
+<ul>
+<li><strong>Type</strong>: File path</li>
+<li><strong>Impact</strong>: Certificate authority for validating client certs</li>
+<li><strong>When to change</strong>: Match your organization's CA</li>
+</ul>
+<p><strong>auth.tls.verify_client</strong></p>
+<ul>
+<li><strong>Type</strong>: Boolean</li>
+<li><strong>Default</strong>: <code>false</code></li>
+<li><strong>Impact</strong>: Require client certificates (mutual TLS)</li>
+<li><strong>When to change</strong>:</li>
+<li><code>true</code>: Maximum security, requires client certs</li>
+<li><code>false</code>: Server-only TLS, simpler client setup</li>
+</ul>
+<h3 id="jwt-settings">JWT Settings</h3>
+<p><strong>auth.jwt.secret_key</strong></p>
+<ul>
+<li><strong>Type</strong>: String</li>
+<li><strong>Impact</strong>: Shared secret for signing/validating JWT tokens</li>
+<li><strong>When to change</strong>: Use strong random key, rotate regularly, store in secrets manager</li>
+</ul>
+<p><strong>auth.jwt.issuer</strong></p>
+<ul>
+<li><strong>Type</strong>: String</li>
+<li><strong>Default</strong>: <code>danube-auth</code></li>
+<li><strong>Impact</strong>: JWT issuer claim for validation</li>
+<li><strong>When to change</strong>: Match your auth service's issuer</li>
+</ul>
+<p><strong>auth.jwt.expiration_time</strong></p>
+<ul>
+<li><strong>Type</strong>: Integer (seconds)</li>
+<li><strong>Default</strong>: <code>3600</code> (1 hour)</li>
+<li><strong>Impact</strong>: Token validity duration</li>
+<li><strong>When to change</strong>:</li>
+<li>Shorter: More secure, requires frequent renewal</li>
+<li>Longer: Less overhead, wider security window</li>
+</ul>
+<hr />
+<h2 id="load-manager-configuration">Load Manager Configuration</h2>
+<p>The Load Manager handles topic assignment and automated rebalancing. See <a href="../../architecture/load_manager_architecture/">Load Manager Architecture</a> for concepts.</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nt">load_manager</span><span class="p">:</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">assignment_strategy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;balanced&quot;</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="nt">load_report_interval_seconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span><span class="nt">rebalancing</span><span class="p">:</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span><span class="nt">aggressiveness</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;balanced&quot;</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="nt">check_interval_seconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">300</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span><span class="nt">max_moves_per_hour</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">    </span><span class="nt">cooldown_seconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">60</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">    </span><span class="nt">min_brokers_for_rebalance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="w">    </span><span class="nt">min_topic_age_seconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">300</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">    </span><span class="nt">blacklist_topics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span>
+</span></code></pre></div>
+<h3 id="topic-assignment-strategy">Topic Assignment Strategy</h3>
+<p>Controls how NEW topics are assigned to brokers.</p>
+<table>
+<thead>
+<tr>
+<th>Strategy</th>
+<th>Algorithm</th>
+<th>CPU Overhead</th>
+<th>Best For</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fair</code></td>
+<td>Topic count only</td>
+<td>Lowest</td>
+<td>Development, testing</td>
+</tr>
+<tr>
+<td><code>balanced</code></td>
+<td>Multi-factor (topic load + CPU + memory)</td>
+<td>Medium</td>
+<td><strong>Production (recommended)</strong></td>
+</tr>
+<tr>
+<td><code>weighted_load</code></td>
+<td>Adaptive bottleneck detection</td>
+<td>Highest</td>
+<td>Variable workloads</td>
+</tr>
+</tbody>
+</table>
+<p><strong>assignment_strategy</strong></p>
+<ul>
+<li><strong>Type</strong>: String enum</li>
+<li><strong>Default</strong>: <code>balanced</code></li>
+<li><strong>Impact</strong>: How new topics are placed across brokers</li>
+<li><strong>When to change</strong>:</li>
+<li><code>fair</code>: Simple setups, predictable placement</li>
+<li><code>balanced</code>: General production (recommended)</li>
+<li><code>weighted_load</code>: Clusters with highly variable workloads</li>
+</ul>
+<p><strong>Formula for <code>balanced</code> strategy:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nv">score</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">(</span>weighted_topic_load<span class="w"> </span>×<span class="w"> </span><span class="m">0</span>.3<span class="o">)</span><span class="w"> </span>+<span class="w"> </span><span class="o">(</span>CPU%<span class="w"> </span>×<span class="w"> </span><span class="m">0</span>.35<span class="o">)</span><span class="w"> </span>+<span class="w"> </span><span class="o">(</span>Memory%<span class="w"> </span>×<span class="w"> </span><span class="m">0</span>.35<span class="o">)</span>
+</span></code></pre></div>
+<h3 id="load-report-interval">Load Report Interval</h3>
+<p><strong>load_report_interval_seconds</strong></p>
+<ul>
+<li><strong>Type</strong>: Integer (seconds)</li>
+<li><strong>Default</strong>: <code>30</code></li>
+<li><strong>Impact</strong>: How often brokers publish resource metrics to ETCD</li>
+<li><strong>When to change</strong>:</li>
+<li><code>5-10</code>: Testing, rapid response to changes (higher ETCD traffic)</li>
+<li><code>30-60</code>: Production, balanced overhead</li>
+<li><code>&gt;60</code>: Low-traffic clusters, reduce ETCD load</li>
+</ul>
+<hr />
+<h3 id="automated-rebalancing">Automated Rebalancing</h3>
+<p>Proactively moves topics between brokers to maintain cluster balance.</p>
+<p><strong>rebalancing.enabled</strong></p>
+<ul>
+<li><strong>Type</strong>: Boolean</li>
+<li><strong>Default</strong>: <code>false</code> (disabled for safety)</li>
+<li><strong>Impact</strong>: Enables automatic topic movement</li>
+<li><strong>When to enable</strong>: After cluster is stable, you understand baseline behavior</li>
+<li><strong>Caution</strong>: Start with <code>conservative</code> aggressiveness</li>
+</ul>
+<h3 id="aggressiveness-levels">Aggressiveness Levels</h3>
+<p>Controls how aggressively the system optimizes cluster balance.</p>
+<table>
+<thead>
+<tr>
+<th>Level</th>
+<th>CV Threshold</th>
+<th>Check Interval</th>
+<th>Max Moves/Hour</th>
+<th>Cooldown</th>
+<th>Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>conservative</code></td>
+<td>&gt;40%</td>
+<td>600s (10m)</td>
+<td>5</td>
+<td>120s</td>
+<td>Stable production, risk-averse</td>
+</tr>
+<tr>
+<td><code>balanced</code></td>
+<td>&gt;30%</td>
+<td>300s (5m)</td>
+<td>10</td>
+<td>60s</td>
+<td><strong>General production</strong></td>
+</tr>
+<tr>
+<td><code>aggressive</code></td>
+<td>&gt;20%</td>
+<td>180s (3m)</td>
+<td>20</td>
+<td>30s</td>
+<td>Dynamic workloads, testing</td>
+</tr>
+</tbody>
+</table>
+<p><strong>CV (Coefficient of Variation)</strong> measures cluster imbalance:</p>
+<ul>
+<li><strong>&lt;20%</strong>: Excellent balance</li>
+<li><strong>20-30%</strong>: Good balance</li>
+<li><strong>30-40%</strong>: Moderate imbalance</li>
+<li><strong>&gt;40%</strong>: Significant imbalance</li>
+</ul>
+<p><strong>rebalancing.aggressiveness</strong></p>
+<ul>
+<li><strong>Type</strong>: String enum</li>
+<li><strong>Default</strong>: <code>balanced</code></li>
+<li><strong>Impact</strong>: Sets default values for check interval, thresholds, and move limits</li>
+<li><strong>When to change</strong>:</li>
+<li><code>conservative</code>: Production, minimize disruption</li>
+<li><code>balanced</code>: Most production clusters</li>
+<li><code>aggressive</code>: Testing, rapid optimization</li>
+</ul>
+<h3 id="rebalancing-knobs">Rebalancing Knobs</h3>
+<p><strong>rebalancing.check_interval_seconds</strong></p>
+<ul>
+<li><strong>Type</strong>: Integer</li>
+<li><strong>Default</strong>: Varies by aggressiveness</li>
+<li><strong>Impact</strong>: How often to evaluate cluster balance</li>
+<li><strong>When to change</strong>: Override aggressiveness defaults for fine-tuning</li>
+</ul>
+<p><strong>rebalancing.max_moves_per_hour</strong></p>
+<ul>
+<li><strong>Type</strong>: Integer</li>
+<li><strong>Default</strong>: Varies by aggressiveness</li>
+<li><strong>Impact</strong>: Rate limit for topic moves (prevents storms)</li>
+<li><strong>When to change</strong>: Increase for large rebalancing operations, decrease for stability</li>
+</ul>
+<p><strong>rebalancing.cooldown_seconds</strong></p>
+<ul>
+<li><strong>Type</strong>: Integer</li>
+<li><strong>Default</strong>: Varies by aggressiveness</li>
+<li><strong>Impact</strong>: Minimum time between consecutive topic moves</li>
+<li><strong>When to change</strong>: Increase to slow down rebalancing, decrease for faster convergence</li>
+</ul>
+<p><strong>rebalancing.min_brokers_for_rebalance</strong></p>
+<ul>
+<li><strong>Type</strong>: Integer</li>
+<li><strong>Default</strong>: <code>2</code></li>
+<li><strong>Impact</strong>: Rebalancing skipped if cluster has fewer brokers</li>
+<li><strong>When to change</strong>: Rarely (single-broker clusters don't need rebalancing)</li>
+</ul>
+<p><strong>rebalancing.min_topic_age_seconds</strong></p>
+<ul>
+<li><strong>Type</strong>: Integer</li>
+<li><strong>Default</strong>: <code>300</code> (5 minutes)</li>
+<li><strong>Impact</strong>: Don't move topics younger than this</li>
+<li><strong>When to change</strong>: Increase to protect recently created/moved topics</li>
+</ul>
+<h3 id="topic-blacklist">Topic Blacklist</h3>
+<p><strong>rebalancing.blacklist_topics</strong></p>
+<ul>
+<li><strong>Type</strong>: Array of strings (patterns)</li>
+<li><strong>Default</strong>: <code>[]</code> (empty)</li>
+<li><strong>Impact</strong>: Topics matching these patterns will NEVER be rebalanced</li>
+<li><strong>Patterns</strong>:</li>
+<li>Exact: <code>/admin/critical-topic</code></li>
+<li>Namespace wildcard: <code>/system/*</code></li>
+<li><strong>When to use</strong>: Protect critical topics, pin topics to specific brokers</li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nt">blacklist_topics</span><span class="p">:</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;/system/*&quot;</span><span class="w">              </span><span class="c1"># All system topics</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;/admin/critical-topic&quot;</span><span class="w">  </span><span class="c1"># Specific critical topic</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;/production/high-priority/*&quot;</span>
+</span></code></pre></div>
+<hr />
+<h2 id="wal-and-cloud-storage-configuration">WAL and Cloud Storage Configuration</h2>
+<p>Cloud-native persistence: local WAL (fast writes) + background cloud uploads (durability). See <a href="../../architecture/persistence/">Persistence Architecture</a> for details.</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nt">wal_cloud</span><span class="p">:</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="nt">wal</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="nv">...</span><span class="w"> </span><span class="p p-Indicator">}</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span><span class="nt">uploader</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="nv">...</span><span class="w"> </span><span class="p p-Indicator">}</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span><span class="nt">cloud</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="nv">...</span><span class="w"> </span><span class="p p-Indicator">}</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">  </span><span class="nt">metadata</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="nv">...</span><span class="w"> </span><span class="p p-Indicator">}</span>
+</span></code></pre></div>
+<h3 id="local-write-ahead-log-wal">Local Write-Ahead Log (WAL)</h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nt">wal</span><span class="p">:</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="nt">dir</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./danube-data/wal&quot;</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span><span class="nt">file_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;wal.log&quot;</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span><span class="nt">cache_capacity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1024</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">  </span><span class="nt">file_sync</span><span class="p">:</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="nt">interval_ms</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5000</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">    </span><span class="nt">max_batch_bytes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10485760</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">  </span><span class="nt">rotation</span><span class="p">:</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">    </span><span class="nt">max_bytes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">536870912</span>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">    </span><span class="c1"># max_hours: 24</span>
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">  </span><span class="nt">retention</span><span class="p">:</span>
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">    </span><span class="nt">time_minutes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2880</span>
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="w">    </span><span class="nt">size_mb</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20480</span>
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="w">    </span><span class="nt">check_interval_minutes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+</span></code></pre></div>
+<p><strong>wal.dir</strong></p>
+<ul>
+<li><strong>Type</strong>: String (path) or <code>null</code></li>
+<li><strong>Default</strong>: <code>./danube-data/wal</code></li>
+<li><strong>Impact</strong>: Root directory for WAL files (per-topic subdirectories created automatically)</li>
+<li><strong>When to change</strong>:</li>
+<li>Point to fast SSD/NVMe for best performance</li>
+<li>Set to <code>null</code> for in-memory mode (testing only, no durability)</li>
+</ul>
+<p><strong>wal.file_name</strong></p>
+<ul>
+<li><strong>Type</strong>: String</li>
+<li><strong>Default</strong>: <code>wal.log</code></li>
+<li><strong>Impact</strong>: Base filename (rotation creates <code>wal.0.log</code>, <code>wal.1.log</code>, etc.)</li>
+<li><strong>When to change</strong>: Rarely needed</li>
+</ul>
+<p><strong>wal.cache_capacity</strong></p>
+<ul>
+<li><strong>Type</strong>: Integer (number of messages)</li>
+<li><strong>Default</strong>: <code>1024</code></li>
+<li><strong>Impact</strong>: In-memory replay cache for consumer reads</li>
+<li><strong>When to change</strong>:</li>
+<li>Higher (<code>4096+</code>): Better consumer hit rates, more memory usage</li>
+<li>Lower (<code>512</code>): Less memory, more disk reads for catch-up consumers</li>
+</ul>
+<h3 id="file-sync-durability">File Sync (Durability)</h3>
+<p><strong>wal.file_sync.interval_ms</strong></p>
+<ul>
+<li><strong>Type</strong>: Integer (milliseconds)</li>
+<li><strong>Default</strong>: <code>5000</code> (5 seconds)</li>
+<li><strong>Impact</strong>: How often buffered writes are fsynced to disk</li>
+<li><strong>Trade-offs</strong>:</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Checkpoint Freshness</th>
+<th>Fsync Pressure</th>
+<th>Data Loss Window</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1000 (1s)</td>
+<td>Very fresh</td>
+<td>High</td>
+<td>1 second</td>
+</tr>
+<tr>
+<td>5000 (5s)</td>
+<td>Fresh</td>
+<td><strong>Balanced</strong></td>
+<td>5 seconds</td>
+</tr>
+<tr>
+<td>10000 (10s)</td>
+<td>Stale</td>
+<td>Low</td>
+<td>10 seconds</td>
+</tr>
+</tbody>
+</table>
+<p><strong>When to change</strong>:</p>
+<ul>
+<li>Low-latency: <code>1000</code> (1s)</li>
+<li>Production: <code>5000</code> (5s) - recommended</li>
+<li>High-throughput: <code>10000</code> (10s)</li>
+</ul>
+<p><strong>wal.file_sync.max_batch_bytes</strong></p>
+<ul>
+<li><strong>Type</strong>: Integer (bytes)</li>
+<li><strong>Default</strong>: <code>10485760</code> (10 MiB)</li>
+<li><strong>Impact</strong>: Force flush when buffer reaches this size</li>
+<li><strong>When to change</strong>:</li>
+<li>Increase for high-volume topics (better throughput)</li>
+<li>Decrease for lower latency (more frequent fsyncs)</li>
+</ul>
+<h3 id="file-rotation">File Rotation</h3>
+<p><strong>wal.rotation.max_bytes</strong></p>
+<ul>
+<li><strong>Type</strong>: Integer (bytes)</li>
+<li><strong>Default</strong>: <code>536870912</code> (512 MiB)</li>
+<li><strong>Impact</strong>: Create new WAL file when current file exceeds this size</li>
+<li><strong>When to change</strong>:</li>
+<li><code>512 MiB</code>: Balanced (recommended)</li>
+<li><code>1 GiB</code>: Fewer files, larger cloud objects</li>
+<li><code>256 MiB</code>: More files, smaller cloud objects</li>
+</ul>
+<p><strong>wal.rotation.max_hours</strong></p>
+<ul>
+<li><strong>Type</strong>: Integer (hours, optional)</li>
+<li><strong>Default</strong>: Disabled (commented out)</li>
+<li><strong>Impact</strong>: Rotate even if size threshold not reached</li>
+<li><strong>When to enable</strong>: Good for low-traffic topics to prevent infinitely old files</li>
+<li><strong>Recommended</strong>: <code>24</code> hours for production</li>
+</ul>
+<h3 id="wal-retention-local-cleanup">WAL Retention (Local Cleanup)</h3>
+<p><strong>wal.retention.time_minutes</strong></p>
+<ul>
+<li><strong>Type</strong>: Integer (minutes)</li>
+<li><strong>Default</strong>: <code>2880</code> (48 hours)</li>
+<li><strong>Impact</strong>: Delete local WAL files older than this (after cloud upload)</li>
+<li><strong>When to change</strong>:</li>
+<li>Production: <code>2880</code> (48h) for safety margin</li>
+<li>Space-constrained: <code>1440</code> (24h) minimum</li>
+<li><strong>Must be larger than uploader interval</strong></li>
+</ul>
+<p><strong>wal.retention.size_mb</strong></p>
+<ul>
+<li><strong>Type</strong>: Integer (megabytes per topic)</li>
+<li><strong>Default</strong>: <code>20480</code> (20 GiB)</li>
+<li><strong>Impact</strong>: Delete oldest files when total exceeds this</li>
+<li><strong>When to change</strong>:</li>
+<li>High-volume: <code>20480</code> (20 GiB) or higher</li>
+<li>Space-constrained: <code>10240</code> (10 GiB) minimum</li>
+</ul>
+<p><strong>wal.retention.check_interval_minutes</strong></p>
+<ul>
+<li><strong>Type</strong>: Integer (minutes)</li>
+<li><strong>Default</strong>: <code>5</code></li>
+<li><strong>Impact</strong>: How often retention policy runs</li>
+<li><strong>When to change</strong>: Rarely (5 minutes is responsive without overhead)</li>
+</ul>
+<hr />
+<h3 id="cloud-uploader">Cloud Uploader</h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nt">uploader</span><span class="p">:</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">  </span><span class="nt">interval_seconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">  </span><span class="nt">root_prefix</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/danube-data&quot;</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">  </span><span class="nt">max_object_mb</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">256</span>
+</span></code></pre></div>
+<p><strong>uploader.enabled</strong></p>
+<ul>
+<li><strong>Type</strong>: Boolean</li>
+<li><strong>Default</strong>: <code>true</code></li>
+<li><strong>Impact</strong>: Enable/disable background cloud uploads</li>
+<li><strong>When to disable</strong>: Local-only testing, ephemeral workloads</li>
+<li><strong>When to enable</strong>: Production (always)</li>
+</ul>
+<p><strong>uploader.interval_seconds</strong></p>
+<ul>
+<li><strong>Type</strong>: Integer (seconds)</li>
+<li><strong>Default</strong>: <code>300</code> (5 minutes)</li>
+<li><strong>Impact</strong>: Upload cycle frequency</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>RPO (Recovery Point)</th>
+<th>Cloud Overhead</th>
+<th>Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>30s</td>
+<td>30 seconds</td>
+<td>High</td>
+<td>Testing, fast feedback</td>
+</tr>
+<tr>
+<td>60s</td>
+<td>1 minute</td>
+<td>Medium-High</td>
+<td>High-durability production</td>
+</tr>
+<tr>
+<td>300s</td>
+<td>5 minutes</td>
+<td><strong>Balanced</strong></td>
+<td>General production</td>
+</tr>
+<tr>
+<td>600s</td>
+<td>10 minutes</td>
+<td>Low</td>
+<td>Cost-sensitive</td>
+</tr>
+</tbody>
+</table>
+<p><strong>uploader.root_prefix</strong></p>
+<ul>
+<li><strong>Type</strong>: String</li>
+<li><strong>Default</strong>: <code>/danube-data</code></li>
+<li><strong>Impact</strong>: ETCD metadata prefix for cloud object descriptors</li>
+<li><strong>When to change</strong>: Only for multiple independent Danube clusters sharing ETCD</li>
+</ul>
+<p><strong>uploader.max_object_mb</strong></p>
+<ul>
+<li><strong>Type</strong>: Integer (megabytes, optional)</li>
+<li><strong>Default</strong>: <code>256</code></li>
+<li><strong>Impact</strong>: Maximum size per cloud object</li>
+<li><strong>When to change</strong>:</li>
+<li><code>256 MB</code>: Optimal for S3/GCS multipart uploads (recommended)</li>
+<li>Larger: Fewer objects, higher per-object latency</li>
+<li>Smaller: More objects, better parallelism</li>
+</ul>
+<hr />
+<h3 id="cloud-storage-backend">Cloud Storage Backend</h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nt">cloud</span><span class="p">:</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span><span class="nt">backend</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fs&quot;</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">  </span><span class="nt">root</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./danube-data/cloud-storage&quot;</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">  </span><span class="c1"># Backend-specific options below</span>
+</span></code></pre></div>
+<p><strong>cloud.backend</strong></p>
+<ul>
+<li><strong>Type</strong>: String enum</li>
+<li><strong>Options</strong>: <code>fs</code> | <code>s3</code> | <code>gcs</code> | <code>azblob</code> | <code>memory</code></li>
+<li><strong>Default</strong>: <code>fs</code></li>
+<li><strong>Impact</strong>: Cloud storage provider</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Backend</th>
+<th>Use Case</th>
+<th>Multi-Broker Support</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>memory</code></td>
+<td>Testing only (no durability)</td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>fs</code></td>
+<td>Local development, shared NFS/EFS</td>
+<td>Yes (with shared storage)</td>
+</tr>
+<tr>
+<td><code>s3</code></td>
+<td>Production (AWS, MinIO, etc.)</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>gcs</code></td>
+<td>Production (Google Cloud)</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>azblob</code></td>
+<td>Production (Azure)</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<p><strong>cloud.root</strong></p>
+<ul>
+<li><strong>Type</strong>: String (backend-specific format)</li>
+<li><strong>Impact</strong>: Storage location</li>
+<li><strong>Formats</strong>:</li>
+<li><code>fs</code>: <code>./path/to/directory</code></li>
+<li><code>s3</code>: <code>s3://bucket-name/prefix</code></li>
+<li><code>gcs</code>: <code>gcs://bucket-name/prefix</code></li>
+<li><code>azblob</code>: <code>container-name/prefix</code></li>
+<li><code>memory</code>: <code>namespace-prefix</code></li>
+<li><strong>Multi-broker requirement</strong>: Must be shared/accessible across all brokers</li>
+</ul>
+<h3 id="backend-specific-options">Backend-Specific Options</h3>
+<p><strong>Amazon S3:</strong></p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nt">cloud</span><span class="p">:</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span><span class="nt">backend</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;s3&quot;</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">  </span><span class="nt">root</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;s3://my-bucket/danube-data&quot;</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">  </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;us-east-1&quot;</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">  </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://s3.us-east-1.amazonaws.com&quot;</span><span class="w">  </span><span class="c1"># Optional</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">  </span><span class="nt">access_key</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;${AWS_ACCESS_KEY_ID}&quot;</span><span class="w">              </span><span class="c1"># Or use IAM roles</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">  </span><span class="nt">secret_key</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;${AWS_SECRET_ACCESS_KEY}&quot;</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="w">  </span><span class="nt">anonymous</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+</span></code></pre></div>
+<p><strong>Google Cloud Storage:</strong></p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nt">cloud</span><span class="p">:</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span><span class="nt">backend</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;gcs&quot;</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">  </span><span class="nt">root</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;gcs://my-bucket/danube-data&quot;</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">  </span><span class="nt">project</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;my-gcp-project&quot;</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">  </span><span class="nt">credentials_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/path/to/service-account.json&quot;</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">  </span><span class="c1"># Or credentials_json: &quot;{ ... }&quot;  # Inline JSON string</span>
+</span></code></pre></div>
+<p><strong>Azure Blob Storage:</strong></p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="nt">cloud</span><span class="p">:</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">  </span><span class="nt">backend</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;azblob&quot;</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">  </span><span class="nt">root</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;my-container/danube-data&quot;</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">  </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://myaccount.blob.core.windows.net&quot;</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="w">  </span><span class="nt">account_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;myaccount&quot;</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="w">  </span><span class="nt">account_key</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;${AZURE_STORAGE_KEY}&quot;</span>
+</span></code></pre></div>
+<p><strong>Local Filesystem:</strong></p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nt">cloud</span><span class="p">:</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">  </span><span class="nt">backend</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fs&quot;</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">  </span><span class="nt">root</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./danube-data/cloud-storage&quot;</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">  </span><span class="c1"># For multi-broker: use shared storage like NFS</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="w">  </span><span class="c1"># root: &quot;/mnt/shared-nfs/danube-cloud&quot;</span>
+</span></code></pre></div>
+<hr />
+<h3 id="metadata-store">Metadata Store</h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="nt">metadata</span><span class="p">:</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">  </span><span class="nt">etcd_endpoint</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;127.0.0.1:2379&quot;</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">  </span><span class="nt">in_memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+</span></code></pre></div>
+<p><strong>metadata.etcd_endpoint</strong></p>
+<ul>
+<li><strong>Type</strong>: String (host:port)</li>
+<li><strong>Default</strong>: <code>127.0.0.1:2379</code></li>
+<li><strong>Impact</strong>: ETCD endpoint for storing cloud object descriptors and indexes</li>
+<li><strong>When to change</strong>: Should match <code>meta_store.host:port</code> for consistency</li>
+<li><strong>Production</strong>: Use clustered ETCD for high availability</li>
+</ul>
+<p><strong>metadata.in_memory</strong></p>
+<ul>
+<li><strong>Type</strong>: Boolean</li>
+<li><strong>Default</strong>: <code>false</code></li>
+<li><strong>Impact</strong>: Use in-memory metadata storage (no persistence)</li>
+<li><strong>When to enable</strong>: Testing only (ephemeral)</li>
+<li><strong>Production</strong>: Always <code>false</code></li>
+</ul>
+<hr />
+<h2 id="broker-policies">Broker Policies</h2>
+<p>Default resource limits for topics. Can be overridden at namespace or topic level.</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="nt">policies</span><span class="p">:</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="w">  </span><span class="nt">max_producers_per_topic</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="w">  </span><span class="nt">max_subscriptions_per_topic</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="w">  </span><span class="nt">max_consumers_per_topic</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="w">  </span><span class="nt">max_consumers_per_subscription</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="w">  </span><span class="nt">max_publish_rate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="w">  </span><span class="nt">max_subscription_dispatch_rate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="w">  </span><span class="nt">max_message_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10485760</span><span class="w">  </span><span class="c1"># 10 MB</span>
+</span></code></pre></div>
+<p><strong>Default value <code>0</code> means unlimited</strong> for all rate/count limits.</p>
+<h3 id="connection-limits">Connection Limits</h3>
+<p><strong>max_producers_per_topic</strong></p>
+<ul>
+<li><strong>Type</strong>: Integer</li>
+<li><strong>Default</strong>: <code>0</code> (unlimited)</li>
+<li><strong>Impact</strong>: Maximum concurrent producers per topic</li>
+<li><strong>When to set</strong>: Prevent resource exhaustion from producer storms</li>
+</ul>
+<p><strong>max_subscriptions_per_topic</strong></p>
+<ul>
+<li><strong>Type</strong>: Integer</li>
+<li><strong>Default</strong>: <code>0</code> (unlimited)</li>
+<li><strong>Impact</strong>: Maximum subscriptions per topic</li>
+<li><strong>When to set</strong>: Control fan-out complexity</li>
+</ul>
+<p><strong>max_consumers_per_topic</strong></p>
+<ul>
+<li><strong>Type</strong>: Integer</li>
+<li><strong>Default</strong>: <code>0</code> (unlimited)</li>
+<li><strong>Impact</strong>: Maximum concurrent consumers across all subscriptions</li>
+<li><strong>When to set</strong>: Limit total consumer connections</li>
+</ul>
+<p><strong>max_consumers_per_subscription</strong></p>
+<ul>
+<li><strong>Type</strong>: Integer</li>
+<li><strong>Default</strong>: <code>0</code> (unlimited)</li>
+<li><strong>Impact</strong>: Maximum consumers sharing a single subscription</li>
+<li><strong>When to set</strong>: Control load-sharing fan-out</li>
+</ul>
+<h3 id="rate-limits">Rate Limits</h3>
+<p><strong>max_publish_rate</strong></p>
+<ul>
+<li><strong>Type</strong>: Integer (messages/second or bytes/second)</li>
+<li><strong>Default</strong>: <code>0</code> (unlimited)</li>
+<li><strong>Impact</strong>: Throttle producer publish rate</li>
+<li><strong>When to set</strong>: Prevent producer overwhelming broker</li>
+</ul>
+<p><strong>max_subscription_dispatch_rate</strong></p>
+<ul>
+<li><strong>Type</strong>: Integer (messages/second)</li>
+<li><strong>Default</strong>: <code>0</code> (unlimited)</li>
+<li><strong>Impact</strong>: Throttle consumer dispatch rate</li>
+<li><strong>When to set</strong>: Protect slow consumers</li>
+</ul>
+<h3 id="message-size">Message Size</h3>
+<p><strong>max_message_size</strong></p>
+<ul>
+<li><strong>Type</strong>: Integer (bytes)</li>
+<li><strong>Default</strong>: <code>10485760</code> (10 MB)</li>
+<li><strong>Impact</strong>: Maximum single message size</li>
+<li><strong>When to change</strong>:</li>
+<li>Increase: Large payloads (video, logs)</li>
+<li>Decrease: Prevent memory issues from huge messages</li>
+<li><strong>Note</strong>: Very large messages impact performance</li>
+</ul>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 Danube Messaging
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://github.com/danube-messaging/danube" target="_blank" rel="noopener" title="Danube on GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://github.com/danube-messaging/danube/releases" target="_blank" rel="noopener" title="Release Notes" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M0 80v149.5c0 17 6.7 33.3 18.7 45.3l176 176c25 25 65.5 25 90.5 0l133.5-133.5c25-25 25-65.5 0-90.5l-176-176c-12-12-28.3-18.7-45.3-18.7L48 32C21.5 32 0 53.5 0 80zm112 32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://crates.io/crates/danube-client" target="_blank" rel="noopener" title="Rust Client on Crates.io" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="m508.52 249.75-21.82-13.51c-.17-2-.34-3.93-.55-5.88l18.72-17.5a7.35 7.35 0 0 0-2.44-12.25l-24-9c-.54-1.88-1.08-3.78-1.67-5.64l15-20.83a7.35 7.35 0 0 0-4.79-11.54l-25.42-4.15c-.9-1.73-1.79-3.45-2.73-5.15l10.68-23.42a7.35 7.35 0 0 0-6.95-10.39l-25.82.91q-1.79-2.22-3.61-4.4L439 81.84a7.36 7.36 0 0 0-8.84-8.84L405 78.93q-2.17-1.83-4.4-3.61l.91-25.82a7.35 7.35 0 0 0-10.39-7L367.7 53.23c-1.7-.94-3.43-1.84-5.15-2.73l-4.15-25.42a7.35 7.35 0 0 0-11.54-4.79L326 35.26c-1.86-.59-3.75-1.13-5.64-1.67l-9-24a7.35 7.35 0 0 0-12.25-2.44l-17.5 18.72c-1.95-.21-3.91-.38-5.88-.55L262.25 3.48a7.35 7.35 0 0 0-12.5 0L236.24 25.3c-2 .17-3.93.34-5.88.55l-17.5-18.72a7.35 7.35 0 0 0-12.25 2.44l-9 24c-1.89.55-3.79 1.08-5.66 1.68l-20.82-15a7.35 7.35 0 0 0-11.54 4.79l-4.15 25.41c-1.73.9-3.45 1.79-5.16 2.73l-23.4-10.63a7.35 7.35 0 0 0-10.39 7l.92 25.81c-1.49 1.19-3 2.39-4.42 3.61L81.84 73A7.36 7.36 0 0 0 73 81.84L78.93 107c-1.23 1.45-2.43 2.93-3.62 4.41l-25.81-.91a7.42 7.42 0 0 0-6.37 3.26 7.35 7.35 0 0 0-.57 7.13l10.66 23.41c-.94 1.7-1.83 3.43-2.73 5.16l-25.41 4.14a7.35 7.35 0 0 0-4.79 11.54l15 20.82c-.59 1.87-1.13 3.77-1.68 5.66l-24 9a7.35 7.35 0 0 0-2.44 12.25l18.72 17.5c-.21 1.95-.38 3.91-.55 5.88l-21.86 13.5a7.35 7.35 0 0 0 0 12.5l21.82 13.51c.17 2 .34 3.92.55 5.87l-18.72 17.5a7.35 7.35 0 0 0 2.44 12.25l24 9c.55 1.89 1.08 3.78 1.68 5.65l-15 20.83a7.35 7.35 0 0 0 4.79 11.54l25.42 4.15c.9 1.72 1.79 3.45 2.73 5.14l-10.63 23.43a7.35 7.35 0 0 0 .57 7.13 7.13 7.13 0 0 0 6.37 3.26l25.83-.91q1.77 2.22 3.6 4.4L73 430.16a7.36 7.36 0 0 0 8.84 8.84l25.16-5.93q2.18 1.83 4.41 3.61l-.92 25.82a7.35 7.35 0 0 0 10.39 6.95l23.43-10.68c1.69.94 3.42 1.83 5.14 2.73l4.15 25.42a7.34 7.34 0 0 0 11.54 4.78l20.83-15c1.86.6 3.76 1.13 5.65 1.68l9 24a7.36 7.36 0 0 0 12.25 2.44l17.5-18.72c1.95.21 3.92.38 5.88.55l13.51 21.82a7.35 7.35 0 0 0 12.5 0l13.51-21.82c2-.17 3.93-.34 5.88-.56l17.5 18.73a7.36 7.36 0 0 0 12.25-2.44l9-24c1.89-.55 3.78-1.08 5.65-1.68l20.82 15a7.34 7.34 0 0 0 11.54-4.78l4.15-25.42c1.72-.9 3.45-1.79 5.15-2.73l23.42 10.68a7.35 7.35 0 0 0 10.39-6.95l-.91-25.82q2.22-1.79 4.4-3.61l25.15 5.93a7.36 7.36 0 0 0 8.84-8.84L433.07 405q1.83-2.17 3.61-4.4l25.82.91a7.23 7.23 0 0 0 6.37-3.26 7.35 7.35 0 0 0 .58-7.13l-10.68-23.42c.94-1.7 1.83-3.43 2.73-5.15l25.42-4.15a7.35 7.35 0 0 0 4.79-11.54l-15-20.83c.59-1.87 1.13-3.76 1.67-5.65l24-9a7.35 7.35 0 0 0 2.44-12.25l-18.72-17.5c.21-1.95.38-3.91.55-5.87l21.82-13.51a7.35 7.35 0 0 0 0-12.5Zm-151 129.08A13.91 13.91 0 0 0 341 389.51l-7.64 35.67a187.51 187.51 0 0 1-156.36-.74l-7.64-35.66a13.87 13.87 0 0 0-16.46-10.68l-31.51 6.76a187.38 187.38 0 0 1-16.26-19.21H258.3c1.72 0 2.89-.29 2.89-1.91v-54.19c0-1.57-1.17-1.91-2.89-1.91h-44.83l.05-34.35H262c4.41 0 23.66 1.28 29.79 25.87 1.91 7.55 6.17 32.14 9.06 40 2.89 8.82 14.6 26.46 27.1 26.46H407a187.3 187.3 0 0 1-17.34 20.09Zm25.77 34.49A15.24 15.24 0 1 1 368 398.08h.44a15.23 15.23 0 0 1 14.8 15.24Zm-225.62-.68a15.24 15.24 0 1 1-15.25-15.25h.45a15.25 15.25 0 0 1 14.75 15.25Zm-88.1-178.49 32.83-14.6a13.88 13.88 0 0 0 7.06-18.33L102.69 186h26.56v119.73h-53.6a187.65 187.65 0 0 1-6.08-71.58Zm-11.26-36.06a15.24 15.24 0 0 1 15.23-15.25H74a15.24 15.24 0 1 1-15.67 15.24Zm155.16 24.49.05-35.32h63.26c3.28 0 23.07 3.77 23.07 18.62 0 12.29-15.19 16.7-27.68 16.7ZM399 306.71c-9.8 1.13-20.63-4.12-22-10.09-5.78-32.49-15.39-39.4-30.57-51.4 18.86-11.95 38.46-29.64 38.46-53.26 0-25.52-17.49-41.59-29.4-49.48-16.76-11-35.28-13.23-40.27-13.23h-198.9a187.49 187.49 0 0 1 104.89-59.19l23.47 24.6a13.82 13.82 0 0 0 19.6.44l26.26-25a187.51 187.51 0 0 1 128.37 91.43l-18 40.57a14 14 0 0 0 7.09 18.33l34.59 15.33a187.12 187.12 0 0 1 .4 32.54h-19.28c-1.91 0-2.69 1.27-2.69 3.13v8.82C421 301 409.31 305.58 399 306.71ZM240 60.21A15.24 15.24 0 0 1 255.21 45h.45A15.24 15.24 0 1 1 240 60.21ZM436.84 214a15.24 15.24 0 1 1 0-30.48h.44a15.24 15.24 0 0 1-.44 30.48Z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://pkg.go.dev/github.com/danube-messaging/danube-go" target="_blank" rel="noopener" title="Go Client Documentation" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M400.1 194.8c-10.9 2.8-19.9 4.3-29.1 7.6-7.3 1.9-14.7 3.9-23.2 6.1l-.6.1c-4.2 1.2-4.6 1.3-8.5-3.2-4.7-5.3-8.1-8.7-14.6-11.9-19.7-9.6-38.7-6.8-56.4 4.7-21.2 13.7-32.1 34-31.8 59.2.3 25 17.4 45.5 41.2 48.9 22 2.8 39.8-4.6 53.8-20.5 2.1-2.6 4-5.3 6.1-8.3.8-1 1.5-2.1 2.3-3.3h-60.1c-6.5 0-8.1-4-5.9-9.3 4-9.7 11.5-25.9 15.9-34 .9-1.8 3.1-5.8 6.9-5.8h101.1c4.5-13.4 11.8-26.9 21.6-39.7 22.7-29.9 49.3-45.5 87.2-52 31.8-5.6 61.7-2.5 88.9 15.9 24.6 16.8 39.8 39.6 43.9 69.5 5.3 42.1-6.9 76.3-36.7 105.6-19.7 20.9-44.9 34-73.9 39.9-5.6 1-11.1 1.5-16.5 2-2.9.2-5.7.5-8.5.8-28.3-.6-54.2-8.7-76-27.4-15.3-13.3-25.9-29.6-31.1-48.5-3.7 7.3-8 14.4-14 21.1-21.6 29.6-50.9 48-87.9 52.9-30.6 4.1-58.9-1.8-83.9-20.5-23-17.5-36.1-40.5-39.5-69.2-4.1-34 5.9-65.4 26.4-91.3 22.2-29 51.5-47.4 87.3-53.9 29.3-6.2 57.3-1.9 82.6 15.3 16.5 10.9 28.3 25.8 36.1 43.9 1.9 2.8.6 4.4-3.1 5.3zm-351.8 5.6c-1.25 0-1.56-.6-.94-1.6l6.55-8.4c.62-.9 2.18-1.5 3.43-1.5H168.6c1.2 0 1.5.9.9 1.8l-5.3 8.1c-.6 1-2.2 1.9-3.1 1.9l-112.8-.3zM1.246 229.1c-1.246 0-1.558-.7-.934-1.6l6.543-8.4c.624-.9 2.182-1.6 3.425-1.6H152.4c1.2 0 1.8 1 1.5 1.9l-2.5 7.5c-.3 1.2-1.5 1.9-2.8 1.9l-147.354.3zm74.474 26.8c-.62.9-.31 1.8.93 1.8l67.95.3c.9 0 2.2-.9 2.2-2.1l.6-7.5c0-1.3-.6-2.2-1.9-2.2H83.2c-1.25 0-2.49.9-3.12 1.9l-4.36 7.8zm501.48-18c-.2-2.6-.3-4.8-.7-7-5.6-30.8-34-48.3-63.6-41.4-29 6.5-47.7 24.9-54.5 54.2-5.6 24.3 6.2 48.9 28.6 58.9 17.2 7.5 34.3 6.6 50.8-1.9 24.6-13.6 38-32.7 39.6-59.5-.1-1.2-.1-2.3-.2-3.3z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.action.edit", "content.code.copy", "content.tabs.link", "content.tooltips", "navigation.top", "search.suggest", "search.share"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      
+    
+  </body>
+</html>

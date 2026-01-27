@@ -2,192 +2,197 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://danube-docs.dev-state.com/</loc>
-         <lastmod>2026-01-26</lastmod>
+         <lastmod>2026-01-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://danube-docs.dev-state.com/architecture/architecture/</loc>
-         <lastmod>2026-01-26</lastmod>
+         <lastmod>2026-01-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://danube-docs.dev-state.com/architecture/internal_danube_services/</loc>
-         <lastmod>2026-01-26</lastmod>
+         <lastmod>2026-01-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://danube-docs.dev-state.com/architecture/load_manager_architecture/</loc>
-         <lastmod>2026-01-26</lastmod>
+         <lastmod>2026-01-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://danube-docs.dev-state.com/architecture/persistence/</loc>
-         <lastmod>2026-01-26</lastmod>
+         <lastmod>2026-01-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://danube-docs.dev-state.com/architecture/reliable_topic_move/</loc>
-         <lastmod>2026-01-26</lastmod>
+         <lastmod>2026-01-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://danube-docs.dev-state.com/architecture/schema_registry_architecture/</loc>
-         <lastmod>2026-01-26</lastmod>
+         <lastmod>2026-01-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://danube-docs.dev-state.com/client_libraries/clients/</loc>
-         <lastmod>2026-01-26</lastmod>
+         <lastmod>2026-01-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://danube-docs.dev-state.com/client_libraries/consumer-advanced/</loc>
-         <lastmod>2026-01-26</lastmod>
+         <lastmod>2026-01-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://danube-docs.dev-state.com/client_libraries/consumer-basics/</loc>
-         <lastmod>2026-01-26</lastmod>
+         <lastmod>2026-01-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://danube-docs.dev-state.com/client_libraries/producer-advanced/</loc>
-         <lastmod>2026-01-26</lastmod>
+         <lastmod>2026-01-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://danube-docs.dev-state.com/client_libraries/producer-basics/</loc>
-         <lastmod>2026-01-26</lastmod>
+         <lastmod>2026-01-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://danube-docs.dev-state.com/client_libraries/schema-registry/</loc>
-         <lastmod>2026-01-26</lastmod>
+         <lastmod>2026-01-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://danube-docs.dev-state.com/client_libraries/setup/</loc>
-         <lastmod>2026-01-26</lastmod>
+         <lastmod>2026-01-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://danube-docs.dev-state.com/concepts/dispatch_strategy/</loc>
-         <lastmod>2026-01-26</lastmod>
+         <lastmod>2026-01-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://danube-docs.dev-state.com/concepts/messages/</loc>
-         <lastmod>2026-01-26</lastmod>
+         <lastmod>2026-01-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://danube-docs.dev-state.com/concepts/messaging_modes_pubsub_vs_streaming/</loc>
-         <lastmod>2026-01-26</lastmod>
+         <lastmod>2026-01-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://danube-docs.dev-state.com/concepts/messaging_patterns_queuing_vs_pubsub/</loc>
-         <lastmod>2026-01-26</lastmod>
+         <lastmod>2026-01-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://danube-docs.dev-state.com/concepts/schema_registry_guide/</loc>
-         <lastmod>2026-01-26</lastmod>
+         <lastmod>2026-01-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://danube-docs.dev-state.com/concepts/subscriptions/</loc>
-         <lastmod>2026-01-26</lastmod>
+         <lastmod>2026-01-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://danube-docs.dev-state.com/concepts/topics/</loc>
-         <lastmod>2026-01-26</lastmod>
+         <lastmod>2026-01-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://danube-docs.dev-state.com/contributing/dev_environment/</loc>
-         <lastmod>2026-01-26</lastmod>
+         <lastmod>2026-01-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://danube-docs.dev-state.com/contributing/etcd_metadata_structure/</loc>
-         <lastmod>2026-01-26</lastmod>
+         <lastmod>2026-01-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://danube-docs.dev-state.com/danube_clis/danube_admin/brokers/</loc>
-         <lastmod>2026-01-26</lastmod>
+         <lastmod>2026-01-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://danube-docs.dev-state.com/danube_clis/danube_admin/namespaces/</loc>
-         <lastmod>2026-01-26</lastmod>
+         <lastmod>2026-01-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://danube-docs.dev-state.com/danube_clis/danube_admin/schema_registry/</loc>
-         <lastmod>2026-01-26</lastmod>
+         <lastmod>2026-01-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://danube-docs.dev-state.com/danube_clis/danube_admin/topics/</loc>
-         <lastmod>2026-01-26</lastmod>
+         <lastmod>2026-01-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://danube-docs.dev-state.com/danube_clis/danube_cli/consumer/</loc>
-         <lastmod>2026-01-26</lastmod>
+         <lastmod>2026-01-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://danube-docs.dev-state.com/danube_clis/danube_cli/getting_started/</loc>
-         <lastmod>2026-01-26</lastmod>
+         <lastmod>2026-01-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://danube-docs.dev-state.com/danube_clis/danube_cli/producer/</loc>
-         <lastmod>2026-01-26</lastmod>
+         <lastmod>2026-01-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://danube-docs.dev-state.com/danube_clis/danube_cli/schema_registry/</loc>
-         <lastmod>2026-01-26</lastmod>
+         <lastmod>2026-01-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://danube-docs.dev-state.com/getting_started/Danube_docker_compose/</loc>
-         <lastmod>2026-01-26</lastmod>
+         <lastmod>2026-01-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://danube-docs.dev-state.com/getting_started/Danube_kubernetes/</loc>
-         <lastmod>2026-01-26</lastmod>
+         <lastmod>2026-01-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://danube-docs.dev-state.com/getting_started/Danube_local/</loc>
-         <lastmod>2026-01-26</lastmod>
+         <lastmod>2026-01-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://danube-docs.dev-state.com/integrations/danube_connect_architecture/</loc>
-         <lastmod>2026-01-26</lastmod>
+         <lastmod>2026-01-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://danube-docs.dev-state.com/integrations/danube_connect_overview/</loc>
-         <lastmod>2026-01-26</lastmod>
+         <lastmod>2026-01-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://danube-docs.dev-state.com/integrations/sink_connector_development/</loc>
-         <lastmod>2026-01-26</lastmod>
+         <lastmod>2026-01-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://danube-docs.dev-state.com/integrations/source_connector_development/</loc>
-         <lastmod>2026-01-26</lastmod>
+         <lastmod>2026-01-27</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://danube-docs.dev-state.com/reference/broker_configuration/</loc>
+         <lastmod>2026-01-27</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
