@@ -99,6 +99,9 @@ nav:
                   - Sink Connector Development: integrations/sink_connector_development.md
                   - Source Connector Development: integrations/source_connector_development.md
 
+        - 📚 Reference:
+                  - Broker Configuration Reference: reference/broker_configuration.md
+
         - 🤝 Contributing:
                   - Development Environment: contributing/dev_environment.md
                   - ETCD Metadata Structure: contributing/etcd_metadata_structure.md
