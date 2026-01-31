@@ -10,16 +10,48 @@ For design details, see the [Architecture](architecture/architecture.md).
 
 **[Docker Compose Quickstart](getting_started/Danube_docker_compose.md)**: Use the provided Docker Compose setup with MinIO and ETCD.
 
-## Danube capabilities
+## Danube architecture
 
 ### 🏗️ **Cluster & Broker Characteristics**
 
 - **Stateless brokers**: Metadata in ETCD and data in WAL/Object Storage
-- **Horizontal scaling**: Add brokers in seconds; partitions rebalance automatically
-- **Leader election & HA**: Automatic failover and coordination via ETCD
+- **Horizontal scaling**: Add brokers in seconds with zero-downtime expansion
+- **Intelligent load balancing**: Automatic topic placement and rebalancing across brokers
 - **Rolling upgrades**: Restart or replace brokers with minimal disruption
-- **Multi-tenancy**: Isolated namespaces with policy controls
 - **Security-ready**: TLS/mTLS support in Admin and data paths
+- **Leader election & HA**: Automatic failover and coordination via ETCD
+- **Multi-tenancy**: Isolated namespaces with policy controls
+
+### 🌩️ **Write-Ahead Log + Cloud Persistence**
+
+- **Cloud-Native by Design** - Danube's architecture separates compute from storage
+- **Multi-cloud support**: AWS S3, Google Cloud Storage, Azure Blob, MinIO
+- **Hot path optimization**: Messages served from in-memory WAL cache
+- **Stream per subscription**: WAL + cloud storage from selected offset
+- **Asynchronous background uploads** to S3/GCS/Azure object storage
+- **Infinite retention** without local disk constraints
+
+### 🎯 **Intelligent Load Management**
+
+- **Automated rebalancing**: Detects cluster imbalances and redistributes topics automatically
+- **Smart topic assignment**: Places new topics on least-loaded brokers using configurable strategies
+- **Resource monitoring**: Tracks CPU, memory, throughput, and backlog per broker in real-time
+- **Configurable policies**: Conservative, balanced, or aggressive rebalancing based on workload
+- **Graceful topic migration**: Moves topics between brokers without downtime
+
+## Core Capabilities
+
+### 📨 **Message Delivery**
+
+- **[Topics](concepts/topics.md)**: Partitioned and non-partitioned with automatic load balancing
+- **[Reliable Dispatch](concepts/dispatch_strategy.md)**: At-least-once delivery with configurable storage backends
+- **Non-Reliable Dispatch**: High-throughput, low-latency for real-time scenarios
+
+### 🔄 **Subscription Models**
+
+- **[Exclusive](concepts/subscriptions.md)**: Single consumer per subscription
+- **Shared**: Load-balanced message distribution across consumers
+- **Failover**: Automatic consumer failover with ordered delivery
 
 ### 📋 **Schema Registry**
 
@@ -28,53 +60,24 @@ For design details, see the [Architecture](architecture/architecture.md).
 - **Multiple formats**: Bytes, String, Number, JSON Schema, Avro, Protobuf
 - **Validation & governance**: Prevent invalid messages and ensure data quality
 
-## Cloud-Native by Design
+### 🤖 **AI-Powered Administration**
 
-Danube's architecture separates compute from storage, enabling:
+Danube features **the AI-native messaging platform administration** through the Model Context Protocol (MCP):
 
-### 🌩️ **Write-Ahead Log + Cloud Persistence**
+- **Natural language cluster management**: Manage your cluster by talking to AI assistants (Claude, Cursor, Windsurf)
+- **32 intelligent tools**: Full cluster operations accessible via AI - topics, schemas, brokers, diagnostics, metrics
+- **Automated troubleshooting**: AI-guided workflows for consumer lag analysis, health checks, and performance optimization
+- **Multiple interfaces**: CLI commands, Web UI, or AI conversation - your choice
 
-- **Sub-millisecond producer acknowledgments** via local WAL
-- **Asynchronous background uploads** to S3/GCS/Azure object storage
-- **Automatic failover** with shared cloud state
-- **Infinite retention** without local disk constraints
-
-### ⚡ **Performance & Scalability**
-
-- **Hot path optimization**: Messages served from in-memory WAL cache
-- **Stream per subscription**: WAL + cloud storage from selected offset
-- **Multi-cloud support**: AWS S3, Google Cloud Storage, Azure Blob, MinIO
-
-## Core Concepts
-
-Learn the fundamental concepts that power Danube messaging:
-
-**[Topics](concepts/topics.md)** - Named channels for message streams
-
-- Non‑partitioned: served by a single broker
-- Partitioned: split across brokers for scale and HA
-
-**[Subscriptions](concepts/subscriptions.md)** - Named configurations for message delivery
-
-- `Exclusive`, `Shared`, `Failover` patterns for queueing and fan‑out
-
-**[Dispatch Strategies](concepts/dispatch_strategy.md)** - Message delivery guarantees
-
-- `Non‑Reliable`: in‑memory, best‑effort delivery, lowest latency
-- `Reliable`: WAL + Cloud persistence with acknowledgments and replay
-
-**[Danube Stream Messages](concepts/messages.md)** - Message structure
-
-**Messaging Patterns**
-
-- [Pub/Sub vs Streaming](concepts/messaging_modes_pubsub_vs_streaming.md) - Compare messaging modes
-- [Queuing vs Pub/Sub](concepts/messaging_patterns_queuing_vs_pubsub.md) - Understand delivery patterns
+**Example**: Ask Claude *"What's the cluster balance?"* or *"Create a partitioned topic for analytics"* and watch it happen.
 
 ## Architecture Deep Dives
 
 Explore how Danube works under the hood:
 
 **[System Overview](architecture/architecture.md)** - Complete architecture diagram and component interaction
+
+**[Load Manager & Rebalancing](architecture/load_manager_architecture.md)** - Smart topic assignment and automatic rebalancing
 
 **[Persistence (WAL + Cloud)](architecture/persistence.md)** - Two-tier storage architecture
 
@@ -117,7 +120,7 @@ CLIs and client libraries:
 
 - [danube-client](https://github.com/danube-messaging/danube/tree/main/danube-client) – Async Rust client library.
 - [danube-cli](https://github.com/danube-messaging/danube/tree/main/danube-cli) – Publish/consume client CLI.
-- [danube-admin-cli](https://github.com/danube-messaging/danube/tree/main/danube-admin-cli) – Admin CLI for cluster management.
+- [danube-admin](https://github.com/danube-messaging/danube/tree/main/danube-admin) – Unified admin tool (CLI + AI/MCP + Web UI)
 
 ## Client libraries
 
