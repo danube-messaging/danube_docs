@@ -1775,9 +1775,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#what-requires-admin-danube-admin-cli" class="md-nav__link">
+  <a href="#what-requires-admin-danube-admin" class="md-nav__link">
     <span class="md-ellipsis">
-      What Requires Admin (danube-admin-cli)
+      What Requires Admin (danube-admin)
     </span>
   </a>
   
@@ -2468,9 +2468,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#what-requires-admin-danube-admin-cli" class="md-nav__link">
+  <a href="#what-requires-admin-danube-admin" class="md-nav__link">
     <span class="md-ellipsis">
-      What Requires Admin (danube-admin-cli)
+      What Requires Admin (danube-admin)
     </span>
   </a>
   
@@ -2879,7 +2879,7 @@
 <h2 id="compatibility-modes">Compatibility Modes</h2>
 <p>Compatibility modes control how schemas can evolve.</p>
 <blockquote>
-<p><strong>⚠️ Note:</strong> Setting compatibility mode is an <strong>admin-only</strong> operation using <code>danube-admin-cli</code>. Clients can only <strong>check</strong> compatibility, not set it.</p>
+<p><strong>⚠️ Note:</strong> Setting compatibility mode is an <strong>admin-only</strong> operation using <code>danube-admin</code>. Clients can only <strong>check</strong> compatibility, not set it.</p>
 </blockquote>
 <h3 id="backward-default">Backward (Default)</h3>
 <p>New schema can read data written with old schema.</p>
@@ -2889,8 +2889,8 @@
 </span><span id="__span-31-3"><a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a><span class="w">  </span>--schema-type<span class="w"> </span>json_schema<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-31-4"><a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="w">  </span>--file<span class="w"> </span>orders-v2.json
 </span><span id="__span-31-5"><a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a>
-</span><span id="__span-31-6"><a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a><span class="c1"># Set compatibility mode (admin-only - use danube-admin-cli)</span>
-</span><span id="__span-31-7"><a id="__codelineno-31-7" name="__codelineno-31-7" href="#__codelineno-31-7"></a><span class="c1"># danube-admin-cli schemas set-compatibility orders --mode backward</span>
+</span><span id="__span-31-6"><a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a><span class="c1"># Set compatibility mode (admin-only - use danube-admin)</span>
+</span><span id="__span-31-7"><a id="__codelineno-31-7" name="__codelineno-31-7" href="#__codelineno-31-7"></a><span class="c1"># danube-admin schemas set-compatibility orders --mode backward</span>
 </span></code></pre></div>
 <p><strong>Allowed changes:</strong></p>
 <ul>
@@ -3041,10 +3041,10 @@
 ✅ <strong>Check compatibility</strong> - Validate before registering
 ✅ <strong>Choose schema version</strong> - Producers can pin to specific versions
 ✅ <strong>Auto-register schemas</strong> - Register during production</p>
-<h3 id="what-requires-admin-danube-admin-cli">What Requires Admin (danube-admin-cli)</h3>
-<p>❌ <strong>Set compatibility mode</strong> - Governance control (use <code>danube-admin-cli schemas set-compatibility</code>)
-❌ <strong>Configure topic schemas</strong> - Topic-level validation policies (use <code>danube-admin-cli topics configure-schema</code>)
-❌ <strong>Delete schemas</strong> - Dangerous operation (use <code>danube-admin-cli schemas delete</code>)</p>
+<h3 id="what-requires-admin-danube-admin">What Requires Admin (danube-admin)</h3>
+<p>❌ <strong>Set compatibility mode</strong> - Governance control (use <code>danube-admin schemas set-compatibility</code>)
+❌ <strong>Configure topic schemas</strong> - Topic-level validation policies (use <code>danube-admin topics configure-schema</code>)
+❌ <strong>Delete schemas</strong> - Dangerous operation (use <code>danube-admin schemas delete</code>)</p>
 <p><strong>See Also:</strong></p>
 <ul>
 <li><a href="../../danube_admin/admin_cli/schema_registry/">Admin Schema Registry Guide</a> - For admin-only operations</li>

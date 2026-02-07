@@ -2168,7 +2168,7 @@
 <h2 id="topic-moves-why-and-when">Topic Moves: Why and When</h2>
 <p>A topic may be moved between brokers for several reasons:</p>
 <ol>
-<li><strong>Manual Load Balancing</strong> (Current): An operator uses <code>danube-admin-cli topics unload</code> to explicitly move a topic</li>
+<li><strong>Manual Load Balancing</strong> (Current): An operator uses <code>danube-admin topics unload</code> to explicitly move a topic</li>
 <li><strong>Automated Load Balancing</strong> (Future): The LoadManager detects imbalance and automatically reassigns topics</li>
 <li><strong>Broker Maintenance</strong>: A broker needs to be taken offline for upgrades or repairs</li>
 <li><strong>Failure Recovery</strong>: A broker crashes and topics need to be reassigned</li>
@@ -2274,7 +2274,7 @@
 <h2 id="topic-move-workflow-with-fix">Topic Move Workflow (With Fix)</h2>
 <p>This section describes the complete flow when a topic is moved from Broker A to Broker B. The move can be triggered in two ways:</p>
 <ol>
-<li><strong>Manual (Current)</strong>: An operator runs <code>danube-admin-cli topics unload /default/reliable_topic</code></li>
+<li><strong>Manual (Current)</strong>: An operator runs <code>danube-admin topics unload /default/reliable_topic</code></li>
 <li><strong>Automated</strong>: The LoadManager detects load imbalance and triggers reassignment programmatically</li>
 </ol>
 <p>Regardless of trigger, the mechanics are identical. The critical requirement is to <strong>preserve offset continuity</strong> so that:</p>
@@ -2285,7 +2285,7 @@
 </ul>
 <p>The fix introduced a <strong>sealed state mechanism</strong> that captures the last committed offset when unloading and uses it to initialize the WAL on the new broker.</p>
 <h3 id="step-1-unload-from-broker-a">Step 1: Unload from Broker A</h3>
-<p><strong>Trigger</strong>: Either <code>danube-admin-cli topics unload /default/reliable_topic</code> or automated LoadManager decision</p>
+<p><strong>Trigger</strong>: Either <code>danube-admin topics unload /default/reliable_topic</code> or automated LoadManager decision</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>BrokerService.topic_cluster.post_unload_topic<span class="o">()</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span>↓
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>Create<span class="w"> </span>unload<span class="w"> </span>marker<span class="w"> </span><span class="k">in</span><span class="w"> </span>ETCD

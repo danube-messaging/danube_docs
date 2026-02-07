@@ -2431,7 +2431,7 @@
 </table>
 <h2 id="testing-with-danube-cli">Testing with Danube CLI</h2>
 <h3 id="using-the-cli-container">Using the CLI Container</h3>
-<p>The Docker Compose setup includes a <code>danube-cli</code> container with both <code>danube-cli</code> and <code>danube-admin-cli</code> tools pre-installed. This eliminates the need to build or install Rust locally.</p>
+<p>The Docker Compose setup includes a <code>danube-cli</code> container with both <code>danube-cli</code> and <code>danube-admin</code> tools pre-installed. This eliminates the need to build or install Rust locally.</p>
 <p><strong>No local installation required</strong> - use the containerized CLI tools directly.</p>
 <h3 id="reliable-messaging-with-s3-storage">Reliable Messaging with S3 Storage</h3>
 <p>Test the cloud-ready persistent storage capabilities:</p>
@@ -2484,18 +2484,18 @@
 </span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">  </span>--consumer<span class="w"> </span><span class="s2">&quot;json-consumer&quot;</span>
 </span></code></pre></div>
 <h3 id="admin-cli-operations">Admin CLI Operations</h3>
-<p><strong>Use danube-admin-cli for cluster management:</strong></p>
+<p><strong>Use danube-admin for cluster management:</strong></p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># List active brokers</span>
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>danube-cli<span class="w"> </span>danube-admin-cli<span class="w"> </span>brokers<span class="w"> </span>list
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>danube-cli<span class="w"> </span>danube-admin<span class="w"> </span>brokers<span class="w"> </span>list
 </span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
 </span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># List namespaces in cluster</span>
-</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>danube-cli<span class="w"> </span>danube-admin-cli<span class="w"> </span>brokers<span class="w"> </span>namespaces
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>danube-cli<span class="w"> </span>danube-admin<span class="w"> </span>brokers<span class="w"> </span>namespaces
 </span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>
 </span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="c1"># List topics in a namespace</span>
-</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>danube-cli<span class="w"> </span>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>list<span class="w"> </span>default
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>danube-cli<span class="w"> </span>danube-admin<span class="w"> </span>topics<span class="w"> </span>list<span class="w"> </span>default
 </span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>
 </span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="c1"># List subscriptions on a topic</span>
-</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>danube-cli<span class="w"> </span>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>subscriptions<span class="w"> </span>/default/test-topic
+</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>danube-cli<span class="w"> </span>danube-admin<span class="w"> </span>topics<span class="w"> </span>subscriptions<span class="w"> </span>/default/test-topic
 </span></code></pre></div>
 <h2 id="monitoring-and-observability">Monitoring and Observability</h2>
 <h3 id="prometheus-metrics">Prometheus Metrics</h3>

@@ -1967,17 +1967,17 @@
 <h2 id="commands">Commands</h2>
 <h3 id="list-topics-in-a-namespace">List Topics in a Namespace</h3>
 <p>View all topics within a specific namespace.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>topics<span class="w"> </span>&lt;NAMESPACE&gt;
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>danube-admin<span class="w"> </span>namespaces<span class="w"> </span>topics<span class="w"> </span>&lt;NAMESPACE&gt;
 </span></code></pre></div>
 <p><strong>Basic Usage:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>topics<span class="w"> </span>default
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>danube-admin<span class="w"> </span>namespaces<span class="w"> </span>topics<span class="w"> </span>default
 </span></code></pre></div>
 <p><strong>Output Formats:</strong></p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Plain text (default)</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>topics<span class="w"> </span>default
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>danube-admin<span class="w"> </span>namespaces<span class="w"> </span>topics<span class="w"> </span>default
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
 </span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># JSON format - for automation</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>topics<span class="w"> </span>default<span class="w"> </span>--output<span class="w"> </span>json
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>danube-admin<span class="w"> </span>namespaces<span class="w"> </span>topics<span class="w"> </span>default<span class="w"> </span>--output<span class="w"> </span>json
 </span></code></pre></div>
 <p><strong>Example Output (Plain Text):</strong></p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Topics in namespace &#39;default&#39;:
@@ -1995,17 +1995,17 @@
 <hr />
 <h3 id="view-namespace-policies">View Namespace Policies</h3>
 <p>Get the policies configured for a namespace.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>policies<span class="w"> </span>&lt;NAMESPACE&gt;
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>danube-admin<span class="w"> </span>namespaces<span class="w"> </span>policies<span class="w"> </span>&lt;NAMESPACE&gt;
 </span></code></pre></div>
 <p><strong>Basic Usage:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>policies<span class="w"> </span>default
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>danube-admin<span class="w"> </span>namespaces<span class="w"> </span>policies<span class="w"> </span>default
 </span></code></pre></div>
 <p><strong>Output Formats:</strong></p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Plain text (default) - pretty printed</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>policies<span class="w"> </span>default
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>danube-admin<span class="w"> </span>namespaces<span class="w"> </span>policies<span class="w"> </span>default
 </span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
 </span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># JSON format</span>
-</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>policies<span class="w"> </span>default<span class="w"> </span>--output<span class="w"> </span>json
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>danube-admin<span class="w"> </span>namespaces<span class="w"> </span>policies<span class="w"> </span>default<span class="w"> </span>--output<span class="w"> </span>json
 </span></code></pre></div>
 <p><strong>Example Output (Plain Text):</strong></p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Policies<span class="w"> </span><span class="k">for</span><span class="w"> </span>namespace<span class="w"> </span><span class="s1">&#39;default&#39;</span>:
@@ -2066,11 +2066,11 @@
 <hr />
 <h3 id="create-a-namespace">Create a Namespace</h3>
 <p>Create a new namespace in the cluster.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>&lt;NAMESPACE&gt;
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>danube-admin<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>&lt;NAMESPACE&gt;
 </span></code></pre></div>
 <p><strong>Basic Usage:</strong></p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Create namespace</span>
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>production
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>danube-admin<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>production
 </span></code></pre></div>
 <p><strong>Example Output:</strong></p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>✅<span class="w"> </span>Namespace<span class="w"> </span>created:<span class="w"> </span>production
@@ -2084,25 +2084,25 @@
 </ul>
 <p><strong>Examples:</strong></p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># By environment</span>
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>production
-</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>staging
-</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>development
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>danube-admin<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>production
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>danube-admin<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>staging
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>danube-admin<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>development
 </span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>
 </span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="c1"># By team</span>
-</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>analytics-team
-</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>platform-team
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>danube-admin<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>analytics-team
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>danube-admin<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>platform-team
 </span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>
 </span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="c1"># By application</span>
-</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>payment-service
-</span><span id="__span-13-12"><a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>user-service
+</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>danube-admin<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>payment-service
+</span><span id="__span-13-12"><a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>danube-admin<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>user-service
 </span></code></pre></div>
 <hr />
 <h3 id="delete-a-namespace">Delete a Namespace</h3>
 <p>Remove a namespace from the cluster.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>delete<span class="w"> </span>&lt;NAMESPACE&gt;
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>danube-admin<span class="w"> </span>namespaces<span class="w"> </span>delete<span class="w"> </span>&lt;NAMESPACE&gt;
 </span></code></pre></div>
 <p><strong>Basic Usage:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>delete<span class="w"> </span>old-namespace
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>danube-admin<span class="w"> </span>namespaces<span class="w"> </span>delete<span class="w"> </span>old-namespace
 </span></code></pre></div>
 <p><strong>Example Output:</strong></p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>✅ Namespace deleted: old-namespace
@@ -2116,46 +2116,46 @@
 </ol>
 <p><strong>Safety Checklist:</strong></p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># 1. List topics before deletion</span>
-</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>topics<span class="w"> </span>my-namespace
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>danube-admin<span class="w"> </span>namespaces<span class="w"> </span>topics<span class="w"> </span>my-namespace
 </span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>
 </span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="c1"># 2. Verify no critical topics</span>
-</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>topics<span class="w"> </span>my-namespace<span class="w"> </span>--output<span class="w"> </span>json<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span>critical
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>danube-admin<span class="w"> </span>namespaces<span class="w"> </span>topics<span class="w"> </span>my-namespace<span class="w"> </span>--output<span class="w"> </span>json<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span>critical
 </span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>
 </span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="c1"># 3. Check policies to understand impact</span>
-</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>policies<span class="w"> </span>my-namespace
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>danube-admin<span class="w"> </span>namespaces<span class="w"> </span>policies<span class="w"> </span>my-namespace
 </span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>
 </span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="c1"># 4. Only then delete</span>
-</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>delete<span class="w"> </span>my-namespace
+</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>danube-admin<span class="w"> </span>namespaces<span class="w"> </span>delete<span class="w"> </span>my-namespace
 </span></code></pre></div>
 <h2 id="common-workflows">Common Workflows</h2>
 <h3 id="1-namespace-setup-for-new-application">1. Namespace Setup for New Application</h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Create namespace</span>
-</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>payment-service
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>danube-admin<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>payment-service
 </span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
 </span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="c1"># Verify creation</span>
-</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>danube-admin-cli<span class="w"> </span>brokers<span class="w"> </span>namespaces<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>payment-service
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>namespaces<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>payment-service
 </span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>
 </span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="c1"># Check default policies</span>
-</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>policies<span class="w"> </span>payment-service
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>danube-admin<span class="w"> </span>namespaces<span class="w"> </span>policies<span class="w"> </span>payment-service
 </span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>
 </span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a><span class="c1"># Create topics in namespace</span>
-</span><span id="__span-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>/payment-service/transactions
-</span><span id="__span-18-12"><a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>/payment-service/refunds
-</span><span id="__span-18-13"><a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>/payment-service/notifications
+</span><span id="__span-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>danube-admin<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>/payment-service/transactions
+</span><span id="__span-18-12"><a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a>danube-admin<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>/payment-service/refunds
+</span><span id="__span-18-13"><a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a>danube-admin<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>/payment-service/notifications
 </span></code></pre></div>
 <h3 id="2-multi-environment-setup">2. Multi-Environment Setup</h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># Create environments</span>
-</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>production
-</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>staging
-</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>development
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>danube-admin<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>production
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>danube-admin<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>staging
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>danube-admin<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>development
 </span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>
 </span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="c1"># List all namespaces</span>
-</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>danube-admin-cli<span class="w"> </span>brokers<span class="w"> </span>namespaces
+</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>namespaces
 </span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>
 </span><span id="__span-19-9"><a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a><span class="c1"># Create same topics in each environment</span>
 </span><span id="__span-19-10"><a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a><span class="k">for</span><span class="w"> </span>env<span class="w"> </span><span class="k">in</span><span class="w"> </span>production<span class="w"> </span>staging<span class="w"> </span>development<span class="p">;</span><span class="w"> </span><span class="k">do</span>
-</span><span id="__span-19-11"><a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a><span class="w">  </span>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>/<span class="nv">$env</span>/user-events
-</span><span id="__span-19-12"><a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a><span class="w">  </span>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>/<span class="nv">$env</span>/order-events
+</span><span id="__span-19-11"><a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a><span class="w">  </span>danube-admin<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>/<span class="nv">$env</span>/user-events
+</span><span id="__span-19-12"><a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a><span class="w">  </span>danube-admin<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>/<span class="nv">$env</span>/order-events
 </span><span id="__span-19-13"><a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a><span class="k">done</span>
 </span></code></pre></div>
 

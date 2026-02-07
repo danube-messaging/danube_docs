@@ -2060,14 +2060,14 @@
 <h2 id="commands">Commands</h2>
 <h3 id="list-all-brokers">List All Brokers</h3>
 <p>Display all brokers in the cluster with their details.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>danube-admin-cli<span class="w"> </span>brokers<span class="w"> </span>list
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>list
 </span></code></pre></div>
 <p><strong>Output Formats:</strong></p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Plain text (default) - easy to read</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>danube-admin-cli<span class="w"> </span>brokers<span class="w"> </span>list
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>list
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
 </span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># JSON format - for scripting/automation</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>danube-admin-cli<span class="w"> </span>brokers<span class="w"> </span>list<span class="w"> </span>--output<span class="w"> </span>json
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>list<span class="w"> </span>--output<span class="w"> </span>json
 </span></code></pre></div>
 <p><strong>Example Output (Plain Text):</strong></p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>┌──────────────┬─────────────────────┬──────────┬─────────────────────┬─────────────────────┬────────┐
@@ -2100,7 +2100,7 @@
 <hr />
 <h3 id="get-leader-broker">Get Leader Broker</h3>
 <p>Identify which broker is currently the cluster leader.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>danube-admin-cli<span class="w"> </span>brokers<span class="w"> </span>leader
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>leader
 </span></code></pre></div>
 <p><strong>Example Output:</strong></p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Leader:<span class="w"> </span>broker-001
@@ -2114,14 +2114,14 @@
 <hr />
 <h3 id="list-broker-namespaces">List Broker Namespaces</h3>
 <p>View all namespaces managed by the cluster.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>danube-admin-cli<span class="w"> </span>brokers<span class="w"> </span>namespaces
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>namespaces
 </span></code></pre></div>
 <p><strong>Output Formats:</strong></p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Plain text</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>danube-admin-cli<span class="w"> </span>brokers<span class="w"> </span>namespaces
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>namespaces
 </span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
 </span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># JSON format</span>
-</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>danube-admin-cli<span class="w"> </span>brokers<span class="w"> </span>namespaces<span class="w"> </span>--output<span class="w"> </span>json
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>namespaces<span class="w"> </span>--output<span class="w"> </span>json
 </span></code></pre></div>
 <p><strong>Example Output (Plain Text):</strong></p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Namespaces:<span class="w"> </span><span class="o">[</span><span class="s2">&quot;default&quot;</span>,<span class="w"> </span><span class="s2">&quot;analytics&quot;</span>,<span class="w"> </span><span class="s2">&quot;logs&quot;</span><span class="o">]</span>
@@ -2132,30 +2132,30 @@
 <hr />
 <h3 id="unload-broker-topics">Unload Broker Topics</h3>
 <p>Gracefully unload topics from a broker (useful for maintenance or rebalancing).</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>danube-admin-cli<span class="w"> </span>brokers<span class="w"> </span>unload<span class="w"> </span>&lt;BROKER_ID&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>unload<span class="w"> </span>&lt;BROKER_ID&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </span></code></pre></div>
 <p><strong>Basic Usage:</strong></p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Unload all topics from broker-001</span>
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>danube-admin-cli<span class="w"> </span>brokers<span class="w"> </span>unload<span class="w"> </span>broker-001
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>unload<span class="w"> </span>broker-001
 </span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
 </span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1"># Dry-run to see what would be unloaded</span>
-</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>danube-admin-cli<span class="w"> </span>brokers<span class="w"> </span>unload<span class="w"> </span>broker-001<span class="w"> </span>--dry-run
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>unload<span class="w"> </span>broker-001<span class="w"> </span>--dry-run
 </span></code></pre></div>
 <p><strong>Advanced Options:</strong></p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Unload with custom parallelism</span>
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>danube-admin-cli<span class="w"> </span>brokers<span class="w"> </span>unload<span class="w"> </span>broker-001<span class="w"> </span>--max-parallel<span class="w"> </span><span class="m">5</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>unload<span class="w"> </span>broker-001<span class="w"> </span>--max-parallel<span class="w"> </span><span class="m">5</span>
 </span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
 </span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="c1"># Unload only specific namespaces</span>
-</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>danube-admin-cli<span class="w"> </span>brokers<span class="w"> </span>unload<span class="w"> </span>broker-001<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>unload<span class="w"> </span>broker-001<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">  </span>--namespace-include<span class="w"> </span>default<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">  </span>--namespace-include<span class="w"> </span>analytics
 </span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>
 </span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="c1"># Exclude certain namespaces</span>
-</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>danube-admin-cli<span class="w"> </span>brokers<span class="w"> </span>unload<span class="w"> </span>broker-001<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>unload<span class="w"> </span>broker-001<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="w">  </span>--namespace-exclude<span class="w"> </span>system
 </span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>
 </span><span id="__span-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="c1"># Set custom timeout per topic (seconds)</span>
-</span><span id="__span-12-14"><a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a>danube-admin-cli<span class="w"> </span>brokers<span class="w"> </span>unload<span class="w"> </span>broker-001<span class="w"> </span>--timeout<span class="w"> </span><span class="m">30</span>
+</span><span id="__span-12-14"><a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>unload<span class="w"> </span>broker-001<span class="w"> </span>--timeout<span class="w"> </span><span class="m">30</span>
 </span></code></pre></div>
 <p><strong>Options:</strong></p>
 <table>
@@ -2393,13 +2393,13 @@
 <hr />
 <h3 id="activate-broker">Activate Broker</h3>
 <p>Mark a broker as active, allowing it to receive traffic.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>danube-admin-cli<span class="w"> </span>brokers<span class="w"> </span>activate<span class="w"> </span>&lt;BROKER_ID&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>activate<span class="w"> </span>&lt;BROKER_ID&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </span></code></pre></div>
 <p><strong>Basic Usage:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>danube-admin-cli<span class="w"> </span>brokers<span class="w"> </span>activate<span class="w"> </span>broker-002
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>activate<span class="w"> </span>broker-002
 </span></code></pre></div>
 <p><strong>With Audit Reason:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>danube-admin-cli<span class="w"> </span>brokers<span class="w"> </span>activate<span class="w"> </span>broker-002<span class="w"> </span><span class="se">\</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>activate<span class="w"> </span>broker-002<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="w">  </span>--reason<span class="w"> </span><span class="s2">&quot;Maintenance completed&quot;</span>
 </span></code></pre></div>
 <p><strong>Example Output:</strong></p>
@@ -2414,37 +2414,37 @@
 <h2 id="common-workflows">Common Workflows</h2>
 <h3 id="1-health-check">1. Health Check</h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="c1"># Check cluster health</span>
-</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>danube-admin-cli<span class="w"> </span>brokers<span class="w"> </span>list
-</span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>danube-admin-cli<span class="w"> </span>brokers<span class="w"> </span>leader
+</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>list
+</span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>leader
 </span><span id="__span-28-4"><a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>
 </span><span id="__span-28-5"><a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a><span class="c1"># Verify all brokers are active</span>
-</span><span id="__span-28-6"><a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a>danube-admin-cli<span class="w"> </span>brokers<span class="w"> </span>list<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-c<span class="w"> </span>active
+</span><span id="__span-28-6"><a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>list<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-c<span class="w"> </span>active
 </span></code></pre></div>
 <h3 id="2-broker-maintenance">2. Broker Maintenance</h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="c1"># Step 1: Dry-run to preview unload</span>
-</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>danube-admin-cli<span class="w"> </span>brokers<span class="w"> </span>unload<span class="w"> </span>broker-001<span class="w"> </span>--dry-run
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>unload<span class="w"> </span>broker-001<span class="w"> </span>--dry-run
 </span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>
 </span><span id="__span-29-4"><a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="c1"># Step 2: Unload topics</span>
-</span><span id="__span-29-5"><a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>danube-admin-cli<span class="w"> </span>brokers<span class="w"> </span>unload<span class="w"> </span>broker-001
+</span><span id="__span-29-5"><a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>unload<span class="w"> </span>broker-001
 </span><span id="__span-29-6"><a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a>
 </span><span id="__span-29-7"><a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a><span class="c1"># Step 3: Perform maintenance (external)</span>
 </span><span id="__span-29-8"><a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a><span class="c1"># ...</span>
 </span><span id="__span-29-9"><a id="__codelineno-29-9" name="__codelineno-29-9" href="#__codelineno-29-9"></a>
 </span><span id="__span-29-10"><a id="__codelineno-29-10" name="__codelineno-29-10" href="#__codelineno-29-10"></a><span class="c1"># Step 4: Reactivate broker</span>
-</span><span id="__span-29-11"><a id="__codelineno-29-11" name="__codelineno-29-11" href="#__codelineno-29-11"></a>danube-admin-cli<span class="w"> </span>brokers<span class="w"> </span>activate<span class="w"> </span>broker-001<span class="w"> </span>--reason<span class="w"> </span><span class="s2">&quot;Maintenance completed&quot;</span>
+</span><span id="__span-29-11"><a id="__codelineno-29-11" name="__codelineno-29-11" href="#__codelineno-29-11"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>activate<span class="w"> </span>broker-001<span class="w"> </span>--reason<span class="w"> </span><span class="s2">&quot;Maintenance completed&quot;</span>
 </span></code></pre></div>
 <h3 id="3-cluster-expansion">3. Cluster Expansion</h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="c1"># List current brokers</span>
-</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>danube-admin-cli<span class="w"> </span>brokers<span class="w"> </span>list
+</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>list
 </span><span id="__span-30-3"><a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>
 </span><span id="__span-30-4"><a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a><span class="c1"># Add new broker (external process)</span>
 </span><span id="__span-30-5"><a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a><span class="c1"># ...</span>
 </span><span id="__span-30-6"><a id="__codelineno-30-6" name="__codelineno-30-6" href="#__codelineno-30-6"></a>
 </span><span id="__span-30-7"><a id="__codelineno-30-7" name="__codelineno-30-7" href="#__codelineno-30-7"></a><span class="c1"># Activate new broker</span>
-</span><span id="__span-30-8"><a id="__codelineno-30-8" name="__codelineno-30-8" href="#__codelineno-30-8"></a>danube-admin-cli<span class="w"> </span>brokers<span class="w"> </span>activate<span class="w"> </span>broker-003<span class="w"> </span>--reason<span class="w"> </span><span class="s2">&quot;New broker added&quot;</span>
+</span><span id="__span-30-8"><a id="__codelineno-30-8" name="__codelineno-30-8" href="#__codelineno-30-8"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>activate<span class="w"> </span>broker-003<span class="w"> </span>--reason<span class="w"> </span><span class="s2">&quot;New broker added&quot;</span>
 </span><span id="__span-30-9"><a id="__codelineno-30-9" name="__codelineno-30-9" href="#__codelineno-30-9"></a>
 </span><span id="__span-30-10"><a id="__codelineno-30-10" name="__codelineno-30-10" href="#__codelineno-30-10"></a><span class="c1"># Verify</span>
-</span><span id="__span-30-11"><a id="__codelineno-30-11" name="__codelineno-30-11" href="#__codelineno-30-11"></a>danube-admin-cli<span class="w"> </span>brokers<span class="w"> </span>list
+</span><span id="__span-30-11"><a id="__codelineno-30-11" name="__codelineno-30-11" href="#__codelineno-30-11"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>list
 </span></code></pre></div>
 <h2 id="quick-reference">Quick Reference</h2>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="c1"># List all brokers</span>

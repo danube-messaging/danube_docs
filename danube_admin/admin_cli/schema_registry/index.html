@@ -2279,16 +2279,16 @@
 <h2 id="commands">Commands</h2>
 <h3 id="register-a-schema">Register a Schema</h3>
 <p>Register a new schema or create a new version of an existing schema.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>register<span class="w"> </span>&lt;SUBJECT&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>danube-admin<span class="w"> </span>schemas<span class="w"> </span>register<span class="w"> </span>&lt;SUBJECT&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </span></code></pre></div>
 <h4 id="basic-schema-registration">Basic Schema Registration</h4>
 <p><strong>From File (Recommended):</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>register<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>danube-admin<span class="w"> </span>schemas<span class="w"> </span>register<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span>--schema-type<span class="w"> </span>json_schema<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span>--file<span class="w"> </span>schemas/user-events.json
 </span></code></pre></div>
 <p><strong>Inline Schema:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>register<span class="w"> </span>simple-events<span class="w"> </span><span class="se">\</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>danube-admin<span class="w"> </span>schemas<span class="w"> </span>register<span class="w"> </span>simple-events<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span>--schema-type<span class="w"> </span>json_schema<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span>--schema<span class="w"> </span><span class="s1">&#39;{&quot;type&quot;: &quot;object&quot;, &quot;properties&quot;: {&quot;id&quot;: {&quot;type&quot;: &quot;string&quot;}}}&#39;</span>
 </span></code></pre></div>
@@ -2301,7 +2301,7 @@
 </span></code></pre></div>
 <h4 id="with-metadata">With Metadata</h4>
 <p><strong>Add Description and Tags:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>register<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>danube-admin<span class="w"> </span>schemas<span class="w"> </span>register<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span>--schema-type<span class="w"> </span>json_schema<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span>--file<span class="w"> </span>schemas/user-events.json<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span>--description<span class="w"> </span><span class="s2">&quot;User registration and login events&quot;</span><span class="w"> </span><span class="se">\</span>
@@ -2391,7 +2391,7 @@
 </span><span id="__span-7-27"><a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a><span class="p">}</span>
 </span></code></pre></div>
 <p><strong>Register:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>register<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>danube-admin<span class="w"> </span>schemas<span class="w"> </span>register<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span>--schema-type<span class="w"> </span>json_schema<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span>--file<span class="w"> </span>schemas/user-events.json<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span>--description<span class="w"> </span><span class="s2">&quot;User authentication events&quot;</span><span class="w"> </span><span class="se">\</span>
@@ -2412,7 +2412,7 @@
 </span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="p">}</span>
 </span></code></pre></div>
 <p><strong>Register:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>register<span class="w"> </span>payment-events<span class="w"> </span><span class="se">\</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>danube-admin<span class="w"> </span>schemas<span class="w"> </span>register<span class="w"> </span>payment-events<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span>--schema-type<span class="w"> </span>avro<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">  </span>--file<span class="w"> </span>schemas/payment.avsc<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">  </span>--description<span class="w"> </span><span class="s2">&quot;Payment transaction events&quot;</span>
@@ -2420,11 +2420,11 @@
 <hr />
 <h3 id="get-a-schema">Get a Schema</h3>
 <p>Retrieve schema details by subject or ID.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>get<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>danube-admin<span class="w"> </span>schemas<span class="w"> </span>get<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </span></code></pre></div>
 <h4 id="by-subject-latest-version">By Subject (Latest Version)</h4>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Get latest version</span>
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>get<span class="w"> </span>--subject<span class="w"> </span>user-events
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>danube-admin<span class="w"> </span>schemas<span class="w"> </span>get<span class="w"> </span>--subject<span class="w"> </span>user-events
 </span></code></pre></div>
 <p><strong>Example Output:</strong></p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>Schema<span class="w"> </span>ID:<span class="w"> </span><span class="m">12345</span>
@@ -2446,13 +2446,13 @@
 </span></code></pre></div>
 <h4 id="by-schema-id">By Schema ID</h4>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Get specific schema by ID</span>
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>get<span class="w"> </span>--id<span class="w"> </span><span class="m">12345</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>danube-admin<span class="w"> </span>schemas<span class="w"> </span>get<span class="w"> </span>--id<span class="w"> </span><span class="m">12345</span>
 </span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
 </span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># Get specific version of a schema</span>
-</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>get<span class="w"> </span>--id<span class="w"> </span><span class="m">12345</span><span class="w"> </span>--version<span class="w"> </span><span class="m">1</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>danube-admin<span class="w"> </span>schemas<span class="w"> </span>get<span class="w"> </span>--id<span class="w"> </span><span class="m">12345</span><span class="w"> </span>--version<span class="w"> </span><span class="m">1</span>
 </span></code></pre></div>
 <h4 id="json-output">JSON Output</h4>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>get<span class="w"> </span>--subject<span class="w"> </span>user-events<span class="w"> </span>--output<span class="w"> </span>json
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>danube-admin<span class="w"> </span>schemas<span class="w"> </span>get<span class="w"> </span>--subject<span class="w"> </span>user-events<span class="w"> </span>--output<span class="w"> </span>json
 </span></code></pre></div>
 <p><strong>Example JSON Output:</strong></p>
 <div class="language-json highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="p">{</span>
@@ -2472,10 +2472,10 @@
 <hr />
 <h3 id="list-schema-versions">List Schema Versions</h3>
 <p>View all versions for a schema subject.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>versions<span class="w"> </span>&lt;SUBJECT&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>danube-admin<span class="w"> </span>schemas<span class="w"> </span>versions<span class="w"> </span>&lt;SUBJECT&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </span></code></pre></div>
 <p><strong>Basic Usage:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>versions<span class="w"> </span>user-events
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>danube-admin<span class="w"> </span>schemas<span class="w"> </span>versions<span class="w"> </span>user-events
 </span></code></pre></div>
 <p><strong>Example Output:</strong></p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>Versions for subject &#39;user-events&#39;:
@@ -2490,7 +2490,7 @@
 </span><span id="__span-19-10"><a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a>    Description: Made phone optional
 </span></code></pre></div>
 <p><strong>JSON Output:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>versions<span class="w"> </span>user-events<span class="w"> </span>--output<span class="w"> </span>json
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>danube-admin<span class="w"> </span>schemas<span class="w"> </span>versions<span class="w"> </span>user-events<span class="w"> </span>--output<span class="w"> </span>json
 </span></code></pre></div>
 <p><strong>Example JSON:</strong></p>
 <div class="language-json highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="p">[</span>
@@ -2515,10 +2515,10 @@
 <hr />
 <h3 id="check-schema-compatibility">Check Schema Compatibility</h3>
 <p>Verify if a new schema is compatible with existing versions.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>check<span class="w"> </span>&lt;SUBJECT&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>danube-admin<span class="w"> </span>schemas<span class="w"> </span>check<span class="w"> </span>&lt;SUBJECT&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </span></code></pre></div>
 <p><strong>Basic Usage:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>check<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>danube-admin<span class="w"> </span>schemas<span class="w"> </span>check<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="w">  </span>--file<span class="w"> </span>schemas/user-events-v2.json<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="w">  </span>--schema-type<span class="w"> </span>json_schema
 </span></code></pre></div>
@@ -2534,7 +2534,7 @@
 </span></code></pre></div>
 <h4 id="override-compatibility-mode">Override Compatibility Mode</h4>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="c1"># Check with specific mode (overrides subject&#39;s default)</span>
-</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>check<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>danube-admin<span class="w"> </span>schemas<span class="w"> </span>check<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="w">  </span>--file<span class="w"> </span>schemas/user-events-v2.json<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="w">  </span>--schema-type<span class="w"> </span>json_schema<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-26-5"><a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a><span class="w">  </span>--mode<span class="w"> </span>full
@@ -2544,13 +2544,13 @@
 </span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>vim<span class="w"> </span>schemas/user-events-v2.json
 </span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>
 </span><span id="__span-27-4"><a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="c1"># Step 2: Check compatibility BEFORE registering</span>
-</span><span id="__span-27-5"><a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>check<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-27-5"><a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>danube-admin<span class="w"> </span>schemas<span class="w"> </span>check<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-27-6"><a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a><span class="w">  </span>--file<span class="w"> </span>schemas/user-events-v2.json<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-27-7"><a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a><span class="w">  </span>--schema-type<span class="w"> </span>json_schema
 </span><span id="__span-27-8"><a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a>
 </span><span id="__span-27-9"><a id="__codelineno-27-9" name="__codelineno-27-9" href="#__codelineno-27-9"></a><span class="c1"># Step 3: If compatible, register it</span>
 </span><span id="__span-27-10"><a id="__codelineno-27-10" name="__codelineno-27-10" href="#__codelineno-27-10"></a><span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="nv">$?</span><span class="w"> </span>-eq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
-</span><span id="__span-27-11"><a id="__codelineno-27-11" name="__codelineno-27-11" href="#__codelineno-27-11"></a><span class="w">  </span>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>register<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-27-11"><a id="__codelineno-27-11" name="__codelineno-27-11" href="#__codelineno-27-11"></a><span class="w">  </span>danube-admin<span class="w"> </span>schemas<span class="w"> </span>register<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-27-12"><a id="__codelineno-27-12" name="__codelineno-27-12" href="#__codelineno-27-12"></a><span class="w">    </span>--schema-type<span class="w"> </span>json_schema<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-27-13"><a id="__codelineno-27-13" name="__codelineno-27-13" href="#__codelineno-27-13"></a><span class="w">    </span>--file<span class="w"> </span>schemas/user-events-v2.json<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-27-14"><a id="__codelineno-27-14" name="__codelineno-27-14" href="#__codelineno-27-14"></a><span class="w">    </span>--description<span class="w"> </span><span class="s2">&quot;Added email field&quot;</span>
@@ -2559,18 +2559,18 @@
 <hr />
 <h3 id="get-compatibility-mode">Get Compatibility Mode</h3>
 <p>Retrieve the current compatibility mode for a schema subject.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>get-compatibility<span class="w"> </span>&lt;SUBJECT&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>danube-admin<span class="w"> </span>schemas<span class="w"> </span>get-compatibility<span class="w"> </span>&lt;SUBJECT&gt;<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
 </span></code></pre></div>
 <p><strong>Basic Usage:</strong></p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="c1"># Get compatibility mode for a subject</span>
-</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>get-compatibility<span class="w"> </span>user-events
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>danube-admin<span class="w"> </span>schemas<span class="w"> </span>get-compatibility<span class="w"> </span>user-events
 </span></code></pre></div>
 <p><strong>Example Output:</strong></p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>Subject: user-events
 </span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>Compatibility Mode: BACKWARD
 </span></code></pre></div>
 <p><strong>JSON Output:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>get-compatibility<span class="w"> </span>user-events<span class="w"> </span>--output<span class="w"> </span>json
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>danube-admin<span class="w"> </span>schemas<span class="w"> </span>get-compatibility<span class="w"> </span>user-events<span class="w"> </span>--output<span class="w"> </span>json
 </span></code></pre></div>
 <p><strong>Example JSON:</strong></p>
 <div class="language-json highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="p">{</span>
@@ -2587,7 +2587,7 @@
 <hr />
 <h3 id="set-compatibility-mode">Set Compatibility Mode</h3>
 <p>Configure how schema evolution is enforced.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>set-compatibility<span class="w"> </span>&lt;SUBJECT&gt;<span class="w"> </span>--mode<span class="w"> </span>&lt;MODE&gt;
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>danube-admin<span class="w"> </span>schemas<span class="w"> </span>set-compatibility<span class="w"> </span>&lt;SUBJECT&gt;<span class="w"> </span>--mode<span class="w"> </span>&lt;MODE&gt;
 </span></code></pre></div>
 <p><strong>Compatibility Modes:</strong></p>
 <table>
@@ -2628,13 +2628,13 @@
 </table>
 <p><strong>Examples:</strong></p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="c1"># Set backward compatibility (most common)</span>
-</span><span id="__span-34-2"><a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>set-compatibility<span class="w"> </span>user-events<span class="w"> </span>--mode<span class="w"> </span>backward
+</span><span id="__span-34-2"><a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>danube-admin<span class="w"> </span>schemas<span class="w"> </span>set-compatibility<span class="w"> </span>user-events<span class="w"> </span>--mode<span class="w"> </span>backward
 </span><span id="__span-34-3"><a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>
 </span><span id="__span-34-4"><a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a><span class="c1"># Set full compatibility (strict)</span>
-</span><span id="__span-34-5"><a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>set-compatibility<span class="w"> </span>payment-events<span class="w"> </span>--mode<span class="w"> </span>full
+</span><span id="__span-34-5"><a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a>danube-admin<span class="w"> </span>schemas<span class="w"> </span>set-compatibility<span class="w"> </span>payment-events<span class="w"> </span>--mode<span class="w"> </span>full
 </span><span id="__span-34-6"><a id="__codelineno-34-6" name="__codelineno-34-6" href="#__codelineno-34-6"></a>
 </span><span id="__span-34-7"><a id="__codelineno-34-7" name="__codelineno-34-7" href="#__codelineno-34-7"></a><span class="c1"># Disable compatibility (development only)</span>
-</span><span id="__span-34-8"><a id="__codelineno-34-8" name="__codelineno-34-8" href="#__codelineno-34-8"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>set-compatibility<span class="w"> </span>test-events<span class="w"> </span>--mode<span class="w"> </span>none
+</span><span id="__span-34-8"><a id="__codelineno-34-8" name="__codelineno-34-8" href="#__codelineno-34-8"></a>danube-admin<span class="w"> </span>schemas<span class="w"> </span>set-compatibility<span class="w"> </span>test-events<span class="w"> </span>--mode<span class="w"> </span>none
 </span></code></pre></div>
 <p><strong>Example Output:</strong></p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>✅ Compatibility mode set for subject &#39;user-events&#39;
@@ -2699,10 +2699,10 @@
 <hr />
 <h3 id="delete-schema-version">Delete Schema Version</h3>
 <p>Remove a specific version of a schema.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>delete<span class="w"> </span>&lt;SUBJECT&gt;<span class="w"> </span>--version<span class="w"> </span>&lt;VERSION&gt;<span class="w"> </span>--confirm
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>danube-admin<span class="w"> </span>schemas<span class="w"> </span>delete<span class="w"> </span>&lt;SUBJECT&gt;<span class="w"> </span>--version<span class="w"> </span>&lt;VERSION&gt;<span class="w"> </span>--confirm
 </span></code></pre></div>
 <p><strong>Basic Usage:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>delete<span class="w"> </span>user-events<span class="w"> </span>--version<span class="w"> </span><span class="m">1</span><span class="w"> </span>--confirm
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>danube-admin<span class="w"> </span>schemas<span class="w"> </span>delete<span class="w"> </span>user-events<span class="w"> </span>--version<span class="w"> </span><span class="m">1</span><span class="w"> </span>--confirm
 </span></code></pre></div>
 <p><strong>Example Output:</strong></p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-39-1"><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>✅ Deleted version 1 of subject &#39;user-events&#39;
@@ -2716,13 +2716,13 @@
 </ol>
 <p><strong>Safety Checks:</strong></p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-40-1"><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="c1"># Step 1: List all versions</span>
-</span><span id="__span-40-2"><a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>versions<span class="w"> </span>user-events
+</span><span id="__span-40-2"><a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a>danube-admin<span class="w"> </span>schemas<span class="w"> </span>versions<span class="w"> </span>user-events
 </span><span id="__span-40-3"><a id="__codelineno-40-3" name="__codelineno-40-3" href="#__codelineno-40-3"></a>
 </span><span id="__span-40-4"><a id="__codelineno-40-4" name="__codelineno-40-4" href="#__codelineno-40-4"></a><span class="c1"># Step 2: Check which version is active</span>
-</span><span id="__span-40-5"><a id="__codelineno-40-5" name="__codelineno-40-5" href="#__codelineno-40-5"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>describe<span class="w"> </span>/production/events<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;Version:&quot;</span>
+</span><span id="__span-40-5"><a id="__codelineno-40-5" name="__codelineno-40-5" href="#__codelineno-40-5"></a>danube-admin<span class="w"> </span>topics<span class="w"> </span>describe<span class="w"> </span>/production/events<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;Version:&quot;</span>
 </span><span id="__span-40-6"><a id="__codelineno-40-6" name="__codelineno-40-6" href="#__codelineno-40-6"></a>
 </span><span id="__span-40-7"><a id="__codelineno-40-7" name="__codelineno-40-7" href="#__codelineno-40-7"></a><span class="c1"># Step 3: Only delete if not active and confirmed safe</span>
-</span><span id="__span-40-8"><a id="__codelineno-40-8" name="__codelineno-40-8" href="#__codelineno-40-8"></a>danube-admin-cli<span class="w"> </span>schemas<span class="w"> </span>delete<span class="w"> </span>user-events<span class="w"> </span>--version<span class="w"> </span><span class="m">1</span><span class="w"> </span>--confirm
+</span><span id="__span-40-8"><a id="__codelineno-40-8" name="__codelineno-40-8" href="#__codelineno-40-8"></a>danube-admin<span class="w"> </span>schemas<span class="w"> </span>delete<span class="w"> </span>user-events<span class="w"> </span>--version<span class="w"> </span><span class="m">1</span><span class="w"> </span>--confirm
 </span></code></pre></div>
 
 
