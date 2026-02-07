@@ -18,23 +18,23 @@ Namespaces provide logical isolation for topics in your Danube cluster. Use name
 View all topics within a specific namespace.
 
 ```bash
-danube-admin-cli namespaces topics <NAMESPACE>
+danube-admin namespaces topics <NAMESPACE>
 ```
 
 **Basic Usage:**
 
 ```bash
-danube-admin-cli namespaces topics default
+danube-admin namespaces topics default
 ```
 
 **Output Formats:**
 
 ```bash
 # Plain text (default)
-danube-admin-cli namespaces topics default
+danube-admin namespaces topics default
 
 # JSON format - for automation
-danube-admin-cli namespaces topics default --output json
+danube-admin namespaces topics default --output json
 ```
 
 **Example Output (Plain Text):**
@@ -63,23 +63,23 @@ Topics in namespace 'default':
 Get the policies configured for a namespace.
 
 ```bash
-danube-admin-cli namespaces policies <NAMESPACE>
+danube-admin namespaces policies <NAMESPACE>
 ```
 
 **Basic Usage:**
 
 ```bash
-danube-admin-cli namespaces policies default
+danube-admin namespaces policies default
 ```
 
 **Output Formats:**
 
 ```bash
 # Plain text (default) - pretty printed
-danube-admin-cli namespaces policies default
+danube-admin namespaces policies default
 
 # JSON format
-danube-admin-cli namespaces policies default --output json
+danube-admin namespaces policies default --output json
 ```
 
 **Example Output (Plain Text):**
@@ -124,14 +124,14 @@ Policies for namespace 'default':
 Create a new namespace in the cluster.
 
 ```bash
-danube-admin-cli namespaces create <NAMESPACE>
+danube-admin namespaces create <NAMESPACE>
 ```
 
 **Basic Usage:**
 
 ```bash
 # Create namespace
-danube-admin-cli namespaces create production
+danube-admin namespaces create production
 ```
 
 **Example Output:**
@@ -151,17 +151,17 @@ danube-admin-cli namespaces create production
 
 ```bash
 # By environment
-danube-admin-cli namespaces create production
-danube-admin-cli namespaces create staging
-danube-admin-cli namespaces create development
+danube-admin namespaces create production
+danube-admin namespaces create staging
+danube-admin namespaces create development
 
 # By team
-danube-admin-cli namespaces create analytics-team
-danube-admin-cli namespaces create platform-team
+danube-admin namespaces create analytics-team
+danube-admin namespaces create platform-team
 
 # By application
-danube-admin-cli namespaces create payment-service
-danube-admin-cli namespaces create user-service
+danube-admin namespaces create payment-service
+danube-admin namespaces create user-service
 ```
 
 ---
@@ -171,13 +171,13 @@ danube-admin-cli namespaces create user-service
 Remove a namespace from the cluster.
 
 ```bash
-danube-admin-cli namespaces delete <NAMESPACE>
+danube-admin namespaces delete <NAMESPACE>
 ```
 
 **Basic Usage:**
 
 ```bash
-danube-admin-cli namespaces delete old-namespace
+danube-admin namespaces delete old-namespace
 ```
 
 **Example Output:**
@@ -197,16 +197,16 @@ danube-admin-cli namespaces delete old-namespace
 
 ```bash
 # 1. List topics before deletion
-danube-admin-cli namespaces topics my-namespace
+danube-admin namespaces topics my-namespace
 
 # 2. Verify no critical topics
-danube-admin-cli namespaces topics my-namespace --output json | grep -i critical
+danube-admin namespaces topics my-namespace --output json | grep -i critical
 
 # 3. Check policies to understand impact
-danube-admin-cli namespaces policies my-namespace
+danube-admin namespaces policies my-namespace
 
 # 4. Only then delete
-danube-admin-cli namespaces delete my-namespace
+danube-admin namespaces delete my-namespace
 ```
 
 ## Common Workflows
@@ -215,34 +215,34 @@ danube-admin-cli namespaces delete my-namespace
 
 ```bash
 # Create namespace
-danube-admin-cli namespaces create payment-service
+danube-admin namespaces create payment-service
 
 # Verify creation
-danube-admin-cli brokers namespaces | grep payment-service
+danube-admin brokers namespaces | grep payment-service
 
 # Check default policies
-danube-admin-cli namespaces policies payment-service
+danube-admin namespaces policies payment-service
 
 # Create topics in namespace
-danube-admin-cli topics create /payment-service/transactions
-danube-admin-cli topics create /payment-service/refunds
-danube-admin-cli topics create /payment-service/notifications
+danube-admin topics create /payment-service/transactions
+danube-admin topics create /payment-service/refunds
+danube-admin topics create /payment-service/notifications
 ```
 
 ### 2. Multi-Environment Setup
 
 ```bash
 # Create environments
-danube-admin-cli namespaces create production
-danube-admin-cli namespaces create staging
-danube-admin-cli namespaces create development
+danube-admin namespaces create production
+danube-admin namespaces create staging
+danube-admin namespaces create development
 
 # List all namespaces
-danube-admin-cli brokers namespaces
+danube-admin brokers namespaces
 
 # Create same topics in each environment
 for env in production staging development; do
-  danube-admin-cli topics create /$env/user-events
-  danube-admin-cli topics create /$env/order-events
+  danube-admin topics create /$env/user-events
+  danube-admin topics create /$env/order-events
 done
 ```

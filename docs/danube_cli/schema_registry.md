@@ -450,7 +450,7 @@ danube-cli schema versions orders
 
 Compatibility modes control how schemas can evolve.
 
-> **⚠️ Note:** Setting compatibility mode is an **admin-only** operation using `danube-admin-cli`. Clients can only **check** compatibility, not set it.
+> **⚠️ Note:** Setting compatibility mode is an **admin-only** operation using `danube-admin`. Clients can only **check** compatibility, not set it.
 
 ### Backward (Default)
 
@@ -464,8 +464,8 @@ danube-cli schema check orders \
   --schema-type json_schema \
   --file orders-v2.json
 
-# Set compatibility mode (admin-only - use danube-admin-cli)
-# danube-admin-cli schemas set-compatibility orders --mode backward
+# Set compatibility mode (admin-only - use danube-admin)
+# danube-admin schemas set-compatibility orders --mode backward
 ```
 
 **Allowed changes:**
@@ -647,11 +647,11 @@ danube-cli schema check my-subject \
 ✅ **Choose schema version** - Producers can pin to specific versions
 ✅ **Auto-register schemas** - Register during production
 
-### What Requires Admin (danube-admin-cli)
+### What Requires Admin (danube-admin)
 
-❌ **Set compatibility mode** - Governance control (use `danube-admin-cli schemas set-compatibility`)
-❌ **Configure topic schemas** - Topic-level validation policies (use `danube-admin-cli topics configure-schema`)
-❌ **Delete schemas** - Dangerous operation (use `danube-admin-cli schemas delete`)
+❌ **Set compatibility mode** - Governance control (use `danube-admin schemas set-compatibility`)
+❌ **Configure topic schemas** - Topic-level validation policies (use `danube-admin topics configure-schema`)
+❌ **Delete schemas** - Dangerous operation (use `danube-admin schemas delete`)
 
 **See Also:**
 

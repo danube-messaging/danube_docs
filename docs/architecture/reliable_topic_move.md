@@ -8,7 +8,7 @@ This document explains how Danube's reliable topics work under the hood, with a 
 
 A topic may be moved between brokers for several reasons:
 
-1. **Manual Load Balancing** (Current): An operator uses `danube-admin-cli topics unload` to explicitly move a topic
+1. **Manual Load Balancing** (Current): An operator uses `danube-admin topics unload` to explicitly move a topic
 2. **Automated Load Balancing** (Future): The LoadManager detects imbalance and automatically reassigns topics
 3. **Broker Maintenance**: A broker needs to be taken offline for upgrades or repairs
 4. **Failure Recovery**: A broker crashes and topics need to be reassigned
@@ -142,7 +142,7 @@ s3://bucket/default/reliable_topic/data-0-21.dnb1
 
 This section describes the complete flow when a topic is moved from Broker A to Broker B. The move can be triggered in two ways:
 
-1. **Manual (Current)**: An operator runs `danube-admin-cli topics unload /default/reliable_topic`
+1. **Manual (Current)**: An operator runs `danube-admin topics unload /default/reliable_topic`
 2. **Automated**: The LoadManager detects load imbalance and triggers reassignment programmatically
 
 Regardless of trigger, the mechanics are identical. The critical requirement is to **preserve offset continuity** so that:
@@ -155,7 +155,7 @@ The fix introduced a **sealed state mechanism** that captures the last committed
 
 ### Step 1: Unload from Broker A
 
-**Trigger**: Either `danube-admin-cli topics unload /default/reliable_topic` or automated LoadManager decision
+**Trigger**: Either `danube-admin topics unload /default/reliable_topic` or automated LoadManager decision
 
 ```bash
 BrokerService.topic_cluster.post_unload_topic()

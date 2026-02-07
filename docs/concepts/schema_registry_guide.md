@@ -357,12 +357,12 @@ Use the admin CLI to configure cluster-wide schema settings and topic-level poli
 
 ```bash
 # Set compatibility mode for a subject
-danube-admin-cli schema set-compatibility \
+danube-admin schema set-compatibility \
   --subject user-events-value \
   --mode FULL
 
 # Get current compatibility mode
-danube-admin-cli schema get-compatibility \
+danube-admin schema get-compatibility \
   --subject user-events-value
 ```
 
@@ -395,19 +395,19 @@ danube-admin-cli schema get-compatibility \
 
 ```bash
 # Configure schema for a topic
-danube-admin-cli topic configure-schema \
+danube-admin topic configure-schema \
   --topic /default/user-events-prod \
   --subject user-events-value \
   --validation-policy enforce \
   --enable-payload-validation
 
 # Update only validation policy
-danube-admin-cli topic set-validation-policy \
+danube-admin topic set-validation-policy \
   --topic /default/user-events-dev \
   --policy warn
 
 # View topic schema configuration
-danube-admin-cli topic get-schema-config \
+danube-admin topic get-schema-config \
   --topic /default/user-events-prod
 ```
 
@@ -444,7 +444,7 @@ Payload Validation: ENABLED (topic-level)
 
 ```bash
 # Change schema subject (dangerous operation)
-danube-admin-cli topic update-schema-subject \
+danube-admin topic update-schema-subject \
   --topic /default/user-events \
   --new-subject user-events-v2-value \
   --force
@@ -464,21 +464,21 @@ danube-admin-cli topic update-schema-subject \
 
 ```bash
 # Development: Lenient validation
-danube-admin-cli topic configure-schema \
+danube-admin topic configure-schema \
   --topic /default/user-events-dev \
   --subject user-events-value \
   --validation-policy warn \
   --no-payload-validation
 
 # Staging: Moderate validation
-danube-admin-cli topic configure-schema \
+danube-admin topic configure-schema \
   --topic /default/user-events-staging \
   --subject user-events-value \
   --validation-policy warn \
   --enable-payload-validation
 
 # Production: Strict validation
-danube-admin-cli topic configure-schema \
+danube-admin topic configure-schema \
   --topic /default/user-events-prod \
   --subject user-events-value \
   --validation-policy enforce \
@@ -504,7 +504,7 @@ SUBJECT: "user-events-value" (shared)
 
 ```bash
 # Delete a specific schema version
-danube-admin-cli schema delete-version \
+danube-admin schema delete-version \
   --subject user-events-value \
   --version 2 \
   --force
@@ -526,7 +526,7 @@ danube-admin-cli schema delete-version \
 
 ```bash
 # Admin: Configure subject-level policy
-danube-admin-cli schema set-compatibility \
+danube-admin schema set-compatibility \
   --subject user-events-value \
   --mode BACKWARD
 ```
@@ -560,13 +560,13 @@ println!("Registered v1 with ID: {}", schema_id_v1);
 
 ```bash
 # Admin: Configure dev topic (lenient)
-danube-admin-cli topic configure-schema \
+danube-admin topic configure-schema \
   --topic /default/user-events-dev \
   --subject user-events-value \
   --validation-policy warn
 
 # Admin: Configure prod topic (strict)
-danube-admin-cli topic configure-schema \
+danube-admin topic configure-schema \
   --topic /default/user-events-prod \
   --subject user-events-value \
   --validation-policy enforce \
@@ -704,7 +704,7 @@ while let Some(message) = consumer.receive().await? {
 
    ```bash
    # Set before first schema registration
-   danube-admin-cli schema set-compatibility \
+   danube-admin schema set-compatibility \
      --subject my-subject \
      --mode BACKWARD
    ```
@@ -713,12 +713,12 @@ while let Some(message) = consumer.receive().await? {
 
    ```bash
    # Dev: lenient
-   danube-admin-cli topic configure-schema \
+   danube-admin topic configure-schema \
      --topic /dev/my-topic \
      --validation-policy warn
    
    # Prod: strict
-   danube-admin-cli topic configure-schema \
+   danube-admin topic configure-schema \
      --topic /prod/my-topic \
      --validation-policy enforce
    ```

@@ -514,7 +514,7 @@ null
 
 **When Created:**
 
-- Written during topic unload (`danube-admin-cli topics unload`)
+- Written during topic unload (`danube-admin topics unload`)
 - Read by new broker to initialize WAL at `last_committed_offset + 1`
 - Deleted after successful topic load on new broker
 

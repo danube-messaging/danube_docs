@@ -158,7 +158,7 @@ When you register a schema:
 **Using CLI:**
 
 ```bash
-danube-admin-cli schemas register user-events \
+danube-admin schemas register user-events \
   --schema-type json_schema \
   --file user-events.json \
   --description "User activity events"
@@ -200,12 +200,12 @@ When you update a schema:
 
 ```bash
 # Test compatibility first
-danube-admin-cli schemas check user-events \
+danube-admin schemas check user-events \
   --file user-events-v2.json \
   --schema-type json_schema
 
 # If compatible, register new version
-danube-admin-cli schemas register user-events \
+danube-admin schemas register user-events \
   --schema-type json_schema \
   --file user-events-v2.json
 ```

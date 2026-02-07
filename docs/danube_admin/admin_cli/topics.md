@@ -18,27 +18,27 @@ Topics are the fundamental messaging primitive in Danube. They provide:
 View topics in a namespace or on a specific broker.
 
 ```bash
-danube-admin-cli topics list [OPTIONS]
+danube-admin topics list [OPTIONS]
 ```
 
 **By Namespace:**
 
 ```bash
 # List all topics in a namespace
-danube-admin-cli topics list --namespace default
+danube-admin topics list --namespace default
 
 # JSON output for automation
-danube-admin-cli topics list --namespace default --output json
+danube-admin topics list --namespace default --output json
 ```
 
 **By Broker:**
 
 ```bash
 # List topics on a specific broker
-danube-admin-cli topics list --broker broker-001
+danube-admin topics list --broker broker-001
 
 # JSON output
-danube-admin-cli topics list --broker broker-001 --output json
+danube-admin topics list --broker broker-001 --output json
 ```
 
 **Example Output (Plain Text):**
@@ -67,7 +67,7 @@ Topics in namespace 'default':
 Create a new topic with optional schema validation.
 
 ```bash
-danube-admin-cli topics create <TOPIC> [OPTIONS]
+danube-admin topics create <TOPIC> [OPTIONS]
 ```
 
 #### Basic Topic Creation
@@ -76,20 +76,20 @@ danube-admin-cli topics create <TOPIC> [OPTIONS]
 
 ```bash
 # Create topic without schema
-danube-admin-cli topics create /default/logs
+danube-admin topics create /default/logs
 
 # Create with reliable delivery
-danube-admin-cli topics create /default/events --dispatch-strategy reliable
+danube-admin topics create /default/events --dispatch-strategy reliable
 ```
 
 **Using Namespace Flag:**
 
 ```bash
 # Specify namespace separately
-danube-admin-cli topics create my-topic --namespace default
+danube-admin topics create my-topic --namespace default
 
 # Equivalent to
-danube-admin-cli topics create /default/my-topic
+danube-admin topics create /default/my-topic
 ```
 
 #### Schema-Validated Topics
@@ -98,12 +98,12 @@ danube-admin-cli topics create /default/my-topic
 
 ```bash
 # First, register a schema
-danube-admin-cli schemas register user-events \
+danube-admin schemas register user-events \
   --schema-type json_schema \
   --file user-schema.json
 
 # Create topic with schema validation
-danube-admin-cli topics create /default/user-events \
+danube-admin topics create /default/user-events \
   --schema-subject user-events \
   --dispatch-strategy reliable
 ```
@@ -121,11 +121,11 @@ danube-admin-cli topics create /default/user-events \
 
 ```bash
 # Create partitioned topic (3 partitions)
-danube-admin-cli topics create /default/high-throughput \
+danube-admin topics create /default/high-throughput \
   --partitions 3
 
 # With schema and partitions
-danube-admin-cli topics create /default/user-events \
+danube-admin topics create /default/user-events \
   --partitions 5 \
   --schema-subject user-events \
   --dispatch-strategy reliable
@@ -167,23 +167,23 @@ danube-admin-cli topics create /default/user-events \
 View detailed information about a topic including schema and subscriptions.
 
 ```bash
-danube-admin-cli topics describe <TOPIC> [OPTIONS]
+danube-admin topics describe <TOPIC> [OPTIONS]
 ```
 
 **Basic Usage:**
 
 ```bash
-danube-admin-cli topics describe /default/user-events
+danube-admin topics describe /default/user-events
 ```
 
 **Output Formats:**
 
 ```bash
 # Plain text (default) - human-readable
-danube-admin-cli topics describe /default/user-events
+danube-admin topics describe /default/user-events
 
 # JSON format - for automation
-danube-admin-cli topics describe /default/user-events --output json
+danube-admin topics describe /default/user-events --output json
 ```
 
 **Example Output (Plain Text):**
@@ -241,23 +241,23 @@ Subscriptions: []
 View all active subscriptions for a topic.
 
 ```bash
-danube-admin-cli topics subscriptions <TOPIC> [OPTIONS]
+danube-admin topics subscriptions <TOPIC> [OPTIONS]
 ```
 
 **Basic Usage:**
 
 ```bash
-danube-admin-cli topics subscriptions /default/user-events
+danube-admin topics subscriptions /default/user-events
 ```
 
 **Output Formats:**
 
 ```bash
 # Plain text
-danube-admin-cli topics subscriptions /default/user-events
+danube-admin topics subscriptions /default/user-events
 
 # JSON format
-danube-admin-cli topics subscriptions /default/user-events --output json
+danube-admin topics subscriptions /default/user-events --output json
 ```
 
 **Example Output:**
@@ -273,19 +273,19 @@ Subscriptions: ["consumer-1", "consumer-2", "analytics-team"]
 Permanently remove a topic and all its messages.
 
 ```bash
-danube-admin-cli topics delete <TOPIC> [OPTIONS]
+danube-admin topics delete <TOPIC> [OPTIONS]
 ```
 
 **Basic Usage:**
 
 ```bash
-danube-admin-cli topics delete /default/old-topic
+danube-admin topics delete /default/old-topic
 ```
 
 **With Namespace:**
 
 ```bash
-danube-admin-cli topics delete old-topic --namespace default
+danube-admin topics delete old-topic --namespace default
 ```
 
 **Example Output:**
@@ -305,15 +305,15 @@ danube-admin-cli topics delete old-topic --namespace default
 
 ```bash
 # 1. Check subscriptions
-danube-admin-cli topics subscriptions /default/my-topic
+danube-admin topics subscriptions /default/my-topic
 
 # 2. Verify topic details
-danube-admin-cli topics describe /default/my-topic
+danube-admin topics describe /default/my-topic
 
 # 3. Backup if needed (application-level)
 
 # 4. Delete topic
-danube-admin-cli topics delete /default/my-topic
+danube-admin topics delete /default/my-topic
 ```
 
 ---
@@ -323,20 +323,20 @@ danube-admin-cli topics delete /default/my-topic
 Remove a specific subscription from a topic.
 
 ```bash
-danube-admin-cli topics unsubscribe <TOPIC> --subscription <NAME> [OPTIONS]
+danube-admin topics unsubscribe <TOPIC> --subscription <NAME> [OPTIONS]
 ```
 
 **Basic Usage:**
 
 ```bash
-danube-admin-cli topics unsubscribe /default/user-events \
+danube-admin topics unsubscribe /default/user-events \
   --subscription old-consumer
 ```
 
 **With Namespace:**
 
 ```bash
-danube-admin-cli topics unsubscribe my-topic \
+danube-admin topics unsubscribe my-topic \
   --namespace default \
   --subscription old-consumer
 ```
@@ -360,13 +360,13 @@ danube-admin-cli topics unsubscribe my-topic \
 Gracefully unload a topic from its current broker.
 
 ```bash
-danube-admin-cli topics unload <TOPIC> [OPTIONS]
+danube-admin topics unload <TOPIC> [OPTIONS]
 ```
 
 **Basic Usage:**
 
 ```bash
-danube-admin-cli topics unload /default/user-events
+danube-admin topics unload /default/user-events
 ```
 
 **Example Output:**
@@ -390,14 +390,14 @@ danube-admin-cli topics unload /default/user-events
 Configure complete schema settings for a topic including schema subject, validation policy, and payload validation (admin-only operation).
 
 ```bash
-danube-admin-cli topics configure-schema <TOPIC> [OPTIONS]
+danube-admin topics configure-schema <TOPIC> [OPTIONS]
 ```
 
 **Basic Usage:**
 
 ```bash
 # Configure topic with schema and strict validation
-danube-admin-cli topics configure-schema /default/user-events \
+danube-admin topics configure-schema /default/user-events \
   --subject user-events \
   --validation-policy enforce \
   --enable-payload-validation
@@ -424,24 +424,24 @@ danube-admin-cli topics configure-schema /default/user-events \
 
 ```bash
 # Production: Strict validation
-danube-admin-cli topics configure-schema /production/orders \
+danube-admin topics configure-schema /production/orders \
   --subject order-events \
   --validation-policy enforce \
   --enable-payload-validation
 
 # Staging: Warn on validation errors
-danube-admin-cli topics configure-schema /staging/orders \
+danube-admin topics configure-schema /staging/orders \
   --subject order-events \
   --validation-policy warn \
   --enable-payload-validation
 
 # Development: No validation
-danube-admin-cli topics configure-schema /dev/orders \
+danube-admin topics configure-schema /dev/orders \
   --subject order-events \
   --validation-policy none
 
 # Using namespace flag
-danube-admin-cli topics configure-schema my-topic \
+danube-admin topics configure-schema my-topic \
   --namespace production \
   --subject events \
   --validation-policy enforce
@@ -470,14 +470,14 @@ danube-admin-cli topics configure-schema my-topic \
 Update the validation policy for a topic without changing its schema subject (admin-only operation).
 
 ```bash
-danube-admin-cli topics set-validation-policy <TOPIC> [OPTIONS]
+danube-admin topics set-validation-policy <TOPIC> [OPTIONS]
 ```
 
 **Basic Usage:**
 
 ```bash
 # Change validation policy to warn
-danube-admin-cli topics set-validation-policy /production/events \
+danube-admin topics set-validation-policy /production/events \
   --policy warn \
   --enable-payload-validation
 ```
@@ -494,17 +494,17 @@ danube-admin-cli topics set-validation-policy /production/events \
 
 ```bash
 # Enable strict validation for production
-danube-admin-cli topics set-validation-policy /production/events \
+danube-admin topics set-validation-policy /production/events \
   --policy enforce \
   --enable-payload-validation
 
 # Switch to warn mode for debugging
-danube-admin-cli topics set-validation-policy /production/events \
+danube-admin topics set-validation-policy /production/events \
   --policy warn \
   --enable-payload-validation
 
 # Disable validation temporarily
-danube-admin-cli topics set-validation-policy /production/events \
+danube-admin topics set-validation-policy /production/events \
   --policy none
 ```
 
@@ -530,24 +530,24 @@ danube-admin-cli topics set-validation-policy /production/events \
 Retrieve the current schema configuration for a topic.
 
 ```bash
-danube-admin-cli topics get-schema-config <TOPIC> [OPTIONS]
+danube-admin topics get-schema-config <TOPIC> [OPTIONS]
 ```
 
 **Basic Usage:**
 
 ```bash
 # Get schema configuration
-danube-admin-cli topics get-schema-config /production/events
+danube-admin topics get-schema-config /production/events
 ```
 
 **Output Formats:**
 
 ```bash
 # Plain text (default)
-danube-admin-cli topics get-schema-config /production/events
+danube-admin topics get-schema-config /production/events
 
 # JSON format for automation
-danube-admin-cli topics get-schema-config /production/events --output json
+danube-admin topics get-schema-config /production/events --output json
 ```
 
 **Example Output (Plain Text):**
@@ -596,23 +596,23 @@ No schema configured for this topic
 
 ```bash
 # Step 1: Register schema
-danube-admin-cli schemas register user-events \
+danube-admin schemas register user-events \
   --schema-type json_schema \
   --file schemas/user-events.json \
   --description "User event schema" \
   --tags users analytics
 
 # Step 2: Verify schema
-danube-admin-cli schemas get --subject user-events
+danube-admin schemas get --subject user-events
 
 # Step 3: Create topic
-danube-admin-cli topics create /production/user-events \
+danube-admin topics create /production/user-events \
   --schema-subject user-events \
   --dispatch-strategy reliable \
   --partitions 5
 
 # Step 4: Verify topic
-danube-admin-cli topics describe /production/user-events
+danube-admin topics describe /production/user-events
 ```
 
 ### 2. Schema Evolution
@@ -621,21 +621,21 @@ danube-admin-cli topics describe /production/user-events
 
 ```bash
 # Step 1: Check current compatibility mode
-danube-admin-cli schemas get --subject user-events
+danube-admin schemas get --subject user-events
 
 # Step 2: Test new schema compatibility
-danube-admin-cli schemas check user-events \
+danube-admin schemas check user-events \
   --file schemas/user-events-v2.json \
   --schema-type json_schema
 
 # Step 3: If compatible, register new version
-danube-admin-cli schemas register user-events \
+danube-admin schemas register user-events \
   --schema-type json_schema \
   --file schemas/user-events-v2.json \
   --description "Added email field"
 
 # Step 4: Verify topic picked up new version
-danube-admin-cli topics describe /production/user-events
+danube-admin topics describe /production/user-events
 ```
 
 ### 3. Multi-Environment Deployment
@@ -644,19 +644,19 @@ danube-admin-cli topics describe /production/user-events
 
 ```bash
 # Production
-danube-admin-cli topics create /production/user-events \
+danube-admin topics create /production/user-events \
   --schema-subject user-events \
   --dispatch-strategy reliable \
   --partitions 10
 
 # Staging
-danube-admin-cli topics create /staging/user-events \
+danube-admin topics create /staging/user-events \
   --schema-subject user-events \
   --dispatch-strategy reliable \
   --partitions 3
 
 # Development
-danube-admin-cli topics create /development/user-events \
+danube-admin topics create /development/user-events \
   --schema-subject user-events-dev \
   --partitions 1
 ```
@@ -667,20 +667,20 @@ danube-admin-cli topics create /development/user-events \
 
 ```bash
 # Step 1: Create new namespace
-danube-admin-cli namespaces create new-namespace
+danube-admin namespaces create new-namespace
 
 # Step 2: Get old topic schema
-OLD_SCHEMA=$(danube-admin-cli topics describe /old/topic --output json | jq -r '.schema_subject')
+OLD_SCHEMA=$(danube-admin topics describe /old/topic --output json | jq -r '.schema_subject')
 
 # Step 3: Create new topic with same schema
-danube-admin-cli topics create /new-namespace/topic \
+danube-admin topics create /new-namespace/topic \
   --schema-subject $OLD_SCHEMA \
   --dispatch-strategy reliable
 
 # Step 4: Migrate consumers (application-level)
 
 # Step 5: Delete old topic
-danube-admin-cli topics delete /old/topic
+danube-admin topics delete /old/topic
 ```
 
 ### 5. Admin Schema Configuration (Production)
@@ -689,35 +689,35 @@ danube-admin-cli topics delete /old/topic
 
 ```bash
 # Step 1: Register schema with full compatibility
-danube-admin-cli schemas register order-events \
+danube-admin schemas register order-events \
   --schema-type json_schema \
   --file schemas/orders.json \
   --description "Order transaction schema"
 
-danube-admin-cli schemas set-compatibility order-events --mode full
+danube-admin schemas set-compatibility order-events --mode full
 
 # Step 2: Create topic (no schema initially)
-danube-admin-cli topics create /production/orders \
+danube-admin topics create /production/orders \
   --dispatch-strategy reliable \
   --partitions 5
 
 # Step 3: Configure schema with strict validation (admin-only)
-danube-admin-cli topics configure-schema /production/orders \
+danube-admin topics configure-schema /production/orders \
   --subject order-events \
   --validation-policy enforce \
   --enable-payload-validation
 
 # Step 4: Verify configuration
-danube-admin-cli topics get-schema-config /production/orders
+danube-admin topics get-schema-config /production/orders
 
 # Step 5: Monitor for issues, adjust if needed
 # If issues found, temporarily switch to warn mode
-danube-admin-cli topics set-validation-policy /production/orders \
+danube-admin topics set-validation-policy /production/orders \
   --policy warn \
   --enable-payload-validation
 
 # Step 6: After fixes, re-enable strict validation
-danube-admin-cli topics set-validation-policy /production/orders \
+danube-admin topics set-validation-policy /production/orders \
   --policy enforce \
   --enable-payload-validation
 ```
@@ -725,17 +725,17 @@ danube-admin-cli topics set-validation-policy /production/orders \
 ## Related Commands
 
 ### Schema Management
-- `danube-admin-cli schemas register` - Register schemas for validation
-- `danube-admin-cli schemas get` - View schema details
-- `danube-admin-cli schemas get-compatibility` - Get compatibility mode
-- `danube-admin-cli schemas set-compatibility` - Set compatibility mode
-- `danube-admin-cli schemas delete` - Delete schema versions
+- `danube-admin schemas register` - Register schemas for validation
+- `danube-admin schemas get` - View schema details
+- `danube-admin schemas get-compatibility` - Get compatibility mode
+- `danube-admin schemas set-compatibility` - Set compatibility mode
+- `danube-admin schemas delete` - Delete schema versions
 
 ### Topic Schema Configuration (Admin)
-- `danube-admin-cli topics configure-schema` - Configure topic schema settings
-- `danube-admin-cli topics set-validation-policy` - Update validation policy
-- `danube-admin-cli topics get-schema-config` - Get topic schema configuration
+- `danube-admin topics configure-schema` - Configure topic schema settings
+- `danube-admin topics set-validation-policy` - Update validation policy
+- `danube-admin topics get-schema-config` - Get topic schema configuration
 
 ### Cluster Management
-- `danube-admin-cli namespaces create` - Create namespaces for topics
-- `danube-admin-cli brokers list` - View broker topology
+- `danube-admin namespaces create` - Create namespaces for topics
+- `danube-admin brokers list` - View broker topology

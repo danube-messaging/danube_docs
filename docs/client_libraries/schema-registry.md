@@ -306,7 +306,7 @@ Compatibility modes control schema evolution at the **subject level**. This is a
 
 ```bash
 # Admin CLI command (not available in client SDK)
-danube-admin-cli schema set-compatibility \
+danube-admin schema set-compatibility \
   --subject user-events \
   --mode BACKWARD
 ```

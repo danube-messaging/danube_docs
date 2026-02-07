@@ -116,7 +116,7 @@ danube-minio     minio/minio:RELEASE.2025-07-23T15-54-02Z   "/usr/bin/docker-ent
 
 ### Using the CLI Container
 
-The Docker Compose setup includes a `danube-cli` container with both `danube-cli` and `danube-admin-cli` tools pre-installed. This eliminates the need to build or install Rust locally.
+The Docker Compose setup includes a `danube-cli` container with both `danube-cli` and `danube-admin` tools pre-installed. This eliminates the need to build or install Rust locally.
 
 **No local installation required** - use the containerized CLI tools directly.
 
@@ -195,20 +195,20 @@ docker exec -it danube-cli danube-cli consume \
 
 ### Admin CLI Operations
 
-**Use danube-admin-cli for cluster management:**
+**Use danube-admin for cluster management:**
 
 ```bash
 # List active brokers
-docker exec -it danube-cli danube-admin-cli brokers list
+docker exec -it danube-cli danube-admin brokers list
 
 # List namespaces in cluster
-docker exec -it danube-cli danube-admin-cli brokers namespaces
+docker exec -it danube-cli danube-admin brokers namespaces
 
 # List topics in a namespace
-docker exec -it danube-cli danube-admin-cli topics list default
+docker exec -it danube-cli danube-admin topics list default
 
 # List subscriptions on a topic
-docker exec -it danube-cli danube-admin-cli topics subscriptions /default/test-topic
+docker exec -it danube-cli danube-admin topics subscriptions /default/test-topic
 ```
 
 ## Monitoring and Observability

@@ -38,7 +38,7 @@ producer.send('{"nam": "John"}')  # Typo detected
 Register a new schema or create a new version of an existing schema.
 
 ```bash
-danube-admin-cli schemas register <SUBJECT> [OPTIONS]
+danube-admin schemas register <SUBJECT> [OPTIONS]
 ```
 
 #### Basic Schema Registration
@@ -46,7 +46,7 @@ danube-admin-cli schemas register <SUBJECT> [OPTIONS]
 **From File (Recommended):**
 
 ```bash
-danube-admin-cli schemas register user-events \
+danube-admin schemas register user-events \
   --schema-type json_schema \
   --file schemas/user-events.json
 ```
@@ -54,7 +54,7 @@ danube-admin-cli schemas register user-events \
 **Inline Schema:**
 
 ```bash
-danube-admin-cli schemas register simple-events \
+danube-admin schemas register simple-events \
   --schema-type json_schema \
   --schema '{"type": "object", "properties": {"id": {"type": "string"}}}'
 ```
@@ -74,7 +74,7 @@ Fingerprint: sha256:abc123...
 **Add Description and Tags:**
 
 ```bash
-danube-admin-cli schemas register user-events \
+danube-admin schemas register user-events \
   --schema-type json_schema \
   --file schemas/user-events.json \
   --description "User registration and login events" \
@@ -138,7 +138,7 @@ danube-admin-cli schemas register user-events \
 **Register:**
 
 ```bash
-danube-admin-cli schemas register user-events \
+danube-admin schemas register user-events \
   --schema-type json_schema \
   --file schemas/user-events.json \
   --description "User authentication events" \
@@ -166,7 +166,7 @@ danube-admin-cli schemas register user-events \
 **Register:**
 
 ```bash
-danube-admin-cli schemas register payment-events \
+danube-admin schemas register payment-events \
   --schema-type avro \
   --file schemas/payment.avsc \
   --description "Payment transaction events"
@@ -179,14 +179,14 @@ danube-admin-cli schemas register payment-events \
 Retrieve schema details by subject or ID.
 
 ```bash
-danube-admin-cli schemas get [OPTIONS]
+danube-admin schemas get [OPTIONS]
 ```
 
 #### By Subject (Latest Version)
 
 ```bash
 # Get latest version
-danube-admin-cli schemas get --subject user-events
+danube-admin schemas get --subject user-events
 ```
 
 **Example Output:**
@@ -214,16 +214,16 @@ Schema Definition:
 
 ```bash
 # Get specific schema by ID
-danube-admin-cli schemas get --id 12345
+danube-admin schemas get --id 12345
 
 # Get specific version of a schema
-danube-admin-cli schemas get --id 12345 --version 1
+danube-admin schemas get --id 12345 --version 1
 ```
 
 #### JSON Output
 
 ```bash
-danube-admin-cli schemas get --subject user-events --output json
+danube-admin schemas get --subject user-events --output json
 ```
 
 **Example JSON Output:**
@@ -251,13 +251,13 @@ danube-admin-cli schemas get --subject user-events --output json
 View all versions for a schema subject.
 
 ```bash
-danube-admin-cli schemas versions <SUBJECT> [OPTIONS]
+danube-admin schemas versions <SUBJECT> [OPTIONS]
 ```
 
 **Basic Usage:**
 
 ```bash
-danube-admin-cli schemas versions user-events
+danube-admin schemas versions user-events
 ```
 
 **Example Output:**
@@ -278,7 +278,7 @@ Versions for subject 'user-events':
 **JSON Output:**
 
 ```bash
-danube-admin-cli schemas versions user-events --output json
+danube-admin schemas versions user-events --output json
 ```
 
 **Example JSON:**
@@ -311,13 +311,13 @@ danube-admin-cli schemas versions user-events --output json
 Verify if a new schema is compatible with existing versions.
 
 ```bash
-danube-admin-cli schemas check <SUBJECT> [OPTIONS]
+danube-admin schemas check <SUBJECT> [OPTIONS]
 ```
 
 **Basic Usage:**
 
 ```bash
-danube-admin-cli schemas check user-events \
+danube-admin schemas check user-events \
   --file schemas/user-events-v2.json \
   --schema-type json_schema
 ```
@@ -342,7 +342,7 @@ Compatibility errors:
 
 ```bash
 # Check with specific mode (overrides subject's default)
-danube-admin-cli schemas check user-events \
+danube-admin schemas check user-events \
   --file schemas/user-events-v2.json \
   --schema-type json_schema \
   --mode full
@@ -355,13 +355,13 @@ danube-admin-cli schemas check user-events \
 vim schemas/user-events-v2.json
 
 # Step 2: Check compatibility BEFORE registering
-danube-admin-cli schemas check user-events \
+danube-admin schemas check user-events \
   --file schemas/user-events-v2.json \
   --schema-type json_schema
 
 # Step 3: If compatible, register it
 if [ $? -eq 0 ]; then
-  danube-admin-cli schemas register user-events \
+  danube-admin schemas register user-events \
     --schema-type json_schema \
     --file schemas/user-events-v2.json \
     --description "Added email field"
@@ -375,14 +375,14 @@ fi
 Retrieve the current compatibility mode for a schema subject.
 
 ```bash
-danube-admin-cli schemas get-compatibility <SUBJECT> [OPTIONS]
+danube-admin schemas get-compatibility <SUBJECT> [OPTIONS]
 ```
 
 **Basic Usage:**
 
 ```bash
 # Get compatibility mode for a subject
-danube-admin-cli schemas get-compatibility user-events
+danube-admin schemas get-compatibility user-events
 ```
 
 **Example Output:**
@@ -395,7 +395,7 @@ Compatibility Mode: BACKWARD
 **JSON Output:**
 
 ```bash
-danube-admin-cli schemas get-compatibility user-events --output json
+danube-admin schemas get-compatibility user-events --output json
 ```
 
 **Example JSON:**
@@ -420,7 +420,7 @@ danube-admin-cli schemas get-compatibility user-events --output json
 Configure how schema evolution is enforced.
 
 ```bash
-danube-admin-cli schemas set-compatibility <SUBJECT> --mode <MODE>
+danube-admin schemas set-compatibility <SUBJECT> --mode <MODE>
 ```
 
 **Compatibility Modes:**
@@ -436,13 +436,13 @@ danube-admin-cli schemas set-compatibility <SUBJECT> --mode <MODE>
 
 ```bash
 # Set backward compatibility (most common)
-danube-admin-cli schemas set-compatibility user-events --mode backward
+danube-admin schemas set-compatibility user-events --mode backward
 
 # Set full compatibility (strict)
-danube-admin-cli schemas set-compatibility payment-events --mode full
+danube-admin schemas set-compatibility payment-events --mode full
 
 # Disable compatibility (development only)
-danube-admin-cli schemas set-compatibility test-events --mode none
+danube-admin schemas set-compatibility test-events --mode none
 ```
 
 **Example Output:**
@@ -521,13 +521,13 @@ Mode: BACKWARD
 Remove a specific version of a schema.
 
 ```bash
-danube-admin-cli schemas delete <SUBJECT> --version <VERSION> --confirm
+danube-admin schemas delete <SUBJECT> --version <VERSION> --confirm
 ```
 
 **Basic Usage:**
 
 ```bash
-danube-admin-cli schemas delete user-events --version 1 --confirm
+danube-admin schemas delete user-events --version 1 --confirm
 ```
 
 **Example Output:**
@@ -547,11 +547,11 @@ danube-admin-cli schemas delete user-events --version 1 --confirm
 
 ```bash
 # Step 1: List all versions
-danube-admin-cli schemas versions user-events
+danube-admin schemas versions user-events
 
 # Step 2: Check which version is active
-danube-admin-cli topics describe /production/events | grep "Version:"
+danube-admin topics describe /production/events | grep "Version:"
 
 # Step 3: Only delete if not active and confirmed safe
-danube-admin-cli schemas delete user-events --version 1 --confirm
+danube-admin schemas delete user-events --version 1 --confirm
 ```

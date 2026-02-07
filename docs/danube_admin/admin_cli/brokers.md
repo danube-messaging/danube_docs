@@ -21,17 +21,17 @@ The `brokers` command provides visibility and control over the brokers in your D
 Display all brokers in the cluster with their details.
 
 ```bash
-danube-admin-cli brokers list
+danube-admin brokers list
 ```
 
 **Output Formats:**
 
 ```bash
 # Plain text (default) - easy to read
-danube-admin-cli brokers list
+danube-admin brokers list
 
 # JSON format - for scripting/automation
-danube-admin-cli brokers list --output json
+danube-admin brokers list --output json
 ```
 
 **Example Output (Plain Text):**
@@ -75,7 +75,7 @@ danube-admin-cli brokers list --output json
 Identify which broker is currently the cluster leader.
 
 ```bash
-danube-admin-cli brokers leader
+danube-admin brokers leader
 ```
 
 **Example Output:**
@@ -97,17 +97,17 @@ Leader: broker-001
 View all namespaces managed by the cluster.
 
 ```bash
-danube-admin-cli brokers namespaces
+danube-admin brokers namespaces
 ```
 
 **Output Formats:**
 
 ```bash
 # Plain text
-danube-admin-cli brokers namespaces
+danube-admin brokers namespaces
 
 # JSON format
-danube-admin-cli brokers namespaces --output json
+danube-admin brokers namespaces --output json
 ```
 
 **Example Output (Plain Text):**
@@ -129,36 +129,36 @@ Namespaces: ["default", "analytics", "logs"]
 Gracefully unload topics from a broker (useful for maintenance or rebalancing).
 
 ```bash
-danube-admin-cli brokers unload <BROKER_ID> [OPTIONS]
+danube-admin brokers unload <BROKER_ID> [OPTIONS]
 ```
 
 **Basic Usage:**
 
 ```bash
 # Unload all topics from broker-001
-danube-admin-cli brokers unload broker-001
+danube-admin brokers unload broker-001
 
 # Dry-run to see what would be unloaded
-danube-admin-cli brokers unload broker-001 --dry-run
+danube-admin brokers unload broker-001 --dry-run
 ```
 
 **Advanced Options:**
 
 ```bash
 # Unload with custom parallelism
-danube-admin-cli brokers unload broker-001 --max-parallel 5
+danube-admin brokers unload broker-001 --max-parallel 5
 
 # Unload only specific namespaces
-danube-admin-cli brokers unload broker-001 \
+danube-admin brokers unload broker-001 \
   --namespace-include default \
   --namespace-include analytics
 
 # Exclude certain namespaces
-danube-admin-cli brokers unload broker-001 \
+danube-admin brokers unload broker-001 \
   --namespace-exclude system
 
 # Set custom timeout per topic (seconds)
-danube-admin-cli brokers unload broker-001 --timeout 30
+danube-admin brokers unload broker-001 --timeout 30
 ```
 
 **Options:**
@@ -393,19 +393,19 @@ danube-admin brokers balance
 Mark a broker as active, allowing it to receive traffic.
 
 ```bash
-danube-admin-cli brokers activate <BROKER_ID> [OPTIONS]
+danube-admin brokers activate <BROKER_ID> [OPTIONS]
 ```
 
 **Basic Usage:**
 
 ```bash
-danube-admin-cli brokers activate broker-002
+danube-admin brokers activate broker-002
 ```
 
 **With Audit Reason:**
 
 ```bash
-danube-admin-cli brokers activate broker-002 \
+danube-admin brokers activate broker-002 \
   --reason "Maintenance completed"
 ```
 
@@ -427,43 +427,43 @@ Activated: true
 
 ```bash
 # Check cluster health
-danube-admin-cli brokers list
-danube-admin-cli brokers leader
+danube-admin brokers list
+danube-admin brokers leader
 
 # Verify all brokers are active
-danube-admin-cli brokers list | grep -c active
+danube-admin brokers list | grep -c active
 ```
 
 ### 2. Broker Maintenance
 
 ```bash
 # Step 1: Dry-run to preview unload
-danube-admin-cli brokers unload broker-001 --dry-run
+danube-admin brokers unload broker-001 --dry-run
 
 # Step 2: Unload topics
-danube-admin-cli brokers unload broker-001
+danube-admin brokers unload broker-001
 
 # Step 3: Perform maintenance (external)
 # ...
 
 # Step 4: Reactivate broker
-danube-admin-cli brokers activate broker-001 --reason "Maintenance completed"
+danube-admin brokers activate broker-001 --reason "Maintenance completed"
 ```
 
 ### 3. Cluster Expansion
 
 ```bash
 # List current brokers
-danube-admin-cli brokers list
+danube-admin brokers list
 
 # Add new broker (external process)
 # ...
 
 # Activate new broker
-danube-admin-cli brokers activate broker-003 --reason "New broker added"
+danube-admin brokers activate broker-003 --reason "New broker added"
 
 # Verify
-danube-admin-cli brokers list
+danube-admin brokers list
 ```
 
 ## Quick Reference
