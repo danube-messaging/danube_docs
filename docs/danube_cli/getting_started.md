@@ -56,12 +56,12 @@ Download the latest release for your system from [Danube Releases](https://githu
 
 ```bash
 # Linux
-wget https://github.com/danube-messaging/danube/releases/download/v0.6.0/danube-cli-linux
-chmod +x danube-cli-linux
+curl -L -o danube-cli https://github.com/danube-messaging/danube/releases/latest/download/danube-cli-linux
+chmod +x danube-cli
 
 # macOS (Apple Silicon)
-wget https://github.com/danube-messaging/danube/releases/download/v0.6.0/danube-cli-macos
-chmod +x danube-cli-macos
+curl -L -o danube-cli https://github.com/danube-messaging/danube/releases/latest/download/danube-cli-macos
+chmod +x danube-cli 
 
 # Windows
 # Download danube-cli-windows.exe from the releases page

@@ -81,17 +81,20 @@ nav:
                             - Advanced Consumer: client_libraries/consumer-advanced.md
                   - Schema Registry: client_libraries/schema-registry.md
 
-        - 🔧 CLI Tools:
-                  - Danube CLI (Client):
-                            - Getting Started: danube_clis/danube_cli/getting_started.md
-                            - Producer: danube_clis/danube_cli/producer.md
-                            - Consumer: danube_clis/danube_cli/consumer.md
-                            - Schema Registry: danube_clis/danube_cli/schema_registry.md
-                  - Admin CLI (Operations):
-                            - Brokers: danube_clis/danube_admin/brokers.md
-                            - Namespaces: danube_clis/danube_admin/namespaces.md
-                            - Topics: danube_clis/danube_admin/topics.md
-                            - Schema Registry: danube_clis/danube_admin/schema_registry.md
+        - 🔧 Admin Tools:
+                  - Overview & Installation: danube_admin/getting_started.md
+                  - AI Admin Assistant (MCP): danube_admin/ai_admin_assistant.md
+                  - CLI Admin Guide:
+                            - Brokers: danube_admin/admin_cli/brokers.md
+                            - Namespaces: danube_admin/admin_cli/namespaces.md
+                            - Topics: danube_admin/admin_cli/topics.md
+                            - Schema Registry: danube_admin/admin_cli/schema_registry.md
+
+        - 💫 Client CLI:
+                  - Getting Started: danube_cli/getting_started.md
+                  - Producer: danube_cli/producer.md
+                  - Consumer: danube_cli/consumer.md
+                  - Schema Registry: danube_cli/schema_registry.md
 
         - 🔌 Integrations:
                   - Danube Connect Overview: integrations/danube_connect_overview.md

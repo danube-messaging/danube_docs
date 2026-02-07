@@ -655,8 +655,8 @@ danube-cli schema check my-subject \
 
 **See Also:**
 
-- [Admin Schema Registry Guide](../danube_admin/schema_registry.md) - For admin-only operations
-- [Admin Topics Guide](../danube_admin/topics.md) - For topic schema configuration
+- [Admin Schema Registry Guide](../danube_admin/admin_cli/schema_registry.md) - For admin-only operations
+- [Admin Topics Guide](../danube_admin/admin_cli/topics.md) - For topic schema configuration
 
 ---
 
