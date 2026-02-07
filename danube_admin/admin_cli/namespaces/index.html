@@ -12,13 +12,13 @@
         <meta name="author" content="Dan Rusei">
       
       
-        <link rel="canonical" href="https://danube-docs.dev-state.com/danube_clis/danube_cli/getting_started/">
+        <link rel="canonical" href="https://danube-docs.dev-state.com/danube_admin/admin_cli/namespaces/">
       
       
-        <link rel="prev" href="../../../client_libraries/schema-registry/">
+        <link rel="prev" href="../brokers/">
       
       
-        <link rel="next" href="../producer/">
+        <link rel="next" href="../topics/">
       
       
       <link rel="icon" href="../../../assets/favicon.ico">
@@ -26,7 +26,7 @@
     
     
       
-        <title>Getting Started - Danube Messaging</title>
+        <title>Namespaces - Danube Messaging</title>
       
     
     
@@ -88,7 +88,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#danube-cli-documentation" class="md-skip">
+        <a href="#namespaces-management" class="md-skip">
           Skip to content
         </a>
       
@@ -123,7 +123,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Getting Started
+              Namespaces
             
           </span>
         </div>
@@ -1088,7 +1088,7 @@
             
   
   <span class="md-ellipsis">
-    🔧 CLI Tools
+    🔧 Admin Tools
   </span>
   
 
@@ -1098,9 +1098,51 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
-            🔧 CLI Tools
+            🔧 Admin Tools
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting_started/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview & Installation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai_admin_assistant/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    AI Admin Assistant (MCP)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -1118,26 +1160,47 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_1" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" checked>
         
           
-          <label class="md-nav__link" for="__nav_6_1" id="__nav_6_1_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="0">
             
   
   <span class="md-ellipsis">
-    Danube CLI (Client)
+    CLI Admin Guide
   </span>
   
 
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_1_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_6_1">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6_3">
             <span class="md-nav__icon md-icon"></span>
-            Danube CLI (Client)
+            CLI Admin Guide
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../brokers/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Brokers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -1159,7 +1222,7 @@
           
   
   <span class="md-ellipsis">
-    Getting Started
+    Namespaces
   </span>
   
 
@@ -1170,7 +1233,7 @@
         
   
   <span class="md-ellipsis">
-    Getting Started
+    Namespaces
   </span>
   
 
@@ -1192,55 +1255,55 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#what-is-danube-cli" class="md-nav__link">
+  <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
-      What is Danube CLI?
+      Overview
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#core-concepts" class="md-nav__link">
+  <a href="#commands" class="md-nav__link">
     <span class="md-ellipsis">
-      Core Concepts
+      Commands
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Core Concepts">
+    <nav class="md-nav" aria-label="Commands">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#topics" class="md-nav__link">
+  <a href="#list-topics-in-a-namespace" class="md-nav__link">
     <span class="md-ellipsis">
-      Topics
+      List Topics in a Namespace
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#producers" class="md-nav__link">
+  <a href="#view-namespace-policies" class="md-nav__link">
     <span class="md-ellipsis">
-      Producers
+      View Namespace Policies
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#consumers" class="md-nav__link">
+  <a href="#create-a-namespace" class="md-nav__link">
     <span class="md-ellipsis">
-      Consumers
+      Create a Namespace
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#schema-registry" class="md-nav__link">
+  <a href="#delete-a-namespace" class="md-nav__link">
     <span class="md-ellipsis">
-      Schema Registry
+      Delete a Namespace
     </span>
   </a>
   
@@ -1252,28 +1315,28 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#quick-start" class="md-nav__link">
+  <a href="#common-workflows" class="md-nav__link">
     <span class="md-ellipsis">
-      Quick Start
+      Common Workflows
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Quick Start">
+    <nav class="md-nav" aria-label="Common Workflows">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#add-to-path-optional" class="md-nav__link">
+  <a href="#1-namespace-setup-for-new-application" class="md-nav__link">
     <span class="md-ellipsis">
-      Add to PATH (Optional)
+      1. Namespace Setup for New Application
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#verify-installation" class="md-nav__link">
+  <a href="#2-multi-environment-setup" class="md-nav__link">
     <span class="md-ellipsis">
-      Verify Installation
+      2. Multi-Environment Setup
     </span>
   </a>
   
@@ -1281,192 +1344,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#your-first-message" class="md-nav__link">
-    <span class="md-ellipsis">
-      Your First Message
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Your First Message">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#step-1-produce-messages" class="md-nav__link">
-    <span class="md-ellipsis">
-      Step 1: Produce Messages
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#step-2-start-a-consumer" class="md-nav__link">
-    <span class="md-ellipsis">
-      Step 2: Start a Consumer
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#example-workflows" class="md-nav__link">
-    <span class="md-ellipsis">
-      Example Workflows
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Example Workflows">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#add-a-schema" class="md-nav__link">
-    <span class="md-ellipsis">
-      Add a Schema
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#send-multiple-messages" class="md-nav__link">
-    <span class="md-ellipsis">
-      Send Multiple Messages
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#use-different-subscription-types" class="md-nav__link">
-    <span class="md-ellipsis">
-      Use Different Subscription Types
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#common-patterns" class="md-nav__link">
-    <span class="md-ellipsis">
-      Common Patterns
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Common Patterns">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#pattern-1-quick-test-message" class="md-nav__link">
-    <span class="md-ellipsis">
-      Pattern 1: Quick Test Message
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#pattern-2-binary-files" class="md-nav__link">
-    <span class="md-ellipsis">
-      Pattern 2: Binary Files
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#pattern-3-messages-with-metadata" class="md-nav__link">
-    <span class="md-ellipsis">
-      Pattern 3: Messages with Metadata
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#pattern-4-partitioned-topics" class="md-nav__link">
-    <span class="md-ellipsis">
-      Pattern 4: Partitioned Topics
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#pattern-5-reliable-delivery" class="md-nav__link">
-    <span class="md-ellipsis">
-      Pattern 5: Reliable Delivery
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#tips-for-success" class="md-nav__link">
-    <span class="md-ellipsis">
-      Tips for Success
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Tips for Success">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-check-examples-in-help" class="md-nav__link">
-    <span class="md-ellipsis">
-      1. Check Examples in Help
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-json-output-for-scripting" class="md-nav__link">
-    <span class="md-ellipsis">
-      2. JSON Output for Scripting
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#3-descriptive-names" class="md-nav__link">
-    <span class="md-ellipsis">
-      3. Descriptive Names
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#whats-next" class="md-nav__link">
-    <span class="md-ellipsis">
-      What's Next?
-    </span>
-  </a>
   
 </li>
       
@@ -1486,155 +1363,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../producer/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Producer
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../consumer/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Consumer
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../schema_registry/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Schema Registry
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" >
-        
-          
-          <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    Admin CLI (Operations)
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_6_2">
-            <span class="md-nav__icon md-icon"></span>
-            Admin CLI (Operations)
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../danube_admin/brokers/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Brokers
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../danube_admin/namespaces/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Namespaces
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../danube_admin/topics/" class="md-nav__link">
+      <a href="../topics/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1655,7 +1384,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../danube_admin/schema_registry/" class="md-nav__link">
+      <a href="../schema_registry/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1705,7 +1434,7 @@
             
   
   <span class="md-ellipsis">
-    🔌 Integrations
+    💫 Client CLI
   </span>
   
 
@@ -1714,6 +1443,132 @@
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            💫 Client CLI
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../danube_cli/getting_started/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Getting Started
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../danube_cli/producer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Producer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../danube_cli/consumer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Consumer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../danube_cli/schema_registry/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Schema Registry
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    🔌 Integrations
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
             <span class="md-nav__icon md-icon"></span>
             🔌 Integrations
           </label>
@@ -1824,10 +1679,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
         
           
-          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -1838,8 +1693,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_8">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
             <span class="md-nav__icon md-icon"></span>
             📚 Reference
           </label>
@@ -1887,10 +1742,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
         
           
-          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -1901,8 +1756,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_9">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
             <span class="md-nav__icon md-icon"></span>
             🤝 Contributing
           </label>
@@ -1984,55 +1839,55 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#what-is-danube-cli" class="md-nav__link">
+  <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
-      What is Danube CLI?
+      Overview
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#core-concepts" class="md-nav__link">
+  <a href="#commands" class="md-nav__link">
     <span class="md-ellipsis">
-      Core Concepts
+      Commands
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Core Concepts">
+    <nav class="md-nav" aria-label="Commands">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#topics" class="md-nav__link">
+  <a href="#list-topics-in-a-namespace" class="md-nav__link">
     <span class="md-ellipsis">
-      Topics
+      List Topics in a Namespace
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#producers" class="md-nav__link">
+  <a href="#view-namespace-policies" class="md-nav__link">
     <span class="md-ellipsis">
-      Producers
+      View Namespace Policies
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#consumers" class="md-nav__link">
+  <a href="#create-a-namespace" class="md-nav__link">
     <span class="md-ellipsis">
-      Consumers
+      Create a Namespace
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#schema-registry" class="md-nav__link">
+  <a href="#delete-a-namespace" class="md-nav__link">
     <span class="md-ellipsis">
-      Schema Registry
+      Delete a Namespace
     </span>
   </a>
   
@@ -2044,28 +1899,28 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#quick-start" class="md-nav__link">
+  <a href="#common-workflows" class="md-nav__link">
     <span class="md-ellipsis">
-      Quick Start
+      Common Workflows
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Quick Start">
+    <nav class="md-nav" aria-label="Common Workflows">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#add-to-path-optional" class="md-nav__link">
+  <a href="#1-namespace-setup-for-new-application" class="md-nav__link">
     <span class="md-ellipsis">
-      Add to PATH (Optional)
+      1. Namespace Setup for New Application
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#verify-installation" class="md-nav__link">
+  <a href="#2-multi-environment-setup" class="md-nav__link">
     <span class="md-ellipsis">
-      Verify Installation
+      2. Multi-Environment Setup
     </span>
   </a>
   
@@ -2073,192 +1928,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#your-first-message" class="md-nav__link">
-    <span class="md-ellipsis">
-      Your First Message
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Your First Message">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#step-1-produce-messages" class="md-nav__link">
-    <span class="md-ellipsis">
-      Step 1: Produce Messages
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#step-2-start-a-consumer" class="md-nav__link">
-    <span class="md-ellipsis">
-      Step 2: Start a Consumer
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#example-workflows" class="md-nav__link">
-    <span class="md-ellipsis">
-      Example Workflows
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Example Workflows">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#add-a-schema" class="md-nav__link">
-    <span class="md-ellipsis">
-      Add a Schema
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#send-multiple-messages" class="md-nav__link">
-    <span class="md-ellipsis">
-      Send Multiple Messages
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#use-different-subscription-types" class="md-nav__link">
-    <span class="md-ellipsis">
-      Use Different Subscription Types
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#common-patterns" class="md-nav__link">
-    <span class="md-ellipsis">
-      Common Patterns
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Common Patterns">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#pattern-1-quick-test-message" class="md-nav__link">
-    <span class="md-ellipsis">
-      Pattern 1: Quick Test Message
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#pattern-2-binary-files" class="md-nav__link">
-    <span class="md-ellipsis">
-      Pattern 2: Binary Files
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#pattern-3-messages-with-metadata" class="md-nav__link">
-    <span class="md-ellipsis">
-      Pattern 3: Messages with Metadata
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#pattern-4-partitioned-topics" class="md-nav__link">
-    <span class="md-ellipsis">
-      Pattern 4: Partitioned Topics
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#pattern-5-reliable-delivery" class="md-nav__link">
-    <span class="md-ellipsis">
-      Pattern 5: Reliable Delivery
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#tips-for-success" class="md-nav__link">
-    <span class="md-ellipsis">
-      Tips for Success
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Tips for Success">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-check-examples-in-help" class="md-nav__link">
-    <span class="md-ellipsis">
-      1. Check Examples in Help
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-json-output-for-scripting" class="md-nav__link">
-    <span class="md-ellipsis">
-      2. JSON Output for Scripting
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#3-descriptive-names" class="md-nav__link">
-    <span class="md-ellipsis">
-      3. Descriptive Names
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#whats-next" class="md-nav__link">
-    <span class="md-ellipsis">
-      What's Next?
-    </span>
-  </a>
   
 </li>
       
@@ -2277,7 +1946,7 @@
                   
 
   
-    <a href="https://github.com/danube-messaging/danube_docs/edit/main/docs/danube_clis/danube_cli/getting_started.md" title="Edit this page" class="md-content__button md-icon">
+    <a href="https://github.com/danube-messaging/danube_docs/edit/main/docs/danube_admin/admin_cli/namespaces.md" title="Edit this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
     </a>
@@ -2285,221 +1954,210 @@
   
 
 
-<h1 id="danube-cli-documentation">Danube CLI Documentation</h1>
-<p>Welcome to the <strong>Danube CLI</strong> - command-line companion for interacting with Danube messaging system! 🚀</p>
-<h2 id="what-is-danube-cli">What is Danube CLI?</h2>
-<p>Danube CLI is a powerful, easy-to-use command-line tool that lets you:</p>
+<h1 id="namespaces-management">Namespaces Management</h1>
+<p>Organize your topics with namespaces in Danube.</p>
+<h2 id="overview">Overview</h2>
+<p>Namespaces provide logical isolation for topics in your Danube cluster. Use namespaces to:</p>
 <ul>
-<li>📤 <strong>Produce</strong> messages to topics with schema validation</li>
-<li>📥 <strong>Consume</strong> messages from topics with automatic schema detection</li>
-<li>📋 <strong>Manage schemas</strong> in the schema registry</li>
-<li>🔄 <strong>Test</strong> your Danube deployment end-to-end</li>
-<li>🛠️ <strong>Develop</strong> and debug messaging workflows</li>
+<li>Organize topics by application, team, or environment</li>
+<li>Apply policies at the namespace level</li>
+<li>Control access and resource allocation</li>
+<li>Separate production, staging, and development workloads</li>
 </ul>
-<h2 id="core-concepts">Core Concepts</h2>
-<h3 id="topics">Topics</h3>
-<p>Topics are logical channels where messages are published and consumed. Topic names follow a hierarchical structure:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>/namespace/topic-name
+<h2 id="commands">Commands</h2>
+<h3 id="list-topics-in-a-namespace">List Topics in a Namespace</h3>
+<p>View all topics within a specific namespace.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>topics<span class="w"> </span>&lt;NAMESPACE&gt;
 </span></code></pre></div>
-<p>Example: <code>/default/user-events</code>, <code>/production/orders</code></p>
-<h3 id="producers">Producers</h3>
-<p>Producers send messages to topics. They can:</p>
+<p><strong>Basic Usage:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>topics<span class="w"> </span>default
+</span></code></pre></div>
+<p><strong>Output Formats:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Plain text (default)</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>topics<span class="w"> </span>default
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># JSON format - for automation</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>topics<span class="w"> </span>default<span class="w"> </span>--output<span class="w"> </span>json
+</span></code></pre></div>
+<p><strong>Example Output (Plain Text):</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Topics in namespace &#39;default&#39;:
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>  /default/user-events
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>  /default/payment-logs
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>  /default/analytics
+</span></code></pre></div>
+<p><strong>Example Output (JSON):</strong></p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">[</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="s2">&quot;/default/user-events&quot;</span><span class="p">,</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="s2">&quot;/default/payment-logs&quot;</span><span class="p">,</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span><span class="s2">&quot;/default/analytics&quot;</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="p">]</span>
+</span></code></pre></div>
+<hr />
+<h3 id="view-namespace-policies">View Namespace Policies</h3>
+<p>Get the policies configured for a namespace.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>policies<span class="w"> </span>&lt;NAMESPACE&gt;
+</span></code></pre></div>
+<p><strong>Basic Usage:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>policies<span class="w"> </span>default
+</span></code></pre></div>
+<p><strong>Output Formats:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Plain text (default) - pretty printed</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>policies<span class="w"> </span>default
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># JSON format</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>policies<span class="w"> </span>default<span class="w"> </span>--output<span class="w"> </span>json
+</span></code></pre></div>
+<p><strong>Example Output (Plain Text):</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Policies<span class="w"> </span><span class="k">for</span><span class="w"> </span>namespace<span class="w"> </span><span class="s1">&#39;default&#39;</span>:
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="o">{</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span><span class="s2">&quot;max_topics_per_namespace&quot;</span>:<span class="w"> </span><span class="m">1000</span>,
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span><span class="s2">&quot;max_producers_per_topic&quot;</span>:<span class="w"> </span><span class="m">100</span>,
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">  </span><span class="s2">&quot;max_consumers_per_topic&quot;</span>:<span class="w"> </span><span class="m">100</span>,
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">  </span><span class="s2">&quot;message_ttl_seconds&quot;</span>:<span class="w"> </span><span class="m">604800</span>,
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">  </span><span class="s2">&quot;retention_policy&quot;</span>:<span class="w"> </span><span class="s2">&quot;time_based&quot;</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="o">}</span>
+</span></code></pre></div>
+<p><strong>Example Output (JSON):</strong></p>
+<div class="language-json highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="p">{</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="nt">&quot;max_topics_per_namespace&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1000</span><span class="p">,</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span><span class="nt">&quot;max_producers_per_topic&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span><span class="nt">&quot;max_consumers_per_topic&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">  </span><span class="nt">&quot;message_ttl_seconds&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">604800</span><span class="p">,</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">  </span><span class="nt">&quot;retention_policy&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;time_based&quot;</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="p">}</span>
+</span></code></pre></div>
+<p><strong>Common Policies:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Policy</th>
+<th>Description</th>
+<th>Typical Values</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>max_topics_per_namespace</code></td>
+<td>Maximum number of topics</td>
+<td><code>100</code> - <code>10000</code></td>
+</tr>
+<tr>
+<td><code>max_producers_per_topic</code></td>
+<td>Maximum producers per topic</td>
+<td><code>10</code> - <code>1000</code></td>
+</tr>
+<tr>
+<td><code>max_consumers_per_topic</code></td>
+<td>Maximum consumers per topic</td>
+<td><code>10</code> - <code>1000</code></td>
+</tr>
+<tr>
+<td><code>message_ttl_seconds</code></td>
+<td>Message time-to-live</td>
+<td><code>3600</code> (1h) - <code>604800</code> (7d)</td>
+</tr>
+<tr>
+<td><code>retention_policy</code></td>
+<td>How messages are retained</td>
+<td><code>time_based</code>, <code>size_based</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="create-a-namespace">Create a Namespace</h3>
+<p>Create a new namespace in the cluster.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>&lt;NAMESPACE&gt;
+</span></code></pre></div>
+<p><strong>Basic Usage:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Create namespace</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>production
+</span></code></pre></div>
+<p><strong>Example Output:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>✅<span class="w"> </span>Namespace<span class="w"> </span>created:<span class="w"> </span>production
+</span></code></pre></div>
+<p><strong>Naming Guidelines:</strong></p>
 <ul>
-<li>Send messages with or without schemas</li>
-<li>Configure partitioning for scalability</li>
-<li>Enable reliable delivery for critical messages</li>
+<li>Use lowercase letters and hyphens</li>
+<li>Keep names descriptive: <code>production</code>, <code>staging</code>, <code>dev</code></li>
+<li>Avoid special characters</li>
+<li>Use consistent naming: <code>team-app-env</code> pattern</li>
 </ul>
-<h3 id="consumers">Consumers</h3>
-<p>Consumers receive messages from topics via subscriptions. They support:</p>
-<ul>
-<li>Multiple subscription types (Exclusive, Shared, Failover)</li>
-<li>Automatic schema validation</li>
-<li>Message acknowledgment</li>
-</ul>
-<h3 id="schema-registry">Schema Registry</h3>
-<p>The schema registry provides:</p>
-<ul>
-<li>Centralized schema management</li>
-<li>Schema evolution with compatibility checking</li>
-<li>Automatic validation for producers and consumers</li>
-</ul>
-<p>Whether you're testing a new deployment, debugging message flows, or building automation scripts, Danube CLI has you covered!</p>
-<h2 id="quick-start">Quick Start</h2>
-<p>Download the latest release for your system from <a href="https://github.com/danube-messaging/danube/releases">Danube Releases</a>:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Linux</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>wget<span class="w"> </span>https://github.com/danube-messaging/danube/releases/download/v0.6.0/danube-cli-linux
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>chmod<span class="w"> </span>+x<span class="w"> </span>danube-cli-linux
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="c1"># macOS (Apple Silicon)</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>wget<span class="w"> </span>https://github.com/danube-messaging/danube/releases/download/v0.6.0/danube-cli-macos
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>chmod<span class="w"> </span>+x<span class="w"> </span>danube-cli-macos
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1"># Windows</span>
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="c1"># Download danube-cli-windows.exe from the releases page</span>
+<p><strong>Examples:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># By environment</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>production
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>staging
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>development
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="c1"># By team</span>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>analytics-team
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>platform-team
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>
+</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="c1"># By application</span>
+</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>payment-service
+</span><span id="__span-13-12"><a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>user-service
 </span></code></pre></div>
-<h3 id="add-to-path-optional">Add to PATH (Optional)</h3>
-<p>For easier access, add the binary to your PATH:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Option 1: Copy to a directory in your PATH</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>sudo<span class="w"> </span>cp<span class="w"> </span>danube-cli-linux<span class="w"> </span>/usr/local/bin/danube-cli
+<hr />
+<h3 id="delete-a-namespace">Delete a Namespace</h3>
+<p>Remove a namespace from the cluster.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>delete<span class="w"> </span>&lt;NAMESPACE&gt;
 </span></code></pre></div>
-<h3 id="verify-installation">Verify Installation</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>danube-cli<span class="w"> </span>--version
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>danube-cli<span class="w"> </span>--help
+<p><strong>Basic Usage:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>delete<span class="w"> </span>old-namespace
 </span></code></pre></div>
-<p>You should see the CLI version and help information!</p>
-<p>Let's send and receive a simple message!</p>
-<h2 id="your-first-message">Your First Message</h2>
-<h3 id="step-1-produce-messages">Step 1: Produce Messages</h3>
-<p>First, let's produce some messages (this also creates the topic):</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>danube-cli<span class="w"> </span>produce<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span>--service-addr<span class="w"> </span>http://localhost:6650<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span>--topic<span class="w"> </span>/default/getting-started<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span>--message<span class="w"> </span><span class="s2">&quot;Hello from Danube CLI!&quot;</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span>--count<span class="w"> </span><span class="m">5</span>
+<p><strong>Example Output:</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>✅ Namespace deleted: old-namespace
 </span></code></pre></div>
-<p>You should see:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>✅<span class="w"> </span>Producer<span class="w"> </span><span class="s1">&#39;test_producer&#39;</span><span class="w"> </span>created<span class="w"> </span>successfully
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>📤<span class="w"> </span>Message<span class="w"> </span><span class="m">1</span>/5<span class="w"> </span>sent<span class="w"> </span>successfully<span class="w"> </span><span class="o">(</span>ID:<span class="w"> </span>...<span class="o">)</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>📤<span class="w"> </span>Message<span class="w"> </span><span class="m">2</span>/5<span class="w"> </span>sent<span class="w"> </span>successfully<span class="w"> </span><span class="o">(</span>ID:<span class="w"> </span>...<span class="o">)</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>📤<span class="w"> </span>Message<span class="w"> </span><span class="m">3</span>/5<span class="w"> </span>sent<span class="w"> </span>successfully<span class="w"> </span><span class="o">(</span>ID:<span class="w"> </span>...<span class="o">)</span>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>📤<span class="w"> </span>Message<span class="w"> </span><span class="m">4</span>/5<span class="w"> </span>sent<span class="w"> </span>successfully<span class="w"> </span><span class="o">(</span>ID:<span class="w"> </span>...<span class="o">)</span>
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>📤<span class="w"> </span>Message<span class="w"> </span><span class="m">5</span>/5<span class="w"> </span>sent<span class="w"> </span>successfully<span class="w"> </span><span class="o">(</span>ID:<span class="w"> </span>...<span class="o">)</span>
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>📊<span class="w"> </span>Summary:
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">   </span>✅<span class="w"> </span>Success:<span class="w"> </span><span class="m">5</span>
-</span></code></pre></div>
-<h3 id="step-2-start-a-consumer">Step 2: Start a Consumer</h3>
-<p>Now open a <strong>new terminal</strong> and start consuming the messages:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span>--service-addr<span class="w"> </span>http://localhost:6650<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span>--topic<span class="w"> </span>/default/getting-started<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span>--subscription<span class="w"> </span>my-first-subscription
-</span></code></pre></div>
-<p>You should see:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>🔍<span class="w"> </span>Checking<span class="w"> </span><span class="k">for</span><span class="w"> </span>schema<span class="w"> </span>associated<span class="w"> </span>with<span class="w"> </span>topic...
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>ℹ️<span class="w">  </span>Topic<span class="w"> </span>has<span class="w"> </span>no<span class="w"> </span>schema<span class="w"> </span>-<span class="w"> </span>consuming<span class="w"> </span>raw<span class="w"> </span>bytes
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>Received<span class="w"> </span>message:<span class="w"> </span>Hello<span class="w"> </span>from<span class="w"> </span>Danube<span class="w"> </span>CLI!
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>Size:<span class="w"> </span><span class="m">24</span><span class="w"> </span>bytes,<span class="w"> </span>Total<span class="w"> </span>received:<span class="w"> </span><span class="m">24</span><span class="w"> </span>bytes
-</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>Received<span class="w"> </span>message:<span class="w"> </span>Hello<span class="w"> </span>from<span class="w"> </span>Danube<span class="w"> </span>CLI!
-</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>Size:<span class="w"> </span><span class="m">24</span><span class="w"> </span>bytes,<span class="w"> </span>Total<span class="w"> </span>received:<span class="w"> </span><span class="m">48</span><span class="w"> </span>bytes
-</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>...
-</span></code></pre></div>
-<h2 id="example-workflows">Example Workflows</h2>
-<h3 id="add-a-schema">Add a Schema</h3>
-<p>Schemas ensure your messages have the right structure:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># 1. Create a simple schema file</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>/tmp/user-schema.json<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="s">{</span>
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="s">  &quot;type&quot;: &quot;object&quot;,</span>
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="s">  &quot;properties&quot;: {</span>
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="s">    &quot;user_id&quot;: {&quot;type&quot;: &quot;string&quot;},</span>
-</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="s">    &quot;action&quot;: {&quot;type&quot;: &quot;string&quot;}</span>
-</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="s">  },</span>
-</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="s">  &quot;required&quot;: [&quot;user_id&quot;, &quot;action&quot;]</span>
-</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="s">}</span>
-</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="s">EOF</span>
-</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>
-</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="c1"># 2. Register the schema</span>
-</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>danube-cli<span class="w"> </span>schema<span class="w"> </span>register<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="w">  </span>--schema-type<span class="w"> </span>json_schema<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="w">  </span>--file<span class="w"> </span>/tmp/user-schema.json
-</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>
-</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a><span class="c1"># 3. Produce with schema validation</span>
-</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>danube-cli<span class="w"> </span>produce<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a><span class="w">  </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a><span class="w">  </span>-t<span class="w"> </span>/default/user-events<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a><span class="w">  </span>--schema-subject<span class="w"> </span>user-events<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a><span class="w">  </span>-m<span class="w"> </span><span class="s1">&#39;{&quot;user_id&quot;:&quot;user_123&quot;,&quot;action&quot;:&quot;login&quot;}&#39;</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-8-24"><a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a><span class="w">  </span>--count<span class="w"> </span><span class="m">5</span>
-</span><span id="__span-8-25"><a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a>
-</span><span id="__span-8-26"><a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a><span class="c1"># 4. Consume with automatic validation</span>
-</span><span id="__span-8-27"><a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-8-28"><a id="__codelineno-8-28" name="__codelineno-8-28" href="#__codelineno-8-28"></a><span class="w">  </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-8-29"><a id="__codelineno-8-29" name="__codelineno-8-29" href="#__codelineno-8-29"></a><span class="w">  </span>-t<span class="w"> </span>/default/user-events<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-8-30"><a id="__codelineno-8-30" name="__codelineno-8-30" href="#__codelineno-8-30"></a><span class="w">  </span>-m<span class="w"> </span>user-subscription
-</span></code></pre></div>
-<p>The consumer will automatically validate messages against the schema!</p>
-<h3 id="send-multiple-messages">Send Multiple Messages</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>danube-cli<span class="w"> </span>produce<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span>-t<span class="w"> </span>/default/test<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span>-m<span class="w"> </span><span class="s2">&quot;Message&quot;</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">  </span>--count<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">  </span>--interval<span class="w"> </span><span class="m">500</span>
-</span></code></pre></div>
-<p>This sends 20 messages with a 500ms delay between each.</p>
-<h3 id="use-different-subscription-types">Use Different Subscription Types</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Exclusive: Only one consumer at a time</span>
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">  </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">  </span>-t<span class="w"> </span>/default/test<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">  </span>-m<span class="w"> </span>my-exclusive<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">  </span>--sub-type<span class="w"> </span>exclusive
-</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>
-</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="c1"># Shared: Multiple consumers share messages</span>
-</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="w">  </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="w">  </span>-t<span class="w"> </span>/default/test<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="w">  </span>-m<span class="w"> </span>my-shared<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="w">  </span>--sub-type<span class="w"> </span>shared
-</span></code></pre></div>
-<h2 id="common-patterns">Common Patterns</h2>
-<h3 id="pattern-1-quick-test-message">Pattern 1: Quick Test Message</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Shortest way to send a message</span>
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>danube-cli<span class="w"> </span>produce<span class="w"> </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;test&quot;</span>
-</span></code></pre></div>
-<h3 id="pattern-2-binary-files">Pattern 2: Binary Files</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Send a file as a message</span>
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>danube-cli<span class="w"> </span>produce<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">  </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">  </span>--file<span class="w"> </span>/path/to/data.bin
-</span></code></pre></div>
-<h3 id="pattern-3-messages-with-metadata">Pattern 3: Messages with Metadata</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Add attributes for routing/filtering</span>
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>danube-cli<span class="w"> </span>produce<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">  </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">  </span>-m<span class="w"> </span><span class="s2">&quot;Alert!&quot;</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">  </span>--attributes<span class="w"> </span><span class="s2">&quot;priority:high,region:us-west&quot;</span>
-</span></code></pre></div>
-<h3 id="pattern-4-partitioned-topics">Pattern 4: Partitioned Topics</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Create a topic with partitions</span>
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>danube-cli<span class="w"> </span>produce<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">  </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">  </span>-t<span class="w"> </span>/default/events<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="w">  </span>--partitions<span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="w">  </span>-m<span class="w"> </span><span class="s2">&quot;Partitioned message&quot;</span>
-</span></code></pre></div>
-<h3 id="pattern-5-reliable-delivery">Pattern 5: Reliable Delivery</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># Guarantee message delivery</span>
-</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>danube-cli<span class="w"> </span>produce<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">  </span>-s<span class="w"> </span>http://localhost:6650<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">  </span>-m<span class="w"> </span><span class="s2">&quot;Important message&quot;</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="w">  </span>--reliable
-</span></code></pre></div>
-<h2 id="tips-for-success">Tips for Success</h2>
-<h3 id="1-check-examples-in-help">1. Check Examples in Help</h3>
-<p>Every command has examples built-in:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>danube-cli<span class="w"> </span>produce<span class="w"> </span>--help<span class="w">     </span><span class="c1"># See producer examples</span>
-</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span>--help<span class="w">     </span><span class="c1"># See consumer examples</span>
-</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>danube-cli<span class="w"> </span>schema<span class="w"> </span>--help<span class="w">      </span><span class="c1"># See schema examples</span>
-</span></code></pre></div>
-<h3 id="2-json-output-for-scripting">2. JSON Output for Scripting</h3>
-<p>Use <code>--output json</code> for programmatic parsing:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>danube-cli<span class="w"> </span>schema<span class="w"> </span>get<span class="w"> </span>user-events<span class="w"> </span>--output<span class="w"> </span>json<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>.
-</span></code></pre></div>
-<h3 id="3-descriptive-names">3. Descriptive Names</h3>
-<p>Use meaningful names for easier debugging:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>danube-cli<span class="w"> </span>produce<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="w">  </span>--producer-name<span class="w"> </span>order-service-producer<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">  </span>--topic<span class="w"> </span>/production/orders<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="w">  </span>-m<span class="w"> </span><span class="s1">&#39;{&quot;order_id&quot;:&quot;123&quot;}&#39;</span>
-</span></code></pre></div>
-<h2 id="whats-next">What's Next?</h2>
-<p>You can explore more advanced features:</p>
+<p><strong>⚠️ Important Warnings:</strong></p>
 <ol>
-<li>📤 <strong><a href="../producer/">Producer Guide</a></strong> - Message production</li>
-<li>📥 <strong><a href="../consumer/">Consumer Guide</a></strong> - Message consumption</li>
-<li>📋 <strong><a href="../schema_registry/">Schema Registry</a></strong> - Schema management</li>
+<li><strong>All Topics Deleted</strong>: Deleting a namespace removes ALL topics within it</li>
+<li><strong>No Confirmation</strong>: This operation is immediate and irreversible</li>
+<li><strong>Active Connections</strong>: Connected producers/consumers will be disconnected</li>
+<li><strong>Data Loss</strong>: All messages in the namespace are permanently deleted</li>
 </ol>
+<p><strong>Safety Checklist:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># 1. List topics before deletion</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>topics<span class="w"> </span>my-namespace
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="c1"># 2. Verify no critical topics</span>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>topics<span class="w"> </span>my-namespace<span class="w"> </span>--output<span class="w"> </span>json<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span>critical
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="c1"># 3. Check policies to understand impact</span>
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>policies<span class="w"> </span>my-namespace
+</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>
+</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="c1"># 4. Only then delete</span>
+</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>delete<span class="w"> </span>my-namespace
+</span></code></pre></div>
+<h2 id="common-workflows">Common Workflows</h2>
+<h3 id="1-namespace-setup-for-new-application">1. Namespace Setup for New Application</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Create namespace</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>payment-service
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="c1"># Verify creation</span>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>danube-admin-cli<span class="w"> </span>brokers<span class="w"> </span>namespaces<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>payment-service
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="c1"># Check default policies</span>
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>policies<span class="w"> </span>payment-service
+</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>
+</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a><span class="c1"># Create topics in namespace</span>
+</span><span id="__span-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>/payment-service/transactions
+</span><span id="__span-18-12"><a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>/payment-service/refunds
+</span><span id="__span-18-13"><a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>/payment-service/notifications
+</span></code></pre></div>
+<h3 id="2-multi-environment-setup">2. Multi-Environment Setup</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># Create environments</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>production
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>staging
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>danube-admin-cli<span class="w"> </span>namespaces<span class="w"> </span>create<span class="w"> </span>development
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="c1"># List all namespaces</span>
+</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>danube-admin-cli<span class="w"> </span>brokers<span class="w"> </span>namespaces
+</span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>
+</span><span id="__span-19-9"><a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a><span class="c1"># Create same topics in each environment</span>
+</span><span id="__span-19-10"><a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a><span class="k">for</span><span class="w"> </span>env<span class="w"> </span><span class="k">in</span><span class="w"> </span>production<span class="w"> </span>staging<span class="w"> </span>development<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+</span><span id="__span-19-11"><a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a><span class="w">  </span>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>/<span class="nv">$env</span>/user-events
+</span><span id="__span-19-12"><a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a><span class="w">  </span>danube-admin-cli<span class="w"> </span>topics<span class="w"> </span>create<span class="w"> </span>/<span class="nv">$env</span>/order-events
+</span><span id="__span-19-13"><a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a><span class="k">done</span>
+</span></code></pre></div>
 
 
 
