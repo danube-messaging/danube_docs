@@ -25,7 +25,7 @@ Partitions enable horizontal scaling by distributing messages across multiple br
             .with_topic("/default/high-throughput")
             .with_name("partitioned-producer")
             .with_partitions(3)  // Create 3 partitions
-            .build();
+            .build()?;
 
         producer.create().await?;
 
@@ -145,7 +145,7 @@ Reliable dispatch guarantees message delivery by persisting messages before ackn
             .with_topic("/default/critical-events")
             .with_name("reliable-producer")
             .with_reliable_dispatch()  // Enable persistence
-            .build();
+            .build()?;
 
         producer.create().await?;
 
@@ -240,7 +240,7 @@ Scale and durability together:
         .with_name("order-producer")
         .with_partitions(5)           // Scale across 5 partitions
         .with_reliable_dispatch()     // Persist all messages
-        .build();
+        .build()?;
 
     producer.create().await?;
 
@@ -264,7 +264,7 @@ Link producers to schemas for type safety (see [Schema Registry](schema-registry
 === "Rust"
 
     ```rust
-    use danube_client::{DanubeClient, SchemaRegistryClient, SchemaType};
+    use danube_client::{DanubeClient, SchemaType};
     use serde::Serialize;
 
     #[derive(Serialize)]
@@ -290,7 +290,7 @@ Link producers to schemas for type safety (see [Schema Registry](schema-registry
             "required": ["event_id", "timestamp"]
         }"#;
 
-        let mut schema_client = SchemaRegistryClient::new(&client).await?;
+        let schema_client = client.schema();
         let schema_id = schema_client
             .register_schema("event-schema")
             .with_type(SchemaType::JsonSchema)
@@ -306,7 +306,7 @@ Link producers to schemas for type safety (see [Schema Registry](schema-registry
             .with_topic("/default/events")
             .with_name("schema-producer")
             .with_schema_subject("event-schema")  // Link to schema
-            .build();
+            .build()?;
 
         producer.create().await?;
 

@@ -24,7 +24,7 @@ The minimal setup to send messages:
             .new_producer()
             .with_topic("/default/my-topic")
             .with_name("my-producer")
-            .build();
+            .build()?;
 
         producer.create().await?;
         println!("✅ Producer created");
@@ -163,7 +163,7 @@ Add metadata to messages:
             .new_producer()
             .with_topic("/default/events")
             .with_name("event-producer")
-            .build();
+            .build()?;
 
         producer.create().await?;
         println!("✅ Producer created");

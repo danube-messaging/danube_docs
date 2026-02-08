@@ -46,7 +46,7 @@ The Schema Registry provides type safety, validation, and schema evolution for y
 === "Rust"
 
     ```rust
-    use danube_client::{DanubeClient, SchemaRegistryClient};
+    use danube_client::DanubeClient;
 
     #[tokio::main]
     async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -55,7 +55,7 @@ The Schema Registry provides type safety, validation, and schema evolution for y
             .build()
             .await?;
 
-        let mut schema_client = SchemaRegistryClient::new(&client).await?;
+        let schema_client = client.schema();
 
         Ok(())
     }
@@ -68,7 +68,7 @@ The Schema Registry provides type safety, validation, and schema evolution for y
     // Coming soon
     ```
 
-**Note:** Schema Registry client is separate from producer/consumer clients but shares the same connection pool.
+**Note:** The schema client is obtained from `DanubeClient` via `.schema()`, sharing the same connection pool — just like `.new_producer()` and `.new_consumer()`.
 
 ---
 
@@ -79,7 +79,7 @@ The Schema Registry provides type safety, validation, and schema evolution for y
 === "Rust"
 
     ```rust
-    use danube_client::{SchemaRegistryClient, SchemaType};
+    use danube_client::SchemaType;
 
     let json_schema = r#"{
         "type": "object",
@@ -95,7 +95,6 @@ The Schema Registry provides type safety, validation, and schema evolution for y
         .register_schema("user-events")
         .with_type(SchemaType::JsonSchema)
         .with_schema_data(json_schema.as_bytes())
-        .with_description("User activity events v1")
         .execute()
         .await?;
 
@@ -113,7 +112,7 @@ The Schema Registry provides type safety, validation, and schema evolution for y
 === "Rust"
 
     ```rust
-    use danube_client::{SchemaRegistryClient, SchemaType};
+    use danube_client::SchemaType;
 
     let avro_schema = r#"{
         "type": "record",
@@ -320,7 +319,7 @@ danube-admin schema set-compatibility \
 === "Rust"
 
     ```rust
-    use danube_client::{DanubeClient, SchemaRegistryClient, SchemaType};
+    use danube_client::{DanubeClient, SchemaType};
     use serde::Serialize;
 
     #[derive(Serialize)]
@@ -348,7 +347,7 @@ danube-admin schema set-compatibility \
             "required": ["user_id", "event", "timestamp"]
         }"#;
 
-        let mut schema_client = SchemaRegistryClient::new(&client).await?;
+        let schema_client = client.schema();
         schema_client
             .register_schema("user-events")
             .with_type(SchemaType::JsonSchema)
@@ -358,11 +357,11 @@ danube-admin schema set-compatibility \
 
         // 2. Create producer with schema reference (uses latest version)
         let mut producer = client
-            .producer()
+            .new_producer()
             .with_topic("/default/user-events")
             .with_name("event-producer")
             .with_schema_subject("user-events")  // Uses latest version
-            .build();
+            .build()?;
 
         producer.create().await?;
 
@@ -388,11 +387,11 @@ danube-admin schema set-compatibility \
     ```rust
     // Pin producer to specific schema version
     let mut producer = client
-        .producer()
+        .new_producer()
         .with_topic("/default/user-events")
         .with_name("producer-v2")
         .with_schema_version("user-events", 2)  // Pin to version 2
-        .build();
+        .build()?;
 
     producer.create().await?;
     
@@ -412,11 +411,11 @@ danube-admin schema set-compatibility \
     ```rust
     // Use version 2 or any newer compatible version
     let mut producer = client
-        .producer()
+        .new_producer()
         .with_topic("/default/user-events")
         .with_name("producer-min-v2")
         .with_schema_min_version("user-events", 2)  // v2 or newer
-        .build();
+        .build()?;
 
     producer.create().await?;
     
@@ -437,24 +436,27 @@ danube-admin schema set-compatibility \
 
     ```rust
     // First producer - assigns schema to topic
-    let first = client.producer()
+    let mut first = client.new_producer()
         .with_topic("new-topic")
+        .with_name("prod-1")
         .with_schema_subject("user-events")  // ✅ Sets topic's schema
-        .build();
+        .build()?;
     first.create().await?;
 
     // Second producer - must match
-    let second = client.producer()
+    let mut second = client.new_producer()
         .with_topic("new-topic")
+        .with_name("prod-2")
         .with_schema_subject("user-events")  // ✅ Matches, allowed
-        .build();
+        .build()?;
     second.create().await?;
 
     // Third producer - mismatch!
-    let third = client.producer()
+    let mut third = client.new_producer()
         .with_topic("new-topic")
+        .with_name("prod-3")
         .with_schema_subject("order-events")  // ❌ ERROR: Different subject!
-        .build();
+        .build()?;
     third.create().await?;  // Returns error
     ```
 
@@ -500,17 +502,18 @@ cannot use subject 'order-events'. Only admin can change topic schema.
             .await?;
 
         let mut consumer = client
-            .consumer()
+            .new_consumer()
             .with_topic("/default/user-events")
             .with_consumer_name("event-consumer")
             .with_subscription("event-sub")
             .with_subscription_type(SubType::Exclusive)
-            .build();
+            .build()?;
 
         consumer.subscribe().await?;
 
         // If topic has ValidationPolicy::Enforce, broker validates everything
-        while let Some(message) = consumer.receive().await? {
+        let mut stream = consumer.receive().await?;
+        while let Some(message) = stream.recv().await {
             // Broker already validated schema, safe to deserialize
             let event: UserEvent = serde_json::from_slice(&message.payload)?;
             println!("📥 Event: {:?}", event);
@@ -532,7 +535,7 @@ cannot use subject 'order-events'. Only admin can change topic schema.
 === "Rust"
 
     ```rust
-    use danube_client::{DanubeClient, SchemaRegistryClient, SchemaInfo, SubType};
+    use danube_client::{DanubeClient, SchemaInfo, SubType};
     use serde::Deserialize;
 
     #[derive(Deserialize, Debug)]
@@ -550,18 +553,19 @@ cannot use subject 'order-events'. Only admin can change topic schema.
             .await?;
 
         let mut consumer = client
-            .consumer()
+            .new_consumer()
             .with_topic("/default/user-events")
             .with_consumer_name("event-consumer")
             .with_subscription("event-sub")
-            .build();
+            .build()?;
 
         consumer.subscribe().await?;
 
         // Create schema client for validation
-        let mut schema_client = SchemaRegistryClient::new(&client).await?;
+        let schema_client = client.schema();
 
-        while let Some(message) = consumer.receive().await? {
+        let mut stream = consumer.receive().await?;
+        while let Some(message) = stream.recv().await {
             // Fetch schema for validation
             if let Some(schema_id) = message.schema_id {
                 let schema: SchemaInfo = schema_client
@@ -607,7 +611,7 @@ cannot use subject 'order-events'. Only admin can change topic schema.
     }
 
     impl SchemaCache {
-        async fn get_schema(&mut self, schema_id: u64) -> Result<SchemaInfo, Box<dyn std::error::Error>> {
+        async fn get_schema(&self, schema_id: u64) -> Result<SchemaInfo, Box<dyn std::error::Error>> {
             // Check cache first
             if let Some(schema) = self.cache.get(&schema_id) {
                 return Ok(schema.clone());  // Cache hit!
@@ -615,7 +619,6 @@ cannot use subject 'order-events'. Only admin can change topic schema.
 
             // Cache miss - fetch from registry
             let schema = self.client.get_schema_by_id(schema_id).await?;
-            self.cache.insert(schema_id, schema.clone());
             Ok(schema)
         }
     }
@@ -628,21 +631,22 @@ cannot use subject 'order-events'. Only admin can change topic schema.
             .await?;
 
         let mut consumer = client
-            .consumer()
+            .new_consumer()
             .with_topic("/default/user-events")
             .with_consumer_name("cached-consumer")
             .with_subscription("cached-sub")
-            .build();
+            .build()?;
 
         consumer.subscribe().await?;
 
         // Initialize cache
-        let mut cache = SchemaCache {
-            client: SchemaRegistryClient::new(&client).await?,
+        let cache = SchemaCache {
+            client: client.schema(),
             cache: HashMap::new(),
         };
 
-        while let Some(message) = consumer.receive().await? {
+        let mut stream = consumer.receive().await?;
+        while let Some(message) = stream.recv().await {
             if let Some(schema_id) = message.schema_id {
                 // Fast cached lookup
                 let schema = cache.get_schema(schema_id).await?;
@@ -681,7 +685,7 @@ cannot use subject 'order-events'. Only admin can change topic schema.
 === "Rust"
 
     ```rust
-    use danube_client::{SchemaRegistryClient, SchemaType};
+    use danube_client::SchemaType;
 
     // V1 Schema
     let schema_v1 = r#"{
@@ -694,7 +698,7 @@ cannot use subject 'order-events'. Only admin can change topic schema.
     }"#;
 
     // Register V1
-    let mut schema_client = SchemaRegistryClient::new(&client).await?;
+    let schema_client = client.schema();
     schema_client
         .register_schema("events")
         .with_type(SchemaType::JsonSchema)

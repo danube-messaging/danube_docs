@@ -26,7 +26,7 @@ The minimal setup to receive messages:
             .with_consumer_name("my-consumer")
             .with_subscription("my-subscription")
             .with_subscription_type(SubType::Exclusive)
-            .build();
+            .build()?;
 
         consumer.subscribe().await?;
         println!("✅ Consumer subscribed");
@@ -94,7 +94,7 @@ Only **one consumer** can be active. Guarantees message order.
         .with_consumer_name("order-processor")
         .with_subscription("order-sub")
         .with_subscription_type(SubType::Exclusive)  // Only this consumer
-        .build();
+        .build()?;
     ```
 
 === "Go"
@@ -133,7 +133,7 @@ Only **one consumer** can be active. Guarantees message order.
         .with_consumer_name("log-processor-1")
         .with_subscription("log-sub")
         .with_subscription_type(SubType::Shared)  // Multiple consumers allowed
-        .build();
+        .build()?;
     ```
 
 === "Go"
@@ -172,7 +172,7 @@ Like Exclusive, but allows **standby consumers**. One active, others wait.
         .with_consumer_name("processor-1")
         .with_subscription("critical-sub")
         .with_subscription_type(SubType::FailOver)  // Hot standby
-        .build();
+        .build()?;
     ```
 
 === "Go"
@@ -220,7 +220,7 @@ Like Exclusive, but allows **standby consumers**. One active, others wait.
             .with_consumer_name("event-processor")
             .with_subscription("event-sub")
             .with_subscription_type(SubType::Exclusive)
-            .build();
+            .build()?;
 
         consumer.subscribe().await?;
 
@@ -412,7 +412,7 @@ Access metadata sent with messages:
             .with_consumer_name("event-processor")
             .with_subscription("event-sub")
             .with_subscription_type(SubType::Exclusive)
-            .build();
+            .build()?;
 
         consumer.subscribe().await?;
         println!("✅ Consumer subscribed and ready");

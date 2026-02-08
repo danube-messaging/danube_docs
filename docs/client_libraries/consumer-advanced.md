@@ -27,7 +27,7 @@ When a topic has partitions, consumers automatically receive from all partitions
             .with_consumer_name("partition-consumer")
             .with_subscription("partition-sub")
             .with_subscription_type(SubType::Exclusive)
-            .build();
+            .build()?;
 
         consumer.subscribe().await?;
         println!("✅ Subscribed to all partitions");
@@ -206,7 +206,7 @@ Consume typed messages validated against schemas (see [Schema Registry](schema-r
             .with_consumer_name("event-consumer")
             .with_subscription("event-sub")
             .with_subscription_type(SubType::Exclusive)
-            .build();
+            .build()?;
 
         consumer.subscribe().await?;
 
@@ -239,7 +239,7 @@ Validate your Rust struct against the registered schema **at startup** to catch 
     ```rust
     use danube_client::{DanubeClient, SchemaRegistryClient, SubType};
     use serde::{Deserialize, Serialize};
-    use jsonschema::JSONSchema;
+    use jsonschema::Validator;
 
     #[derive(Deserialize, Serialize, Debug)]
     struct MyMessage {
@@ -249,7 +249,7 @@ Validate your Rust struct against the registered schema **at startup** to catch 
 
     /// Validates that consumer struct matches the schema in the registry
     async fn validate_struct_against_registry<T: Serialize>(
-        schema_client: &mut SchemaRegistryClient,
+        schema_client: &SchemaRegistryClient,
         subject: &str,
         sample: &T,
     ) -> Result<u32, Box<dyn std::error::Error>> {
@@ -263,7 +263,7 @@ Validate your Rust struct against the registered schema **at startup** to catch 
             serde_json::from_slice(&schema_response.schema_definition)?;
 
         // Compile JSON Schema validator
-        let validator = JSONSchema::compile(&schema_def)
+        let validator = Validator::new(&schema_def)
             .map_err(|e| format!("Invalid schema: {}", e))?;
 
         // Validate sample struct
@@ -272,7 +272,7 @@ Validate your Rust struct against the registered schema **at startup** to catch 
         if let Err(errors) = validator.validate(&sample_json) {
             eprintln!("❌ VALIDATION FAILED: Struct incompatible with schema v{}", 
                 schema_response.version);
-            for error in errors {
+            for error in validator.iter_errors(&sample_json) {
                 eprintln!("   - {}", error);
             }
             return Err("Struct validation failed".into());
@@ -289,11 +289,11 @@ Validate your Rust struct against the registered schema **at startup** to catch 
             .build()
             .await?;
 
-        let mut schema_client = SchemaRegistryClient::new(&client).await?;
+        let schema_client = client.schema();
 
         // VALIDATE BEFORE CONSUMING - fails fast if struct is wrong!
         let schema_version = validate_struct_against_registry(
-            &mut schema_client,
+            &schema_client,
             "my-app-events",
             &MyMessage {
                 field1: "test".to_string(),
@@ -310,7 +310,7 @@ Validate your Rust struct against the registered schema **at startup** to catch 
             .with_consumer_name("validated-consumer")
             .with_subscription("validated-sub")
             .with_subscription_type(SubType::Exclusive)
-            .build();
+            .build()?;
 
         consumer.subscribe().await?;
         let mut stream = consumer.receive().await?;
