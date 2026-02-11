@@ -2,7 +2,7 @@
 
 The Schema Registry provides type safety, validation, and schema evolution for your messages. This guide shows how to use it from client applications.
 
-**Note:** Schema Registry is currently only available in the Rust client. Go client support is coming soon.
+Both the **Rust** and **Go** client libraries support the Schema Registry.
 
 ## Overview
 
@@ -64,11 +64,24 @@ The Schema Registry provides type safety, validation, and schema evolution for y
 === "Go"
 
     ```go
-    // Schema Registry not yet available in Go client
-    // Coming soon
+    import (
+        "log"
+
+        "github.com/danube-messaging/danube-go"
+    )
+
+    func main() {
+        client, err := danube.NewClient().ServiceURL("127.0.0.1:6650").Build()
+        if err != nil {
+            log.Fatalf("failed to create client: %v", err)
+        }
+
+        schemaClient := client.Schema()
+        _ = schemaClient
+    }
     ```
 
-**Note:** The schema client is obtained from `DanubeClient` via `.schema()`, sharing the same connection pool — just like `.new_producer()` and `.new_consumer()`.
+**Note:** The schema client is obtained from `DanubeClient` via `.Schema()` (Go) or `.schema()` (Rust), sharing the same connection pool — just like producers and consumers.
 
 ---
 
@@ -104,7 +117,34 @@ The Schema Registry provides type safety, validation, and schema evolution for y
 === "Go"
 
     ```go
-    // Schema Registry not yet available in Go client
+    import (
+        "context"
+        "fmt"
+        "log"
+
+        "github.com/danube-messaging/danube-go"
+    )
+
+    func main() {
+        client, err := danube.NewClient().ServiceURL("127.0.0.1:6650").Build()
+        if err != nil {
+            log.Fatalf("failed to create client: %v", err)
+        }
+
+        ctx := context.Background()
+
+        jsonSchema := `{"type": "object", "properties": {"user_id": {"type": "string"}, "event": {"type": "string"}, "timestamp": {"type": "integer"}}, "required": ["user_id", "event", "timestamp"]}`
+
+        schemaID, err := client.Schema().RegisterSchema("user-events").
+            WithType(danube.SchemaTypeJSONSchema).
+            WithSchemaData([]byte(jsonSchema)).
+            Execute(ctx)
+        if err != nil {
+            log.Fatalf("failed to register schema: %v", err)
+        }
+
+        fmt.Printf("Registered schema ID: %d\n", schemaID)
+    }
     ```
 
 ### Avro Schema
@@ -139,7 +179,17 @@ The Schema Registry provides type safety, validation, and schema evolution for y
 === "Go"
 
     ```go
-    // Schema Registry not yet available in Go client
+    avroSchema := `{"type": "record", "name": "UserEvent", "namespace": "com.example", "fields": [{"name": "user_id", "type": "string"}, {"name": "event", "type": "string"}, {"name": "timestamp", "type": "long"}, {"name": "metadata", "type": ["null", "string"], "default": null}]}`
+
+    schemaID, err := client.Schema().RegisterSchema("user-events-avro").
+        WithType(danube.SchemaTypeAvro).
+        WithSchemaData([]byte(avroSchema)).
+        Execute(ctx)
+    if err != nil {
+        log.Fatalf("failed to register schema: %v", err)
+    }
+
+    fmt.Printf("Registered Avro schema: %d\n", schemaID)
     ```
 
 ### Idempotent Registration
@@ -194,6 +244,25 @@ Registering the same schema content multiple times returns the existing schema I
     }
     ```
 
+=== "Go"
+
+    ```go
+    schema, err := client.Schema().GetLatestSchema(ctx, "user-events")
+    if err != nil {
+        log.Fatalf("failed to get schema: %v", err)
+    }
+
+    fmt.Printf("Schema ID: %d\n", schema.SchemaID)
+    fmt.Printf("Subject: %s\n", schema.Subject)
+    fmt.Printf("Version: %d\n", schema.Version)
+    fmt.Printf("Type: %s\n", schema.SchemaType)
+
+    // Get schema definition as string
+    if def, err := schema.SchemaDefinitionAsString(); err == nil {
+        fmt.Printf("Schema: %s\n", def)
+    }
+    ```
+
 **Returns:** `SchemaInfo` - A user-friendly wrapper containing:
 
 - `schema_id` - Global schema identifier
@@ -222,7 +291,13 @@ Registering the same schema content multiple times returns the existing schema I
 === "Go"
 
     ```go
-    // Schema Registry not yet available in Go client
+    schema, err := client.Schema().GetLatestSchema(ctx, "user-events")
+    if err != nil {
+        log.Fatalf("failed to get schema: %v", err)
+    }
+
+    fmt.Printf("Schema subject: %s\n", schema.Subject)
+    fmt.Printf("Schema version: %d\n", schema.Version)
     ```
 
 ### List All Versions
@@ -240,7 +315,12 @@ Registering the same schema content multiple times returns the existing schema I
 === "Go"
 
     ```go
-    // Schema Registry not yet available in Go client
+    versions, err := client.Schema().ListSchemaVersions(ctx, "user-events")
+    if err != nil {
+        log.Fatalf("failed to list versions: %v", err)
+    }
+
+    fmt.Printf("Available versions: %v\n", versions)
     ```
 
 ---
@@ -380,6 +460,68 @@ danube-admin schema set-compatibility \
     }
     ```
 
+=== "Go"
+
+    ```go
+    import (
+        "context"
+        "encoding/json"
+        "fmt"
+        "log"
+
+        "github.com/danube-messaging/danube-go"
+    )
+
+    func main() {
+        client, err := danube.NewClient().ServiceURL("127.0.0.1:6650").Build()
+        if err != nil {
+            log.Fatalf("failed to create client: %v", err)
+        }
+
+        ctx := context.Background()
+
+        // 1. Register schema
+        jsonSchema := `{"type": "object", "properties": {"user_id": {"type": "string"}, "event": {"type": "string"}, "timestamp": {"type": "integer"}}, "required": ["user_id", "event", "timestamp"]}`
+
+        _, err = client.Schema().RegisterSchema("user-events").
+            WithType(danube.SchemaTypeJSONSchema).
+            WithSchemaData([]byte(jsonSchema)).
+            Execute(ctx)
+        if err != nil {
+            log.Fatalf("failed to register schema: %v", err)
+        }
+
+        // 2. Create producer with schema reference (uses latest version)
+        producer, err := client.NewProducer().
+            WithTopic("/default/user-events").
+            WithName("event-producer").
+            WithSchemaSubject("user-events").
+            Build()
+        if err != nil {
+            log.Fatalf("failed to build producer: %v", err)
+        }
+
+        if err := producer.Create(ctx); err != nil {
+            log.Fatalf("failed to create producer: %v", err)
+        }
+
+        // 3. Send typed messages
+        event := map[string]interface{}{
+            "user_id":   "user-123",
+            "event":     "login",
+            "timestamp": 1234567890,
+        }
+
+        jsonBytes, _ := json.Marshal(event)
+        msgID, err := producer.Send(ctx, jsonBytes, nil)
+        if err != nil {
+            log.Fatalf("failed to send: %v", err)
+        }
+
+        fmt.Printf("Sent message: %v\n", msgID)
+    }
+    ```
+
 ### Option 2: Pin to Specific Version
 
 === "Rust"
@@ -395,6 +537,25 @@ danube-admin schema set-compatibility \
 
     producer.create().await?;
     
+    // This producer will always use version 2, even if v3+ exists
+    ```
+
+=== "Go"
+
+    ```go
+    // Pin producer to specific schema version
+    producer, err := client.NewProducer().
+        WithTopic("/default/user-events").
+        WithName("producer-v2").
+        WithSchemaVersion("user-events", 2).  // Pin to version 2
+        Build()
+    if err != nil {
+        log.Fatalf("failed to build producer: %v", err)
+    }
+
+    if err := producer.Create(ctx); err != nil {
+        log.Fatalf("failed to create producer: %v", err)
+    }
     // This producer will always use version 2, even if v3+ exists
     ```
 
@@ -419,6 +580,25 @@ danube-admin schema set-compatibility \
 
     producer.create().await?;
     
+    // Will use v2, v3, v4, etc. (latest compatible version)
+    ```
+
+=== "Go"
+
+    ```go
+    // Use version 2 or any newer compatible version
+    producer, err := client.NewProducer().
+        WithTopic("/default/user-events").
+        WithName("producer-min-v2").
+        WithSchemaMinVersion("user-events", 2).  // v2 or newer
+        Build()
+    if err != nil {
+        log.Fatalf("failed to build producer: %v", err)
+    }
+
+    if err := producer.Create(ctx); err != nil {
+        log.Fatalf("failed to create producer: %v", err)
+    }
     // Will use v2, v3, v4, etc. (latest compatible version)
     ```
 
@@ -472,7 +652,29 @@ cannot use subject 'order-events'. Only admin can change topic schema.
 === "Go"
 
     ```go
-    // Schema Registry not yet available in Go client
+    // First producer - assigns schema to topic
+    first, _ := client.NewProducer().
+        WithTopic("/default/new-topic").
+        WithName("prod-1").
+        WithSchemaSubject("user-events").  // Sets topic's schema
+        Build()
+    first.Create(ctx)
+
+    // Second producer - must match
+    second, _ := client.NewProducer().
+        WithTopic("/default/new-topic").
+        WithName("prod-2").
+        WithSchemaSubject("user-events").  // Matches, allowed
+        Build()
+    second.Create(ctx)
+
+    // Third producer - mismatch!
+    third, _ := client.NewProducer().
+        WithTopic("/default/new-topic").
+        WithName("prod-3").
+        WithSchemaSubject("order-events").  // ERROR: Different subject!
+        Build()
+    third.Create(ctx)  // Returns error
     ```
 
 ---

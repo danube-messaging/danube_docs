@@ -44,8 +44,10 @@ go get github.com/danube-messaging/danube-go
 - ✅ Partitioned topics
 - ✅ Reliable dispatch
 - ✅ All subscription types (Exclusive, Shared, Failover)
-- ⏳ TLS support (coming soon)
-- ⏳ Schema registry (coming soon)
+- ✅ Schema registry (JSON Schema, Avro, Protobuf)
+- ✅ Schema versioning and compatibility checking
+- ✅ TLS and mTLS support
+- ✅ JWT authentication (API key)
 
 **Learn more:** [Go Examples](https://github.com/danube-messaging/danube-go/tree/main/examples)
 
@@ -65,13 +67,13 @@ go get github.com/danube-messaging/danube-go
 | Shared | ✅ | ✅ | ⏳ | ⏳ |
 | Failover | ✅ | ✅ | ⏳ | ⏳ |
 | **Schema Registry** |
-| JSON Schema | ✅ | ⏳ | ⏳ | ⏳ |
-| Avro | ✅ | ⏳ | ⏳ | ⏳ |
-| Protobuf | ✅ | ⏳ | ⏳ | ⏳ |
-| Compatibility Checking | ✅ | ⏳ | ⏳ | ⏳ |
+| JSON Schema | ✅ | ✅ | ⏳ | ⏳ |
+| Avro | ✅ | ✅ | ⏳ | ⏳ |
+| Protobuf | ✅ | ✅ | ⏳ | ⏳ |
+| Compatibility Checking | ✅ | ✅ | ⏳ | ⏳ |
 | **Security** |
-| TLS | ✅ | ⏳ | ⏳ | ⏳ |
-| JWT Authentication | ✅ | ⏳ | ⏳ | ⏳ |
+| TLS / mTLS | ✅ | ✅ | ⏳ | ⏳ |
+| JWT Authentication | ✅ | ✅ | ⏳ | ⏳ |
 
 _* Coming soon - community contributions welcome_
 

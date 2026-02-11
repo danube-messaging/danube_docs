@@ -26,11 +26,17 @@ Connect to Danube broker with an gRPC endpoint:
 
     ```go
     import (
+        "log"
+
         "github.com/danube-messaging/danube-go"
     )
 
     func main() {
-        client := danube.NewClient().ServiceURL("127.0.0.1:6650").Build()
+        client, err := danube.NewClient().ServiceURL("127.0.0.1:6650").Build()
+        if err != nil {
+            log.Fatalf("failed to create client: %v", err)
+        }
+        _ = client
     }
     ```
 
@@ -75,7 +81,44 @@ For secure production environments, enable TLS encryption:
 === "Go"
 
     ```go
-    // TLS support coming soon
+    import (
+        "log"
+
+        "github.com/danube-messaging/danube-go"
+    )
+
+    func main() {
+        // TLS with custom CA certificate
+        builder, err := danube.NewClient().
+            ServiceURL("127.0.0.1:6650").
+            WithTLS("./certs/ca-cert.pem")
+        if err != nil {
+            log.Fatalf("failed to configure TLS: %v", err)
+        }
+
+        client, err := builder.Build()
+        if err != nil {
+            log.Fatalf("failed to create client: %v", err)
+        }
+        _ = client
+    }
+    ```
+
+    For mutual TLS (mTLS) with client certificates:
+
+    ```go
+    // mTLS with CA, client cert, and client key
+    builder, err := danube.NewClient().
+        ServiceURL("127.0.0.1:6650").
+        WithMTLS("./certs/ca-cert.pem", "./certs/client-cert.pem", "./certs/client-key.pem")
+    if err != nil {
+        log.Fatalf("failed to configure mTLS: %v", err)
+    }
+
+    client, err := builder.Build()
+    if err != nil {
+        log.Fatalf("failed to create client: %v", err)
+    }
     ```
 
 **Requirements:**
@@ -131,7 +174,45 @@ For authenticated environments, use API keys to obtain JWT tokens:
 === "Go"
 
     ```go
-    // JWT authentication support coming soon
+    import (
+        "log"
+        "os"
+
+        "github.com/danube-messaging/danube-go"
+    )
+
+    func main() {
+        apiKey := os.Getenv("DANUBE_API_KEY")
+        if apiKey == "" {
+            log.Fatal("DANUBE_API_KEY environment variable not set")
+        }
+
+        // WithAPIKey automatically enables TLS with system CA roots
+        client, err := danube.NewClient().
+            ServiceURL("127.0.0.1:6650").
+            WithAPIKey(apiKey).
+            Build()
+        if err != nil {
+            log.Fatalf("failed to create client: %v", err)
+        }
+        _ = client
+    }
+    ```
+
+    To combine API key authentication with a custom CA certificate:
+
+    ```go
+    builder, err := danube.NewClient().
+        ServiceURL("127.0.0.1:6650").
+        WithTLS("./certs/ca-cert.pem")
+    if err != nil {
+        log.Fatalf("failed to configure TLS: %v", err)
+    }
+
+    client, err := builder.WithAPIKey(apiKey).Build()
+    if err != nil {
+        log.Fatalf("failed to create client: %v", err)
+    }
     ```
 
 **How it works:**

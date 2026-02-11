@@ -40,15 +40,19 @@ The minimal setup to send messages:
         "context"
         "fmt"
         "log"
+
         "github.com/danube-messaging/danube-go"
     )
 
     func main() {
-        client := danube.NewClient().ServiceURL("127.0.0.1:6650").Build()
+        client, err := danube.NewClient().ServiceURL("127.0.0.1:6650").Build()
+        if err != nil {
+            log.Fatalf("Failed to create client: %v", err)
+        }
 
         ctx := context.Background()
 
-        producer, err := client.NewProducer(ctx).
+        producer, err := client.NewProducer().
             WithName("my-producer").
             WithTopic("/default/my-topic").
             Build()
@@ -203,17 +207,21 @@ Add metadata to messages:
         "fmt"
         "log"
         "time"
+
         "github.com/danube-messaging/danube-go"
     )
 
     func main() {
         // 1. Setup client
-        client := danube.NewClient().ServiceURL("127.0.0.1:6650").Build()
+        client, err := danube.NewClient().ServiceURL("127.0.0.1:6650").Build()
+        if err != nil {
+            log.Fatalf("Failed to create client: %v", err)
+        }
 
         ctx := context.Background()
 
         // 2. Create producer
-        producer, err := client.NewProducer(ctx).
+        producer, err := client.NewProducer().
             WithName("event-producer").
             WithTopic("/default/events").
             Build()

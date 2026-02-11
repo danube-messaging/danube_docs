@@ -51,15 +51,19 @@ When a topic has partitions, consumers automatically receive from all partitions
         "context"
         "fmt"
         "log"
+
         "github.com/danube-messaging/danube-go"
     )
 
     func main() {
-        client := danube.NewClient().ServiceURL("127.0.0.1:6650").Build()
+        client, err := danube.NewClient().ServiceURL("127.0.0.1:6650").Build()
+        if err != nil {
+            log.Fatalf("Failed to create client: %v", err)
+        }
 
         ctx := context.Background()
 
-        consumer, err := client.NewConsumer(ctx).
+        consumer, err := client.NewConsumer().
             WithConsumerName("partition-consumer").
             WithTopic("/default/my-topic").  // Parent topic
             WithSubscription("partition-sub").
@@ -176,8 +180,6 @@ With **Failover** subscription type, multiple consumers can subscribe to the sam
 ## Schema Integration
 
 Consume typed messages validated against schemas (see [Schema Registry](schema-registry.md) for details).
-
-**Note:** Schema Registry integration is not yet available in the Go client.
 
 ### Basic Schema Consumption
 

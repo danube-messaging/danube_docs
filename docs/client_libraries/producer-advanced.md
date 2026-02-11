@@ -39,15 +39,19 @@ Partitions enable horizontal scaling by distributing messages across multiple br
     import (
         "context"
         "log"
+
         "github.com/danube-messaging/danube-go"
     )
 
     func main() {
-        client := danube.NewClient().ServiceURL("127.0.0.1:6650").Build()
+        client, err := danube.NewClient().ServiceURL("127.0.0.1:6650").Build()
+        if err != nil {
+            log.Fatalf("Failed to create client: %v", err)
+        }
 
         ctx := context.Background()
 
-        producer, err := client.NewProducer(ctx).
+        producer, err := client.NewProducer().
             WithName("partitioned-producer").
             WithTopic("/default/high-throughput").
             WithPartitions(3).  // Create 3 partitions
@@ -159,18 +163,22 @@ Reliable dispatch guarantees message delivery by persisting messages before ackn
     import (
         "context"
         "log"
+
         "github.com/danube-messaging/danube-go"
     )
 
     func main() {
-        client := danube.NewClient().ServiceURL("127.0.0.1:6650").Build()
+        client, err := danube.NewClient().ServiceURL("127.0.0.1:6650").Build()
+        if err != nil {
+            log.Fatalf("Failed to create client: %v", err)
+        }
 
         ctx := context.Background()
 
         // Configure reliable dispatch strategy
         reliableStrategy := danube.NewReliableDispatchStrategy()
 
-        producer, err := client.NewProducer(ctx).
+        producer, err := client.NewProducer().
             WithName("reliable-producer").
             WithTopic("/default/critical-events").
             WithDispatchStrategy(reliableStrategy).
@@ -257,8 +265,6 @@ Scale and durability together:
 
 Link producers to schemas for type safety (see [Schema Registry](schema-registry.md) for details).
 
-**Note:** Schema Registry integration is not yet available in the Go client.
-
 ### Basic Schema Usage
 
 === "Rust"
@@ -331,3 +337,66 @@ Link producers to schemas for type safety (see [Schema Registry](schema-registry
 - Schema ID included in message metadata (8 bytes vs KB of schema)
 - Consumers know message structure
 - Safe schema evolution with compatibility checking
+
+=== "Go"
+
+    ```go
+    import (
+        "context"
+        "encoding/json"
+        "fmt"
+        "log"
+
+        "github.com/danube-messaging/danube-go"
+    )
+
+    func main() {
+        client, err := danube.NewClient().ServiceURL("127.0.0.1:6650").Build()
+        if err != nil {
+            log.Fatalf("Failed to create client: %v", err)
+        }
+
+        ctx := context.Background()
+
+        // 1. Register schema
+        jsonSchema := `{"type": "object", "properties": {"event_id": {"type": "string"}, "timestamp": {"type": "integer"}}, "required": ["event_id", "timestamp"]}`
+
+        schemaClient := client.Schema()
+        _, err = schemaClient.RegisterSchema("event-schema").
+            WithType(danube.SchemaTypeJSONSchema).
+            WithSchemaData([]byte(jsonSchema)).
+            Execute(ctx)
+        if err != nil {
+            log.Fatalf("Failed to register schema: %v", err)
+        }
+        fmt.Println("Registered schema")
+
+        // 2. Create producer with schema reference
+        producer, err := client.NewProducer().
+            WithTopic("/default/events").
+            WithName("schema-producer").
+            WithSchemaSubject("event-schema").
+            Build()
+        if err != nil {
+            log.Fatalf("Failed to build producer: %v", err)
+        }
+
+        if err := producer.Create(ctx); err != nil {
+            log.Fatalf("Failed to create producer: %v", err)
+        }
+
+        // 3. Send typed messages
+        event := map[string]interface{}{
+            "event_id":  "evt-123",
+            "timestamp": 1234567890,
+        }
+
+        jsonBytes, _ := json.Marshal(event)
+        msgID, err := producer.Send(ctx, jsonBytes, nil)
+        if err != nil {
+            log.Fatalf("Failed to send: %v", err)
+        }
+
+        fmt.Printf("Sent validated message: %v\n", msgID)
+    }
+    ```

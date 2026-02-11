@@ -42,15 +42,19 @@ The minimal setup to receive messages:
         "context"
         "fmt"
         "log"
+
         "github.com/danube-messaging/danube-go"
     )
 
     func main() {
-        client := danube.NewClient().ServiceURL("127.0.0.1:6650").Build()
+        client, err := danube.NewClient().ServiceURL("127.0.0.1:6650").Build()
+        if err != nil {
+            log.Fatalf("Failed to create client: %v", err)
+        }
 
         ctx := context.Background()
 
-        consumer, err := client.NewConsumer(ctx).
+        consumer, err := client.NewConsumer().
             WithConsumerName("my-consumer").
             WithTopic("/default/my-topic").
             WithSubscription("my-subscription").
@@ -100,7 +104,7 @@ Only **one consumer** can be active. Guarantees message order.
 === "Go"
 
     ```go
-    consumer, err := client.NewConsumer(ctx).
+    consumer, err := client.NewConsumer().
         WithConsumerName("order-processor").
         WithTopic("/default/orders").
         WithSubscription("order-sub").
@@ -139,7 +143,7 @@ Only **one consumer** can be active. Guarantees message order.
 === "Go"
 
     ```go
-    consumer, err := client.NewConsumer(ctx).
+    consumer, err := client.NewConsumer().
         WithConsumerName("log-processor-1").
         WithTopic("/default/logs").
         WithSubscription("log-sub").
@@ -178,7 +182,7 @@ Like Exclusive, but allows **standby consumers**. One active, others wait.
 === "Go"
 
     ```go
-    consumer, err := client.NewConsumer(ctx).
+    consumer, err := client.NewConsumer().
         WithConsumerName("processor-1").
         WithTopic("/default/critical").
         WithSubscription("critical-sub").
@@ -247,15 +251,19 @@ Like Exclusive, but allows **standby consumers**. One active, others wait.
         "context"
         "fmt"
         "log"
+
         "github.com/danube-messaging/danube-go"
     )
 
     func main() {
-        client := danube.NewClient().ServiceURL("127.0.0.1:6650").Build()
+        client, err := danube.NewClient().ServiceURL("127.0.0.1:6650").Build()
+        if err != nil {
+            log.Fatalf("Failed to create client: %v", err)
+        }
 
         ctx := context.Background()
 
-        consumer, err := client.NewConsumer(ctx).
+        consumer, err := client.NewConsumer().
             WithConsumerName("event-processor").
             WithTopic("/default/events").
             WithSubscription("event-sub").
@@ -462,17 +470,21 @@ Access metadata sent with messages:
         "fmt"
         "log"
         "time"
+
         "github.com/danube-messaging/danube-go"
     )
 
     func main() {
         // 1. Setup client
-        client := danube.NewClient().ServiceURL("127.0.0.1:6650").Build()
+        client, err := danube.NewClient().ServiceURL("127.0.0.1:6650").Build()
+        if err != nil {
+            log.Fatalf("Failed to create client: %v", err)
+        }
 
         ctx := context.Background()
 
         // 2. Create consumer
-        consumer, err := client.NewConsumer(ctx).
+        consumer, err := client.NewConsumer().
             WithConsumerName("event-processor").
             WithTopic("/default/events").
             WithSubscription("event-sub").
