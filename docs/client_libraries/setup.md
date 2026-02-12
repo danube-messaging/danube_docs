@@ -231,48 +231,6 @@ For authenticated environments, use API keys to obtain JWT tokens:
 
 ---
 
-## Connection Options
-
-### Connection Pooling
-
-Clients automatically manage connection pools. Multiple producers/consumers share underlying connections efficiently.
-
-=== "Rust"
-
-    ```rust
-    let client = DanubeClient::builder()
-        .service_url("http://127.0.0.1:6650")
-        .build()
-        .await?;
-
-    // All producers/consumers share the same connection pool
-    let producer1 = client.new_producer().with_topic("/topic1").build();
-    let producer2 = client.new_producer().with_topic("/topic2").build();
-    let consumer = client.new_consumer().with_topic("/topic1").build();
-    ```
-
-### Service Discovery
-
-For clustered deployments, the client performs automatic topic lookup:
-
-```rust
-// Client connects to any broker in the cluster
-let client = DanubeClient::builder()
-    .service_url("<http://broker1:6650>")
-    .build()
-    .await?;
-
-// Topic lookup finds the owning broker
-let producer = client.new_producer()
-    .with_topic("/default/my-topic")
-    .build();
-
-// Producer connects to the correct broker automatically
-producer.create().await?;
-```
-
----
-
 ## Environment-Based Configuration
 
 ```bash
@@ -284,49 +242,8 @@ export DANUBE_API_KEY=your-secret-api-key
 
 ---
 
-## Troubleshooting
-
-### Connection Refused
-
-```bash
-Error: Connection refused (os error 111)
-```
-
-**Solutions:**
-
-- Verify broker is running: `curl http://localhost:6650`
-- Check firewall rules
-- Confirm correct host and port
-
-### TLS Certificate Errors
-
-```bash
-Error: InvalidCertificate
-```
-
-**Solutions:**
-
-- Verify CA certificate path is correct
-- Ensure certificate is PEM format
-- Check certificate hasn't expired
-- Confirm broker TLS configuration matches client
-
-### Authentication Failures
-
-```bash
-Error: Unauthenticated
-```
-
-**Solutions:**
-
-- Verify API key is valid
-- Check broker authentication mode (tls vs tlswithjwt)
-- Ensure token hasn't expired (client auto-renews, but check logs)
-
----
-
 ## Next Steps
 
-- **[Producer Basics](producer-basics.md)** - Start sending messages
-- **[Consumer Basics](consumer-basics.md)** - Start receiving messages
+- **[Producer Guide](producer.md)** - Start sending messages
+- **[Consumer Guide](consumer.md)** - Start receiving messages
 - **[Schema Registry](schema-registry.md)** - Add type safety with schemas

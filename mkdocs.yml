@@ -73,12 +73,8 @@ nav:
         - 📦 Client Libraries:
                   - Overview & Installation: client_libraries/clients.md
                   - Setup & Configuration: client_libraries/setup.md
-                  - Producer Guide:
-                            - Basic Producer: client_libraries/producer-basics.md
-                            - Advanced Producer: client_libraries/producer-advanced.md
-                  - Consumer Guide:
-                            - Basic Consumer: client_libraries/consumer-basics.md
-                            - Advanced Consumer: client_libraries/consumer-advanced.md
+                  - Producer Guide: client_libraries/producer.md
+                  - Consumer Guide: client_libraries/consumer.md
                   - Schema Registry: client_libraries/schema-registry.md
 
         - 🔧 Admin Tools:

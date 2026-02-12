@@ -1,6 +1,6 @@
-# Consumer Basics
+# Consumer Guide
 
-Consumers receive messages from Danube topics via subscriptions. This guide covers fundamental consumer operations.
+Consumers receive messages from Danube topics via subscriptions. This guide covers both basic and advanced consumer capabilities.
 
 ## Creating a Consumer
 
@@ -87,34 +87,6 @@ The minimal setup to receive messages:
 
 Only **one consumer** can be active. Guarantees message order.
 
-=== "Rust"
-
-    ```rust
-    use danube_client::SubType;
-
-    let mut consumer = client
-        .new_consumer()
-        .with_topic("/default/orders")
-        .with_consumer_name("order-processor")
-        .with_subscription("order-sub")
-        .with_subscription_type(SubType::Exclusive)  // Only this consumer
-        .build()?;
-    ```
-
-=== "Go"
-
-    ```go
-    consumer, err := client.NewConsumer().
-        WithConsumerName("order-processor").
-        WithTopic("/default/orders").
-        WithSubscription("order-sub").
-        WithSubscriptionType(danube.Exclusive).
-        Build()
-    if err != nil {
-        log.Fatalf("Failed to create consumer: %v", err)
-    }
-    ```
-
 **Characteristics:**
 
 - ✅ Message ordering guaranteed
@@ -126,34 +98,6 @@ Only **one consumer** can be active. Guarantees message order.
 
 **Multiple consumers** receive messages in round-robin. Scales horizontally.
 
-=== "Rust"
-
-    ```rust
-    use danube_client::SubType;
-
-    let mut consumer = client
-        .new_consumer()
-        .with_topic("/default/logs")
-        .with_consumer_name("log-processor-1")
-        .with_subscription("log-sub")
-        .with_subscription_type(SubType::Shared)  // Multiple consumers allowed
-        .build()?;
-    ```
-
-=== "Go"
-
-    ```go
-    consumer, err := client.NewConsumer().
-        WithConsumerName("log-processor-1").
-        WithTopic("/default/logs").
-        WithSubscription("log-sub").
-        WithSubscriptionType(danube.Shared).
-        Build()
-    if err != nil {
-        log.Fatalf("Failed to create consumer: %v", err)
-    }
-    ```
-
 **Characteristics:**
 
 - ✅ Horizontal scaling
@@ -164,34 +108,6 @@ Only **one consumer** can be active. Guarantees message order.
 ### Failover
 
 Like Exclusive, but allows **standby consumers**. One active, others wait.
-
-=== "Rust"
-
-    ```rust
-    use danube_client::SubType;
-
-    let mut consumer = client
-        .new_consumer()
-        .with_topic("/default/critical")
-        .with_consumer_name("processor-1")
-        .with_subscription("critical-sub")
-        .with_subscription_type(SubType::FailOver)  // Hot standby
-        .build()?;
-    ```
-
-=== "Go"
-
-    ```go
-    consumer, err := client.NewConsumer().
-        WithConsumerName("processor-1").
-        WithTopic("/default/critical").
-        WithSubscription("critical-sub").
-        WithSubscriptionType(danube.FailOver).
-        Build()
-    if err != nil {
-        log.Fatalf("Failed to create consumer: %v", err)
-    }
-    ```
 
 **Characteristics:**
 
@@ -297,81 +213,22 @@ Like Exclusive, but allows **standby consumers**. One active, others wait.
 
 ---
 
-## Message Acknowledgment
-
-Acknowledgment tells the broker the message was processed successfully.
-
-### Ack Pattern
+## Message Handling Essentials
 
 === "Rust"
 
     ```rust
     while let Some(message) = message_stream.recv().await {
-        // Process message
-        match process_message(&message.payload).await {
-            Ok(_) => {
-                // Acknowledge success
-                consumer.ack(&message).await?;
-                println!("✅ Processed and acked");
-            }
-            Err(e) => {
-                // Don't ack on failure - message will be redelivered
-                eprintln!("❌ Processing failed: {}", e);
-                // Message will be redelivered to this or another consumer
-            }
-        }
-    }
-    ```
-
-=== "Go"
-
-    ```go
-    for msg := range stream {
-        if err := processMessage(msg.GetPayload()); err != nil {
-            // Don't ack on failure - message will be redelivered
-            log.Printf("❌ Processing failed: %v", err)
-            continue
-        }
-
-        // Acknowledge success
-        if _, err := consumer.Ack(ctx, msg); err != nil {
-            log.Printf("Failed to ack: %v", err)
-        }
-
-        fmt.Println("✅ Processed and acked")
-    }
-    ```
-
-**Important:**
-
-- ⚠️ Only ack after successful processing
-- ⚠️ Unacked messages are redelivered
-- ⚠️ Messages persist until acked or subscription expires
-
----
-
-## Reading Message Attributes
-
-Access metadata sent with messages:
-
-=== "Rust"
-
-    ```rust
-    while let Some(message) = message_stream.recv().await {
-        // Read payload
         let payload = String::from_utf8_lossy(&message.payload);
-        
-        // Read attributes (if any)
+        println!("📥 {}", payload);
+
         if let Some(attributes) = &message.attributes {
             for (key, value) in attributes {
                 println!("  {}: {}", key, value);
             }
         }
 
-        // Read other metadata
-        println!("Message ID: {:?}", message.msg_id);
-        println!("Publish time: {}", message.publish_time);
-
+        // Only ack after successful processing
         consumer.ack(&message).await?;
     }
     ```
@@ -381,79 +238,58 @@ Access metadata sent with messages:
     ```go
     for msg := range stream {
         payload := string(msg.GetPayload())
-        
-        // Read attributes
+        fmt.Printf("📥 %s\n", payload)
+
         for key, value := range msg.GetAttributes() {
             fmt.Printf("  %s: %s\n", key, value)
         }
 
-        // Read metadata
-        fmt.Printf("Message ID: %v\n", msg.GetMessageId())
-        fmt.Printf("Publish time: %d\n", msg.GetPublishTime())
-
-        consumer.Ack(ctx, msg)
+        if _, err := consumer.Ack(ctx, msg); err != nil {
+            log.Printf("Failed to ack: %v", err)
+        }
     }
     ```
 
+**Tip:** Only ack after successful processing; unacked messages are redelivered.
+
 ---
 
-## Complete Example
+## Consuming from Partitioned Topics
+
+When a topic has partitions, consumers automatically receive from all partitions.
+
+### Automatic Partition Handling
 
 === "Rust"
 
     ```rust
     use danube_client::{DanubeClient, SubType};
-    use tokio::time::{sleep, Duration};
 
     #[tokio::main]
     async fn main() -> Result<(), Box<dyn std::error::Error>> {
-        // 1. Setup client
         let client = DanubeClient::builder()
             .service_url("http://127.0.0.1:6650")
             .build()
             .await?;
 
-        // 2. Create consumer
+        // Topic has 3 partitions: my-topic-part-0, my-topic-part-1, my-topic-part-2
         let mut consumer = client
             .new_consumer()
-            .with_topic("/default/events")
-            .with_consumer_name("event-processor")
-            .with_subscription("event-sub")
+            .with_topic("/default/my-topic")  // Parent topic name
+            .with_consumer_name("partition-consumer")
+            .with_subscription("partition-sub")
             .with_subscription_type(SubType::Exclusive)
             .build()?;
 
         consumer.subscribe().await?;
-        println!("✅ Consumer subscribed and ready");
+        println!("✅ Subscribed to all partitions");
 
-        // 3. Receive messages
+        // Automatically receives from all 3 partitions
         let mut message_stream = consumer.receive().await?;
-        let mut count = 0;
 
         while let Some(message) = message_stream.recv().await {
-            // Extract payload
-            let payload = String::from_utf8_lossy(&message.payload);
-            
-            // Log receipt
-            count += 1;
-            println!("📥 Message #{}: {}", count, payload);
-
-            // Check attributes
-            if let Some(attrs) = &message.attributes {
-                if let Some(priority) = attrs.get("priority") {
-                    if priority == "high" {
-                        println!("  ⚡ High priority message!");
-                    }
-                }
-            }
-
-            // Simulate processing
-            sleep(Duration::from_millis(100)).await;
-
-            // Acknowledge
-            match consumer.ack(&message).await {
-                Ok(_) => println!("  ✅ Acknowledged"),
-                Err(e) => eprintln!("  ❌ Ack failed: {}", e),
-            }
+            println!("📥 Received from partition: {}", message.payload);
+            consumer.ack(&message).await?;
         }
 
         Ok(())
@@ -463,19 +299,15 @@ Access metadata sent with messages:
 === "Go"
 
     ```go
-    package main
-
     import (
         "context"
         "fmt"
         "log"
-        "time"
 
         "github.com/danube-messaging/danube-go"
     )
 
     func main() {
-        // 1. Setup client
         client, err := danube.NewClient().ServiceURL("127.0.0.1:6650").Build()
         if err != nil {
             log.Fatalf("Failed to create client: %v", err)
@@ -483,11 +315,10 @@ Access metadata sent with messages:
 
         ctx := context.Background()
 
-        // 2. Create consumer
         consumer, err := client.NewConsumer().
-            WithConsumerName("event-processor").
-            WithTopic("/default/events").
-            WithSubscription("event-sub").
+            WithConsumerName("partition-consumer").
+            WithTopic("/default/my-topic").  // Parent topic
+            WithSubscription("partition-sub").
             WithSubscriptionType(danube.Exclusive).
             Build()
         if err != nil {
@@ -497,38 +328,74 @@ Access metadata sent with messages:
         if err := consumer.Subscribe(ctx); err != nil {
             log.Fatalf("Failed to subscribe: %v", err)
         }
+        fmt.Println("✅ Subscribed to all partitions")
 
-        fmt.Println("✅ Consumer subscribed and ready")
-
-        // 3. Receive messages
         stream, err := consumer.Receive(ctx)
         if err != nil {
             log.Fatalf("Failed to receive: %v", err)
         }
 
-        count := 0
         for msg := range stream {
-            payload := string(msg.GetPayload())
-            
-            count++
-            fmt.Printf("📥 Message #%d: %s\n", count, payload)
-
-            // Check attributes
-            if priority, ok := msg.GetAttributes()["priority"]; ok {
-                if priority == "high" {
-                    fmt.Println("  ⚡ High priority message!")
-                }
-            }
-
-            // Simulate processing
-            time.Sleep(100 * time.Millisecond)
-
-            // Acknowledge
-            if _, err := consumer.Ack(ctx, msg); err != nil {
-                fmt.Printf("  ❌ Ack failed: %v\n", err)
-            } else {
-                fmt.Println("  ✅ Acknowledged")
-            }
+            fmt.Printf("📥 Received from partition: %s\n", string(msg.GetPayload()))
+            consumer.Ack(ctx, msg)
         }
     }
     ```
+
+**What happens:**
+
+- Client discovers all partitions automatically
+- Creates one consumer per partition internally
+- Messages from all partitions merged into single stream
+- Ordering preserved per-partition, not cross-partition
+
+---
+
+## Shared and Failover Subscriptions
+
+Use **Shared** for load-balanced processing across multiple consumers. Use **Failover** for active/standby high availability with ordering.
+
+---
+
+## Schema Integration
+
+Consume typed messages validated against schemas (see [Schema Registry](schema-registry.md) for details).
+
+### Minimal Schema Consumption
+
+=== "Rust"
+
+    ```rust
+    let mut stream = consumer.receive().await?;
+    while let Some(message) = stream.recv().await {
+        let event: Event = serde_json::from_slice(&message.payload)?;
+        println!("📥 Event: {:?}", event);
+        consumer.ack(&message).await?;
+    }
+    ```
+
+=== "Go"
+
+    ```go
+    for msg := range stream {
+        var event Event
+        if err := json.Unmarshal(msg.GetPayload(), &event); err != nil {
+            log.Printf("decode failed: %v", err)
+            continue
+        }
+
+        fmt.Printf("📥 Event: %+v\n", event)
+        consumer.Ack(ctx, msg)
+    }
+    ```
+
+For validation strategies and schema details, see [Schema Registry](schema-registry.md) and the full examples in the client repos.
+
+---
+
+## Full Examples
+
+For complete runnable consumers, see the client repositories:
+
+- Go: https://github.com/danube-messaging/danube-go/tree/main/examples
+- Rust: https://github.com/danube-messaging/danube/tree/main/danube-client/examples

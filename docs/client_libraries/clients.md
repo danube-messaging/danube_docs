@@ -110,8 +110,8 @@ We encourage the community to develop and maintain clients for additional langua
 ## Next Steps
 
 - **[Client Setup](setup.md)** - Configure and connect your client
-- **[Producer Guide](producer-basics.md)** - Send messages to topics
-- **[Consumer Guide](consumer-basics.md)** - Receive and process messages
+- **[Producer Guide](producer.md)** - Send messages to topics
+- **[Consumer Guide](consumer.md)** - Receive and process messages
 - **[Schema Registry](schema-registry.md)** - Work with typed messages
 
 ## Getting Help
