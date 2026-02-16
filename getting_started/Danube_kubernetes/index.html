@@ -18,7 +18,7 @@
         <link rel="prev" href="../Danube_docker_compose/">
       
       
-        <link rel="next" href="../Danube_local/">
+        <link rel="next" href="../../concepts/topics/">
       
       
       <link rel="icon" href="../../assets/favicon.ico">
@@ -26,7 +26,7 @@
     
     
       
-        <title>Kubernetes - Danube Messaging</title>
+        <title>Run Danube on Kubernetes - Danube Messaging</title>
       
     
     
@@ -88,7 +88,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#run-danube-messaging-on-kubernetes" class="md-skip">
+        <a href="#run-danube-on-kubernetes" class="md-skip">
           Skip to content
         </a>
       
@@ -123,7 +123,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Kubernetes
+              Run Danube on Kubernetes
             
           </span>
         </div>
@@ -329,11 +329,32 @@
   
   
     <li class="md-nav__item">
+      <a href="../Danube_local/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Run Danube on Local Machine
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../Danube_docker_compose/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Docker Compose (Recommended)
+    Run Danube with Docker Compose
   </span>
   
 
@@ -363,7 +384,7 @@
           
   
   <span class="md-ellipsis">
-    Kubernetes
+    Run Danube on Kubernetes
   </span>
   
 
@@ -374,7 +395,7 @@
         
   
   <span class="md-ellipsis">
-    Kubernetes
+    Run Danube on Kubernetes
   </span>
   
 
@@ -396,110 +417,110 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#install-the-ngnix-ingress-controller" class="md-nav__link">
+  <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
-      Install the Ngnix Ingress controller
+      Overview
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Install the Ngnix Ingress controller">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#run-the-nginx-ingress-controller-on-your-local-kubernetes-cluster" class="md-nav__link">
-    <span class="md-ellipsis">
-      Run the NGINX Ingress Controller on your local kubernetes cluster
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#run-the-nginx-ingress-controller-in-a-remote-cluster-cloud" class="md-nav__link">
-    <span class="md-ellipsis">
-      Run the NGINX Ingress Controller in a remote cluster (cloud)
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#install-danube-messaging-brokers" class="md-nav__link">
+  <a href="#prerequisites" class="md-nav__link">
     <span class="md-ellipsis">
-      Install Danube Messaging Brokers
+      Prerequisites
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Install Danube Messaging Brokers">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#running-on-the-local-kubernetes-cluster" class="md-nav__link">
-    <span class="md-ellipsis">
-      Running on the local kubernetes cluster
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#running-on-the-remote-cluster-cloud" class="md-nav__link">
-    <span class="md-ellipsis">
-      Running on the remote cluster (cloud)
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#check-the-install" class="md-nav__link">
+  <a href="#step-0-prepare-a-kubernetes-cluster" class="md-nav__link">
     <span class="md-ellipsis">
-      Check the install
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Check the install">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#example-running-on-local-kubernetes-cluster" class="md-nav__link">
-    <span class="md-ellipsis">
-      Example running on local kubernetes cluster
+      Step 0: Prepare a Kubernetes cluster
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#setup-in-order-to-communicate-with-cluster-danube-brokers" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#step-1-add-the-danube-helm-repository" class="md-nav__link">
     <span class="md-ellipsis">
-      Setup in order to communicate with cluster danube brokers
+      Step 1: Add the Danube Helm repository
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#inspect-the-etcd-instance" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#step-2-install-the-envoy-proxy" class="md-nav__link">
     <span class="md-ellipsis">
-      Inspect the etcd instance
+      Step 2: Install the Envoy proxy
     </span>
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-discover-the-proxy-address" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3: Discover the proxy address
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-install-danube-core" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4: Install Danube core
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-5-verify-the-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 5: Verify the deployment
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-6-produce-and-consume-messages" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 6: Produce and consume messages
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-proxy-mode-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      How proxy mode works
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inspect-etcd-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      Inspect etcd (optional)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#access-prometheus-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      Access Prometheus (optional)
+    </span>
+  </a>
   
 </li>
       
@@ -516,27 +537,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../Danube_local/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Local Machine / VMs
-  </span>
-  
-
-      </a>
     </li>
   
 
@@ -1733,110 +1733,110 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#install-the-ngnix-ingress-controller" class="md-nav__link">
+  <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
-      Install the Ngnix Ingress controller
+      Overview
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Install the Ngnix Ingress controller">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#run-the-nginx-ingress-controller-on-your-local-kubernetes-cluster" class="md-nav__link">
-    <span class="md-ellipsis">
-      Run the NGINX Ingress Controller on your local kubernetes cluster
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#run-the-nginx-ingress-controller-in-a-remote-cluster-cloud" class="md-nav__link">
-    <span class="md-ellipsis">
-      Run the NGINX Ingress Controller in a remote cluster (cloud)
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#install-danube-messaging-brokers" class="md-nav__link">
+  <a href="#prerequisites" class="md-nav__link">
     <span class="md-ellipsis">
-      Install Danube Messaging Brokers
+      Prerequisites
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Install Danube Messaging Brokers">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#running-on-the-local-kubernetes-cluster" class="md-nav__link">
-    <span class="md-ellipsis">
-      Running on the local kubernetes cluster
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#running-on-the-remote-cluster-cloud" class="md-nav__link">
-    <span class="md-ellipsis">
-      Running on the remote cluster (cloud)
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#check-the-install" class="md-nav__link">
+  <a href="#step-0-prepare-a-kubernetes-cluster" class="md-nav__link">
     <span class="md-ellipsis">
-      Check the install
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Check the install">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#example-running-on-local-kubernetes-cluster" class="md-nav__link">
-    <span class="md-ellipsis">
-      Example running on local kubernetes cluster
+      Step 0: Prepare a Kubernetes cluster
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#setup-in-order-to-communicate-with-cluster-danube-brokers" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#step-1-add-the-danube-helm-repository" class="md-nav__link">
     <span class="md-ellipsis">
-      Setup in order to communicate with cluster danube brokers
+      Step 1: Add the Danube Helm repository
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#inspect-the-etcd-instance" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#step-2-install-the-envoy-proxy" class="md-nav__link">
     <span class="md-ellipsis">
-      Inspect the etcd instance
+      Step 2: Install the Envoy proxy
     </span>
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-discover-the-proxy-address" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3: Discover the proxy address
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-install-danube-core" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4: Install Danube core
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-5-verify-the-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 5: Verify the deployment
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-6-produce-and-consume-messages" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 6: Produce and consume messages
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-proxy-mode-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      How proxy mode works
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inspect-etcd-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      Inspect etcd (optional)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#access-prometheus-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      Access Prometheus (optional)
+    </span>
+  </a>
   
 </li>
       
@@ -1872,134 +1872,196 @@
   
 
 
-<h1 id="run-danube-messaging-on-kubernetes">Run Danube messaging on Kubernetes</h1>
-<p>This documentation covers the instalation of the Danube cluster on the kubernetes. The Helm chart deploys the Danube Cluster with ETCD as metadata storage in the same namespace.</p>
-<p>The documentation assumes that you have a Kubernetes cluster running and that you have installed the Helm package manager. For local testing you can use <a href="https://kind.sigs.k8s.io/">kind</a>.</p>
-<h2 id="install-the-ngnix-ingress-controller">Install the Ngnix Ingress controller</h2>
-<p>Using the Official NGINX Ingress Helm Chart. This is required in order to route traffic to each broker service in the cluster. The Broker configuration is provisioned in the danube_helm, you can tweak the values.yaml per your needs.</p>
-<p>The Danube messaging <strong>has no dependency on ngnix</strong>, can work with any ingress controller of your choice.</p>
-<p>Install the NGINX Ingress Controller using Helm:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>ingress-nginx<span class="w"> </span>https://kubernetes.github.io/ingress-nginx
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>helm<span class="w"> </span>repo<span class="w"> </span>update
-</span></code></pre></div>
-<h3 id="run-the-nginx-ingress-controller-on-your-local-kubernetes-cluster">Run the NGINX Ingress Controller on your local kubernetes cluster</h3>
-<p>For local testing the NGINX Ingress Controller can be exposed using a NodePort service so that the traffic from the local machine (outside the cluster) can reach the Ingress controller.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>helm<span class="w"> </span>install<span class="w"> </span>nginx-ingress<span class="w"> </span>ingress-nginx/ingress-nginx<span class="w"> </span>--set<span class="w"> </span>controller.service.type<span class="o">=</span>NodePort
-</span></code></pre></div>
-<p>You can find out which port is assigned by running</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>svc
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>NAME<span class="w">                                               </span>TYPE<span class="w">        </span>CLUSTER-IP<span class="w">      </span>EXTERNAL-IP<span class="w">   </span>PORT<span class="o">(</span>S<span class="o">)</span><span class="w">                      </span>AGE
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>kubernetes<span class="w">                                         </span>ClusterIP<span class="w">   </span><span class="m">10</span>.96.0.1<span class="w">       </span>&lt;none&gt;<span class="w">        </span><span class="m">443</span>/TCP<span class="w">                      </span>4m17s
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>nginx-ingress-ingress-nginx-controller<span class="w">             </span>NodePort<span class="w">    </span><span class="m">10</span>.96.245.118<span class="w">   </span>&lt;none&gt;<span class="w">        </span><span class="m">80</span>:30115/TCP,443:30294/TCP<span class="w">   </span>2m58s
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>nginx-ingress-ingress-nginx-controller-admission<span class="w">   </span>ClusterIP<span class="w">   </span><span class="m">10</span>.96.169.82<span class="w">    </span>&lt;none&gt;<span class="w">        </span><span class="m">443</span>/TCP<span class="w">                      </span>2m58s
-</span></code></pre></div>
-<p>If ngnix is running as NodePort (usually for testing), you need local port in this case <strong>30115</strong>, in order to provide to danube_helm installation.</p>
-<h3 id="run-the-nginx-ingress-controller-in-a-remote-cluster-cloud">Run the NGINX Ingress Controller in a remote cluster (cloud)</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>helm<span class="w"> </span>install<span class="w"> </span>nginx-ingress<span class="w"> </span>ingress-nginx/ingress-nginx<span class="w"> </span>--set<span class="w"> </span>controller.publishService.enabled<span class="o">=</span><span class="nb">true</span>
-</span></code></pre></div>
+<h1 id="run-danube-on-kubernetes">Run Danube on Kubernetes</h1>
+<p>This guide walks you through deploying a Danube messaging cluster on Kubernetes
+and verifying it with a producer and consumer. It uses a local
+<a href="https://kind.sigs.k8s.io/">Kind</a> cluster for simplicity, but the same Helm
+charts work on any Kubernetes cluster (EKS, GKE, AKS, etc.).</p>
+<h2 id="overview">Overview</h2>
+<p>A Danube deployment consists of two Helm charts:</p>
+<table>
+<thead>
+<tr>
+<th>Chart</th>
+<th>What it deploys</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>danube-envoy</strong></td>
+<td>An <a href="https://www.envoyproxy.io/">Envoy</a> gRPC proxy that routes client requests to the correct broker</td>
+</tr>
+<tr>
+<td><strong>danube-core</strong></td>
+<td>Danube brokers (StatefulSet), etcd for metadata, and Prometheus for metrics</td>
+</tr>
+</tbody>
+</table>
+<p>The proxy is installed first because the brokers need to know its external
+address at startup. This address is called the <strong><code>connectUrl</code></strong> — it tells
+clients how to reach the cluster from outside Kubernetes.</p>
+<h2 id="prerequisites">Prerequisites</h2>
 <ul>
-<li>The publishService feature enables the Ingress controller to publish information about itself (such as its external IP or hostname) in a Kubernetes Service resource.</li>
-<li>This is particularly useful when you are running the Ingress controller in a cloud environment (like AWS, GCP, or Azure) and need it to publish its external IP address to handle incoming traffic</li>
+<li><a href="https://docs.docker.com/get-docker/">Docker</a></li>
+<li><a href="https://kind.sigs.k8s.io/docs/user/quick-start/#installation">Kind</a> (for local testing)</li>
+<li><a href="https://kubernetes.io/docs/tasks/tools/">kubectl</a></li>
+<li><a href="https://helm.sh/docs/intro/install/">Helm 3.0+</a></li>
+<li><a href="https://github.com/danube-messaging/danube/releases">danube-cli</a> (for testing)</li>
 </ul>
-<h2 id="install-danube-messaging-brokers">Install Danube Messaging Brokers</h2>
-<p>First, add the repository to your Helm client:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>danube<span class="w"> </span>https://danube-messaging.github.io/danube_helm
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>helm<span class="w"> </span>repo<span class="w"> </span>update
+<h2 id="step-0-prepare-a-kubernetes-cluster">Step 0: Prepare a Kubernetes cluster</h2>
+<p>If you already have a cluster, skip to Step 1.</p>
+<p>Create a local Kind cluster:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>kind<span class="w"> </span>create<span class="w"> </span>cluster
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>kubectl<span class="w"> </span>cluster-info<span class="w"> </span>--context<span class="w"> </span>kind-kind
 </span></code></pre></div>
-<p>You can install the chart with the release name <code>my-danube-cluster</code> using the below command. This will deploy the Danube Broker and an ETCD instance with the default configuration.</p>
-<h3 id="running-on-the-local-kubernetes-cluster">Running on the local kubernetes cluster</h3>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>helm<span class="w"> </span>install<span class="w"> </span>my-danube-cluster<span class="w"> </span>danube/danube-helm-chart<span class="w"> </span>--set<span class="w"> </span>broker.service.advertisedPort<span class="o">=</span><span class="m">30115</span>
+<h2 id="step-1-add-the-danube-helm-repository">Step 1: Add the Danube Helm repository</h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>danube<span class="w"> </span>https://danrusei.github.io/danube_helm
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>helm<span class="w"> </span>repo<span class="w"> </span>update
 </span></code></pre></div>
-<p>The advertisedPort is used to allow the client to reach the brokers, through the ingress NodePort.</p>
-<h3 id="running-on-the-remote-cluster-cloud">Running on the remote cluster (cloud)</h3>
-<p>The Danube cluster configuration from the values.yaml file has to be adjusted for your needs.</p>
-<p>You can override the default values by providing a custom <code>values.yaml</code> file:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>helm<span class="w"> </span>install<span class="w"> </span>my-danube-cluster<span class="w"> </span>danube/danube-helm-chart<span class="w"> </span>-f<span class="w"> </span>custom-values.yaml
+<p>This makes two charts available: <code>danube/danube-envoy</code> and <code>danube/danube-core</code>.</p>
+<h2 id="step-2-install-the-envoy-proxy">Step 2: Install the Envoy proxy</h2>
+<p>The Envoy proxy is the single entry point for all client traffic. It handles
+gRPC routing so that each request reaches the broker that owns the target topic.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>danube
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>helm<span class="w"> </span>install<span class="w"> </span>danube-envoy<span class="w"> </span>danube/danube-envoy<span class="w"> </span>-n<span class="w"> </span>danube
 </span></code></pre></div>
-<p>Alternatively, you can specify individual values using the <code>--set</code> flag:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>helm<span class="w"> </span>install<span class="w"> </span>my-danube-cluster<span class="w"> </span>danube/danube-helm-chart<span class="w"> </span>--set<span class="w"> </span>broker.service.type<span class="o">=</span><span class="s2">&quot;ClusterIP&quot;</span>
+<p>Wait for the proxy pod to be ready:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>danube<span class="w"> </span>-w
 </span></code></pre></div>
-<p>You can further customize the installation, check the readme file. The default configuration is running 3 Danube Brokers in cluster.</p>
-<h2 id="check-the-install">Check the install</h2>
-<p>Make sure that the brokers, etcd and the ngnix ingress are running properly in the cluster.</p>
-<h3 id="example-running-on-local-kubernetes-cluster">Example running on local kubernetes cluster</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>all
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>NAME<span class="w">                                                          </span>READY<span class="w">   </span>STATUS<span class="w">    </span>RESTARTS<span class="w">   </span>AGE
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>pod/my-danube-cluster-danube-broker1-766665d6f4-qdbf6<span class="w">         </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span><span class="m">0</span><span class="w">          </span>12s
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>pod/my-danube-cluster-danube-broker2-5774ff4dd6-dvx66<span class="w">         </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span><span class="m">0</span><span class="w">          </span>12s
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>pod/my-danube-cluster-danube-broker3-6db6b5fccd-dkr2k<span class="w">         </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span><span class="m">0</span><span class="w">          </span>12s
-</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>pod/my-danube-cluster-etcd-867f5b85f8-g4m9m<span class="w">                   </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span><span class="m">0</span><span class="w">          </span>12s
-</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>pod/nginx-ingress-ingress-nginx-controller-7bc7c7776d-wqc5g<span class="w">   </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span><span class="m">0</span><span class="w">          </span>47m
-</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>
-</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>NAME<span class="w">                                                       </span>TYPE<span class="w">        </span>CLUSTER-IP<span class="w">      </span>EXTERNAL-IP<span class="w">   </span>PORT<span class="o">(</span>S<span class="o">)</span><span class="w">                       </span>AGE
-</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>service/kubernetes<span class="w">                                         </span>ClusterIP<span class="w">   </span><span class="m">10</span>.96.0.1<span class="w">       </span>&lt;none&gt;<span class="w">        </span><span class="m">443</span>/TCP<span class="w">                       </span>48m
-</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>service/my-danube-cluster-danube-broker1<span class="w">                   </span>ClusterIP<span class="w">   </span><span class="m">10</span>.96.40.244<span class="w">    </span>&lt;none&gt;<span class="w">        </span><span class="m">6650</span>/TCP,50051/TCP,9040/TCP<span class="w">   </span>12s
-</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>service/my-danube-cluster-danube-broker2<span class="w">                   </span>ClusterIP<span class="w">   </span><span class="m">10</span>.96.204.21<span class="w">    </span>&lt;none&gt;<span class="w">        </span><span class="m">6650</span>/TCP,50051/TCP,9040/TCP<span class="w">   </span>12s
-</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>service/my-danube-cluster-danube-broker3<span class="w">                   </span>ClusterIP<span class="w">   </span><span class="m">10</span>.96.46.5<span class="w">      </span>&lt;none&gt;<span class="w">        </span><span class="m">6650</span>/TCP,50051/TCP,9040/TCP<span class="w">   </span>12s
-</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>service/my-danube-cluster-etcd<span class="w">                             </span>ClusterIP<span class="w">   </span><span class="m">10</span>.96.232.70<span class="w">    </span>&lt;none&gt;<span class="w">        </span><span class="m">2379</span>/TCP<span class="w">                      </span>12s
-</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>service/nginx-ingress-ingress-nginx-controller<span class="w">             </span>NodePort<span class="w">    </span><span class="m">10</span>.96.245.118<span class="w">   </span>&lt;none&gt;<span class="w">        </span><span class="m">80</span>:30115/TCP,443:30294/TCP<span class="w">    </span>47m
-</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>service/nginx-ingress-ingress-nginx-controller-admission<span class="w">   </span>ClusterIP<span class="w">   </span><span class="m">10</span>.96.169.82<span class="w">    </span>&lt;none&gt;<span class="w">        </span><span class="m">443</span>/TCP<span class="w">                       </span>47m
-</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>
-</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>NAME<span class="w">                                                     </span>READY<span class="w">   </span>UP-TO-DATE<span class="w">   </span>AVAILABLE<span class="w">   </span>AGE
-</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>deployment.apps/my-danube-cluster-danube-broker1<span class="w">         </span><span class="m">1</span>/1<span class="w">     </span><span class="m">1</span><span class="w">            </span><span class="m">1</span><span class="w">           </span>12s
-</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>deployment.apps/my-danube-cluster-danube-broker2<span class="w">         </span><span class="m">1</span>/1<span class="w">     </span><span class="m">1</span><span class="w">            </span><span class="m">1</span><span class="w">           </span>12s
-</span><span id="__span-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>deployment.apps/my-danube-cluster-danube-broker3<span class="w">         </span><span class="m">1</span>/1<span class="w">     </span><span class="m">1</span><span class="w">            </span><span class="m">1</span><span class="w">           </span>12s
-</span><span id="__span-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>deployment.apps/my-danube-cluster-etcd<span class="w">                   </span><span class="m">1</span>/1<span class="w">     </span><span class="m">1</span><span class="w">            </span><span class="m">1</span><span class="w">           </span>12s
-</span><span id="__span-8-24"><a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a>deployment.apps/nginx-ingress-ingress-nginx-controller<span class="w">   </span><span class="m">1</span>/1<span class="w">     </span><span class="m">1</span><span class="w">            </span><span class="m">1</span><span class="w">           </span>47m
-</span><span id="__span-8-25"><a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a>
-</span><span id="__span-8-26"><a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a>NAME<span class="w">                                                                </span>DESIRED<span class="w">   </span>CURRENT<span class="w">   </span>READY<span class="w">   </span>AGE
-</span><span id="__span-8-27"><a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a>replicaset.apps/my-danube-cluster-danube-broker1-766665d6f4<span class="w">         </span><span class="m">1</span><span class="w">         </span><span class="m">1</span><span class="w">         </span><span class="m">1</span><span class="w">       </span>12s
-</span><span id="__span-8-28"><a id="__codelineno-8-28" name="__codelineno-8-28" href="#__codelineno-8-28"></a>replicaset.apps/my-danube-cluster-danube-broker2-5774ff4dd6<span class="w">         </span><span class="m">1</span><span class="w">         </span><span class="m">1</span><span class="w">         </span><span class="m">1</span><span class="w">       </span>12s
-</span><span id="__span-8-29"><a id="__codelineno-8-29" name="__codelineno-8-29" href="#__codelineno-8-29"></a>replicaset.apps/my-danube-cluster-danube-broker3-6db6b5fccd<span class="w">         </span><span class="m">1</span><span class="w">         </span><span class="m">1</span><span class="w">         </span><span class="m">1</span><span class="w">       </span>12s
-</span><span id="__span-8-30"><a id="__codelineno-8-30" name="__codelineno-8-30" href="#__codelineno-8-30"></a>replicaset.apps/my-danube-cluster-etcd-867f5b85f8<span class="w">                   </span><span class="m">1</span><span class="w">         </span><span class="m">1</span><span class="w">         </span><span class="m">1</span><span class="w">       </span>12s
-</span><span id="__span-8-31"><a id="__codelineno-8-31" name="__codelineno-8-31" href="#__codelineno-8-31"></a>replicaset.apps/nginx-ingress-ingress-nginx-controller-7bc7c7776d<span class="w">   </span><span class="m">1</span><span class="w">         </span><span class="m">1</span><span class="w">         </span><span class="m">1</span><span class="w">       </span>47m
+<p>You should see:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>NAME<span class="w">                           </span>READY<span class="w">   </span>STATUS<span class="w">    </span>AGE
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>danube-envoy-xxxxxxxxx<span class="w">         </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span>30s
 </span></code></pre></div>
-<p>Validate that the brokers have started correctly:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>kubectl<span class="w"> </span>logs<span class="w"> </span>pod/my-danube-cluster-danube-broker1-766665d6f4-qdbf6
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>initializing<span class="w"> </span>metrics<span class="w"> </span>exporter
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="m">2024</span>-08-28T04:30:22.969462Z<span class="w">  </span>INFO<span class="w"> </span>danube_broker:<span class="w"> </span>Use<span class="w"> </span>ETCD<span class="w"> </span>storage<span class="w"> </span>as<span class="w"> </span>metadata<span class="w"> </span>persistent<span class="w"> </span>store
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="m">2024</span>-08-28T04:30:22.969598Z<span class="w">  </span>INFO<span class="w"> </span>danube_broker:<span class="w"> </span>Start<span class="w"> </span>the<span class="w"> </span>Danube<span class="w"> </span>Service
-</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="m">2024</span>-08-28T04:30:22.969612Z<span class="w">  </span>INFO<span class="w"> </span>danube_broker::danube_service:<span class="w"> </span>Setting<span class="w"> </span>up<span class="w"> </span>the<span class="w"> </span>cluster<span class="w"> </span>MY_CLUSTER
-</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="m">2024</span>-08-28T04:30:22.971978Z<span class="w">  </span>INFO<span class="w"> </span>danube_broker::danube_service::local_cache:<span class="w"> </span>Initial<span class="w"> </span>cache<span class="w"> </span>populated
-</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="m">2024</span>-08-28T04:30:22.972013Z<span class="w">  </span>INFO<span class="w"> </span>danube_broker::danube_service:<span class="w"> </span>Started<span class="w"> </span>the<span class="w"> </span>Local<span class="w"> </span>Cache<span class="w"> </span>service.
-</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="m">2024</span>-08-28T04:30:22.990763Z<span class="w">  </span>INFO<span class="w"> </span>danube_broker::danube_service::broker_register:<span class="w"> </span>Broker<span class="w"> </span><span class="m">14150019297734190044</span><span class="w"> </span>registered<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>cluster
-</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="m">2024</span>-08-28T04:30:22.991620Z<span class="w">  </span>INFO<span class="w"> </span>danube_broker::danube_service:<span class="w"> </span>Namespace<span class="w"> </span>default<span class="w"> </span>already<span class="w"> </span>exists.
-</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="m">2024</span>-08-28T04:30:22.991926Z<span class="w">  </span>INFO<span class="w"> </span>danube_broker::danube_service:<span class="w"> </span>Namespace<span class="w"> </span>system<span class="w"> </span>already<span class="w"> </span>exists.
-</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="m">2024</span>-08-28T04:30:22.992480Z<span class="w">  </span>INFO<span class="w"> </span>danube_broker::danube_service:<span class="w"> </span>Namespace<span class="w"> </span>default<span class="w"> </span>already<span class="w"> </span>exists.
-</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="m">2024</span>-08-28T04:30:22.992490Z<span class="w">  </span>INFO<span class="w"> </span>danube_broker::danube_service:<span class="w"> </span>cluster<span class="w"> </span>metadata<span class="w"> </span>setup<span class="w"> </span>completed
-</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="m">2024</span>-08-28T04:30:22.992551Z<span class="w">  </span>INFO<span class="w"> </span>danube_broker::danube_service:<span class="w">  </span>Started<span class="w"> </span>the<span class="w"> </span>Broker<span class="w"> </span>GRPC<span class="w"> </span>server
-</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="m">2024</span>-08-28T04:30:22.992563Z<span class="w">  </span>INFO<span class="w"> </span>danube_broker::broker_server:<span class="w"> </span>Server<span class="w"> </span>is<span class="w"> </span>listening<span class="w"> </span>on<span class="w"> </span>address:<span class="w"> </span><span class="m">0</span>.0.0.0:6650
-</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="m">2024</span>-08-28T04:30:22.992605Z<span class="w">  </span>INFO<span class="w"> </span>danube_broker::danube_service:<span class="w"> </span>Started<span class="w"> </span>the<span class="w"> </span>Leader<span class="w"> </span>Election<span class="w"> </span>service
-</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="m">2024</span>-08-28T04:30:22.993050Z<span class="w">  </span>INFO<span class="w"> </span>danube_broker::danube_service:<span class="w"> </span>Started<span class="w"> </span>the<span class="w"> </span>Load<span class="w"> </span>Manager<span class="w"> </span>service.
-</span><span id="__span-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a><span class="m">2024</span>-08-28T04:30:22.993143Z<span class="w">  </span>INFO<span class="w"> </span>danube_broker::danube_service:<span class="w">  </span>Started<span class="w"> </span>the<span class="w"> </span>Danube<span class="w"> </span>Admin<span class="w"> </span>GRPC<span class="w"> </span>server
-</span><span id="__span-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="m">2024</span>-08-28T04:30:22.993274Z<span class="w">  </span>INFO<span class="w"> </span>danube_broker::admin:<span class="w"> </span>Admin<span class="w"> </span>is<span class="w"> </span>listening<span class="w"> </span>on<span class="w"> </span>address:<span class="w"> </span><span class="m">0</span>.0.0.0:50051
+<h2 id="step-3-discover-the-proxy-address">Step 3: Discover the proxy address</h2>
+<p>The proxy service is exposed as a Kubernetes
+<a href="https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport">NodePort</a>.
+You need the node IP and the assigned port to construct the external address:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nv">PROXY_PORT</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>danube-envoy<span class="w"> </span>-n<span class="w"> </span>danube<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.spec.ports[?(@.name==&quot;grpc&quot;)].nodePort}&#39;</span><span class="k">)</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="nv">NODE_IP</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>nodes<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].status.addresses[?(@.type==&quot;InternalIP&quot;)].address}&#39;</span><span class="k">)</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Proxy address: </span><span class="si">${</span><span class="nv">NODE_IP</span><span class="si">}</span><span class="s2">:</span><span class="si">${</span><span class="nv">PROXY_PORT</span><span class="si">}</span><span class="s2">&quot;</span>
 </span></code></pre></div>
-<h3 id="setup-in-order-to-communicate-with-cluster-danube-brokers">Setup in order to communicate with cluster danube brokers</h3>
-<p>If you would like to communicate to the messaging sytem by using the danube-cli tool, or your own danube clients running locally, you can do the following:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>nodes<span class="w"> </span>-o<span class="w"> </span>wide
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>NAME<span class="w">                 </span>STATUS<span class="w">   </span>ROLES<span class="w">           </span>AGE<span class="w">   </span>VERSION<span class="w">   </span>INTERNAL-IP<span class="w">   </span>EXTERNAL-IP<span class="w">   </span>OS-IMAGE<span class="w">                         </span>KERNEL-VERSION<span class="w">       </span>CONTAINER-RUNTIME
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>kind-control-plane<span class="w">   </span>Ready<span class="w">    </span>control-plane<span class="w">   </span>53m<span class="w">   </span>v1.30.0<span class="w">   </span><span class="m">172</span>.20.0.2<span class="w">    </span>&lt;none&gt;<span class="w">        </span>Debian<span class="w"> </span>GNU/Linux<span class="w"> </span><span class="m">12</span><span class="w"> </span><span class="o">(</span>bookworm<span class="o">)</span><span class="w">   </span><span class="m">5</span>.15.0-118-generic<span class="w">   </span>containerd://1.7.15
+<p>Save this address — you will use it in the next step and when connecting clients.</p>
+<blockquote>
+<p><strong>Cloud clusters</strong>: If you are running on a managed Kubernetes service, you can
+change the proxy service type to <code>LoadBalancer</code> in the danube-envoy values and
+use the external IP instead of <code>NodePort</code>.</p>
+</blockquote>
+<h2 id="step-4-install-danube-core">Step 4: Install Danube core</h2>
+<p>Danube brokers read their configuration from a Kubernetes ConfigMap. Create it
+from the example config file, then install the chart with the proxy address:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>kubectl<span class="w"> </span>create<span class="w"> </span>configmap<span class="w"> </span>danube-broker-config<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span>--from-file<span class="o">=</span>danube_broker.yml<span class="o">=</span>danube_broker.yml<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span>-n<span class="w"> </span>danube
 </span></code></pre></div>
-<p>Use the <strong>INTERNAL-IP</strong> to route the traffic to broker hosts. Add the following in the hosts file, but make sure you match the number and the name of the brokers from the helm values.yaml file.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>cat<span class="w"> </span>/etc/hosts
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="m">172</span>.20.0.2<span class="w"> </span>broker1.example.com<span class="w"> </span>broker2.example.com<span class="w"> </span>broker3.example.com
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>helm<span class="w"> </span>install<span class="w"> </span>danube-core<span class="w"> </span>danube/danube-core<span class="w"> </span>-n<span class="w"> </span>danube<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span>-f<span class="w"> </span>values-minimal.yaml<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span>--set<span class="w"> </span>broker.externalAccess.connectUrl<span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">NODE_IP</span><span class="si">}</span><span class="s2">:</span><span class="si">${</span><span class="nv">PROXY_PORT</span><span class="si">}</span><span class="s2">&quot;</span>
 </span></code></pre></div>
-<h3 id="inspect-the-etcd-instance">Inspect the etcd instance</h3>
-<p>If you want to connect from your local machine, use kubectl port-forward to forward the etcd port to your local machine:</p>
-<p>Port Forward etcd Service:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>kubectl<span class="w"> </span>port-forward<span class="w"> </span>service/my-danube-cluster-etcd<span class="w"> </span><span class="m">2379</span>:2379
+<blockquote>
+<p><strong>Note</strong>: The <code>danube_broker.yml</code> config file and <code>values-minimal.yaml</code> values
+file are available in the
+<a href="https://github.com/danube-messaging/danube_helm/tree/main/charts/danube-core/examples">danube_helm repository</a>.
+Download them or clone the repository to get started.</p>
+</blockquote>
+<p>This deploys:</p>
+<ul>
+<li><strong>3 broker pods</strong> (StatefulSet) — the messaging engine, with persistent storage</li>
+<li><strong>1 etcd pod</strong> — metadata store for topic assignments and cluster state</li>
+<li><strong>1 Prometheus pod</strong> — metrics collection</li>
+</ul>
+<p>The <code>connectUrl</code> parameter tells each broker to advertise the Envoy proxy as
+the client-facing address. This enables <strong>proxy mode</strong>: clients connect to the
+proxy, which routes each request to the correct broker based on topic ownership.</p>
+<p>Wait for all pods to be ready:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>danube<span class="w"> </span>-w
 </span></code></pre></div>
-<p>Once port forwarding is set up, you can run etcdctl commands from your local machine:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>etcdctl<span class="w"> </span>--endpoints<span class="o">=</span>http://localhost:2379<span class="w"> </span>watch<span class="w"> </span>--prefix<span class="w"> </span>/
+<p>Expected output:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>NAME<span class="w">                                      </span>READY<span class="w">   </span>STATUS<span class="w">    </span>AGE
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>danube-core-broker-0<span class="w">                      </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span>2m
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>danube-core-broker-1<span class="w">                      </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span>2m
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>danube-core-broker-2<span class="w">                      </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span>2m
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>danube-core-etcd-0<span class="w">                        </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span>3m
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>danube-core-prometheus-xxxxxxxxx<span class="w">          </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span>3m
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>danube-envoy-xxxxxxxxx<span class="w">                    </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span>5m
 </span></code></pre></div>
+<blockquote>
+<p><strong>Tip</strong>: The first broker may restart a few times while waiting for etcd to
+become ready. This is normal — Kubernetes will keep restarting it until etcd
+accepts connections.</p>
+</blockquote>
+<h2 id="step-5-verify-the-deployment">Step 5: Verify the deployment</h2>
+<p>Check that the brokers registered in proxy mode:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>kubectl<span class="w"> </span>logs<span class="w"> </span>danube-core-broker-0<span class="w"> </span>-n<span class="w"> </span>danube<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s2">&quot;broker registered&quot;</span>
+</span></code></pre></div>
+<p>You should see each broker reporting a unique <code>broker_url</code> (its internal DNS
+name) and a shared <code>connect_url</code> (the Envoy proxy address):</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>broker<span class="w"> </span>registered<span class="w"> </span><span class="nv">broker_url</span><span class="o">=</span>http://danube-core-broker-0.danube-core-broker-headless.danube.svc.cluster.local:6650<span class="w"> </span><span class="nv">connect_url</span><span class="o">=</span>http://172.19.0.2:30700
+</span></code></pre></div>
+<p>This confirms proxy mode is active. The broker knows its internal identity
+(<code>broker_url</code>) and advertises the proxy (<code>connect_url</code>) to all clients.</p>
+<h2 id="step-6-produce-and-consume-messages">Step 6: Produce and consume messages</h2>
+<p>Use <code>danube-cli</code> to send messages through the proxy.</p>
+<p><strong>Terminal 1 — Produce 5 messages:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>danube-cli<span class="w"> </span>produce<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span>-s<span class="w"> </span>http://<span class="si">${</span><span class="nv">NODE_IP</span><span class="si">}</span>:<span class="si">${</span><span class="nv">PROXY_PORT</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">  </span>-t<span class="w"> </span>/default/test_topic<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">  </span>-m<span class="w"> </span><span class="s2">&quot;Hello from Danube&quot;</span><span class="w"> </span>-c<span class="w"> </span><span class="m">5</span>
+</span></code></pre></div>
+<p>Expected output:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>✅<span class="w"> </span>Producer<span class="w"> </span><span class="s1">&#39;test_producer&#39;</span><span class="w"> </span>created<span class="w"> </span>successfully
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>📤<span class="w"> </span>Message<span class="w"> </span><span class="m">1</span>/5<span class="w"> </span>sent<span class="w"> </span>successfully<span class="w"> </span><span class="o">(</span>ID:<span class="w"> </span><span class="m">2</span><span class="o">)</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>📤<span class="w"> </span>Message<span class="w"> </span><span class="m">2</span>/5<span class="w"> </span>sent<span class="w"> </span>successfully<span class="w"> </span><span class="o">(</span>ID:<span class="w"> </span><span class="m">3</span><span class="o">)</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>📤<span class="w"> </span>Message<span class="w"> </span><span class="m">3</span>/5<span class="w"> </span>sent<span class="w"> </span>successfully<span class="w"> </span><span class="o">(</span>ID:<span class="w"> </span><span class="m">4</span><span class="o">)</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>📤<span class="w"> </span>Message<span class="w"> </span><span class="m">4</span>/5<span class="w"> </span>sent<span class="w"> </span>successfully<span class="w"> </span><span class="o">(</span>ID:<span class="w"> </span><span class="m">5</span><span class="o">)</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>📤<span class="w"> </span>Message<span class="w"> </span><span class="m">5</span>/5<span class="w"> </span>sent<span class="w"> </span>successfully<span class="w"> </span><span class="o">(</span>ID:<span class="w"> </span><span class="m">6</span><span class="o">)</span>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>📊<span class="w"> </span>Summary:
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="w">   </span>✅<span class="w"> </span>Success:<span class="w"> </span><span class="m">5</span>
+</span></code></pre></div>
+<p><strong>Terminal 2 — Start a consumer:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>danube-cli<span class="w"> </span>consume<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">  </span>-s<span class="w"> </span>http://<span class="si">${</span><span class="nv">NODE_IP</span><span class="si">}</span>:<span class="si">${</span><span class="nv">PROXY_PORT</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">  </span>-t<span class="w"> </span>/default/test_topic<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">  </span>-m<span class="w"> </span>test_sub
+</span></code></pre></div>
+<p>Now produce more messages in Terminal 1 — the consumer receives them in real
+time:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>Received<span class="w"> </span>message:<span class="w"> </span>Hello<span class="w"> </span>from<span class="w"> </span>Danube
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>Size:<span class="w"> </span><span class="m">17</span><span class="w"> </span>bytes,<span class="w"> </span>Total<span class="w"> </span>received:<span class="w"> </span><span class="m">17</span><span class="w"> </span>bytes
+</span></code></pre></div>
+<h2 id="how-proxy-mode-works">How proxy mode works</h2>
+<p>In a multi-broker cluster, each topic is owned by a specific broker. When a
+client connects, it needs to reach the right broker for its topic.</p>
+<ol>
+<li>The client connects to the <strong>Envoy proxy</strong> (the <code>connectUrl</code>).</li>
+<li>It sends a <strong>topic lookup</strong> request, which Envoy round-robins to any broker.</li>
+<li>The broker responds with its internal address (<code>broker_url</code>) for that topic.</li>
+<li>On all subsequent requests, the client includes an <code>x-danube-broker-url</code>
+   gRPC metadata header with the target broker's internal address.</li>
+<li>Envoy's <strong>Dynamic Forward Proxy</strong> reads this header, resolves the broker's
+   internal DNS name, and routes the request directly to the correct pod.</li>
+</ol>
+<p>This means clients only need a single external address (the proxy) regardless
+of how many brokers are in the cluster.</p>
+<h2 id="inspect-etcd-optional">Inspect etcd (optional)</h2>
+<p>To browse the cluster metadata, forward the etcd port to your local machine:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>kubectl<span class="w"> </span>port-forward<span class="w"> </span>svc/danube-core-etcd<span class="w"> </span><span class="m">2379</span>:2379<span class="w"> </span>-n<span class="w"> </span>danube
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>etcdctl<span class="w"> </span>--endpoints<span class="o">=</span>http://localhost:2379<span class="w"> </span>get<span class="w"> </span>--prefix<span class="w"> </span>/
+</span></code></pre></div>
+<h2 id="access-prometheus-optional">Access Prometheus (optional)</h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>kubectl<span class="w"> </span>port-forward<span class="w"> </span>svc/danube-core-prometheus<span class="w"> </span><span class="m">9090</span>:9090<span class="w"> </span>-n<span class="w"> </span>danube
+</span></code></pre></div>
+<p>Open <code>http://localhost:9090</code> in your browser to query Danube metrics.</p>
 <h2 id="cleanup">Cleanup</h2>
-<p>To uninstall the <code>my-danube-cluster</code> release:</p>
-<div class="language-sh highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>helm<span class="w"> </span>uninstall<span class="w"> </span>my-danube-cluster
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>helm<span class="w"> </span>uninstall<span class="w"> </span>danube-core<span class="w"> </span>-n<span class="w"> </span>danube
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>helm<span class="w"> </span>uninstall<span class="w"> </span>danube-envoy<span class="w"> </span>-n<span class="w"> </span>danube
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>namespace<span class="w"> </span>danube
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>kind<span class="w"> </span>delete<span class="w"> </span>cluster
 </span></code></pre></div>
-<p>This command removes all the Kubernetes components associated with the chart and deletes the release.</p>
+<p>This removes all Kubernetes resources including PersistentVolumeClaims (since
+the namespace is deleted).</p>
 
 
 
