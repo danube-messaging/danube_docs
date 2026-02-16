@@ -40,7 +40,7 @@ kubectl cluster-info --context kind-kind
 ## Step 1: Add the Danube Helm repository
 
 ```bash
-helm repo add danube https://danrusei.github.io/danube_helm
+helm repo add danube https://danube-messaging.github.io/danube_helm
 helm repo update
 ```
 
