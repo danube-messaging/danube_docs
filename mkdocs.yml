@@ -48,9 +48,9 @@ nav:
         - 🏠 Home: index.md
 
         - 📚 Getting Started:
-                  - Docker Compose (Recommended): getting_started/Danube_docker_compose.md
-                  - Kubernetes: getting_started/Danube_kubernetes.md
-                  - Local Machine / VMs: getting_started/Danube_local.md
+                  - Run Danube on Local Machine: getting_started/Danube_local.md
+                  - Run Danube with Docker Compose: getting_started/Danube_docker_compose.md
+                  - Run Danube on Kubernetes: getting_started/Danube_kubernetes.md
 
         - 💡 Core Concepts:
                   - Topics: concepts/topics.md
