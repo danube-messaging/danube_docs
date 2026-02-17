@@ -126,5 +126,6 @@ CLIs and client libraries:
 
 - [danube-client (Rust)](https://crates.io/crates/danube-client)
 - [danube-go (Go)](https://pkg.go.dev/github.com/danube-messaging/danube-go)
+- [danube-client (Python)](https://pypi.org/project/danube-client/)
 
-Contributions for other languages (Python, Java, etc.) are welcome.
+Contributions for other languages (Java, NodeJs etc.) are welcome.

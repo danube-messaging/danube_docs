@@ -53,27 +53,52 @@ go get github.com/danube-messaging/danube-go
 
 ---
 
+### Python Client
+
+The official [danube-py](https://github.com/danube-messaging/danube-py) library provides async Python bindings built on `asyncio` and `grpc.aio`.
+
+**Installation:**
+
+```bash
+pip install danube-client
+```
+
+**Features:**
+
+- ✅ Full async/await support with asyncio
+- ✅ Partitioned topics
+- ✅ Reliable dispatch
+- ✅ All subscription types (Exclusive, Shared, Failover)
+- ✅ Schema registry (JSON Schema, Avro, Protobuf)
+- ✅ Schema versioning and compatibility checking
+- ✅ TLS and mTLS support
+- ✅ JWT authentication (API key)
+
+**Learn more:** [Python Examples](https://github.com/danube-messaging/danube-py/tree/main/examples)
+
+---
+
 ## Feature Comparison Matrix
 
-| Feature | Rust | Go | Python* | Java* |
-|---------|------|-----|---------|-------|
+| Feature | Rust | Go | Python | Java* |
+|---------|------|-----|--------|-------|
 | **Core Messaging** |
-| Producers | ✅ | ✅ | ⏳ | ⏳ |
-| Consumers | ✅ | ✅ | ⏳ | ⏳ |
-| Partitioned Topics | ✅ | ✅ | ⏳ | ⏳ |
-| Reliable Dispatch | ✅ | ✅ | ⏳ | ⏳ |
+| Producers | ✅ | ✅ | ✅ | ⏳ |
+| Consumers | ✅ | ✅ | ✅ | ⏳ |
+| Partitioned Topics | ✅ | ✅ | ✅ | ⏳ |
+| Reliable Dispatch | ✅ | ✅ | ✅ | ⏳ |
 | **Subscriptions** |
-| Exclusive | ✅ | ✅ | ⏳ | ⏳ |
-| Shared | ✅ | ✅ | ⏳ | ⏳ |
-| Failover | ✅ | ✅ | ⏳ | ⏳ |
+| Exclusive | ✅ | ✅ | ✅ | ⏳ |
+| Shared | ✅ | ✅ | ✅ | ⏳ |
+| Failover | ✅ | ✅ | ✅ | ⏳ |
 | **Schema Registry** |
-| JSON Schema | ✅ | ✅ | ⏳ | ⏳ |
-| Avro | ✅ | ✅ | ⏳ | ⏳ |
-| Protobuf | ✅ | ✅ | ⏳ | ⏳ |
-| Compatibility Checking | ✅ | ✅ | ⏳ | ⏳ |
+| JSON Schema | ✅ | ✅ | ✅ | ⏳ |
+| Avro | ✅ | ✅ | ✅ | ⏳ |
+| Protobuf | ✅ | ✅ | ✅ | ⏳ |
+| Compatibility Checking | ✅ | ✅ | ✅ | ⏳ |
 | **Security** |
-| TLS / mTLS | ✅ | ✅ | ⏳ | ⏳ |
-| JWT Authentication | ✅ | ✅ | ⏳ | ⏳ |
+| TLS / mTLS | ✅ | ✅ | ✅ | ⏳ |
+| JWT Authentication | ✅ | ✅ | ✅ | ⏳ |
 
 _* Coming soon - community contributions welcome_
 
@@ -117,5 +142,5 @@ We encourage the community to develop and maintain clients for additional langua
 ## Getting Help
 
 - **Documentation:** [Danube Docs](https://github.com/danube-messaging/danube_docs)
-- **Examples:** [Rust](https://github.com/danube-messaging/danube/tree/main/danube-client/examples) | [Go](https://github.com/danube-messaging/danube-go/tree/main/examples)
+- **Examples:** [Rust](https://github.com/danube-messaging/danube/tree/main/danube-client/examples) | [Go](https://github.com/danube-messaging/danube-go/tree/main/examples) | [Python](https://github.com/danube-messaging/danube-py/tree/main/examples)
 - **Issues:** [GitHub Issues](https://github.com/danube-messaging/danube/issues)

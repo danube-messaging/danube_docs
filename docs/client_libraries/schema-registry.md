@@ -2,7 +2,7 @@
 
 The Schema Registry provides type safety, validation, and schema evolution for your messages. This guide shows how to use it from client applications.
 
-Both the **Rust** and **Go** client libraries support the Schema Registry.
+The **Rust**, **Go**, and **Python** client libraries all support the Schema Registry.
 
 ## Overview
 
@@ -81,7 +81,25 @@ Both the **Rust** and **Go** client libraries support the Schema Registry.
     }
     ```
 
-**Note:** The schema client is obtained from `DanubeClient` via `.Schema()` (Go) or `.schema()` (Rust), sharing the same connection pool — just like producers and consumers.
+=== "Python"
+
+    ```python
+    import asyncio
+    from danube import DanubeClientBuilder
+
+    async def main():
+        client = await (
+            DanubeClientBuilder()
+            .service_url("http://127.0.0.1:6650")
+            .build()
+        )
+
+        schema_client = client.schema()
+
+    asyncio.run(main())
+    ```
+
+**Note:** The schema client is obtained from `DanubeClient` via `.Schema()` (Go), `.schema()` (Rust/Python), sharing the same connection pool — just like producers and consumers.
 
 ---
 
@@ -147,6 +165,32 @@ Both the **Rust** and **Go** client libraries support the Schema Registry.
     }
     ```
 
+=== "Python"
+
+    ```python
+    import json
+    from danube import SchemaType
+
+    json_schema = json.dumps({
+        "type": "object",
+        "properties": {
+            "user_id": {"type": "string"},
+            "event": {"type": "string"},
+            "timestamp": {"type": "integer"},
+        },
+        "required": ["user_id", "event", "timestamp"],
+    })
+
+    schema_id = await (
+        schema_client.register_schema("user-events")
+        .with_type(SchemaType.JSON_SCHEMA)
+        .with_schema_data(json_schema.encode())
+        .execute()
+    )
+
+    print(f"Registered schema ID: {schema_id}")
+    ```
+
 ### Avro Schema
 
 === "Rust"
@@ -190,6 +234,34 @@ Both the **Rust** and **Go** client libraries support the Schema Registry.
     }
 
     fmt.Printf("Registered Avro schema: %d\n", schemaID)
+    ```
+
+=== "Python"
+
+    ```python
+    import json
+    from danube import SchemaType
+
+    avro_schema = json.dumps({
+        "type": "record",
+        "name": "UserEvent",
+        "namespace": "com.example",
+        "fields": [
+            {"name": "user_id", "type": "string"},
+            {"name": "event", "type": "string"},
+            {"name": "timestamp", "type": "long"},
+            {"name": "metadata", "type": ["null", "string"], "default": None},
+        ],
+    })
+
+    schema_id = await (
+        schema_client.register_schema("user-events-avro")
+        .with_type(SchemaType.AVRO)
+        .with_schema_data(avro_schema.encode())
+        .execute()
+    )
+
+    print(f"Registered Avro schema: {schema_id}")
     ```
 
 ### Idempotent Registration
@@ -239,6 +311,20 @@ Registering the same schema content multiple times returns the existing schema I
     }
     ```
 
+=== "Python"
+
+    ```python
+    schema = await schema_client.get_latest_schema("user-events")
+
+    print(f"Schema ID: {schema.schema_id}")
+    print(f"Subject: {schema.subject}")
+    print(f"Version: {schema.version}")
+    print(f"Type: {schema.schema_type}")
+
+    # Get schema definition as string
+    print(f"Schema: {schema.schema_definition_as_string()}")
+    ```
+
 **Returns:** `SchemaInfo` - A user-friendly wrapper containing:
 
 - `schema_id` - Global schema identifier
@@ -276,6 +362,15 @@ Registering the same schema content multiple times returns the existing schema I
     fmt.Printf("Schema version: %d\n", schema.Version)
     ```
 
+=== "Python"
+
+    ```python
+    schema = await schema_client.get_schema_by_id(schema_id)
+
+    print(f"Schema subject: {schema.subject}")
+    print(f"Schema version: {schema.version}")
+    ```
+
 ### List All Versions
 
 === "Rust"
@@ -297,6 +392,14 @@ Registering the same schema content multiple times returns the existing schema I
     }
 
     fmt.Printf("Available versions: %v\n", versions)
+    ```
+
+=== "Python"
+
+    ```python
+    versions = await schema_client.list_versions("user-events")
+
+    print(f"Available versions: {versions}")  # e.g., [1, 2, 3]
     ```
 
 ---
@@ -344,6 +447,45 @@ Registering the same schema content multiple times returns the existing schema I
     } else {
         eprintln!("❌ Incompatible: {:?}", result.errors);
     }
+    ```
+
+=== "Python"
+
+    ```python
+    import json
+    from danube import SchemaType
+
+    new_schema = json.dumps({
+        "type": "object",
+        "properties": {
+            "user_id": {"type": "string"},
+            "event": {"type": "string"},
+            "timestamp": {"type": "integer"},
+            "email": {"type": "string"},
+        },
+        "required": ["user_id", "event", "timestamp"],
+    })
+
+    # Check compatibility before registering
+    is_compatible, errors = await schema_client.check_compatibility(
+        "user-events",
+        new_schema.encode(),
+        SchemaType.JSON_SCHEMA,
+        None,  # Use subject's default mode
+    )
+
+    if is_compatible:
+        print("✅ Safe to register!")
+
+        # Now register
+        await (
+            schema_client.register_schema("user-events")
+            .with_type(SchemaType.JSON_SCHEMA)
+            .with_schema_data(new_schema.encode())
+            .execute()
+        )
+    else:
+        print(f"❌ Incompatible: {errors}")
     ```
 
 **Compatibility Modes:**
@@ -498,6 +640,66 @@ danube-admin schema set-compatibility \
     }
     ```
 
+=== "Python"
+
+    ```python
+    import asyncio
+    import json
+    from danube import DanubeClientBuilder, SchemaType
+
+    async def main():
+        client = await (
+            DanubeClientBuilder()
+            .service_url("http://127.0.0.1:6650")
+            .build()
+        )
+
+        # 1. Register schema
+        json_schema = json.dumps({
+            "type": "object",
+            "properties": {
+                "user_id": {"type": "string"},
+                "event": {"type": "string"},
+                "timestamp": {"type": "integer"},
+            },
+            "required": ["user_id", "event", "timestamp"],
+        })
+
+        schema_client = client.schema()
+        await (
+            schema_client.register_schema("user-events")
+            .with_type(SchemaType.JSON_SCHEMA)
+            .with_schema_data(json_schema.encode())
+            .execute()
+        )
+
+        # 2. Create producer with schema reference (uses latest version)
+        producer = (
+            client.new_producer()
+            .with_topic("/default/user-events")
+            .with_name("event-producer")
+            .with_schema_subject("user-events")  # Uses latest version
+            .build()
+        )
+
+        await producer.create()
+
+        # 3. Send typed messages
+        event = {
+            "user_id": "user-123",
+            "event": "login",
+            "timestamp": 1234567890,
+        }
+
+        json_bytes = json.dumps(event).encode()
+        msg_id = await producer.send(json_bytes)
+        print(f"📤 Sent message: {msg_id}")
+
+        await producer.close()
+
+    asyncio.run(main())
+    ```
+
 ### Option 2: Pin to Specific Version
 
 === "Rust"
@@ -533,6 +735,22 @@ danube-admin schema set-compatibility \
         log.Fatalf("failed to create producer: %v", err)
     }
     // This producer will always use version 2, even if v3+ exists
+    ```
+
+=== "Python"
+
+    ```python
+    # Pin producer to specific schema version
+    producer = (
+        client.new_producer()
+        .with_topic("/default/user-events")
+        .with_name("producer-v2")
+        .with_schema_version("user-events", 2)  # Pin to version 2
+        .build()
+    )
+
+    await producer.create()
+    # This producer will always use version 2, even if v3+ exists
     ```
 
 **Use cases:**
@@ -576,6 +794,22 @@ danube-admin schema set-compatibility \
         log.Fatalf("failed to create producer: %v", err)
     }
     // Will use v2, v3, v4, etc. (latest compatible version)
+    ```
+
+=== "Python"
+
+    ```python
+    # Use version 2 or any newer compatible version
+    producer = (
+        client.new_producer()
+        .with_topic("/default/user-events")
+        .with_name("producer-min-v2")
+        .with_schema_min_version("user-events", 2)  # v2 or newer
+        .build()
+    )
+
+    await producer.create()
+    # Will use v2, v3, v4, etc. (latest compatible version)
     ```
 
 **Use cases:**
@@ -646,6 +880,62 @@ danube-admin schema set-compatibility \
     }
     ```
 
+=== "Python"
+
+    ```python
+    import json
+    from danube import SchemaType
+
+    # V1 Schema
+    schema_v1 = json.dumps({
+        "type": "object",
+        "properties": {
+            "user_id": {"type": "string"},
+            "event": {"type": "string"},
+        },
+        "required": ["user_id", "event"],
+    })
+
+    # Register V1
+    schema_client = client.schema()
+    await (
+        schema_client.register_schema("events")
+        .with_type(SchemaType.JSON_SCHEMA)
+        .with_schema_data(schema_v1.encode())
+        .execute()
+    )
+
+    # V2 Schema (add optional field)
+    schema_v2 = json.dumps({
+        "type": "object",
+        "properties": {
+            "user_id": {"type": "string"},
+            "event": {"type": "string"},
+            "metadata": {"type": "string"},
+        },
+        "required": ["user_id", "event"],
+    })
+
+    # Check compatibility
+    is_compatible, errors = await schema_client.check_compatibility(
+        "events",
+        schema_v2.encode(),
+        SchemaType.JSON_SCHEMA,
+        None,
+    )
+
+    if is_compatible:
+        # Register V2
+        await (
+            schema_client.register_schema("events")
+            .with_type(SchemaType.JSON_SCHEMA)
+            .with_schema_data(schema_v2.encode())
+            .execute()
+        )
+
+        print("✅ Successfully evolved schema to V2")
+    ```
+
 **Result:**
 
 - Old consumers can still read V2 messages (ignore extra field)
@@ -658,12 +948,12 @@ danube-admin schema set-compatibility \
 
 ### Supported Types
 
-| Type | Description | Status |
-|------|-------------|--------|
-| `SchemaType::JsonSchema` | JSON Schema validation | ✅ Production |
-| `SchemaType::Avro` | Apache Avro binary | ✅ Registration ready |
-| `SchemaType::Protobuf` | Protocol Buffers | ✅ Registration ready |
-| `SchemaType::String` | UTF-8 text | ✅ Basic validation |
-| `SchemaType::Number` | Numeric types | ✅ Basic validation |
-| `SchemaType::Bytes` | Raw binary | ✅ No validation |
+| Rust | Go | Python | Description | Status |
+|------|-----|--------|-------------|--------|
+| `SchemaType::JsonSchema` | `SchemaTypeJSONSchema` | `SchemaType.JSON_SCHEMA` | JSON Schema validation | ✅ Production |
+| `SchemaType::Avro` | `SchemaTypeAvro` | `SchemaType.AVRO` | Apache Avro binary | ✅ Registration ready |
+| `SchemaType::Protobuf` | `SchemaTypeProtobuf` | `SchemaType.PROTOBUF` | Protocol Buffers | ✅ Registration ready |
+| `SchemaType::String` | `SchemaTypeString` | `SchemaType.STRING` | UTF-8 text | ✅ Basic validation |
+| `SchemaType::Number` | `SchemaTypeNumber` | `SchemaType.NUMBER` | Numeric types | ✅ Basic validation |
+| `SchemaType::Bytes` | `SchemaTypeBytes` | `SchemaType.BYTES` | Raw binary | ✅ No validation |
 

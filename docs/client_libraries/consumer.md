@@ -72,6 +72,34 @@ The minimal setup to receive messages:
     }
     ```
 
+=== "Python"
+
+    ```python
+    import asyncio
+    from danube import DanubeClientBuilder, SubType
+
+    async def main():
+        client = await (
+            DanubeClientBuilder()
+            .service_url("http://127.0.0.1:6650")
+            .build()
+        )
+
+        consumer = (
+            client.new_consumer()
+            .with_topic("/default/my-topic")
+            .with_consumer_name("my-consumer")
+            .with_subscription("my-subscription")
+            .with_subscription_type(SubType.EXCLUSIVE)
+            .build()
+        )
+
+        await consumer.subscribe()
+        print("✅ Consumer subscribed")
+
+    asyncio.run(main())
+    ```
+
 **Key concepts:**
 
 - **Topic:** Source of messages
@@ -211,6 +239,44 @@ Like Exclusive, but allows **standby consumers**. One active, others wait.
     }
     ```
 
+=== "Python"
+
+    ```python
+    import asyncio
+    from danube import DanubeClientBuilder, SubType
+
+    async def main():
+        client = await (
+            DanubeClientBuilder()
+            .service_url("http://127.0.0.1:6650")
+            .build()
+        )
+
+        consumer = (
+            client.new_consumer()
+            .with_topic("/default/events")
+            .with_consumer_name("event-processor")
+            .with_subscription("event-sub")
+            .with_subscription_type(SubType.EXCLUSIVE)
+            .build()
+        )
+
+        await consumer.subscribe()
+
+        # Start receiving
+        queue = await consumer.receive()
+
+        while True:
+            message = await queue.get()
+            payload = message.payload.decode()
+            print(f"📥 Received: {payload}")
+
+            # Acknowledge the message
+            await consumer.ack(message)
+
+    asyncio.run(main())
+    ```
+
 ---
 
 ## Message Handling Essentials
@@ -248,6 +314,18 @@ Like Exclusive, but allows **standby consumers**. One active, others wait.
             log.Printf("Failed to ack: %v", err)
         }
     }
+    ```
+
+=== "Python"
+
+    ```python
+    while True:
+        message = await queue.get()
+        payload = message.payload.decode()
+        print(f"📥 {payload}")
+
+        # Only ack after successful processing
+        await consumer.ack(message)
     ```
 
 **Tip:** Only ack after successful processing; unacked messages are redelivered.
@@ -342,6 +420,31 @@ When a topic has partitions, consumers automatically receive from all partitions
     }
     ```
 
+=== "Python"
+
+    ```python
+    # Topic has 3 partitions: my-topic-part-0, my-topic-part-1, my-topic-part-2
+    consumer = (
+        client.new_consumer()
+        .with_topic("/default/my-topic")  # Parent topic name
+        .with_consumer_name("partition-consumer")
+        .with_subscription("partition-sub")
+        .with_subscription_type(SubType.EXCLUSIVE)
+        .build()
+    )
+
+    await consumer.subscribe()
+    print("✅ Subscribed to all partitions")
+
+    # Automatically receives from all 3 partitions
+    queue = await consumer.receive()
+
+    while True:
+        message = await queue.get()
+        print(f"📥 Received from partition: {message.payload.decode()}")
+        await consumer.ack(message)
+    ```
+
 **What happens:**
 
 - Client discovers all partitions automatically
@@ -389,6 +492,18 @@ Consume typed messages validated against schemas (see [Schema Registry](schema-r
     }
     ```
 
+=== "Python"
+
+    ```python
+    import json
+
+    while True:
+        message = await queue.get()
+        event = json.loads(message.payload)
+        print(f"📥 Event: {event}")
+        await consumer.ack(message)
+    ```
+
 For validation strategies and schema details, see [Schema Registry](schema-registry.md) and the full examples in the client repos.
 
 ---
@@ -397,5 +512,6 @@ For validation strategies and schema details, see [Schema Registry](schema-regis
 
 For complete runnable consumers, see the client repositories:
 
-- Go: https://github.com/danube-messaging/danube-go/tree/main/examples
 - Rust: https://github.com/danube-messaging/danube/tree/main/danube-client/examples
+- Go: https://github.com/danube-messaging/danube-go/tree/main/examples
+- Python: https://github.com/danube-messaging/danube-py/tree/main/examples

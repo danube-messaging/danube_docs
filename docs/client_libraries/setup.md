@@ -40,6 +40,22 @@ Connect to Danube broker with an gRPC endpoint:
     }
     ```
 
+=== "Python"
+
+    ```python
+    import asyncio
+    from danube import DanubeClientBuilder
+
+    async def main():
+        client = await (
+            DanubeClientBuilder()
+            .service_url("http://127.0.0.1:6650")
+            .build()
+        )
+
+    asyncio.run(main())
+    ```
+
 **Endpoint format:** `http://host:port` or `https://host:port` for TLS
 
 ---
@@ -119,6 +135,40 @@ For secure production environments, enable TLS encryption:
     if err != nil {
         log.Fatalf("failed to create client: %v", err)
     }
+    ```
+
+=== "Python"
+
+    ```python
+    import asyncio
+    from danube import DanubeClientBuilder
+
+    async def main():
+        # TLS with custom CA certificate
+        client = await (
+            DanubeClientBuilder()
+            .service_url("https://127.0.0.1:6650")
+            .with_tls("./certs/ca-cert.pem")
+            .build()
+        )
+
+    asyncio.run(main())
+    ```
+
+    For mutual TLS (mTLS) with client certificates:
+
+    ```python
+    # mTLS with CA, client cert, and client key
+    client = await (
+        DanubeClientBuilder()
+        .service_url("https://127.0.0.1:6650")
+        .with_mtls(
+            "./certs/ca-cert.pem",
+            "./certs/client-cert.pem",
+            "./certs/client-key.pem",
+        )
+        .build()
+    )
     ```
 
 **Requirements:**
@@ -213,6 +263,39 @@ For authenticated environments, use API keys to obtain JWT tokens:
     if err != nil {
         log.Fatalf("failed to create client: %v", err)
     }
+    ```
+
+=== "Python"
+
+    ```python
+    import asyncio
+    import os
+    from danube import DanubeClientBuilder
+
+    async def main():
+        api_key = os.environ["DANUBE_API_KEY"]
+
+        # with_api_key automatically enables TLS with system CA roots
+        client = await (
+            DanubeClientBuilder()
+            .service_url("https://127.0.0.1:6650")
+            .with_api_key(api_key)
+            .build()
+        )
+
+    asyncio.run(main())
+    ```
+
+    To combine API key authentication with a custom CA certificate:
+
+    ```python
+    client = await (
+        DanubeClientBuilder()
+        .service_url("https://127.0.0.1:6650")
+        .with_tls("./certs/ca-cert.pem")
+        .with_api_key(api_key)
+        .build()
+    )
     ```
 
 **How it works:**

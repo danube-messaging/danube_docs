@@ -68,6 +68,32 @@ The minimal setup to send messages:
     }
     ```
 
+=== "Python"
+
+    ```python
+    import asyncio
+    from danube import DanubeClientBuilder
+
+    async def main():
+        client = await (
+            DanubeClientBuilder()
+            .service_url("http://127.0.0.1:6650")
+            .build()
+        )
+
+        producer = (
+            client.new_producer()
+            .with_topic("/default/my-topic")
+            .with_name("my-producer")
+            .build()
+        )
+
+        await producer.create()
+        print("✅ Producer created")
+
+    asyncio.run(main())
+    ```
+
 **Key concepts:**
 
 - **Topic:** Destination for messages (e.g., `/default/my-topic`)
@@ -105,6 +131,15 @@ Send raw byte data:
     fmt.Printf("📤 Sent message ID: %v\n", messageID)
     ```
 
+=== "Python"
+
+    ```python
+    message = "Hello Danube!"
+    message_id = await producer.send(message.encode())
+
+    print(f"📤 Sent message ID: {message_id}")
+    ```
+
 **Returns:** Unique message ID for tracking
 
 ### Messages with Attributes
@@ -134,6 +169,17 @@ Add metadata to messages:
     }
 
     messageID, err := producer.Send(ctx, []byte("Important message"), attributes)
+    ```
+
+=== "Python"
+
+    ```python
+    attributes = {
+        "source": "app-1",
+        "priority": "high",
+    }
+
+    message_id = await producer.send(b"Important message", attributes)
     ```
 
 **Use cases:**
@@ -207,6 +253,20 @@ Partitions enable horizontal scaling by distributing messages across multiple br
             log.Fatalf("Failed to initialize producer: %v", err)
         }
     }
+    ```
+
+=== "Python"
+
+    ```python
+    producer = (
+        client.new_producer()
+        .with_topic("/default/high-throughput")
+        .with_name("partitioned-producer")
+        .with_partitions(3)  # Create 3 partitions
+        .build()
+    )
+
+    await producer.create()
     ```
 
 **What happens:**
@@ -283,6 +343,22 @@ Reliable dispatch guarantees message delivery by persisting messages before ackn
     }
     ```
 
+=== "Python"
+
+    ```python
+    from danube import DispatchStrategy
+
+    producer = (
+        client.new_producer()
+        .with_topic("/default/critical-events")
+        .with_name("reliable-producer")
+        .with_dispatch_strategy(DispatchStrategy.RELIABLE)  # Enable persistence
+        .build()
+    )
+
+    await producer.create()
+    ```
+
 **Notes:** Reliable dispatch persists messages before acking. Use it for critical events that must not be lost.
 
 ---
@@ -323,6 +399,20 @@ Link producers to schemas for type safety (see [Schema Registry](schema-registry
     }
     ```
 
+=== "Python"
+
+    ```python
+    producer = (
+        client.new_producer()
+        .with_topic("/default/events")
+        .with_name("schema-producer")
+        .with_schema_subject("event-schema")
+        .build()
+    )
+
+    await producer.create()
+    ```
+
 For schema registration and versioning, see [Schema Registry](schema-registry.md).
 
 ---
@@ -331,8 +421,9 @@ For schema registration and versioning, see [Schema Registry](schema-registry.md
 
 For complete runnable producers, see the client repositories:
 
-- Go: https://github.com/danube-messaging/danube-go/tree/main/examples
 - Rust: https://github.com/danube-messaging/danube/tree/main/danube-client/examples
+- Go: https://github.com/danube-messaging/danube-go/tree/main/examples
+- Python: https://github.com/danube-messaging/danube-py/tree/main/examples
 
 ---
 
