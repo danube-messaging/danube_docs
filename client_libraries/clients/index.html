@@ -907,6 +907,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#python-client" class="md-nav__link">
+    <span class="md-ellipsis">
+      Python Client
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1727,6 +1736,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#python-client" class="md-nav__link">
+    <span class="md-ellipsis">
+      Python Client
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1844,6 +1862,24 @@
 </ul>
 <p><strong>Learn more:</strong> <a href="https://github.com/danube-messaging/danube-go/tree/main/examples">Go Examples</a></p>
 <hr />
+<h3 id="python-client">Python Client</h3>
+<p>The official <a href="https://github.com/danube-messaging/danube-py">danube-py</a> library provides async Python bindings built on <code>asyncio</code> and <code>grpc.aio</code>.</p>
+<p><strong>Installation:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>pip<span class="w"> </span>install<span class="w"> </span>danube-client
+</span></code></pre></div>
+<p><strong>Features:</strong></p>
+<ul>
+<li>✅ Full async/await support with asyncio</li>
+<li>✅ Partitioned topics</li>
+<li>✅ Reliable dispatch</li>
+<li>✅ All subscription types (Exclusive, Shared, Failover)</li>
+<li>✅ Schema registry (JSON Schema, Avro, Protobuf)</li>
+<li>✅ Schema versioning and compatibility checking</li>
+<li>✅ TLS and mTLS support</li>
+<li>✅ JWT authentication (API key)</li>
+</ul>
+<p><strong>Learn more:</strong> <a href="https://github.com/danube-messaging/danube-py/tree/main/examples">Python Examples</a></p>
+<hr />
 <h2 id="feature-comparison-matrix">Feature Comparison Matrix</h2>
 <table>
 <thead>
@@ -1851,7 +1887,7 @@
 <th>Feature</th>
 <th>Rust</th>
 <th>Go</th>
-<th>Python*</th>
+<th>Python</th>
 <th>Java*</th>
 </tr>
 </thead>
@@ -1867,28 +1903,28 @@
 <td>Producers</td>
 <td>✅</td>
 <td>✅</td>
-<td>⏳</td>
+<td>✅</td>
 <td>⏳</td>
 </tr>
 <tr>
 <td>Consumers</td>
 <td>✅</td>
 <td>✅</td>
-<td>⏳</td>
+<td>✅</td>
 <td>⏳</td>
 </tr>
 <tr>
 <td>Partitioned Topics</td>
 <td>✅</td>
 <td>✅</td>
-<td>⏳</td>
+<td>✅</td>
 <td>⏳</td>
 </tr>
 <tr>
 <td>Reliable Dispatch</td>
 <td>✅</td>
 <td>✅</td>
-<td>⏳</td>
+<td>✅</td>
 <td>⏳</td>
 </tr>
 <tr>
@@ -1902,21 +1938,21 @@
 <td>Exclusive</td>
 <td>✅</td>
 <td>✅</td>
-<td>⏳</td>
+<td>✅</td>
 <td>⏳</td>
 </tr>
 <tr>
 <td>Shared</td>
 <td>✅</td>
 <td>✅</td>
-<td>⏳</td>
+<td>✅</td>
 <td>⏳</td>
 </tr>
 <tr>
 <td>Failover</td>
 <td>✅</td>
 <td>✅</td>
-<td>⏳</td>
+<td>✅</td>
 <td>⏳</td>
 </tr>
 <tr>
@@ -1930,28 +1966,28 @@
 <td>JSON Schema</td>
 <td>✅</td>
 <td>✅</td>
-<td>⏳</td>
+<td>✅</td>
 <td>⏳</td>
 </tr>
 <tr>
 <td>Avro</td>
 <td>✅</td>
 <td>✅</td>
-<td>⏳</td>
+<td>✅</td>
 <td>⏳</td>
 </tr>
 <tr>
 <td>Protobuf</td>
 <td>✅</td>
 <td>✅</td>
-<td>⏳</td>
+<td>✅</td>
 <td>⏳</td>
 </tr>
 <tr>
 <td>Compatibility Checking</td>
 <td>✅</td>
 <td>✅</td>
-<td>⏳</td>
+<td>✅</td>
 <td>⏳</td>
 </tr>
 <tr>
@@ -1965,14 +2001,14 @@
 <td>TLS / mTLS</td>
 <td>✅</td>
 <td>✅</td>
-<td>⏳</td>
+<td>✅</td>
 <td>⏳</td>
 </tr>
 <tr>
 <td>JWT Authentication</td>
 <td>✅</td>
 <td>✅</td>
-<td>⏳</td>
+<td>✅</td>
 <td>⏳</td>
 </tr>
 </tbody>
@@ -2014,7 +2050,7 @@
 <h2 id="getting-help">Getting Help</h2>
 <ul>
 <li><strong>Documentation:</strong> <a href="https://github.com/danube-messaging/danube_docs">Danube Docs</a></li>
-<li><strong>Examples:</strong> <a href="https://github.com/danube-messaging/danube/tree/main/danube-client/examples">Rust</a> | <a href="https://github.com/danube-messaging/danube-go/tree/main/examples">Go</a></li>
+<li><strong>Examples:</strong> <a href="https://github.com/danube-messaging/danube/tree/main/danube-client/examples">Rust</a> | <a href="https://github.com/danube-messaging/danube-go/tree/main/examples">Go</a> | <a href="https://github.com/danube-messaging/danube-py/tree/main/examples">Python</a></li>
 <li><strong>Issues:</strong> <a href="https://github.com/danube-messaging/danube/issues">GitHub Issues</a></li>
 </ul>
 
