@@ -78,29 +78,63 @@ pip install danube-client
 
 ---
 
+### Java Client
+
+The official [danube-java](https://github.com/danube-messaging/danube-java) library provides Java bindings built on Java 21+, using virtual threads (Project Loom) and a reactive `Flow.Publisher` receive API.
+
+**Installation (Maven):**
+
+```xml
+<dependency>
+    <groupId>com.danubemessaging</groupId>
+    <artifactId>danube-client</artifactId>
+    <version>0.2.0</version>
+</dependency>
+```
+
+**Installation (Gradle):**
+
+```groovy
+implementation 'com.danubemessaging:danube-client:0.2.0'
+```
+
+**Features:**
+
+- ✅ Virtual threads (Project Loom) for all I/O
+- ✅ Reactive `Flow.Publisher<StreamMessage>` receive API
+- ✅ Partitioned topics
+- ✅ Reliable dispatch
+- ✅ All subscription types (Exclusive, Shared, Failover)
+- ✅ Schema registry (JSON Schema, Avro, Protobuf)
+- ✅ Schema versioning and compatibility checking
+- ✅ TLS and mTLS support
+- ✅ JWT authentication (API key)
+
+**Learn more:** [Java Examples](https://github.com/danube-messaging/danube-java/tree/main/examples)
+
+---
+
 ## Feature Comparison Matrix
 
-| Feature | Rust | Go | Python | Java* |
-|---------|------|-----|--------|-------|
+| Feature | Rust | Go | Python | Java |
+|---------|------|-----|--------|------|
 | **Core Messaging** |
-| Producers | ✅ | ✅ | ✅ | ⏳ |
-| Consumers | ✅ | ✅ | ✅ | ⏳ |
-| Partitioned Topics | ✅ | ✅ | ✅ | ⏳ |
-| Reliable Dispatch | ✅ | ✅ | ✅ | ⏳ |
+| Producers | ✅ | ✅ | ✅ | ✅ |
+| Consumers | ✅ | ✅ | ✅ | ✅ |
+| Partitioned Topics | ✅ | ✅ | ✅ | ✅ |
+| Reliable Dispatch | ✅ | ✅ | ✅ | ✅ |
 | **Subscriptions** |
-| Exclusive | ✅ | ✅ | ✅ | ⏳ |
-| Shared | ✅ | ✅ | ✅ | ⏳ |
-| Failover | ✅ | ✅ | ✅ | ⏳ |
+| Exclusive | ✅ | ✅ | ✅ | ✅ |
+| Shared | ✅ | ✅ | ✅ | ✅ |
+| Failover | ✅ | ✅ | ✅ | ✅ |
 | **Schema Registry** |
-| JSON Schema | ✅ | ✅ | ✅ | ⏳ |
-| Avro | ✅ | ✅ | ✅ | ⏳ |
-| Protobuf | ✅ | ✅ | ✅ | ⏳ |
-| Compatibility Checking | ✅ | ✅ | ✅ | ⏳ |
+| JSON Schema | ✅ | ✅ | ✅ | ✅ |
+| Avro | ✅ | ✅ | ✅ | ✅ |
+| Protobuf | ✅ | ✅ | ✅ | ✅ |
+| Compatibility Checking | ✅ | ✅ | ✅ | ✅ |
 | **Security** |
-| TLS / mTLS | ✅ | ✅ | ✅ | ⏳ |
-| JWT Authentication | ✅ | ✅ | ✅ | ⏳ |
-
-_* Coming soon - community contributions welcome_
+| TLS / mTLS | ✅ | ✅ | ✅ | ✅ |
+| JWT Authentication | ✅ | ✅ | ✅ | ✅ |
 
 ---
 
@@ -142,5 +176,5 @@ We encourage the community to develop and maintain clients for additional langua
 ## Getting Help
 
 - **Documentation:** [Danube Docs](https://github.com/danube-messaging/danube_docs)
-- **Examples:** [Rust](https://github.com/danube-messaging/danube/tree/main/danube-client/examples) | [Go](https://github.com/danube-messaging/danube-go/tree/main/examples) | [Python](https://github.com/danube-messaging/danube-py/tree/main/examples)
+- **Examples:** [Rust](https://github.com/danube-messaging/danube/tree/main/danube-client/examples) | [Go](https://github.com/danube-messaging/danube-go/tree/main/examples) | [Python](https://github.com/danube-messaging/danube-py/tree/main/examples) | [Java](https://github.com/danube-messaging/danube-java/tree/main/examples)
 - **Issues:** [GitHub Issues](https://github.com/danube-messaging/danube/issues)

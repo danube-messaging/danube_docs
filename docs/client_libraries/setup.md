@@ -56,6 +56,24 @@ Connect to Danube broker with an gRPC endpoint:
     asyncio.run(main())
     ```
 
+=== "Java"
+
+    ```java
+    import com.danubemessaging.client.DanubeClient;
+
+    public class Main {
+        public static void main(String[] args) throws Exception {
+            DanubeClient client = DanubeClient.builder()
+                    .serviceUrl("http://127.0.0.1:6650")
+                    .build();
+
+            // use client ...
+
+            client.close();
+        }
+    }
+    ```
+
 **Endpoint format:** `http://host:port` or `https://host:port` for TLS
 
 ---
@@ -169,6 +187,32 @@ For secure production environments, enable TLS encryption:
         )
         .build()
     )
+    ```
+
+=== "Java"
+
+    ```java
+    import com.danubemessaging.client.DanubeClient;
+    import java.nio.file.Path;
+
+    // TLS with custom CA certificate
+    DanubeClient client = DanubeClient.builder()
+            .serviceUrl("https://127.0.0.1:6650")
+            .withTls(Path.of("./certs/ca-cert.pem"))
+            .build();
+    ```
+
+    For mutual TLS (mTLS) with client certificates:
+
+    ```java
+    // mTLS with CA, client cert, and client key
+    DanubeClient client = DanubeClient.builder()
+            .serviceUrl("https://127.0.0.1:6650")
+            .withMutualTls(
+                    Path.of("./certs/ca-cert.pem"),
+                    Path.of("./certs/client-cert.pem"),
+                    Path.of("./certs/client-key.pem"))
+            .build();
     ```
 
 **Requirements:**
@@ -296,6 +340,35 @@ For authenticated environments, use API keys to obtain JWT tokens:
         .with_api_key(api_key)
         .build()
     )
+    ```
+
+=== "Java"
+
+    ```java
+    import com.danubemessaging.client.DanubeClient;
+
+    String apiKey = System.getenv("DANUBE_API_KEY");
+    if (apiKey == null || apiKey.isBlank()) {
+        throw new IllegalStateException("DANUBE_API_KEY environment variable not set");
+    }
+
+    // withApiKey automatically enables TLS and exchanges the key for a JWT token
+    DanubeClient client = DanubeClient.builder()
+            .serviceUrl("https://127.0.0.1:6650")
+            .withApiKey(apiKey)
+            .build();
+    ```
+
+    To combine API key authentication with a custom CA certificate:
+
+    ```java
+    import java.nio.file.Path;
+
+    DanubeClient client = DanubeClient.builder()
+            .serviceUrl("https://127.0.0.1:6650")
+            .withTls(Path.of("./certs/ca-cert.pem"))
+            .withApiKey(apiKey)
+            .build();
     ```
 
 **How it works:**

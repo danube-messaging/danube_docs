@@ -99,7 +99,20 @@ The **Rust**, **Go**, and **Python** client libraries all support the Schema Reg
     asyncio.run(main())
     ```
 
-**Note:** The schema client is obtained from `DanubeClient` via `.Schema()` (Go), `.schema()` (Rust/Python), sharing the same connection pool — just like producers and consumers.
+=== "Java"
+
+    ```java
+    import com.danubemessaging.client.DanubeClient;
+    import com.danubemessaging.client.SchemaRegistryClient;
+
+    DanubeClient client = DanubeClient.builder()
+            .serviceUrl("http://127.0.0.1:6650")
+            .build();
+
+    SchemaRegistryClient schemaClient = client.newSchemaRegistry();
+    ```
+
+**Note:** The schema client is obtained from `DanubeClient` via `.Schema()` (Go), `.schema()` (Rust/Python), `.newSchemaRegistry()` (Java), sharing the same connection pool — just like producers and consumers.
 
 ---
 
@@ -191,6 +204,31 @@ The **Rust**, **Go**, and **Python** client libraries all support the Schema Reg
     print(f"Registered schema ID: {schema_id}")
     ```
 
+=== "Java"
+
+    ```java
+    import com.danubemessaging.client.schema.SchemaType;
+
+    String jsonSchema = """
+            {
+              "type": "object",
+              "properties": {
+                "user_id":   {"type": "string"},
+                "event":     {"type": "string"},
+                "timestamp": {"type": "integer"}
+              },
+              "required": ["user_id", "event", "timestamp"]
+            }""";
+
+    var registration = schemaClient.registerSchema(
+            schemaClient.newRegistration()
+                    .withSubject("user-events")
+                    .withSchemaType(SchemaType.JSON_SCHEMA)
+                    .withSchemaDefinition(jsonSchema.getBytes()));
+
+    System.out.printf("Registered schema ID: %d%n", registration.schemaId());
+    ```
+
 ### Avro Schema
 
 === "Rust"
@@ -264,6 +302,33 @@ The **Rust**, **Go**, and **Python** client libraries all support the Schema Reg
     print(f"Registered Avro schema: {schema_id}")
     ```
 
+=== "Java"
+
+    ```java
+    import com.danubemessaging.client.schema.SchemaType;
+
+    String avroSchema = """
+            {
+              "type": "record",
+              "name": "UserEvent",
+              "namespace": "com.example",
+              "fields": [
+                {"name": "user_id",   "type": "string"},
+                {"name": "event",     "type": "string"},
+                {"name": "timestamp", "type": "long"},
+                {"name": "metadata",  "type": ["null", "string"], "default": null}
+              ]
+            }""";
+
+    var registration = schemaClient.registerSchema(
+            schemaClient.newRegistration()
+                    .withSubject("user-events-avro")
+                    .withSchemaType(SchemaType.AVRO)
+                    .withSchemaDefinition(avroSchema.getBytes()));
+
+    System.out.printf("Registered Avro schema: %d%n", registration.schemaId());
+    ```
+
 ### Idempotent Registration
 
 Registering the same schema content multiple times returns the existing schema ID:
@@ -325,6 +390,22 @@ Registering the same schema content multiple times returns the existing schema I
     print(f"Schema: {schema.schema_definition_as_string()}")
     ```
 
+=== "Java"
+
+    ```java
+    import com.danubemessaging.client.schema.SchemaInfo;
+
+    SchemaInfo schema = schemaClient.getLatestSchema("user-events");
+
+    System.out.println("Schema ID: " + schema.schemaId());
+    System.out.println("Subject:   " + schema.subject());
+    System.out.println("Version:   " + schema.version());
+    System.out.println("Type:      " + schema.schemaType());
+
+    // Get schema definition as string
+    System.out.println("Schema: " + new String(schema.schemaDefinition()));
+    ```
+
 **Returns:** `SchemaInfo` - A user-friendly wrapper containing:
 
 - `schema_id` - Global schema identifier
@@ -371,6 +452,20 @@ Registering the same schema content multiple times returns the existing schema I
     print(f"Schema version: {schema.version}")
     ```
 
+=== "Java"
+
+    ```java
+    import com.danubemessaging.client.schema.SchemaInfo;
+
+    // When consuming messages, get schema_id from message metadata
+    Long schemaId = msg.schemaId();
+    if (schemaId != null) {
+        SchemaInfo schema = schemaClient.getSchemaById(schemaId);
+        System.out.println("Schema subject: " + schema.subject());
+        System.out.println("Schema version: " + schema.version());
+    }
+    ```
+
 ### List All Versions
 
 === "Rust"
@@ -400,6 +495,20 @@ Registering the same schema content multiple times returns the existing schema I
     versions = await schema_client.list_versions("user-events")
 
     print(f"Available versions: {versions}")  # e.g., [1, 2, 3]
+    ```
+
+=== "Java"
+
+    ```java
+    import com.danubemessaging.client.schema.SchemaVersionInfo;
+    import java.util.List;
+
+    List<SchemaVersionInfo> versions = schemaClient.listVersions("user-events");
+
+    System.out.println("Available versions: " + versions.size());
+    for (SchemaVersionInfo v : versions) {
+        System.out.printf("  version=%d fingerprint=%s%n", v.version(), v.fingerprint());
+    }
     ```
 
 ---
@@ -486,6 +595,42 @@ Registering the same schema content multiple times returns the existing schema I
         )
     else:
         print(f"❌ Incompatible: {errors}")
+    ```
+
+=== "Java"
+
+    ```java
+    import com.danubemessaging.client.schema.CompatibilityCheck;
+    import com.danubemessaging.client.schema.SchemaType;
+
+    String newSchema = """
+            {
+              "type": "object",
+              "properties": {
+                "user_id":   {"type": "string"},
+                "event":     {"type": "string"},
+                "timestamp": {"type": "integer"},
+                "email":     {"type": "string"}
+              },
+              "required": ["user_id", "event", "timestamp"]
+            }""";
+
+    // Check compatibility before registering
+    CompatibilityCheck result = schemaClient.checkCompatibility(
+            "user-events", newSchema.getBytes(), SchemaType.JSON_SCHEMA);
+
+    if (result.compatible()) {
+        System.out.println("Safe to register!");
+
+        // Now register
+        schemaClient.registerSchema(
+                schemaClient.newRegistration()
+                        .withSubject("user-events")
+                        .withSchemaType(SchemaType.JSON_SCHEMA)
+                        .withSchemaDefinition(newSchema.getBytes()));
+    } else {
+        System.out.println("Incompatible: " + result.errors());
+    }
     ```
 
 **Compatibility Modes:**
@@ -700,6 +845,55 @@ danube-admin schema set-compatibility \
     asyncio.run(main())
     ```
 
+=== "Java"
+
+    ```java
+    import com.danubemessaging.client.DanubeClient;
+    import com.danubemessaging.client.Producer;
+    import com.danubemessaging.client.SchemaRegistryClient;
+    import com.danubemessaging.client.schema.SchemaType;
+    import java.util.Map;
+
+    DanubeClient client = DanubeClient.builder()
+            .serviceUrl("http://127.0.0.1:6650")
+            .build();
+
+    // 1. Register schema
+    String schema = """
+            {
+              "type": "object",
+              "properties": {
+                "user_id":   {"type": "string"},
+                "event":     {"type": "string"},
+                "timestamp": {"type": "integer"}
+              },
+              "required": ["user_id", "event", "timestamp"]
+            }""";
+
+    SchemaRegistryClient schemaClient = client.newSchemaRegistry();
+    schemaClient.registerSchema(
+            schemaClient.newRegistration()
+                    .withSubject("user-events")
+                    .withSchemaType(SchemaType.JSON_SCHEMA)
+                    .withSchemaDefinition(schema.getBytes()));
+
+    // 2. Create producer with schema reference (uses latest version)
+    Producer producer = client.newProducer()
+            .withTopic("/default/user-events")
+            .withName("event-producer")
+            .withSchemaLatest("user-events")  // Uses latest version
+            .build();
+
+    producer.create();
+
+    // 3. Send typed messages
+    String event = "{\"user_id\": \"user-123\", \"event\": \"login\", \"timestamp\": 1234567890}";
+    long msgId = producer.send(event.getBytes(), Map.of());
+    System.out.printf("Sent message: %d%n", msgId);
+
+    client.close();
+    ```
+
 ### Option 2: Pin to Specific Version
 
 === "Rust"
@@ -751,6 +945,20 @@ danube-admin schema set-compatibility \
 
     await producer.create()
     # This producer will always use version 2, even if v3+ exists
+    ```
+
+=== "Java"
+
+    ```java
+    // Pin producer to specific schema version
+    Producer producer = client.newProducer()
+            .withTopic("/default/user-events")
+            .withName("producer-v2")
+            .withSchemaPinnedVersion("user-events", 2)  // Pin to version 2
+            .build();
+
+    producer.create();
+    // This producer will always use version 2, even if v3+ exists
     ```
 
 **Use cases:**
@@ -810,6 +1018,17 @@ danube-admin schema set-compatibility \
 
     await producer.create()
     # Will use v2, v3, v4, etc. (latest compatible version)
+    ```
+
+=== "Java"
+
+    ```java
+    // Use minimum version — not yet supported in Java client (use withSchemaLatest instead)
+    // Producer producer = client.newProducer()
+    //         .withTopic("/default/user-events")
+    //         .withName("producer-min-v2")
+    //         .withSchemaMinVersion("user-events", 2)  // planned
+    //         .build();
     ```
 
 **Use cases:**
@@ -936,6 +1155,58 @@ danube-admin schema set-compatibility \
         print("✅ Successfully evolved schema to V2")
     ```
 
+=== "Java"
+
+    ```java
+    import com.danubemessaging.client.schema.CompatibilityCheck;
+    import com.danubemessaging.client.schema.SchemaType;
+
+    // V1 Schema
+    String schemaV1 = """
+            {
+              "type": "object",
+              "properties": {
+                "user_id": {"type": "string"},
+                "event":   {"type": "string"}
+              },
+              "required": ["user_id", "event"]
+            }""";
+
+    // Register V1
+    schemaClient.registerSchema(
+            schemaClient.newRegistration()
+                    .withSubject("events")
+                    .withSchemaType(SchemaType.JSON_SCHEMA)
+                    .withSchemaDefinition(schemaV1.getBytes()));
+
+    // V2 Schema (add optional field)
+    String schemaV2 = """
+            {
+              "type": "object",
+              "properties": {
+                "user_id":  {"type": "string"},
+                "event":    {"type": "string"},
+                "metadata": {"type": "string"}
+              },
+              "required": ["user_id", "event"]
+            }""";
+
+    // Check compatibility
+    CompatibilityCheck compat = schemaClient.checkCompatibility(
+            "events", schemaV2.getBytes(), SchemaType.JSON_SCHEMA);
+
+    if (compat.compatible()) {
+        // Register V2
+        schemaClient.registerSchema(
+                schemaClient.newRegistration()
+                        .withSubject("events")
+                        .withSchemaType(SchemaType.JSON_SCHEMA)
+                        .withSchemaDefinition(schemaV2.getBytes()));
+
+        System.out.println("Successfully evolved schema to V2");
+    }
+    ```
+
 **Result:**
 
 - Old consumers can still read V2 messages (ignore extra field)
@@ -948,12 +1219,12 @@ danube-admin schema set-compatibility \
 
 ### Supported Types
 
-| Rust | Go | Python | Description | Status |
-|------|-----|--------|-------------|--------|
-| `SchemaType::JsonSchema` | `SchemaTypeJSONSchema` | `SchemaType.JSON_SCHEMA` | JSON Schema validation | ✅ Production |
-| `SchemaType::Avro` | `SchemaTypeAvro` | `SchemaType.AVRO` | Apache Avro binary | ✅ Registration ready |
-| `SchemaType::Protobuf` | `SchemaTypeProtobuf` | `SchemaType.PROTOBUF` | Protocol Buffers | ✅ Registration ready |
-| `SchemaType::String` | `SchemaTypeString` | `SchemaType.STRING` | UTF-8 text | ✅ Basic validation |
-| `SchemaType::Number` | `SchemaTypeNumber` | `SchemaType.NUMBER` | Numeric types | ✅ Basic validation |
-| `SchemaType::Bytes` | `SchemaTypeBytes` | `SchemaType.BYTES` | Raw binary | ✅ No validation |
+| Rust | Go | Python | Java | Description | Status |
+|------|-----|--------|------|-------------|--------|
+| `SchemaType::JsonSchema` | `SchemaTypeJSONSchema` | `SchemaType.JSON_SCHEMA` | `SchemaType.JSON_SCHEMA` | JSON Schema validation | ✅ Production |
+| `SchemaType::Avro` | `SchemaTypeAvro` | `SchemaType.AVRO` | `SchemaType.AVRO` | Apache Avro binary | ✅ Registration ready |
+| `SchemaType::Protobuf` | `SchemaTypeProtobuf` | `SchemaType.PROTOBUF` | `SchemaType.PROTOBUF` | Protocol Buffers | ✅ Registration ready |
+| `SchemaType::String` | `SchemaTypeString` | `SchemaType.STRING` | `SchemaType.STRING` | UTF-8 text | ✅ Basic validation |
+| `SchemaType::Number` | `SchemaTypeNumber` | `SchemaType.NUMBER` | `SchemaType.NUMBER` | Numeric types | ✅ Basic validation |
+| `SchemaType::Bytes` | `SchemaTypeBytes` | `SchemaType.BYTES` | `SchemaType.BYTES` | Raw binary | ✅ No validation |
 

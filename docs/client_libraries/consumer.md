@@ -100,6 +100,34 @@ The minimal setup to receive messages:
     asyncio.run(main())
     ```
 
+=== "Java"
+
+    ```java
+    import com.danubemessaging.client.Consumer;
+    import com.danubemessaging.client.DanubeClient;
+    import com.danubemessaging.client.SubType;
+
+    public class Main {
+        public static void main(String[] args) throws Exception {
+            DanubeClient client = DanubeClient.builder()
+                    .serviceUrl("http://127.0.0.1:6650")
+                    .build();
+
+            Consumer consumer = client.newConsumer()
+                    .withTopic("/default/my-topic")
+                    .withConsumerName("my-consumer")
+                    .withSubscription("my-subscription")
+                    .withSubscriptionType(SubType.EXCLUSIVE)
+                    .build();
+
+            consumer.subscribe();
+            System.out.println("Consumer subscribed");
+
+            client.close();
+        }
+    }
+    ```
+
 **Key concepts:**
 
 - **Topic:** Source of messages
@@ -277,6 +305,54 @@ Like Exclusive, but allows **standby consumers**. One active, others wait.
     asyncio.run(main())
     ```
 
+=== "Java"
+
+    ```java
+    import com.danubemessaging.client.Consumer;
+    import com.danubemessaging.client.DanubeClient;
+    import com.danubemessaging.client.SubType;
+    import com.danubemessaging.client.model.StreamMessage;
+    import java.util.concurrent.CountDownLatch;
+    import java.util.concurrent.Flow;
+
+    DanubeClient client = DanubeClient.builder()
+            .serviceUrl("http://127.0.0.1:6650")
+            .build();
+
+    Consumer consumer = client.newConsumer()
+            .withTopic("/default/events")
+            .withConsumerName("event-processor")
+            .withSubscription("event-sub")
+            .withSubscriptionType(SubType.EXCLUSIVE)
+            .build();
+
+    consumer.subscribe();
+
+    CountDownLatch shutdown = new CountDownLatch(1);
+
+    // Start receiving via Flow.Publisher
+    consumer.receive().subscribe(new Flow.Subscriber<>() {
+        @Override
+        public void onSubscribe(Flow.Subscription s) {
+            s.request(Long.MAX_VALUE);
+        }
+
+        @Override
+        public void onNext(StreamMessage msg) {
+            String payload = new String(msg.payload());
+            System.out.println("Received: " + payload);
+
+            // Acknowledge the message
+            consumer.ack(msg);
+        }
+
+        @Override public void onError(Throwable t) { shutdown.countDown(); }
+        @Override public void onComplete() { shutdown.countDown(); }
+    });
+
+    shutdown.await();
+    ```
+
 ---
 
 ## Message Handling Essentials
@@ -326,6 +402,20 @@ Like Exclusive, but allows **standby consumers**. One active, others wait.
 
         # Only ack after successful processing
         await consumer.ack(message)
+    ```
+
+=== "Java"
+
+    ```java
+    // Inside onNext(StreamMessage msg):
+    String payload = new String(msg.payload());
+    System.out.println("Received: " + payload);
+
+    Map<String, String> attributes = msg.attributes();
+    attributes.forEach((k, v) -> System.out.printf("  %s: %s%n", k, v));
+
+    // Only ack after successful processing
+    consumer.ack(msg);
     ```
 
 **Tip:** Only ack after successful processing; unacked messages are redelivered.
@@ -445,6 +535,36 @@ When a topic has partitions, consumers automatically receive from all partitions
         await consumer.ack(message)
     ```
 
+=== "Java"
+
+    ```java
+    // Topic has 3 partitions: my-topic-part-0, my-topic-part-1, my-topic-part-2
+    Consumer consumer = client.newConsumer()
+            .withTopic("/default/my-topic")  // Parent topic name
+            .withConsumerName("partition-consumer")
+            .withSubscription("partition-sub")
+            .withSubscriptionType(SubType.EXCLUSIVE)
+            .build();
+
+    consumer.subscribe();
+    System.out.println("Subscribed to all partitions");
+
+    // Automatically receives from all partitions via Flow.Publisher
+    consumer.receive().subscribe(new Flow.Subscriber<>() {
+        @Override public void onSubscribe(Flow.Subscription s) { s.request(Long.MAX_VALUE); }
+
+        @Override
+        public void onNext(StreamMessage msg) {
+            System.out.printf("Received from partition '%s': %s%n",
+                    msg.messageId().topicName(), new String(msg.payload()));
+            consumer.ack(msg);
+        }
+
+        @Override public void onError(Throwable t) {}
+        @Override public void onComplete() {}
+    });
+    ```
+
 **What happens:**
 
 - Client discovers all partitions automatically
@@ -504,6 +624,23 @@ Consume typed messages validated against schemas (see [Schema Registry](schema-r
         await consumer.ack(message)
     ```
 
+=== "Java"
+
+    ```java
+    // Inside onNext(StreamMessage msg):
+    try {
+        // Deserialize JSON payload
+        String json = new String(msg.payload());
+        System.out.println("Received: " + json);
+
+        // Only ack after successful processing
+        consumer.ack(msg);
+    } catch (Exception e) {
+        System.err.println("Failed to process message: " + e.getMessage());
+        // Do not ack — message will be redelivered
+    }
+    ```
+
 For validation strategies and schema details, see [Schema Registry](schema-registry.md) and the full examples in the client repos.
 
 ---
@@ -515,3 +652,4 @@ For complete runnable consumers, see the client repositories:
 - Rust: https://github.com/danube-messaging/danube/tree/main/danube-client/examples
 - Go: https://github.com/danube-messaging/danube-go/tree/main/examples
 - Python: https://github.com/danube-messaging/danube-py/tree/main/examples
+- Java: https://github.com/danube-messaging/danube-java/tree/main/examples

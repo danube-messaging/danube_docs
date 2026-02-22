@@ -94,6 +94,31 @@ The minimal setup to send messages:
     asyncio.run(main())
     ```
 
+=== "Java"
+
+    ```java
+    import com.danubemessaging.client.DanubeClient;
+    import com.danubemessaging.client.Producer;
+
+    public class Main {
+        public static void main(String[] args) throws Exception {
+            DanubeClient client = DanubeClient.builder()
+                    .serviceUrl("http://127.0.0.1:6650")
+                    .build();
+
+            Producer producer = client.newProducer()
+                    .withTopic("/default/my-topic")
+                    .withName("my-producer")
+                    .build();
+
+            producer.create();
+            System.out.println("Producer created");
+
+            client.close();
+        }
+    }
+    ```
+
 **Key concepts:**
 
 - **Topic:** Destination for messages (e.g., `/default/my-topic`)
@@ -140,6 +165,17 @@ Send raw byte data:
     print(f"📤 Sent message ID: {message_id}")
     ```
 
+=== "Java"
+
+    ```java
+    import java.util.Map;
+
+    String message = "Hello Danube!";
+    long messageId = producer.send(message.getBytes(), Map.of());
+
+    System.out.printf("Sent message ID: %d%n", messageId);
+    ```
+
 **Returns:** Unique message ID for tracking
 
 ### Messages with Attributes
@@ -180,6 +216,19 @@ Add metadata to messages:
     }
 
     message_id = await producer.send(b"Important message", attributes)
+    ```
+
+=== "Java"
+
+    ```java
+    import java.util.Map;
+
+    Map<String, String> attributes = Map.of(
+            "source",   "app-1",
+            "priority", "high"
+    );
+
+    long messageId = producer.send("Important message".getBytes(), attributes);
     ```
 
 **Use cases:**
@@ -267,6 +316,25 @@ Partitions enable horizontal scaling by distributing messages across multiple br
     )
 
     await producer.create()
+    ```
+
+=== "Java"
+
+    ```java
+    import com.danubemessaging.client.DanubeClient;
+    import com.danubemessaging.client.Producer;
+
+    DanubeClient client = DanubeClient.builder()
+            .serviceUrl("http://127.0.0.1:6650")
+            .build();
+
+    Producer producer = client.newProducer()
+            .withTopic("/default/high-throughput")
+            .withName("partitioned-producer")
+            .withPartitions(3)  // Create 3 partitions
+            .build();
+
+    producer.create();
     ```
 
 **What happens:**
@@ -359,6 +427,26 @@ Reliable dispatch guarantees message delivery by persisting messages before ackn
     await producer.create()
     ```
 
+=== "Java"
+
+    ```java
+    import com.danubemessaging.client.DanubeClient;
+    import com.danubemessaging.client.DispatchStrategy;
+    import com.danubemessaging.client.Producer;
+
+    DanubeClient client = DanubeClient.builder()
+            .serviceUrl("http://127.0.0.1:6650")
+            .build();
+
+    Producer producer = client.newProducer()
+            .withTopic("/default/critical-events")
+            .withName("reliable-producer")
+            .withDispatchStrategy(DispatchStrategy.RELIABLE)  // Enable persistence
+            .build();
+
+    producer.create();
+    ```
+
 **Notes:** Reliable dispatch persists messages before acking. Use it for critical events that must not be lost.
 
 ---
@@ -413,6 +501,20 @@ Link producers to schemas for type safety (see [Schema Registry](schema-registry
     await producer.create()
     ```
 
+=== "Java"
+
+    ```java
+    import com.danubemessaging.client.Producer;
+
+    Producer producer = client.newProducer()
+            .withTopic("/default/events")
+            .withName("schema-producer")
+            .withSchemaLatest("event-schema")  // Uses latest registered version
+            .build();
+
+    producer.create();
+    ```
+
 For schema registration and versioning, see [Schema Registry](schema-registry.md).
 
 ---
@@ -424,6 +526,7 @@ For complete runnable producers, see the client repositories:
 - Rust: https://github.com/danube-messaging/danube/tree/main/danube-client/examples
 - Go: https://github.com/danube-messaging/danube-go/tree/main/examples
 - Python: https://github.com/danube-messaging/danube-py/tree/main/examples
+- Java: https://github.com/danube-messaging/danube-java/tree/main/examples
 
 ---
 
