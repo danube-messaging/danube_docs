@@ -86,7 +86,7 @@ The official [danube-java](https://github.com/danube-messaging/danube-java) libr
 
 ```xml
 <dependency>
-    <groupId>com.danubemessaging</groupId>
+    <groupId>com.danube-messaging</groupId>
     <artifactId>danube-client</artifactId>
     <version>0.2.0</version>
 </dependency>
@@ -95,7 +95,7 @@ The official [danube-java](https://github.com/danube-messaging/danube-java) libr
 **Installation (Gradle):**
 
 ```groovy
-implementation 'com.danubemessaging:danube-client:0.2.0'
+implementation 'com.danube-messaging:danube-client:0.2.0'
 ```
 
 **Features:**
