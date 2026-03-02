@@ -507,9 +507,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#inspect-etcd-optional" class="md-nav__link">
+  <a href="#inspect-cluster-state-optional" class="md-nav__link">
     <span class="md-ellipsis">
-      Inspect etcd (optional)
+      Inspect cluster state (optional)
     </span>
   </a>
   
@@ -1823,9 +1823,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#inspect-etcd-optional" class="md-nav__link">
+  <a href="#inspect-cluster-state-optional" class="md-nav__link">
     <span class="md-ellipsis">
-      Inspect etcd (optional)
+      Inspect cluster state (optional)
     </span>
   </a>
   
@@ -1893,7 +1893,7 @@ charts work on any Kubernetes cluster (EKS, GKE, AKS, etc.).</p>
 </tr>
 <tr>
 <td><strong>danube-core</strong></td>
-<td>Danube brokers (StatefulSet), etcd for metadata, and Prometheus for metrics</td>
+<td>Danube brokers (StatefulSet) with embedded Raft consensus, and Prometheus for metrics</td>
 </tr>
 </tbody>
 </table>
@@ -1967,10 +1967,12 @@ Download them or clone the repository to get started.</p>
 </blockquote>
 <p>This deploys:</p>
 <ul>
-<li><strong>3 broker pods</strong> (StatefulSet) — the messaging engine, with persistent storage</li>
-<li><strong>1 etcd pod</strong> — metadata store for topic assignments and cluster state</li>
+<li><strong>3 broker pods</strong> (StatefulSet) — the messaging engine, with persistent storage and embedded Raft consensus for metadata</li>
 <li><strong>1 Prometheus pod</strong> — metrics collection</li>
 </ul>
+<p>No external metadata store is needed — brokers manage consensus internally
+using an embedded Raft layer. They discover each other via headless DNS
+and automatically form a cluster on first boot.</p>
 <p>The <code>connectUrl</code> parameter tells each broker to advertise the Envoy proxy as
 the client-facing address. This enables <strong>proxy mode</strong>: clients connect to the
 proxy, which routes each request to the correct broker based on topic ownership.</p>
@@ -1982,14 +1984,13 @@ proxy, which routes each request to the correct broker based on topic ownership.
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>danube-core-broker-0<span class="w">                      </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span>2m
 </span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>danube-core-broker-1<span class="w">                      </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span>2m
 </span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>danube-core-broker-2<span class="w">                      </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span>2m
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>danube-core-etcd-0<span class="w">                        </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span>3m
-</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>danube-core-prometheus-xxxxxxxxx<span class="w">          </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span>3m
-</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>danube-envoy-xxxxxxxxx<span class="w">                    </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span>5m
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>danube-core-prometheus-xxxxxxxxx<span class="w">          </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span>3m
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>danube-envoy-xxxxxxxxx<span class="w">                    </span><span class="m">1</span>/1<span class="w">     </span>Running<span class="w">   </span>5m
 </span></code></pre></div>
 <blockquote>
-<p><strong>Tip</strong>: The first broker may restart a few times while waiting for etcd to
-become ready. This is normal — Kubernetes will keep restarting it until etcd
-accepts connections.</p>
+<p><strong>Tip</strong>: All three broker pods start simultaneously (<code>podManagementPolicy: Parallel</code>)
+and discover each other via seed-node DNS. The pod with the lowest Raft node ID
+initializes the cluster; the others join automatically.</p>
 </blockquote>
 <h2 id="step-5-verify-the-deployment">Step 5: Verify the deployment</h2>
 <p>Check that the brokers registered in proxy mode:</p>
@@ -2045,10 +2046,14 @@ client connects, it needs to reach the right broker for its topic.</p>
 </ol>
 <p>This means clients only need a single external address (the proxy) regardless
 of how many brokers are in the cluster.</p>
-<h2 id="inspect-etcd-optional">Inspect etcd (optional)</h2>
-<p>To browse the cluster metadata, forward the etcd port to your local machine:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>kubectl<span class="w"> </span>port-forward<span class="w"> </span>svc/danube-core-etcd<span class="w"> </span><span class="m">2379</span>:2379<span class="w"> </span>-n<span class="w"> </span>danube
-</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>etcdctl<span class="w"> </span>--endpoints<span class="o">=</span>http://localhost:2379<span class="w"> </span>get<span class="w"> </span>--prefix<span class="w"> </span>/
+<h2 id="inspect-cluster-state-optional">Inspect cluster state (optional)</h2>
+<p>Use <code>danube-admin</code> to inspect Raft cluster membership and broker status:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># Port-forward the admin API of any broker</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>kubectl<span class="w"> </span>port-forward<span class="w"> </span>danube-core-broker-0<span class="w"> </span><span class="m">50051</span>:50051<span class="w"> </span>-n<span class="w"> </span>danube
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="c1"># In another terminal</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>danube-admin<span class="w"> </span>cluster<span class="w"> </span>status
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>list
 </span></code></pre></div>
 <h2 id="access-prometheus-optional">Access Prometheus (optional)</h2>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>kubectl<span class="w"> </span>port-forward<span class="w"> </span>svc/danube-core-prometheus<span class="w"> </span><span class="m">9090</span>:9090<span class="w"> </span>-n<span class="w"> </span>danube
