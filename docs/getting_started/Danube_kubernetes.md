@@ -12,7 +12,7 @@ A Danube deployment consists of two Helm charts:
 | Chart | What it deploys |
 |-------|----------------|
 | **danube-envoy** | An [Envoy](https://www.envoyproxy.io/) gRPC proxy that routes client requests to the correct broker |
-| **danube-core** | Danube brokers (StatefulSet), etcd for metadata, and Prometheus for metrics |
+| **danube-core** | Danube brokers (StatefulSet) with embedded Raft consensus, and Prometheus for metrics |
 
 The proxy is installed first because the brokers need to know its external
 address at startup. This address is called the **`connectUrl`** — it tells
@@ -113,9 +113,12 @@ helm install danube-core danube/danube-core -n danube \
 
 This deploys:
 
-- **3 broker pods** (StatefulSet) — the messaging engine, with persistent storage
-- **1 etcd pod** — metadata store for topic assignments and cluster state
+- **3 broker pods** (StatefulSet) — the messaging engine, with persistent storage and embedded Raft consensus for metadata
 - **1 Prometheus pod** — metrics collection
+
+No external metadata store is needed — brokers manage consensus internally
+using an embedded Raft layer. They discover each other via headless DNS
+and automatically form a cluster on first boot.
 
 The `connectUrl` parameter tells each broker to advertise the Envoy proxy as
 the client-facing address. This enables **proxy mode**: clients connect to the
@@ -134,14 +137,13 @@ NAME                                      READY   STATUS    AGE
 danube-core-broker-0                      1/1     Running   2m
 danube-core-broker-1                      1/1     Running   2m
 danube-core-broker-2                      1/1     Running   2m
-danube-core-etcd-0                        1/1     Running   3m
 danube-core-prometheus-xxxxxxxxx          1/1     Running   3m
 danube-envoy-xxxxxxxxx                    1/1     Running   5m
 ```
 
-> **Tip**: The first broker may restart a few times while waiting for etcd to
-> become ready. This is normal — Kubernetes will keep restarting it until etcd
-> accepts connections.
+> **Tip**: All three broker pods start simultaneously (`podManagementPolicy: Parallel`)
+> and discover each other via seed-node DNS. The pod with the lowest Raft node ID
+> initializes the cluster; the others join automatically.
 
 ## Step 5: Verify the deployment
 
@@ -221,13 +223,17 @@ client connects, it needs to reach the right broker for its topic.
 This means clients only need a single external address (the proxy) regardless
 of how many brokers are in the cluster.
 
-## Inspect etcd (optional)
+## Inspect cluster state (optional)
 
-To browse the cluster metadata, forward the etcd port to your local machine:
+Use `danube-admin` to inspect Raft cluster membership and broker status:
 
 ```bash
-kubectl port-forward svc/danube-core-etcd 2379:2379 -n danube
-etcdctl --endpoints=http://localhost:2379 get --prefix /
+# Port-forward the admin API of any broker
+kubectl port-forward danube-core-broker-0 50051:50051 -n danube
+
+# In another terminal
+danube-admin cluster status
+danube-admin brokers list
 ```
 
 ## Access Prometheus (optional)

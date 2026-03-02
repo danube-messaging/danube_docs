@@ -1,46 +1,30 @@
-
 # Run Danube Broker on your local machine
 
-## Start Metadata Storage (ETCD)
+Danube brokers use an embedded Raft consensus layer for metadata — no external
+dependencies (like etcd) are required. A single broker auto-initializes as a
+single-node Raft cluster on first boot.
 
-Danube uses [ETCD](https://etcd.io/) for metadata storage to provide high availability and scalability. Run ETCD using Docker:
-
-```bash
-docker run -d --name etcd-danube -p 2379:2379 quay.io/coreos/etcd:latest etcd --advertise-client-urls http://0.0.0.0:2379 --listen-client-urls http://0.0.0.0:2379
-```
-
-Verify ETCD is running:
-
-```bash
-$ docker ps
-CONTAINER ID   IMAGE                        COMMAND                  CREATED          STATUS          PORTS                                                 NAMES
-27792bce6077   quay.io/coreos/etcd:latest   "etcd --advertise-cl…"   35 seconds ago   Up 34 seconds   0.0.0.0:2379->2379/tcp, :::2379->2379/tcp, 2380/tcp   etcd-danube
-```
-
-## Configure and Run Danube Broker
-
-### Create and configure broker config
-
-Create a local config file, use the [sample config file](https://github.com/danube-messaging/danube/blob/main/config/danube_broker.yml) as a reference.
-
-```bash
-touch danube_broker.yml
-```
-
-### Download and run the Danube Broker
+## Download the Danube Broker
 
 Download the latest binary from the [releases](https://github.com/danube-messaging/danube/releases) page.
 
-If you would like to run Danube Brokers in cluster, you need to upload the binary to each machine and use the same cluster configuration name.
+## Configure the Broker
 
-Run the Danube Broker:
+Create a local config file using the [sample config](https://github.com/danube-messaging/danube/blob/main/config/danube_broker.yml) as a reference:
 
 ```bash
-touch broker.log
+curl -O https://raw.githubusercontent.com/danube-messaging/danube/main/config/danube_broker.yml
 ```
 
+## Run the Broker
+
 ```bash
-RUST_LOG=info ./danube-broker-linux --config-file danube_broker.yml --broker-addr "0.0.0.0:6650" --admin-addr "0.0.0.0:50051" > broker.log 2>&1 &
+RUST_LOG=info ./danube-broker-linux \
+  --config-file danube_broker.yml \
+  --broker-addr 0.0.0.0:6650 \
+  --admin-addr 0.0.0.0:50051 \
+  --raft-addr 0.0.0.0:7650 \
+  --data-dir ./danube-data/raft > broker.log 2>&1 &
 ```
 
 Check the logs:
@@ -49,23 +33,15 @@ Check the logs:
 tail -n 100 -f broker.log
 ```
 
-```bash
-2025-01-12T06:15:53.705416Z  INFO danube_broker: Use ETCD storage as metadata persistent store
-2025-01-12T06:15:53.705665Z  INFO danube_broker: Start the Danube Service
-2025-01-12T06:15:53.705679Z  INFO danube_broker::danube_service: Setting up the cluster MY_CLUSTER
-2025-01-12T06:15:53.707988Z  INFO danube_broker::danube_service::local_cache: Initial cache populated
-2025-01-12T06:15:53.709521Z  INFO danube_broker::danube_service: Started the Local Cache service.
-2025-01-12T06:15:53.713329Z  INFO danube_broker::danube_service::broker_register: Broker 15139934490483381581 registered in the cluster
-2025-01-12T06:15:53.714977Z  INFO danube_broker::danube_service: Namespace default already exists.
-2025-01-12T06:15:53.716405Z  INFO danube_broker::danube_service: Namespace system already exists.
-2025-01-12T06:15:53.717979Z  INFO danube_broker::danube_service: Namespace default already exists.
-2025-01-12T06:15:53.718012Z  INFO danube_broker::danube_service: cluster metadata setup completed
-2025-01-12T06:15:53.718092Z  INFO danube_broker::danube_service:  Started the Broker GRPC server
-2025-01-12T06:15:53.718116Z  INFO danube_broker::broker_server: Server is listening on address: 0.0.0.0:6650
-2025-01-12T06:15:53.718191Z  INFO danube_broker::danube_service: Started the Leader Election service
-2025-01-12T06:15:53.722454Z  INFO danube_broker::danube_service: Started the Load Manager service.
-2025-01-12T06:15:53.724727Z  INFO danube_broker::danube_service:  Started the Danube Admin GRPC server
-2025-01-12T06:15:53.724727Z  INFO danube_broker::admin: Admin is listening on address: 0.0.0.0:50051
+You should see the Raft node initialize and the broker start:
+
+```text
+INFO danube_broker: Raft metadata store initialized node_id=... raft_addr=0.0.0.0:7650
+INFO danube_broker: Start the Danube Service
+INFO danube_broker::danube_service: Setting up the cluster MY_CLUSTER
+INFO danube_broker::danube_service::broker_register: Broker ... registered in the cluster
+INFO danube_broker::broker_server: Server is listening on address: 0.0.0.0:6650
+INFO danube_broker::admin: Admin is listening on address: 0.0.0.0:50051
 ```
 
 ## Use Danube CLI to Publish and Consume Messages
@@ -98,41 +74,58 @@ Received bytes message: 12, with payload: Hello, Danube!
 
 ## Validate
 
-Ensure ETCD is running and accessible. You can check its status by accessing `http://<ETCD_SERVER_IP>:2379` from a browser or using `curl`:
+Ensure the broker is running and listening on the expected port:
 
-   ```bash
-   curl http://<ETCD_SERVER_IP>:2379/v3/version
-   ```
+```bash
+ss -tuln | grep 6650
+```
 
-Ensure each broker instance is running and listening on the specified port. You can check this with `netstat` or `ss`:
+Check cluster state with the admin CLI:
 
-   ```bash
-   netstat -tuln | grep 6650
-   ```
+```bash
+danube-admin brokers list
+```
 
-For debugging, check the logs of each Danube broker instance.
+For debugging, check `broker.log`.
+
+## Running a Multi-Broker Cluster
+
+To run multiple brokers locally, give each broker a unique port set and pass
+`--seed-nodes` so they discover each other:
+
+```bash
+# Broker 1
+./danube-broker-linux --config-file danube_broker.yml \
+  --broker-addr 0.0.0.0:6650 --admin-addr 0.0.0.0:50051 \
+  --raft-addr 0.0.0.0:7650 --data-dir ./data1/raft \
+  --seed-nodes "0.0.0.0:7650,0.0.0.0:7651" &
+
+# Broker 2
+./danube-broker-linux --config-file danube_broker.yml \
+  --broker-addr 0.0.0.0:6651 --admin-addr 0.0.0.0:50052 \
+  --raft-addr 0.0.0.0:7651 --data-dir ./data2/raft \
+  --seed-nodes "0.0.0.0:7650,0.0.0.0:7651" &
+```
+
+The broker with the lowest Raft node ID initializes the cluster; the other
+joins automatically.
 
 ## Cleanup
 
-Stop the Danube Broker:
+Stop the broker:
 
 ```bash
 pkill danube-broker
 ```
 
-Stop and remove ETCD container
+Remove Raft data (for a fresh start):
 
 ```bash
-docker stop etcd-danube
+rm -rf ./danube-data
 ```
 
-```bash
-docker rm -f etcd-danube
-```
-
-Verify cleanup
+Verify cleanup:
 
 ```bash
 ps aux | grep danube-broker
-docker ps | grep etcd-danube
 ```
