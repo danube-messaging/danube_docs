@@ -36,7 +36,7 @@ The Load Manager solves these problems automatically, keeping your cluster healt
 
 ```bash
 ┌─────────────────────────────────────────────────────────────────┐
-│                        ETCD Metadata Store                       │
+│                    Raft Metadata Store                           │
 │  • Broker registrations    • Topic assignments                  │
 │  • Load reports            • Rebalancing history                │
 └────────────────┬────────────────────────────────────────────────┘
@@ -83,7 +83,7 @@ Flow for Automated Rebalancing:
 Centralized coordinator that assigns topics and executes rebalancing. Only the elected cluster leader runs these operations to ensure consistency.
 
 **Broker Load Reports**  
-Every broker publishes resource utilization metrics (CPU, memory, disk I/O, network I/O) and per-topic statistics (throughput, connections, backlog) to ETCD every 30 seconds.
+Every broker publishes resource utilization metrics (CPU, memory, disk I/O, network I/O) and per-topic statistics (throughput, connections, backlog) to the metadata store every 30 seconds.
 
 **Rankings Calculator**  
 Scores all brokers based on their current load using configurable strategies (Fair, Balanced, WeightedLoad). Lower scores mean less loaded.
@@ -94,8 +94,8 @@ Calculates statistical measures (coefficient of variation, standard deviation) t
 **Rebalancing Executor**  
 Orchestrates topic moves using graceful unload workflow. Enforces rate limits and cooldowns to prevent disruption.
 
-**ETCD Metadata Store**  
-Single source of truth for cluster state. Stores broker registrations, topic assignments, load reports, and rebalancing history.
+**Raft Metadata Store**  
+Single source of truth for cluster state. Stores broker registrations, topic assignments, load reports, and rebalancing history. Replicated across all brokers via embedded Raft consensus.
 
 ---
 
@@ -143,7 +143,7 @@ Every broker generates a **LoadReport** every 30 seconds containing:
 - Total message rate
 - Total lag/backlog
 
-These reports are published to ETCD where the Load Manager consumes them for ranking and rebalancing decisions.
+These reports are published to the metadata store where the Load Manager consumes them for ranking and rebalancing decisions.
 
 ### Broker Rankings
 
@@ -239,11 +239,11 @@ When a new topic is created, it must be assigned to a broker. This process ensur
 
 **1. Topic Creation**
 
-A producer creates a topic by sending a message to a topic that doesn't exist yet. The broker creates the topic metadata in ETCD under `/topics/{namespace}/{topic}`.
+A producer creates a topic by sending a message to a topic that doesn't exist yet. The broker creates the topic metadata in the metadata store under `/topics/{namespace}/{topic}`.
 
 **2. Unassigned Entry Creation**
 
-The broker creates an entry in ETCD at:
+The broker creates an entry in the metadata store at:
 
 ```bash
 /cluster/unassigned/{namespace}/{topic}
@@ -299,7 +299,7 @@ This ensures even distribution when brokers have comparable loads.
 
 **6. Assignment Creation**
 
-The Load Manager writes the assignment to ETCD:
+The Load Manager writes the assignment to the metadata store:
 
 ```bash
 /cluster/brokers/{broker_id}/{namespace}/{topic} → null
@@ -356,7 +356,7 @@ New Topic Created
   ┌──────────────────────────────────────┐
   │        Load Manager (Leader)         │
   │                                      │
-  │  1. Read load reports from ETCD     │
+  │  1. Read load reports               │
   │  2. Calculate broker rankings        │
   │     Broker 1: score=20  ← least     │
   │     Broker 2: score=25              │
@@ -396,7 +396,7 @@ When an administrator unloads a broker, topics create unassigned markers with:
 The Load Manager excludes the source broker when selecting the target.
 
 **Broker Failure:**  
-When a broker crashes, the leader detects the registration deletion in ETCD and:
+When a broker crashes, the leader detects the registration deletion in the metadata store and:
 
 1. Deletes all assignments from the failed broker
 2. Creates unassigned markers for all topics (no hint)
@@ -586,7 +586,7 @@ The Load Manager's assignment logic sees the unassigned marker and:
 
 The target broker:
 
-1. Receives assignment from ETCD watch
+1. Receives assignment via metadata store watch
 2. Loads topic metadata
 3. Initializes subscriptions
 4. Accepts producer reconnections
@@ -734,7 +734,7 @@ Load Manager configuration in `config/danube_broker.yml`:
 
 ```yaml
 load_manager:
-  # How often brokers report load to ETCD
+  # How often brokers report load to the metadata store
   load_report_interval_seconds: 30
   
   # Assignment strategy for new topics
@@ -793,7 +793,7 @@ load_manager:
 
 - Faster response to load changes
 - More accurate rankings
-- Higher ETCD traffic
+- Higher metadata store traffic
 - Better for testing
 
 **Higher intervals (30-60s):**

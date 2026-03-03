@@ -19,9 +19,9 @@ This page explains the main concepts, how the system works, why it scales in clo
 ![Danube Persistence Architecture](../assets/img/architecture/Wal_Cloud.png "Danube Persistence Architecture")
 
 - **Local WAL**: Append-only log with an in-memory cache for ultra-fast reads. Files periodically fsync and rotate.
-- **Cloud Uploader**: Periodically streams complete WAL frames to cloud objects. Writes object descriptors and sparse indexes to ETCD.
-- **Cloud Reader**: Reads historical messages from cloud using ETCD metadata, then hands off to local WAL for live data.
-- **ETCD**: Tracks object descriptors, offsets, and indexes for efficient range reads.
+- **Cloud Uploader**: Periodically streams complete WAL frames to cloud objects. Writes object descriptors and sparse indexes to the metadata store.
+- **Cloud Reader**: Reads historical messages from cloud using metadata store entries, then hands off to local WAL for live data.
+- **Metadata Store**: Raft-replicated state that tracks object descriptors, offsets, and indexes for efficient range reads.
 
 ## Core Concepts and Components
 
@@ -33,7 +33,7 @@ This page explains the main concepts, how the system works, why it scales in clo
 
 **Uploader** streams safe frame prefixes from WAL files to cloud, finalizes objects atomically, builds sparse offset indexes for efficient seeks, and operates one object per cycle with resumable checkpoints.
 
-**CloudReader** reads objects referenced in ETCD metadata, uses sparse indexes to seek efficiently to the requested range, and validates each frame by CRC during decoding.
+**CloudReader** reads objects referenced in the metadata store, uses sparse indexes to seek efficiently to the requested range, and validates each frame by CRC during decoding.
 
 **Retention/Deleter** enforces time/size retention on WAL files after they are safely uploaded to cloud, advancing the WAL `start_offset` accordingly.
 
@@ -86,15 +86,13 @@ wal_cloud:
     anonymous: false
     virtual_host_style: false
 
-  metadata:
-    etcd_endpoint: "127.0.0.1:2379"
-    in_memory: false
+  # Metadata is stored in the embedded Raft metadata store (no external dependency).
 ```
 
 - **WAL**: local durability + replay cache for hot reads.
 - **Uploader**: cadence and object sizing knobs.
 - **Cloud**: provider/backend specific settings (see below).
-- **Metadata**: ETCD endpoint used to store object descriptors and indexes.
+- **Metadata**: Object descriptors and indexes are stored in the Raft-replicated metadata store (no separate config needed).
 
 ## Provider Examples (OpenDAL-powered)
 
@@ -175,6 +173,6 @@ wal_cloud:
 
 - **At-least-once delivery**: With reliable topics, dispatch uses the WAL to guarantee at-least-once delivery; cloud persistence is asynchronous and does not block producers/consumers.
 - **Resilience**: Uploader uses precise checkpoints `(file_seq, byte_pos)` and never re-uploads confirmed bytes; CloudReader validates CRCs.
-- **Observability**: Checkpoints and rotation metadata are stored under the per-topic WAL directory; ETCD keeps object descriptors.
+- **Observability**: Checkpoints and rotation metadata are stored under the per-topic WAL directory; the metadata store keeps object descriptors.
 - **Extensibility**: Because Danube uses OpenDAL, adding a new backend typically means adding backend-specific options in config; no broker code changes needed.
 

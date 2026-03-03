@@ -36,7 +36,7 @@ Think of it as a "contract repository" where producers and consumers agree on me
 └──────┬──────┘                  │                   └──────▲───────┘
        │                         │                          │
        │                    ┌────▼────┐                     │
-       │                    │  ETCD   │                     │
+       │                    │  Raft   │                     │
        │                    │Metadata │                     │
        │                    └─────────┘                     │
        │                                                    │
@@ -54,8 +54,8 @@ Think of it as a "contract repository" where producers and consumers agree on me
 **Schema Registry Service**  
 Standalone gRPC service managing all schema operations. Handles registration, retrieval, versioning, and compatibility checking independently from message routing.
 
-**ETCD Metadata Store**  
-Persistent storage for all schema metadata, versions, and compatibility settings. Provides distributed consistency across broker cluster.
+**Raft Metadata Store**  
+Persistent storage for all schema metadata, versions, and compatibility settings. Replicated across all brokers via embedded Raft consensus for distributed consistency.
 
 **Danube Broker**  
 Enforces schema validation on messages. Checks that message schema IDs match topic requirements before accepting or dispatching messages.
@@ -189,7 +189,7 @@ The Schema Registry:
 3. Computes fingerprint to detect duplicates
 4. Assigns a unique schema ID (global across all subjects)
 5. Creates new version number (auto-increment)
-6. Stores in ETCD with full metadata (creator, timestamp, description, tags)
+6. Stores in the metadata store with full metadata (creator, timestamp, description, tags)
 7. Returns schema ID and version to client
 
 ### 2. Schema Evolution
@@ -427,9 +427,9 @@ This multi-layer approach ensures data quality at every stage while maintaining 
 
 ## Storage Model
 
-### ETCD Organization
+### Metadata Organization
 
-Schemas and topic configurations are stored hierarchically in ETCD:
+Schemas and topic configurations are stored hierarchically in the Raft-replicated metadata store:
 
 ```bash
 /schemas/
@@ -460,9 +460,9 @@ Schemas and topic configurations are stored hierarchically in ETCD:
 
 To optimize performance, Danube uses distributed caching:
 
-- **Writes** go directly to ETCD (source of truth)
-- **Reads** served from local cache (eventually consistent)
-- **Updates** propagated via ETCD watch mechanism (automatic invalidation)
+- **Writes** go through Raft consensus (source of truth)
+- **Reads** served from local in-memory state machine (zero network hops)
+- **Updates** propagated via metadata store watch mechanism (automatic invalidation)
 - **Schema IDs** cached in topics for fast validation (no registry lookup per message)
 
 This pattern ensures cluster-wide consistency while maintaining low-latency reads.

@@ -2,7 +2,7 @@
 
 **A Danube subscription** is a named configuration rule that determines how messages are delivered to consumers. It is a lease on a topic established by a group of consumers.
 
-Danube permits multiple producers and subscribers to the same topic. The Subscription Types can be combined to obtain [message queueing or fan-out](messaging_patterns_queuing_vs_pubsub.md) pub-sub messaging patterns.
+Danube permits multiple producers and subscribers to the same topic. Subscription types can be combined to build queuing (point-to-point) or fan-out (broadcast) messaging patterns — see [examples below](#messaging-patterns). For delivery semantics, see [Dispatch Strategies](dispatch_strategy.md).
 
 ![Producers  Consumers](../assets/img/concepts/producers_consumers.png "Producers Consumers")
 
@@ -60,3 +60,35 @@ The **Failover** subscription type allows multiple consumers to attach to the sa
 * `Message Handling`: Failover occurs independently per partition, ensuring continuity and ordering within each partition.
 
 ![Failover Partitioned](../assets/img/concepts/failover_subscription_partitioned.png "Failover Partitioned")
+
+## Messaging Patterns
+
+Subscription types map directly to common messaging patterns:
+
+### Queuing (Point-to-Point)
+
+One message is delivered to exactly one consumer in a group. Use a **Shared**
+subscription with the same name across all workers:
+
+- **Topic**: `/default/orders`
+- **Subscription**: `orders-workers` (type `Shared`)
+- Run N consumers with the same subscription name. Messages are load-balanced
+  round-robin across them.
+
+### Fan-Out (Broadcast)
+
+Every downstream service receives every message. Create a **separate
+subscription** per service, typically using `Exclusive` or `Failover` for HA:
+
+- **Topic**: `/default/events`
+- **Subscriptions**: `billing` (Exclusive), `analytics` (Exclusive), `monitoring` (Failover)
+- Each subscription receives the full event stream independently.
+
+### Choosing a Dispatch Mode
+
+Both patterns work with either dispatch mode:
+
+- **Non-Reliable** — lowest latency, best-effort delivery, no persistence.
+- **Reliable** — at-least-once delivery with WAL + Cloud persistence and replay.
+
+See [Dispatch Strategies](dispatch_strategy.md) for details.

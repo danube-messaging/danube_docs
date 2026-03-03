@@ -14,13 +14,13 @@ The Producers and Consumers connect to the Brokers to publish and consume messag
 
 ### Metadata Storage
 
-The ETCD cluster serves as the metadata storage for the system by maintaining configuration data, topic information, and broker coordination and load-balancing, ensuring the entire system operates with high availability and consistent state management across all nodes.
+Each broker embeds a Raft consensus node (powered by [openraft](https://github.com/databendlabs/openraft) with [redb](https://github.com/cberner/redb) for durable log storage). Together the brokers form a replicated state machine that stores cluster metadata: configuration, topic ownership, broker registration, and load-balancing state. Writes go through Raft consensus for strong consistency; reads are served from the local in-memory state machine with zero network hops. No external metadata store is required.
 
 ### Storage Layer
 
 The Storage Layer is responsible for message durability and replay. Danube now uses a cloud-native model based on a local Write-Ahead Log (WAL) for the hot path and background persistence to cloud object storage via OpenDAL. This keeps publish/dispatch latency low while enabling durable, elastic storage across providers (S3, GCS, Azure Blob, local FS, memory).
 
-Readers use tiered access: if data is within local WAL retention it is served from WAL/cache; otherwise historical data is streamed from cloud objects (using ETCD metadata) and seamlessly handed off to the WAL tail.
+Readers use tiered access: if data is within local WAL retention it is served from WAL/cache; otherwise historical data is streamed from cloud objects (using Raft-replicated metadata) and seamlessly handed off to the WAL tail.
 
 ### Non-Reliable Dispatch
 
@@ -32,22 +32,8 @@ Reliable Dispatch offers guaranteed message delivery backed by the WAL + cloud p
 
 * **WAL on local disk** for low-latency appends and fast replay from in-memory cache and WAL files.
 * **Cloud object storage via OpenDAL** (S3/GCS/Azure/FS/Memory) for durable, scalable historical data, uploaded asynchronously by a background uploader with resumable checkpoints.
-* **ETCD metadata** tracks cloud objects and sparse indexes for efficient historical reads.
+* **Raft-replicated metadata** tracks cloud objects and sparse indexes for efficient historical reads.
 
 The ability to choose between these dispatch modes gives users the flexibility to optimize their messaging infrastructure based on their specific requirements for performance, reliability, and resource utilization.
 
 For details and provider-specific configuration, see [Persistence (WAL + Cloud)](persistence.md).
-
-### Design Considerations
-
-#### Decoupled Architecture
-
-The Danube Messaging system features a decoupled architecture where components are loosely coupled, allowing for independent scaling, easy maintenance and upgrades, and failure isolation.
-
-#### Plugin Architecture
-
-With a plugin architecture, the system supports flexible storage backend options, making it easy to extend and customize according to different use cases. This adaptability ensures that the system can meet diverse application requirements and is cloud-native ready.
-
-#### Event-Driven Focus
-
-Optimized for event-driven systems, the Danube Messaging system supports various message delivery patterns and scalable message processing. Its design is well-suited for microservices, providing efficient and scalable handling of event-driven workloads.

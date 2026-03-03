@@ -22,7 +22,7 @@ Before diving into the workflow, let's establish key concepts:
 - **WAL (Write-Ahead Log)**: Local, per-topic storage on each broker for recent messages
 - **Cloud Storage**: Long-term archival storage for historical messages (S3-compatible)
 - **Offset**: A monotonically increasing ID (0, 1, 2, ...) assigned to each message in a topic
-- **Sealed State**: Metadata written to ETCD when a topic is unloaded, capturing the last committed offset
+- **Sealed State**: Metadata written to the metadata store when a topic is unloaded, capturing the last committed offset
 - **Subscription Cursor**: Tracks which message a consumer last acknowledged
 - **Tiered Reading**: Strategy where consumers read old messages from cloud, new messages from WAL
 
@@ -50,7 +50,7 @@ WAL.append(msg)
 Uploader (background task, every 30s)
     ├─> Read WAL files
     ├─> Stream frames to cloud storage
-    └─> Write object descriptor to ETCD
+    └─> Write object descriptor to metadata store
         • /storage/topics/default/topic/objects/00000000000000000000
         • {start_offset: 0, end_offset: 21, object_id: "data-0-21.dnb1"}
 ```
@@ -61,7 +61,7 @@ Each message produced to a topic goes through a three-stage pipeline:
 
 1. **Offset Assignment**: The WAL atomically increments `next_offset` and assigns it to the message. This offset is the message's permanent ID.
 2. **Local Persistence**: The message is written to the WAL (both in-memory cache and on-disk log) and broadcast to live consumers via a channel.
-3. **Cloud Upload**: A background uploader periodically batches WAL segments and uploads them to cloud storage, writing object descriptors to ETCD for later retrieval.
+3. **Cloud Upload**: A background uploader periodically batches WAL segments and uploads them to cloud storage, writing object descriptors to the metadata store for later retrieval.
 
 The key insight: **The offset is assigned by the WAL on the hosting broker**. When a topic moves, the new broker must continue the offset sequence from where the old broker left off.
 
@@ -71,7 +71,7 @@ The key insight: **The offset is assigned by the WAL on the hosting broker**. Wh
 Consumer subscribes
     ↓
 SubscriptionEngine.init_stream_from_progress_or_latest()
-    ├─> Check ETCD for cursor: /topics/.../subscriptions/sub_name/cursor
+    ├─> Check metadata store for cursor: /topics/.../subscriptions/sub_name/cursor
     ├─> If exists: start_offset = cursor_value (e.g., 6)
     └─> If not exists: start_offset = latest
     ↓
@@ -89,18 +89,18 @@ Dispatcher.poll_next()
     ↓
 On ACK received:
     ├─> SubscriptionEngine.on_acked(offset)
-    └─> Periodically flush cursor to ETCD (every 1000 acks or 5s)
+    └─> Periodically flush cursor to metadata store (every 1000 acks or 5s)
 ```
 
 **What's happening here?**
 
-Consumers track their progress through a topic using a **cursor** (subscription offset) stored in ETCD:
+Consumers track their progress through a topic using a **cursor** (subscription offset) stored in the metadata store:
 
-1. **Initialization**: When a consumer subscribes, the subscription engine checks ETCD for an existing cursor. If found, it resumes from that offset; otherwise, it starts from the latest.
+1. **Initialization**: When a consumer subscribes, the subscription engine checks the metadata store for an existing cursor. If found, it resumes from that offset; otherwise, it starts from the latest.
 2. **Tiered Reading**: The `WalStorage` determines where to read messages from:
    - If the requested offset is within the WAL's retention range, read directly from WAL
    - If older, read from cloud storage first, then chain to WAL for newer messages
-3. **Progress Tracking**: As messages are acknowledged, the cursor advances and is periodically persisted to ETCD
+3. **Progress Tracking**: As messages are acknowledged, the cursor advances and is periodically persisted to the metadata store
 
 This cursor-based design is **broker-agnostic**: it doesn't matter which broker hosts the topic, as long as the offset space is continuous.
 
@@ -120,7 +120,7 @@ Subscription "subs_reliable":
   cursor_in_memory: 13   ← Last acked by consumer
 ```
 
-**ETCD:**
+**Metadata Store:**
 
 ```bash
 /topics/default/reliable_topic/delivery: "Reliable"
@@ -160,7 +160,7 @@ The fix introduced a **sealed state mechanism** that captures the last committed
 ```bash
 BrokerService.topic_cluster.post_unload_topic()
     ↓
-Create unload marker in ETCD
+Create unload marker in metadata store
     • /cluster/unassigned/default/reliable_topic
     • {reason: "unload", from_broker: 10285063371164059634}
     ↓
@@ -170,7 +170,7 @@ Delete broker assignment
 Broker A watcher sees DELETE event
     ↓
 TopicManager.unload_reliable_topic()
-    ├─> Flush subscription cursors to ETCD
+    ├─> Flush subscription cursors to metadata store
     │   • /topics/.../subscriptions/subs_reliable/cursor: 13
     │
     ├─> WalFactory.flush_and_seal()
@@ -178,10 +178,10 @@ TopicManager.unload_reliable_topic()
     │   │
     │   ├─> Uploader: cancel and drain
     │   │   ├─> Upload remaining frames to cloud
-    │   │   └─> Update ETCD descriptors
+    │   │   └─> Update metadata store descriptors
     │   │       • objects/00000000000000000000: end_offset=21
     │   │
-    │   └─> Write sealed state to ETCD ✅
+    │   └─> Write sealed state to metadata store ✅
     │       • /storage/topics/default/reliable_topic/state
     │       • {
     │           sealed: true,
@@ -198,25 +198,25 @@ TopicManager.unload_reliable_topic()
 
 - ❌ No local WAL files
 - ✅ All messages 0-21 in cloud storage
-- ✅ Subscription cursor at 13 in ETCD
-- ✅ Sealed state at 21 in ETCD
+- ✅ Subscription cursor at 13 in metadata store
+- ✅ Sealed state at 21 in metadata store
 
 **What just happened?**
 
 The unload process ensures data durability and captures critical state:
 
 1. **Flush Everything**: All pending writes are committed, and the uploader drains its queue to ensure all messages reach cloud storage
-2. **Write Sealed State**: The broker writes `{sealed: true, last_committed_offset: 21}` to ETCD. This is the **key piece of state** that the new broker will use to initialize its WAL correctly.
+2. **Write Sealed State**: The broker writes `{sealed: true, last_committed_offset: 21}` to the metadata store. This is the **key piece of state** that the new broker will use to initialize its WAL correctly.
 3. **Clean Up Local State**: The WAL files are deleted since they're now in cloud storage, and the topic is removed from the broker
 
-At this point, Broker A no longer owns the topic, but all messages 0-21 are safely stored in the cloud, and the metadata in ETCD contains everything needed to restore the topic elsewhere.
+At this point, Broker A no longer owns the topic, but all messages 0-21 are safely stored in the cloud, and the metadata store contains everything needed to restore the topic elsewhere.
 
 ### Step 2: Assign to Broker B
 
 **LoadManager assigns topic to Broker B** (cluster decides which broker gets it based on load)
 
 ```bash
-Write to ETCD:
+Write to metadata store:
     • /cluster/brokers/10421046117770015389/default/reliable_topic: null
     ↓
 Broker B watcher sees PUT event
@@ -228,7 +228,7 @@ WalFactory.for_topic("default/reliable_topic")
 get_or_create_wal("default/reliable_topic")
     │
     ├─> ✅ NEW: Check sealed state
-    │   EtcdMetadata.get_storage_state_sealed("default/reliable_topic")
+    │   Metadata.get_storage_state_sealed("default/reliable_topic")
     │   Returns: {sealed: true, last_committed_offset: 21, ...}
     │
     ├─> ✅ NEW: Calculate initial offset
@@ -267,7 +267,7 @@ Subscription "subs_reliable":
 
 This is the **critical fix** that prevents offset collisions:
 
-1. **Sealed State Discovery**: When Broker B loads the topic, it checks ETCD for a sealed state marker
+1. **Sealed State Discovery**: When Broker B loads the topic, it checks the metadata store for a sealed state marker
 2. **Offset Calculation**: Finding `last_committed_offset: 21`, it calculates `initial_offset = 22`
 3. **WAL Initialization**: The WAL is created with `next_offset = 22` instead of the default `0`
 4. **Uploader Restoration**: The uploader checkpoint is set to 21, so it knows messages 0-21 are already in cloud storage
@@ -297,7 +297,7 @@ Messages stored:
 Uploader runs (30s later):
     ├─> Stream offsets 22-27 from WAL files
     ├─> Upload to cloud: data-22-27.dnb1
-    └─> Write to ETCD:
+    └─> Write to metadata store:
         • objects/00000000000000000022:
           {start_offset: 22, end_offset: 27, ...}
 ```
@@ -309,7 +309,7 @@ Cloud Storage:
   data-0-21.dnb1    (from Broker A)
   data-22-27.dnb1   (from Broker B) ✅ Continuous!
 
-ETCD Objects:
+Metadata Store Objects:
   /storage/.../objects/00000000000000000000: {start: 0, end: 21}
   /storage/.../objects/00000000000000000022: {start: 22, end: 27} ✅
 
@@ -322,7 +322,7 @@ WAL on Broker B:
 
 The producer has no awareness that the topic moved—from its perspective, it's just producing messages as normal:
 
-1. **Client Routing**: The Danube client queries ETCD for the topic's current broker assignment and connects to Broker B
+1. **Client Routing**: The Danube client queries the metadata store for the topic's current broker assignment and connects to Broker B
 2. **Continuous Offsets**: Messages are assigned offsets 22-27, which is exactly what we want—a continuation from Broker A's 0-21
 3. **Cloud Upload**: After 30 seconds (or when the segment is large enough), the uploader streams offsets 22-27 to cloud storage
 
@@ -336,7 +336,7 @@ The offset space is continuous across both brokers: `[0..21] (Broker A) + [22..2
 Consumer subscribes to "subs_reliable"
     ↓
 SubscriptionEngine.init_stream_from_progress_or_latest()
-    ├─> Read cursor from ETCD: 13
+    ├─> Read cursor from metadata store: 13
     └─> start_offset = 14 (next unacked message)
     ↓
 WalStorage.create_reader(start_offset=14)
@@ -350,7 +350,7 @@ WalStorage.create_reader(start_offset=14)
         │
         ├─> Step 1: Read from CLOUD (14-21)
         │   CloudReader.read_range(14, 21)
-        │   ├─> Query ETCD: get objects covering 14-21
+        │   ├─> Query metadata store: get objects covering 14-21
         │   │   Returns: objects/00000000000000000000 (0-21)
         │   ├─> Download: data-0-21.dnb1
         │   ├─> Extract frames: offsets 14-21
@@ -388,7 +388,7 @@ Consumer processes and ACKs messages:
     ↓
 SubscriptionEngine.on_acked(offset)
     ├─> Update in-memory cursor: 27
-    └─> Batch flush to ETCD (every 1000 acks or 5s):
+    └─> Batch flush to metadata store (every 1000 acks or 5s):
         • /topics/.../subscriptions/subs_reliable/cursor: 27
 ```
 
@@ -429,7 +429,7 @@ New Broker:
 ### 4. Subscription Cursor Independence
 
 ```bash
-Subscription cursor in ETCD: 13
+Subscription cursor in metadata store: 13
     ↓ (persisted independently)
 Consumer reads from 14 regardless of which broker
     ✅ Works because offset space is continuous

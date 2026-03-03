@@ -1,6 +1,6 @@
 # Welcome to Danube Messaging
 
-🌊 [Danube Messaging](https://github.com/danube-messaging/danube) is a lightweight, cloud‑native messaging platform built in Rust. It delivers sub‑second dispatch with cloud economics by combining a Write‑Ahead Log (WAL) with object storage, so you get low‑latency pub/sub and durable streaming—on one broker.
+🌊 [Danube Messaging](https://github.com/danube-messaging/danube) is a lightweight, cloud‑native messaging platform built in Rust. It delivers sub‑second dispatch with cloud economics by combining a Write‑Ahead Log (WAL) with object storage, so you get low‑latency pub/sub and durable streaming.
 
 Danube enables one or many **producers** publish to **topics**, and multiple **consumers** receive messages via named **subscriptions**. Choose Non‑Reliable (best‑effort pub/sub) or Reliable (at‑least‑once streaming) per topic to match your workload.
 
@@ -8,19 +8,17 @@ For design details, see the [Architecture](architecture/architecture.md).
 
 ## Try Danube in minutes
 
-**[Docker Compose Quickstart](getting_started/Danube_docker_compose.md)**: Use the provided Docker Compose setup with MinIO and ETCD.
+**[Docker Compose Quickstart](getting_started/Danube_docker_compose.md)**: Use the provided Docker Compose setup to deploy a 3-broker cluster with MinIO and Prometheus.
 
-## Danube architecture
+## Architecture
 
 ### 🏗️ **Cluster & Broker Characteristics**
 
-- **Stateless brokers**: Metadata in ETCD and data in WAL/Object Storage
+- **Embedded Raft consensus**: Metadata replicated across brokers via openraft — no ETCD, no ZooKeeper, no external dependencies
 - **Horizontal scaling**: Add brokers in seconds with zero-downtime expansion
 - **Intelligent load balancing**: Automatic topic placement and rebalancing across brokers
-- **Rolling upgrades**: Restart or replace brokers with minimal disruption
+- **Broker resilience**: Automatic leader election, failover, and topic reconciliation on restart
 - **Security-ready**: TLS/mTLS support in Admin and data paths
-- **Leader election & HA**: Automatic failover and coordination via ETCD
-- **Multi-tenancy**: Isolated namespaces with policy controls
 
 ### 🌩️ **Write-Ahead Log + Cloud Persistence**
 
@@ -29,7 +27,6 @@ For design details, see the [Architecture](architecture/architecture.md).
 - **Hot path optimization**: Messages served from in-memory WAL cache
 - **Stream per subscription**: WAL + cloud storage from selected offset
 - **Asynchronous background uploads** to S3/GCS/Azure object storage
-- **Infinite retention** without local disk constraints
 
 ### 🎯 **Intelligent Load Management**
 
@@ -37,7 +34,7 @@ For design details, see the [Architecture](architecture/architecture.md).
 - **Smart topic assignment**: Places new topics on least-loaded brokers using configurable strategies
 - **Resource monitoring**: Tracks CPU, memory, throughput, and backlog per broker in real-time
 - **Configurable policies**: Conservative, balanced, or aggressive rebalancing based on workload
-- **Graceful topic migration**: Moves topics between brokers without downtime
+- **Graceful topic migration**: Moves topics between brokers
 
 ## Core Capabilities
 
@@ -91,8 +88,6 @@ Explore how Danube works under the hood:
 - Support for JSON Schema, Avro, and Protobuf
 - Data validation and governance
 
-**[Internal Services](architecture/internal_danube_services.md)** - Service discovery and coordination
-
 ---
 
 ## Integrations
@@ -113,7 +108,7 @@ Repository: <https://github.com/danube-messaging/danube>
 
 - [danube-broker](https://github.com/danube-messaging/danube/tree/main/danube-broker) – The broker service (topics, producers, consumers, subscriptions).
 - [danube-core](https://github.com/danube-messaging/danube/tree/main/danube-core) – Core types, protocol, and shared logic.
-- [danube-metadata-store](https://github.com/danube-messaging/danube/tree/main/danube-metadata-store) – Metadata storage and cluster coordination.
+- [danube-raft](https://github.com/danube-messaging/danube/tree/main/danube-raft) – Embedded Raft consensus and metadata replication.
 - [danube-persistent-storage](https://github.com/danube-messaging/danube/tree/main/danube-persistent-storage) – WAL and cloud persistence backends.
 
 CLIs and client libraries:
@@ -126,6 +121,7 @@ CLIs and client libraries:
 
 - [danube-client (Rust)](https://crates.io/crates/danube-client)
 - [danube-go (Go)](https://pkg.go.dev/github.com/danube-messaging/danube-go)
+- [danube-java (Java)](https://central.sonatype.com/namespace/com.danube-messaging)
 - [danube-client (Python)](https://pypi.org/project/danube-client/)
 
-Contributions for other languages (Java, NodeJs etc.) are welcome.
+Contributions for other languages (NodeJs, C#, etc.) are welcome.

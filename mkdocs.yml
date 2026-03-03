@@ -44,6 +44,14 @@ extra:
                 - icon: fontawesome/brands/golang
                   link: https://pkg.go.dev/github.com/danube-messaging/danube-go
                   name: Go Client Documentation
+
+                - icon: fontawesome/brands/java
+                  link: https://central.sonatype.com/namespace/com.danube-messaging
+                  name: Java Client on Maven Central
+
+                - icon: fontawesome/brands/python
+                  link: https://pypi.org/project/danube-client/
+                  name: Python Client on PyPI
 nav:
         - 🏠 Home: index.md
 
@@ -58,9 +66,7 @@ nav:
                   - Dispatch Strategies: concepts/dispatch_strategy.md
                   - Messages & Schemas: concepts/messages.md
                   - Schema Registry Guide: concepts/schema_registry_guide.md
-                  - Messaging Patterns:
-                            - Queuing vs Pub/Sub: concepts/messaging_patterns_queuing_vs_pubsub.md
-                            - Pub/Sub vs Streaming: concepts/messaging_modes_pubsub_vs_streaming.md
+                  - Scaling the Cluster: concepts/scaling_cluster.md
 
         - 🏗️ Architecture:
                   - System Overview: architecture/architecture.md
@@ -68,7 +74,6 @@ nav:
                   - Schema Registry Architecture: architecture/schema_registry_architecture.md
                   - Persistence (WAL + Cloud): architecture/persistence.md
                   - Reliable Topic Workflow: architecture/reliable_topic_move.md
-                  - Internal Services: architecture/internal_danube_services.md
 
         - 📦 Client Libraries:
                   - Overview & Installation: client_libraries/clients.md
@@ -81,6 +86,7 @@ nav:
                   - Overview & Installation: danube_admin/getting_started.md
                   - AI Admin Assistant (MCP): danube_admin/ai_admin_assistant.md
                   - CLI Admin Guide:
+                            - Cluster: danube_admin/admin_cli/cluster.md
                             - Brokers: danube_admin/admin_cli/brokers.md
                             - Namespaces: danube_admin/admin_cli/namespaces.md
                             - Topics: danube_admin/admin_cli/topics.md

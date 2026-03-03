@@ -29,7 +29,12 @@ broker:
   ports:
     client: 6650      # Producer/consumer connections
     admin: 50051      # Admin API (gRPC)
+    raft: 7650        # Raft inter-node gRPC transport
     prometheus: 9040  # Metrics exporter
+  # Optional: advertised addresses for proxy/k8s mode
+  # advertised_listeners:
+  #   broker_url: "broker-0.danube-broker-headless:6650"
+  #   connect_url: "danube-proxy.example.com:6650"
 ```
 
 **broker.host**
@@ -56,6 +61,13 @@ broker:
 - **Impact**: gRPC port for admin operations (topic creation, subscriptions, etc.)
 - **When to change**: Avoid conflicts with other gRPC services
 
+**broker.ports.raft**
+
+- **Type**: Integer
+- **Default**: `7650`
+- **Impact**: Raft inter-node gRPC transport port for consensus and metadata replication
+- **When to change**: When running multiple brokers on the same host (use unique ports per broker)
+
 **broker.ports.prometheus**
 
 - **Type**: Integer (optional)
@@ -63,29 +75,60 @@ broker:
 - **Impact**: Prometheus metrics scraping endpoint
 - **When to change**: Set to `null` to disable metrics exporter
 
+### Advertised Listeners
+
+**broker.advertised_listeners.broker_url**
+
+- **Type**: String (optional)
+- **Impact**: Address reachable inside the cluster (broker identity, inter-broker communication)
+- **When to set**: Kubernetes (headless service DNS) or proxy deployments where the bind address differs from the routable address
+- **If omitted**: Defaults to `host:ports.client`
+
+**broker.advertised_listeners.connect_url**
+
+- **Type**: String (optional)
+- **Impact**: Address reachable by external clients via gRPC proxy
+- **When to set**: When clients connect through a load balancer or ingress
+- **If omitted**: Defaults to `broker_url`
+
 ---
 
-### Metadata Store (ETCD)
+### Metadata Store (Embedded Raft)
+
+Danube uses embedded Raft consensus for metadata replication — no external dependency (no ETCD, no ZooKeeper). The `node_id` is auto-generated on first boot and persisted in `{data_dir}/node_id`.
 
 ```yaml
 meta_store:
-  host: "127.0.0.1"
-  port: 2379
+  data_dir: "./danube-data/raft"
+  # seed_nodes:
+  #   - "0.0.0.0:7650"
+  #   - "0.0.0.0:7651"
+  #   - "0.0.0.0:7652"
 ```
 
-**meta_store.host**
+**meta_store.data_dir**
 
-- **Type**: String
-- **Default**: `127.0.0.1`
-- **Impact**: ETCD connection endpoint for cluster metadata
-- **When to change**: Point to your ETCD cluster (single node or load balancer)
+- **Type**: String (path)
+- **Default**: `./danube-data/raft`
+- **Impact**: Directory for Raft log, snapshots, and node identity
+- **When to change**: Point to durable storage; ensure each broker has its own directory
 
-**meta_store.port**
+**meta_store.seed_nodes**
 
-- **Type**: Integer
-- **Default**: `2379`
-- **Impact**: ETCD port
-- **When to change**: Rarely (ETCD standard port is 2379)
+- **Type**: Array of strings (optional)
+- **Default**: Empty / omitted (single-node cluster, auto-init)
+- **Impact**: List of Raft transport addresses (`host:raft_port`) for initial cluster formation
+- **When to set**:
+  - **Single-node**: Omit entirely — the broker auto-initializes a single-node Raft cluster
+  - **Multi-node**: List ALL initial peers (including this broker's own `host:raft_port`)
+- **Example** (3-node cluster):
+
+```yaml
+seed_nodes:
+  - "broker1:7650"
+  - "broker2:7651"
+  - "broker3:7652"
+```
 
 ---
 
@@ -96,6 +139,8 @@ bootstrap_namespaces:
   - "default"
 
 auto_create_topics: true
+
+# admin_tls: false
 ```
 
 **bootstrap_namespaces**
@@ -113,6 +158,13 @@ auto_create_topics: true
 - **When to change**:
   - `true`: Development, rapid prototyping
   - `false`: Production with controlled topic creation via Admin API
+
+**admin_tls**
+
+- **Type**: Boolean (optional)
+- **Default**: `false`
+- **Impact**: Enable TLS on the admin gRPC API. When `true`, reuses the same `cert_file` / `key_file` from `auth.tls`
+- **When to enable**: Remote cluster management over untrusted networks
 
 ---
 
@@ -208,7 +260,7 @@ The Load Manager handles topic assignment and automated rebalancing. See [Load M
 
 ```yaml
 load_manager:
-  assignment_strategy: "balanced"
+  assignment_strategy: "fair"
   load_report_interval_seconds: 30
   rebalancing:
     enabled: false
@@ -234,7 +286,7 @@ Controls how NEW topics are assigned to brokers.
 **assignment_strategy**
 
 - **Type**: String enum
-- **Default**: `balanced`
+- **Default**: `fair`
 - **Impact**: How new topics are placed across brokers
 - **When to change**:
   - `fair`: Simple setups, predictable placement
@@ -253,11 +305,11 @@ score = (weighted_topic_load × 0.3) + (CPU% × 0.35) + (Memory% × 0.35)
 
 - **Type**: Integer (seconds)
 - **Default**: `30`
-- **Impact**: How often brokers publish resource metrics to ETCD
+- **Impact**: How often brokers publish resource metrics to the metadata store
 - **When to change**:
-  - `5-10`: Testing, rapid response to changes (higher ETCD traffic)
+  - `5-10`: Testing, rapid response to changes (higher metadata traffic)
   - `30-60`: Production, balanced overhead
-  - `>60`: Low-traffic clusters, reduce ETCD load
+  - `>60`: Low-traffic clusters, reduce metadata store load
 
 ---
 
@@ -369,7 +421,6 @@ wal_cloud:
   wal: { ... }
   uploader: { ... }
   cloud: { ... }
-  metadata: { ... }
 ```
 
 ### Local Write-Ahead Log (WAL)
@@ -517,7 +568,7 @@ uploader:
 **uploader.interval_seconds**
 
 - **Type**: Integer (seconds)
-- **Default**: `300` (5 minutes)
+- **Default**: `30`
 - **Impact**: Upload cycle frequency
 
 | Value | RPO (Recovery Point) | Cloud Overhead | Use Case |
@@ -531,8 +582,8 @@ uploader:
 
 - **Type**: String
 - **Default**: `/danube-data`
-- **Impact**: ETCD metadata prefix for cloud object descriptors
-- **When to change**: Only for multiple independent Danube clusters sharing ETCD
+- **Impact**: Metadata prefix for cloud object descriptors in the Raft metadata store
+- **When to change**: Only for multiple independent Danube clusters sharing a metadata namespace
 
 **uploader.max_object_mb**
 
@@ -628,32 +679,6 @@ cloud:
   # For multi-broker: use shared storage like NFS
   # root: "/mnt/shared-nfs/danube-cloud"
 ```
-
----
-
-### Metadata Store
-
-```yaml
-metadata:
-  etcd_endpoint: "127.0.0.1:2379"
-  in_memory: false
-```
-
-**metadata.etcd_endpoint**
-
-- **Type**: String (host:port)
-- **Default**: `127.0.0.1:2379`
-- **Impact**: ETCD endpoint for storing cloud object descriptors and indexes
-- **When to change**: Should match `meta_store.host:port` for consistency
-- **Production**: Use clustered ETCD for high availability
-
-**metadata.in_memory**
-
-- **Type**: Boolean
-- **Default**: `false`
-- **Impact**: Use in-memory metadata storage (no persistence)
-- **When to enable**: Testing only (ephemeral)
-- **Production**: Always `false`
 
 ---
 
