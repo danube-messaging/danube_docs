@@ -536,80 +536,16 @@
   
   
   
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" >
-        
-          
-          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    Messaging Patterns
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_6">
-            <span class="md-nav__icon md-icon"></span>
-            Messaging Patterns
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
     <li class="md-nav__item">
-      <a href="../../concepts/messaging_patterns_queuing_vs_pubsub/" class="md-nav__link">
+      <a href="../../concepts/scaling_cluster/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Queuing vs Pub/Sub
+    Scaling the Cluster
   </span>
   
 
       </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../concepts/messaging_modes_pubsub_vs_streaming/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Pub/Sub vs Streaming
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
     </li>
   
 
@@ -753,27 +689,6 @@
   
   <span class="md-ellipsis">
     Reliable Topic Workflow
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../architecture/internal_danube_services/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Internal Services
   </span>
   
 
@@ -1048,6 +963,27 @@
             CLI Admin Guide
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../danube_admin/admin_cli/cluster/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cluster
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -1518,9 +1454,18 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#metadata-store-etcd" class="md-nav__link">
+  <a href="#advertised-listeners" class="md-nav__link">
     <span class="md-ellipsis">
-      Metadata Store (ETCD)
+      Advertised Listeners
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#metadata-store-embedded-raft" class="md-nav__link">
+    <span class="md-ellipsis">
+      Metadata Store (Embedded Raft)
     </span>
   </a>
   
@@ -1719,15 +1664,6 @@
   <a href="#backend-specific-options" class="md-nav__link">
     <span class="md-ellipsis">
       Backend-Specific Options
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#metadata-store" class="md-nav__link">
-    <span class="md-ellipsis">
-      Metadata Store
     </span>
   </a>
   
@@ -1935,9 +1871,18 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#metadata-store-etcd" class="md-nav__link">
+  <a href="#advertised-listeners" class="md-nav__link">
     <span class="md-ellipsis">
-      Metadata Store (ETCD)
+      Advertised Listeners
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#metadata-store-embedded-raft" class="md-nav__link">
+    <span class="md-ellipsis">
+      Metadata Store (Embedded Raft)
     </span>
   </a>
   
@@ -2141,15 +2086,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#metadata-store" class="md-nav__link">
-    <span class="md-ellipsis">
-      Metadata Store
-    </span>
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -2241,7 +2177,12 @@
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nt">ports</span><span class="p">:</span>
 </span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="nt">client</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6650</span><span class="w">      </span><span class="c1"># Producer/consumer connections</span>
 </span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="nt">admin</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50051</span><span class="w">      </span><span class="c1"># Admin API (gRPC)</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="nt">prometheus</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">9040</span><span class="w">  </span><span class="c1"># Metrics exporter</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="nt">raft</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">7650</span><span class="w">        </span><span class="c1"># Raft inter-node gRPC transport</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="nt">prometheus</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">9040</span><span class="w">  </span><span class="c1"># Metrics exporter</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">  </span><span class="c1"># Optional: advertised addresses for proxy/k8s mode</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span><span class="c1"># advertised_listeners:</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">  </span><span class="c1">#   broker_url: &quot;broker-0.danube-broker-headless:6650&quot;</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">  </span><span class="c1">#   connect_url: &quot;danube-proxy.example.com:6650&quot;</span>
 </span></code></pre></div>
 <p><strong>broker.host</strong></p>
 <ul>
@@ -2267,6 +2208,13 @@
 <li><strong>Impact</strong>: gRPC port for admin operations (topic creation, subscriptions, etc.)</li>
 <li><strong>When to change</strong>: Avoid conflicts with other gRPC services</li>
 </ul>
+<p><strong>broker.ports.raft</strong></p>
+<ul>
+<li><strong>Type</strong>: Integer</li>
+<li><strong>Default</strong>: <code>7650</code></li>
+<li><strong>Impact</strong>: Raft inter-node gRPC transport port for consensus and metadata replication</li>
+<li><strong>When to change</strong>: When running multiple brokers on the same host (use unique ports per broker)</li>
+</ul>
 <p><strong>broker.ports.prometheus</strong></p>
 <ul>
 <li><strong>Type</strong>: Integer (optional)</li>
@@ -2274,32 +2222,61 @@
 <li><strong>Impact</strong>: Prometheus metrics scraping endpoint</li>
 <li><strong>When to change</strong>: Set to <code>null</code> to disable metrics exporter</li>
 </ul>
+<h3 id="advertised-listeners">Advertised Listeners</h3>
+<p><strong>broker.advertised_listeners.broker_url</strong></p>
+<ul>
+<li><strong>Type</strong>: String (optional)</li>
+<li><strong>Impact</strong>: Address reachable inside the cluster (broker identity, inter-broker communication)</li>
+<li><strong>When to set</strong>: Kubernetes (headless service DNS) or proxy deployments where the bind address differs from the routable address</li>
+<li><strong>If omitted</strong>: Defaults to <code>host:ports.client</code></li>
+</ul>
+<p><strong>broker.advertised_listeners.connect_url</strong></p>
+<ul>
+<li><strong>Type</strong>: String (optional)</li>
+<li><strong>Impact</strong>: Address reachable by external clients via gRPC proxy</li>
+<li><strong>When to set</strong>: When clients connect through a load balancer or ingress</li>
+<li><strong>If omitted</strong>: Defaults to <code>broker_url</code></li>
+</ul>
 <hr />
-<h3 id="metadata-store-etcd">Metadata Store (ETCD)</h3>
+<h3 id="metadata-store-embedded-raft">Metadata Store (Embedded Raft)</h3>
+<p>Danube uses embedded Raft consensus for metadata replication — no external dependency (no ETCD, no ZooKeeper). The <code>node_id</code> is auto-generated on first boot and persisted in <code>{data_dir}/node_id</code>.</p>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">meta_store</span><span class="p">:</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;127.0.0.1&quot;</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2379</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">data_dir</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./danube-data/raft&quot;</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="c1"># seed_nodes:</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="c1">#   - &quot;0.0.0.0:7650&quot;</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span><span class="c1">#   - &quot;0.0.0.0:7651&quot;</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span><span class="c1">#   - &quot;0.0.0.0:7652&quot;</span>
 </span></code></pre></div>
-<p><strong>meta_store.host</strong></p>
+<p><strong>meta_store.data_dir</strong></p>
 <ul>
-<li><strong>Type</strong>: String</li>
-<li><strong>Default</strong>: <code>127.0.0.1</code></li>
-<li><strong>Impact</strong>: ETCD connection endpoint for cluster metadata</li>
-<li><strong>When to change</strong>: Point to your ETCD cluster (single node or load balancer)</li>
+<li><strong>Type</strong>: String (path)</li>
+<li><strong>Default</strong>: <code>./danube-data/raft</code></li>
+<li><strong>Impact</strong>: Directory for Raft log, snapshots, and node identity</li>
+<li><strong>When to change</strong>: Point to durable storage; ensure each broker has its own directory</li>
 </ul>
-<p><strong>meta_store.port</strong></p>
+<p><strong>meta_store.seed_nodes</strong></p>
 <ul>
-<li><strong>Type</strong>: Integer</li>
-<li><strong>Default</strong>: <code>2379</code></li>
-<li><strong>Impact</strong>: ETCD port</li>
-<li><strong>When to change</strong>: Rarely (ETCD standard port is 2379)</li>
+<li><strong>Type</strong>: Array of strings (optional)</li>
+<li><strong>Default</strong>: Empty / omitted (single-node cluster, auto-init)</li>
+<li><strong>Impact</strong>: List of Raft transport addresses (<code>host:raft_port</code>) for initial cluster formation</li>
+<li><strong>When to set</strong>:</li>
+<li><strong>Single-node</strong>: Omit entirely — the broker auto-initializes a single-node Raft cluster</li>
+<li><strong>Multi-node</strong>: List ALL initial peers (including this broker's own <code>host:raft_port</code>)</li>
+<li><strong>Example</strong> (3-node cluster):</li>
 </ul>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">seed_nodes</span><span class="p">:</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;broker1:7650&quot;</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;broker2:7651&quot;</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;broker3:7652&quot;</span>
+</span></code></pre></div>
 <hr />
 <h3 id="bootstrap-configuration">Bootstrap Configuration</h3>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">bootstrap_namespaces</span><span class="p">:</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;default&quot;</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="nt">auto_create_topics</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">bootstrap_namespaces</span><span class="p">:</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;default&quot;</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="nt">auto_create_topics</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="c1"># admin_tls: false</span>
 </span></code></pre></div>
 <p><strong>bootstrap_namespaces</strong></p>
 <ul>
@@ -2317,19 +2294,26 @@
 <li><code>true</code>: Development, rapid prototyping</li>
 <li><code>false</code>: Production with controlled topic creation via Admin API</li>
 </ul>
+<p><strong>admin_tls</strong></p>
+<ul>
+<li><strong>Type</strong>: Boolean (optional)</li>
+<li><strong>Default</strong>: <code>false</code></li>
+<li><strong>Impact</strong>: Enable TLS on the admin gRPC API. When <code>true</code>, reuses the same <code>cert_file</code> / <code>key_file</code> from <code>auth.tls</code></li>
+<li><strong>When to enable</strong>: Remote cluster management over untrusted networks</li>
+</ul>
 <hr />
 <h2 id="security-configuration">Security Configuration</h2>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">auth</span><span class="p">:</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tls</span><span class="w">  </span><span class="c1"># Options: none | tls | tlswithjwt</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="nt">tls</span><span class="p">:</span>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="nt">cert_file</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./cert/server-cert.pem&quot;</span>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="nt">key_file</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./cert/server-key.pem&quot;</span>
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="nt">ca_file</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./cert/ca-cert.pem&quot;</span>
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="nt">verify_client</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">  </span><span class="nt">jwt</span><span class="p">:</span>
-</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">    </span><span class="nt">secret_key</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;your-secret-key&quot;</span>
-</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">    </span><span class="nt">issuer</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;danube-auth&quot;</span>
-</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">    </span><span class="nt">expiration_time</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3600</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nt">auth</span><span class="p">:</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tls</span><span class="w">  </span><span class="c1"># Options: none | tls | tlswithjwt</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="nt">tls</span><span class="p">:</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="nt">cert_file</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./cert/server-cert.pem&quot;</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="nt">key_file</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./cert/server-key.pem&quot;</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span><span class="nt">ca_file</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./cert/ca-cert.pem&quot;</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="nt">verify_client</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">  </span><span class="nt">jwt</span><span class="p">:</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">    </span><span class="nt">secret_key</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;your-secret-key&quot;</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">    </span><span class="nt">issuer</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;danube-auth&quot;</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="w">    </span><span class="nt">expiration_time</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3600</span>
 </span></code></pre></div>
 <h3 id="authentication-modes">Authentication Modes</h3>
 <table>
@@ -2419,18 +2403,18 @@
 <hr />
 <h2 id="load-manager-configuration">Load Manager Configuration</h2>
 <p>The Load Manager handles topic assignment and automated rebalancing. See <a href="../../architecture/load_manager_architecture/">Load Manager Architecture</a> for concepts.</p>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nt">load_manager</span><span class="p">:</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">assignment_strategy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;balanced&quot;</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="nt">load_report_interval_seconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span><span class="nt">rebalancing</span><span class="p">:</span>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span><span class="nt">aggressiveness</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;balanced&quot;</span>
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="nt">check_interval_seconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">300</span>
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span><span class="nt">max_moves_per_hour</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
-</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">    </span><span class="nt">cooldown_seconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">60</span>
-</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">    </span><span class="nt">min_brokers_for_rebalance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
-</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="w">    </span><span class="nt">min_topic_age_seconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">300</span>
-</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">    </span><span class="nt">blacklist_topics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nt">load_manager</span><span class="p">:</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nt">assignment_strategy</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fair&quot;</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span><span class="nt">load_report_interval_seconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span><span class="nt">rebalancing</span><span class="p">:</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">    </span><span class="nt">aggressiveness</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;balanced&quot;</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">    </span><span class="nt">check_interval_seconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">300</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">    </span><span class="nt">max_moves_per_hour</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">    </span><span class="nt">cooldown_seconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">60</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">    </span><span class="nt">min_brokers_for_rebalance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">    </span><span class="nt">min_topic_age_seconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">300</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="w">    </span><span class="nt">blacklist_topics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span>
 </span></code></pre></div>
 <h3 id="topic-assignment-strategy">Topic Assignment Strategy</h3>
 <p>Controls how NEW topics are assigned to brokers.</p>
@@ -2467,7 +2451,7 @@
 <p><strong>assignment_strategy</strong></p>
 <ul>
 <li><strong>Type</strong>: String enum</li>
-<li><strong>Default</strong>: <code>balanced</code></li>
+<li><strong>Default</strong>: <code>fair</code></li>
 <li><strong>Impact</strong>: How new topics are placed across brokers</li>
 <li><strong>When to change</strong>:</li>
 <li><code>fair</code>: Simple setups, predictable placement</li>
@@ -2475,18 +2459,18 @@
 <li><code>weighted_load</code>: Clusters with highly variable workloads</li>
 </ul>
 <p><strong>Formula for <code>balanced</code> strategy:</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nv">score</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">(</span>weighted_topic_load<span class="w"> </span>×<span class="w"> </span><span class="m">0</span>.3<span class="o">)</span><span class="w"> </span>+<span class="w"> </span><span class="o">(</span>CPU%<span class="w"> </span>×<span class="w"> </span><span class="m">0</span>.35<span class="o">)</span><span class="w"> </span>+<span class="w"> </span><span class="o">(</span>Memory%<span class="w"> </span>×<span class="w"> </span><span class="m">0</span>.35<span class="o">)</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nv">score</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">(</span>weighted_topic_load<span class="w"> </span>×<span class="w"> </span><span class="m">0</span>.3<span class="o">)</span><span class="w"> </span>+<span class="w"> </span><span class="o">(</span>CPU%<span class="w"> </span>×<span class="w"> </span><span class="m">0</span>.35<span class="o">)</span><span class="w"> </span>+<span class="w"> </span><span class="o">(</span>Memory%<span class="w"> </span>×<span class="w"> </span><span class="m">0</span>.35<span class="o">)</span>
 </span></code></pre></div>
 <h3 id="load-report-interval">Load Report Interval</h3>
 <p><strong>load_report_interval_seconds</strong></p>
 <ul>
 <li><strong>Type</strong>: Integer (seconds)</li>
 <li><strong>Default</strong>: <code>30</code></li>
-<li><strong>Impact</strong>: How often brokers publish resource metrics to ETCD</li>
+<li><strong>Impact</strong>: How often brokers publish resource metrics to the metadata store</li>
 <li><strong>When to change</strong>:</li>
-<li><code>5-10</code>: Testing, rapid response to changes (higher ETCD traffic)</li>
+<li><code>5-10</code>: Testing, rapid response to changes (higher metadata traffic)</li>
 <li><code>30-60</code>: Production, balanced overhead</li>
-<li><code>&gt;60</code>: Low-traffic clusters, reduce ETCD load</li>
+<li><code>&gt;60</code>: Low-traffic clusters, reduce metadata store load</li>
 </ul>
 <hr />
 <h3 id="automated-rebalancing">Automated Rebalancing</h3>
@@ -2604,35 +2588,34 @@
 <li><strong>When to use</strong>: Protect critical topics, pin topics to specific brokers</li>
 </ul>
 <p><strong>Example:</strong></p>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nt">blacklist_topics</span><span class="p">:</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;/system/*&quot;</span><span class="w">              </span><span class="c1"># All system topics</span>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;/admin/critical-topic&quot;</span><span class="w">  </span><span class="c1"># Specific critical topic</span>
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;/production/high-priority/*&quot;</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nt">blacklist_topics</span><span class="p">:</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;/system/*&quot;</span><span class="w">              </span><span class="c1"># All system topics</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;/admin/critical-topic&quot;</span><span class="w">  </span><span class="c1"># Specific critical topic</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;/production/high-priority/*&quot;</span>
 </span></code></pre></div>
 <hr />
 <h2 id="wal-and-cloud-storage-configuration">WAL and Cloud Storage Configuration</h2>
 <p>Cloud-native persistence: local WAL (fast writes) + background cloud uploads (durability). See <a href="../../architecture/persistence/">Persistence Architecture</a> for details.</p>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nt">wal_cloud</span><span class="p">:</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">  </span><span class="nt">wal</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="nv">...</span><span class="w"> </span><span class="p p-Indicator">}</span>
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span><span class="nt">uploader</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="nv">...</span><span class="w"> </span><span class="p p-Indicator">}</span>
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span><span class="nt">cloud</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="nv">...</span><span class="w"> </span><span class="p p-Indicator">}</span>
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">  </span><span class="nt">metadata</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="nv">...</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nt">wal_cloud</span><span class="p">:</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="nt">wal</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="nv">...</span><span class="w"> </span><span class="p p-Indicator">}</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span><span class="nt">uploader</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="nv">...</span><span class="w"> </span><span class="p p-Indicator">}</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span><span class="nt">cloud</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="nv">...</span><span class="w"> </span><span class="p p-Indicator">}</span>
 </span></code></pre></div>
 <h3 id="local-write-ahead-log-wal">Local Write-Ahead Log (WAL)</h3>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nt">wal</span><span class="p">:</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="nt">dir</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./danube-data/wal&quot;</span>
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span><span class="nt">file_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;wal.log&quot;</span>
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span><span class="nt">cache_capacity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1024</span>
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">  </span><span class="nt">file_sync</span><span class="p">:</span>
-</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="nt">interval_ms</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5000</span>
-</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">    </span><span class="nt">max_batch_bytes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10485760</span>
-</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">  </span><span class="nt">rotation</span><span class="p">:</span>
-</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">    </span><span class="nt">max_bytes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">536870912</span>
-</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">    </span><span class="c1"># max_hours: 24</span>
-</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">  </span><span class="nt">retention</span><span class="p">:</span>
-</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">    </span><span class="nt">time_minutes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2880</span>
-</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="w">    </span><span class="nt">size_mb</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20480</span>
-</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="w">    </span><span class="nt">check_interval_minutes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nt">wal</span><span class="p">:</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span><span class="nt">dir</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./danube-data/wal&quot;</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">  </span><span class="nt">file_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;wal.log&quot;</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">  </span><span class="nt">cache_capacity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1024</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">  </span><span class="nt">file_sync</span><span class="p">:</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">    </span><span class="nt">interval_ms</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5000</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">    </span><span class="nt">max_batch_bytes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10485760</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">  </span><span class="nt">rotation</span><span class="p">:</span>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">    </span><span class="nt">max_bytes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">536870912</span>
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="w">    </span><span class="c1"># max_hours: 24</span>
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="w">  </span><span class="nt">retention</span><span class="p">:</span>
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="w">    </span><span class="nt">time_minutes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2880</span>
+</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="w">    </span><span class="nt">size_mb</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20480</span>
+</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="w">    </span><span class="nt">check_interval_minutes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
 </span></code></pre></div>
 <p><strong>wal.dir</strong></p>
 <ul>
@@ -2760,11 +2743,11 @@
 </ul>
 <hr />
 <h3 id="cloud-uploader">Cloud Uploader</h3>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nt">uploader</span><span class="p">:</span>
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">  </span><span class="nt">interval_seconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30</span>
-</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">  </span><span class="nt">root_prefix</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/danube-data&quot;</span>
-</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">  </span><span class="nt">max_object_mb</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">256</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nt">uploader</span><span class="p">:</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">  </span><span class="nt">interval_seconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">  </span><span class="nt">root_prefix</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/danube-data&quot;</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">  </span><span class="nt">max_object_mb</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">256</span>
 </span></code></pre></div>
 <p><strong>uploader.enabled</strong></p>
 <ul>
@@ -2777,7 +2760,7 @@
 <p><strong>uploader.interval_seconds</strong></p>
 <ul>
 <li><strong>Type</strong>: Integer (seconds)</li>
-<li><strong>Default</strong>: <code>300</code> (5 minutes)</li>
+<li><strong>Default</strong>: <code>30</code></li>
 <li><strong>Impact</strong>: Upload cycle frequency</li>
 </ul>
 <table>
@@ -2820,8 +2803,8 @@
 <ul>
 <li><strong>Type</strong>: String</li>
 <li><strong>Default</strong>: <code>/danube-data</code></li>
-<li><strong>Impact</strong>: ETCD metadata prefix for cloud object descriptors</li>
-<li><strong>When to change</strong>: Only for multiple independent Danube clusters sharing ETCD</li>
+<li><strong>Impact</strong>: Metadata prefix for cloud object descriptors in the Raft metadata store</li>
+<li><strong>When to change</strong>: Only for multiple independent Danube clusters sharing a metadata namespace</li>
 </ul>
 <p><strong>uploader.max_object_mb</strong></p>
 <ul>
@@ -2835,10 +2818,10 @@
 </ul>
 <hr />
 <h3 id="cloud-storage-backend">Cloud Storage Backend</h3>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nt">cloud</span><span class="p">:</span>
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span><span class="nt">backend</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fs&quot;</span>
-</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">  </span><span class="nt">root</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./danube-data/cloud-storage&quot;</span>
-</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">  </span><span class="c1"># Backend-specific options below</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nt">cloud</span><span class="p">:</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span><span class="nt">backend</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fs&quot;</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">  </span><span class="nt">root</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./danube-data/cloud-storage&quot;</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">  </span><span class="c1"># Backend-specific options below</span>
 </span></code></pre></div>
 <p><strong>cloud.backend</strong></p>
 <ul>
@@ -2897,60 +2880,38 @@
 </ul>
 <h3 id="backend-specific-options">Backend-Specific Options</h3>
 <p><strong>Amazon S3:</strong></p>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nt">cloud</span><span class="p">:</span>
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span><span class="nt">backend</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;s3&quot;</span>
-</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">  </span><span class="nt">root</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;s3://my-bucket/danube-data&quot;</span>
-</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">  </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;us-east-1&quot;</span>
-</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">  </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://s3.us-east-1.amazonaws.com&quot;</span><span class="w">  </span><span class="c1"># Optional</span>
-</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">  </span><span class="nt">access_key</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;${AWS_ACCESS_KEY_ID}&quot;</span><span class="w">              </span><span class="c1"># Or use IAM roles</span>
-</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">  </span><span class="nt">secret_key</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;${AWS_SECRET_ACCESS_KEY}&quot;</span>
-</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="w">  </span><span class="nt">anonymous</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nt">cloud</span><span class="p">:</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span><span class="nt">backend</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;s3&quot;</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">  </span><span class="nt">root</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;s3://my-bucket/danube-data&quot;</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">  </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;us-east-1&quot;</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">  </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://s3.us-east-1.amazonaws.com&quot;</span><span class="w">  </span><span class="c1"># Optional</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">  </span><span class="nt">access_key</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;${AWS_ACCESS_KEY_ID}&quot;</span><span class="w">              </span><span class="c1"># Or use IAM roles</span>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="w">  </span><span class="nt">secret_key</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;${AWS_SECRET_ACCESS_KEY}&quot;</span>
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="w">  </span><span class="nt">anonymous</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 </span></code></pre></div>
 <p><strong>Google Cloud Storage:</strong></p>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nt">cloud</span><span class="p">:</span>
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span><span class="nt">backend</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;gcs&quot;</span>
-</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">  </span><span class="nt">root</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;gcs://my-bucket/danube-data&quot;</span>
-</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">  </span><span class="nt">project</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;my-gcp-project&quot;</span>
-</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">  </span><span class="nt">credentials_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/path/to/service-account.json&quot;</span>
-</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">  </span><span class="c1"># Or credentials_json: &quot;{ ... }&quot;  # Inline JSON string</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="nt">cloud</span><span class="p">:</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">  </span><span class="nt">backend</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;gcs&quot;</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">  </span><span class="nt">root</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;gcs://my-bucket/danube-data&quot;</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">  </span><span class="nt">project</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;my-gcp-project&quot;</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="w">  </span><span class="nt">credentials_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/path/to/service-account.json&quot;</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="w">  </span><span class="c1"># Or credentials_json: &quot;{ ... }&quot;  # Inline JSON string</span>
 </span></code></pre></div>
 <p><strong>Azure Blob Storage:</strong></p>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="nt">cloud</span><span class="p">:</span>
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">  </span><span class="nt">backend</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;azblob&quot;</span>
-</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">  </span><span class="nt">root</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;my-container/danube-data&quot;</span>
-</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">  </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://myaccount.blob.core.windows.net&quot;</span>
-</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="w">  </span><span class="nt">account_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;myaccount&quot;</span>
-</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="w">  </span><span class="nt">account_key</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;${AZURE_STORAGE_KEY}&quot;</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nt">cloud</span><span class="p">:</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">  </span><span class="nt">backend</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;azblob&quot;</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">  </span><span class="nt">root</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;my-container/danube-data&quot;</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">  </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://myaccount.blob.core.windows.net&quot;</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="w">  </span><span class="nt">account_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;myaccount&quot;</span>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="w">  </span><span class="nt">account_key</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;${AZURE_STORAGE_KEY}&quot;</span>
 </span></code></pre></div>
 <p><strong>Local Filesystem:</strong></p>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nt">cloud</span><span class="p">:</span>
-</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">  </span><span class="nt">backend</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fs&quot;</span>
-</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">  </span><span class="nt">root</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./danube-data/cloud-storage&quot;</span>
-</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">  </span><span class="c1"># For multi-broker: use shared storage like NFS</span>
-</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="w">  </span><span class="c1"># root: &quot;/mnt/shared-nfs/danube-cloud&quot;</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="nt">cloud</span><span class="p">:</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">  </span><span class="nt">backend</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fs&quot;</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">  </span><span class="nt">root</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./danube-data/cloud-storage&quot;</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="w">  </span><span class="c1"># For multi-broker: use shared storage like NFS</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="w">  </span><span class="c1"># root: &quot;/mnt/shared-nfs/danube-cloud&quot;</span>
 </span></code></pre></div>
-<hr />
-<h3 id="metadata-store">Metadata Store</h3>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="nt">metadata</span><span class="p">:</span>
-</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">  </span><span class="nt">etcd_endpoint</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;127.0.0.1:2379&quot;</span>
-</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">  </span><span class="nt">in_memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-</span></code></pre></div>
-<p><strong>metadata.etcd_endpoint</strong></p>
-<ul>
-<li><strong>Type</strong>: String (host:port)</li>
-<li><strong>Default</strong>: <code>127.0.0.1:2379</code></li>
-<li><strong>Impact</strong>: ETCD endpoint for storing cloud object descriptors and indexes</li>
-<li><strong>When to change</strong>: Should match <code>meta_store.host:port</code> for consistency</li>
-<li><strong>Production</strong>: Use clustered ETCD for high availability</li>
-</ul>
-<p><strong>metadata.in_memory</strong></p>
-<ul>
-<li><strong>Type</strong>: Boolean</li>
-<li><strong>Default</strong>: <code>false</code></li>
-<li><strong>Impact</strong>: Use in-memory metadata storage (no persistence)</li>
-<li><strong>When to enable</strong>: Testing only (ephemeral)</li>
-<li><strong>Production</strong>: Always <code>false</code></li>
-</ul>
 <hr />
 <h2 id="broker-policies">Broker Policies</h2>
 <p>Default resource limits for topics. Can be overridden at namespace or topic level.</p>
@@ -3101,6 +3062,22 @@
     
     <a href="https://pkg.go.dev/github.com/danube-messaging/danube-go" target="_blank" rel="noopener" title="Go Client Documentation" class="md-social__link">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M400.1 194.8c-10.9 2.8-19.9 4.3-29.1 7.6-7.3 1.9-14.7 3.9-23.2 6.1l-.6.1c-4.2 1.2-4.6 1.3-8.5-3.2-4.7-5.3-8.1-8.7-14.6-11.9-19.7-9.6-38.7-6.8-56.4 4.7-21.2 13.7-32.1 34-31.8 59.2.3 25 17.4 45.5 41.2 48.9 22 2.8 39.8-4.6 53.8-20.5 2.1-2.6 4-5.3 6.1-8.3.8-1 1.5-2.1 2.3-3.3h-60.1c-6.5 0-8.1-4-5.9-9.3 4-9.7 11.5-25.9 15.9-34 .9-1.8 3.1-5.8 6.9-5.8h101.1c4.5-13.4 11.8-26.9 21.6-39.7 22.7-29.9 49.3-45.5 87.2-52 31.8-5.6 61.7-2.5 88.9 15.9 24.6 16.8 39.8 39.6 43.9 69.5 5.3 42.1-6.9 76.3-36.7 105.6-19.7 20.9-44.9 34-73.9 39.9-5.6 1-11.1 1.5-16.5 2-2.9.2-5.7.5-8.5.8-28.3-.6-54.2-8.7-76-27.4-15.3-13.3-25.9-29.6-31.1-48.5-3.7 7.3-8 14.4-14 21.1-21.6 29.6-50.9 48-87.9 52.9-30.6 4.1-58.9-1.8-83.9-20.5-23-17.5-36.1-40.5-39.5-69.2-4.1-34 5.9-65.4 26.4-91.3 22.2-29 51.5-47.4 87.3-53.9 29.3-6.2 57.3-1.9 82.6 15.3 16.5 10.9 28.3 25.8 36.1 43.9 1.9 2.8.6 4.4-3.1 5.3zm-351.8 5.6c-1.25 0-1.56-.6-.94-1.6l6.55-8.4c.62-.9 2.18-1.5 3.43-1.5H168.6c1.2 0 1.5.9.9 1.8l-5.3 8.1c-.6 1-2.2 1.9-3.1 1.9l-112.8-.3zM1.246 229.1c-1.246 0-1.558-.7-.934-1.6l6.543-8.4c.624-.9 2.182-1.6 3.425-1.6H152.4c1.2 0 1.8 1 1.5 1.9l-2.5 7.5c-.3 1.2-1.5 1.9-2.8 1.9l-147.354.3zm74.474 26.8c-.62.9-.31 1.8.93 1.8l67.95.3c.9 0 2.2-.9 2.2-2.1l.6-7.5c0-1.3-.6-2.2-1.9-2.2H83.2c-1.25 0-2.49.9-3.12 1.9l-4.36 7.8zm501.48-18c-.2-2.6-.3-4.8-.7-7-5.6-30.8-34-48.3-63.6-41.4-29 6.5-47.7 24.9-54.5 54.2-5.6 24.3 6.2 48.9 28.6 58.9 17.2 7.5 34.3 6.6 50.8-1.9 24.6-13.6 38-32.7 39.6-59.5-.1-1.2-.1-2.3-.2-3.3z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://central.sonatype.com/namespace/com.danube-messaging" target="_blank" rel="noopener" title="Java Client on Maven Central" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M277.74 312.9c9.8-6.7 23.4-12.5 23.4-12.5s-38.7 7-77.2 10.2c-47.1 3.9-97.7 4.7-123.1 1.3-60.1-8 33-30.1 33-30.1s-36.1-2.4-80.6 19c-52.5 25.4 130 37 224.5 12.1zm-85.4-32.1c-19-42.7-83.1-80.2 0-145.8C296 53.2 242.84 0 242.84 0c21.5 84.5-75.6 110.1-110.7 162.6-23.9 35.9 11.7 74.4 60.2 118.2zm114.6-176.2c.1 0-175.2 43.8-91.5 140.2 24.7 28.4-6.5 54-6.5 54s62.7-32.4 33.9-72.9c-26.9-37.8-47.5-56.6 64.1-121.3zm-6.1 270.5a12.19 12.19 0 0 1-2 2.6c128.3-33.7 81.1-118.9 19.8-97.3a17.33 17.33 0 0 0-8.2 6.3 70.45 70.45 0 0 1 11-3c31-6.5 75.5 41.5-20.6 91.4zM348 437.4s14.5 11.9-15.9 21.2c-57.9 17.5-240.8 22.8-291.6.7-18.3-7.9 16-19 26.8-21.3 11.2-2.4 17.7-2 17.7-2-20.3-14.3-131.3 28.1-56.4 40.2C232.84 509.4 401 461.3 348 437.4zM124.44 396c-78.7 22 47.9 67.4 148.1 24.5a185.89 185.89 0 0 1-28.2-13.8c-44.7 8.5-65.4 9.1-106 4.5-33.5-3.8-13.9-15.2-13.9-15.2zm179.8 97.2c-78.7 14.8-175.8 13.1-233.3 3.6 0-.1 11.8 9.7 72.4 13.6 92.2 5.9 233.8-3.3 237.1-46.9 0 0-6.4 16.5-76.2 29.7zM260.64 353c-59.2 11.4-93.5 11.1-136.8 6.6-33.5-3.5-11.6-19.7-11.6-19.7-86.8 28.8 48.2 61.4 169.5 25.9a60.37 60.37 0 0 1-21.1-12.8z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://pypi.org/project/danube-client/" target="_blank" rel="noopener" title="Python Client on PyPI" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.8 200.5c-7.7-30.9-22.3-54.2-53.4-54.2h-40.1v47.4c0 36.8-31.2 67.8-66.8 67.8H172.7c-29.2 0-53.4 25-53.4 54.3v101.8c0 29 25.2 46 53.4 54.3 33.8 9.9 66.3 11.7 106.8 0 26.9-7.8 53.4-23.5 53.4-54.3v-40.7H226.2v-13.6h160.2c31.1 0 42.6-21.7 53.4-54.2 11.2-33.5 10.7-65.7 0-108.6zM286.2 404c11.1 0 20.1 9.1 20.1 20.3 0 11.3-9 20.4-20.1 20.4-11 0-20.1-9.2-20.1-20.4.1-11.3 9.1-20.3 20.1-20.3zM167.8 248.1h106.8c29.7 0 53.4-24.5 53.4-54.3V91.9c0-29-24.4-50.7-53.4-55.6-35.8-5.9-74.7-5.6-106.8.1-45.2 8-53.4 24.7-53.4 55.6v40.7h106.9v13.6h-147c-31.1 0-58.3 18.7-66.8 54.2-9.8 40.7-10.2 66.1 0 108.6 7.6 31.6 25.7 54.2 56.8 54.2H101v-48.8c0-35.3 30.5-66.4 66.8-66.4zm-6.7-142.6c-11.1 0-20.1-9.1-20.1-20.3.1-11.3 9-20.4 20.1-20.4 11 0 20.1 9.2 20.1 20.4s-9 20.3-20.1 20.3z"/></svg>
     </a>
   
 </div>

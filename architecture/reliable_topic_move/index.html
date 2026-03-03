@@ -18,7 +18,7 @@
         <link rel="prev" href="../persistence/">
       
       
-        <link rel="next" href="../internal_danube_services/">
+        <link rel="next" href="../../client_libraries/clients/">
       
       
       <link rel="icon" href="../../assets/favicon.ico">
@@ -536,80 +536,16 @@
   
   
   
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" >
-        
-          
-          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    Messaging Patterns
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_6">
-            <span class="md-nav__icon md-icon"></span>
-            Messaging Patterns
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
     <li class="md-nav__item">
-      <a href="../../concepts/messaging_patterns_queuing_vs_pubsub/" class="md-nav__link">
+      <a href="../../concepts/scaling_cluster/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Queuing vs Pub/Sub
+    Scaling the Cluster
   </span>
   
 
       </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../concepts/messaging_modes_pubsub_vs_streaming/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Pub/Sub vs Streaming
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
     </li>
   
 
@@ -1002,27 +938,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../internal_danube_services/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Internal Services
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -1288,6 +1203,27 @@
             CLI Admin Guide
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../danube_admin/admin_cli/cluster/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cluster
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -2052,7 +1988,7 @@
 <li><strong>WAL (Write-Ahead Log)</strong>: Local, per-topic storage on each broker for recent messages</li>
 <li><strong>Cloud Storage</strong>: Long-term archival storage for historical messages (S3-compatible)</li>
 <li><strong>Offset</strong>: A monotonically increasing ID (0, 1, 2, ...) assigned to each message in a topic</li>
-<li><strong>Sealed State</strong>: Metadata written to ETCD when a topic is unloaded, capturing the last committed offset</li>
+<li><strong>Sealed State</strong>: Metadata written to the metadata store when a topic is unloaded, capturing the last committed offset</li>
 <li><strong>Subscription Cursor</strong>: Tracks which message a consumer last acknowledged</li>
 <li><strong>Tiered Reading</strong>: Strategy where consumers read old messages from cloud, new messages from WAL</li>
 </ul>
@@ -2074,7 +2010,7 @@
 </span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>Uploader<span class="w"> </span><span class="o">(</span>background<span class="w"> </span>task,<span class="w"> </span>every<span class="w"> </span>30s<span class="o">)</span>
 </span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">    </span>├─&gt;<span class="w"> </span>Read<span class="w"> </span>WAL<span class="w"> </span>files
 </span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">    </span>├─&gt;<span class="w"> </span>Stream<span class="w"> </span>frames<span class="w"> </span>to<span class="w"> </span>cloud<span class="w"> </span>storage
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span>└─&gt;<span class="w"> </span>Write<span class="w"> </span>object<span class="w"> </span>descriptor<span class="w"> </span>to<span class="w"> </span>ETCD
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span>└─&gt;<span class="w"> </span>Write<span class="w"> </span>object<span class="w"> </span>descriptor<span class="w"> </span>to<span class="w"> </span>metadata<span class="w"> </span>store
 </span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">        </span>•<span class="w"> </span>/storage/topics/default/topic/objects/00000000000000000000
 </span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">        </span>•<span class="w"> </span><span class="o">{</span>start_offset:<span class="w"> </span><span class="m">0</span>,<span class="w"> </span>end_offset:<span class="w"> </span><span class="m">21</span>,<span class="w"> </span>object_id:<span class="w"> </span><span class="s2">&quot;data-0-21.dnb1&quot;</span><span class="o">}</span>
 </span></code></pre></div>
@@ -2083,14 +2019,14 @@
 <ol>
 <li><strong>Offset Assignment</strong>: The WAL atomically increments <code>next_offset</code> and assigns it to the message. This offset is the message's permanent ID.</li>
 <li><strong>Local Persistence</strong>: The message is written to the WAL (both in-memory cache and on-disk log) and broadcast to live consumers via a channel.</li>
-<li><strong>Cloud Upload</strong>: A background uploader periodically batches WAL segments and uploads them to cloud storage, writing object descriptors to ETCD for later retrieval.</li>
+<li><strong>Cloud Upload</strong>: A background uploader periodically batches WAL segments and uploads them to cloud storage, writing object descriptors to the metadata store for later retrieval.</li>
 </ol>
 <p>The key insight: <strong>The offset is assigned by the WAL on the hosting broker</strong>. When a topic moves, the new broker must continue the offset sequence from where the old broker left off.</p>
 <h3 id="message-consumption-flow">Message Consumption Flow</h3>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Consumer<span class="w"> </span>subscribes
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span>↓
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>SubscriptionEngine.init_stream_from_progress_or_latest<span class="o">()</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span>├─&gt;<span class="w"> </span>Check<span class="w"> </span>ETCD<span class="w"> </span><span class="k">for</span><span class="w"> </span>cursor:<span class="w"> </span>/topics/.../subscriptions/sub_name/cursor
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span>├─&gt;<span class="w"> </span>Check<span class="w"> </span>metadata<span class="w"> </span>store<span class="w"> </span><span class="k">for</span><span class="w"> </span>cursor:<span class="w"> </span>/topics/.../subscriptions/sub_name/cursor
 </span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span>├─&gt;<span class="w"> </span>If<span class="w"> </span>exists:<span class="w"> </span><span class="nv">start_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>cursor_value<span class="w"> </span><span class="o">(</span>e.g.,<span class="w"> </span><span class="m">6</span><span class="o">)</span>
 </span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span>└─&gt;<span class="w"> </span>If<span class="w"> </span>not<span class="w"> </span>exists:<span class="w"> </span><span class="nv">start_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>latest
 </span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span>↓
@@ -2108,16 +2044,16 @@
 </span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">    </span>↓
 </span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>On<span class="w"> </span>ACK<span class="w"> </span>received:
 </span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">    </span>├─&gt;<span class="w"> </span>SubscriptionEngine.on_acked<span class="o">(</span>offset<span class="o">)</span>
-</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">    </span>└─&gt;<span class="w"> </span>Periodically<span class="w"> </span>flush<span class="w"> </span>cursor<span class="w"> </span>to<span class="w"> </span>ETCD<span class="w"> </span><span class="o">(</span>every<span class="w"> </span><span class="m">1000</span><span class="w"> </span>acks<span class="w"> </span>or<span class="w"> </span>5s<span class="o">)</span>
+</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">    </span>└─&gt;<span class="w"> </span>Periodically<span class="w"> </span>flush<span class="w"> </span>cursor<span class="w"> </span>to<span class="w"> </span>metadata<span class="w"> </span>store<span class="w"> </span><span class="o">(</span>every<span class="w"> </span><span class="m">1000</span><span class="w"> </span>acks<span class="w"> </span>or<span class="w"> </span>5s<span class="o">)</span>
 </span></code></pre></div>
 <p><strong>What's happening here?</strong></p>
-<p>Consumers track their progress through a topic using a <strong>cursor</strong> (subscription offset) stored in ETCD:</p>
+<p>Consumers track their progress through a topic using a <strong>cursor</strong> (subscription offset) stored in the metadata store:</p>
 <ol>
-<li><strong>Initialization</strong>: When a consumer subscribes, the subscription engine checks ETCD for an existing cursor. If found, it resumes from that offset; otherwise, it starts from the latest.</li>
+<li><strong>Initialization</strong>: When a consumer subscribes, the subscription engine checks the metadata store for an existing cursor. If found, it resumes from that offset; otherwise, it starts from the latest.</li>
 <li><strong>Tiered Reading</strong>: The <code>WalStorage</code> determines where to read messages from:</li>
 <li>If the requested offset is within the WAL's retention range, read directly from WAL</li>
 <li>If older, read from cloud storage first, then chain to WAL for newer messages</li>
-<li><strong>Progress Tracking</strong>: As messages are acknowledged, the cursor advances and is periodically persisted to ETCD</li>
+<li><strong>Progress Tracking</strong>: As messages are acknowledged, the cursor advances and is periodically persisted to the metadata store</li>
 </ol>
 <p>This cursor-based design is <strong>broker-agnostic</strong>: it doesn't matter which broker hosts the topic, as long as the offset space is continuous.</p>
 <h3 id="state-at-rest-single-broker">State at Rest (Single Broker)</h3>
@@ -2132,7 +2068,7 @@
 </span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>Subscription<span class="w"> </span><span class="s2">&quot;subs_reliable&quot;</span>:
 </span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">  </span>cursor_in_memory:<span class="w"> </span><span class="m">13</span><span class="w">   </span>←<span class="w"> </span>Last<span class="w"> </span>acked<span class="w"> </span>by<span class="w"> </span>consumer
 </span></code></pre></div>
-<p><strong>ETCD:</strong></p>
+<p><strong>Metadata Store:</strong></p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>/topics/default/reliable_topic/delivery:<span class="w"> </span><span class="s2">&quot;Reliable&quot;</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>/topics/default/reliable_topic/subscriptions/subs_reliable/cursor:<span class="w"> </span><span class="m">13</span>
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>/storage/topics/default/reliable_topic/objects/00000000000000000000:
@@ -2160,7 +2096,7 @@
 <p><strong>Trigger</strong>: Either <code>danube-admin topics unload /default/reliable_topic</code> or automated LoadManager decision</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>BrokerService.topic_cluster.post_unload_topic<span class="o">()</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span>↓
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>Create<span class="w"> </span>unload<span class="w"> </span>marker<span class="w"> </span><span class="k">in</span><span class="w"> </span>ETCD
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>Create<span class="w"> </span>unload<span class="w"> </span>marker<span class="w"> </span><span class="k">in</span><span class="w"> </span>metadata<span class="w"> </span>store
 </span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span>•<span class="w"> </span>/cluster/unassigned/default/reliable_topic
 </span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span>•<span class="w"> </span><span class="o">{</span>reason:<span class="w"> </span><span class="s2">&quot;unload&quot;</span>,<span class="w"> </span>from_broker:<span class="w"> </span><span class="m">10285063371164059634</span><span class="o">}</span>
 </span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span>↓
@@ -2170,7 +2106,7 @@
 </span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>Broker<span class="w"> </span>A<span class="w"> </span>watcher<span class="w"> </span>sees<span class="w"> </span>DELETE<span class="w"> </span>event
 </span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="w">    </span>↓
 </span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>TopicManager.unload_reliable_topic<span class="o">()</span>
-</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">    </span>├─&gt;<span class="w"> </span>Flush<span class="w"> </span>subscription<span class="w"> </span>cursors<span class="w"> </span>to<span class="w"> </span>ETCD
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">    </span>├─&gt;<span class="w"> </span>Flush<span class="w"> </span>subscription<span class="w"> </span>cursors<span class="w"> </span>to<span class="w"> </span>metadata<span class="w"> </span>store
 </span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="w">    </span>│<span class="w">   </span>•<span class="w"> </span>/topics/.../subscriptions/subs_reliable/cursor:<span class="w"> </span><span class="m">13</span>
 </span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="w">    </span>│
 </span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="w">    </span>├─&gt;<span class="w"> </span>WalFactory.flush_and_seal<span class="o">()</span>
@@ -2178,10 +2114,10 @@
 </span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="w">    </span>│<span class="w">   </span>│
 </span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="w">    </span>│<span class="w">   </span>├─&gt;<span class="w"> </span>Uploader:<span class="w"> </span>cancel<span class="w"> </span>and<span class="w"> </span>drain
 </span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="w">    </span>│<span class="w">   </span>│<span class="w">   </span>├─&gt;<span class="w"> </span>Upload<span class="w"> </span>remaining<span class="w"> </span>frames<span class="w"> </span>to<span class="w"> </span>cloud
-</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="w">    </span>│<span class="w">   </span>│<span class="w">   </span>└─&gt;<span class="w"> </span>Update<span class="w"> </span>ETCD<span class="w"> </span>descriptors
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="w">    </span>│<span class="w">   </span>│<span class="w">   </span>└─&gt;<span class="w"> </span>Update<span class="w"> </span>metadata<span class="w"> </span>store<span class="w"> </span>descriptors
 </span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a><span class="w">    </span>│<span class="w">   </span>│<span class="w">       </span>•<span class="w"> </span>objects/00000000000000000000:<span class="w"> </span><span class="nv">end_offset</span><span class="o">=</span><span class="m">21</span>
 </span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a><span class="w">    </span>│<span class="w">   </span>│
-</span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a><span class="w">    </span>│<span class="w">   </span>└─&gt;<span class="w"> </span>Write<span class="w"> </span>sealed<span class="w"> </span>state<span class="w"> </span>to<span class="w"> </span>ETCD<span class="w"> </span>✅
+</span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a><span class="w">    </span>│<span class="w">   </span>└─&gt;<span class="w"> </span>Write<span class="w"> </span>sealed<span class="w"> </span>state<span class="w"> </span>to<span class="w"> </span>metadata<span class="w"> </span>store<span class="w"> </span>✅
 </span><span id="__span-5-25"><a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a><span class="w">    </span>│<span class="w">       </span>•<span class="w"> </span>/storage/topics/default/reliable_topic/state
 </span><span id="__span-5-26"><a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a><span class="w">    </span>│<span class="w">       </span>•<span class="w"> </span><span class="o">{</span>
 </span><span id="__span-5-27"><a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a><span class="w">    </span>│<span class="w">           </span>sealed:<span class="w"> </span>true,
@@ -2197,20 +2133,20 @@
 <ul>
 <li>❌ No local WAL files</li>
 <li>✅ All messages 0-21 in cloud storage</li>
-<li>✅ Subscription cursor at 13 in ETCD</li>
-<li>✅ Sealed state at 21 in ETCD</li>
+<li>✅ Subscription cursor at 13 in metadata store</li>
+<li>✅ Sealed state at 21 in metadata store</li>
 </ul>
 <p><strong>What just happened?</strong></p>
 <p>The unload process ensures data durability and captures critical state:</p>
 <ol>
 <li><strong>Flush Everything</strong>: All pending writes are committed, and the uploader drains its queue to ensure all messages reach cloud storage</li>
-<li><strong>Write Sealed State</strong>: The broker writes <code>{sealed: true, last_committed_offset: 21}</code> to ETCD. This is the <strong>key piece of state</strong> that the new broker will use to initialize its WAL correctly.</li>
+<li><strong>Write Sealed State</strong>: The broker writes <code>{sealed: true, last_committed_offset: 21}</code> to the metadata store. This is the <strong>key piece of state</strong> that the new broker will use to initialize its WAL correctly.</li>
 <li><strong>Clean Up Local State</strong>: The WAL files are deleted since they're now in cloud storage, and the topic is removed from the broker</li>
 </ol>
-<p>At this point, Broker A no longer owns the topic, but all messages 0-21 are safely stored in the cloud, and the metadata in ETCD contains everything needed to restore the topic elsewhere.</p>
+<p>At this point, Broker A no longer owns the topic, but all messages 0-21 are safely stored in the cloud, and the metadata store contains everything needed to restore the topic elsewhere.</p>
 <h3 id="step-2-assign-to-broker-b">Step 2: Assign to Broker B</h3>
 <p><strong>LoadManager assigns topic to Broker B</strong> (cluster decides which broker gets it based on load)</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>Write<span class="w"> </span>to<span class="w"> </span>ETCD:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>Write<span class="w"> </span>to<span class="w"> </span>metadata<span class="w"> </span>store:
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span>•<span class="w"> </span>/cluster/brokers/10421046117770015389/default/reliable_topic:<span class="w"> </span>null
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span>↓
 </span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>Broker<span class="w"> </span>B<span class="w"> </span>watcher<span class="w"> </span>sees<span class="w"> </span>PUT<span class="w"> </span>event
@@ -2222,7 +2158,7 @@
 </span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>get_or_create_wal<span class="o">(</span><span class="s2">&quot;default/reliable_topic&quot;</span><span class="o">)</span>
 </span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">    </span>│
 </span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="w">    </span>├─&gt;<span class="w"> </span>✅<span class="w"> </span>NEW:<span class="w"> </span>Check<span class="w"> </span>sealed<span class="w"> </span>state
-</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="w">    </span>│<span class="w">   </span>EtcdMetadata.get_storage_state_sealed<span class="o">(</span><span class="s2">&quot;default/reliable_topic&quot;</span><span class="o">)</span>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="w">    </span>│<span class="w">   </span>Metadata.get_storage_state_sealed<span class="o">(</span><span class="s2">&quot;default/reliable_topic&quot;</span><span class="o">)</span>
 </span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="w">    </span>│<span class="w">   </span>Returns:<span class="w"> </span><span class="o">{</span>sealed:<span class="w"> </span>true,<span class="w"> </span>last_committed_offset:<span class="w"> </span><span class="m">21</span>,<span class="w"> </span>...<span class="o">}</span>
 </span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="w">    </span>│
 </span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="w">    </span>├─&gt;<span class="w"> </span>✅<span class="w"> </span>NEW:<span class="w"> </span>Calculate<span class="w"> </span>initial<span class="w"> </span>offset
@@ -2256,7 +2192,7 @@
 <p><strong>What just happened?</strong></p>
 <p>This is the <strong>critical fix</strong> that prevents offset collisions:</p>
 <ol>
-<li><strong>Sealed State Discovery</strong>: When Broker B loads the topic, it checks ETCD for a sealed state marker</li>
+<li><strong>Sealed State Discovery</strong>: When Broker B loads the topic, it checks the metadata store for a sealed state marker</li>
 <li><strong>Offset Calculation</strong>: Finding <code>last_committed_offset: 21</code>, it calculates <code>initial_offset = 22</code></li>
 <li><strong>WAL Initialization</strong>: The WAL is created with <code>next_offset = 22</code> instead of the default <code>0</code></li>
 <li><strong>Uploader Restoration</strong>: The uploader checkpoint is set to 21, so it knows messages 0-21 are already in cloud storage</li>
@@ -2283,7 +2219,7 @@
 </span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>Uploader<span class="w"> </span>runs<span class="w"> </span><span class="o">(</span>30s<span class="w"> </span>later<span class="o">)</span>:
 </span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a><span class="w">    </span>├─&gt;<span class="w"> </span>Stream<span class="w"> </span>offsets<span class="w"> </span><span class="m">22</span>-27<span class="w"> </span>from<span class="w"> </span>WAL<span class="w"> </span>files
 </span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a><span class="w">    </span>├─&gt;<span class="w"> </span>Upload<span class="w"> </span>to<span class="w"> </span>cloud:<span class="w"> </span>data-22-27.dnb1
-</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a><span class="w">    </span>└─&gt;<span class="w"> </span>Write<span class="w"> </span>to<span class="w"> </span>ETCD:
+</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a><span class="w">    </span>└─&gt;<span class="w"> </span>Write<span class="w"> </span>to<span class="w"> </span>metadata<span class="w"> </span>store:
 </span><span id="__span-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a><span class="w">        </span>•<span class="w"> </span>objects/00000000000000000022:
 </span><span id="__span-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a><span class="w">          </span><span class="o">{</span>start_offset:<span class="w"> </span><span class="m">22</span>,<span class="w"> </span>end_offset:<span class="w"> </span><span class="m">27</span>,<span class="w"> </span>...<span class="o">}</span>
 </span></code></pre></div>
@@ -2292,7 +2228,7 @@
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span>data-0-21.dnb1<span class="w">    </span><span class="o">(</span>from<span class="w"> </span>Broker<span class="w"> </span>A<span class="o">)</span>
 </span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span>data-22-27.dnb1<span class="w">   </span><span class="o">(</span>from<span class="w"> </span>Broker<span class="w"> </span>B<span class="o">)</span><span class="w"> </span>✅<span class="w"> </span>Continuous!
 </span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>ETCD<span class="w"> </span>Objects:
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>Metadata<span class="w"> </span>Store<span class="w"> </span>Objects:
 </span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">  </span>/storage/.../objects/00000000000000000000:<span class="w"> </span><span class="o">{</span>start:<span class="w"> </span><span class="m">0</span>,<span class="w"> </span>end:<span class="w"> </span><span class="m">21</span><span class="o">}</span>
 </span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">  </span>/storage/.../objects/00000000000000000022:<span class="w"> </span><span class="o">{</span>start:<span class="w"> </span><span class="m">22</span>,<span class="w"> </span>end:<span class="w"> </span><span class="m">27</span><span class="o">}</span><span class="w"> </span>✅
 </span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>
@@ -2303,7 +2239,7 @@
 <p><strong>What just happened?</strong></p>
 <p>The producer has no awareness that the topic moved—from its perspective, it's just producing messages as normal:</p>
 <ol>
-<li><strong>Client Routing</strong>: The Danube client queries ETCD for the topic's current broker assignment and connects to Broker B</li>
+<li><strong>Client Routing</strong>: The Danube client queries the metadata store for the topic's current broker assignment and connects to Broker B</li>
 <li><strong>Continuous Offsets</strong>: Messages are assigned offsets 22-27, which is exactly what we want—a continuation from Broker A's 0-21</li>
 <li><strong>Cloud Upload</strong>: After 30 seconds (or when the segment is large enough), the uploader streams offsets 22-27 to cloud storage</li>
 </ol>
@@ -2313,7 +2249,7 @@
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>Consumer<span class="w"> </span>subscribes<span class="w"> </span>to<span class="w"> </span><span class="s2">&quot;subs_reliable&quot;</span>
 </span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">    </span>↓
 </span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>SubscriptionEngine.init_stream_from_progress_or_latest<span class="o">()</span>
-</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">    </span>├─&gt;<span class="w"> </span>Read<span class="w"> </span>cursor<span class="w"> </span>from<span class="w"> </span>ETCD:<span class="w"> </span><span class="m">13</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">    </span>├─&gt;<span class="w"> </span>Read<span class="w"> </span>cursor<span class="w"> </span>from<span class="w"> </span>metadata<span class="w"> </span>store:<span class="w"> </span><span class="m">13</span>
 </span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">    </span>└─&gt;<span class="w"> </span><span class="nv">start_offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">14</span><span class="w"> </span><span class="o">(</span>next<span class="w"> </span>unacked<span class="w"> </span>message<span class="o">)</span>
 </span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">    </span>↓
 </span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>WalStorage.create_reader<span class="o">(</span><span class="nv">start_offset</span><span class="o">=</span><span class="m">14</span><span class="o">)</span>
@@ -2327,7 +2263,7 @@
 </span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="w">        </span>│
 </span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a><span class="w">        </span>├─&gt;<span class="w"> </span>Step<span class="w"> </span><span class="m">1</span>:<span class="w"> </span>Read<span class="w"> </span>from<span class="w"> </span>CLOUD<span class="w"> </span><span class="o">(</span><span class="m">14</span>-21<span class="o">)</span>
 </span><span id="__span-10-17"><a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a><span class="w">        </span>│<span class="w">   </span>CloudReader.read_range<span class="o">(</span><span class="m">14</span>,<span class="w"> </span><span class="m">21</span><span class="o">)</span>
-</span><span id="__span-10-18"><a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a><span class="w">        </span>│<span class="w">   </span>├─&gt;<span class="w"> </span>Query<span class="w"> </span>ETCD:<span class="w"> </span>get<span class="w"> </span>objects<span class="w"> </span>covering<span class="w"> </span><span class="m">14</span>-21
+</span><span id="__span-10-18"><a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a><span class="w">        </span>│<span class="w">   </span>├─&gt;<span class="w"> </span>Query<span class="w"> </span>metadata<span class="w"> </span>store:<span class="w"> </span>get<span class="w"> </span>objects<span class="w"> </span>covering<span class="w"> </span><span class="m">14</span>-21
 </span><span id="__span-10-19"><a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a><span class="w">        </span>│<span class="w">   </span>│<span class="w">   </span>Returns:<span class="w"> </span>objects/00000000000000000000<span class="w"> </span><span class="o">(</span><span class="m">0</span>-21<span class="o">)</span>
 </span><span id="__span-10-20"><a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a><span class="w">        </span>│<span class="w">   </span>├─&gt;<span class="w"> </span>Download:<span class="w"> </span>data-0-21.dnb1
 </span><span id="__span-10-21"><a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a><span class="w">        </span>│<span class="w">   </span>├─&gt;<span class="w"> </span>Extract<span class="w"> </span>frames:<span class="w"> </span>offsets<span class="w"> </span><span class="m">14</span>-21
@@ -2360,7 +2296,7 @@
 </span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span>↓
 </span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>SubscriptionEngine.on_acked<span class="o">(</span>offset<span class="o">)</span>
 </span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">    </span>├─&gt;<span class="w"> </span>Update<span class="w"> </span><span class="k">in</span>-memory<span class="w"> </span>cursor:<span class="w"> </span><span class="m">27</span>
-</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">    </span>└─&gt;<span class="w"> </span>Batch<span class="w"> </span>flush<span class="w"> </span>to<span class="w"> </span>ETCD<span class="w"> </span><span class="o">(</span>every<span class="w"> </span><span class="m">1000</span><span class="w"> </span>acks<span class="w"> </span>or<span class="w"> </span>5s<span class="o">)</span>:
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">    </span>└─&gt;<span class="w"> </span>Batch<span class="w"> </span>flush<span class="w"> </span>to<span class="w"> </span>metadata<span class="w"> </span>store<span class="w"> </span><span class="o">(</span>every<span class="w"> </span><span class="m">1000</span><span class="w"> </span>acks<span class="w"> </span>or<span class="w"> </span>5s<span class="o">)</span>:
 </span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="w">        </span>•<span class="w"> </span>/topics/.../subscriptions/subs_reliable/cursor:<span class="w"> </span><span class="m">27</span>
 </span></code></pre></div>
 <hr />
@@ -2387,7 +2323,7 @@
 </span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="w">  </span>Will<span class="w"> </span>upload<span class="w"> </span><span class="m">22</span>+<span class="w"> </span>✅
 </span></code></pre></div>
 <h3 id="4-subscription-cursor-independence">4. Subscription Cursor Independence</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>Subscription<span class="w"> </span>cursor<span class="w"> </span><span class="k">in</span><span class="w"> </span>ETCD:<span class="w"> </span><span class="m">13</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>Subscription<span class="w"> </span>cursor<span class="w"> </span><span class="k">in</span><span class="w"> </span>metadata<span class="w"> </span>store:<span class="w"> </span><span class="m">13</span>
 </span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">    </span>↓<span class="w"> </span><span class="o">(</span>persisted<span class="w"> </span>independently<span class="o">)</span>
 </span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>Consumer<span class="w"> </span>reads<span class="w"> </span>from<span class="w"> </span><span class="m">14</span><span class="w"> </span>regardless<span class="w"> </span>of<span class="w"> </span>which<span class="w"> </span>broker
 </span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">    </span>✅<span class="w"> </span>Works<span class="w"> </span>because<span class="w"> </span>offset<span class="w"> </span>space<span class="w"> </span>is<span class="w"> </span>continuous
@@ -2581,6 +2517,22 @@
     
     <a href="https://pkg.go.dev/github.com/danube-messaging/danube-go" target="_blank" rel="noopener" title="Go Client Documentation" class="md-social__link">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M400.1 194.8c-10.9 2.8-19.9 4.3-29.1 7.6-7.3 1.9-14.7 3.9-23.2 6.1l-.6.1c-4.2 1.2-4.6 1.3-8.5-3.2-4.7-5.3-8.1-8.7-14.6-11.9-19.7-9.6-38.7-6.8-56.4 4.7-21.2 13.7-32.1 34-31.8 59.2.3 25 17.4 45.5 41.2 48.9 22 2.8 39.8-4.6 53.8-20.5 2.1-2.6 4-5.3 6.1-8.3.8-1 1.5-2.1 2.3-3.3h-60.1c-6.5 0-8.1-4-5.9-9.3 4-9.7 11.5-25.9 15.9-34 .9-1.8 3.1-5.8 6.9-5.8h101.1c4.5-13.4 11.8-26.9 21.6-39.7 22.7-29.9 49.3-45.5 87.2-52 31.8-5.6 61.7-2.5 88.9 15.9 24.6 16.8 39.8 39.6 43.9 69.5 5.3 42.1-6.9 76.3-36.7 105.6-19.7 20.9-44.9 34-73.9 39.9-5.6 1-11.1 1.5-16.5 2-2.9.2-5.7.5-8.5.8-28.3-.6-54.2-8.7-76-27.4-15.3-13.3-25.9-29.6-31.1-48.5-3.7 7.3-8 14.4-14 21.1-21.6 29.6-50.9 48-87.9 52.9-30.6 4.1-58.9-1.8-83.9-20.5-23-17.5-36.1-40.5-39.5-69.2-4.1-34 5.9-65.4 26.4-91.3 22.2-29 51.5-47.4 87.3-53.9 29.3-6.2 57.3-1.9 82.6 15.3 16.5 10.9 28.3 25.8 36.1 43.9 1.9 2.8.6 4.4-3.1 5.3zm-351.8 5.6c-1.25 0-1.56-.6-.94-1.6l6.55-8.4c.62-.9 2.18-1.5 3.43-1.5H168.6c1.2 0 1.5.9.9 1.8l-5.3 8.1c-.6 1-2.2 1.9-3.1 1.9l-112.8-.3zM1.246 229.1c-1.246 0-1.558-.7-.934-1.6l6.543-8.4c.624-.9 2.182-1.6 3.425-1.6H152.4c1.2 0 1.8 1 1.5 1.9l-2.5 7.5c-.3 1.2-1.5 1.9-2.8 1.9l-147.354.3zm74.474 26.8c-.62.9-.31 1.8.93 1.8l67.95.3c.9 0 2.2-.9 2.2-2.1l.6-7.5c0-1.3-.6-2.2-1.9-2.2H83.2c-1.25 0-2.49.9-3.12 1.9l-4.36 7.8zm501.48-18c-.2-2.6-.3-4.8-.7-7-5.6-30.8-34-48.3-63.6-41.4-29 6.5-47.7 24.9-54.5 54.2-5.6 24.3 6.2 48.9 28.6 58.9 17.2 7.5 34.3 6.6 50.8-1.9 24.6-13.6 38-32.7 39.6-59.5-.1-1.2-.1-2.3-.2-3.3z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://central.sonatype.com/namespace/com.danube-messaging" target="_blank" rel="noopener" title="Java Client on Maven Central" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M277.74 312.9c9.8-6.7 23.4-12.5 23.4-12.5s-38.7 7-77.2 10.2c-47.1 3.9-97.7 4.7-123.1 1.3-60.1-8 33-30.1 33-30.1s-36.1-2.4-80.6 19c-52.5 25.4 130 37 224.5 12.1zm-85.4-32.1c-19-42.7-83.1-80.2 0-145.8C296 53.2 242.84 0 242.84 0c21.5 84.5-75.6 110.1-110.7 162.6-23.9 35.9 11.7 74.4 60.2 118.2zm114.6-176.2c.1 0-175.2 43.8-91.5 140.2 24.7 28.4-6.5 54-6.5 54s62.7-32.4 33.9-72.9c-26.9-37.8-47.5-56.6 64.1-121.3zm-6.1 270.5a12.19 12.19 0 0 1-2 2.6c128.3-33.7 81.1-118.9 19.8-97.3a17.33 17.33 0 0 0-8.2 6.3 70.45 70.45 0 0 1 11-3c31-6.5 75.5 41.5-20.6 91.4zM348 437.4s14.5 11.9-15.9 21.2c-57.9 17.5-240.8 22.8-291.6.7-18.3-7.9 16-19 26.8-21.3 11.2-2.4 17.7-2 17.7-2-20.3-14.3-131.3 28.1-56.4 40.2C232.84 509.4 401 461.3 348 437.4zM124.44 396c-78.7 22 47.9 67.4 148.1 24.5a185.89 185.89 0 0 1-28.2-13.8c-44.7 8.5-65.4 9.1-106 4.5-33.5-3.8-13.9-15.2-13.9-15.2zm179.8 97.2c-78.7 14.8-175.8 13.1-233.3 3.6 0-.1 11.8 9.7 72.4 13.6 92.2 5.9 233.8-3.3 237.1-46.9 0 0-6.4 16.5-76.2 29.7zM260.64 353c-59.2 11.4-93.5 11.1-136.8 6.6-33.5-3.5-11.6-19.7-11.6-19.7-86.8 28.8 48.2 61.4 169.5 25.9a60.37 60.37 0 0 1-21.1-12.8z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://pypi.org/project/danube-client/" target="_blank" rel="noopener" title="Python Client on PyPI" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.8 200.5c-7.7-30.9-22.3-54.2-53.4-54.2h-40.1v47.4c0 36.8-31.2 67.8-66.8 67.8H172.7c-29.2 0-53.4 25-53.4 54.3v101.8c0 29 25.2 46 53.4 54.3 33.8 9.9 66.3 11.7 106.8 0 26.9-7.8 53.4-23.5 53.4-54.3v-40.7H226.2v-13.6h160.2c31.1 0 42.6-21.7 53.4-54.2 11.2-33.5 10.7-65.7 0-108.6zM286.2 404c11.1 0 20.1 9.1 20.1 20.3 0 11.3-9 20.4-20.1 20.4-11 0-20.1-9.2-20.1-20.4.1-11.3 9.1-20.3 20.1-20.3zM167.8 248.1h106.8c29.7 0 53.4-24.5 53.4-54.3V91.9c0-29-24.4-50.7-53.4-55.6-35.8-5.9-74.7-5.6-106.8.1-45.2 8-53.4 24.7-53.4 55.6v40.7h106.9v13.6h-147c-31.1 0-58.3 18.7-66.8 54.2-9.8 40.7-10.2 66.1 0 108.6 7.6 31.6 25.7 54.2 56.8 54.2H101v-48.8c0-35.3 30.5-66.4 66.8-66.4zm-6.7-142.6c-11.1 0-20.1-9.1-20.1-20.3.1-11.3 9-20.4 20.1-20.4 11 0 20.1 9.2 20.1 20.4s-9 20.3-20.1 20.3z"/></svg>
     </a>
   
 </div>

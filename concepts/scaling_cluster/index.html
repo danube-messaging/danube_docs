@@ -12,10 +12,10 @@
         <meta name="author" content="Dan Rusei">
       
       
-        <link rel="canonical" href="https://danube-docs.dev-state.com/concepts/messaging_modes_pubsub_vs_streaming/">
+        <link rel="canonical" href="https://danube-docs.dev-state.com/concepts/scaling_cluster/">
       
       
-        <link rel="prev" href="../messaging_patterns_queuing_vs_pubsub/">
+        <link rel="prev" href="../schema_registry_guide/">
       
       
         <link rel="next" href="../../architecture/architecture/">
@@ -26,7 +26,7 @@
     
     
       
-        <title>Pub/Sub vs Streaming - Danube Messaging</title>
+        <title>Scaling the Cluster - Danube Messaging</title>
       
     
     
@@ -88,7 +88,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#pubsub-vs-streaming-concepts-and-danube-support" class="md-skip">
+        <a href="#scaling-a-danube-cluster" class="md-skip">
           Skip to content
         </a>
       
@@ -123,7 +123,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Pub/Sub vs Streaming
+              Scaling the Cluster
             
           </span>
         </div>
@@ -540,64 +540,6 @@
   
   
   
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    Messaging Patterns
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_3_6">
-            <span class="md-nav__icon md-icon"></span>
-            Messaging Patterns
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../messaging_patterns_queuing_vs_pubsub/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Queuing vs Pub/Sub
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-    
-  
-  
-  
     <li class="md-nav__item md-nav__item--active">
       
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
@@ -610,7 +552,7 @@
           
   
   <span class="md-ellipsis">
-    Pub/Sub vs Streaming
+    Scaling the Cluster
   </span>
   
 
@@ -621,7 +563,7 @@
         
   
   <span class="md-ellipsis">
-    Pub/Sub vs Streaming
+    Scaling the Cluster
   </span>
   
 
@@ -643,65 +585,28 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#pubsub-messaging" class="md-nav__link">
+  <a href="#node-lifecycle" class="md-nav__link">
     <span class="md-ellipsis">
-      Pub/Sub messaging
+      Node Lifecycle
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Pub/Sub messaging">
+    <nav class="md-nav" aria-label="Node Lifecycle">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#purpose-and-use-cases" class="md-nav__link">
+  <a href="#auto-detection-vs-manual-membership" class="md-nav__link">
     <span class="md-ellipsis">
-      Purpose and Use Cases
+      Auto-Detection vs. Manual Membership
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#architecture-and-design" class="md-nav__link">
+  <a href="#broker-states" class="md-nav__link">
     <span class="md-ellipsis">
-      Architecture and Design
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#data-handling-and-processing-models" class="md-nav__link">
-    <span class="md-ellipsis">
-      Data Handling and Processing Models
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Data Handling and Processing Models">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#pubsub-messaging-producers" class="md-nav__link">
-    <span class="md-ellipsis">
-      Pub/Sub messaging Producers
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#pubsub-messaging-consumers" class="md-nav__link">
-    <span class="md-ellipsis">
-      Pub/Sub messaging Consumers
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#order-of-operations-of-pubsub-messaging" class="md-nav__link">
-    <span class="md-ellipsis">
-      Order of Operations of Pub/Sub messaging
+      Broker States
     </span>
   </a>
   
@@ -709,6 +614,79 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prerequisites
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cluster-overview-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cluster Overview Commands
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scaling-up-bare-metal-docker-compose" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scaling Up (Bare Metal / Docker Compose)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Scaling Up (Bare Metal / Docker Compose)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-start-the-new-broker-in-join-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1: Start the New Broker in Join Mode
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-add-as-learner-non-voting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2: Add as Learner (Non-Voting)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-promote-to-voter" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3: Promote to Voter
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-activate-the-broker" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4: Activate the Broker
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-optional-rebalance-existing-topics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 5 (Optional): Rebalance Existing Topics
+    </span>
+  </a>
   
 </li>
         
@@ -718,64 +696,55 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#streaming-design-considerations" class="md-nav__link">
+  <a href="#scaling-down-bare-metal-docker-compose" class="md-nav__link">
     <span class="md-ellipsis">
-      Streaming design considerations
+      Scaling Down (Bare Metal / Docker Compose)
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Streaming design considerations">
+    <nav class="md-nav" aria-label="Scaling Down (Bare Metal / Docker Compose)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#purpose-and-use-cases_1" class="md-nav__link">
+  <a href="#understanding-quorum" class="md-nav__link">
     <span class="md-ellipsis">
-      Purpose and Use Cases
+      Understanding Quorum
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#architecture-and-design_1" class="md-nav__link">
+  <a href="#step-1-unload-all-topics" class="md-nav__link">
     <span class="md-ellipsis">
-      Architecture and Design
+      Step 1: Unload All Topics
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#data-handling-and-processing-models_1" class="md-nav__link">
+  <a href="#step-2-remove-from-raft-membership" class="md-nav__link">
     <span class="md-ellipsis">
-      Data Handling and Processing Models
+      Step 2: Remove from Raft Membership
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#streaming-producers" class="md-nav__link">
+  <a href="#step-3-stop-the-broker-process" class="md-nav__link">
     <span class="md-ellipsis">
-      Streaming Producers
+      Step 3: Stop the Broker Process
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#streaming-consumers" class="md-nav__link">
+  <a href="#bringing-a-broker-back-after-maintenance" class="md-nav__link">
     <span class="md-ellipsis">
-      Streaming Consumers
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#order-of-operations-of-streaming" class="md-nav__link">
-    <span class="md-ellipsis">
-      Order of Operations of Streaming
+      Bringing a Broker Back After Maintenance
     </span>
   </a>
   
@@ -786,17 +755,78 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#scaling-on-kubernetes-helm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scaling on Kubernetes (Helm)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Scaling on Kubernetes (Helm)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#initial-cluster-formation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Initial Cluster Formation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scaling-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scaling Up
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scaling-down" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scaling Down
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pod-restarts-and-rolling-upgrades" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pod Restarts and Rolling Upgrades
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-reference-node-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Reference: Node Lifecycle
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#command-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Command Reference
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
-      
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
       
     </li>
   
@@ -941,27 +971,6 @@
   
   <span class="md-ellipsis">
     Reliable Topic Workflow
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../architecture/internal_danube_services/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Internal Services
   </span>
   
 
@@ -1236,6 +1245,27 @@
             CLI Admin Guide
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../danube_admin/admin_cli/cluster/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cluster
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -1762,72 +1792,30 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#pubsub-messaging" class="md-nav__link">
+  <a href="#node-lifecycle" class="md-nav__link">
     <span class="md-ellipsis">
-      Pub/Sub messaging
+      Node Lifecycle
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Pub/Sub messaging">
+    <nav class="md-nav" aria-label="Node Lifecycle">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#purpose-and-use-cases" class="md-nav__link">
+  <a href="#auto-detection-vs-manual-membership" class="md-nav__link">
     <span class="md-ellipsis">
-      Purpose and Use Cases
+      Auto-Detection vs. Manual Membership
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#architecture-and-design" class="md-nav__link">
+  <a href="#broker-states" class="md-nav__link">
     <span class="md-ellipsis">
-      Architecture and Design
+      Broker States
     </span>
   </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#data-handling-and-processing-models" class="md-nav__link">
-    <span class="md-ellipsis">
-      Data Handling and Processing Models
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Data Handling and Processing Models">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#pubsub-messaging-producers" class="md-nav__link">
-    <span class="md-ellipsis">
-      Pub/Sub messaging Producers
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#pubsub-messaging-consumers" class="md-nav__link">
-    <span class="md-ellipsis">
-      Pub/Sub messaging Consumers
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#order-of-operations-of-pubsub-messaging" class="md-nav__link">
-    <span class="md-ellipsis">
-      Order of Operations of Pub/Sub messaging
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -1837,64 +1825,73 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#streaming-design-considerations" class="md-nav__link">
+  <a href="#prerequisites" class="md-nav__link">
     <span class="md-ellipsis">
-      Streaming design considerations
+      Prerequisites
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Streaming design considerations">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cluster-overview-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cluster Overview Commands
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scaling-up-bare-metal-docker-compose" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scaling Up (Bare Metal / Docker Compose)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Scaling Up (Bare Metal / Docker Compose)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#purpose-and-use-cases_1" class="md-nav__link">
+  <a href="#step-1-start-the-new-broker-in-join-mode" class="md-nav__link">
     <span class="md-ellipsis">
-      Purpose and Use Cases
+      Step 1: Start the New Broker in Join Mode
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#architecture-and-design_1" class="md-nav__link">
+  <a href="#step-2-add-as-learner-non-voting" class="md-nav__link">
     <span class="md-ellipsis">
-      Architecture and Design
+      Step 2: Add as Learner (Non-Voting)
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#data-handling-and-processing-models_1" class="md-nav__link">
+  <a href="#step-3-promote-to-voter" class="md-nav__link">
     <span class="md-ellipsis">
-      Data Handling and Processing Models
+      Step 3: Promote to Voter
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#streaming-producers" class="md-nav__link">
+  <a href="#step-4-activate-the-broker" class="md-nav__link">
     <span class="md-ellipsis">
-      Streaming Producers
+      Step 4: Activate the Broker
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#streaming-consumers" class="md-nav__link">
+  <a href="#step-5-optional-rebalance-existing-topics" class="md-nav__link">
     <span class="md-ellipsis">
-      Streaming Consumers
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#order-of-operations-of-streaming" class="md-nav__link">
-    <span class="md-ellipsis">
-      Order of Operations of Streaming
+      Step 5 (Optional): Rebalance Existing Topics
     </span>
   </a>
   
@@ -1902,6 +1899,135 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scaling-down-bare-metal-docker-compose" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scaling Down (Bare Metal / Docker Compose)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Scaling Down (Bare Metal / Docker Compose)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#understanding-quorum" class="md-nav__link">
+    <span class="md-ellipsis">
+      Understanding Quorum
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-1-unload-all-topics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1: Unload All Topics
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-remove-from-raft-membership" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2: Remove from Raft Membership
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-stop-the-broker-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3: Stop the Broker Process
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bringing-a-broker-back-after-maintenance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Bringing a Broker Back After Maintenance
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scaling-on-kubernetes-helm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scaling on Kubernetes (Helm)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Scaling on Kubernetes (Helm)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#initial-cluster-formation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Initial Cluster Formation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scaling-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scaling Up
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scaling-down" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scaling Down
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pod-restarts-and-rolling-upgrades" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pod Restarts and Rolling Upgrades
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-reference-node-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Reference: Node Lifecycle
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#command-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Command Reference
+    </span>
+  </a>
   
 </li>
       
@@ -1920,7 +2046,7 @@
                   
 
   
-    <a href="https://github.com/danube-messaging/danube_docs/edit/main/docs/concepts/messaging_modes_pubsub_vs_streaming.md" title="Edit this page" class="md-content__button md-icon">
+    <a href="https://github.com/danube-messaging/danube_docs/edit/main/docs/concepts/scaling_cluster.md" title="Edit this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
     </a>
@@ -1928,94 +2054,355 @@
   
 
 
-<h1 id="pubsub-vs-streaming-concepts-and-danube-support">Pub/Sub vs Streaming: Concepts and Danube Support</h1>
-<p>This page compares Pub/Sub messaging and Streaming architectures, highlights key differences and use cases, and indicates what Danube supports. Use it as a conceptual guide aligned with Danube’s Reliable and Non‑Reliable dispatch modes.</p>
-<h2 id="pubsub-messaging">Pub/Sub messaging</h2>
-<h3 id="purpose-and-use-cases">Purpose and Use Cases</h3>
+<h1 id="scaling-a-danube-cluster">Scaling a Danube Cluster</h1>
+<p>This guide explains how Danube brokers join and leave a cluster, and how to
+scale the cluster up or down, on bare metal, Docker Compose, or Kubernetes.</p>
+<h2 id="node-lifecycle">Node Lifecycle</h2>
+<p>Every broker embeds a Raft consensus node. On startup, the broker inspects its
+local state and the cluster to decide how to proceed. This decision is captured
+by the <code>BootstrapResult</code> enum:</p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>How it's detected</th>
+<th>What happens</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Single-node, first boot</strong></td>
+<td>No <code>node_id</code> file, empty <code>seed_nodes</code></td>
+<td>Auto-initializes a 1-voter cluster</td>
+</tr>
+<tr>
+<td><strong>Multi-node, first boot</strong></td>
+<td>No <code>node_id</code> file, seed peers have no leader yet</td>
+<td>Peers discover each other; the lowest <code>node_id</code> bootstraps the cluster, others become followers</td>
+</tr>
+<tr>
+<td><strong>New node, existing cluster</strong></td>
+<td>No <code>node_id</code> file, a seed peer reports <code>has_leader = true</code></td>
+<td>Enters join mode automatically — starts in "drained" state, must be added via admin CLI</td>
+</tr>
+<tr>
+<td><strong>Restart</strong></td>
+<td><code>node_id</code> file exists on disk</td>
+<td>Waits for Raft leader election then resumes; membership is already persisted</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>has_leader</code> flag is served by the <code>GetNodeInfo</code> gRPC RPC during seed-node
+discovery. This lets a fresh broker distinguish "cluster doesn't exist yet"
+from "cluster is already running" without any external configuration or init
+scripts.</p>
+<h3 id="auto-detection-vs-manual-membership">Auto-Detection vs. Manual Membership</h3>
+<p>Auto-detection determines <strong>what the node should do</strong>, not whether it joins the
+cluster. When a fresh node sees <code>has_leader = true</code>, it knows not to bootstrap
+a new cluster and instead enters a waiting state (equivalent to <code>--join</code>). This
+prevents accidental split-brain scenarios where a new node could form a
+second, independent cluster.</p>
+<p>However, actually adding the node to the Raft voter set still requires explicit
+admin commands (<code>add-node</code> → <code>promote-node</code> → <code>activate</code>). This is intentional:</p>
 <ul>
-<li><strong>Purpose</strong>: Designed for decoupling producers and consumers, enabling asynchronous communication between different parts of a system.</li>
-<li><strong>Use Cases</strong>: Event-driven architectures, real-time notifications, decoupled microservices, and distributed systems. Suitable when low latency is critical and some message loss is acceptable (e.g., monitoring, telemetry, ephemeral chat).</li>
+<li><strong>Safety</strong> — arbitrary nodes should not auto-join a Raft quorum. A
+  misconfigured or rogue broker could disrupt consensus if membership were
+  fully automatic.</li>
+<li><strong>Staged rollout</strong> — the learner → voter → active progression lets operators
+  verify each step. A learner doesn't affect quorum, so it can be removed
+  safely if something is wrong.</li>
+<li><strong>Operational control</strong> — the operator decides when a new broker starts
+  receiving traffic, not the infrastructure.</li>
 </ul>
-<p><strong>Danube support</strong>: Yes, via Non‑Reliable dispatch.</p>
+<p>This design applies equally to bare metal, Docker Compose, and Kubernetes. The
+auto-detection removes the need for <code>--join</code> flags, shell wrappers, or
+init-containers, but the membership decision remains an explicit admin action.</p>
+<h3 id="broker-states">Broker States</h3>
+<p>Once a broker joins a cluster, it transitions through these states:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>drained ──► active ──► drained (unload) ──► removed
+</span></code></pre></div>
 <ul>
-<li>Delivery: best‑effort (at‑most‑once).</li>
-<li>Persistence: none; messages are not stored.</li>
-<li>Ordering: per topic/partition within a dispatcher.</li>
+<li><strong>Drained</strong> — the broker is a Raft member but the Load Manager will not
+  assign topics to it. New nodes start here after joining.</li>
+<li><strong>Active</strong> — eligible for topic assignments. Activated explicitly via
+  <code>danube-admin brokers activate</code>.</li>
+<li><strong>Removed</strong> — the node has been removed from Raft membership and can be
+  safely stopped.</li>
 </ul>
-<h3 id="architecture-and-design">Architecture and Design</h3>
+<hr />
+<h2 id="prerequisites">Prerequisites</h2>
 <ul>
-<li><strong>Components</strong>: Producers, Subscriptions (consumer groups), and the broker.</li>
-<li><strong>Message Flow</strong>: Producers send messages to a broker, which distributes them to active subscribers according to subscription semantics.</li>
-<li><strong>Scaling</strong>: Scales by adding more brokers or distributing load (topics / partitions) across multiple brokers.</li>
+<li><strong><code>danube-admin</code></strong> CLI installed (<a href="https://github.com/danube-messaging/danube/releases">releases</a>)</li>
+<li><strong><code>DANUBE_ADMIN_ENDPOINT</code></strong> pointing to any active broker's admin port</li>
 </ul>
-<h3 id="data-handling-and-processing-models">Data Handling and Processing Models</h3>
-<h4 id="pubsub-messaging-producers">Pub/Sub messaging Producers</h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">DANUBE_ADMIN_ENDPOINT</span><span class="o">=</span>http://broker-1:50051
+</span></code></pre></div>
+<h2 id="cluster-overview-commands">Cluster Overview Commands</h2>
+<p>Before any scaling operation, understand the current state:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Raft cluster membership (voters, learners, leader, term)</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>danube-admin<span class="w"> </span>cluster<span class="w"> </span>status
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Active brokers with status, addresses, and roles</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>list
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># Load distribution and balance metrics</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>balance
+</span></code></pre></div>
+<p><code>cluster status</code> shows the <strong>Raft layer</strong> (consensus membership), while
+<code>brokers list</code> shows the <strong>broker layer</strong> (application-level registration). A
+node can be a Raft voter but not yet an active broker — this distinction is
+central to the scaling workflow.</p>
+<hr />
+<h2 id="scaling-up-bare-metal-docker-compose">Scaling Up (Bare Metal / Docker Compose)</h2>
+<p>Adding a new node is a <strong>4-step process</strong>: start → add → promote → activate.</p>
+<h3 id="step-1-start-the-new-broker-in-join-mode">Step 1: Start the New Broker in Join Mode</h3>
+<p>The new broker uses <code>--join</code> to skip cluster bootstrap. It does <strong>not</strong> need to
+be listed in <code>seed_nodes</code> — it will be added dynamically.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>danube-broker<span class="w"> </span>--config-file<span class="w"> </span>danube_broker.yml<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span>--broker-addr<span class="w"> </span><span class="m">0</span>.0.0.0:6653<span class="w"> </span>--admin-addr<span class="w"> </span><span class="m">0</span>.0.0.0:50054<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span>--raft-addr<span class="w"> </span><span class="m">0</span>.0.0.0:7653<span class="w"> </span>--data-dir<span class="w"> </span>./danube-data/raft-4<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span>--prom-exporter<span class="w"> </span><span class="m">0</span>.0.0.0:9043<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span>--join
+</span></code></pre></div>
+<p>At this point the broker:</p>
 <ul>
-<li><strong>Low Latency</strong>: No disk persistence on the hot path; minimal overhead.</li>
-<li><strong>Ordering</strong>: Preserved per topic/partition through the dispatcher.</li>
-<li><strong>Delivery</strong>: Best‑effort; messages can be lost on failure.</li>
-<li><strong>Acks</strong>: Immediate, based on in‑memory handling.</li>
-<li><strong>No Active Consumers</strong>: Publishing is allowed; messages are dropped if no consumers are attached.</li>
+<li>Starts its <strong>admin gRPC server</strong> (port 50054) — so it can be discovered</li>
+<li><strong>Waits</strong> for a Raft leader to appear — it is not yet part of the cluster</li>
+<li>Does <strong>not</strong> start the client-facing broker gRPC server yet</li>
 </ul>
-<p><strong>Danube</strong>: Matches Non‑Reliable dispatch semantics.</p>
-<h4 id="pubsub-messaging-consumers">Pub/Sub messaging Consumers</h4>
-<ul>
-<li><strong>Real-time</strong>: Messages are delivered only to connected consumers.</li>
-<li><strong>No Replay</strong>: No historical fetch; process as they arrive.</li>
-<li><strong>Throughput</strong>: High, with low overhead.</li>
-<li><strong>Delivery</strong>: Only to active subscribers; otherwise dropped.</li>
-</ul>
-<p><strong>Danube</strong>: Supported via Exclusive, Shared, Failover subscriptions in Non‑Reliable mode.</p>
-<h4 id="order-of-operations-of-pubsub-messaging">Order of Operations of Pub/Sub messaging</h4>
-<ul>
-<li><strong>Producer Publishes Message</strong>: The producer sends a message to the broker.</li>
-<li><strong>Broker Receives Message</strong>: The broker processes the message.</li>
-<li><strong>Consumer Availability Check</strong>: If consumers are available, the message is delivered to them in real-time.</li>
-<li><strong>No Consumers</strong>: If no consumers are connected, the message is discarded.</li>
-</ul>
-<h2 id="streaming-design-considerations">Streaming design considerations</h2>
-<h3 id="purpose-and-use-cases_1">Purpose and Use Cases</h3>
-<ul>
-<li><strong>Purpose</strong>: Designed for processing and analyzing large volumes of data in real-time as it is generated.</li>
-<li><strong>Use Cases</strong>: Real-time analytics, data pipelines, event sourcing, continuous data processing, and stream processing applications. Ideal when high reliability and durability are required (e.g., financial transactions, orders, audit logs).</li>
-</ul>
-<p><strong>Danube support</strong>: Yes, via Reliable dispatch (WAL + Cloud persistence).</p>
-<ul>
-<li>Delivery: at‑least‑once with ack‑gating.</li>
-<li>Persistence: local WAL for hot path, background uploads to object storage for durability and replay.</li>
-<li>Replay: historical fetch from WAL or Cloud with seamless handoff to live tail.</li>
-</ul>
-<h3 id="architecture-and-design_1">Architecture and Design</h3>
-<ul>
-<li><strong>Components</strong>: Producers, consumers, stream processors, and a durable log.</li>
-<li><strong>Data Flow</strong>: Producers append to a log; consumers/processors read continuously with tracked progress.</li>
-<li><strong>Scaling</strong>: Designed to handle high throughput and scale horizontally by partitioning data across multiple nodes in a cluster.</li>
-</ul>
-<h3 id="data-handling-and-processing-models_1">Data Handling and Processing Models</h3>
-<h3 id="streaming-producers">Streaming Producers</h3>
-<ul>
-<li><strong>Durability</strong>: Messages are appended to a persistent log. In Danube, the hot path is a local WAL with asynchronous uploads to cloud object storage, enabling replay and recovery.</li>
-<li><strong>Acknowledgements</strong>: Acks are returned once the message is durably appended to the WAL (replication depends on deployment/storage backend). Latency is higher than non‑reliable but optimized for sub‑second dispatch.</li>
-<li><strong>Ordering</strong>: Preserved per topic/partition.</li>
-<li><strong>Delivery Guarantees</strong>: At‑least‑once (with redelivery on failure).</li>
-<li><strong>Publishing Without Consumers</strong>: Allowed; messages are stored and remain available for later consumption within retention.</li>
-<li><strong>Processing</strong>: Compatible with stream processing patterns (e.g., windowing, aggregations) layered above the durable log.</li>
-</ul>
-<h3 id="streaming-consumers">Streaming Consumers</h3>
-<ul>
-<li><strong>Replay &amp; Retention</strong>: Consumers can fetch historical data within retention. In Danube, reads come from WAL if available, otherwise from Cloud with seamless handoff to the live tail.</li>
-<li><strong>Acknowledgements</strong>: Consumers ack processed messages; the broker tracks subscription progress and manages redelivery.</li>
-<li><strong>Fault Tolerance</strong>: On crash/reconnect, consumers resume from the last acknowledged position.</li>
-<li><strong>Availability</strong>: Messages remain available even with no active consumers, subject to retention policies.</li>
-</ul>
-<h3 id="order-of-operations-of-streaming">Order of Operations of Streaming</h3>
-<ul>
-<li><strong>Producer Publishes Message</strong>: The producer sends a message to the broker.</li>
-<li><strong>Durable Append</strong>: The broker appends the message to the WAL (durable on disk); background tasks upload frames to cloud storage.</li>
-<li><strong>Producer Acknowledgment</strong>: The broker acknowledges once the append is durable.</li>
-<li><strong>Delivery to Consumers</strong>: Messages are dispatched to consumers, gated by acknowledgments for reliable delivery.</li>
-<li><strong>No Consumers</strong>: Messages remain stored and available for later consumption within retention.</li>
-</ul>
+<h3 id="step-2-add-as-learner-non-voting">Step 2: Add as Learner (Non-Voting)</h3>
+<p>From any existing broker's admin endpoint, add the new node:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>danube-admin<span class="w"> </span>cluster<span class="w"> </span>add-node<span class="w"> </span>--node-addr<span class="w"> </span>http://broker-4:50054
+</span></code></pre></div>
+<p>The node is now a <strong>learner</strong> — it receives Raft log replication but does not
+vote. This is safe: it doesn't affect quorum, and if something goes wrong you
+can remove it without impact.</p>
+<p>Verify:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>$<span class="w"> </span>danube-admin<span class="w"> </span>cluster<span class="w"> </span>status
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span>Voters:<span class="w">   </span><span class="o">[</span><span class="m">8101916068459076819</span>,<span class="w"> </span><span class="m">3725104926781042315</span>,<span class="w"> </span><span class="m">6192847503618294107</span><span class="o">]</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span>Learners:<span class="w"> </span><span class="o">[</span><span class="m">4918273605482917630</span><span class="o">]</span>
+</span></code></pre></div>
+<h3 id="step-3-promote-to-voter">Step 3: Promote to Voter</h3>
+<p>Once the learner has caught up with the log (usually within seconds):</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>danube-admin<span class="w"> </span>cluster<span class="w"> </span>promote-node<span class="w"> </span>--node-id<span class="w"> </span><span class="m">4918273605482917630</span>
+</span></code></pre></div>
+<p>The cluster is now a 4-voter Raft group (quorum = 3). The broker registers
+itself in <strong>drained</strong> state — the Load Manager won't assign topics to it yet.</p>
+<h3 id="step-4-activate-the-broker">Step 4: Activate the Broker</h3>
+<p>Make the broker eligible for topic assignments:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>activate<span class="w"> </span>--broker-id<span class="w"> </span><span class="m">4918273605482917630</span><span class="w"> </span>--reason<span class="w"> </span><span class="s2">&quot;Scale-up&quot;</span>
+</span></code></pre></div>
+<h3 id="step-5-optional-rebalance-existing-topics">Step 5 (Optional): Rebalance Existing Topics</h3>
+<p>Activation only affects <strong>new</strong> topic assignments. Existing topics stay where
+they are. To redistribute:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Preview what would happen</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>rebalance<span class="w"> </span>--dry-run
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1"># Execute rebalancing</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>rebalance
+</span></code></pre></div>
+<hr />
+<h2 id="scaling-down-bare-metal-docker-compose">Scaling Down (Bare Metal / Docker Compose)</h2>
+<p>Removing a node is the reverse: unload → remove → stop. The key principle is:
+<strong>always remove the node from Raft membership before stopping the process</strong>,
+otherwise you may lose quorum.</p>
+<h3 id="understanding-quorum">Understanding Quorum</h3>
+<table>
+<thead>
+<tr>
+<th>Cluster Size</th>
+<th>Quorum</th>
+<th>Can Lose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3</td>
+<td>2</td>
+<td>1 node</td>
+</tr>
+<tr>
+<td>4</td>
+<td>3</td>
+<td>1 node</td>
+</tr>
+<tr>
+<td>5</td>
+<td>3</td>
+<td>2 nodes</td>
+</tr>
+</tbody>
+</table>
+<p>If you kill a node without removing it from Raft, the cluster still needs its
+vote for quorum. <strong>Always remove before stopping.</strong></p>
+<h3 id="step-1-unload-all-topics">Step 1: Unload All Topics</h3>
+<p>Migrate all hosted topics to other brokers:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Preview</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>unload<span class="w"> </span>--broker-id<span class="w"> </span><span class="m">6192847503618294107</span><span class="w"> </span>--dry-run
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># Execute</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>unload<span class="w"> </span>--broker-id<span class="w"> </span><span class="m">6192847503618294107</span>
+</span></code></pre></div>
+<h3 id="step-2-remove-from-raft-membership">Step 2: Remove from Raft Membership</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>danube-admin<span class="w"> </span>cluster<span class="w"> </span>remove-node<span class="w"> </span>--node-id<span class="w"> </span><span class="m">6192847503618294107</span>
+</span></code></pre></div>
+<h3 id="step-3-stop-the-broker-process">Step 3: Stop the Broker Process</h3>
+<p>Now it's safe to stop:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nb">kill</span><span class="w"> </span><span class="k">$(</span>cat<span class="w"> </span>broker-3.pid<span class="k">)</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="c1"># Or: systemctl stop danube-broker@3</span>
+</span></code></pre></div>
+<h3 id="bringing-a-broker-back-after-maintenance">Bringing a Broker Back After Maintenance</h3>
+<p>After maintenance, <strong>clean the old data directory</strong> (the node was removed from
+Raft, so its persisted state is stale), then rejoin using the same <code>--join</code>
+workflow as scale-up:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>rm<span class="w"> </span>-rf<span class="w"> </span>./danube-data/raft-3
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>danube-broker<span class="w"> </span>--config-file<span class="w"> </span>danube_broker.yml<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">  </span>--broker-addr<span class="w"> </span><span class="m">0</span>.0.0.0:6652<span class="w"> </span>--admin-addr<span class="w"> </span><span class="m">0</span>.0.0.0:50053<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">  </span>--raft-addr<span class="w"> </span><span class="m">0</span>.0.0.0:7652<span class="w"> </span>--data-dir<span class="w"> </span>./danube-data/raft-3<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">  </span>--prom-exporter<span class="w"> </span><span class="m">0</span>.0.0.0:9042<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">  </span>--join
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="c1"># Then: add-node → promote → activate → rebalance</span>
+</span></code></pre></div>
+<hr />
+<h2 id="scaling-on-kubernetes-helm">Scaling on Kubernetes (Helm)</h2>
+<p>When using the <a href="https://github.com/danube-messaging/danube_helm">danube-core Helm chart</a>,
+brokers run as a StatefulSet with <code>podManagementPolicy: Parallel</code>. All pods
+start simultaneously and discover each other via headless DNS seed nodes.</p>
+<h3 id="initial-cluster-formation">Initial Cluster Formation</h3>
+<p>On first install, the Helm chart passes <code>--seed-nodes</code> with all pod FQDNs.
+The brokers auto-bootstrap: the lowest <code>node_id</code> initializes the cluster and
+the others join as followers. No manual intervention is needed.</p>
+<h3 id="scaling-up">Scaling Up</h3>
+<ol>
+<li>
+<p>Increase <code>broker.replicaCount</code> in your values:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>helm<span class="w"> </span>upgrade<span class="w"> </span>danube-core<span class="w"> </span>./charts/danube-core<span class="w"> </span>-n<span class="w"> </span>danube<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span>--set<span class="w"> </span>broker.replicaCount<span class="o">=</span><span class="m">5</span>
+</span></code></pre></div>
+</li>
+<li>
+<p>The new pods start with <code>--seed-nodes</code> listing all 5 pod addresses. Because
+   the existing pods already have a Raft leader, the new pods detect
+   <code>has_leader = true</code> during discovery and enter <strong>join mode</strong> automatically.</p>
+</li>
+<li>
+<p>Use the admin CLI to add, promote, and activate the new brokers:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Port-forward to any existing broker</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>kubectl<span class="w"> </span>port-forward<span class="w"> </span>danube-core-broker-0<span class="w"> </span><span class="m">50051</span>:50051<span class="w"> </span>-n<span class="w"> </span>danube
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># For each new pod (e.g., broker-3, broker-4):</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>danube-admin<span class="w"> </span>cluster<span class="w"> </span>add-node<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="w">  </span>--node-addr<span class="w"> </span>http://danube-core-broker-3.danube-core-broker-headless.danube.svc.cluster.local:50051
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>danube-admin<span class="w"> </span>cluster<span class="w"> </span>promote-node<span class="w"> </span>--node-id<span class="w"> </span>&lt;ID&gt;
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>activate<span class="w"> </span>--broker-id<span class="w"> </span>&lt;ID&gt;
+</span></code></pre></div>
+</li>
+<li>
+<p>Optionally rebalance:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>rebalance
+</span></code></pre></div>
+</li>
+</ol>
+<h3 id="scaling-down">Scaling Down</h3>
+<ol>
+<li>
+<p>Unload topics and remove the target broker from Raft (same commands as
+   bare metal, via port-forward or from inside a pod).</p>
+</li>
+<li>
+<p>Reduce <code>broker.replicaCount</code>:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>helm<span class="w"> </span>upgrade<span class="w"> </span>danube-core<span class="w"> </span>./charts/danube-core<span class="w"> </span>-n<span class="w"> </span>danube<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">  </span>--set<span class="w"> </span>broker.replicaCount<span class="o">=</span><span class="m">3</span>
+</span></code></pre></div>
+</li>
+<li>
+<p>Delete orphaned PVCs if needed:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>pvc<span class="w"> </span>data-danube-core-broker-3<span class="w"> </span>-n<span class="w"> </span>danube
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>kubectl<span class="w"> </span>delete<span class="w"> </span>pvc<span class="w"> </span>data-danube-core-broker-4<span class="w"> </span>-n<span class="w"> </span>danube
+</span></code></pre></div>
+</li>
+</ol>
+<h3 id="pod-restarts-and-rolling-upgrades">Pod Restarts and Rolling Upgrades</h3>
+<p>Pod restarts (crashes, rolling upgrades, node evictions) are handled
+automatically. Because each pod's <code>node_id</code> is persisted in the PVC, the
+broker detects <code>BootstrapResult::Restart</code> on startup — it waits for Raft
+leader election and resumes with its existing membership. No admin
+intervention is required.</p>
+<hr />
+<h2 id="quick-reference-node-lifecycle">Quick Reference: Node Lifecycle</h2>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>                    ┌───────────────────────────────────────┐
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>                    │         SCALING UP                     │
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>                    │                                       │
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>  danube-broker     │  cluster       cluster      brokers   │
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>    --join ─────────┼─► add-node ──► promote ──► activate ──┼──► Active
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>                    │   (learner)    (voter)      (active)  │
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>                    └───────────────────────────────────────┘
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>
+</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>                    ┌───────────────────────────────────────┐
+</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>                    │         SCALING DOWN                   │
+</span><span id="__span-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>                    │                                       │
+</span><span id="__span-18-12"><a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a>  Active ───────────┼─► brokers   ─► cluster     ─► kill   │
+</span><span id="__span-18-13"><a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a>                    │   unload      remove-node    process  │
+</span><span id="__span-18-14"><a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a>                    │   (drain)     (leave Raft)            │
+</span><span id="__span-18-15"><a id="__codelineno-18-15" name="__codelineno-18-15" href="#__codelineno-18-15"></a>                    └───────────────────────────────────────┘
+</span></code></pre></div>
+<h2 id="command-reference">Command Reference</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cluster status</code></td>
+<td>Show Raft membership (voters, learners, leader, term)</td>
+</tr>
+<tr>
+<td><code>cluster add-node --node-addr URL</code></td>
+<td>Add a new broker as a non-voting learner</td>
+</tr>
+<tr>
+<td><code>cluster promote-node --node-id ID</code></td>
+<td>Promote learner to voting member</td>
+</tr>
+<tr>
+<td><code>cluster remove-node --node-id ID</code></td>
+<td>Remove a node from Raft cluster</td>
+</tr>
+<tr>
+<td><code>brokers list</code></td>
+<td>List all registered brokers with status</td>
+</tr>
+<tr>
+<td><code>brokers activate --broker-id ID</code></td>
+<td>Set broker state to active (eligible for topics)</td>
+</tr>
+<tr>
+<td><code>brokers unload --broker-id ID</code></td>
+<td>Migrate all topics off a broker</td>
+</tr>
+<tr>
+<td><code>brokers unload --broker-id ID --dry-run</code></td>
+<td>Preview unload without executing</td>
+</tr>
+<tr>
+<td><code>brokers balance</code></td>
+<td>Show load distribution and CV metric</td>
+</tr>
+<tr>
+<td><code>brokers rebalance</code></td>
+<td>Trigger manual topic redistribution</td>
+</tr>
+<tr>
+<td><code>brokers rebalance --dry-run</code></td>
+<td>Preview rebalance moves</td>
+</tr>
+</tbody>
+</table>
 
 
 
@@ -2098,6 +2485,22 @@
     
     <a href="https://pkg.go.dev/github.com/danube-messaging/danube-go" target="_blank" rel="noopener" title="Go Client Documentation" class="md-social__link">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M400.1 194.8c-10.9 2.8-19.9 4.3-29.1 7.6-7.3 1.9-14.7 3.9-23.2 6.1l-.6.1c-4.2 1.2-4.6 1.3-8.5-3.2-4.7-5.3-8.1-8.7-14.6-11.9-19.7-9.6-38.7-6.8-56.4 4.7-21.2 13.7-32.1 34-31.8 59.2.3 25 17.4 45.5 41.2 48.9 22 2.8 39.8-4.6 53.8-20.5 2.1-2.6 4-5.3 6.1-8.3.8-1 1.5-2.1 2.3-3.3h-60.1c-6.5 0-8.1-4-5.9-9.3 4-9.7 11.5-25.9 15.9-34 .9-1.8 3.1-5.8 6.9-5.8h101.1c4.5-13.4 11.8-26.9 21.6-39.7 22.7-29.9 49.3-45.5 87.2-52 31.8-5.6 61.7-2.5 88.9 15.9 24.6 16.8 39.8 39.6 43.9 69.5 5.3 42.1-6.9 76.3-36.7 105.6-19.7 20.9-44.9 34-73.9 39.9-5.6 1-11.1 1.5-16.5 2-2.9.2-5.7.5-8.5.8-28.3-.6-54.2-8.7-76-27.4-15.3-13.3-25.9-29.6-31.1-48.5-3.7 7.3-8 14.4-14 21.1-21.6 29.6-50.9 48-87.9 52.9-30.6 4.1-58.9-1.8-83.9-20.5-23-17.5-36.1-40.5-39.5-69.2-4.1-34 5.9-65.4 26.4-91.3 22.2-29 51.5-47.4 87.3-53.9 29.3-6.2 57.3-1.9 82.6 15.3 16.5 10.9 28.3 25.8 36.1 43.9 1.9 2.8.6 4.4-3.1 5.3zm-351.8 5.6c-1.25 0-1.56-.6-.94-1.6l6.55-8.4c.62-.9 2.18-1.5 3.43-1.5H168.6c1.2 0 1.5.9.9 1.8l-5.3 8.1c-.6 1-2.2 1.9-3.1 1.9l-112.8-.3zM1.246 229.1c-1.246 0-1.558-.7-.934-1.6l6.543-8.4c.624-.9 2.182-1.6 3.425-1.6H152.4c1.2 0 1.8 1 1.5 1.9l-2.5 7.5c-.3 1.2-1.5 1.9-2.8 1.9l-147.354.3zm74.474 26.8c-.62.9-.31 1.8.93 1.8l67.95.3c.9 0 2.2-.9 2.2-2.1l.6-7.5c0-1.3-.6-2.2-1.9-2.2H83.2c-1.25 0-2.49.9-3.12 1.9l-4.36 7.8zm501.48-18c-.2-2.6-.3-4.8-.7-7-5.6-30.8-34-48.3-63.6-41.4-29 6.5-47.7 24.9-54.5 54.2-5.6 24.3 6.2 48.9 28.6 58.9 17.2 7.5 34.3 6.6 50.8-1.9 24.6-13.6 38-32.7 39.6-59.5-.1-1.2-.1-2.3-.2-3.3z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://central.sonatype.com/namespace/com.danube-messaging" target="_blank" rel="noopener" title="Java Client on Maven Central" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M277.74 312.9c9.8-6.7 23.4-12.5 23.4-12.5s-38.7 7-77.2 10.2c-47.1 3.9-97.7 4.7-123.1 1.3-60.1-8 33-30.1 33-30.1s-36.1-2.4-80.6 19c-52.5 25.4 130 37 224.5 12.1zm-85.4-32.1c-19-42.7-83.1-80.2 0-145.8C296 53.2 242.84 0 242.84 0c21.5 84.5-75.6 110.1-110.7 162.6-23.9 35.9 11.7 74.4 60.2 118.2zm114.6-176.2c.1 0-175.2 43.8-91.5 140.2 24.7 28.4-6.5 54-6.5 54s62.7-32.4 33.9-72.9c-26.9-37.8-47.5-56.6 64.1-121.3zm-6.1 270.5a12.19 12.19 0 0 1-2 2.6c128.3-33.7 81.1-118.9 19.8-97.3a17.33 17.33 0 0 0-8.2 6.3 70.45 70.45 0 0 1 11-3c31-6.5 75.5 41.5-20.6 91.4zM348 437.4s14.5 11.9-15.9 21.2c-57.9 17.5-240.8 22.8-291.6.7-18.3-7.9 16-19 26.8-21.3 11.2-2.4 17.7-2 17.7-2-20.3-14.3-131.3 28.1-56.4 40.2C232.84 509.4 401 461.3 348 437.4zM124.44 396c-78.7 22 47.9 67.4 148.1 24.5a185.89 185.89 0 0 1-28.2-13.8c-44.7 8.5-65.4 9.1-106 4.5-33.5-3.8-13.9-15.2-13.9-15.2zm179.8 97.2c-78.7 14.8-175.8 13.1-233.3 3.6 0-.1 11.8 9.7 72.4 13.6 92.2 5.9 233.8-3.3 237.1-46.9 0 0-6.4 16.5-76.2 29.7zM260.64 353c-59.2 11.4-93.5 11.1-136.8 6.6-33.5-3.5-11.6-19.7-11.6-19.7-86.8 28.8 48.2 61.4 169.5 25.9a60.37 60.37 0 0 1-21.1-12.8z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://pypi.org/project/danube-client/" target="_blank" rel="noopener" title="Python Client on PyPI" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.8 200.5c-7.7-30.9-22.3-54.2-53.4-54.2h-40.1v47.4c0 36.8-31.2 67.8-66.8 67.8H172.7c-29.2 0-53.4 25-53.4 54.3v101.8c0 29 25.2 46 53.4 54.3 33.8 9.9 66.3 11.7 106.8 0 26.9-7.8 53.4-23.5 53.4-54.3v-40.7H226.2v-13.6h160.2c31.1 0 42.6-21.7 53.4-54.2 11.2-33.5 10.7-65.7 0-108.6zM286.2 404c11.1 0 20.1 9.1 20.1 20.3 0 11.3-9 20.4-20.1 20.4-11 0-20.1-9.2-20.1-20.4.1-11.3 9.1-20.3 20.1-20.3zM167.8 248.1h106.8c29.7 0 53.4-24.5 53.4-54.3V91.9c0-29-24.4-50.7-53.4-55.6-35.8-5.9-74.7-5.6-106.8.1-45.2 8-53.4 24.7-53.4 55.6v40.7h106.9v13.6h-147c-31.1 0-58.3 18.7-66.8 54.2-9.8 40.7-10.2 66.1 0 108.6 7.6 31.6 25.7 54.2 56.8 54.2H101v-48.8c0-35.3 30.5-66.4 66.8-66.4zm-6.7-142.6c-11.1 0-20.1-9.1-20.1-20.3.1-11.3 9-20.4 20.1-20.4 11 0 20.1 9.2 20.1 20.4s-9 20.3-20.1 20.3z"/></svg>
     </a>
   
 </div>

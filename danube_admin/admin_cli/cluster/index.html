@@ -12,28 +12,28 @@
         <meta name="author" content="Dan Rusei">
       
       
-        <link rel="canonical" href="https://danube-docs.dev-state.com/concepts/messaging_patterns_queuing_vs_pubsub/">
+        <link rel="canonical" href="https://danube-docs.dev-state.com/danube_admin/admin_cli/cluster/">
       
       
-        <link rel="prev" href="../schema_registry_guide/">
+        <link rel="prev" href="../../ai_admin_assistant/">
       
       
-        <link rel="next" href="../messaging_modes_pubsub_vs_streaming/">
+        <link rel="next" href="../brokers/">
       
       
-      <link rel="icon" href="../../assets/favicon.ico">
+      <link rel="icon" href="../../../assets/favicon.ico">
       <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.30">
     
     
       
-        <title>Queuing vs Pub/Sub - Danube Messaging</title>
+        <title>Cluster - Danube Messaging</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.3cba04c6.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.3cba04c6.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -52,7 +52,7 @@
       
     
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
   
@@ -88,7 +88,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#messaging-patterns-queuing-vs-pubsub-fanout" class="md-skip">
+        <a href="#cluster-management" class="md-skip">
           Skip to content
         </a>
       
@@ -104,9 +104,9 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="Danube Messaging" class="md-header__button md-logo" aria-label="Danube Messaging" data-md-component="logo">
+    <a href="../../.." title="Danube Messaging" class="md-header__button md-logo" aria-label="Danube Messaging" data-md-component="logo">
       
-  <img src="../../assets/wave.png" alt="logo">
+  <img src="../../../assets/wave.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -123,7 +123,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Queuing vs Pub/Sub
+              Cluster
             
           </span>
         </div>
@@ -243,9 +243,9 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="Danube Messaging" class="md-nav__button md-logo" aria-label="Danube Messaging" data-md-component="logo">
+    <a href="../../.." title="Danube Messaging" class="md-nav__button md-logo" aria-label="Danube Messaging" data-md-component="logo">
       
-  <img src="../../assets/wave.png" alt="logo">
+  <img src="../../../assets/wave.png" alt="logo">
 
     </a>
     Danube Messaging
@@ -272,7 +272,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
+      <a href="../../.." class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -327,7 +327,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting_started/Danube_local/" class="md-nav__link">
+      <a href="../../../getting_started/Danube_local/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -348,7 +348,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting_started/Danube_docker_compose/" class="md-nav__link">
+      <a href="../../../getting_started/Danube_docker_compose/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -369,7 +369,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../getting_started/Danube_kubernetes/" class="md-nav__link">
+      <a href="../../../getting_started/Danube_kubernetes/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -394,19 +394,17 @@
       
   
   
-    
   
   
-  
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
         
           
           <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
@@ -420,7 +418,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             💡 Core Concepts
@@ -434,7 +432,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../topics/" class="md-nav__link">
+      <a href="../../../concepts/topics/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -455,7 +453,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../subscriptions/" class="md-nav__link">
+      <a href="../../../concepts/subscriptions/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -476,7 +474,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../dispatch_strategy/" class="md-nav__link">
+      <a href="../../../concepts/dispatch_strategy/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -497,7 +495,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../messages/" class="md-nav__link">
+      <a href="../../../concepts/messages/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -518,7 +516,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../schema_registry_guide/" class="md-nav__link">
+      <a href="../../../concepts/schema_registry_guide/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -536,178 +534,18 @@
                 
   
   
-    
-  
-  
-  
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    Messaging Patterns
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_3_6">
-            <span class="md-nav__icon md-icon"></span>
-            Messaging Patterns
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Queuing vs Pub/Sub
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  <span class="md-ellipsis">
-    Queuing vs Pub/Sub
-  </span>
-  
-
-      </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#concepts-at-a-glance" class="md-nav__link">
-    <span class="md-ellipsis">
-      Concepts at a Glance
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#how-to-enable-in-danube" class="md-nav__link">
-    <span class="md-ellipsis">
-      How to enable in Danube
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#dispatch-modes-and-guarantees" class="md-nav__link">
-    <span class="md-ellipsis">
-      Dispatch modes and guarantees
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#partitioning-behavior" class="md-nav__link">
-    <span class="md-ellipsis">
-      Partitioning behavior
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#quick-examples" class="md-nav__link">
-    <span class="md-ellipsis">
-      Quick examples
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#notes-best-practices" class="md-nav__link">
-    <span class="md-ellipsis">
-      Notes &amp; best practices
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
   
   
     <li class="md-nav__item">
-      <a href="../messaging_modes_pubsub_vs_streaming/" class="md-nav__link">
+      <a href="../../../concepts/scaling_cluster/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Pub/Sub vs Streaming
+    Scaling the Cluster
   </span>
   
 
       </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
     </li>
   
 
@@ -762,7 +600,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/architecture/" class="md-nav__link">
+      <a href="../../../architecture/architecture/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -783,7 +621,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/load_manager_architecture/" class="md-nav__link">
+      <a href="../../../architecture/load_manager_architecture/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -804,7 +642,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/schema_registry_architecture/" class="md-nav__link">
+      <a href="../../../architecture/schema_registry_architecture/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -825,7 +663,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/persistence/" class="md-nav__link">
+      <a href="../../../architecture/persistence/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -846,32 +684,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../architecture/reliable_topic_move/" class="md-nav__link">
+      <a href="../../../architecture/reliable_topic_move/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     Reliable Topic Workflow
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../architecture/internal_danube_services/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Internal Services
   </span>
   
 
@@ -930,7 +747,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../client_libraries/clients/" class="md-nav__link">
+      <a href="../../../client_libraries/clients/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -951,7 +768,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../client_libraries/setup/" class="md-nav__link">
+      <a href="../../../client_libraries/setup/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -972,7 +789,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../client_libraries/producer/" class="md-nav__link">
+      <a href="../../../client_libraries/producer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -993,7 +810,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../client_libraries/consumer/" class="md-nav__link">
+      <a href="../../../client_libraries/consumer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1014,7 +831,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../client_libraries/schema-registry/" class="md-nav__link">
+      <a href="../../../client_libraries/schema-registry/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1039,17 +856,19 @@
       
   
   
+    
   
   
+  
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
         
           
           <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
@@ -1063,7 +882,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             🔧 Admin Tools
@@ -1077,7 +896,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../danube_admin/getting_started/" class="md-nav__link">
+      <a href="../../getting_started/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1098,7 +917,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../danube_admin/ai_admin_assistant/" class="md-nav__link">
+      <a href="../../ai_admin_assistant/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1116,17 +935,19 @@
                 
   
   
+    
   
   
+  
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" checked>
         
           
           <label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="0">
@@ -1140,7 +961,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_6_3">
             <span class="md-nav__icon md-icon"></span>
             CLI Admin Guide
@@ -1151,10 +972,182 @@
                 
   
   
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Cluster
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Cluster
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Commands
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cluster-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cluster Status
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add-node" class="md-nav__link">
+    <span class="md-ellipsis">
+      Add Node
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#promote-node" class="md-nav__link">
+    <span class="md-ellipsis">
+      Promote Node
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#remove-node" class="md-nav__link">
+    <span class="md-ellipsis">
+      Remove Node
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Workflows
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Workflows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-scale-up-add-a-broker" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Scale Up (Add a Broker)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-scale-down-remove-a-broker" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Scale Down (Remove a Broker)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-health-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Health Check
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Reference
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
   
   
     <li class="md-nav__item">
-      <a href="../../danube_admin/admin_cli/brokers/" class="md-nav__link">
+      <a href="../brokers/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1175,7 +1168,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../danube_admin/admin_cli/namespaces/" class="md-nav__link">
+      <a href="../namespaces/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1196,7 +1189,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../danube_admin/admin_cli/topics/" class="md-nav__link">
+      <a href="../topics/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1217,7 +1210,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../danube_admin/admin_cli/schema_registry/" class="md-nav__link">
+      <a href="../schema_registry/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1288,7 +1281,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../danube_cli/getting_started/" class="md-nav__link">
+      <a href="../../../danube_cli/getting_started/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1309,7 +1302,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../danube_cli/producer/" class="md-nav__link">
+      <a href="../../../danube_cli/producer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1330,7 +1323,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../danube_cli/consumer/" class="md-nav__link">
+      <a href="../../../danube_cli/consumer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1351,7 +1344,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../danube_cli/schema_registry/" class="md-nav__link">
+      <a href="../../../danube_cli/schema_registry/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1414,7 +1407,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../integrations/danube_connect_overview/" class="md-nav__link">
+      <a href="../../../integrations/danube_connect_overview/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1435,7 +1428,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../integrations/danube_connect_architecture/" class="md-nav__link">
+      <a href="../../../integrations/danube_connect_architecture/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1456,7 +1449,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../integrations/sink_connector_development/" class="md-nav__link">
+      <a href="../../../integrations/sink_connector_development/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1477,7 +1470,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../integrations/source_connector_development/" class="md-nav__link">
+      <a href="../../../integrations/source_connector_development/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1540,7 +1533,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/broker_configuration/" class="md-nav__link">
+      <a href="../../../reference/broker_configuration/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1603,7 +1596,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../contributing/dev_environment/" class="md-nav__link">
+      <a href="../../../contributing/dev_environment/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1624,7 +1617,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../contributing/etcd_metadata_structure/" class="md-nav__link">
+      <a href="../../../contributing/etcd_metadata_structure/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1672,54 +1665,111 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#concepts-at-a-glance" class="md-nav__link">
+  <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
-      Concepts at a Glance
+      Overview
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#how-to-enable-in-danube" class="md-nav__link">
+  <a href="#commands" class="md-nav__link">
     <span class="md-ellipsis">
-      How to enable in Danube
+      Commands
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cluster-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cluster Status
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#dispatch-modes-and-guarantees" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#add-node" class="md-nav__link">
     <span class="md-ellipsis">
-      Dispatch modes and guarantees
+      Add Node
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#partitioning-behavior" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#promote-node" class="md-nav__link">
     <span class="md-ellipsis">
-      Partitioning behavior
+      Promote Node
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#quick-examples" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#remove-node" class="md-nav__link">
     <span class="md-ellipsis">
-      Quick examples
+      Remove Node
     </span>
   </a>
   
 </li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#notes-best-practices" class="md-nav__link">
+  <a href="#common-workflows" class="md-nav__link">
     <span class="md-ellipsis">
-      Notes &amp; best practices
+      Common Workflows
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Workflows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-scale-up-add-a-broker" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Scale Up (Add a Broker)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-scale-down-remove-a-broker" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Scale Down (Remove a Broker)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-health-check" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Health Check
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Reference
     </span>
   </a>
   
@@ -1740,7 +1790,7 @@
                   
 
   
-    <a href="https://github.com/danube-messaging/danube_docs/edit/main/docs/concepts/messaging_patterns_queuing_vs_pubsub.md" title="Edit this page" class="md-content__button md-icon">
+    <a href="https://github.com/danube-messaging/danube_docs/edit/main/docs/danube_admin/admin_cli/cluster.md" title="Edit this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
     </a>
@@ -1748,75 +1798,245 @@
   
 
 
-<h1 id="messaging-patterns-queuing-vs-pubsub-fanout">Messaging Patterns: Queuing vs Pub/Sub (Fan‑out)</h1>
-<p>This page explains the difference between queuing (point‑to‑point) and pub/sub (fan‑out) and shows how to enable each pattern in Danube using subscriptions and dispatch modes.</p>
+<h1 id="cluster-management">Cluster Management</h1>
+<p>Manage the Raft cluster membership and view consensus state.</p>
+<h2 id="overview">Overview</h2>
+<p>The <code>cluster</code> command provides direct control over the Raft consensus layer that underpins Danube's metadata replication. Use it to:</p>
 <ul>
-<li>For subscription details, see <code>architecture/subscriptions.md</code>.</li>
-<li>For delivery semantics, see <code>architecture/dispatch_strategy.md</code>.</li>
+<li>View Raft cluster status (leader, term, voters, learners)</li>
+<li>Add new brokers to the cluster as learners</li>
+<li>Promote learners to full voting members</li>
+<li>Remove nodes from the cluster</li>
 </ul>
-<h2 id="concepts-at-a-glance">Concepts at a Glance</h2>
-<p><strong>Queuing (Point‑to‑Point)</strong></p>
+<p>All commands connect to a broker's admin gRPC endpoint. Set the target via <code>--admin-addr</code> or the <code>DANUBE_ADMIN_ENDPOINT</code> environment variable (default <code>http://127.0.0.1:50051</code>).</p>
+<h2 id="commands">Commands</h2>
+<h3 id="cluster-status">Cluster Status</h3>
+<p>Show current Raft cluster state including leader, term, voters, and learners.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>danube-admin<span class="w"> </span>cluster<span class="w"> </span>status
+</span></code></pre></div>
+<p><strong>Example Output:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Raft<span class="w"> </span>Cluster<span class="w"> </span>Status:
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span>Self<span class="w"> </span>Node<span class="w"> </span>ID:<span class="w">  </span><span class="m">9823746501928374</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span>Raft<span class="w"> </span>Address:<span class="w">  </span><span class="m">127</span>.0.0.1:7650
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span>Leader:<span class="w">        </span><span class="m">9823746501928374</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span>Term:<span class="w">          </span><span class="m">3</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span>Last<span class="w"> </span>Applied:<span class="w">  </span><span class="m">142</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span>Voters:<span class="w">        </span><span class="o">[</span><span class="m">9823746501928374</span>,<span class="w"> </span><span class="m">1048209374659182</span>,<span class="w"> </span><span class="m">7391028374651029</span><span class="o">]</span>
+</span></code></pre></div>
+<p>If learners are present they are also listed:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="w">  </span>Learners:<span class="w">      </span><span class="o">[</span><span class="m">5829103746519283</span><span class="o">]</span>
+</span></code></pre></div>
+<p><strong>Fields Explained:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Self Node ID</strong></td>
+<td>The node ID of the broker you connected to</td>
+</tr>
+<tr>
+<td><strong>Raft Address</strong></td>
+<td>The Raft transport address (<code>host:raft_port</code>)</td>
+</tr>
+<tr>
+<td><strong>Leader</strong></td>
+<td>Node ID of the current Raft leader (<code>none</code> if no leader elected)</td>
+</tr>
+<tr>
+<td><strong>Term</strong></td>
+<td>Current Raft term (monotonically increasing election counter)</td>
+</tr>
+<tr>
+<td><strong>Last Applied</strong></td>
+<td>Index of the last log entry applied to the state machine</td>
+</tr>
+<tr>
+<td><strong>Voters</strong></td>
+<td>Node IDs that participate in consensus (quorum members)</td>
+</tr>
+<tr>
+<td><strong>Learners</strong></td>
+<td>Node IDs replicating the log but not yet voting</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="add-node">Add Node</h3>
+<p>Add a new broker to the cluster as a Raft learner (non-voting). The CLI auto-discovers the new node's <code>node_id</code> and <code>raft_addr</code> by connecting to its admin endpoint first, then tells the leader to add it.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>danube-admin<span class="w"> </span>cluster<span class="w"> </span>add-node<span class="w"> </span>--node-addr<span class="w"> </span>&lt;ADMIN_ENDPOINT&gt;
+</span></code></pre></div>
+<p><strong>Arguments:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--node-addr</code></td>
+<td>Yes</td>
+<td>Admin gRPC endpoint of the new broker (e.g., <code>http://new-broker:50054</code>)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>danube-admin<span class="w"> </span>cluster<span class="w"> </span>add-node<span class="w"> </span>--node-addr<span class="w"> </span>http://new-broker:50054
+</span></code></pre></div>
+<p><strong>Example Output:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Discovering<span class="w"> </span>node<span class="w"> </span>at<span class="w"> </span>http://new-broker:50054...
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span>Discovered:<span class="w"> </span><span class="nv">node_id</span><span class="o">=</span><span class="m">5829103746519283</span>,<span class="w"> </span><span class="nv">raft_addr</span><span class="o">=</span>new-broker:7653
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>Adding<span class="w"> </span>node<span class="w"> </span><span class="m">5829103746519283</span><span class="w"> </span>as<span class="w"> </span>learner<span class="w"> </span>via<span class="w"> </span>http://127.0.0.1:50051...
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>Success:<span class="w"> </span>Node<span class="w"> </span><span class="m">5829103746519283</span><span class="w"> </span>added<span class="w"> </span>as<span class="w"> </span>learner
+</span></code></pre></div>
+<p><strong>How It Works:</strong></p>
+<ol>
+<li>Connects to the new node's admin endpoint (<code>--node-addr</code>)</li>
+<li>Calls <code>cluster status</code> on the new node to discover its <code>node_id</code> and <code>raft_addr</code></li>
+<li>Connects to the current leader (via <code>DANUBE_ADMIN_ENDPOINT</code>)</li>
+<li>Requests the leader to add the node as a Raft learner</li>
+</ol>
+<p><strong>Important Notes:</strong></p>
 <ul>
-<li>One message is delivered to exactly one consumer in a group.</li>
-<li>Suited for work distribution (orders, tasks, jobs).</li>
-<li>Ordering is per consumer, and per partition when topics are partitioned.</li>
+<li>The new broker must already be running with its Raft port accessible</li>
+<li>Learners replicate the Raft log but do <strong>not</strong> participate in votes</li>
+<li>After adding, use <code>promote-node</code> to grant voting rights</li>
+<li>See <a href="../../../concepts/scaling_cluster/">Scaling the Cluster</a> for the full add → promote → activate workflow</li>
 </ul>
-<p><strong>Pub/Sub (Fan‑out)</strong></p>
+<hr />
+<h3 id="promote-node">Promote Node</h3>
+<p>Promote a Raft learner to a full voting member (voter).</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>danube-admin<span class="w"> </span>cluster<span class="w"> </span>promote-node<span class="w"> </span>--node-id<span class="w"> </span>&lt;NODE_ID&gt;
+</span></code></pre></div>
+<p><strong>Arguments:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--node-id</code></td>
+<td>Yes</td>
+<td>Node ID of the learner to promote</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>danube-admin<span class="w"> </span>cluster<span class="w"> </span>promote-node<span class="w"> </span>--node-id<span class="w"> </span><span class="m">5829103746519283</span>
+</span></code></pre></div>
+<p><strong>Example Output:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Promoting<span class="w"> </span>node<span class="w"> </span><span class="m">5829103746519283</span><span class="w"> </span>to<span class="w"> </span>voter...
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>Success:<span class="w"> </span>Node<span class="w"> </span><span class="m">5829103746519283</span><span class="w"> </span>promoted<span class="w"> </span>to<span class="w"> </span>voter
+</span></code></pre></div>
+<p><strong>Important Notes:</strong></p>
 <ul>
-<li>Every subscription receives every message.</li>
-<li>Suited for broadcast (notifications, analytics, multiple services reacting to events).</li>
-<li>Each subscription processes the full stream independently.</li>
+<li>The node must already be a learner (added via <code>add-node</code>)</li>
+<li>After promotion the node participates in Raft consensus votes and counts toward quorum</li>
+<li>For production clusters, always activate the broker after promoting so it can receive topic assignments:</li>
 </ul>
-<h2 id="how-to-enable-in-danube">How to enable in Danube</h2>
-<p>Both patterns are built with Danube subscriptions on a topic.</p>
-<p><strong>Queuing (Point‑to‑Point)</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>activate<span class="w"> </span>&lt;BROKER_ID&gt;
+</span></code></pre></div>
+<hr />
+<h3 id="remove-node">Remove Node</h3>
+<p>Remove a node from the Raft cluster entirely.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>danube-admin<span class="w"> </span>cluster<span class="w"> </span>remove-node<span class="w"> </span>--node-id<span class="w"> </span>&lt;NODE_ID&gt;
+</span></code></pre></div>
+<p><strong>Arguments:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--node-id</code></td>
+<td>Yes</td>
+<td>Node ID to remove from the cluster</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>danube-admin<span class="w"> </span>cluster<span class="w"> </span>remove-node<span class="w"> </span>--node-id<span class="w"> </span><span class="m">5829103746519283</span>
+</span></code></pre></div>
+<p><strong>Example Output:</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>Removing<span class="w"> </span>node<span class="w"> </span><span class="m">5829103746519283</span><span class="w"> </span>from<span class="w"> </span>cluster...
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>Success:<span class="w"> </span>Node<span class="w"> </span><span class="m">5829103746519283</span><span class="w"> </span>removed
+</span></code></pre></div>
+<p><strong>Important Notes:</strong></p>
 <ul>
-<li>Set subscription type to <code>Shared</code>.</li>
-<li>Use the same subscription name across all workers (e.g., <code>orders-workers</code>).</li>
-<li>Result: Each message is delivered to one consumer in the group (round‑robin, per partition).</li>
+<li>Unload topics from the broker <strong>before</strong> removing it from the cluster:</li>
 </ul>
-<p><strong>Pub/Sub (Fan‑out)</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>unload<span class="w"> </span>&lt;BROKER_ID&gt;
+</span></code></pre></div>
 <ul>
-<li>Create distinct subscriptions per downstream consumer/team (unique subscription names), typically using <code>Exclusive</code> (or <code>Failover</code> for HA).</li>
-<li>Result: Each subscription receives every message; consumers do not contend with other subscriptions.</li>
+<li>Removing a voter reduces the quorum size — ensure you maintain a majority (e.g., don't drop from 3 voters to 1)</li>
+<li>The removed node's data directory can be cleaned up after removal</li>
 </ul>
-<h2 id="dispatch-modes-and-guarantees">Dispatch modes and guarantees</h2>
-<p><strong>Non‑Reliable (Pub/Sub‑style, best‑effort)</strong></p>
-<ul>
-<li>Lowest latency; no persistence or replay.</li>
-<li>Messages are delivered only to active consumers. Disconnections may cause loss.</li>
-</ul>
-<p><strong>Reliable (Streaming‑style, at‑least‑once)</strong></p>
-<ul>
-<li>Messages are appended to the local WAL and asynchronously uploaded to cloud storage.</li>
-<li>Consumers can replay historical data; acknowledgments drive redelivery.</li>
-</ul>
-<p>See <code>architecture/persistence.md</code> for WAL + Cloud details.</p>
-<h2 id="partitioning-behavior">Partitioning behavior</h2>
-<p>With partitioned topics, both patterns apply per partition.</p>
-<ul>
-<li>Queuing: messages are distributed round‑robin within each partition to the consumers in that subscription.</li>
-<li>Pub/Sub: each subscription receives each partition’s messages independently.</li>
-</ul>
-<h2 id="quick-examples">Quick examples</h2>
-<p><strong>Build a worker queue</strong></p>
-<ul>
-<li>Topic: <code>/default/orders</code></li>
-<li>Subscription: <code>orders-workers</code> (type <code>Shared</code>)</li>
-<li>Run N consumers with the same subscription name. Messages are load‑balanced.</li>
-</ul>
-<p><strong>Broadcast to multiple services</strong></p>
-<ul>
-<li>Topic: <code>/default/events</code></li>
-<li>Subscriptions: <code>billing</code> (Exclusive), <code>analytics</code> (Exclusive), <code>monitoring</code> (Failover)</li>
-<li>Each subscription receives the full event stream independently.</li>
-</ul>
-<h2 id="notes-best-practices">Notes &amp; best practices</h2>
-<ul>
-<li>Use Reliable mode for durability and replay; Non‑Reliable for minimal latency when loss is acceptable.</li>
-<li>Prefer <code>Failover</code> over <code>Exclusive</code> when you need quick takeover on consumer failure.</li>
-<li>Size partitions to match consumer parallelism for optimal throughput.</li>
-</ul>
+<h2 id="common-workflows">Common Workflows</h2>
+<h3 id="1-scale-up-add-a-broker">1. Scale Up (Add a Broker)</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Step 1: Check current cluster state</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>danube-admin<span class="w"> </span>cluster<span class="w"> </span>status
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># Step 2: Add the new broker as a learner</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>danube-admin<span class="w"> </span>cluster<span class="w"> </span>add-node<span class="w"> </span>--node-addr<span class="w"> </span>http://new-broker:50054
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="c1"># Step 3: Verify it appears as a learner</span>
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>danube-admin<span class="w"> </span>cluster<span class="w"> </span>status
+</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>
+</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="c1"># Step 4: Promote to voter</span>
+</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>danube-admin<span class="w"> </span>cluster<span class="w"> </span>promote-node<span class="w"> </span>--node-id<span class="w"> </span>&lt;NODE_ID&gt;
+</span><span id="__span-14-12"><a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a>
+</span><span id="__span-14-13"><a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a><span class="c1"># Step 5: Activate the broker so it receives topics</span>
+</span><span id="__span-14-14"><a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>activate<span class="w"> </span>&lt;BROKER_ID&gt;
+</span><span id="__span-14-15"><a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a>
+</span><span id="__span-14-16"><a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a><span class="c1"># Step 6: Verify cluster balance</span>
+</span><span id="__span-14-17"><a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>balance
+</span></code></pre></div>
+<h3 id="2-scale-down-remove-a-broker">2. Scale Down (Remove a Broker)</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># Step 1: Unload topics from the broker</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>unload<span class="w"> </span>&lt;BROKER_ID&gt;
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="c1"># Step 2: Remove from the Raft cluster</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>danube-admin<span class="w"> </span>cluster<span class="w"> </span>remove-node<span class="w"> </span>--node-id<span class="w"> </span>&lt;NODE_ID&gt;
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="c1"># Step 3: Verify cluster state</span>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>danube-admin<span class="w"> </span>cluster<span class="w"> </span>status
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>
+</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="c1"># Step 4: Stop the broker process (external)</span>
+</span></code></pre></div>
+<h3 id="3-health-check">3. Health Check</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># Quick cluster health overview</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>danube-admin<span class="w"> </span>cluster<span class="w"> </span>status
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>list
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>balance
+</span></code></pre></div>
+<h2 id="quick-reference">Quick Reference</h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># Raft cluster status</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>danube-admin<span class="w"> </span>cluster<span class="w"> </span>status
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="c1"># Add a new broker (learner)</span>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>danube-admin<span class="w"> </span>cluster<span class="w"> </span>add-node<span class="w"> </span>--node-addr<span class="w"> </span>http://new-broker:50054
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="c1"># Promote learner to voter</span>
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>danube-admin<span class="w"> </span>cluster<span class="w"> </span>promote-node<span class="w"> </span>--node-id<span class="w"> </span>&lt;node-id&gt;
+</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>
+</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="c1"># Remove node from cluster</span>
+</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>danube-admin<span class="w"> </span>cluster<span class="w"> </span>remove-node<span class="w"> </span>--node-id<span class="w"> </span>&lt;node-id&gt;
+</span></code></pre></div>
 
 
 
@@ -1901,6 +2121,22 @@
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M400.1 194.8c-10.9 2.8-19.9 4.3-29.1 7.6-7.3 1.9-14.7 3.9-23.2 6.1l-.6.1c-4.2 1.2-4.6 1.3-8.5-3.2-4.7-5.3-8.1-8.7-14.6-11.9-19.7-9.6-38.7-6.8-56.4 4.7-21.2 13.7-32.1 34-31.8 59.2.3 25 17.4 45.5 41.2 48.9 22 2.8 39.8-4.6 53.8-20.5 2.1-2.6 4-5.3 6.1-8.3.8-1 1.5-2.1 2.3-3.3h-60.1c-6.5 0-8.1-4-5.9-9.3 4-9.7 11.5-25.9 15.9-34 .9-1.8 3.1-5.8 6.9-5.8h101.1c4.5-13.4 11.8-26.9 21.6-39.7 22.7-29.9 49.3-45.5 87.2-52 31.8-5.6 61.7-2.5 88.9 15.9 24.6 16.8 39.8 39.6 43.9 69.5 5.3 42.1-6.9 76.3-36.7 105.6-19.7 20.9-44.9 34-73.9 39.9-5.6 1-11.1 1.5-16.5 2-2.9.2-5.7.5-8.5.8-28.3-.6-54.2-8.7-76-27.4-15.3-13.3-25.9-29.6-31.1-48.5-3.7 7.3-8 14.4-14 21.1-21.6 29.6-50.9 48-87.9 52.9-30.6 4.1-58.9-1.8-83.9-20.5-23-17.5-36.1-40.5-39.5-69.2-4.1-34 5.9-65.4 26.4-91.3 22.2-29 51.5-47.4 87.3-53.9 29.3-6.2 57.3-1.9 82.6 15.3 16.5 10.9 28.3 25.8 36.1 43.9 1.9 2.8.6 4.4-3.1 5.3zm-351.8 5.6c-1.25 0-1.56-.6-.94-1.6l6.55-8.4c.62-.9 2.18-1.5 3.43-1.5H168.6c1.2 0 1.5.9.9 1.8l-5.3 8.1c-.6 1-2.2 1.9-3.1 1.9l-112.8-.3zM1.246 229.1c-1.246 0-1.558-.7-.934-1.6l6.543-8.4c.624-.9 2.182-1.6 3.425-1.6H152.4c1.2 0 1.8 1 1.5 1.9l-2.5 7.5c-.3 1.2-1.5 1.9-2.8 1.9l-147.354.3zm74.474 26.8c-.62.9-.31 1.8.93 1.8l67.95.3c.9 0 2.2-.9 2.2-2.1l.6-7.5c0-1.3-.6-2.2-1.9-2.2H83.2c-1.25 0-2.49.9-3.12 1.9l-4.36 7.8zm501.48-18c-.2-2.6-.3-4.8-.7-7-5.6-30.8-34-48.3-63.6-41.4-29 6.5-47.7 24.9-54.5 54.2-5.6 24.3 6.2 48.9 28.6 58.9 17.2 7.5 34.3 6.6 50.8-1.9 24.6-13.6 38-32.7 39.6-59.5-.1-1.2-.1-2.3-.2-3.3z"/></svg>
     </a>
   
+    
+    
+    
+    
+    <a href="https://central.sonatype.com/namespace/com.danube-messaging" target="_blank" rel="noopener" title="Java Client on Maven Central" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M277.74 312.9c9.8-6.7 23.4-12.5 23.4-12.5s-38.7 7-77.2 10.2c-47.1 3.9-97.7 4.7-123.1 1.3-60.1-8 33-30.1 33-30.1s-36.1-2.4-80.6 19c-52.5 25.4 130 37 224.5 12.1zm-85.4-32.1c-19-42.7-83.1-80.2 0-145.8C296 53.2 242.84 0 242.84 0c21.5 84.5-75.6 110.1-110.7 162.6-23.9 35.9 11.7 74.4 60.2 118.2zm114.6-176.2c.1 0-175.2 43.8-91.5 140.2 24.7 28.4-6.5 54-6.5 54s62.7-32.4 33.9-72.9c-26.9-37.8-47.5-56.6 64.1-121.3zm-6.1 270.5a12.19 12.19 0 0 1-2 2.6c128.3-33.7 81.1-118.9 19.8-97.3a17.33 17.33 0 0 0-8.2 6.3 70.45 70.45 0 0 1 11-3c31-6.5 75.5 41.5-20.6 91.4zM348 437.4s14.5 11.9-15.9 21.2c-57.9 17.5-240.8 22.8-291.6.7-18.3-7.9 16-19 26.8-21.3 11.2-2.4 17.7-2 17.7-2-20.3-14.3-131.3 28.1-56.4 40.2C232.84 509.4 401 461.3 348 437.4zM124.44 396c-78.7 22 47.9 67.4 148.1 24.5a185.89 185.89 0 0 1-28.2-13.8c-44.7 8.5-65.4 9.1-106 4.5-33.5-3.8-13.9-15.2-13.9-15.2zm179.8 97.2c-78.7 14.8-175.8 13.1-233.3 3.6 0-.1 11.8 9.7 72.4 13.6 92.2 5.9 233.8-3.3 237.1-46.9 0 0-6.4 16.5-76.2 29.7zM260.64 353c-59.2 11.4-93.5 11.1-136.8 6.6-33.5-3.5-11.6-19.7-11.6-19.7-86.8 28.8 48.2 61.4 169.5 25.9a60.37 60.37 0 0 1-21.1-12.8z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://pypi.org/project/danube-client/" target="_blank" rel="noopener" title="Python Client on PyPI" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.8 200.5c-7.7-30.9-22.3-54.2-53.4-54.2h-40.1v47.4c0 36.8-31.2 67.8-66.8 67.8H172.7c-29.2 0-53.4 25-53.4 54.3v101.8c0 29 25.2 46 53.4 54.3 33.8 9.9 66.3 11.7 106.8 0 26.9-7.8 53.4-23.5 53.4-54.3v-40.7H226.2v-13.6h160.2c31.1 0 42.6-21.7 53.4-54.2 11.2-33.5 10.7-65.7 0-108.6zM286.2 404c11.1 0 20.1 9.1 20.1 20.3 0 11.3-9 20.4-20.1 20.4-11 0-20.1-9.2-20.1-20.4.1-11.3 9.1-20.3 20.1-20.3zM167.8 248.1h106.8c29.7 0 53.4-24.5 53.4-54.3V91.9c0-29-24.4-50.7-53.4-55.6-35.8-5.9-74.7-5.6-106.8.1-45.2 8-53.4 24.7-53.4 55.6v40.7h106.9v13.6h-147c-31.1 0-58.3 18.7-66.8 54.2-9.8 40.7-10.2 66.1 0 108.6 7.6 31.6 25.7 54.2 56.8 54.2H101v-48.8c0-35.3 30.5-66.4 66.8-66.4zm-6.7-142.6c-11.1 0-20.1-9.1-20.1-20.3.1-11.3 9-20.4 20.1-20.4 11 0 20.1 9.2 20.1 20.4s-9 20.3-20.1 20.3z"/></svg>
+    </a>
+  
 </div>
       
     </div>
@@ -1913,10 +2149,10 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["content.action.edit", "content.code.copy", "content.tabs.link", "content.tooltips", "navigation.top", "search.suggest", "search.share"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.action.edit", "content.code.copy", "content.tabs.link", "content.tooltips", "navigation.top", "search.suggest", "search.share"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
       
     
   </body>
