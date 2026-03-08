@@ -20,14 +20,14 @@ Instead of embedding integrations directly into the Danube broker (monolithic ap
 ## Architecture
 
 ```bash
-External Systems ↔ Connectors ↔ danube-connect-core ↔ danube-client ↔ Danube Broker
+External Systems ↔ Connector Adapter ↔ danube-connect-core ↔ danube-client ↔ Danube Broker
 ```
 
 **Connectors** are standalone binaries that:
 
 1. Connect to external systems (MQTT, databases, HTTP APIs, etc.)
-2. Use **danube-connect-core** SDK for Danube communication
-3. Transform data between external formats and Danube messages
+2. Use **danube-connect-core** for shared runtime concerns
+3. Transform data between external formats and generic `SourceRecord` / `SinkRecord` values
 4. Run independently with their own lifecycle and resources
 
 **Key principle:** The Danube broker remains "dumb" and pure Rust—it knows nothing about external systems.
@@ -98,14 +98,15 @@ Deploy connectors using Docker:
 docker run -d \
   -e DANUBE_SERVICE_URL=http://danube-broker:6650 \
   -e CONNECTOR_NAME=mqtt-bridge \
-  -v $(pwd)/config.toml:/config.toml \
-  danube-connect/source-mqtt:latest
+  -e CONNECTOR_CONFIG_PATH=/config/connector.toml \
+  -v $(pwd)/config.toml:/config/connector.toml:ro \
+  ghcr.io/danube-messaging/danube-source-mqtt:latest
 ```
 
 **That's it!** The connector handles:
 
 - Connection management to Danube
-- Message transformation and routing
+- Shared message processing runtime
 - Retry logic and error handling
 - Metrics and health checks
 - Graceful shutdown
@@ -146,7 +147,7 @@ Both source (import) and sink (export) connectors supported
 
 - Connectors work with typed `serde_json::Value` data, not raw bytes
 - Runtime handles all schema operations (fetch, cache, validate, serialize)
-- Support for JSON Schema, String, Bytes, Number (Avro & Protobuf coming soon)
+- Support for JSON Schema, String, Bytes, Number, and Avro flows
 - Schema evolution with version strategies (latest, pinned, minimum)
 - **Zero schema boilerplate** in your connector code
 
@@ -164,7 +165,7 @@ Prometheus metrics, structured logging, health endpoints
 
 ### ⚡ High Performance
 
-Async I/O, batching, connection pooling, parallel processing, schema caching
+Async I/O, runtime-managed sink batching, streaming source support, connection pooling, and schema caching
 
 ### 🦀 Pure Rust
 
@@ -175,9 +176,9 @@ Memory-safe, high-performance, zero-cost abstractions
 ## Learn More
 
 - **[Connector Architecture](danube_connect_architecture.md)** - Deep dive into design and concepts
-- **[Buil Source Connector](source_connector_development.md)** - Create your own source connector
+- **[Build Source Connector](source_connector_development.md)** - Create your own source connector
 - **[Build Sink Connector](sink_connector_development.md)** - Create your own sink connector
-- **[Github Connector Core](https://github.com/danube-messaging/danube-connect-core)** - Connector SDK source code
+- **[GitHub Connector Core](https://github.com/danube-messaging/danube-connect-core)** - Connector SDK source code
 - **[GitHub Connectors Repo](https://github.com/danube-messaging/danube-connectors)** - Connectors source code and full examples
 
 ---
@@ -186,4 +187,4 @@ Memory-safe, high-performance, zero-cost abstractions
 
 - **GitHub Issues:** [Report bugs or request connectors](https://github.com/danube-messaging/danube-connectors/issues)
 - **Source Code:** [danube-messaging/danube-connect](https://github.com/danube-messaging/danube-connectors)
-- **Examples:** [Complete connector examples](https://github.com/danube-messaging/danube-connectors/tree/main/examples)
+- **Examples:** [Connector examples and end-to-end flows](https://github.com/danube-messaging/danube-connectors/tree/main)

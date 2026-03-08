@@ -6,7 +6,7 @@
 
 ## Overview
 
-A **source connector** imports data from external systems into Danube topics. The connector polls or listens to the external system, transforms data into `SourceRecord`s, and the runtime handles publishing to Danube with schema validation and delivery guarantees.
+A **source connector** imports data from external systems into Danube topics. The connector reads or receives external events, transforms them into `SourceRecord` or `SourceEnvelope` values, and the runtime handles publishing to Danube with schema-aware serialization, retries, health checks, and delivery guarantees.
 
 **Examples:** MQTT→Danube, PostgreSQL CDC→Danube, HTTP webhooks→Danube, Kafka→Danube
 
@@ -19,11 +19,11 @@ A **source connector** imports data from external systems into Danube topics. Th
 | **You Handle** | **Runtime Handles** |
 |----------------|---------------------|
 | Connect to external system | Connect to Danube broker |
-| Poll/listen for data | Publish to Danube topics |
-| Transform to `SourceRecord` | Schema serialization & validation |
-| Topic routing logic | Message delivery & retries |
-| Error handling per system | Lifecycle & health monitoring |
-| Offset tracking (optional) | Metrics & observability |
+| Poll, subscribe, or receive external data | Publish to Danube topics |
+| Transform to `SourceRecord` / `SourceEnvelope` | Schema serialization & validation |
+| Topic routing logic | Producer creation, delivery, and retries |
+| External checkpoint logic | Lifecycle & health monitoring |
+| Error handling per system | Metrics & observability |
 
 **Key insight:** You work with typed `serde_json::Value` data. The runtime handles schema-based serialization and raw byte formats.
 
@@ -36,16 +36,23 @@ A **source connector** imports data from external systems into Danube topics. Th
 pub trait SourceConnector: Send + Sync {
     async fn initialize(&mut self, config: ConnectorConfig) -> ConnectorResult<()>;
     async fn producer_configs(&self) -> ConnectorResult<Vec<ProducerConfig>>;
-    async fn poll(&mut self) -> ConnectorResult<Vec<SourceRecord>>;
-    
-    // Optional methods with defaults
+
+    fn mode(&self) -> SourceConnectorMode {
+        SourceConnectorMode::Polling
+    }
+
+    async fn start_streaming(&mut self, sender: SourceSender) -> ConnectorResult<()>;
+    async fn poll(&mut self) -> ConnectorResult<Vec<SourceEnvelope>>;
+
     async fn commit(&mut self, offsets: Vec<Offset>) -> ConnectorResult<()> { Ok(()) }
     async fn shutdown(&mut self) -> ConnectorResult<()> { Ok(()) }
     async fn health_check(&self) -> ConnectorResult<()> { Ok(()) }
 }
 ```
 
-**Required:** `initialize`, `producer_configs`, `poll`  
+**Required for all connectors:** `initialize`, `producer_configs`  
+**Required for polling connectors:** `poll`  
+**Required for streaming connectors:** override `mode()` and implement `start_streaming()`  
 **Optional:** `commit`, `shutdown`, `health_check`
 
 ---
@@ -80,6 +87,10 @@ pub struct MySourceConfig {
 danube_service_url = "http://danube-broker:6650"
 connector_name = "my-source"
 
+[processing]
+poll_interval_ms = 100
+metrics_port = 9090
+
 [[schemas]]  # ← From ConnectorConfig (flattened)
 topic = "/data/events"
 subject = "events-v1"
@@ -91,12 +102,12 @@ version_strategy = "latest"
 # Connector-specific section
 [my_source]
 external_host = "system.example.com"
-poll_interval_ms = 100
 
-[[my_source.topic_mappings]]
-source_pattern = "input/*"
-danube_topic = "/data/events"
+[[my_source.routes]]
+from = "input/*"
+to = "/data/events"
 partitions = 4
+reliable_dispatch = true
 ```
 
 ### Configuration Loading
@@ -113,7 +124,7 @@ partitions = 4
 - Core: `DANUBE_SERVICE_URL`, `CONNECTOR_NAME`
 - Secrets: System-specific credentials (e.g., `API_KEY`, `PASSWORD`)
 
-**Not overridable:** Topic mappings, schemas, processing settings (must be in TOML)
+**Not overridable:** `routes`, `from`, `to`, schemas, and shared processing settings (must be in TOML)
 
 ---
 
@@ -132,11 +143,12 @@ partitions = 4
 - Set up connection pools if needed
 - Subscribe to data sources (topics, streams, tables)
 - Validate connectivity with test query/ping
-- Store client in struct for later use in `poll()`
+- Store client in struct for later use in `poll()` or `start_streaming()`
 
 **Error handling:**
 
-- Return `ConnectorError::Initialization` for connection failures
+- Return `ConnectorError::config` for configuration mistakes
+- Return `ConnectorError::fatal` for connection or setup failures
 - Log detailed error context for debugging
 - Fail fast - don't retry in `initialize()`
 
@@ -151,7 +163,7 @@ partitions = 4
 
 ### 2. Define Producer Configs
 
-**`async fn producer_configs(&self) -> Vec<ProducerConfig>`**
+**`async fn producer_configs(&self) -> ConnectorResult<Vec<ProducerConfig>>`**
 
 **Purpose:** Tell the runtime which Danube topics you'll publish to and their configurations.
 
@@ -159,22 +171,17 @@ partitions = 4
 
 - Map your topic routing logic to Danube topics
 - For each destination topic, create a `ProducerConfig`
-- Attach schema configuration if defined for that topic
+- Let the runtime attach schema configuration from `config.core.schemas` when a schema is defined for that topic
 - Specify partitions and reliability settings
 
 **Schema mapping:**
 
 ```rust
-// Find schema for this Danube topic from config.core.schemas
-let schema_config = self.schemas.iter()
-    .find(|s| s.topic == danube_topic)
-    .map(|s| convert_to_schema_config(s));
-
 ProducerConfig {
     topic: danube_topic,
     partitions: 4,
     reliable_dispatch: true,
-    schema_config,  // Runtime uses this for serialization
+    schema_config: None,  // Runtime populates this from config.core.schemas
 }
 ```
 
@@ -182,11 +189,17 @@ ProducerConfig {
 
 ---
 
-### 3. Poll for Data
+### 3. Choose a Source Mode
 
-**`async fn poll(&mut self) -> Vec<SourceRecord>`**
+The source runtime supports **two execution modes**.
 
-**Purpose:** Fetch new data from external system and transform to `SourceRecord`s.
+#### Polling Mode
+
+Use polling mode when the external system is naturally pull-based.
+
+**`async fn poll(&mut self) -> ConnectorResult<Vec<SourceEnvelope>>`**
+
+**Purpose:** Fetch new data from the external system and return a batch of envelopes.
 
 **Called:** Repeatedly at configured interval (default: 100ms)
 
@@ -195,23 +208,29 @@ ProducerConfig {
 1. **Fetch data** from external system (query, consume, poll buffer)
 2. **Check for data** - if none, return empty `Vec` (non-blocking)
 3. **Route messages** - determine destination Danube topic for each message
-4. **Transform** - convert to `SourceRecord` with typed data
+4. **Transform** - convert to `SourceRecord` or `SourceEnvelope`
 5. **Return** batch of records
 
 **Transformation mechanism:**
 
 ```rust
 // From JSON-serializable struct
-SourceRecord::from_json(topic, &struct_data)?
+SourceRecord::from_json(topic, &struct_data)?.into()
 
 // From JSON value
-SourceRecord::new(topic, serde_json::Value)
+SourceRecord::new(topic, serde_json::Value).into()
 
 // From string
-SourceRecord::from_string(topic, &text)
+SourceRecord::from_string(topic, &text).into()
 
 // From number
-SourceRecord::from_number(topic, value)
+SourceRecord::from_number(topic, value)?.into()
+
+// Attach offset/checkpoint information when needed
+SourceEnvelope::with_offset(
+    SourceRecord::from_json(topic, &struct_data)?,
+    Offset::new("partition-0", 42),
+)
 ```
 
 **Runtime handles:**
@@ -224,14 +243,48 @@ SourceRecord::from_number(topic, value)
 **Polling patterns:**
 
 - **Pull:** Query with cursor/offset, track last position
-- **Push:** Drain in-memory buffer filled by subscriptions/callbacks
-- **Stream:** Read batch from continuous stream
+- **Buffered Pull:** Poll an external SDK or local buffer for accumulated events
 
 **Return empty `Vec`** when:
 
 - No data available (normal, not an error)
 - External system returns empty result
 - Rate limited (after logging warning)
+
+#### Streaming Mode
+
+Use streaming mode when the external system is naturally event-driven.
+
+```rust
+fn mode(&self) -> SourceConnectorMode {
+    SourceConnectorMode::Streaming
+}
+
+async fn start_streaming(&mut self, sender: SourceSender) -> ConnectorResult<()> {
+    let client = self.client.clone();
+
+    tokio::spawn(async move {
+        while let Some(event) = client.next_event().await {
+            let record = SourceRecord::from_json("/events/users", &event)
+                .unwrap()
+                .with_attribute("source", "stream");
+
+            if let Err(err) = sender.send(record).await {
+                tracing::error!("stream send failed: {}", err);
+                break;
+            }
+        }
+    });
+
+    Ok(())
+}
+```
+
+**What changes in streaming mode:**
+
+- The runtime does **not** call `poll()`
+- Your connector pushes `SourceEnvelope` values to the runtime using `SourceSender`
+- Runtime still batches outbound work, publishes, retries, commits offsets, and runs health checks
 
 ---
 
@@ -256,6 +309,8 @@ SourceRecord::from_number(topic, value)
 - Retries `Retryable` errors with exponential backoff
 - Stops connector on `Fatal` errors
 - Continues normally on `Ok(vec![])`
+
+For streaming connectors, long-lived stream tasks should log transient external errors internally, recover when possible, and use `health_check()` to surface unhealthy state if the stream can no longer make progress.
 
 ---
 
@@ -294,14 +349,13 @@ SourceRecord::from_number(topic, value)
 **What to do:**
 
 - Unsubscribe from data sources
-- Flush any buffered data
 - Close connections to external system
 - Save final state/offsets
 
 **Runtime guarantees:**
 
 - `shutdown()` called on SIGTERM/SIGINT
-- All pending `SourceRecord`s published before shutdown
+- All pending source envelopes already handed to the runtime are drained before exit
 - No new `poll()` calls after shutdown starts
 
 ---
@@ -347,6 +401,7 @@ version_strategy = "latest"         # Version
 | `string` | Logs, plain text | Not needed |
 | `bytes` | Binary data, images | Not needed |
 | `number` | Metrics, counters | Not needed |
+| `avro` | Avro-managed structured data | Required |
 
 ### Version Strategies
 
@@ -396,7 +451,7 @@ async fn main() -> ConnectorResult<()> {
     );
     
     // 4. Create and run runtime (handles everything else)
-    let runtime = SourceRuntime::new(connector, config.core).await?;
+    let mut runtime = SourceRuntime::new(connector, config.core).await?;
     runtime.run().await
 }
 ```
@@ -405,8 +460,9 @@ async fn main() -> ConnectorResult<()> {
 
 - Danube connection
 - Producer creation with schema configs
-- Polling loop at configured interval
+- Polling loop or streaming-envelope drain loop
 - Publishing records with retries
+- Offset commits after successful publish
 - Metrics and health monitoring
 - Graceful shutdown on signals
 
@@ -432,10 +488,17 @@ async fn main() -> ConnectorResult<()> {
 ### Data Polling
 
 - ✅ Return empty `Vec` when no data (non-blocking)
-- ✅ Use appropriate batch sizes (100-1000 records)
+- ✅ Return `Vec<SourceEnvelope>` so offsets can be attached when needed
 - ✅ Handle rate limits gracefully
 - ✅ Log warnings for skipped messages
 - ✅ Add attributes for routing metadata
+
+### Streaming Sources
+
+- ✅ Prefer `SourceConnectorMode::Streaming` for event-driven connectors
+- ✅ Use `SourceSender::send()` / `send_batch()` to emit envelopes
+- ✅ Keep long-lived source tasks lightweight and observable
+- ✅ Surface broken upstream streams via `health_check()` when needed
 
 ### Error Handling
 
@@ -460,13 +523,13 @@ async fn main() -> ConnectorResult<()> {
 
 Query external system with cursor/offset tracking. Suitable for databases, REST APIs.
 
-### Push-Based Subscription
+### Event-Driven Streaming
 
-External system pushes data to in-memory buffer. Drain buffer in `poll()`. Suitable for MQTT, webhooks.
+External system pushes data via callbacks, subscriptions, or sockets. Emit directly with `SourceSender`. Suitable for MQTT, webhooks, and long-lived subscriptions.
 
-### Stream-Based
+### Buffered Polling Bridge
 
-Continuous stream reader. Read batches in `poll()`. Suitable for Kafka, message queues.
+If an SDK forces callback-based delivery but you still want polling mode, buffer events internally and drain them in `poll()`.
 
 ### Topic Routing
 
@@ -496,10 +559,10 @@ Map external identifiers to Danube topics using pattern matching, lookup tables,
 
 **You implement:**
 
-- `SourceConnector` trait (3 required, 3 optional methods)
+- `SourceConnector` trait (2 always-required methods plus polling or streaming mode implementation)
 - Configuration with flattened `ConnectorConfig`
 - External system integration
-- Message transformation to `SourceRecord`
+- Message transformation to `SourceRecord` / `SourceEnvelope`
 - Topic routing logic
 
 **Runtime handles:**
@@ -507,7 +570,9 @@ Map external identifiers to Danube topics using pattern matching, lookup tables,
 - Danube connection
 - Schema validation & serialization
 - Message publishing & retries
+- Polling or streaming delivery loop
+- Offset commits after successful publish
 - Lifecycle & monitoring
 - Metrics & health
 
-**Remember:** Configuration uses flattened `ConnectorConfig`. Access schemas via `config.core.schemas`. Never duplicate schema fields. Focus on external system integration and data transformation - runtime handles Danube operations.
+**Remember:** Configuration uses flattened `ConnectorConfig`, shared `[processing]` settings, and connector-specific `routes`. Access schemas via `config.core.schemas`. Choose polling for pull-based systems and streaming for event-driven systems. Focus on external system integration and data transformation - runtime handles Danube operations.

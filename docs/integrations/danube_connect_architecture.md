@@ -16,7 +16,7 @@ The Danube broker remains **pure Rust** with zero knowledge of external systems.
 
 ### Shared Core Library
 
-The `danube-connect-core` SDK eliminates boilerplate by handling all Danube communication, lifecycle management, retries, and observability.
+The `danube-connect-core` SDK eliminates boilerplate by handling the generic runtime concerns that every connector shares.
 
 **Connector developers** implement simple traits:
 
@@ -26,9 +26,12 @@ The `danube-connect-core` SDK eliminates boilerplate by handling all Danube comm
 **Core SDK handles:**
 
 - Danube client connection management
-- Message processing loops
-- Automatic retry with exponential backoff
-- Prometheus metrics and health checks
+- configuration loading helpers and shared root config
+- sink batching, batch flush timing, and acknowledgments
+- source polling loops or streaming envelope drain loops
+- schema-aware serialization and deserialization
+- automatic retry with exponential backoff
+- Prometheus metrics export and health checks
 - Signal handling and graceful shutdown
 
 ---
@@ -60,13 +63,18 @@ Danube Broker Cluster
 
 Poll or subscribe to external systems and publish messages to Danube topics.
 
+Source connectors can now run in **two modes**:
+
+- `Polling` - runtime calls `poll()` on an interval
+- `Streaming` - connector pushes `SourceEnvelope` values to the runtime with `SourceSender`
+
 **Key responsibilities:**
 
 - Connect to external system
-- Poll for new data or listen for events
-- Transform external format to Danube messages
+- Read or receive external events
+- Transform external format into `SourceRecord` or `SourceEnvelope`
 - Route to appropriate Danube topics
-- Manage offsets/checkpoints
+- Optionally manage offsets/checkpoints through `Offset`
 
 ---
 
@@ -78,8 +86,8 @@ Consume messages from Danube topics and write to external systems.
 
 - Subscribe to Danube topics
 - Transform Danube messages to external format
-- Write to external system (with batching for efficiency)
-- Handle acknowledgments
+- Perform connector-specific validation and routing
+- Execute bulk writes to the external system from `process_batch()`
 
 ---
 
@@ -87,27 +95,30 @@ Consume messages from Danube topics and write to external systems.
 
 ### Core Traits
 
-Connectors implements the danube-connect-core traits:
+Connectors implement the danube-connect-core traits:
 
 #### **SourceConnector**
 
 ```rust
 #[async_trait]
 pub trait SourceConnector {
-    // Initialize external system connection
     async fn initialize(&mut self, config: ConnectorConfig) -> Result<()>;
-    
-    // Define destination Danube topics
+
     async fn producer_configs(&self) -> Result<Vec<ProducerConfig>>;
-    
-    // Poll external system for data (non-blocking)
-    async fn poll(&mut self) -> Result<Vec<SourceRecord>>;
-    
-    // Optional: commit offsets after successful publish
+
+    fn mode(&self) -> SourceConnectorMode {
+        SourceConnectorMode::Polling
+    }
+
+    async fn start_streaming(&mut self, sender: SourceSender) -> Result<()>;
+
+    async fn poll(&mut self) -> Result<Vec<SourceEnvelope>>;
+
     async fn commit(&mut self, offsets: Vec<Offset>) -> Result<()>;
-    
-    // Optional: cleanup on shutdown
+
     async fn shutdown(&mut self) -> Result<()>;
+
+    async fn health_check(&self) -> Result<()>;
 }
 ```
 
@@ -116,20 +127,15 @@ pub trait SourceConnector {
 ```rust
 #[async_trait]
 pub trait SinkConnector {
-    // Initialize external system connection
     async fn initialize(&mut self, config: ConnectorConfig) -> Result<()>;
-    
-    // Define which Danube topics to consume from
+
     async fn consumer_configs(&self) -> Result<Vec<ConsumerConfig>>;
-    
-    // Process a single message
-    async fn process(&mut self, record: SinkRecord) -> Result<()>;
-    
-    // Optional: batch processing (better performance)
+
     async fn process_batch(&mut self, records: Vec<SinkRecord>) -> Result<()>;
-    
-    // Optional: cleanup on shutdown
+
     async fn shutdown(&mut self) -> Result<()>;
+
+    async fn health_check(&self) -> Result<()>;
 }
 ```
 
@@ -147,25 +153,32 @@ pub trait SinkConnector {
 - `as_type<T>()` - Deserialize payload to specific Rust type
 - `schema()` - Get schema information (subject, version, type) if message has schema
 - `attributes()` - Metadata key-value pairs from producer
-- `topic()`, `offset()`, `publish_time()`, `producer_name()` - Message metadata
-- `message_id()` - Formatted ID for logging/debugging
+- `topic()`, `publish_time()`, `producer_name()` - Message metadata
+- `routing_context()` / `context()` - Generic routing and record context helpers
 
 **Example:**
 
 ```rust
-async fn process(&mut self, record: SinkRecord) -> ConnectorResult<()> {
-    // Access as typed data (already deserialized by runtime)
-    let payload = record.payload();  // &serde_json::Value
-    let user_id = payload["user_id"].as_str().unwrap();
-    
-    // Or deserialize to struct
-    let event: MyEvent = record.as_type()?;
-    
-    // Check schema info
-    if let Some(schema) = record.schema() {
-        println!("Schema: {} v{}", schema.subject, schema.version);
+async fn process_batch(&mut self, records: Vec<SinkRecord>) -> ConnectorResult<()> {
+    for record in records {
+        // Access as typed data (already deserialized by runtime)
+        let payload = record.payload();
+        let user_id = payload["user_id"].as_str().unwrap();
+
+        // Or deserialize to struct
+        let event: MyEvent = record.as_type()?;
+
+        // Access generic routing context
+        let context = record.context();
+        println!("topic={} producer={:?}", context.topic(), context.producer_name());
+
+        if let Some(schema) = record.schema() {
+            println!("Schema: {} v{}", schema.subject, schema.version);
+        }
+
+        let _ = (user_id, event);
     }
-    
+
     Ok(())
 }
 ```
@@ -181,15 +194,18 @@ async fn process(&mut self, record: SinkRecord) -> ConnectorResult<()> {
 - `new(topic, payload)` - Create from `serde_json::Value`
 - `from_json(topic, data)` - Create from any JSON-serializable type
 - `from_string(topic, text)` - Create from string
+- `from_number(topic, value)` - Create from numeric payloads
+- `from_bytes(topic, bytes)` - Create from binary payloads
 - `with_attribute(key, value)` - Add metadata attribute
 - `with_attributes(map)` - Add multiple attributes
 - `with_key(key)` - Set routing key for partitioning
-- `payload()` - Get payload reference
+- `payload()` / `context()` - Access payload and generic routing context
 
 **Example:**
 
 ```rust
 use serde_json::json;
+use danube_connect_core::{Offset, SourceEnvelope};
 
 // From JSON value
 let record = SourceRecord::new("/events/users", json!({
@@ -205,6 +221,9 @@ let event = Event { user_id: "123".into(), action: "login".into() };
 let record = SourceRecord::from_json("/events/users", &event)?
     .with_attribute("source", "api")
     .with_key(&event.user_id);  // For partitioning
+
+// Attach an offset/checkpoint when needed
+let envelope = SourceEnvelope::with_offset(record, Offset::new("api-page", 42));
 ```
 
 ---
@@ -214,11 +233,12 @@ let record = SourceRecord::from_json("/events/users", &event)?
 The SDK provides `SourceRuntime` and `SinkRuntime` that handle:
 
 1. **Lifecycle** - Initialize connector, create Danube clients, start message loops
-2. **Message processing** - Poll/consume messages, call your trait methods
+2. **Message processing** - Polling or streaming for sources, runtime-managed batching for sinks
 3. **Error handling** - Automatic retry with exponential backoff
-4. **Acknowledgments** - Ack successfully processed messages to Danube
-5. **Shutdown** - Graceful cleanup on SIGTERM/SIGINT
-6. **Observability** - Expose Prometheus metrics and health endpoints
+4. **Schema handling** - Serialize source payloads and deserialize sink payloads
+5. **Acknowledgments** - Ack successfully processed sink messages and commit source offsets
+6. **Shutdown** - Graceful cleanup on SIGTERM/SIGINT
+7. **Observability** - Expose Prometheus metrics and health endpoints
 
 ---
 
@@ -298,10 +318,10 @@ schema_type = "bytes"  # Binary data
 | `string` | UTF-8 text | String bytes | Logs, text messages |
 | `bytes` | Raw binary | Base64 in JSON | Binary data, images |
 | `number` | Numeric data | JSON number | Metrics, counters |
-| `avro` | Apache Avro | Avro binary | High-performance schemas |
-| `protobuf` | Protocol Buffers | Protobuf binary | gRPC, microservices |
+| `avro` | Apache Avro | JSON payload with Avro validation | High-performance schemas |
+| `protobuf` | Protocol Buffers | Planned | gRPC, microservices |
 
-**Note:** Avro and Protobuf support coming soon. Currently JSON, String, Bytes, and Number are fully supported.
+**Note:** JSON Schema, String, Bytes, Number, and Avro flows are supported in the current runtime model. Protobuf serialization/deserialization is not implemented yet.
 
 ### Version Strategies
 
@@ -337,33 +357,30 @@ version_strategy = { minimum = 2 }
 ### Example: Schema-Aware Sink
 
 ```rust
-async fn process(&mut self, record: SinkRecord) -> ConnectorResult<()> {
-    // Payload is already deserialized based on schema
-    let payload = record.payload();
-    
-    // Check what schema was used
-    if let Some(schema) = record.schema() {
-        info!("Processing message with schema: {} v{}", 
-              schema.subject, schema.version);
+async fn process_batch(&mut self, records: Vec<SinkRecord>) -> ConnectorResult<()> {
+    for record in records {
+        let payload = record.payload();
+
+        if let Some(schema) = record.schema() {
+            info!("Processing message with schema: {} v{}",
+                  schema.subject, schema.version);
+        }
+
+        let user_id = payload["user_id"].as_str()
+            .ok_or_else(|| ConnectorError::invalid_data("Missing user_id", vec![]))?;
+
+        #[derive(Deserialize)]
+        struct UserEvent {
+            user_id: String,
+            action: String,
+            timestamp: u64,
+        }
+
+        let event: UserEvent = record.as_type()?;
+        self.database.insert_user_event(event).await?;
+        let _ = user_id;
     }
-    
-    // Access typed data directly
-    let user_id = payload["user_id"].as_str()
-        .ok_or_else(|| ConnectorError::invalid_data("Missing user_id", vec![]))?;
-    
-    // Or deserialize to struct
-    #[derive(Deserialize)]
-    struct UserEvent {
-        user_id: String,
-        action: String,
-        timestamp: u64,
-    }
-    
-    let event: UserEvent = record.as_type()?;
-    
-    // Write to external system with typed data
-    self.database.insert_user_event(event).await?;
-    
+
     Ok(())
 }
 ```
@@ -371,20 +388,19 @@ async fn process(&mut self, record: SinkRecord) -> ConnectorResult<()> {
 ### Example: Schema-Aware Source
 
 ```rust
-async fn poll(&mut self) -> ConnectorResult<Vec<SourceRecord>> {
+async fn poll(&mut self) -> ConnectorResult<Vec<SourceEnvelope>> {
     let external_data = self.client.fetch_events().await?;
-    
-    let records: Vec<SourceRecord> = external_data
+
+    let records: Vec<SourceEnvelope> = external_data
         .into_iter()
         .map(|event| {
-            // Create record with typed JSON data
-            // Runtime will serialize based on configured schema
             SourceRecord::from_json("/events/users", &event)
                 .unwrap()
                 .with_attribute("source", "external-api")
+                .into()
         })
         .collect();
-    
+
     Ok(records)
 }
 ```
@@ -407,22 +423,28 @@ Connectors use a **single configuration file** combining core Danube settings wi
 danube_service_url = "http://danube-broker:6650"
 connector_name = "mqtt-bridge"
 
+[processing]
+batch_size = 500
+batch_timeout_ms = 1000
+poll_interval_ms = 100
+metrics_port = 9090
+
 # Connector-specific settings
 [mqtt]
 broker_host = "mosquitto"
 broker_port = 1883
 
-[[mqtt.topic_mappings]]
-mqtt_topic = "sensors/#"
-danube_topic = "/iot/sensors"
+[[mqtt.routes]]
+from = "sensors/#"
+to = "/iot/sensors"
 partitions = 8
 ```
 
 **Environment variable overrides:**
 
 - Mandatory fields: `DANUBE_SERVICE_URL`, `CONNECTOR_NAME`
-- Secrets: `MQTT_PASSWORD`, `API_KEY`, etc.
-- Connector-specific overrides as needed
+- Secrets and connection endpoints: `MQTT_PASSWORD`, `QDRANT_URL`, API keys, etc.
+- Structural config such as `routes`, `from`, `to`, subscriptions, and processing settings should stay in TOML
 
 **See:** [Configuration Guide](https://github.com/danube-messaging/danube-connect/blob/main/info/unified_configuration_guide.md) for complete details
 
