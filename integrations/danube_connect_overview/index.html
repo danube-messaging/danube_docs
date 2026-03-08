@@ -2062,13 +2062,13 @@
 </ul>
 <hr />
 <h2 id="architecture">Architecture</h2>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>External<span class="w"> </span>Systems<span class="w"> </span>↔<span class="w"> </span>Connectors<span class="w"> </span>↔<span class="w"> </span>danube-connect-core<span class="w"> </span>↔<span class="w"> </span>danube-client<span class="w"> </span>↔<span class="w"> </span>Danube<span class="w"> </span>Broker
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>External<span class="w"> </span>Systems<span class="w"> </span>↔<span class="w"> </span>Connector<span class="w"> </span>Adapter<span class="w"> </span>↔<span class="w"> </span>danube-connect-core<span class="w"> </span>↔<span class="w"> </span>danube-client<span class="w"> </span>↔<span class="w"> </span>Danube<span class="w"> </span>Broker
 </span></code></pre></div>
 <p><strong>Connectors</strong> are standalone binaries that:</p>
 <ol>
 <li>Connect to external systems (MQTT, databases, HTTP APIs, etc.)</li>
-<li>Use <strong>danube-connect-core</strong> SDK for Danube communication</li>
-<li>Transform data between external formats and Danube messages</li>
+<li>Use <strong>danube-connect-core</strong> for shared runtime concerns</li>
+<li>Transform data between external formats and generic <code>SourceRecord</code> / <code>SinkRecord</code> values</li>
 <li>Run independently with their own lifecycle and resources</li>
 </ol>
 <p><strong>Key principle:</strong> The Danube broker remains "dumb" and pure Rust—it knows nothing about external systems.</p>
@@ -2149,13 +2149,14 @@
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>docker<span class="w"> </span>run<span class="w"> </span>-d<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span>-e<span class="w"> </span><span class="nv">DANUBE_SERVICE_URL</span><span class="o">=</span>http://danube-broker:6650<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span>-e<span class="w"> </span><span class="nv">CONNECTOR_NAME</span><span class="o">=</span>mqtt-bridge<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span>-v<span class="w"> </span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/config.toml:/config.toml<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span>danube-connect/source-mqtt:latest
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span>-e<span class="w"> </span><span class="nv">CONNECTOR_CONFIG_PATH</span><span class="o">=</span>/config/connector.toml<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span>-v<span class="w"> </span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/config.toml:/config/connector.toml:ro<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span>ghcr.io/danube-messaging/danube-source-mqtt:latest
 </span></code></pre></div>
 <p><strong>That's it!</strong> The connector handles:</p>
 <ul>
 <li>Connection management to Danube</li>
-<li>Message transformation and routing</li>
+<li>Shared message processing runtime</li>
 <li>Retry logic and error handling</li>
 <li>Metrics and health checks</li>
 <li>Graceful shutdown</li>
@@ -2225,7 +2226,7 @@
 <ul>
 <li>Connectors work with typed <code>serde_json::Value</code> data, not raw bytes</li>
 <li>Runtime handles all schema operations (fetch, cache, validate, serialize)</li>
-<li>Support for JSON Schema, String, Bytes, Number (Avro &amp; Protobuf coming soon)</li>
+<li>Support for JSON Schema, String, Bytes, Number, and Avro flows</li>
 <li>Schema evolution with version strategies (latest, pinned, minimum)</li>
 <li><strong>Zero schema boilerplate</strong> in your connector code</li>
 </ul>
@@ -2236,16 +2237,16 @@
 <h3 id="observable">📊 Observable</h3>
 <p>Prometheus metrics, structured logging, health endpoints</p>
 <h3 id="high-performance">⚡ High Performance</h3>
-<p>Async I/O, batching, connection pooling, parallel processing, schema caching</p>
+<p>Async I/O, runtime-managed sink batching, streaming source support, connection pooling, and schema caching</p>
 <h3 id="pure-rust">🦀 Pure Rust</h3>
 <p>Memory-safe, high-performance, zero-cost abstractions</p>
 <hr />
 <h2 id="learn-more">Learn More</h2>
 <ul>
 <li><strong><a href="../danube_connect_architecture/">Connector Architecture</a></strong> - Deep dive into design and concepts</li>
-<li><strong><a href="../source_connector_development/">Buil Source Connector</a></strong> - Create your own source connector</li>
+<li><strong><a href="../source_connector_development/">Build Source Connector</a></strong> - Create your own source connector</li>
 <li><strong><a href="../sink_connector_development/">Build Sink Connector</a></strong> - Create your own sink connector</li>
-<li><strong><a href="https://github.com/danube-messaging/danube-connect-core">Github Connector Core</a></strong> - Connector SDK source code</li>
+<li><strong><a href="https://github.com/danube-messaging/danube-connect-core">GitHub Connector Core</a></strong> - Connector SDK source code</li>
 <li><strong><a href="https://github.com/danube-messaging/danube-connectors">GitHub Connectors Repo</a></strong> - Connectors source code and full examples</li>
 </ul>
 <hr />
@@ -2253,7 +2254,7 @@
 <ul>
 <li><strong>GitHub Issues:</strong> <a href="https://github.com/danube-messaging/danube-connectors/issues">Report bugs or request connectors</a></li>
 <li><strong>Source Code:</strong> <a href="https://github.com/danube-messaging/danube-connectors">danube-messaging/danube-connect</a></li>
-<li><strong>Examples:</strong> <a href="https://github.com/danube-messaging/danube-connectors/tree/main/examples">Complete connector examples</a></li>
+<li><strong>Examples:</strong> <a href="https://github.com/danube-messaging/danube-connectors/tree/main">Connector examples and end-to-end flows</a></li>
 </ul>
 
 

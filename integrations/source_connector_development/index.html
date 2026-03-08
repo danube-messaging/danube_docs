@@ -1475,11 +1475,35 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#3-poll-for-data" class="md-nav__link">
+  <a href="#3-choose-a-source-mode" class="md-nav__link">
     <span class="md-ellipsis">
-      3. Poll for Data
+      3. Choose a Source Mode
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="3. Choose a Source Mode">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#polling-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      Polling Mode
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#streaming-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      Streaming Mode
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -1622,6 +1646,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#streaming-sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Streaming Sources
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#error-handling" class="md-nav__link">
     <span class="md-ellipsis">
       Error Handling
@@ -1664,18 +1697,18 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#push-based-subscription" class="md-nav__link">
+  <a href="#event-driven-streaming" class="md-nav__link">
     <span class="md-ellipsis">
-      Push-Based Subscription
+      Event-Driven Streaming
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#stream-based" class="md-nav__link">
+  <a href="#buffered-polling-bridge" class="md-nav__link">
     <span class="md-ellipsis">
-      Stream-Based
+      Buffered Polling Bridge
     </span>
   </a>
   
@@ -2039,11 +2072,35 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#3-poll-for-data" class="md-nav__link">
+  <a href="#3-choose-a-source-mode" class="md-nav__link">
     <span class="md-ellipsis">
-      3. Poll for Data
+      3. Choose a Source Mode
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="3. Choose a Source Mode">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#polling-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      Polling Mode
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#streaming-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      Streaming Mode
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -2186,6 +2243,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#streaming-sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Streaming Sources
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#error-handling" class="md-nav__link">
     <span class="md-ellipsis">
       Error Handling
@@ -2228,18 +2294,18 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#push-based-subscription" class="md-nav__link">
+  <a href="#event-driven-streaming" class="md-nav__link">
     <span class="md-ellipsis">
-      Push-Based Subscription
+      Event-Driven Streaming
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#stream-based" class="md-nav__link">
+  <a href="#buffered-polling-bridge" class="md-nav__link">
     <span class="md-ellipsis">
-      Stream-Based
+      Buffered Polling Bridge
     </span>
   </a>
   
@@ -2328,7 +2394,7 @@
 <p><strong>Build source connectors to import data into Danube from any external system</strong></p>
 <hr />
 <h2 id="overview">Overview</h2>
-<p>A <strong>source connector</strong> imports data from external systems into Danube topics. The connector polls or listens to the external system, transforms data into <code>SourceRecord</code>s, and the runtime handles publishing to Danube with schema validation and delivery guarantees.</p>
+<p>A <strong>source connector</strong> imports data from external systems into Danube topics. The connector reads or receives external events, transforms them into <code>SourceRecord</code> or <code>SourceEnvelope</code> values, and the runtime handles publishing to Danube with schema-aware serialization, retries, health checks, and delivery guarantees.</p>
 <p><strong>Examples:</strong> MQTT→Danube, PostgreSQL CDC→Danube, HTTP webhooks→Danube, Kafka→Danube</p>
 <hr />
 <h2 id="core-concepts">Core Concepts</h2>
@@ -2346,23 +2412,23 @@
 <td>Connect to Danube broker</td>
 </tr>
 <tr>
-<td>Poll/listen for data</td>
+<td>Poll, subscribe, or receive external data</td>
 <td>Publish to Danube topics</td>
 </tr>
 <tr>
-<td>Transform to <code>SourceRecord</code></td>
+<td>Transform to <code>SourceRecord</code> / <code>SourceEnvelope</code></td>
 <td>Schema serialization &amp; validation</td>
 </tr>
 <tr>
 <td>Topic routing logic</td>
-<td>Message delivery &amp; retries</td>
+<td>Producer creation, delivery, and retries</td>
 </tr>
 <tr>
-<td>Error handling per system</td>
+<td>External checkpoint logic</td>
 <td>Lifecycle &amp; health monitoring</td>
 </tr>
 <tr>
-<td>Offset tracking (optional)</td>
+<td>Error handling per system</td>
 <td>Metrics &amp; observability</td>
 </tr>
 </tbody>
@@ -2374,15 +2440,22 @@
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">pub</span><span class="w"> </span><span class="k">trait</span><span class="w"> </span><span class="n">SourceConnector</span><span class="p">:</span><span class="w"> </span><span class="nb">Send</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">Sync</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">initialize</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">:</span><span class="w"> </span><span class="nc">ConnectorConfig</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">ConnectorResult</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="p">;</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">producer_configs</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">ConnectorResult</span><span class="o">&lt;</span><span class="nb">Vec</span><span class="o">&lt;</span><span class="n">ProducerConfig</span><span class="o">&gt;&gt;</span><span class="p">;</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">poll</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">ConnectorResult</span><span class="o">&lt;</span><span class="nb">Vec</span><span class="o">&lt;</span><span class="n">SourceRecord</span><span class="o">&gt;&gt;</span><span class="p">;</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="c1">// Optional methods with defaults</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">commit</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">offsets</span><span class="p">:</span><span class="w"> </span><span class="nb">Vec</span><span class="o">&lt;</span><span class="n">Offset</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">ConnectorResult</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">Ok</span><span class="p">(())</span><span class="w"> </span><span class="p">}</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">shutdown</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">ConnectorResult</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">Ok</span><span class="p">(())</span><span class="w"> </span><span class="p">}</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">health_check</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">ConnectorResult</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">Ok</span><span class="p">(())</span><span class="w"> </span><span class="p">}</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="p">}</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="k">fn</span><span class="w"> </span><span class="nf">mode</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">SourceConnectorMode</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">        </span><span class="n">SourceConnectorMode</span><span class="p">::</span><span class="n">Polling</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">start_streaming</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">sender</span><span class="p">:</span><span class="w"> </span><span class="nc">SourceSender</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">ConnectorResult</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="p">;</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">poll</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">ConnectorResult</span><span class="o">&lt;</span><span class="nb">Vec</span><span class="o">&lt;</span><span class="n">SourceEnvelope</span><span class="o">&gt;&gt;</span><span class="p">;</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">commit</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">offsets</span><span class="p">:</span><span class="w"> </span><span class="nb">Vec</span><span class="o">&lt;</span><span class="n">Offset</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">ConnectorResult</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">Ok</span><span class="p">(())</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">shutdown</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">ConnectorResult</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">Ok</span><span class="p">(())</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">health_check</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">ConnectorResult</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">Ok</span><span class="p">(())</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="p">}</span>
 </span></code></pre></div>
-<p><strong>Required:</strong> <code>initialize</code>, <code>producer_configs</code>, <code>poll</code><br />
+<p><strong>Required for all connectors:</strong> <code>initialize</code>, <code>producer_configs</code><br />
+<strong>Required for polling connectors:</strong> <code>poll</code><br />
+<strong>Required for streaming connectors:</strong> override <code>mode()</code> and implement <code>start_streaming()</code><br />
 <strong>Optional:</strong> <code>commit</code>, <code>shutdown</code>, <code>health_check</code></p>
 <hr />
 <h2 id="configuration-architecture">Configuration Architecture</h2>
@@ -2408,23 +2481,27 @@
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">danube_service_url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;http://danube-broker:6650&quot;</span>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">connector_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;my-source&quot;</span>
 </span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="k">[[schemas]]</span><span class="w">  </span><span class="c1"># ← From ConnectorConfig (flattened)</span>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="n">topic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/data/events&quot;</span>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="n">subject</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;events-v1&quot;</span>
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="n">schema_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;json_schema&quot;</span>
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="n">schema_file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;schemas/events.json&quot;</span>
-</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="n">auto_register</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
-</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="n">version_strategy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;latest&quot;</span>
-</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
-</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="c1"># Connector-specific section</span>
-</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="k">[my_source]</span>
-</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="n">external_host</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;system.example.com&quot;</span>
-</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="n">poll_interval_ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span>
-</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>
-</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="k">[[my_source.topic_mappings]]</span>
-</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="n">source_pattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;input/*&quot;</span>
-</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="n">danube_topic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/data/events&quot;</span>
-</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="n">partitions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="k">[processing]</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="n">poll_interval_ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="n">metrics_port</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">9090</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="k">[[schemas]]</span><span class="w">  </span><span class="c1"># ← From ConnectorConfig (flattened)</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="n">topic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/data/events&quot;</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="n">subject</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;events-v1&quot;</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="n">schema_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;json_schema&quot;</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="n">schema_file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;schemas/events.json&quot;</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="n">auto_register</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="n">version_strategy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;latest&quot;</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="c1"># Connector-specific section</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="k">[my_source]</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="n">external_host</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;system.example.com&quot;</span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="k">[[my_source.routes]]</span>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="n">from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;input/*&quot;</span>
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="n">to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/data/events&quot;</span>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="n">partitions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span>
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="n">reliable_dispatch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
 </span></code></pre></div>
 <h3 id="configuration-loading">Configuration Loading</h3>
 <p><strong>Mechanism:</strong></p>
@@ -2439,7 +2516,7 @@
 <li>Core: <code>DANUBE_SERVICE_URL</code>, <code>CONNECTOR_NAME</code></li>
 <li>Secrets: System-specific credentials (e.g., <code>API_KEY</code>, <code>PASSWORD</code>)</li>
 </ul>
-<p><strong>Not overridable:</strong> Topic mappings, schemas, processing settings (must be in TOML)</p>
+<p><strong>Not overridable:</strong> <code>routes</code>, <code>from</code>, <code>to</code>, schemas, and shared processing settings (must be in TOML)</p>
 <hr />
 <h2 id="implementation-steps">Implementation Steps</h2>
 <h3 id="1-initialize-connection">1. Initialize Connection</h3>
@@ -2452,11 +2529,12 @@
 <li>Set up connection pools if needed</li>
 <li>Subscribe to data sources (topics, streams, tables)</li>
 <li>Validate connectivity with test query/ping</li>
-<li>Store client in struct for later use in <code>poll()</code></li>
+<li>Store client in struct for later use in <code>poll()</code> or <code>start_streaming()</code></li>
 </ul>
 <p><strong>Error handling:</strong></p>
 <ul>
-<li>Return <code>ConnectorError::Initialization</code> for connection failures</li>
+<li>Return <code>ConnectorError::config</code> for configuration mistakes</li>
+<li>Return <code>ConnectorError::fatal</code> for connection or setup failures</li>
 <li>Log detailed error context for debugging</li>
 <li>Fail fast - don't retry in <code>initialize()</code></li>
 </ul>
@@ -2469,54 +2547,58 @@
 </ul>
 <hr />
 <h3 id="2-define-producer-configs">2. Define Producer Configs</h3>
-<p><strong><code>async fn producer_configs(&amp;self) -&gt; Vec&lt;ProducerConfig&gt;</code></strong></p>
+<p><strong><code>async fn producer_configs(&amp;self) -&gt; ConnectorResult&lt;Vec&lt;ProducerConfig&gt;&gt;</code></strong></p>
 <p><strong>Purpose:</strong> Tell the runtime which Danube topics you'll publish to and their configurations.</p>
 <p><strong>What to do:</strong></p>
 <ul>
 <li>Map your topic routing logic to Danube topics</li>
 <li>For each destination topic, create a <code>ProducerConfig</code></li>
-<li>Attach schema configuration if defined for that topic</li>
+<li>Let the runtime attach schema configuration from <code>config.core.schemas</code> when a schema is defined for that topic</li>
 <li>Specify partitions and reliability settings</li>
 </ul>
 <p><strong>Schema mapping:</strong></p>
-<div class="language-rust highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">// Find schema for this Danube topic from config.core.schemas</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kd">let</span><span class="w"> </span><span class="n">schema_config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">schemas</span><span class="p">.</span><span class="n">iter</span><span class="p">()</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="o">|</span><span class="n">s</span><span class="o">|</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="n">topic</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">danube_topic</span><span class="p">)</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="p">.</span><span class="n">map</span><span class="p">(</span><span class="o">|</span><span class="n">s</span><span class="o">|</span><span class="w"> </span><span class="n">convert_to_schema_config</span><span class="p">(</span><span class="n">s</span><span class="p">));</span>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="n">ProducerConfig</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="n">topic</span><span class="p">:</span><span class="w"> </span><span class="nc">danube_topic</span><span class="p">,</span>
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="n">partitions</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="n">reliable_dispatch</span><span class="p">:</span><span class="w"> </span><span class="nc">true</span><span class="p">,</span>
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="n">schema_config</span><span class="p">,</span><span class="w">  </span><span class="c1">// Runtime uses this for serialization</span>
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="p">}</span>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">ProducerConfig</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="n">topic</span><span class="p">:</span><span class="w"> </span><span class="nc">danube_topic</span><span class="p">,</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="n">partitions</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="n">reliable_dispatch</span><span class="p">:</span><span class="w"> </span><span class="nc">true</span><span class="p">,</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="n">schema_config</span><span class="p">:</span><span class="w"> </span><span class="nb">None</span><span class="p">,</span><span class="w">  </span><span class="c1">// Runtime populates this from config.core.schemas</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="p">}</span>
 </span></code></pre></div>
 <p><strong>Called once</strong> at startup after <code>initialize()</code>. Runtime creates producers based on these configs.</p>
 <hr />
-<h3 id="3-poll-for-data">3. Poll for Data</h3>
-<p><strong><code>async fn poll(&amp;mut self) -&gt; Vec&lt;SourceRecord&gt;</code></strong></p>
-<p><strong>Purpose:</strong> Fetch new data from external system and transform to <code>SourceRecord</code>s.</p>
+<h3 id="3-choose-a-source-mode">3. Choose a Source Mode</h3>
+<p>The source runtime supports <strong>two execution modes</strong>.</p>
+<h4 id="polling-mode">Polling Mode</h4>
+<p>Use polling mode when the external system is naturally pull-based.</p>
+<p><strong><code>async fn poll(&amp;mut self) -&gt; ConnectorResult&lt;Vec&lt;SourceEnvelope&gt;&gt;</code></strong></p>
+<p><strong>Purpose:</strong> Fetch new data from the external system and return a batch of envelopes.</p>
 <p><strong>Called:</strong> Repeatedly at configured interval (default: 100ms)</p>
 <p><strong>What to do:</strong></p>
 <ol>
 <li><strong>Fetch data</strong> from external system (query, consume, poll buffer)</li>
 <li><strong>Check for data</strong> - if none, return empty <code>Vec</code> (non-blocking)</li>
 <li><strong>Route messages</strong> - determine destination Danube topic for each message</li>
-<li><strong>Transform</strong> - convert to <code>SourceRecord</code> with typed data</li>
+<li><strong>Transform</strong> - convert to <code>SourceRecord</code> or <code>SourceEnvelope</code></li>
 <li><strong>Return</strong> batch of records</li>
 </ol>
 <p><strong>Transformation mechanism:</strong></p>
 <div class="language-rust highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1">// From JSON-serializable struct</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">SourceRecord</span><span class="p">::</span><span class="n">from_json</span><span class="p">(</span><span class="n">topic</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">struct_data</span><span class="p">)</span><span class="o">?</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">SourceRecord</span><span class="p">::</span><span class="n">from_json</span><span class="p">(</span><span class="n">topic</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">struct_data</span><span class="p">)</span><span class="o">?</span><span class="p">.</span><span class="n">into</span><span class="p">()</span>
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
 </span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1">// From JSON value</span>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">SourceRecord</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="n">topic</span><span class="p">,</span><span class="w"> </span><span class="n">serde_json</span><span class="p">::</span><span class="n">Value</span><span class="p">)</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">SourceRecord</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="n">topic</span><span class="p">,</span><span class="w"> </span><span class="n">serde_json</span><span class="p">::</span><span class="n">Value</span><span class="p">).</span><span class="n">into</span><span class="p">()</span>
 </span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
 </span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1">// From string</span>
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="n">SourceRecord</span><span class="p">::</span><span class="n">from_string</span><span class="p">(</span><span class="n">topic</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">text</span><span class="p">)</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="n">SourceRecord</span><span class="p">::</span><span class="n">from_string</span><span class="p">(</span><span class="n">topic</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">text</span><span class="p">).</span><span class="n">into</span><span class="p">()</span>
 </span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>
 </span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="c1">// From number</span>
-</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="n">SourceRecord</span><span class="p">::</span><span class="n">from_number</span><span class="p">(</span><span class="n">topic</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">)</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="n">SourceRecord</span><span class="p">::</span><span class="n">from_number</span><span class="p">(</span><span class="n">topic</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="o">?</span><span class="p">.</span><span class="n">into</span><span class="p">()</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="c1">// Attach offset/checkpoint information when needed</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="n">SourceEnvelope</span><span class="p">::</span><span class="n">with_offset</span><span class="p">(</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="w">    </span><span class="n">SourceRecord</span><span class="p">::</span><span class="n">from_json</span><span class="p">(</span><span class="n">topic</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">struct_data</span><span class="p">)</span><span class="o">?</span><span class="p">,</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">    </span><span class="n">Offset</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="s">&quot;partition-0&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">42</span><span class="p">),</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="p">)</span>
 </span></code></pre></div>
 <p><strong>Runtime handles:</strong></p>
 <ul>
@@ -2528,14 +2610,44 @@
 <p><strong>Polling patterns:</strong></p>
 <ul>
 <li><strong>Pull:</strong> Query with cursor/offset, track last position</li>
-<li><strong>Push:</strong> Drain in-memory buffer filled by subscriptions/callbacks</li>
-<li><strong>Stream:</strong> Read batch from continuous stream</li>
+<li><strong>Buffered Pull:</strong> Poll an external SDK or local buffer for accumulated events</li>
 </ul>
 <p><strong>Return empty <code>Vec</code></strong> when:</p>
 <ul>
 <li>No data available (normal, not an error)</li>
 <li>External system returns empty result</li>
 <li>Rate limited (after logging warning)</li>
+</ul>
+<h4 id="streaming-mode">Streaming Mode</h4>
+<p>Use streaming mode when the external system is naturally event-driven.</p>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">fn</span><span class="w"> </span><span class="nf">mode</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">SourceConnectorMode</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="n">SourceConnectorMode</span><span class="p">::</span><span class="n">Streaming</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="p">}</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">start_streaming</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">sender</span><span class="p">:</span><span class="w"> </span><span class="nc">SourceSender</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">ConnectorResult</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="bp">self</span><span class="p">.</span><span class="n">client</span><span class="p">.</span><span class="n">clone</span><span class="p">();</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span><span class="n">tokio</span><span class="p">::</span><span class="n">spawn</span><span class="p">(</span><span class="k">async</span><span class="w"> </span><span class="k">move</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">next_event</span><span class="p">().</span><span class="k">await</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">record</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SourceRecord</span><span class="p">::</span><span class="n">from_json</span><span class="p">(</span><span class="s">&quot;/events/users&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">event</span><span class="p">)</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="w">                </span><span class="p">.</span><span class="n">unwrap</span><span class="p">()</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">                </span><span class="p">.</span><span class="n">with_attribute</span><span class="p">(</span><span class="s">&quot;source&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;stream&quot;</span><span class="p">);</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Err</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sender</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="n">record</span><span class="p">).</span><span class="k">await</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="w">                </span><span class="n">tracing</span><span class="p">::</span><span class="n">error</span><span class="o">!</span><span class="p">(</span><span class="s">&quot;stream send failed: {}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">err</span><span class="p">);</span>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="w">                </span><span class="k">break</span><span class="p">;</span>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="w">            </span><span class="p">}</span>
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="w">    </span><span class="p">});</span>
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="w">    </span><span class="nb">Ok</span><span class="p">(())</span>
+</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a><span class="p">}</span>
+</span></code></pre></div>
+<p><strong>What changes in streaming mode:</strong></p>
+<ul>
+<li>The runtime does <strong>not</strong> call <code>poll()</code></li>
+<li>Your connector pushes <code>SourceEnvelope</code> values to the runtime using <code>SourceSender</code></li>
+<li>Runtime still batches outbound work, publishes, retries, commits offsets, and runs health checks</li>
 </ul>
 <hr />
 <h3 id="4-error-handling">4. Error Handling</h3>
@@ -2578,6 +2690,7 @@
 <li>Stops connector on <code>Fatal</code> errors</li>
 <li>Continues normally on <code>Ok(vec![])</code></li>
 </ul>
+<p>For streaming connectors, long-lived stream tasks should log transient external errors internally, recover when possible, and use <code>health_check()</code> to surface unhealthy state if the stream can no longer make progress.</p>
 <hr />
 <h3 id="5-optional-offset-management">5. Optional: Offset Management</h3>
 <p><strong><code>async fn commit(&amp;mut self, offsets: Vec&lt;Offset&gt;)</code></strong></p>
@@ -2607,14 +2720,13 @@
 <p><strong>What to do:</strong></p>
 <ul>
 <li>Unsubscribe from data sources</li>
-<li>Flush any buffered data</li>
 <li>Close connections to external system</li>
 <li>Save final state/offsets</li>
 </ul>
 <p><strong>Runtime guarantees:</strong></p>
 <ul>
 <li><code>shutdown()</code> called on SIGTERM/SIGINT</li>
-<li>All pending <code>SourceRecord</code>s published before shutdown</li>
+<li>All pending source envelopes already handed to the runtime are drained before exit</li>
 <li>No new <code>poll()</code> calls after shutdown starts</li>
 </ul>
 <hr />
@@ -2637,13 +2749,13 @@
 </ul>
 <h3 id="schema-configuration">Schema Configuration</h3>
 <p>Schemas are defined in <code>ConnectorConfig</code> and accessed via <code>config.core.schemas</code>:</p>
-<div class="language-toml highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">[[schemas]]</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">topic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/iot/sensors&quot;</span><span class="w">              </span><span class="c1"># Danube topic</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">subject</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;sensor-data-v1&quot;</span><span class="w">          </span><span class="c1"># Registry subject</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="n">schema_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;json_schema&quot;</span><span class="w">         </span><span class="c1"># Type</span>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="n">schema_file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;schemas/sensor.json&quot;</span><span class="w"> </span><span class="c1"># File path</span>
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="n">auto_register</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="w">                </span><span class="c1"># Auto-register</span>
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="n">version_strategy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;latest&quot;</span><span class="w">         </span><span class="c1"># Version</span>
+<div class="language-toml highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">[[schemas]]</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">topic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/iot/sensors&quot;</span><span class="w">              </span><span class="c1"># Danube topic</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">subject</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;sensor-data-v1&quot;</span><span class="w">          </span><span class="c1"># Registry subject</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="n">schema_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;json_schema&quot;</span><span class="w">         </span><span class="c1"># Type</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="n">schema_file</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;schemas/sensor.json&quot;</span><span class="w"> </span><span class="c1"># File path</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="n">auto_register</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="w">                </span><span class="c1"># Auto-register</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="n">version_strategy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;latest&quot;</span><span class="w">         </span><span class="c1"># Version</span>
 </span></code></pre></div>
 <h3 id="schema-types">Schema Types</h3>
 <table>
@@ -2675,6 +2787,11 @@
 <td>Metrics, counters</td>
 <td>Not needed</td>
 </tr>
+<tr>
+<td><code>avro</code></td>
+<td>Avro-managed structured data</td>
+<td>Required</td>
+</tr>
 </tbody>
 </table>
 <h3 id="version-strategies">Version Strategies</h3>
@@ -2685,7 +2802,7 @@
 </ul>
 <h3 id="how-it-works">How It Works</h3>
 <p><strong>You create records:</strong></p>
-<div class="language-rust highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kd">let</span><span class="w"> </span><span class="n">record</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SourceRecord</span><span class="p">::</span><span class="n">from_json</span><span class="p">(</span><span class="s">&quot;/iot/sensors&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">sensor_data</span><span class="p">)</span><span class="o">?</span><span class="p">;</span>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kd">let</span><span class="w"> </span><span class="n">record</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SourceRecord</span><span class="p">::</span><span class="n">from_json</span><span class="p">(</span><span class="s">&quot;/iot/sensors&quot;</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">sensor_data</span><span class="p">)</span><span class="o">?</span><span class="p">;</span>
 </span></code></pre></div>
 <p><strong>Runtime automatically:</strong></p>
 <ol>
@@ -2703,31 +2820,32 @@
 </ul>
 <hr />
 <h2 id="main-entry-point">Main Entry Point</h2>
-<div class="language-rust highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="cp">#[tokio::main]</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">ConnectorResult</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="c1">// 1. Initialize logging</span>
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="n">tracing_subscriber</span><span class="p">::</span><span class="n">fmt</span><span class="p">::</span><span class="n">init</span><span class="p">();</span>
-</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>
-</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">    </span><span class="c1">// 2. Load configuration</span>
-</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MySourceConfig</span><span class="p">::</span><span class="n">load</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
-</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>
-</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">    </span><span class="c1">// 3. Create connector with settings and schemas</span>
-</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">connector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MySourceConnector</span><span class="p">::</span><span class="n">new</span><span class="p">(</span>
-</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">        </span><span class="n">config</span><span class="p">.</span><span class="n">my_source</span><span class="p">,</span>
-</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">        </span><span class="n">config</span><span class="p">.</span><span class="n">core</span><span class="p">.</span><span class="n">schemas</span><span class="p">.</span><span class="n">clone</span><span class="p">(),</span><span class="w">  </span><span class="c1">// ← From ConnectorConfig</span>
-</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="w">    </span><span class="p">);</span>
-</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>
-</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="w">    </span><span class="c1">// 4. Create and run runtime (handles everything else)</span>
-</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">runtime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SourceRuntime</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="n">connector</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">.</span><span class="n">core</span><span class="p">).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
-</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="w">    </span><span class="n">runtime</span><span class="p">.</span><span class="n">run</span><span class="p">().</span><span class="k">await</span>
-</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="p">}</span>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="cp">#[tokio::main]</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">ConnectorResult</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="c1">// 1. Initialize logging</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="n">tracing_subscriber</span><span class="p">::</span><span class="n">fmt</span><span class="p">::</span><span class="n">init</span><span class="p">();</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">    </span><span class="c1">// 2. Load configuration</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MySourceConfig</span><span class="p">::</span><span class="n">load</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">    </span><span class="c1">// 3. Create connector with settings and schemas</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">connector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MySourceConnector</span><span class="p">::</span><span class="n">new</span><span class="p">(</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">        </span><span class="n">config</span><span class="p">.</span><span class="n">my_source</span><span class="p">,</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="w">        </span><span class="n">config</span><span class="p">.</span><span class="n">core</span><span class="p">.</span><span class="n">schemas</span><span class="p">.</span><span class="n">clone</span><span class="p">(),</span><span class="w">  </span><span class="c1">// ← From ConnectorConfig</span>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="w">    </span><span class="p">);</span>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="w">    </span><span class="c1">// 4. Create and run runtime (handles everything else)</span>
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">runtime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SourceRuntime</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="n">connector</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">.</span><span class="n">core</span><span class="p">).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="w">    </span><span class="n">runtime</span><span class="p">.</span><span class="n">run</span><span class="p">().</span><span class="k">await</span>
+</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a><span class="p">}</span>
 </span></code></pre></div>
 <p><strong>Runtime handles:</strong></p>
 <ul>
 <li>Danube connection</li>
 <li>Producer creation with schema configs</li>
-<li>Polling loop at configured interval</li>
+<li>Polling loop or streaming-envelope drain loop</li>
 <li>Publishing records with retries</li>
+<li>Offset commits after successful publish</li>
 <li>Metrics and health monitoring</li>
 <li>Graceful shutdown on signals</li>
 </ul>
@@ -2751,10 +2869,17 @@
 <h3 id="data-polling">Data Polling</h3>
 <ul>
 <li>✅ Return empty <code>Vec</code> when no data (non-blocking)</li>
-<li>✅ Use appropriate batch sizes (100-1000 records)</li>
+<li>✅ Return <code>Vec&lt;SourceEnvelope&gt;</code> so offsets can be attached when needed</li>
 <li>✅ Handle rate limits gracefully</li>
 <li>✅ Log warnings for skipped messages</li>
 <li>✅ Add attributes for routing metadata</li>
+</ul>
+<h3 id="streaming-sources">Streaming Sources</h3>
+<ul>
+<li>✅ Prefer <code>SourceConnectorMode::Streaming</code> for event-driven connectors</li>
+<li>✅ Use <code>SourceSender::send()</code> / <code>send_batch()</code> to emit envelopes</li>
+<li>✅ Keep long-lived source tasks lightweight and observable</li>
+<li>✅ Surface broken upstream streams via <code>health_check()</code> when needed</li>
 </ul>
 <h3 id="error-handling">Error Handling</h3>
 <ul>
@@ -2775,10 +2900,10 @@
 <h2 id="common-patterns">Common Patterns</h2>
 <h3 id="pull-based-polling">Pull-Based Polling</h3>
 <p>Query external system with cursor/offset tracking. Suitable for databases, REST APIs.</p>
-<h3 id="push-based-subscription">Push-Based Subscription</h3>
-<p>External system pushes data to in-memory buffer. Drain buffer in <code>poll()</code>. Suitable for MQTT, webhooks.</p>
-<h3 id="stream-based">Stream-Based</h3>
-<p>Continuous stream reader. Read batches in <code>poll()</code>. Suitable for Kafka, message queues.</p>
+<h3 id="event-driven-streaming">Event-Driven Streaming</h3>
+<p>External system pushes data via callbacks, subscriptions, or sockets. Emit directly with <code>SourceSender</code>. Suitable for MQTT, webhooks, and long-lived subscriptions.</p>
+<h3 id="buffered-polling-bridge">Buffered Polling Bridge</h3>
+<p>If an SDK forces callback-based delivery but you still want polling mode, buffer events internally and drain them in <code>poll()</code>.</p>
 <h3 id="topic-routing">Topic Routing</h3>
 <p>Map external identifiers to Danube topics using pattern matching, lookup tables, or configuration mappings.</p>
 <hr />
@@ -2801,10 +2926,10 @@
 <h2 id="summary">Summary</h2>
 <p><strong>You implement:</strong></p>
 <ul>
-<li><code>SourceConnector</code> trait (3 required, 3 optional methods)</li>
+<li><code>SourceConnector</code> trait (2 always-required methods plus polling or streaming mode implementation)</li>
 <li>Configuration with flattened <code>ConnectorConfig</code></li>
 <li>External system integration</li>
-<li>Message transformation to <code>SourceRecord</code></li>
+<li>Message transformation to <code>SourceRecord</code> / <code>SourceEnvelope</code></li>
 <li>Topic routing logic</li>
 </ul>
 <p><strong>Runtime handles:</strong></p>
@@ -2812,10 +2937,12 @@
 <li>Danube connection</li>
 <li>Schema validation &amp; serialization</li>
 <li>Message publishing &amp; retries</li>
+<li>Polling or streaming delivery loop</li>
+<li>Offset commits after successful publish</li>
 <li>Lifecycle &amp; monitoring</li>
 <li>Metrics &amp; health</li>
 </ul>
-<p><strong>Remember:</strong> Configuration uses flattened <code>ConnectorConfig</code>. Access schemas via <code>config.core.schemas</code>. Never duplicate schema fields. Focus on external system integration and data transformation - runtime handles Danube operations.</p>
+<p><strong>Remember:</strong> Configuration uses flattened <code>ConnectorConfig</code>, shared <code>[processing]</code> settings, and connector-specific <code>routes</code>. Access schemas via <code>config.core.schemas</code>. Choose polling for pull-based systems and streaming for event-driven systems. Focus on external system integration and data transformation - runtime handles Danube operations.</p>
 
 
 

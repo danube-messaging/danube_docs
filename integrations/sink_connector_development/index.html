@@ -1463,9 +1463,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#4-batch-processing-recommended" class="md-nav__link">
+  <a href="#4-runtime-managed-batching" class="md-nav__link">
     <span class="md-ellipsis">
-      4. Batch Processing (Recommended)
+      4. Runtime-Managed Batching
     </span>
   </a>
   
@@ -1649,9 +1649,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#batching" class="md-nav__link">
+  <a href="#runtime-settings" class="md-nav__link">
     <span class="md-ellipsis">
-      Batching
+      Runtime Settings
     </span>
   </a>
   
@@ -2132,9 +2132,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#4-batch-processing-recommended" class="md-nav__link">
+  <a href="#4-runtime-managed-batching" class="md-nav__link">
     <span class="md-ellipsis">
-      4. Batch Processing (Recommended)
+      4. Runtime-Managed Batching
     </span>
   </a>
   
@@ -2318,9 +2318,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#batching" class="md-nav__link">
+  <a href="#runtime-settings" class="md-nav__link">
     <span class="md-ellipsis">
-      Batching
+      Runtime Settings
     </span>
   </a>
   
@@ -2496,7 +2496,7 @@
 <p><strong>Build sink connectors to export data from Danube to any external system</strong></p>
 <hr />
 <h2 id="overview">Overview</h2>
-<p>A <strong>sink connector</strong> exports data from Danube topics to external systems. The connector consumes messages, transforms data, and writes to the target system with batching and error handling. The runtime handles consumption, schema deserialization, and delivery guarantees.</p>
+<p>A <strong>sink connector</strong> exports data from Danube topics to external systems. The connector consumes typed <code>SinkRecord</code> values, transforms them, and writes them to the target system. The runtime owns Danube consumption, buffering, batch flush timing, schema-aware deserialization, acknowledgments, health scheduling, and metrics export.</p>
 <p><strong>Examples:</strong> Danube→Delta Lake, Danube→ClickHouse, Danube→Vector DB, Danube→HTTP API</p>
 <hr />
 <h2 id="core-concepts">Core Concepts</h2>
@@ -2519,19 +2519,19 @@
 </tr>
 <tr>
 <td>Write to target system</td>
-<td>Schema deserialization &amp; validation</td>
+<td>Schema deserialization &amp; expected-subject checks</td>
 </tr>
 <tr>
-<td>Batch operations</td>
-<td>Message buffering &amp; delivery</td>
+<td>Connector-specific routing/grouping</td>
+<td>Message buffering, batching, and acknowledgments</td>
 </tr>
 <tr>
-<td>Error handling per system</td>
-<td>Lifecycle &amp; health monitoring</td>
+<td>Error classification for target failures</td>
+<td>Lifecycle, health scheduling, and retry policy</td>
 </tr>
 <tr>
-<td>Flush buffered data</td>
-<td>Metrics &amp; observability</td>
+<td>External-system cleanup</td>
+<td>Metrics export and observability</td>
 </tr>
 </tbody>
 </table>
@@ -2542,16 +2542,13 @@
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">pub</span><span class="w"> </span><span class="k">trait</span><span class="w"> </span><span class="n">SinkConnector</span><span class="p">:</span><span class="w"> </span><span class="nb">Send</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">Sync</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">initialize</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">:</span><span class="w"> </span><span class="nc">ConnectorConfig</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">ConnectorResult</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="p">;</span>
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">consumer_configs</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">ConnectorResult</span><span class="o">&lt;</span><span class="nb">Vec</span><span class="o">&lt;</span><span class="n">ConsumerConfig</span><span class="o">&gt;&gt;</span><span class="p">;</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">process</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">record</span><span class="p">:</span><span class="w"> </span><span class="nc">SinkRecord</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">ConnectorResult</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="p">;</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">process_batch</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">records</span><span class="p">:</span><span class="w"> </span><span class="nb">Vec</span><span class="o">&lt;</span><span class="n">SinkRecord</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">ConnectorResult</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="p">;</span>
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="c1">// Optional methods with defaults</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">process_batch</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">records</span><span class="p">:</span><span class="w"> </span><span class="nb">Vec</span><span class="o">&lt;</span><span class="n">SinkRecord</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">ConnectorResult</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="p">;</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">shutdown</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">ConnectorResult</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">Ok</span><span class="p">(())</span><span class="w"> </span><span class="p">}</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">health_check</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">ConnectorResult</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">Ok</span><span class="p">(())</span><span class="w"> </span><span class="p">}</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="p">}</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">shutdown</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">ConnectorResult</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">Ok</span><span class="p">(())</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">health_check</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">ConnectorResult</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">Ok</span><span class="p">(())</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="p">}</span>
 </span></code></pre></div>
-<p><strong>Required:</strong> <code>initialize</code>, <code>consumer_configs</code>, <code>process</code><br />
-<strong>Optional but recommended:</strong> <code>process_batch</code> (for performance)<br />
+<p><strong>Required:</strong> <code>initialize</code>, <code>consumer_configs</code>, <code>process_batch</code><br />
 <strong>Optional:</strong> <code>shutdown</code>, <code>health_check</code></p>
 <hr />
 <h2 id="configuration-architecture">Configuration Architecture</h2>
@@ -2567,39 +2564,39 @@
 </span></code></pre></div>
 <p><strong>Critical for Sink Connectors:</strong></p>
 <ul>
-<li>✅ Sink connectors <strong>do not</strong> use <code>config.core.schemas</code></li>
-<li>✅ Schema validation happens on the <strong>producer side</strong> (source connectors)</li>
-<li>✅ You receive already-deserialized, validated data</li>
-<li>✅ Schema info available via <code>record.schema()</code> if message has schema metadata</li>
+<li>✅ Sink connectors typically leave <code>config.core.schemas</code> empty</li>
+<li>✅ Runtime deserializes payloads before your connector sees them</li>
+<li>✅ Per-route <code>expected_schema_subject</code> can enforce an expected contract at consume time</li>
+<li>✅ Schema info remains available through <code>record.schema()</code> and <code>record.context()</code></li>
 </ul>
 <h3 id="toml-structure">TOML Structure</h3>
 <div class="language-toml highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># At root level (flattened from ConnectorConfig)</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">danube_service_url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;http://danube-broker:6650&quot;</span>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">connector_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;my-sink&quot;</span>
 </span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="c1"># No [[schemas]] section - sinks consume, don&#39;t validate</span>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># Connector-specific section</span>
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="k">[my_sink]</span>
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="n">target_url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;http://database.example.com&quot;</span>
-</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="n">connection_pool_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span>
-</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
-</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="c1"># Topic mappings with subscription details</span>
-</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="k">[[my_sink.topic_mappings]]</span>
-</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="n">topic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/events/users&quot;</span>
-</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="n">subscription</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;sink-group-1&quot;</span>
-</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="n">subscription_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Shared&quot;</span>
-</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="n">target_table</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;users&quot;</span>
-</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="n">expected_schema_subject</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;user-events-v1&quot;</span><span class="w">  </span><span class="c1"># Optional: verify schema</span>
-</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="n">batch_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span>
-</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="n">flush_interval_ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1000</span>
-</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>
-</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="k">[[my_sink.topic_mappings]]</span>
-</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="n">topic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/events/orders&quot;</span>
-</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="n">subscription</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;sink-group-1&quot;</span>
-</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="n">subscription_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Shared&quot;</span>
-</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="n">target_table</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;orders&quot;</span>
-</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a><span class="n">batch_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">500</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="k">[processing]</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="n">batch_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">500</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="n">batch_timeout_ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1000</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="n">metrics_port</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">9090</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="c1"># Connector-specific section</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="k">[my_sink]</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="n">target_url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;http://database.example.com&quot;</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="n">connection_pool_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="c1"># Routes with subscription details</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="k">[[my_sink.routes]]</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="n">from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/events/users&quot;</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="n">subscription</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;sink-group-1&quot;</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="n">subscription_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Shared&quot;</span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="n">to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;users&quot;</span>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="n">expected_schema_subject</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;user-events-v1&quot;</span><span class="w">  </span><span class="c1"># Optional: verify schema</span>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="k">[[my_sink.routes]]</span>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="n">from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/events/orders&quot;</span>
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="n">subscription</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;sink-group-1&quot;</span>
+</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="n">subscription_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;Shared&quot;</span>
+</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a><span class="n">to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;orders&quot;</span>
 </span></code></pre></div>
 <h3 id="configuration-loading">Configuration Loading</h3>
 <p><strong>Mechanism:</strong></p>
@@ -2614,7 +2611,7 @@
 <li>Core: <code>DANUBE_SERVICE_URL</code>, <code>CONNECTOR_NAME</code></li>
 <li>Secrets: Database passwords, API keys, credentials</li>
 </ul>
-<p><strong>Not overridable:</strong> Topic mappings, subscription settings (must be in TOML)</p>
+<p><strong>Not overridable:</strong> <code>routes</code>, <code>from</code>, <code>to</code>, subscription settings, and shared processing behavior (must stay in TOML)</p>
 <hr />
 <h2 id="implementation-steps">Implementation Steps</h2>
 <h3 id="1-initialize-connection">1. Initialize Connection</h3>
@@ -2627,11 +2624,12 @@
 <li>Set up connection pools for parallel writes</li>
 <li>Validate write permissions with test write/query</li>
 <li>Create tables/collections/indexes if needed</li>
-<li>Store client in struct for later use in <code>process()</code></li>
+<li>Store client in struct for later use in <code>process_batch()</code></li>
 </ul>
 <p><strong>Error handling:</strong></p>
 <ul>
-<li>Return <code>ConnectorError::Initialization</code> for connection failures</li>
+<li>Return <code>ConnectorError::config</code> for configuration mistakes</li>
+<li>Return <code>ConnectorError::fatal</code> for connection or setup failures</li>
 <li>Log detailed error context</li>
 <li>Fail fast - don't retry in <code>initialize()</code></li>
 </ul>
@@ -2644,13 +2642,13 @@
 </ul>
 <hr />
 <h3 id="2-define-consumer-configs">2. Define Consumer Configs</h3>
-<p><strong><code>async fn consumer_configs(&amp;self) -&gt; Vec&lt;ConsumerConfig&gt;</code></strong></p>
+<p><strong><code>async fn consumer_configs(&amp;self) -&gt; ConnectorResult&lt;Vec&lt;ConsumerConfig&gt;&gt;</code></strong></p>
 <p><strong>Purpose:</strong> Tell the runtime which Danube topics to consume from and how.</p>
 <p><strong>What to do:</strong></p>
 <ul>
 <li>Map your topic configuration to Danube consumer configs</li>
-<li>For each source topic, create a <code>ConsumerConfig</code></li>
-<li>Specify subscription type (Shared, Exclusive, Failover)</li>
+<li>For each consumed topic or route, create a <code>ConsumerConfig</code></li>
+<li>Specify subscription type (Shared, Exclusive, FailOver)</li>
 <li>Set consumer name and subscription name</li>
 <li>Optionally specify expected schema subject for validation</li>
 </ul>
@@ -2667,28 +2665,29 @@
 <ul>
 <li><strong>Shared:</strong> Load balancing across multiple consumers (most common)</li>
 <li><strong>Exclusive:</strong> Single consumer, ordered processing</li>
-<li><strong>Failover:</strong> Active-passive, automatic failover</li>
+<li><strong>FailOver:</strong> Active-passive, automatic failover</li>
 </ul>
 <p><strong>Called once</strong> at startup after <code>initialize()</code>. Runtime creates consumers based on these configs.</p>
 <hr />
 <h3 id="3-process-records">3. Process Records</h3>
-<p><strong><code>async fn process(&amp;mut self, record: SinkRecord)</code></strong></p>
-<p><strong>Purpose:</strong> Transform a single message and write to external system.</p>
-<p><strong>Called:</strong> For each message consumed from Danube (or use <code>process_batch</code> instead)</p>
+<p><strong><code>async fn process_batch(&amp;mut self, records: Vec&lt;SinkRecord&gt;)</code></strong></p>
+<p><strong>Purpose:</strong> Transform a runtime-managed batch and write it to the external system.</p>
+<p><strong>Called:</strong> When runtime buffering reaches the configured batch size or batch timeout.</p>
 <p><strong>What to do:</strong></p>
 <ol>
-<li><strong>Extract data</strong> - Already deserialized by runtime</li>
-<li><strong>Access metadata</strong> - Topic, offset, timestamp, attributes</li>
-<li><strong>Transform</strong> - Convert to target system format</li>
-<li><strong>Write</strong> - Send to external system</li>
-<li><strong>Handle errors</strong> - Return appropriate error type</li>
+<li><strong>Inspect the batch</strong> - Records are already deserialized by the runtime</li>
+<li><strong>Group if needed</strong> - Group by route, table, collection, or target entity</li>
+<li><strong>Transform</strong> - Convert records into the external system's write model</li>
+<li><strong>Bulk write</strong> - Execute the connector's external write path</li>
+<li><strong>Handle partials intentionally</strong> - Skip bad records inside the batch if that is your policy</li>
+<li><strong>Return appropriate error type</strong> - Retryable only for truly transient batch failures</li>
 </ol>
 <p><strong>SinkRecord API:</strong></p>
 <div class="language-rust highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kd">let</span><span class="w"> </span><span class="n">payload</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">record</span><span class="p">.</span><span class="n">payload</span><span class="p">();</span><span class="w">           </span><span class="c1">// &amp;serde_json::Value</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kd">let</span><span class="w"> </span><span class="n">topic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">record</span><span class="p">.</span><span class="n">topic</span><span class="p">();</span><span class="w">               </span><span class="c1">// &amp;str</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="kd">let</span><span class="w"> </span><span class="n">offset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">record</span><span class="p">.</span><span class="n">offset</span><span class="p">();</span><span class="w">             </span><span class="c1">// u64</span>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="kd">let</span><span class="w"> </span><span class="n">timestamp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">record</span><span class="p">.</span><span class="n">publish_time</span><span class="p">();</span><span class="w">    </span><span class="c1">// u64 (microseconds)</span>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="kd">let</span><span class="w"> </span><span class="n">attributes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">record</span><span class="p">.</span><span class="n">attributes</span><span class="p">();</span><span class="w">     </span><span class="c1">// &amp;HashMap&lt;String, String&gt;</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="kd">let</span><span class="w"> </span><span class="n">timestamp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">record</span><span class="p">.</span><span class="n">publish_time</span><span class="p">();</span><span class="w">    </span><span class="c1">// u64 (microseconds)</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="kd">let</span><span class="w"> </span><span class="n">attributes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">record</span><span class="p">.</span><span class="n">attributes</span><span class="p">();</span><span class="w">     </span><span class="c1">// &amp;HashMap&lt;String, String&gt;</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="kd">let</span><span class="w"> </span><span class="n">context</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">record</span><span class="p">.</span><span class="n">context</span><span class="p">();</span><span class="w">           </span><span class="c1">// generic routing + schema context</span>
 </span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
 </span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1">// Check schema info if message has schema</span>
 </span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">record</span><span class="p">.</span><span class="n">schema</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -2701,42 +2700,30 @@
 <p><strong>Runtime provides:</strong></p>
 <ul>
 <li>Pre-deserialized JSON data</li>
-<li>Schema validation already done</li>
+<li>Expected-schema checks when configured</li>
 <li>Type-safe access methods</li>
-<li>Metadata extraction</li>
+<li>Logical topic metadata and generic record context</li>
 </ul>
 <hr />
-<h3 id="4-batch-processing-recommended">4. Batch Processing (Recommended)</h3>
-<p><strong><code>async fn process_batch(&amp;mut self, records: Vec&lt;SinkRecord&gt;)</code></strong></p>
-<p><strong>Purpose:</strong> Process multiple records together for better throughput.</p>
-<p><strong>Why batching:</strong></p>
+<h3 id="4-runtime-managed-batching">4. Runtime-Managed Batching</h3>
+<p>The sink runtime manages buffering and flush timing using the shared root <code>[processing]</code> settings.</p>
+<p><strong>Controls:</strong></p>
 <ul>
-<li>10-100x better performance for bulk operations</li>
-<li>Reduced network round trips</li>
-<li>More efficient resource usage</li>
-<li>Lower latency at scale</li>
+<li><code>processing.batch_size</code></li>
+<li><code>processing.batch_timeout_ms</code></li>
 </ul>
-<p><strong>What to do:</strong></p>
-<ol>
-<li><strong>Group by target</strong> - If multi-topic, group by destination table/collection</li>
-<li><strong>Transform batch</strong> - Convert all records to target format</li>
-<li><strong>Bulk write</strong> - Single operation for entire batch</li>
-<li><strong>Handle partial failures</strong> - Some systems support partial success</li>
-</ol>
-<p><strong>Batch triggers:</strong></p>
+<p><strong>What this means for connector authors:</strong></p>
 <ul>
-<li><strong>Size:</strong> <code>batch_size</code> records buffered (e.g., 100)</li>
-<li><strong>Time:</strong> <code>flush_interval_ms</code> elapsed (e.g., 1000ms)</li>
-<li><strong>Shutdown:</strong> Flush remaining records</li>
+<li>Do <strong>not</strong> add connector-owned batch size or flush timer settings unless the external platform truly requires a second, platform-specific layer</li>
+<li>Treat <code>process_batch()</code> as the primary sink write path</li>
+<li>If your connector supports multiple routes, group the incoming batch by <code>record.topic()</code> or by route target inside <code>process_batch()</code></li>
+<li>If you need lower latency or higher throughput, tune the shared <code>[processing]</code> block rather than inventing connector-local batching knobs</li>
 </ul>
-<p><strong>Performance guidance:</strong></p>
-<ul>
-<li>High throughput: 500-1000 records per batch</li>
-<li>Low latency: 10-50 records per batch</li>
-<li>Balanced: 100 records per batch</li>
-</ul>
-<p><strong>Per-topic configuration:</strong>
-Different topics can have different batch sizes based on workload characteristics.</p>
+<p><strong>Example:</strong></p>
+<div class="language-toml highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">[processing]</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">batch_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1000</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">batch_timeout_ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1000</span>
+</span></code></pre></div>
 <hr />
 <h3 id="5-error-handling">5. Error Handling</h3>
 <p><strong>Error types guide runtime behavior:</strong></p>
@@ -2760,34 +2747,34 @@ Different topics can have different batch sizes based on workload characteristic
 <td>Shutdown connector</td>
 </tr>
 <tr>
+<td><code>InvalidData</code></td>
+<td>Batch content is malformed or unusable</td>
+<td>Non-retryable failure</td>
+</tr>
+<tr>
 <td><code>Ok(())</code></td>
-<td>Success or skippable errors</td>
+<td>Batch succeeded</td>
 <td>Acknowledge message</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Mechanism:</strong></p>
+<p><strong>Important:</strong> The runtime only retries <code>Retryable</code> errors. If you return <code>InvalidData</code>, that batch is treated as a non-retryable failure.</p>
+<p><strong>Recommended pattern:</strong></p>
 <ul>
-<li><strong>Temporary errors:</strong> Rate limits, timeouts, transient failures → <code>Retryable</code></li>
-<li><strong>Invalid data:</strong> Log warning, skip record → <code>Ok()</code> (acknowledge anyway)</li>
-<li><strong>Fatal errors:</strong> Auth failure, connection lost → <code>Fatal</code> (stops connector)</li>
-</ul>
-<p><strong>The runtime:</strong></p>
-<ul>
-<li>Retries <code>Retryable</code> errors with exponential backoff</li>
-<li>Stops connector on <code>Fatal</code> errors</li>
-<li>Acknowledges and continues on <code>Ok(())</code></li>
+<li>Handle per-record skippable bad data <strong>inside</strong> <code>process_batch()</code> when possible</li>
+<li>Return <code>Retryable</code> only when the whole batch should be retried</li>
+<li>Return <code>Fatal</code> when continuing would be unsafe or pointless</li>
 </ul>
 <p><strong>Partial batch failures:</strong>
-For systems that support it, process successful records and retry only failed ones.</p>
+For systems that support partial success, handle the split inside the connector and only return an error for the portion that truly failed your chosen policy.</p>
 <hr />
 <h3 id="6-graceful-shutdown">6. Graceful Shutdown</h3>
 <p><strong><code>async fn shutdown(&amp;mut self)</code></strong></p>
 <p><strong>Purpose:</strong> Clean up resources and flush pending data before stopping.</p>
+<p>For most connectors, this means finishing in-flight external work and closing clients cleanly. The runtime already owns Danube-side buffering.</p>
 <p><strong>What to do:</strong></p>
 <ul>
-<li>Flush any buffered records (if using internal batching)</li>
-<li>Complete any in-flight writes</li>
+<li>Complete any in-flight external writes</li>
 <li>Close connections to external system</li>
 <li>Save any state if needed</li>
 <li>Log shutdown completion</li>
@@ -2825,14 +2812,14 @@ For systems that support it, process successful records and retry only failed on
 </ul>
 <h3 id="expected-schema-subject">Expected Schema Subject</h3>
 <p>Optional verification that messages have expected schema:</p>
-<div class="language-toml highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">[[my_sink.topic_mappings]]</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">topic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/events/users&quot;</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">expected_schema_subject</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;user-events-v1&quot;</span><span class="w">  </span><span class="c1"># Verify schema subject</span>
+<div class="language-toml highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">[[my_sink.routes]]</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/events/users&quot;</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">expected_schema_subject</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;user-events-v1&quot;</span><span class="w">  </span><span class="c1"># Verify schema subject</span>
 </span></code></pre></div>
 <p><strong>What happens:</strong></p>
 <ul>
 <li>Runtime checks if message schema subject matches</li>
-<li>Mismatch results in error (configurable behavior)</li>
+<li>Mismatch results in a non-retryable consume-side failure for that batch</li>
 <li>Useful for ensuring data contracts</li>
 </ul>
 <p><strong>When to use:</strong></p>
@@ -2879,10 +2866,9 @@ For systems that support it, process successful records and retry only failed on
 <hr />
 <h2 id="multi-topic-routing">Multi-Topic Routing</h2>
 <h3 id="pattern">Pattern</h3>
-<p>Each topic mapping is independent:</p>
+<p>Each route is independent:</p>
 <ul>
 <li>Different target entities (tables, collections, indexes)</li>
-<li>Different batch sizes and flush intervals</li>
 <li>Different transformations</li>
 <li>Different schema expectations</li>
 </ul>
@@ -2894,33 +2880,33 @@ For systems that support it, process successful records and retry only failed on
 <li><strong>Route to target entity</strong> (table, collection, etc.)</li>
 </ol>
 <h3 id="configuration-example">Configuration Example</h3>
-<div class="language-toml highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">[[my_sink.topic_mappings]]</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">topic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/events/clicks&quot;</span>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">target_table</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;clicks&quot;</span>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="n">batch_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1000</span><span class="w">  </span><span class="c1"># High volume</span>
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
-</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="k">[[my_sink.topic_mappings]]</span>
-</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="n">topic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/events/orders&quot;</span>
-</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="n">target_table</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;orders&quot;</span>
-</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="n">batch_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="w">   </span><span class="c1"># Lower latency</span>
+<div class="language-toml highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">[[my_sink.routes]]</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/events/clicks&quot;</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="n">subscription</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;analytics-clicks&quot;</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="n">to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;clicks&quot;</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="k">[[my_sink.routes]]</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="n">from</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;/events/orders&quot;</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="n">subscription</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;analytics-orders&quot;</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="n">to</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;orders&quot;</span>
 </span></code></pre></div>
 <hr />
 <h2 id="main-entry-point">Main Entry Point</h2>
-<div class="language-rust highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="cp">#[tokio::main]</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">ConnectorResult</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="c1">// 1. Initialize logging</span>
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="n">tracing_subscriber</span><span class="p">::</span><span class="n">fmt</span><span class="p">::</span><span class="n">init</span><span class="p">();</span>
-</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>
-</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">    </span><span class="c1">// 2. Load configuration</span>
-</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MySinkConfig</span><span class="p">::</span><span class="n">load</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
-</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>
-</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">    </span><span class="c1">// 3. Create connector with settings</span>
-</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">connector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MySinkConnector</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">my_sink</span><span class="p">)</span><span class="o">?</span><span class="p">;</span>
-</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>
-</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">    </span><span class="c1">// 4. Create and run runtime (handles everything else)</span>
-</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">runtime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SinkRuntime</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="n">connector</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">.</span><span class="n">core</span><span class="p">).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
-</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="w">    </span><span class="n">runtime</span><span class="p">.</span><span class="n">run</span><span class="p">().</span><span class="k">await</span>
-</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="p">}</span>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="cp">#[tokio::main]</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="k">async</span><span class="w"> </span><span class="k">fn</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">ConnectorResult</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="c1">// 1. Initialize logging</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="n">tracing_subscriber</span><span class="p">::</span><span class="n">fmt</span><span class="p">::</span><span class="n">init</span><span class="p">();</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">    </span><span class="c1">// 2. Load configuration</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MySinkConfig</span><span class="p">::</span><span class="n">load</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">    </span><span class="c1">// 3. Create connector with settings</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">connector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MySinkConnector</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="n">config</span><span class="p">.</span><span class="n">my_sink</span><span class="p">)</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="w">    </span><span class="c1">// 4. Create and run runtime (handles everything else)</span>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">runtime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SinkRuntime</span><span class="p">::</span><span class="n">new</span><span class="p">(</span><span class="n">connector</span><span class="p">,</span><span class="w"> </span><span class="n">config</span><span class="p">.</span><span class="n">core</span><span class="p">).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="w">    </span><span class="n">runtime</span><span class="p">.</span><span class="n">run</span><span class="p">().</span><span class="k">await</span>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="p">}</span>
 </span></code></pre></div>
 <p><strong>Runtime handles:</strong></p>
 <ul>
@@ -2928,19 +2914,19 @@ For systems that support it, process successful records and retry only failed on
 <li>Consumer creation with subscription configs</li>
 <li>Message consumption and buffering</li>
 <li>Schema fetching and deserialization</li>
-<li>Calling <code>process()</code> or <code>process_batch()</code></li>
+<li>Calling <code>process_batch()</code></li>
 <li>Retries and error handling</li>
-<li>Metrics and health monitoring</li>
-<li>Graceful shutdown on signals</li>
+<li>Lifecycle &amp; monitoring</li>
+<li>Metrics &amp; health</li>
 </ul>
 <hr />
 <h2 id="best-practices">Best Practices</h2>
 <h3 id="configuration">Configuration</h3>
 <ul>
-<li>✅ Use flattened <code>ConnectorConfig</code> - no schemas field needed</li>
+<li>✅ Use flattened <code>ConnectorConfig</code> at the root</li>
 <li>✅ Keep secrets in environment variables, not TOML</li>
 <li>✅ Validate configuration at startup</li>
-<li>✅ Provide per-topic batch configuration</li>
+<li>✅ Keep route structure consistent with <code>routes</code>, <code>from</code>, and <code>to</code></li>
 </ul>
 <h3 id="data-processing">Data Processing</h3>
 <ul>
@@ -2949,25 +2935,25 @@ For systems that support it, process successful records and retry only failed on
 <li>✅ Make metadata addition optional (configurable)</li>
 <li>✅ Handle missing fields gracefully</li>
 </ul>
-<h3 id="batching">Batching</h3>
+<h3 id="runtime-settings">Runtime Settings</h3>
 <ul>
-<li>✅ Configure both size and time triggers</li>
-<li>✅ Adjust per-topic for different workloads</li>
-<li>✅ Flush on shutdown to avoid data loss</li>
-<li>✅ Document batch size recommendations</li>
+<li>✅ Tune <code>[processing].batch_size</code> and <code>[processing].batch_timeout_ms</code></li>
+<li>✅ Use <code>metrics_port</code> and health-check settings from shared config</li>
+<li>✅ Avoid duplicate connector-local batching knobs unless platform-specific</li>
+<li>✅ Document shared runtime tuning instead of connector-owned flush policy</li>
 </ul>
 <h3 id="error-handling">Error Handling</h3>
 <ul>
 <li>✅ <code>Retryable</code> for temporary failures (rate limits, network)</li>
 <li>✅ <code>Fatal</code> for permanent failures (auth, config)</li>
-<li>✅ <code>Ok(())</code> for success or skippable data issues</li>
+<li>✅ Return <code>Ok(())</code> only after the batch succeeded or any skippable records were handled inside the connector</li>
 <li>✅ Log detailed error context</li>
 </ul>
 <h3 id="subscription-types_1">Subscription Types</h3>
 <ul>
 <li>✅ Use <code>Shared</code> for scalable parallel processing (default)</li>
 <li>✅ Use <code>Exclusive</code> only when ordering is critical</li>
-<li>✅ Use <code>Failover</code> for ordered + high availability</li>
+<li>✅ Use <code>FailOver</code> for ordered + high availability</li>
 <li>✅ Document ordering requirements</li>
 </ul>
 <h3 id="performance">Performance</h3>
@@ -2982,11 +2968,11 @@ For systems that support it, process successful records and retry only failed on
 <h3 id="direct-write">Direct Write</h3>
 <p>Receive data, transform, write directly. Simplest approach for low-volume or low-latency requirements.</p>
 <h3 id="buffered-batch-write">Buffered Batch Write</h3>
-<p>Buffer records until batch size/timeout reached, then bulk write. Best for throughput.</p>
+<p>Let the runtime buffer records until batch size/timeout is reached, then bulk write in <code>process_batch()</code>. Best for throughput.</p>
 <h3 id="grouped-multi-topic-write">Grouped Multi-Topic Write</h3>
 <p>Group records by target entity, write each group as batch. Efficient for multi-topic routing.</p>
 <h3 id="enriched-write">Enriched Write</h3>
-<p>Add metadata from Danube (topic, offset, timestamp) to records before writing. Useful for auditing.</p>
+<p>Add metadata from Danube (topic, publish time, producer, attributes) to records before writing. Useful for auditing.</p>
 <h3 id="upsert-pattern">Upsert Pattern</h3>
 <p>Use record attributes or payload fields to determine insert vs. update. Common for CDC scenarios.</p>
 <hr />
@@ -3018,9 +3004,9 @@ For systems that support it, process successful records and retry only failed on
 <h2 id="summary">Summary</h2>
 <p><strong>You implement:</strong></p>
 <ul>
-<li><code>SinkConnector</code> trait (3 required, 2-3 optional methods)</li>
-<li>Configuration with flattened <code>ConnectorConfig</code> (no schemas!)</li>
-<li>External system integration (connection, writes, batching)</li>
+<li><code>SinkConnector</code> trait (3 required, 2 optional methods)</li>
+<li>Configuration with flattened <code>ConnectorConfig</code></li>
+<li>External system integration (connection and writes)</li>
 <li>Message transformation from <code>SinkRecord</code> to target format</li>
 <li>Topic routing and multi-topic handling</li>
 </ul>
@@ -3028,16 +3014,16 @@ For systems that support it, process successful records and retry only failed on
 <ul>
 <li>Danube connection &amp; consumption</li>
 <li>Schema fetching &amp; deserialization</li>
-<li>Message buffering &amp; delivery</li>
-<li>Calling your <code>process</code> methods</li>
+<li>Message buffering, batching, and delivery</li>
+<li>Calling your <code>process_batch</code> method</li>
 <li>Retries &amp; error handling</li>
 <li>Lifecycle &amp; monitoring</li>
 <li>Metrics &amp; health</li>
 </ul>
 <p><strong>Remember:</strong></p>
 <ul>
-<li>Configuration uses flattened <code>ConnectorConfig</code> without schemas field</li>
-<li>Schemas already validated by producers - you receive typed data</li>
+<li>Configuration uses flattened <code>ConnectorConfig</code> plus connector-specific <code>routes</code></li>
+<li>Schemas are handled by the runtime - you receive typed data</li>
 <li><code>expected_schema_subject</code> is optional verification, not validation</li>
 <li>Use <code>process_batch()</code> for best performance</li>
 <li>Focus on external system integration and data transformation</li>
