@@ -453,6 +453,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../../concepts/persistence/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Persistence & Storage
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../concepts/subscriptions/" class="md-nav__link">
         
   
@@ -754,7 +775,7 @@
         
   
   <span class="md-ellipsis">
-    Persistence (WAL + Cloud)
+    Persistence Architecture
   </span>
   
 
@@ -1674,19 +1695,28 @@
 <h3 id="metadata-storage">Metadata Storage</h3>
 <p>Each broker embeds a Raft consensus node (powered by <a href="https://github.com/databendlabs/openraft">openraft</a> with <a href="https://github.com/cberner/redb">redb</a> for durable log storage). Together the brokers form a replicated state machine that stores cluster metadata: configuration, topic ownership, broker registration, and load-balancing state. Writes go through Raft consensus for strong consistency; reads are served from the local in-memory state machine with zero network hops. No external metadata store is required.</p>
 <h3 id="storage-layer">Storage Layer</h3>
-<p>The Storage Layer is responsible for message durability and replay. Danube now uses a cloud-native model based on a local Write-Ahead Log (WAL) for the hot path and background persistence to cloud object storage via OpenDAL. This keeps publish/dispatch latency low while enabling durable, elastic storage across providers (S3, GCS, Azure Blob, local FS, memory).</p>
-<p>Readers use tiered access: if data is within local WAL retention it is served from WAL/cache; otherwise historical data is streamed from cloud objects (using Raft-replicated metadata) and seamlessly handed off to the WAL tail.</p>
+<p>The Storage Layer is responsible for message durability and replay. For reliable topics, Danube uses a local Write-Ahead Log (WAL) for the hot path, immutable durable segments for historical replay, and Raft-replicated metadata to map readers and recovering brokers onto the correct history.</p>
+<p>The durable storage backend depends on the configured mode:</p>
+<ul>
+<li><code>local</code></li>
+<li>local filesystem for both WAL and durable segments</li>
+<li><code>shared_fs</code></li>
+<li>local WAL staging plus shared filesystem durable segments</li>
+<li><code>object_store</code></li>
+<li>local WAL staging plus remote durable segments via OpenDAL</li>
+</ul>
+<p>Readers use tiered access: if data is within local WAL coverage it is served from WAL/cache; otherwise historical data is streamed from durable segments and seamlessly handed off to the WAL tail.</p>
 <h3 id="non-reliable-dispatch">Non-Reliable Dispatch</h3>
 <p>Non-Reliable Dispatch operates with zero storage overhead, as messages flow directly from publishers to subscribers without intermediate persistence. This mode delivers maximum performance and lowest latency, making it ideal for scenarios where occasional message loss is acceptable, such as real-time metrics or live streaming data.</p>
 <h3 id="reliable-dispatch">Reliable Dispatch</h3>
-<p>Reliable Dispatch offers guaranteed message delivery backed by the WAL + cloud persistence:</p>
+<p>Reliable Dispatch offers guaranteed message delivery backed by the persistence storage engine:</p>
 <ul>
-<li><strong>WAL on local disk</strong> for low-latency appends and fast replay from in-memory cache and WAL files.</li>
-<li><strong>Cloud object storage via OpenDAL</strong> (S3/GCS/Azure/FS/Memory) for durable, scalable historical data, uploaded asynchronously by a background uploader with resumable checkpoints.</li>
-<li><strong>Raft-replicated metadata</strong> tracks cloud objects and sparse indexes for efficient historical reads.</li>
+<li><strong>Local WAL</strong> for low-latency appends and fast replay from in-memory cache and WAL files.</li>
+<li><strong>Durable segments</strong> on local disk, shared filesystem, or object store for recovery, long-range replay, and topic movement.</li>
+<li><strong>Raft-replicated metadata</strong> tracks segment descriptors, durable frontiers, and sealed topic state for efficient historical reads and correct ownership recovery.</li>
 </ul>
 <p>The ability to choose between these dispatch modes gives users the flexibility to optimize their messaging infrastructure based on their specific requirements for performance, reliability, and resource utilization.</p>
-<p>For details and provider-specific configuration, see <a href="../persistence/">Persistence (WAL + Cloud)</a>.</p>
+<p>For details and mode-specific configuration, see <a href="../persistence/">Persistence Architecture</a>.</p>
 
 
 

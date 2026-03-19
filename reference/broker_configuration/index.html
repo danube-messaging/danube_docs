@@ -453,6 +453,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../../concepts/persistence/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Persistence & Storage
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../concepts/subscriptions/" class="md-nav__link">
         
   
@@ -667,7 +688,7 @@
         
   
   <span class="md-ellipsis">
-    Persistence (WAL + Cloud)
+    Persistence Architecture
   </span>
   
 
@@ -1597,73 +1618,130 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#wal-and-cloud-storage-configuration" class="md-nav__link">
+  <a href="#storage-configuration" class="md-nav__link">
     <span class="md-ellipsis">
-      WAL and Cloud Storage Configuration
+      Storage Configuration
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="WAL and Cloud Storage Configuration">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#storage-modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Storage Modes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Storage Modes">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#local-write-ahead-log-wal" class="md-nav__link">
+  <a href="#storage-in-local-mode" class="md-nav__link">
     <span class="md-ellipsis">
-      Local Write-Ahead Log (WAL)
+      storage in local mode
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#file-sync-durability" class="md-nav__link">
+  <a href="#storage-in-shared_fs-mode" class="md-nav__link">
     <span class="md-ellipsis">
-      File Sync (Durability)
+      storage in shared_fs mode
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#file-rotation" class="md-nav__link">
+  <a href="#storage-in-object_store-mode" class="md-nav__link">
     <span class="md-ellipsis">
-      File Rotation
+      storage in object_store mode
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wal-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      WAL Settings
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="WAL Settings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#file-flush-behavior" class="md-nav__link">
+    <span class="md-ellipsis">
+      File Flush Behavior
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#wal-retention-local-cleanup" class="md-nav__link">
+  <a href="#wal-rotation" class="md-nav__link">
     <span class="md-ellipsis">
-      WAL Retention (Local Cleanup)
+      WAL Rotation
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#cloud-uploader" class="md-nav__link">
+  <a href="#local-wal-retention" class="md-nav__link">
     <span class="md-ellipsis">
-      Cloud Uploader
+      Local WAL Retention
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#object-store-backends" class="md-nav__link">
+    <span class="md-ellipsis">
+      Object Store Backends
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Object Store Backends">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#s3" class="md-nav__link">
+    <span class="md-ellipsis">
+      S3
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#cloud-storage-backend" class="md-nav__link">
+  <a href="#gcs" class="md-nav__link">
     <span class="md-ellipsis">
-      Cloud Storage Backend
+      GCS
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#backend-specific-options" class="md-nav__link">
+  <a href="#azure-blob" class="md-nav__link">
     <span class="md-ellipsis">
-      Backend-Specific Options
+      Azure Blob
     </span>
   </a>
   
@@ -2014,73 +2092,130 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#wal-and-cloud-storage-configuration" class="md-nav__link">
+  <a href="#storage-configuration" class="md-nav__link">
     <span class="md-ellipsis">
-      WAL and Cloud Storage Configuration
+      Storage Configuration
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="WAL and Cloud Storage Configuration">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#storage-modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Storage Modes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Storage Modes">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#local-write-ahead-log-wal" class="md-nav__link">
+  <a href="#storage-in-local-mode" class="md-nav__link">
     <span class="md-ellipsis">
-      Local Write-Ahead Log (WAL)
+      storage in local mode
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#file-sync-durability" class="md-nav__link">
+  <a href="#storage-in-shared_fs-mode" class="md-nav__link">
     <span class="md-ellipsis">
-      File Sync (Durability)
+      storage in shared_fs mode
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#file-rotation" class="md-nav__link">
+  <a href="#storage-in-object_store-mode" class="md-nav__link">
     <span class="md-ellipsis">
-      File Rotation
+      storage in object_store mode
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wal-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      WAL Settings
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="WAL Settings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#file-flush-behavior" class="md-nav__link">
+    <span class="md-ellipsis">
+      File Flush Behavior
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#wal-retention-local-cleanup" class="md-nav__link">
+  <a href="#wal-rotation" class="md-nav__link">
     <span class="md-ellipsis">
-      WAL Retention (Local Cleanup)
+      WAL Rotation
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#cloud-uploader" class="md-nav__link">
+  <a href="#local-wal-retention" class="md-nav__link">
     <span class="md-ellipsis">
-      Cloud Uploader
+      Local WAL Retention
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#object-store-backends" class="md-nav__link">
+    <span class="md-ellipsis">
+      Object Store Backends
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Object Store Backends">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#s3" class="md-nav__link">
+    <span class="md-ellipsis">
+      S3
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#cloud-storage-backend" class="md-nav__link">
+  <a href="#gcs" class="md-nav__link">
     <span class="md-ellipsis">
-      Cloud Storage Backend
+      GCS
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#backend-specific-options" class="md-nav__link">
+  <a href="#azure-blob" class="md-nav__link">
     <span class="md-ellipsis">
-      Backend-Specific Options
+      Azure Blob
     </span>
   </a>
   
@@ -2594,335 +2729,390 @@
 </span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;/production/high-priority/*&quot;</span>
 </span></code></pre></div>
 <hr />
-<h2 id="wal-and-cloud-storage-configuration">WAL and Cloud Storage Configuration</h2>
-<p>Cloud-native persistence: local WAL (fast writes) + background cloud uploads (durability). See <a href="../../architecture/persistence/">Persistence Architecture</a> for details.</p>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nt">wal_cloud</span><span class="p">:</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="nt">wal</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="nv">...</span><span class="w"> </span><span class="p p-Indicator">}</span>
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span><span class="nt">uploader</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="nv">...</span><span class="w"> </span><span class="p p-Indicator">}</span>
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span><span class="nt">cloud</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="nv">...</span><span class="w"> </span><span class="p p-Indicator">}</span>
+<h2 id="storage-configuration">Storage Configuration</h2>
+<p>Reliable-topic persistence is configured under <code>storage:</code>. Danube uses a local WAL for new writes and can pair it with one of three durable-history modes. See <a href="../../architecture/persistence/">Persistence Architecture</a> and <a href="../../concepts/persistence/">Persistence &amp; Storage</a> for behavioral details.</p>
+<h2 id="storage-modes">Storage Modes</h2>
+<table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>Durable history location</th>
+<th>Typical use case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>local</code></td>
+<td>Local filesystem</td>
+<td>Single broker, simplest setup</td>
+</tr>
+<tr>
+<td><code>shared_fs</code></td>
+<td>Shared filesystem</td>
+<td>Multi-broker clusters with shared storage</td>
+</tr>
+<tr>
+<td><code>object_store</code></td>
+<td>Remote object store via OpenDAL</td>
+<td>Cloud-native multi-broker clusters</td>
+</tr>
+</tbody>
+</table>
+<p>The top-level <code>storage:</code> shape depends on <code>mode</code>.</p>
+<h3 id="storage-in-local-mode"><code>storage</code> in <code>local</code> mode</h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nt">storage</span><span class="p">:</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">local</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span><span class="nt">root</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./danube-data/wal&quot;</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span><span class="nt">metadata_root</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/danube&quot;</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">  </span><span class="nt">wal</span><span class="p">:</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="nt">file_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;wal.log&quot;</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">    </span><span class="nt">cache_capacity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1024</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="nt">file_sync</span><span class="p">:</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">      </span><span class="nt">interval_ms</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5000</span>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">      </span><span class="nt">max_batch_bytes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10485760</span>
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">    </span><span class="nt">rotation</span><span class="p">:</span>
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">      </span><span class="nt">max_bytes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">536870912</span>
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="w">      </span><span class="nt">max_hours</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">24</span>
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="w">    </span><span class="nt">retention</span><span class="p">:</span>
+</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="w">      </span><span class="nt">time_minutes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2880</span>
+</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="w">      </span><span class="nt">size_mb</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20480</span>
+</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="w">      </span><span class="nt">check_interval_minutes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
 </span></code></pre></div>
-<h3 id="local-write-ahead-log-wal">Local Write-Ahead Log (WAL)</h3>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nt">wal</span><span class="p">:</span>
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span><span class="nt">dir</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./danube-data/wal&quot;</span>
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">  </span><span class="nt">file_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;wal.log&quot;</span>
-</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">  </span><span class="nt">cache_capacity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1024</span>
-</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">  </span><span class="nt">file_sync</span><span class="p">:</span>
-</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">    </span><span class="nt">interval_ms</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5000</span>
-</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">    </span><span class="nt">max_batch_bytes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10485760</span>
-</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">  </span><span class="nt">rotation</span><span class="p">:</span>
-</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">    </span><span class="nt">max_bytes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">536870912</span>
-</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="w">    </span><span class="c1"># max_hours: 24</span>
-</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="w">  </span><span class="nt">retention</span><span class="p">:</span>
-</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="w">    </span><span class="nt">time_minutes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2880</span>
-</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="w">    </span><span class="nt">size_mb</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20480</span>
-</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="w">    </span><span class="nt">check_interval_minutes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
-</span></code></pre></div>
-<p><strong>wal.dir</strong></p>
+<p><strong>storage.root</strong></p>
 <ul>
-<li><strong>Type</strong>: String (path) or <code>null</code></li>
-<li><strong>Default</strong>: <code>./danube-data/wal</code></li>
-<li><strong>Impact</strong>: Root directory for WAL files (per-topic subdirectories created automatically)</li>
+<li><strong>Type</strong>: String (path)</li>
+<li><strong>Impact</strong>: Default local root for topic WAL files and local durable segments in <code>local</code> mode</li>
 <li><strong>When to change</strong>:</li>
-<li>Point to fast SSD/NVMe for best performance</li>
-<li>Set to <code>null</code> for in-memory mode (testing only, no durability)</li>
+<li>Point to durable local storage</li>
+<li>Use fast SSD/NVMe for better write and replay performance</li>
 </ul>
-<p><strong>wal.file_name</strong></p>
+<p><strong>storage.metadata_root</strong></p>
+<ul>
+<li><strong>Type</strong>: String (optional)</li>
+<li><strong>Default</strong>: <code>/danube</code></li>
+<li><strong>Impact</strong>: Prefix used for persistence metadata in the Raft metadata store</li>
+<li><strong>When to change</strong>: Only when multiple logical Danube environments share the same metadata namespace</li>
+</ul>
+<h3 id="storage-in-shared_fs-mode"><code>storage</code> in <code>shared_fs</code> mode</h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nt">storage</span><span class="p">:</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">shared_fs</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">  </span><span class="nt">root</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/mnt/danube-shared-segments&quot;</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">  </span><span class="nt">cache_root</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/var/lib/danube/shared-fs-cache&quot;</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">  </span><span class="nt">metadata_root</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/danube&quot;</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">  </span><span class="nt">wal</span><span class="p">:</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">    </span><span class="nt">file_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;wal.log&quot;</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">    </span><span class="nt">cache_capacity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4096</span>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">    </span><span class="nt">file_sync</span><span class="p">:</span>
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="w">      </span><span class="nt">interval_ms</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2000</span>
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="w">      </span><span class="nt">max_batch_bytes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8388608</span>
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="w">    </span><span class="nt">rotation</span><span class="p">:</span>
+</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="w">      </span><span class="nt">max_bytes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">268435456</span>
+</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="w">      </span><span class="nt">max_hours</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6</span>
+</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="w">    </span><span class="nt">retention</span><span class="p">:</span>
+</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a><span class="w">      </span><span class="nt">time_minutes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1440</span>
+</span><span id="__span-10-17"><a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a><span class="w">      </span><span class="nt">size_mb</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10240</span>
+</span><span id="__span-10-18"><a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a><span class="w">      </span><span class="nt">check_interval_minutes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+</span></code></pre></div>
+<p><strong>storage.root</strong></p>
+<ul>
+<li><strong>Type</strong>: String (path)</li>
+<li><strong>Impact</strong>: Durable shared segment root in <code>shared_fs</code> mode</li>
+<li><strong>When to change</strong>: Point to storage accessible by every broker that may own reliable topics</li>
+</ul>
+<p><strong>storage.cache_root</strong></p>
+<ul>
+<li><strong>Type</strong>: String (path, optional)</li>
+<li><strong>Default</strong>: Derived next to <code>meta_store.data_dir</code> with the suffix <code>shared-fs-cache</code></li>
+<li><strong>Impact</strong>: Broker-local WAL staging directory for hot writes and recent reads</li>
+<li><strong>When to change</strong>: Set explicitly when you want the local cache on a specific disk</li>
+</ul>
+<p><strong>storage.metadata_root</strong></p>
+<ul>
+<li><strong>Type</strong>: String (optional)</li>
+<li><strong>Default</strong>: <code>/danube</code></li>
+<li><strong>Impact</strong>: Prefix used for persistence metadata in the Raft metadata store</li>
+</ul>
+<h3 id="storage-in-object_store-mode"><code>storage</code> in <code>object_store</code> mode</h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nt">storage</span><span class="p">:</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">object_store</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">  </span><span class="nt">cache_root</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/var/lib/danube/object-store-cache&quot;</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">  </span><span class="nt">metadata_root</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/danube&quot;</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">  </span><span class="nt">wal</span><span class="p">:</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">    </span><span class="nt">file_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;wal.log&quot;</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="w">    </span><span class="nt">cache_capacity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4096</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="w">    </span><span class="nt">file_sync</span><span class="p">:</span>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="w">      </span><span class="nt">interval_ms</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2000</span>
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="w">      </span><span class="nt">max_batch_bytes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8388608</span>
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="w">    </span><span class="nt">rotation</span><span class="p">:</span>
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="w">      </span><span class="nt">max_bytes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">268435456</span>
+</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="w">      </span><span class="nt">max_hours</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6</span>
+</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="w">    </span><span class="nt">retention</span><span class="p">:</span>
+</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a><span class="w">      </span><span class="nt">time_minutes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1440</span>
+</span><span id="__span-11-16"><a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a><span class="w">      </span><span class="nt">size_mb</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10240</span>
+</span><span id="__span-11-17"><a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a><span class="w">      </span><span class="nt">check_interval_minutes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+</span><span id="__span-11-18"><a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a><span class="w">  </span><span class="nt">object_store</span><span class="p">:</span>
+</span><span id="__span-11-19"><a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a><span class="w">    </span><span class="nt">backend</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">s3</span>
+</span><span id="__span-11-20"><a id="__codelineno-11-20" name="__codelineno-11-20" href="#__codelineno-11-20"></a><span class="w">    </span><span class="nt">root</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;s3://my-bucket/danube&quot;</span>
+</span><span id="__span-11-21"><a id="__codelineno-11-21" name="__codelineno-11-21" href="#__codelineno-11-21"></a><span class="w">    </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;us-east-1&quot;</span>
+</span><span id="__span-11-22"><a id="__codelineno-11-22" name="__codelineno-11-22" href="#__codelineno-11-22"></a><span class="w">    </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://s3.us-east-1.amazonaws.com&quot;</span>
+</span><span id="__span-11-23"><a id="__codelineno-11-23" name="__codelineno-11-23" href="#__codelineno-11-23"></a><span class="w">    </span><span class="nt">access_key</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;${AWS_ACCESS_KEY_ID}&quot;</span>
+</span><span id="__span-11-24"><a id="__codelineno-11-24" name="__codelineno-11-24" href="#__codelineno-11-24"></a><span class="w">    </span><span class="nt">secret_key</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;${AWS_SECRET_ACCESS_KEY}&quot;</span>
+</span></code></pre></div>
+<p><strong>storage.cache_root</strong></p>
+<ul>
+<li><strong>Type</strong>: String (path, optional)</li>
+<li><strong>Default</strong>: Derived next to <code>meta_store.data_dir</code> with the suffix <code>object-store-cache</code></li>
+<li><strong>Impact</strong>: Broker-local WAL staging directory for hot writes and recent reads</li>
+<li><strong>When to change</strong>: Set explicitly when you want the cache on a specific disk</li>
+</ul>
+<p><strong>storage.metadata_root</strong></p>
+<ul>
+<li><strong>Type</strong>: String (optional)</li>
+<li><strong>Default</strong>: <code>/danube</code></li>
+<li><strong>Impact</strong>: Prefix used for persistence metadata in the Raft metadata store</li>
+</ul>
+<h2 id="wal-settings">WAL Settings</h2>
+<p>The <code>storage.wal</code> block is supported by all storage modes.</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nt">wal</span><span class="p">:</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span><span class="nt">dir</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./custom-wal-root&quot;</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">  </span><span class="nt">file_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;wal.log&quot;</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">  </span><span class="nt">cache_capacity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1024</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">  </span><span class="nt">file_sync</span><span class="p">:</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">    </span><span class="nt">interval_ms</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5000</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">    </span><span class="nt">max_batch_bytes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10485760</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="w">  </span><span class="nt">rotation</span><span class="p">:</span>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="w">    </span><span class="nt">max_bytes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">536870912</span>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="w">    </span><span class="nt">max_hours</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">24</span>
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="w">  </span><span class="nt">retention</span><span class="p">:</span>
+</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="w">    </span><span class="nt">time_minutes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2880</span>
+</span><span id="__span-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="w">    </span><span class="nt">size_mb</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20480</span>
+</span><span id="__span-12-14"><a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a><span class="w">    </span><span class="nt">check_interval_minutes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+</span></code></pre></div>
+<p><strong>storage.wal.dir</strong></p>
+<ul>
+<li><strong>Type</strong>: String (path, optional)</li>
+<li><strong>Impact</strong>: Explicit WAL directory override</li>
+<li><strong>When to change</strong>:</li>
+<li>Use when the WAL should live somewhere other than the mode-derived default root/cache path</li>
+<li>Keep it on fast local storage</li>
+</ul>
+<p>If <code>storage.wal.dir</code> is set, it overrides the root-derived local WAL path.</p>
+<p><strong>storage.wal.file_name</strong></p>
 <ul>
 <li><strong>Type</strong>: String</li>
 <li><strong>Default</strong>: <code>wal.log</code></li>
-<li><strong>Impact</strong>: Base filename (rotation creates <code>wal.0.log</code>, <code>wal.1.log</code>, etc.)</li>
+<li><strong>Impact</strong>: Base filename for the active WAL file</li>
 <li><strong>When to change</strong>: Rarely needed</li>
 </ul>
-<p><strong>wal.cache_capacity</strong></p>
+<p><strong>storage.wal.cache_capacity</strong></p>
 <ul>
 <li><strong>Type</strong>: Integer (number of messages)</li>
 <li><strong>Default</strong>: <code>1024</code></li>
-<li><strong>Impact</strong>: In-memory replay cache for consumer reads</li>
+<li><strong>Impact</strong>: In-memory replay cache for recent reads</li>
 <li><strong>When to change</strong>:</li>
-<li>Higher (<code>4096+</code>): Better consumer hit rates, more memory usage</li>
-<li>Lower (<code>512</code>): Less memory, more disk reads for catch-up consumers</li>
+<li>Higher (<code>4096+</code>): Better hot replay window, more memory usage</li>
+<li>Lower (<code>512</code>): Less memory, more fallback to files or durable history</li>
 </ul>
-<h3 id="file-sync-durability">File Sync (Durability)</h3>
-<p><strong>wal.file_sync.interval_ms</strong></p>
+<h3 id="file-flush-behavior">File Flush Behavior</h3>
+<p><strong>storage.wal.file_sync.interval_ms</strong></p>
 <ul>
 <li><strong>Type</strong>: Integer (milliseconds)</li>
-<li><strong>Default</strong>: <code>5000</code> (5 seconds)</li>
-<li><strong>Impact</strong>: How often buffered writes are fsynced to disk</li>
-<li><strong>Trade-offs</strong>:</li>
+<li><strong>Default</strong>: <code>5000</code></li>
+<li><strong>Impact</strong>: Flush cadence for buffered WAL writes</li>
+<li><strong>When to change</strong>:</li>
+<li>Lower values: fresher on-disk WAL state, more disk pressure</li>
+<li>Higher values: better throughput, less frequent flushes</li>
 </ul>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Checkpoint Freshness</th>
-<th>Fsync Pressure</th>
-<th>Data Loss Window</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1000 (1s)</td>
-<td>Very fresh</td>
-<td>High</td>
-<td>1 second</td>
-</tr>
-<tr>
-<td>5000 (5s)</td>
-<td>Fresh</td>
-<td><strong>Balanced</strong></td>
-<td>5 seconds</td>
-</tr>
-<tr>
-<td>10000 (10s)</td>
-<td>Stale</td>
-<td>Low</td>
-<td>10 seconds</td>
-</tr>
-</tbody>
-</table>
-<p><strong>When to change</strong>:</p>
-<ul>
-<li>Low-latency: <code>1000</code> (1s)</li>
-<li>Production: <code>5000</code> (5s) - recommended</li>
-<li>High-throughput: <code>10000</code> (10s)</li>
-</ul>
-<p><strong>wal.file_sync.max_batch_bytes</strong></p>
+<p>This setting controls the writer’s flush interval. It should not be read as “every message is synchronously fsynced before producer progress continues.”</p>
+<p><strong>storage.wal.file_sync.max_batch_bytes</strong></p>
 <ul>
 <li><strong>Type</strong>: Integer (bytes)</li>
 <li><strong>Default</strong>: <code>10485760</code> (10 MiB)</li>
-<li><strong>Impact</strong>: Force flush when buffer reaches this size</li>
+<li><strong>Impact</strong>: Forces an earlier flush when the write buffer reaches this size</li>
 <li><strong>When to change</strong>:</li>
-<li>Increase for high-volume topics (better throughput)</li>
-<li>Decrease for lower latency (more frequent fsyncs)</li>
+<li>Increase for high-volume workloads that benefit from larger batches</li>
+<li>Decrease for lower-latency flush behavior</li>
 </ul>
-<h3 id="file-rotation">File Rotation</h3>
-<p><strong>wal.rotation.max_bytes</strong></p>
+<h3 id="wal-rotation">WAL Rotation</h3>
+<p><strong>storage.wal.rotation.max_bytes</strong></p>
 <ul>
 <li><strong>Type</strong>: Integer (bytes)</li>
 <li><strong>Default</strong>: <code>536870912</code> (512 MiB)</li>
-<li><strong>Impact</strong>: Create new WAL file when current file exceeds this size</li>
+<li><strong>Impact</strong>: Rotates the active WAL file after it reaches this size</li>
 <li><strong>When to change</strong>:</li>
-<li><code>512 MiB</code>: Balanced (recommended)</li>
-<li><code>1 GiB</code>: Fewer files, larger cloud objects</li>
-<li><code>256 MiB</code>: More files, smaller cloud objects</li>
+<li>Larger values: fewer, larger WAL files and durable segments</li>
+<li>Smaller values: more frequent rotation and smaller segments</li>
 </ul>
-<p><strong>wal.rotation.max_hours</strong></p>
+<p><strong>storage.wal.rotation.max_hours</strong></p>
 <ul>
 <li><strong>Type</strong>: Integer (hours, optional)</li>
-<li><strong>Default</strong>: Disabled (commented out)</li>
-<li><strong>Impact</strong>: Rotate even if size threshold not reached</li>
-<li><strong>When to enable</strong>: Good for low-traffic topics to prevent infinitely old files</li>
-<li><strong>Recommended</strong>: <code>24</code> hours for production</li>
+<li><strong>Default</strong>: Disabled</li>
+<li><strong>Impact</strong>: Rotates the active WAL file once it has been open this long</li>
+<li><strong>When to enable</strong>: Low-traffic topics where size-based rotation alone would keep files open too long</li>
 </ul>
-<h3 id="wal-retention-local-cleanup">WAL Retention (Local Cleanup)</h3>
-<p><strong>wal.retention.time_minutes</strong></p>
+<p>This threshold is checked when new writes arrive; it is not an always-running idle rotation timer.</p>
+<h3 id="local-wal-retention">Local WAL Retention</h3>
+<p><strong>storage.wal.retention.time_minutes</strong></p>
 <ul>
-<li><strong>Type</strong>: Integer (minutes)</li>
-<li><strong>Default</strong>: <code>2880</code> (48 hours)</li>
-<li><strong>Impact</strong>: Delete local WAL files older than this (after cloud upload)</li>
+<li><strong>Type</strong>: Integer (minutes, optional)</li>
+<li><strong>Impact</strong>: Age threshold for pruning eligible local staged WAL files</li>
 <li><strong>When to change</strong>:</li>
-<li>Production: <code>2880</code> (48h) for safety margin</li>
-<li>Space-constrained: <code>1440</code> (24h) minimum</li>
-<li><strong>Must be larger than uploader interval</strong></li>
+<li>Increase to keep more local recovery buffer</li>
+<li>Decrease when local disk space is limited</li>
 </ul>
-<p><strong>wal.retention.size_mb</strong></p>
-<ul>
-<li><strong>Type</strong>: Integer (megabytes per topic)</li>
-<li><strong>Default</strong>: <code>20480</code> (20 GiB)</li>
-<li><strong>Impact</strong>: Delete oldest files when total exceeds this</li>
-<li><strong>When to change</strong>:</li>
-<li>High-volume: <code>20480</code> (20 GiB) or higher</li>
-<li>Space-constrained: <code>10240</code> (10 GiB) minimum</li>
-</ul>
-<p><strong>wal.retention.check_interval_minutes</strong></p>
-<ul>
-<li><strong>Type</strong>: Integer (minutes)</li>
-<li><strong>Default</strong>: <code>5</code></li>
-<li><strong>Impact</strong>: How often retention policy runs</li>
-<li><strong>When to change</strong>: Rarely (5 minutes is responsive without overhead)</li>
-</ul>
-<hr />
-<h3 id="cloud-uploader">Cloud Uploader</h3>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nt">uploader</span><span class="p">:</span>
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">  </span><span class="nt">interval_seconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30</span>
-</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">  </span><span class="nt">root_prefix</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/danube-data&quot;</span>
-</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">  </span><span class="nt">max_object_mb</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">256</span>
-</span></code></pre></div>
-<p><strong>uploader.enabled</strong></p>
-<ul>
-<li><strong>Type</strong>: Boolean</li>
-<li><strong>Default</strong>: <code>true</code></li>
-<li><strong>Impact</strong>: Enable/disable background cloud uploads</li>
-<li><strong>When to disable</strong>: Local-only testing, ephemeral workloads</li>
-<li><strong>When to enable</strong>: Production (always)</li>
-</ul>
-<p><strong>uploader.interval_seconds</strong></p>
-<ul>
-<li><strong>Type</strong>: Integer (seconds)</li>
-<li><strong>Default</strong>: <code>30</code></li>
-<li><strong>Impact</strong>: Upload cycle frequency</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>RPO (Recovery Point)</th>
-<th>Cloud Overhead</th>
-<th>Use Case</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>30s</td>
-<td>30 seconds</td>
-<td>High</td>
-<td>Testing, fast feedback</td>
-</tr>
-<tr>
-<td>60s</td>
-<td>1 minute</td>
-<td>Medium-High</td>
-<td>High-durability production</td>
-</tr>
-<tr>
-<td>300s</td>
-<td>5 minutes</td>
-<td><strong>Balanced</strong></td>
-<td>General production</td>
-</tr>
-<tr>
-<td>600s</td>
-<td>10 minutes</td>
-<td>Low</td>
-<td>Cost-sensitive</td>
-</tr>
-</tbody>
-</table>
-<p><strong>uploader.root_prefix</strong></p>
-<ul>
-<li><strong>Type</strong>: String</li>
-<li><strong>Default</strong>: <code>/danube-data</code></li>
-<li><strong>Impact</strong>: Metadata prefix for cloud object descriptors in the Raft metadata store</li>
-<li><strong>When to change</strong>: Only for multiple independent Danube clusters sharing a metadata namespace</li>
-</ul>
-<p><strong>uploader.max_object_mb</strong></p>
+<p><strong>storage.wal.retention.size_mb</strong></p>
 <ul>
 <li><strong>Type</strong>: Integer (megabytes, optional)</li>
-<li><strong>Default</strong>: <code>256</code></li>
-<li><strong>Impact</strong>: Maximum size per cloud object</li>
+<li><strong>Impact</strong>: Size threshold for pruning eligible local staged WAL files</li>
 <li><strong>When to change</strong>:</li>
-<li><code>256 MB</code>: Optimal for S3/GCS multipart uploads (recommended)</li>
-<li>Larger: Fewer objects, higher per-object latency</li>
-<li>Smaller: More objects, better parallelism</li>
+<li>Increase for high-volume reliable topics</li>
+<li>Decrease for tighter local disk budgets</li>
 </ul>
-<hr />
-<h3 id="cloud-storage-backend">Cloud Storage Backend</h3>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nt">cloud</span><span class="p">:</span>
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span><span class="nt">backend</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fs&quot;</span>
-</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">  </span><span class="nt">root</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./danube-data/cloud-storage&quot;</span>
-</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">  </span><span class="c1"># Backend-specific options below</span>
-</span></code></pre></div>
-<p><strong>cloud.backend</strong></p>
+<p><strong>storage.wal.retention.check_interval_minutes</strong></p>
+<ul>
+<li><strong>Type</strong>: Integer</li>
+<li><strong>Default</strong>: <code>5</code></li>
+<li><strong>Impact</strong>: How often the local WAL retention pass runs</li>
+<li><strong>When to change</strong>: Rarely needed</li>
+</ul>
+<p>Retention applies to local staged WAL files once durable history safely covers them. It does not currently delete durable segment objects from shared storage or object storage.</p>
+<p>This retention behavior is most relevant in <code>shared_fs</code> and <code>object_store</code> mode. In <code>local</code> mode, the background deleter path is not currently used to manage local staged WAL cleanup.</p>
+<h2 id="object-store-backends">Object Store Backends</h2>
+<p>The <code>storage.object_store</code> block is used only in <code>object_store</code> mode.</p>
+<p><strong>storage.object_store.backend</strong></p>
 <ul>
 <li><strong>Type</strong>: String enum</li>
-<li><strong>Options</strong>: <code>fs</code> | <code>s3</code> | <code>gcs</code> | <code>azblob</code> | <code>memory</code></li>
-<li><strong>Default</strong>: <code>fs</code></li>
-<li><strong>Impact</strong>: Cloud storage provider</li>
+<li><strong>Options</strong>: <code>s3</code> | <code>gcs</code> | <code>azblob</code></li>
+<li><strong>Impact</strong>: Selects the durable object-store backend</li>
 </ul>
-<table>
-<thead>
-<tr>
-<th>Backend</th>
-<th>Use Case</th>
-<th>Multi-Broker Support</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>memory</code></td>
-<td>Testing only (no durability)</td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>fs</code></td>
-<td>Local development, shared NFS/EFS</td>
-<td>Yes (with shared storage)</td>
-</tr>
-<tr>
-<td><code>s3</code></td>
-<td>Production (AWS, MinIO, etc.)</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td><code>gcs</code></td>
-<td>Production (Google Cloud)</td>
-<td>Yes</td>
-</tr>
-<tr>
-<td><code>azblob</code></td>
-<td>Production (Azure)</td>
-<td>Yes</td>
-</tr>
-</tbody>
-</table>
-<p><strong>cloud.root</strong></p>
+<p><strong>storage.object_store.root</strong></p>
 <ul>
-<li><strong>Type</strong>: String (backend-specific format)</li>
-<li><strong>Impact</strong>: Storage location</li>
+<li><strong>Type</strong>: String</li>
+<li><strong>Impact</strong>: Backend-specific storage root or prefix</li>
 <li><strong>Formats</strong>:</li>
-<li><code>fs</code>: <code>./path/to/directory</code></li>
 <li><code>s3</code>: <code>s3://bucket-name/prefix</code></li>
 <li><code>gcs</code>: <code>gcs://bucket-name/prefix</code></li>
 <li><code>azblob</code>: <code>container-name/prefix</code></li>
-<li><code>memory</code>: <code>namespace-prefix</code></li>
-<li><strong>Multi-broker requirement</strong>: Must be shared/accessible across all brokers</li>
 </ul>
-<h3 id="backend-specific-options">Backend-Specific Options</h3>
-<p><strong>Amazon S3:</strong></p>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nt">cloud</span><span class="p">:</span>
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span><span class="nt">backend</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;s3&quot;</span>
-</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">  </span><span class="nt">root</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;s3://my-bucket/danube-data&quot;</span>
-</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">  </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;us-east-1&quot;</span>
-</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">  </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://s3.us-east-1.amazonaws.com&quot;</span><span class="w">  </span><span class="c1"># Optional</span>
-</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">  </span><span class="nt">access_key</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;${AWS_ACCESS_KEY_ID}&quot;</span><span class="w">              </span><span class="c1"># Or use IAM roles</span>
-</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="w">  </span><span class="nt">secret_key</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;${AWS_SECRET_ACCESS_KEY}&quot;</span>
-</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="w">  </span><span class="nt">anonymous</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<h3 id="s3">S3</h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nt">storage</span><span class="p">:</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">object_store</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">  </span><span class="nt">object_store</span><span class="p">:</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">    </span><span class="nt">backend</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">s3</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">    </span><span class="nt">root</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;s3://my-bucket/danube&quot;</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">    </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;us-east-1&quot;</span>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="w">    </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://s3.us-east-1.amazonaws.com&quot;</span>
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="w">    </span><span class="nt">access_key</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;${AWS_ACCESS_KEY_ID}&quot;</span>
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="w">    </span><span class="nt">secret_key</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;${AWS_SECRET_ACCESS_KEY}&quot;</span>
+</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="w">    </span><span class="nt">profile</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
+</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="w">    </span><span class="nt">role_arn</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
+</span><span id="__span-13-12"><a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="w">    </span><span class="nt">session_token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
+</span><span id="__span-13-13"><a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="w">    </span><span class="nt">anonymous</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+</span><span id="__span-13-14"><a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="w">    </span><span class="nt">virtual_host_style</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 </span></code></pre></div>
-<p><strong>Google Cloud Storage:</strong></p>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="nt">cloud</span><span class="p">:</span>
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">  </span><span class="nt">backend</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;gcs&quot;</span>
-</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">  </span><span class="nt">root</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;gcs://my-bucket/danube-data&quot;</span>
-</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">  </span><span class="nt">project</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;my-gcp-project&quot;</span>
-</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="w">  </span><span class="nt">credentials_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/path/to/service-account.json&quot;</span>
-</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="w">  </span><span class="c1"># Or credentials_json: &quot;{ ... }&quot;  # Inline JSON string</span>
+<p><strong>storage.object_store.region</strong></p>
+<ul>
+<li><strong>Type</strong>: String (optional)</li>
+<li><strong>Impact</strong>: S3 region selection</li>
+</ul>
+<p><strong>storage.object_store.endpoint</strong></p>
+<ul>
+<li><strong>Type</strong>: String (optional)</li>
+<li><strong>Impact</strong>: Custom S3-compatible endpoint such as MinIO</li>
+</ul>
+<p><strong>storage.object_store.access_key</strong> / <strong>storage.object_store.secret_key</strong></p>
+<ul>
+<li><strong>Type</strong>: String (optional)</li>
+<li><strong>Impact</strong>: Static credentials for the S3 backend</li>
+<li><strong>When to set</strong>: Use only when you are not relying on instance roles, profiles, or external secret injection</li>
+</ul>
+<p><strong>storage.object_store.profile</strong></p>
+<ul>
+<li><strong>Type</strong>: String (optional)</li>
+<li><strong>Impact</strong>: Named credentials profile</li>
+</ul>
+<p><strong>storage.object_store.role_arn</strong></p>
+<ul>
+<li><strong>Type</strong>: String (optional)</li>
+<li><strong>Impact</strong>: IAM role assumption target</li>
+</ul>
+<p><strong>storage.object_store.session_token</strong></p>
+<ul>
+<li><strong>Type</strong>: String (optional)</li>
+<li><strong>Impact</strong>: Temporary session credentials</li>
+</ul>
+<p><strong>storage.object_store.anonymous</strong></p>
+<ul>
+<li><strong>Type</strong>: Boolean (optional)</li>
+<li><strong>Impact</strong>: Anonymous access mode</li>
+</ul>
+<p><strong>storage.object_store.virtual_host_style</strong></p>
+<ul>
+<li><strong>Type</strong>: Boolean (optional)</li>
+<li><strong>Impact</strong>: Enables virtual-host-style bucket addressing</li>
+</ul>
+<h3 id="gcs">GCS</h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="nt">storage</span><span class="p">:</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">  </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">object_store</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">  </span><span class="nt">object_store</span><span class="p">:</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">    </span><span class="nt">backend</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gcs</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="w">    </span><span class="nt">root</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;gcs://my-bucket/danube&quot;</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="w">    </span><span class="nt">project</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;my-gcp-project&quot;</span>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="w">    </span><span class="nt">credentials_json</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="w">    </span><span class="nt">credentials_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/path/to/service-account.json&quot;</span>
 </span></code></pre></div>
-<p><strong>Azure Blob Storage:</strong></p>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nt">cloud</span><span class="p">:</span>
-</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">  </span><span class="nt">backend</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;azblob&quot;</span>
-</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">  </span><span class="nt">root</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;my-container/danube-data&quot;</span>
-</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">  </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://myaccount.blob.core.windows.net&quot;</span>
-</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="w">  </span><span class="nt">account_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;myaccount&quot;</span>
-</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="w">  </span><span class="nt">account_key</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;${AZURE_STORAGE_KEY}&quot;</span>
+<p><strong>storage.object_store.project</strong></p>
+<ul>
+<li><strong>Type</strong>: String (optional)</li>
+<li><strong>Impact</strong>: GCP project identifier</li>
+</ul>
+<p><strong>storage.object_store.credentials_json</strong></p>
+<ul>
+<li><strong>Type</strong>: String (optional)</li>
+<li><strong>Impact</strong>: Inline service account JSON</li>
+</ul>
+<p><strong>storage.object_store.credentials_path</strong></p>
+<ul>
+<li><strong>Type</strong>: String (optional)</li>
+<li><strong>Impact</strong>: Path to a service account credentials file</li>
+</ul>
+<h3 id="azure-blob">Azure Blob</h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nt">storage</span><span class="p">:</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">  </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">object_store</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">  </span><span class="nt">object_store</span><span class="p">:</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">    </span><span class="nt">backend</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">azblob</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="w">    </span><span class="nt">root</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;my-container/danube&quot;</span>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="w">    </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;https://myaccount.blob.core.windows.net&quot;</span>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="w">    </span><span class="nt">account_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;myaccount&quot;</span>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="w">    </span><span class="nt">account_key</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;${AZURE_STORAGE_KEY}&quot;</span>
 </span></code></pre></div>
-<p><strong>Local Filesystem:</strong></p>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="nt">cloud</span><span class="p">:</span>
-</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">  </span><span class="nt">backend</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;fs&quot;</span>
-</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">  </span><span class="nt">root</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./danube-data/cloud-storage&quot;</span>
-</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="w">  </span><span class="c1"># For multi-broker: use shared storage like NFS</span>
-</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="w">  </span><span class="c1"># root: &quot;/mnt/shared-nfs/danube-cloud&quot;</span>
-</span></code></pre></div>
+<p><strong>storage.object_store.endpoint</strong></p>
+<ul>
+<li><strong>Type</strong>: String (optional)</li>
+<li><strong>Impact</strong>: Azure Blob service endpoint</li>
+</ul>
+<p><strong>storage.object_store.account_name</strong></p>
+<ul>
+<li><strong>Type</strong>: String (optional)</li>
+<li><strong>Impact</strong>: Azure storage account name</li>
+</ul>
+<p><strong>storage.object_store.account_key</strong></p>
+<ul>
+<li><strong>Type</strong>: String (optional)</li>
+<li><strong>Impact</strong>: Azure storage account key</li>
+</ul>
+<p>For production, avoid hardcoding credentials directly in version-controlled YAML. Prefer environment-variable substitution, secret mounts, or provider-native identity mechanisms.</p>
 <hr />
 <h2 id="broker-policies">Broker Policies</h2>
 <p>Default resource limits for topics. Can be overridden at namespace or topic level.</p>
-<div class="language-yaml highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="nt">policies</span><span class="p">:</span>
-</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="w">  </span><span class="nt">max_producers_per_topic</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
-</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="w">  </span><span class="nt">max_subscriptions_per_topic</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
-</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="w">  </span><span class="nt">max_consumers_per_topic</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
-</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="w">  </span><span class="nt">max_consumers_per_subscription</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
-</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="w">  </span><span class="nt">max_publish_rate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
-</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="w">  </span><span class="nt">max_subscription_dispatch_rate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
-</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="w">  </span><span class="nt">max_message_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10485760</span><span class="w">  </span><span class="c1"># 10 MB</span>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="nt">policies</span><span class="p">:</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">  </span><span class="nt">max_producers_per_topic</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">  </span><span class="nt">max_subscriptions_per_topic</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="w">  </span><span class="nt">max_consumers_per_topic</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="w">  </span><span class="nt">max_consumers_per_subscription</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="w">  </span><span class="nt">max_publish_rate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="w">  </span><span class="nt">max_subscription_dispatch_rate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="w">  </span><span class="nt">max_message_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10485760</span><span class="w">  </span><span class="c1"># 10 MB</span>
 </span></code></pre></div>
 <p><strong>Default value <code>0</code> means unlimited</strong> for all rate/count limits.</p>
 <h3 id="connection-limits">Connection Limits</h3>

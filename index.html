@@ -344,9 +344,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#write-ahead-log-cloud-persistence" class="md-nav__link">
+  <a href="#write-ahead-log-durable-storage" class="md-nav__link">
     <span class="md-ellipsis">
-      🌩️ Write-Ahead Log + Cloud Persistence
+      🌩️ Write-Ahead Log + Durable Storage
     </span>
   </a>
   
@@ -629,6 +629,27 @@
   
   
     <li class="md-nav__item">
+      <a href="concepts/persistence/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Persistence & Storage
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="concepts/subscriptions/" class="md-nav__link">
         
   
@@ -843,7 +864,7 @@
         
   
   <span class="md-ellipsis">
-    Persistence (WAL + Cloud)
+    Persistence Architecture
   </span>
   
 
@@ -1714,9 +1735,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#write-ahead-log-cloud-persistence" class="md-nav__link">
+  <a href="#write-ahead-log-durable-storage" class="md-nav__link">
     <span class="md-ellipsis">
-      🌩️ Write-Ahead Log + Cloud Persistence
+      🌩️ Write-Ahead Log + Durable Storage
     </span>
   </a>
   
@@ -1847,7 +1868,7 @@
 
 
 <h1 id="welcome-to-danube-messaging">Welcome to Danube Messaging</h1>
-<p>🌊 <a href="https://github.com/danube-messaging/danube">Danube Messaging</a> is a lightweight, cloud‑native messaging platform built in Rust. It delivers sub‑second dispatch with cloud economics by combining a Write‑Ahead Log (WAL) with object storage, so you get low‑latency pub/sub and durable streaming.</p>
+<p>🌊 <a href="https://github.com/danube-messaging/danube">Danube Messaging</a> is a lightweight, cloud‑native messaging platform built in Rust. It delivers sub‑second dispatch by combining a local Write‑Ahead Log (WAL), durable segment storage, and metadata-driven recovery, so you get low-latency pub/sub and reliable streaming across local disks, shared filesystems, or object stores.</p>
 <p>Danube enables one or many <strong>producers</strong> publish to <strong>topics</strong>, and multiple <strong>consumers</strong> receive messages via named <strong>subscriptions</strong>. Choose Non‑Reliable (best‑effort pub/sub) or Reliable (at‑least‑once streaming) per topic to match your workload.</p>
 <p>For design details, see the <a href="architecture/architecture/">Architecture</a>.</p>
 <h2 id="try-danube-in-minutes">Try Danube in minutes</h2>
@@ -1861,13 +1882,13 @@
 <li><strong>Broker resilience</strong>: Automatic leader election, failover, and topic reconciliation on restart</li>
 <li><strong>Security-ready</strong>: TLS/mTLS support in Admin and data paths</li>
 </ul>
-<h3 id="write-ahead-log-cloud-persistence">🌩️ <strong>Write-Ahead Log + Cloud Persistence</strong></h3>
+<h3 id="write-ahead-log-durable-storage">🌩️ <strong>Write-Ahead Log + Durable Storage</strong></h3>
 <ul>
-<li><strong>Cloud-Native by Design</strong> - Danube's architecture separates compute from storage</li>
-<li><strong>Multi-cloud support</strong>: AWS S3, Google Cloud Storage, Azure Blob, MinIO</li>
-<li><strong>Hot path optimization</strong>: Messages served from in-memory WAL cache</li>
-<li><strong>Stream per subscription</strong>: WAL + cloud storage from selected offset</li>
-<li><strong>Asynchronous background uploads</strong> to S3/GCS/Azure object storage</li>
+<li><strong>Flexible storage modes</strong>: <code>local</code>, <code>shared_fs</code>, and <code>object_store</code></li>
+<li><strong>Cloud-ready durable history</strong>: AWS S3, Google Cloud Storage, Azure Blob, or shared filesystems depending on mode</li>
+<li><strong>Hot path optimization</strong>: Messages served from in-memory WAL cache and local WAL files</li>
+<li><strong>Tiered historical replay</strong>: Durable segments for older offsets with seamless handoff to the WAL tail</li>
+<li><strong>Metadata-driven recovery and topic moves</strong>: Continuous offsets across restarts and broker transfers</li>
 </ul>
 <h3 id="intelligent-load-management">🎯 <strong>Intelligent Load Management</strong></h3>
 <ul>
@@ -1910,11 +1931,11 @@
 <p>Explore how Danube works under the hood:</p>
 <p><strong><a href="architecture/architecture/">System Overview</a></strong> - Complete architecture diagram and component interaction</p>
 <p><strong><a href="architecture/load_manager_architecture/">Load Manager &amp; Rebalancing</a></strong> - Smart topic assignment and automatic rebalancing</p>
-<p><strong><a href="architecture/persistence/">Persistence (WAL + Cloud)</a></strong> - Two-tier storage architecture</p>
+<p><strong><a href="architecture/persistence/">Persistence Architecture</a></strong> - WAL, durable segments, and recovery metadata</p>
 <ul>
-<li>Write‑Ahead Log on local disk for fast durable writes</li>
-<li>Background uploads to object storage for durability and replay at cloud cost</li>
-<li>Seamless handoff from historical replay to live tail</li>
+<li>Local WAL for fast appends and recent reads</li>
+<li>Durable segment history on local disk, shared filesystem, or object store depending on mode</li>
+<li>Seamless handoff from historical replay to the live WAL tail</li>
 </ul>
 <p><strong><a href="architecture/schema_registry_architecture/">Schema Registry</a></strong> - Centralized schema management</p>
 <ul>
@@ -1938,7 +1959,7 @@
 <li><a href="https://github.com/danube-messaging/danube/tree/main/danube-broker">danube-broker</a> – The broker service (topics, producers, consumers, subscriptions).</li>
 <li><a href="https://github.com/danube-messaging/danube/tree/main/danube-core">danube-core</a> – Core types, protocol, and shared logic.</li>
 <li><a href="https://github.com/danube-messaging/danube/tree/main/danube-raft">danube-raft</a> – Embedded Raft consensus and metadata replication.</li>
-<li><a href="https://github.com/danube-messaging/danube/tree/main/danube-persistent-storage">danube-persistent-storage</a> – WAL and cloud persistence backends.</li>
+<li><a href="https://github.com/danube-messaging/danube/tree/main/danube-persistent-storage">danube-persistent-storage</a> – WAL and durable storage engine for reliable topics.</li>
 </ul>
 <p>CLIs and client libraries:</p>
 <ul>
