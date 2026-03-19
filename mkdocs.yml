@@ -62,6 +62,7 @@ nav:
 
         - 💡 Core Concepts:
                   - Topics: concepts/topics.md
+                  - Persistence & Storage: concepts/persistence.md
                   - Subscriptions: concepts/subscriptions.md
                   - Dispatch Strategies: concepts/dispatch_strategy.md
                   - Messages & Schemas: concepts/messages.md
@@ -72,7 +73,7 @@ nav:
                   - System Overview: architecture/architecture.md
                   - Load Manager & Rebalancing: architecture/load_manager_architecture.md
                   - Schema Registry Architecture: architecture/schema_registry_architecture.md
-                  - Persistence (WAL + Cloud): architecture/persistence.md
+                  - Persistence Architecture: architecture/persistence.md
                   - Reliable Topic Workflow: architecture/reliable_topic_move.md
 
         - 📦 Client Libraries:

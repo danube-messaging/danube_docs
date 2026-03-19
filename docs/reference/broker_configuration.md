@@ -412,22 +412,148 @@ blacklist_topics:
 
 ---
 
-## WAL and Cloud Storage Configuration
+## Storage Configuration
 
-Cloud-native persistence: local WAL (fast writes) + background cloud uploads (durability). See [Persistence Architecture](../architecture/persistence.md) for details.
+Reliable-topic persistence is configured under `storage:`. Danube uses a local WAL for new writes and can pair it with one of three durable-history modes. See [Persistence Architecture](../architecture/persistence.md) and [Persistence & Storage](../concepts/persistence.md) for behavioral details.
+
+## Storage Modes
+
+| Mode | Durable history location | Typical use case |
+|------|---------------------------|------------------|
+| `local` | Local filesystem | Single broker, simplest setup |
+| `shared_fs` | Shared filesystem | Multi-broker clusters with shared storage |
+| `object_store` | Remote object store via OpenDAL | Cloud-native multi-broker clusters |
+
+The top-level `storage:` shape depends on `mode`.
+
+### `storage` in `local` mode
 
 ```yaml
-wal_cloud:
-  wal: { ... }
-  uploader: { ... }
-  cloud: { ... }
+storage:
+  mode: local
+  root: "./danube-data/wal"
+  metadata_root: "/danube"
+  wal:
+    file_name: "wal.log"
+    cache_capacity: 1024
+    file_sync:
+      interval_ms: 5000
+      max_batch_bytes: 10485760
+    rotation:
+      max_bytes: 536870912
+      max_hours: 24
+    retention:
+      time_minutes: 2880
+      size_mb: 20480
+      check_interval_minutes: 5
 ```
 
-### Local Write-Ahead Log (WAL)
+**storage.root**
+
+- **Type**: String (path)
+- **Impact**: Default local root for topic WAL files and local durable segments in `local` mode
+- **When to change**:
+  - Point to durable local storage
+  - Use fast SSD/NVMe for better write and replay performance
+
+**storage.metadata_root**
+
+- **Type**: String (optional)
+- **Default**: `/danube`
+- **Impact**: Prefix used for persistence metadata in the Raft metadata store
+- **When to change**: Only when multiple logical Danube environments share the same metadata namespace
+
+### `storage` in `shared_fs` mode
+
+```yaml
+storage:
+  mode: shared_fs
+  root: "/mnt/danube-shared-segments"
+  cache_root: "/var/lib/danube/shared-fs-cache"
+  metadata_root: "/danube"
+  wal:
+    file_name: "wal.log"
+    cache_capacity: 4096
+    file_sync:
+      interval_ms: 2000
+      max_batch_bytes: 8388608
+    rotation:
+      max_bytes: 268435456
+      max_hours: 6
+    retention:
+      time_minutes: 1440
+      size_mb: 10240
+      check_interval_minutes: 5
+```
+
+**storage.root**
+
+- **Type**: String (path)
+- **Impact**: Durable shared segment root in `shared_fs` mode
+- **When to change**: Point to storage accessible by every broker that may own reliable topics
+
+**storage.cache_root**
+
+- **Type**: String (path, optional)
+- **Default**: Derived next to `meta_store.data_dir` with the suffix `shared-fs-cache`
+- **Impact**: Broker-local WAL staging directory for hot writes and recent reads
+- **When to change**: Set explicitly when you want the local cache on a specific disk
+
+**storage.metadata_root**
+
+- **Type**: String (optional)
+- **Default**: `/danube`
+- **Impact**: Prefix used for persistence metadata in the Raft metadata store
+
+### `storage` in `object_store` mode
+
+```yaml
+storage:
+  mode: object_store
+  cache_root: "/var/lib/danube/object-store-cache"
+  metadata_root: "/danube"
+  wal:
+    file_name: "wal.log"
+    cache_capacity: 4096
+    file_sync:
+      interval_ms: 2000
+      max_batch_bytes: 8388608
+    rotation:
+      max_bytes: 268435456
+      max_hours: 6
+    retention:
+      time_minutes: 1440
+      size_mb: 10240
+      check_interval_minutes: 5
+  object_store:
+    backend: s3
+    root: "s3://my-bucket/danube"
+    region: "us-east-1"
+    endpoint: "https://s3.us-east-1.amazonaws.com"
+    access_key: "${AWS_ACCESS_KEY_ID}"
+    secret_key: "${AWS_SECRET_ACCESS_KEY}"
+```
+
+**storage.cache_root**
+
+- **Type**: String (path, optional)
+- **Default**: Derived next to `meta_store.data_dir` with the suffix `object-store-cache`
+- **Impact**: Broker-local WAL staging directory for hot writes and recent reads
+- **When to change**: Set explicitly when you want the cache on a specific disk
+
+**storage.metadata_root**
+
+- **Type**: String (optional)
+- **Default**: `/danube`
+- **Impact**: Prefix used for persistence metadata in the Raft metadata store
+
+## WAL Settings
+
+The `storage.wal` block is supported by all storage modes.
 
 ```yaml
 wal:
-  dir: "./danube-data/wal"
+  dir: "./custom-wal-root"
   file_name: "wal.log"
   cache_capacity: 1024
   file_sync:
@@ -435,250 +561,246 @@ wal:
     max_batch_bytes: 10485760
   rotation:
     max_bytes: 536870912
-    # max_hours: 24
+    max_hours: 24
   retention:
     time_minutes: 2880
     size_mb: 20480
     check_interval_minutes: 5
 ```
 
-**wal.dir**
+**storage.wal.dir**
 
-- **Type**: String (path) or `null`
-- **Default**: `./danube-data/wal`
-- **Impact**: Root directory for WAL files (per-topic subdirectories created automatically)
+- **Type**: String (path, optional)
+- **Impact**: Explicit WAL directory override
 - **When to change**:
-  - Point to fast SSD/NVMe for best performance
-  - Set to `null` for in-memory mode (testing only, no durability)
+  - Use when the WAL should live somewhere other than the mode-derived default root/cache path
+  - Keep it on fast local storage
 
-**wal.file_name**
+If `storage.wal.dir` is set, it overrides the root-derived local WAL path.
+
+**storage.wal.file_name**
 
 - **Type**: String
 - **Default**: `wal.log`
-- **Impact**: Base filename (rotation creates `wal.0.log`, `wal.1.log`, etc.)
+- **Impact**: Base filename for the active WAL file
 - **When to change**: Rarely needed
 
-**wal.cache_capacity**
+**storage.wal.cache_capacity**
 
 - **Type**: Integer (number of messages)
 - **Default**: `1024`
-- **Impact**: In-memory replay cache for consumer reads
+- **Impact**: In-memory replay cache for recent reads
 - **When to change**:
-  - Higher (`4096+`): Better consumer hit rates, more memory usage
-  - Lower (`512`): Less memory, more disk reads for catch-up consumers
+  - Higher (`4096+`): Better hot replay window, more memory usage
+  - Lower (`512`): Less memory, more fallback to files or durable history
 
-### File Sync (Durability)
+### File Flush Behavior
 
-**wal.file_sync.interval_ms**
+**storage.wal.file_sync.interval_ms**
 
 - **Type**: Integer (milliseconds)
-- **Default**: `5000` (5 seconds)
-- **Impact**: How often buffered writes are fsynced to disk
-- **Trade-offs**:
+- **Default**: `5000`
+- **Impact**: Flush cadence for buffered WAL writes
+- **When to change**:
+  - Lower values: fresher on-disk WAL state, more disk pressure
+  - Higher values: better throughput, less frequent flushes
 
-| Value | Checkpoint Freshness | Fsync Pressure | Data Loss Window |
-|-------|---------------------|----------------|------------------|
-| 1000 (1s) | Very fresh | High | 1 second |
-| 5000 (5s) | Fresh | **Balanced** | 5 seconds |
-| 10000 (10s) | Stale | Low | 10 seconds |
+This setting controls the writer’s flush interval. It should not be read as “every message is synchronously fsynced before producer progress continues.”
 
-**When to change**:
-
-- Low-latency: `1000` (1s)
-- Production: `5000` (5s) - recommended
-- High-throughput: `10000` (10s)
-
-**wal.file_sync.max_batch_bytes**
+**storage.wal.file_sync.max_batch_bytes**
 
 - **Type**: Integer (bytes)
 - **Default**: `10485760` (10 MiB)
-- **Impact**: Force flush when buffer reaches this size
+- **Impact**: Forces an earlier flush when the write buffer reaches this size
 - **When to change**:
-  - Increase for high-volume topics (better throughput)
-  - Decrease for lower latency (more frequent fsyncs)
+  - Increase for high-volume workloads that benefit from larger batches
+  - Decrease for lower-latency flush behavior
 
-### File Rotation
+### WAL Rotation
 
-**wal.rotation.max_bytes**
+**storage.wal.rotation.max_bytes**
 
 - **Type**: Integer (bytes)
 - **Default**: `536870912` (512 MiB)
-- **Impact**: Create new WAL file when current file exceeds this size
+- **Impact**: Rotates the active WAL file after it reaches this size
 - **When to change**:
-  - `512 MiB`: Balanced (recommended)
-  - `1 GiB`: Fewer files, larger cloud objects
-  - `256 MiB`: More files, smaller cloud objects
+  - Larger values: fewer, larger WAL files and durable segments
+  - Smaller values: more frequent rotation and smaller segments
 
-**wal.rotation.max_hours**
+**storage.wal.rotation.max_hours**
 
 - **Type**: Integer (hours, optional)
-- **Default**: Disabled (commented out)
-- **Impact**: Rotate even if size threshold not reached
-- **When to enable**: Good for low-traffic topics to prevent infinitely old files
-- **Recommended**: `24` hours for production
+- **Default**: Disabled
+- **Impact**: Rotates the active WAL file once it has been open this long
+- **When to enable**: Low-traffic topics where size-based rotation alone would keep files open too long
 
-### WAL Retention (Local Cleanup)
+This threshold is checked when new writes arrive; it is not an always-running idle rotation timer.
 
-**wal.retention.time_minutes**
+### Local WAL Retention
 
-- **Type**: Integer (minutes)
-- **Default**: `2880` (48 hours)
-- **Impact**: Delete local WAL files older than this (after cloud upload)
+**storage.wal.retention.time_minutes**
+
+- **Type**: Integer (minutes, optional)
+- **Impact**: Age threshold for pruning eligible local staged WAL files
 - **When to change**:
-  - Production: `2880` (48h) for safety margin
-  - Space-constrained: `1440` (24h) minimum
-  - **Must be larger than uploader interval**
+  - Increase to keep more local recovery buffer
+  - Decrease when local disk space is limited
 
-**wal.retention.size_mb**
-
-- **Type**: Integer (megabytes per topic)
-- **Default**: `20480` (20 GiB)
-- **Impact**: Delete oldest files when total exceeds this
-- **When to change**:
-  - High-volume: `20480` (20 GiB) or higher
-  - Space-constrained: `10240` (10 GiB) minimum
-
-**wal.retention.check_interval_minutes**
-
-- **Type**: Integer (minutes)
-- **Default**: `5`
-- **Impact**: How often retention policy runs
-- **When to change**: Rarely (5 minutes is responsive without overhead)
-
----
-
-### Cloud Uploader
-
-```yaml
-uploader:
-  enabled: true
-  interval_seconds: 30
-  root_prefix: "/danube-data"
-  max_object_mb: 256
-```
-
-**uploader.enabled**
-
-- **Type**: Boolean
-- **Default**: `true`
-- **Impact**: Enable/disable background cloud uploads
-- **When to disable**: Local-only testing, ephemeral workloads
-- **When to enable**: Production (always)
-
-**uploader.interval_seconds**
-
-- **Type**: Integer (seconds)
-- **Default**: `30`
-- **Impact**: Upload cycle frequency
-
-| Value | RPO (Recovery Point) | Cloud Overhead | Use Case |
-|-------|---------------------|----------------|----------|
-| 30s | 30 seconds | High | Testing, fast feedback |
-| 60s | 1 minute | Medium-High | High-durability production |
-| 300s | 5 minutes | **Balanced** | General production |
-| 600s | 10 minutes | Low | Cost-sensitive |
-
-**uploader.root_prefix**
-
-- **Type**: String
-- **Default**: `/danube-data`
-- **Impact**: Metadata prefix for cloud object descriptors in the Raft metadata store
-- **When to change**: Only for multiple independent Danube clusters sharing a metadata namespace
-
-**uploader.max_object_mb**
+**storage.wal.retention.size_mb**
 
 - **Type**: Integer (megabytes, optional)
-- **Default**: `256`
-- **Impact**: Maximum size per cloud object
+- **Impact**: Size threshold for pruning eligible local staged WAL files
 - **When to change**:
-  - `256 MB`: Optimal for S3/GCS multipart uploads (recommended)
-  - Larger: Fewer objects, higher per-object latency
-  - Smaller: More objects, better parallelism
+  - Increase for high-volume reliable topics
+  - Decrease for tighter local disk budgets
 
----
+**storage.wal.retention.check_interval_minutes**
 
-### Cloud Storage Backend
+- **Type**: Integer
+- **Default**: `5`
+- **Impact**: How often the local WAL retention pass runs
+- **When to change**: Rarely needed
 
-```yaml
-cloud:
-  backend: "fs"
-  root: "./danube-data/cloud-storage"
-  # Backend-specific options below
-```
+Retention applies to local staged WAL files once durable history safely covers them. It does not currently delete durable segment objects from shared storage or object storage.
 
-**cloud.backend**
+This retention behavior is most relevant in `shared_fs` and `object_store` mode. In `local` mode, the background deleter path is not currently used to manage local staged WAL cleanup.
+
+## Object Store Backends
+
+The `storage.object_store` block is used only in `object_store` mode.
+
+**storage.object_store.backend**
 
 - **Type**: String enum
-- **Options**: `fs` | `s3` | `gcs` | `azblob` | `memory`
-- **Default**: `fs`
-- **Impact**: Cloud storage provider
+- **Options**: `s3` | `gcs` | `azblob`
+- **Impact**: Selects the durable object-store backend
 
-| Backend | Use Case | Multi-Broker Support |
-|---------|----------|---------------------|
-| `memory` | Testing only (no durability) | No |
-| `fs` | Local development, shared NFS/EFS | Yes (with shared storage) |
-| `s3` | Production (AWS, MinIO, etc.) | Yes |
-| `gcs` | Production (Google Cloud) | Yes |
-| `azblob` | Production (Azure) | Yes |
+**storage.object_store.root**
 
-**cloud.root**
-
-- **Type**: String (backend-specific format)
-- **Impact**: Storage location
+- **Type**: String
+- **Impact**: Backend-specific storage root or prefix
 - **Formats**:
-  - `fs`: `./path/to/directory`
   - `s3`: `s3://bucket-name/prefix`
   - `gcs`: `gcs://bucket-name/prefix`
   - `azblob`: `container-name/prefix`
-  - `memory`: `namespace-prefix`
-- **Multi-broker requirement**: Must be shared/accessible across all brokers
 
-### Backend-Specific Options
-
-**Amazon S3:**
+### S3
 
 ```yaml
-cloud:
-  backend: "s3"
-  root: "s3://my-bucket/danube-data"
-  region: "us-east-1"
-  endpoint: "https://s3.us-east-1.amazonaws.com"  # Optional
-  access_key: "${AWS_ACCESS_KEY_ID}"              # Or use IAM roles
-  secret_key: "${AWS_SECRET_ACCESS_KEY}"
-  anonymous: false
+storage:
+  mode: object_store
+  object_store:
+    backend: s3
+    root: "s3://my-bucket/danube"
+    region: "us-east-1"
+    endpoint: "https://s3.us-east-1.amazonaws.com"
+    access_key: "${AWS_ACCESS_KEY_ID}"
+    secret_key: "${AWS_SECRET_ACCESS_KEY}"
+    profile: null
+    role_arn: null
+    session_token: null
+    anonymous: false
+    virtual_host_style: false
 ```
 
-**Google Cloud Storage:**
+**storage.object_store.region**
+
+- **Type**: String (optional)
+- **Impact**: S3 region selection
+
+**storage.object_store.endpoint**
+
+- **Type**: String (optional)
+- **Impact**: Custom S3-compatible endpoint such as MinIO
+
+**storage.object_store.access_key** / **storage.object_store.secret_key**
+
+- **Type**: String (optional)
+- **Impact**: Static credentials for the S3 backend
+- **When to set**: Use only when you are not relying on instance roles, profiles, or external secret injection
+
+**storage.object_store.profile**
+
+- **Type**: String (optional)
+- **Impact**: Named credentials profile
+
+**storage.object_store.role_arn**
+
+- **Type**: String (optional)
+- **Impact**: IAM role assumption target
+
+**storage.object_store.session_token**
+
+- **Type**: String (optional)
+- **Impact**: Temporary session credentials
+
+**storage.object_store.anonymous**
+
+- **Type**: Boolean (optional)
+- **Impact**: Anonymous access mode
+
+**storage.object_store.virtual_host_style**
+
+- **Type**: Boolean (optional)
+- **Impact**: Enables virtual-host-style bucket addressing
+
+### GCS
 
 ```yaml
-cloud:
-  backend: "gcs"
-  root: "gcs://my-bucket/danube-data"
-  project: "my-gcp-project"
-  credentials_path: "/path/to/service-account.json"
-  # Or credentials_json: "{ ... }"  # Inline JSON string
+storage:
+  mode: object_store
+  object_store:
+    backend: gcs
+    root: "gcs://my-bucket/danube"
+    project: "my-gcp-project"
+    credentials_json: null
+    credentials_path: "/path/to/service-account.json"
 ```
 
-**Azure Blob Storage:**
+**storage.object_store.project**
+
+- **Type**: String (optional)
+- **Impact**: GCP project identifier
+
+**storage.object_store.credentials_json**
+
+- **Type**: String (optional)
+- **Impact**: Inline service account JSON
+
+**storage.object_store.credentials_path**
+
+- **Type**: String (optional)
+- **Impact**: Path to a service account credentials file
+
+### Azure Blob
 
 ```yaml
-cloud:
-  backend: "azblob"
-  root: "my-container/danube-data"
-  endpoint: "https://myaccount.blob.core.windows.net"
-  account_name: "myaccount"
-  account_key: "${AZURE_STORAGE_KEY}"
+storage:
+  mode: object_store
+  object_store:
+    backend: azblob
+    root: "my-container/danube"
+    endpoint: "https://myaccount.blob.core.windows.net"
+    account_name: "myaccount"
+    account_key: "${AZURE_STORAGE_KEY}"
 ```
 
-**Local Filesystem:**
+**storage.object_store.endpoint**
 
-```yaml
-cloud:
-  backend: "fs"
-  root: "./danube-data/cloud-storage"
-  # For multi-broker: use shared storage like NFS
-  # root: "/mnt/shared-nfs/danube-cloud"
-```
+- **Type**: String (optional)
+- **Impact**: Azure Blob service endpoint
+
+**storage.object_store.account_name**
+
+- **Type**: String (optional)
+- **Impact**: Azure storage account name
+
+**storage.object_store.account_key**
+
+- **Type**: String (optional)
+- **Impact**: Azure storage account key
+
+For production, avoid hardcoding credentials directly in version-controlled YAML. Prefer environment-variable substitution, secret mounts, or provider-native identity mechanisms.
 
 ---
 

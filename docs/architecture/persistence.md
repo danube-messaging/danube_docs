@@ -1,178 +1,366 @@
-# Danube Persistence Architecture (WAL + Cloud)
+# Danube Persistent Storage Architecture
 
-Danube's persistence layer has been recently revamped to make the platform cloud‑native, aiming for sub‑second dispatch with cloud economics. 
+`danube-persistent-storage` is the storage engine behind reliable topics in Danube. It is designed around a simple idea:
 
-Danube uses a cloud‑native persistence architecture that combines a local Write‑Ahead Log (WAL) for the hot path with background uploads to cloud object storage. This keeps publish/dispatch latency low while providing durable, elastic, and cost‑effective storage in the cloud.
+- keep the **write path local and fast** with a per-topic WAL
+- keep **historical data durable and movable** through immutable exported segments
+- keep **ownership and recovery decisions explicit** in the metadata store
 
-This page explains the main concepts, how the system works, why it scales in cloud environments, and how to configure it for major providers (S3, GCS, Azure). Danube relies on OpenDAL as a storage abstraction, so it can be plugged into any storage backend.
+This page explains the internal architecture of the crate, how the main components collaborate, and how behavior changes between `local`, `shared_fs`, and `object_store` modes.
 
-## Key Benefits
+For operator-facing configuration guidance, see the user-oriented persistence concepts page.
 
-- **Fast hot path**: Producers append to a local WAL and consumers read from memory/WAL; no remote writes on the critical path.
-- **Cloud-native durability**: A background uploader persists WAL frames to cloud object storage.
-- **Seamless reader experience**: Readers transparently stream historical data from cloud, then live data from WAL.
-- **Cost-effective and elastic**: Object storage provides massive scale, lifecycle policies, and low TCO.
-- **Portable by design**: Built on OpenDAL, enabling S3, GCS, Azure Blob, local FS, memory, and more.
+## Design goals
 
-## High-level Architecture
+- **Low-latency hot path**
+  - Appends should not wait on remote storage.
+- **Ordered replay with continuity**
+  - Readers must see a continuous stream across WAL files, cache, durable segments, and broker moves.
+- **Topic mobility**
+  - A topic can move to another broker without resetting offsets.
+- **Mode flexibility**
+  - The same storage engine can back local-only deployments, shared-filesystem deployments, or cloud object-store deployments.
 
-![Danube Persistence Architecture](../assets/img/architecture/Wal_Cloud.png "Danube Persistence Architecture")
+## High-level model
 
-- **Local WAL**: Append-only log with an in-memory cache for ultra-fast reads. Files periodically fsync and rotate.
-- **Cloud Uploader**: Periodically streams complete WAL frames to cloud objects. Writes object descriptors and sparse indexes to the metadata store.
-- **Cloud Reader**: Reads historical messages from cloud using metadata store entries, then hands off to local WAL for live data.
-- **Metadata Store**: Raft-replicated state that tracks object descriptors, offsets, and indexes for efficient range reads.
+At runtime, each reliable topic is backed by three layers of state:
 
-## Core Concepts and Components
+1. **Hot local state**
+   - a per-topic WAL and in-memory cache used for appends and recent reads
+2. **Durable historical state**
+   - immutable exported segments stored either on local filesystem, shared filesystem, or object store
+3. **Metadata state**
+   - segment descriptors, current durable frontier, and mobility markers stored in the Raft metadata store
 
-**WalStorageFactory** creates per-topic `WalStorage`, starts one uploader and one deleter (retention) task per topic, and normalizes each topic to its own WAL directory under the configured root.
+The system is intentionally split this way:
 
-**Wal** is an append-only log with an in-memory ordered cache; records are framed as `[u64 offset][u32 len][u32 crc][bytes]` with CRC32 validation, and a background writer batches and fsyncs data, supporting rotation by size and/or time.
+- the WAL optimizes for active ownership and recent replay
+- the durable segment store optimizes for recovery, history, and ownership transfer
+- the metadata store provides the authoritative map between offsets and durable objects
 
-**WalStorage** implements the `PersistentStorage` trait; when creating readers it applies tiered logic to serve from WAL if possible, otherwise transparently chains a Cloud→WAL stream to cover historical then live data.
+## Core components
 
-**Uploader** streams safe frame prefixes from WAL files to cloud, finalizes objects atomically, builds sparse offset indexes for efficient seeks, and operates one object per cycle with resumable checkpoints.
+## `StorageFactory`
 
-**CloudReader** reads objects referenced in the metadata store, uses sparse indexes to seek efficiently to the requested range, and validates each frame by CRC during decoding.
+`StorageFactory` is the orchestration layer. It is the entry point used by the broker to obtain per-topic storage.
 
-**Retention/Deleter** enforces time/size retention on WAL files after they are safely uploaded to cloud, advancing the WAL `start_offset` accordingly.
+Responsibilities:
 
-For persistent storage implementation details, check the [source code](https://github.com/danube-messaging/danube/tree/main/danube-persistent-storage).
+- normalize topic names into internal storage paths
+- create or recover the topic WAL
+- wire `WalStorage` with durable history when configured
+- start per-topic background tasks when the mode requires them
+- coordinate sealing, topic cleanup, and recovery after ownership transfer
 
-## How Reads Work (Cloud→WAL Handoff)
+Important internal behavior:
 
-1. A subscription requests a reader at a `StartPosition` (latest or from a specific offset).
-2. `WalStorage` checks the WAL’s local `start_offset`.
-3. If `start_offset` is older than requested, it:
-   Streams historical range from cloud objects via `CloudReader`.
-   Seamlessly chains into WAL tail for fresh/live data.
-4. Consumers see a single ordered stream with no gaps or duplicates.
+- `for_topic()` creates the runtime view of a topic
+- `get_or_create_wal()` determines the correct starting offset for the local WAL
+- `seal()` exports remaining local history, clears local state, and writes a mobility marker
 
-## Configuration Overview
+## `Wal`
 
-Broker configuration is under the `wal_cloud` section of `config/danube_broker.yml`:
+`Wal` is the hot-path append log for a topic.
 
-```yaml
-wal_cloud:
-  wal:
-    dir: "./danube-data/wal"
-    file_name: "wal.log"
-    cache_capacity: 1024
-    file_sync:
-      interval_ms: 5000         # fsync cadence (checkpoint frequency)
-      max_batch_bytes: 10485760 # 10 MiB write batch
-    rotation:
-      max_bytes: 536870912      # 512 MiB WAL file size
-      # max_hours: 24           # optional time-based rotation
-    retention:
-      time_minutes: 2880        # prune locally after 48h
-      size_mb: 20480            # or when size exceeds 20 GiB
-      check_interval_minutes: 5 # deleter tick interval
+Responsibilities:
 
-  uploader:
-    enabled: true
-    interval_seconds: 300       # one upload cycle every 5 minutes
-    root_prefix: "/danube-data"
-    max_object_mb: 1024         # optional cap per object
-  
-  # Cloud storage backend - MinIO S3 configuration
-  cloud:
-    backend: "s3"
-    root: "s3://danube-messages/cluster-data"  # S3 bucket and prefix
-    region: "us-east-1"
-    endpoint: "http://minio:9000"     # MinIO endpoint
-    access_key: "minioadmin"         # From environment variable
-    secret_key: "minioadmin123"     # From environment variable
-    anonymous: false
-    virtual_host_style: false
+- assign monotonically increasing topic offsets
+- serialize messages into framed WAL records
+- keep a bounded in-memory replay cache
+- enqueue disk I/O to the background writer
+- broadcast live appends to tailing readers
 
-  # Metadata is stored in the embedded Raft metadata store (no external dependency).
+Each frame is stored as:
+
+```text
+[u64 offset][u32 len][u32 crc][payload bytes]
 ```
 
-- **WAL**: local durability + replay cache for hot reads.
-- **Uploader**: cadence and object sizing knobs.
-- **Cloud**: provider/backend specific settings (see below).
-- **Metadata**: Object descriptors and indexes are stored in the Raft-replicated metadata store (no separate config needed).
+The CRC is used by file and durable-history readers to detect corruption.
 
-## Provider Examples (OpenDAL-powered)
+## WAL writer
 
-Danube uses OpenDAL under the hood. Switch providers by changing `wal_cloud.cloud`.
+The writer task owns WAL file I/O.
 
-- **Amazon S3**
+Responsibilities:
 
-```yaml
-wal_cloud:
-  cloud:
-    backend: "s3"
-    root: "s3://my-bucket/prefix"
-    region: "us-east-1"
-    endpoint: "https://s3.us-east-1.amazonaws.com"   # optional
-    access_key: "${AWS_ACCESS_KEY_ID}"               # or depend on env/IMDS
-    secret_key: "${AWS_SECRET_ACCESS_KEY}"
-    profile: null
-    role_arn: null
-    session_token: null
-    anonymous: false
-```
+- batch writes
+- flush buffered bytes periodically or when the batch gets large
+- rotate WAL files by size or elapsed time
+- write `WalCheckpoint` snapshots
 
-- **Google Cloud Storage (GCS)**
+The writer is deliberately separated from `Wal::append()`, so producers do not pay synchronous file I/O latency on the hot path.
 
-```yaml
-wal_cloud:
-  cloud:
-    backend: "gcs"
-    root: "gcs://my-bucket/prefix"
-    project: "my-gcp-project"
-    credentials_json: null                 # inline JSON string
-    credentials_path: "/path/to/creds.json" # or path to file
-```
+## `WalCheckpoint` and `CheckpointStore`
 
-- **Azure Blob Storage**
+`WalCheckpoint` is the local summary of WAL topology.
 
-```yaml
-wal_cloud:
-  cloud:
-    backend: "azblob"
-    root: "my-container/prefix"                       # container[/prefix]
-    endpoint: "https://<account>.blob.core.windows.net" # or Azurite endpoint
-    account_name: "<account_name>"
-    account_key: "<account_key>"
-```
+It tracks:
 
-- **In-memory (development)**
+- the oldest locally retained offset (`start_offset`)
+- the latest written offset
+- the active file
+- rotated files and their first offsets
 
-```yaml
-wal_cloud:
-  cloud:
-    backend: "memory"
-    root: "mem-prefix" # namespace-only; persisted in memory
-```
+This checkpoint is used by:
 
-- **Local filesystem**
+- file replay
+- segment export
+- local retention deletion
+- recovery on restart
 
-```yaml
-wal_cloud:
-  cloud:
-    backend: "fs"
-    root: "./object_root"   # local directory for persisted objects
-```
+`CheckpointStore` keeps the latest checkpoint in memory and atomically persists it to disk using temp-file plus rename.
 
+## `WalStorage`
 
-## Tuning and Best Practices
+`WalStorage` implements the broker-facing `PersistentStorage` trait.
 
-- **WAL cache size** (`wal.cache_capacity`): increase for higher consumer hit rates; memory-bound.
-- **Flush cadence** (`wal.file_sync.interval_ms`): smaller values improve checkpoint freshness but increase fsync pressure.
-- **Rotation thresholds** (`wal.rotation.*`): tune file sizes for smoother uploads and operational hygiene.
-- **Uploader interval** (`uploader.interval_seconds`): shorter intervals reduce RPO and speed up historical availability in cloud.
-- **Object size** (`uploader.max_object_mb`): bigger objects reduce listing overhead; 
-- **Retention**: ensure local retention is safely larger than upload interval so deleter never prunes data not yet uploaded.
-- **Credentials**: prefer environment-based credentials for cloud providers
+It is the layer that decides how reads should be served:
 
+- from the hot WAL only
+- from durable history first, then hand off to the hot WAL
 
-## Operational Notes
+It also contains the special `history_cutover_from_hot` behavior used after sealed topic recovery. In that case, durable history is treated as authoritative for the historical prefix and the hot WAL is only used for the new owner’s local tail.
 
-- **At-least-once delivery**: With reliable topics, dispatch uses the WAL to guarantee at-least-once delivery; cloud persistence is asynchronous and does not block producers/consumers.
-- **Resilience**: Uploader uses precise checkpoints `(file_seq, byte_pos)` and never re-uploads confirmed bytes; CloudReader validates CRCs.
-- **Observability**: Checkpoints and rotation metadata are stored under the per-topic WAL directory; the metadata store keeps object descriptors.
-- **Extensibility**: Because Danube uses OpenDAL, adding a new backend typically means adding backend-specific options in config; no broker code changes needed.
+## WAL readers
 
+There are two important reader paths inside the WAL:
+
+- **`StatefulReader`**
+  - drives `Files -> Cache -> Live` replay for local WAL history
+- **streaming WAL file reader**
+  - parses WAL files incrementally and stops at safe frame boundaries
+
+The key invariant is continuity:
+
+- readers always track the next expected offset
+- duplicates are ignored
+- gaps are repaired from cache when possible
+- unrecoverable gaps are surfaced as errors
+
+## Durable history path
+
+Historical durable reads are handled by:
+
+- `DurableHistoryReader`
+- `DurableStore`
+- `OpendalDurableStore`
+
+The reader:
+
+- loads segment descriptors from metadata
+- selects overlapping durable segments for the requested offset range
+- uses sparse offset indexes to seek near the requested start offset
+- parses WAL frames sequentially from durable objects
+- hands control back to the hot WAL at the hot/durable boundary
+
+This means durable history uses the same frame format as the local WAL. Exported segments are not a different logical message format; they are immutable slices of WAL history.
+
+## Metadata abstractions
+
+Persistent-storage metadata lives in the broker’s Raft metadata store and is wrapped by these components:
+
+- **`StorageMetadata`**
+  - low-level key/value wrapper
+- **`SegmentCatalog`**
+  - high-level access to durable segment descriptors
+- **`MobilityState`**
+  - sealed-state marker used during topic movement
+
+Important metadata objects:
+
+- **`SegmentDescriptor`**
+  - identifies one durable segment and its offset range
+- **`segments/cur` pointer**
+  - points to the latest durable segment by padded start offset key
+- **`StorageStateSealed`**
+  - records the last committed local offset and marks that a broker sealed the topic for takeover
+
+## Durable segment export
+
+Export turns sealed local WAL byte ranges into immutable durable objects.
+
+The export flow is:
+
+1. read the current WAL checkpoint
+2. select eligible rotated files, and optionally the active file during sealing
+3. trim each file to the last safe frame boundary
+4. extract the segment’s offset range
+5. upload the safe byte prefix into the durable backend
+6. write the `SegmentDescriptor` into metadata
+7. advance the `segments/cur` pointer
+
+Duplicate exports are avoided by consulting existing segment descriptors and skipping files whose `start_offset` is already published.
+
+## Local retention deleter
+
+In export-later modes, the local WAL is only a staging area. Once durable history safely covers older WAL files, the deleter can prune them.
+
+The deleter:
+
+- loads the local WAL checkpoint
+- checks which rotated WAL files are fully covered by durable history
+- applies time and size retention policies
+- deletes eligible files
+- rewrites the checkpoint so local replay starts at the new retained boundary
+
+The active WAL file is never deleted by the retention pass.
+
+## Write path
+
+The normal append path looks like this:
+
+1. broker writes a message to the topic storage
+2. `Wal::append()` reserves an offset by atomically incrementing `next_offset`
+3. the message is stamped with that offset
+4. the stamped message is inserted into the in-memory cache
+5. a `Write` command is sent to the background writer
+6. the message is broadcast to live readers
+
+Key property:
+
+- the offset is assigned before durable export and before reader delivery
+- this offset becomes the stable identity of the message for the rest of its lifetime
+
+## Read path
+
+When a consumer asks to read from an offset, `WalStorage` decides whether the request can be satisfied locally.
+
+### WAL-only path
+
+If the requested offset is within the hot local retention window, the reader is created directly from the WAL:
+
+- local files if needed
+- cache
+- live broadcast stream
+
+### Durable-history-plus-hot path
+
+If the requested offset is older than the hot retention boundary:
+
+1. `DurableHistoryReader` streams the historical prefix from durable segments
+2. `WalStorage` chains that stream to `Wal::tail_reader()` starting at `hot_start_offset`
+
+This gives the caller a single ordered stream across historical and live state.
+
+## Recovery and topic mobility
+
+Topic recovery is centered on one question: **what should the next local offset be on this broker?**
+
+`StorageFactory::resolve_recovery_start()` answers that in this order:
+
+1. **sealed mobility state**
+   - if the topic was explicitly sealed on another broker, resume from `last_committed_offset + 1`
+2. **durable segment catalog**
+   - if there is no usable local WAL continuity in `shared_fs` or `object_store`, resume from the current durable segment’s `end_offset + 1`
+3. **local WAL continuity**
+   - if the local WAL checkpoint still references real files, let local WAL recovery continue from there
+4. **empty topic**
+   - otherwise start from offset `0`
+
+The important distinction is between:
+
+- **local WAL continuity**
+  - useful when the same broker still has its staged files
+- **sealed continuity**
+  - useful when ownership moved and the new broker must continue the offset sequence without those files
+
+## Storage modes
+
+The crate supports three runtime modes.
+
+## `local`
+
+`local` keeps the hot WAL on the local filesystem and reuses that same filesystem as the durable segment backend.
+
+Characteristics:
+
+- no background export loop
+- no retention deleter for staged WAL files
+- durable segments are mainly published during sealing or explicit durable-history transitions
+- best fit for single-broker deployments, development, or simple durable local storage
+
+Behavioral consequence:
+
+- local WAL is the primary source of truth while the topic remains on the same broker
+- sealed durable segments are especially important for topic mobility and durable historical replay
+
+## `shared_fs`
+
+`shared_fs` uses two filesystem locations:
+
+- a **local cache/staging WAL root** on the current broker
+- a **shared durable segment root** visible across brokers
+
+Characteristics:
+
+- background export is enabled
+- local retention deleter is enabled
+- the broker stages active writes locally and periodically exports sealed files into the shared durable location
+- good fit for environments with a shared POSIX-style filesystem
+
+Behavioral consequence:
+
+- local WAL stays fast and broker-local
+- durable history becomes cluster-visible through the shared filesystem
+
+## `object_store`
+
+`object_store` also uses local staging, but the durable backend is remote object storage accessed through OpenDAL.
+
+Characteristics:
+
+- background export is enabled
+- local retention deleter is enabled
+- durable segments are written to S3, GCS, Azure Blob, or another OpenDAL-supported backend
+- best fit for cloud-native deployments where brokers should not depend on shared disks
+
+Behavioral consequence:
+
+- local WAL absorbs the active write workload
+- exported immutable segments provide elastic durable history independent of broker disks
+
+## Differences between the modes
+
+| Aspect | `local` | `shared_fs` | `object_store` |
+|---|---|---|---|
+| Hot write path | Local WAL | Local WAL | Local WAL |
+| Durable backend | Same local filesystem root | Shared filesystem root | Remote object store |
+| Background segment export | No | Yes | Yes |
+| Local WAL retention deleter | No | Yes | Yes |
+| Requires broker-local staging directory | No extra staging beyond local WAL root | Yes | Yes |
+| Best fit | Single broker / simple local durability | Multi-broker with shared volume | Cloud-native multi-broker deployments |
+
+## Important invariants
+
+- **Offsets are monotonic per topic**
+  - once assigned, they are never rewritten
+- **`current_offset()` means next offset to assign**
+  - not the last written offset
+- **`last_committed_offset()` means highest local WAL offset already accepted**
+- **durable history and hot WAL must meet at a clean boundary**
+  - readers should not see gaps or overlaps at the handoff
+- **sealed state is authoritative for takeover**
+  - when present, it determines where the next owner resumes
+
+## Broker integration
+
+The broker builds `StorageFactoryConfig` from the `storage:` section of `config/danube_broker.yml`.
+
+Key integration facts:
+
+- `local` uses `storage.root` as the WAL root unless overridden by `storage.wal.dir`
+- `shared_fs` uses `storage.root` as the durable shared segment root and derives a broker-local cache root unless `cache_root` is set
+- `object_store` uses `storage.object_store` as the durable backend and also derives a broker-local cache root unless `cache_root` is set
+- the broker currently uses the default segment export interval from the storage factory unless this is extended in configuration
+
+## Summary
+
+Danube persistence is not a separate “cloud storage layer” bolted onto the broker. It is a coordinated storage runtime made of:
+
+- a fast per-topic WAL
+- a durable immutable segment store
+- metadata-backed recovery and mobility state
+- reader logic that stitches hot and historical storage into one logical stream
+
+`local`, `shared_fs`, and `object_store` all use the same core components. What changes between them is where durable segments live, whether background export runs continuously, and whether local staged WAL can be pruned after durable coverage is established.

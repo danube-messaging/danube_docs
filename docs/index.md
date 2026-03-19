@@ -1,6 +1,6 @@
 # Welcome to Danube Messaging
 
-🌊 [Danube Messaging](https://github.com/danube-messaging/danube) is a lightweight, cloud‑native messaging platform built in Rust. It delivers sub‑second dispatch with cloud economics by combining a Write‑Ahead Log (WAL) with object storage, so you get low‑latency pub/sub and durable streaming.
+🌊 [Danube Messaging](https://github.com/danube-messaging/danube) is a lightweight, cloud‑native messaging platform built in Rust. It delivers sub‑second dispatch by combining a local Write‑Ahead Log (WAL), durable segment storage, and metadata-driven recovery, so you get low-latency pub/sub and reliable streaming across local disks, shared filesystems, or object stores.
 
 Danube enables one or many **producers** publish to **topics**, and multiple **consumers** receive messages via named **subscriptions**. Choose Non‑Reliable (best‑effort pub/sub) or Reliable (at‑least‑once streaming) per topic to match your workload.
 
@@ -20,13 +20,13 @@ For design details, see the [Architecture](architecture/architecture.md).
 - **Broker resilience**: Automatic leader election, failover, and topic reconciliation on restart
 - **Security-ready**: TLS/mTLS support in Admin and data paths
 
-### 🌩️ **Write-Ahead Log + Cloud Persistence**
+### 🌩️ **Write-Ahead Log + Durable Storage**
 
-- **Cloud-Native by Design** - Danube's architecture separates compute from storage
-- **Multi-cloud support**: AWS S3, Google Cloud Storage, Azure Blob, MinIO
-- **Hot path optimization**: Messages served from in-memory WAL cache
-- **Stream per subscription**: WAL + cloud storage from selected offset
-- **Asynchronous background uploads** to S3/GCS/Azure object storage
+- **Flexible storage modes**: `local`, `shared_fs`, and `object_store`
+- **Cloud-ready durable history**: AWS S3, Google Cloud Storage, Azure Blob, or shared filesystems depending on mode
+- **Hot path optimization**: Messages served from in-memory WAL cache and local WAL files
+- **Tiered historical replay**: Durable segments for older offsets with seamless handoff to the WAL tail
+- **Metadata-driven recovery and topic moves**: Continuous offsets across restarts and broker transfers
 
 ### 🎯 **Intelligent Load Management**
 
@@ -76,11 +76,11 @@ Explore how Danube works under the hood:
 
 **[Load Manager & Rebalancing](architecture/load_manager_architecture.md)** - Smart topic assignment and automatic rebalancing
 
-**[Persistence (WAL + Cloud)](architecture/persistence.md)** - Two-tier storage architecture
+**[Persistence Architecture](architecture/persistence.md)** - WAL, durable segments, and recovery metadata
 
-- Write‑Ahead Log on local disk for fast durable writes
-- Background uploads to object storage for durability and replay at cloud cost
-- Seamless handoff from historical replay to live tail
+- Local WAL for fast appends and recent reads
+- Durable segment history on local disk, shared filesystem, or object store depending on mode
+- Seamless handoff from historical replay to the live WAL tail
 
 **[Schema Registry](architecture/schema_registry_architecture.md)** - Centralized schema management
 
@@ -109,7 +109,7 @@ Repository: <https://github.com/danube-messaging/danube>
 - [danube-broker](https://github.com/danube-messaging/danube/tree/main/danube-broker) – The broker service (topics, producers, consumers, subscriptions).
 - [danube-core](https://github.com/danube-messaging/danube/tree/main/danube-core) – Core types, protocol, and shared logic.
 - [danube-raft](https://github.com/danube-messaging/danube/tree/main/danube-raft) – Embedded Raft consensus and metadata replication.
-- [danube-persistent-storage](https://github.com/danube-messaging/danube/tree/main/danube-persistent-storage) – WAL and cloud persistence backends.
+- [danube-persistent-storage](https://github.com/danube-messaging/danube/tree/main/danube-persistent-storage) – WAL and durable storage engine for reliable topics.
 
 CLIs and client libraries:
 

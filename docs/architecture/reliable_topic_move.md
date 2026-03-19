@@ -1,468 +1,311 @@
-# Reliable Topic Workflow: Understanding Message Flow During Broker Moves
+# Reliable Topic Moves
 
-## Document Purpose
+This document explains what happens inside Danube when a reliable topic moves from one broker to another.
 
-This document explains how Danube's reliable topics work under the hood, with a focus on what happens when a topic is moved from one broker to another.
+The key requirement is simple:
 
-## Topic Moves: Why and When
+- **the topic offset space must remain continuous across the move**
 
-A topic may be moved between brokers for several reasons:
+That means:
 
-1. **Manual Load Balancing** (Current): An operator uses `danube-admin topics unload` to explicitly move a topic
-2. **Automated Load Balancing** (Future): The LoadManager detects imbalance and automatically reassigns topics
-3. **Broker Maintenance**: A broker needs to be taken offline for upgrades or repairs
-4. **Failure Recovery**: A broker crashes and topics need to be reassigned
+- producers must continue writing at the next correct offset
+- consumers must keep reading from the same global history
+- subscription cursors must remain valid even though topic ownership changed
 
-In all cases, the underlying mechanics are the same: the topic is unloaded from one broker and loaded onto another while preserving message offset continuity and consumer progress.
+## The pieces involved in a move
 
-## Core Concepts
+A reliable topic move touches four kinds of state.
 
-Before diving into the workflow, let's establish key concepts:
+## 1. Local WAL state
 
-- **WAL (Write-Ahead Log)**: Local, per-topic storage on each broker for recent messages
-- **Cloud Storage**: Long-term archival storage for historical messages (S3-compatible)
-- **Offset**: A monotonically increasing ID (0, 1, 2, ...) assigned to each message in a topic
-- **Sealed State**: Metadata written to the metadata store when a topic is unloaded, capturing the last committed offset
-- **Subscription Cursor**: Tracks which message a consumer last acknowledged
-- **Tiered Reading**: Strategy where consumers read old messages from cloud, new messages from WAL
+Each broker keeps a per-topic WAL with:
 
-The critical guarantee: **Offsets must be globally unique and continuous for a topic, regardless of which broker hosts it.**
+- a hot in-memory cache
+- local WAL files
+- a local checkpoint describing WAL topology
 
----
+This state is fast, but it is tied to the broker currently owning the topic.
 
-## Normal Operation (Single Broker)
+## 2. Durable segment history
 
-When a topic is hosted on a single broker with no moves, the workflow is straightforward. This section establishes the baseline behavior that topic moves must preserve.
+Historical data is stored as immutable exported segments. These segments are written either to:
 
-### Message Production Flow
+- the local filesystem in `local` mode
+- a shared filesystem in `shared_fs` mode
+- an object store in `object_store` mode
 
-```bash
-Producer sends message
-    ↓
-Topic.append_to_storage()
-    ↓
-WAL.append(msg)
-    ├─> Assign offset: next_offset.fetch_add(1)  // e.g., 0, 1, 2, 3...
-    ├─> Store in cache: cache.insert(offset, msg)
-    ├─> Write to disk: Writer queue (async fsync)
-    └─> Broadcast: tx.send(offset, msg)  // for live consumers
-    ↓
-Uploader (background task, every 30s)
-    ├─> Read WAL files
-    ├─> Stream frames to cloud storage
-    └─> Write object descriptor to metadata store
-        • /storage/topics/default/topic/objects/00000000000000000000
-        • {start_offset: 0, end_offset: 21, object_id: "data-0-21.dnb1"}
+Each segment contains raw WAL frames and is described in the metadata store by a `SegmentDescriptor`.
+
+## 3. Metadata state
+
+The Raft metadata store holds the persistence metadata that survives broker moves:
+
+- durable segment descriptors under `storage/topics/<topic>/segments/...`
+- the current durable frontier pointer `segments/cur`
+- the sealed mobility marker under `storage/topics/<topic>/state`
+
+## 4. Subscription cursors
+
+Consumer progress is stored independently from broker-local WAL state. That is what lets a consumer reconnect after a move and continue from the same logical offset.
+
+## Why moves work
+
+Danube does not try to move an in-memory topic object from one broker to another. Instead, it reconstructs the topic on the new broker from durable metadata and recovery rules.
+
+The move works because Danube preserves two boundaries:
+
+- **the last committed offset on the old owner**
+- **the durable history frontier available to readers**
+
+## Normal reliable topic operation before a move
+
+Before a move, the topic behaves like any other reliable topic:
+
+1. a producer appends a message
+2. the WAL assigns the next offset
+3. the message is inserted into cache and queued for the WAL writer
+4. the writer flushes and rotates local files over time
+5. in `shared_fs` and `object_store`, background export periodically publishes sealed WAL files as durable segments
+6. readers consume from the WAL when the requested offset is still within local retention, or from durable history plus WAL when it is not
+
+At this stage, the currently owning broker is authoritative for new writes.
+
+## What the old broker does during unload
+
+When the topic is unloaded from Broker A, the broker seals the topic.
+
+Conceptually, the sequence is:
+
+1. stop accepting new use of the topic storage instance
+2. capture the topic’s `last_committed_offset`
+3. shut down the WAL cleanly
+4. stop any background segment exporter and deleter tasks for that topic
+5. export any remaining local WAL history that still needs to become durable
+6. clear the broker-local WAL directory
+7. write a sealed mobility marker into metadata
+
+The important output of this phase is:
+
+```text
+StorageStateSealed {
+  sealed: true,
+  last_committed_offset: <N>,
+  broker_id: <old broker>,
+  timestamp: <seal time>
+}
 ```
 
-**What's happening here?**
+This says: **the old owner accepted offsets through `N`; the next owner must resume at `N + 1`**.
 
-Each message produced to a topic goes through a three-stage pipeline:
+## What gets exported before the handoff
 
-1. **Offset Assignment**: The WAL atomically increments `next_offset` and assigns it to the message. This offset is the message's permanent ID.
-2. **Local Persistence**: The message is written to the WAL (both in-memory cache and on-disk log) and broadcast to live consumers via a channel.
-3. **Cloud Upload**: A background uploader periodically batches WAL segments and uploads them to cloud storage, writing object descriptors to the metadata store for later retrieval.
+The old owner does not publish arbitrary byte ranges. It exports safe, immutable WAL history.
 
-The key insight: **The offset is assigned by the WAL on the hosting broker**. When a topic moves, the new broker must continue the offset sequence from where the old broker left off.
+During export:
 
-### Message Consumption Flow
+1. the current WAL checkpoint is read
+2. eligible WAL files are selected
+3. each file is trimmed to the last safe frame boundary
+4. the segment offset range is extracted
+5. the safe prefix is uploaded as a durable segment
+6. a `SegmentDescriptor` is written to metadata
+7. the `segments/cur` pointer is updated
 
-```bash
-Consumer subscribes
-    ↓
-SubscriptionEngine.init_stream_from_progress_or_latest()
-    ├─> Check metadata store for cursor: /topics/.../subscriptions/sub_name/cursor
-    ├─> If exists: start_offset = cursor_value (e.g., 6)
-    └─> If not exists: start_offset = latest
-    ↓
-WalStorage.create_reader(start_offset=6)
-    ├─> Get WAL checkpoint: wal_start_offset = 0
-    ├─> Compare: 6 >= 0 (within WAL retention)
-    └─> Return: WAL.tail_reader(from=6, live=false)
-        ├─> Replay from cache/files: offsets 6, 7, 8...
-        └─> Switch to live: broadcast channel for new messages
-    ↓
-Dispatcher.poll_next()
-    ├─> Read message from stream
-    ├─> Send to consumer
-    └─> Wait for ACK
-    ↓
-On ACK received:
-    ├─> SubscriptionEngine.on_acked(offset)
-    └─> Periodically flush cursor to metadata store (every 1000 acks or 5s)
+This is the durable history that later readers and new owners rely on.
+
+## Metadata layout relevant to moves
+
+The persistence metadata for a topic looks like this conceptually:
+
+```text
+/storage/topics/default/my-topic/segments/00000000000000000000
+/storage/topics/default/my-topic/segments/00000000000000000512
+/storage/topics/default/my-topic/segments/cur
+/storage/topics/default/my-topic/state
 ```
 
-**What's happening here?**
+Where:
 
-Consumers track their progress through a topic using a **cursor** (subscription offset) stored in the metadata store:
+- `segments/<padded_start_offset>` stores a `SegmentDescriptor`
+- `segments/cur` stores the padded start offset of the latest durable segment
+- `state` stores `StorageStateSealed`
 
-1. **Initialization**: When a consumer subscribes, the subscription engine checks the metadata store for an existing cursor. If found, it resumes from that offset; otherwise, it starts from the latest.
-2. **Tiered Reading**: The `WalStorage` determines where to read messages from:
-   - If the requested offset is within the WAL's retention range, read directly from WAL
-   - If older, read from cloud storage first, then chain to WAL for newer messages
-3. **Progress Tracking**: As messages are acknowledged, the cursor advances and is periodically persisted to the metadata store
+Older documentation sometimes described `objects/...` metadata or a separate uploader checkpoint. The current implementation uses segment descriptors and a sealed mobility marker instead.
 
-This cursor-based design is **broker-agnostic**: it doesn't matter which broker hosts the topic, as long as the offset space is continuous.
+## How the new broker recovers the topic
 
-### State at Rest (Single Broker)
+When Broker B becomes the new owner, `StorageFactory::for_topic()` creates a new per-topic storage instance.
 
-**Broker Memory:**
+The critical step is recovery-start resolution.
 
-```bash
-WAL:
-  next_offset: 22        ← Ready for next message
-  cache: [17..21]        ← Recent messages (capacity=1024)
-  
-Uploader:
-  checkpoint: 21         ← Last uploaded offset
-  
-Subscription "subs_reliable":
-  cursor_in_memory: 13   ← Last acked by consumer
+`StorageFactory::resolve_recovery_start()` decides the initial WAL offset using this precedence:
+
+1. **sealed mobility state**
+   - if present, resume from `last_committed_offset + 1`
+2. **durable segment catalog**
+   - if there is no usable local WAL continuity but durable history exists, resume from the current durable segment’s `end_offset + 1`
+3. **local WAL continuity**
+   - if this broker still has a valid local WAL checkpoint and referenced files, continue from that local state
+4. **empty topic**
+   - otherwise start from offset `0`
+
+In a real broker-to-broker move, the first case is the important one.
+
+## Why the sealed state matters
+
+Without the sealed state, a new broker could start a fresh WAL at the wrong offset.
+
+With the sealed state:
+
+- old owner ends at offset `N`
+- new owner starts `next_offset` at `N + 1`
+
+That preserves a single global offset sequence for the topic.
+
+## What `WalStorage` does after recovery
+
+When the topic was resumed from a sealed state, `StorageFactory` enables `with_hot_cutover()` on `WalStorage`.
+
+This changes one important read decision:
+
+- durable history is treated as authoritative for the historical prefix that existed before takeover
+- the new owner’s hot WAL is treated as authoritative only for the newly rebuilt local tail
+
+This prevents the new owner from pretending it still has complete local historical coverage when it only has newly created local state.
+
+## Producer behavior after the move
+
+After ownership changes, producers reconnect to the new broker and continue writing.
+
+Suppose Broker A sealed at offset `21`.
+
+Broker B will recover the topic with:
+
+```text
+next_offset = 22
 ```
 
-**Metadata Store:**
+The next messages will therefore receive offsets:
 
-```bash
-/topics/default/reliable_topic/delivery: "Reliable"
-/topics/default/reliable_topic/subscriptions/subs_reliable/cursor: 13
-/storage/topics/default/reliable_topic/objects/00000000000000000000:
-  {start_offset: 0, end_offset: 21, object_id: "data-0-21.dnb1"}
+```text
+22, 23, 24, ...
 ```
 
-**Cloud Storage:**
+From the producer’s point of view, nothing special happened beyond reconnecting to the broker now hosting the topic.
 
-```bash
-s3://bucket/default/reliable_topic/data-0-21.dnb1
-  Contains: Binary frames for offsets 0-21
+## Consumer behavior after the move
+
+Consumers do not resume from broker-local state. They resume from their subscription cursor.
+
+Suppose a consumer previously acknowledged through offset `13`.
+
+After reconnecting, it requests the next unread offset:
+
+```text
+14
 ```
 
----
+Now `WalStorage::create_reader()` decides how to serve that request.
 
-## Topic Move Workflow (With Fix)
+## Case 1: the request is still inside the hot WAL window
 
-This section describes the complete flow when a topic is moved from Broker A to Broker B. The move can be triggered in two ways:
+If the requested offset is within the new broker’s local hot window, the reader is created directly from the WAL.
 
-1. **Manual (Current)**: An operator runs `danube-admin topics unload /default/reliable_topic`
-2. **Automated**: The LoadManager detects load imbalance and triggers reassignment programmatically
+## Case 2: the request is older than the hot WAL window
 
-Regardless of trigger, the mechanics are identical. The critical requirement is to **preserve offset continuity** so that:
+If the requested offset predates the new broker’s local hot window, `WalStorage` creates a hybrid reader:
 
-- Producers on the new broker continue assigning offsets from where the old broker left off
-- Consumers can read the entire message history seamlessly across both brokers
-- No message is lost, duplicated, or assigned a conflicting offset
+1. `DurableHistoryReader` streams the historical prefix from durable segments
+2. the stream is chained to the hot WAL at `hot_start_offset`
 
-The fix introduced a **sealed state mechanism** that captures the last committed offset when unloading and uses it to initialize the WAL on the new broker.
+That means the consumer sees one logical stream such as:
 
-### Step 1: Unload from Broker A
-
-**Trigger**: Either `danube-admin topics unload /default/reliable_topic` or automated LoadManager decision
-
-```bash
-BrokerService.topic_cluster.post_unload_topic()
-    ↓
-Create unload marker in metadata store
-    • /cluster/unassigned/default/reliable_topic
-    • {reason: "unload", from_broker: 10285063371164059634}
-    ↓
-Delete broker assignment
-    • /cluster/brokers/10285063371164059634/default/reliable_topic
-    ↓
-Broker A watcher sees DELETE event
-    ↓
-TopicManager.unload_reliable_topic()
-    ├─> Flush subscription cursors to metadata store
-    │   • /topics/.../subscriptions/subs_reliable/cursor: 13
-    │
-    ├─> WalFactory.flush_and_seal()
-    │   ├─> WAL.flush() → fsync all pending writes
-    │   │
-    │   ├─> Uploader: cancel and drain
-    │   │   ├─> Upload remaining frames to cloud
-    │   │   └─> Update metadata store descriptors
-    │   │       • objects/00000000000000000000: end_offset=21
-    │   │
-    │   └─> Write sealed state to metadata store ✅
-    │       • /storage/topics/default/reliable_topic/state
-    │       • {
-    │           sealed: true,
-    │           last_committed_offset: 21,  ← CRITICAL!
-    │           broker_id: 10285063371164059634,
-    │           timestamp: 1768625254
-    │         }
-    │
-    └─> Delete local WAL files
-        • rm ./danube-data/wal/default/reliable_topic/*
+```text
+14..21   from durable history
+22..N    from the new broker's hot WAL
 ```
 
-**Broker A Final State:**
+No broker-specific cursor translation is needed because the offset space remained continuous.
 
-- ❌ No local WAL files
-- ✅ All messages 0-21 in cloud storage
-- ✅ Subscription cursor at 13 in metadata store
-- ✅ Sealed state at 21 in metadata store
+## Mode-specific move behavior
 
-**What just happened?**
+The move protocol is the same in all storage modes, but the source of durable history differs.
 
-The unload process ensures data durability and captures critical state:
+## `local`
 
-1. **Flush Everything**: All pending writes are committed, and the uploader drains its queue to ensure all messages reach cloud storage
-2. **Write Sealed State**: The broker writes `{sealed: true, last_committed_offset: 21}` to the metadata store. This is the **key piece of state** that the new broker will use to initialize its WAL correctly.
-3. **Clean Up Local State**: The WAL files are deleted since they're now in cloud storage, and the topic is removed from the broker
+In `local` mode:
 
-At this point, Broker A no longer owns the topic, but all messages 0-21 are safely stored in the cloud, and the metadata store contains everything needed to restore the topic elsewhere.
+- there is no continuous background export loop
+- durable segments are especially important during sealing
+- the old broker exports the remaining durable history as part of the handoff
 
-### Step 2: Assign to Broker B
+This mode is the least “always-exported” configuration, so sealing is the main moment when durable history becomes authoritative for takeover.
 
-**LoadManager assigns topic to Broker B** (cluster decides which broker gets it based on load)
+## `shared_fs`
 
-```bash
-Write to metadata store:
-    • /cluster/brokers/10421046117770015389/default/reliable_topic: null
-    ↓
-Broker B watcher sees PUT event
-    ↓
-TopicManager.ensure_local("/default/reliable_topic")
-    ↓
-WalFactory.for_topic("default/reliable_topic")
-    ↓
-get_or_create_wal("default/reliable_topic")
-    │
-    ├─> ✅ NEW: Check sealed state
-    │   Metadata.get_storage_state_sealed("default/reliable_topic")
-    │   Returns: {sealed: true, last_committed_offset: 21, ...}
-    │
-    ├─> ✅ NEW: Calculate initial offset
-    │   initial_offset = 21 + 1 = 22
-    │
-    ├─> ✅ NEW: Create CheckpointStore (empty on new broker)
-    │   wal.ckpt: None
-    │   uploader.ckpt: None
-    │
-    └─> ✅ NEW: Create WAL with initial offset
-        Wal::with_config_with_store(cfg, ckpt_store, Some(22))
-        └─> next_offset: AtomicU64::new(22)  ← Continues from 22!
-        ↓
-    Start Uploader
-    ├─> Check checkpoint: None (new broker)
-    ├─> ✅ Create initial checkpoint from sealed state
-    │   uploader_checkpoint: {last_committed_offset: 21, ...}
-    └─> Ready to upload from offset 22+
-```
+In `shared_fs` mode:
 
-**Broker B Initial State:**
+- the broker stages active WAL locally
+- background export continuously publishes sealed segments to a shared filesystem
+- the seal step mainly ensures the final tail is exported and local staging is cleared
 
-```bash
-WAL:
-  next_offset: 22        ✅ Continues where A left off
-  cache: []              (empty initially)
-  
-Uploader:
-  checkpoint: 21         ✅ From sealed state
-  
-Subscription "subs_reliable":
-  Not loaded yet (no consumer connected)
-```
+By the time a move happens, much of the topic history may already be present in the shared durable segment store.
 
-**What just happened?**
+## `object_store`
 
-This is the **critical fix** that prevents offset collisions:
+In `object_store` mode:
 
-1. **Sealed State Discovery**: When Broker B loads the topic, it checks the metadata store for a sealed state marker
-2. **Offset Calculation**: Finding `last_committed_offset: 21`, it calculates `initial_offset = 22`
-3. **WAL Initialization**: The WAL is created with `next_offset = 22` instead of the default `0`
-4. **Uploader Restoration**: The uploader checkpoint is set to 21, so it knows messages 0-21 are already in cloud storage
+- the broker also stages active WAL locally
+- background export continuously publishes segments to remote object storage
+- sealing exports any remaining local tail and writes the mobility marker
 
-### Step 3: Producer Reconnects and Sends Messages
+This is the most cloud-native move path because the durable history is already broker-independent.
 
-**Producer automatic reconnection**: The Danube client detects the topic has moved and automatically reconnects to Broker B
+## Timeline example
 
-```bash
-Producer connects to Broker B
-    ↓
-Sends 6 new messages (message IDs 2-7 in producer)
-    ↓
-Broker B assigns offsets:
-    WAL.append(msg_2) → offset 22 ✅
-    WAL.append(msg_3) → offset 23 ✅
-    WAL.append(msg_4) → offset 24 ✅
-    WAL.append(msg_5) → offset 25 ✅
-    WAL.append(msg_6) → offset 26 ✅
-    WAL.append(msg_7) → offset 27 ✅
-    ↓
-Messages stored:
-    ├─> WAL cache: [22, 23, 24, 25, 26, 27]
-    ├─> WAL file: ./danube-data/wal/default/reliable_topic/wal.log
-    └─> Broadcast: (for live consumers)
-    ↓
-Uploader runs (30s later):
-    ├─> Stream offsets 22-27 from WAL files
-    ├─> Upload to cloud: data-22-27.dnb1
-    └─> Write to metadata store:
-        • objects/00000000000000000022:
-          {start_offset: 22, end_offset: 27, ...}
-```
+Assume the following state before a move:
 
-**State After Production:**
+- Broker A has accepted offsets `0..21`
+- a consumer cursor is at `13`
+- durable history already covers `0..21`
 
-```bash
-Cloud Storage:
-  data-0-21.dnb1    (from Broker A)
-  data-22-27.dnb1   (from Broker B) ✅ Continuous!
+Then the move looks like this:
 
-Metadata Store Objects:
-  /storage/.../objects/00000000000000000000: {start: 0, end: 21}
-  /storage/.../objects/00000000000000000022: {start: 22, end: 27} ✅
+1. Broker A seals the topic
+   - records `last_committed_offset = 21`
+   - exports remaining local history if needed
+   - clears local WAL files
+2. Broker B loads the topic
+   - reads sealed mobility state
+   - creates a WAL with `initial_offset = 22`
+3. producers reconnect
+   - new messages become `22, 23, 24, ...`
+4. consumers reconnect
+   - resume from cursor `14`
+   - read `14..21` from durable history and `22..` from the new broker’s WAL if necessary
 
-WAL on Broker B:
-  next_offset: 28
-  cache: [22, 23, 24, 25, 26, 27]
-```
+The continuity guarantee is preserved at both boundaries:
 
-**What just happened?**
+- producer write boundary: `21 -> 22`
+- consumer read boundary: durable history -> hot WAL
 
-The producer has no awareness that the topic moved—from its perspective, it's just producing messages as normal:
+## What this document validates about the current implementation
 
-1. **Client Routing**: The Danube client queries the metadata store for the topic's current broker assignment and connects to Broker B
-2. **Continuous Offsets**: Messages are assigned offsets 22-27, which is exactly what we want—a continuation from Broker A's 0-21
-3. **Cloud Upload**: After 30 seconds (or when the segment is large enough), the uploader streams offsets 22-27 to cloud storage
+The current `danube-persistent-storage` implementation relies on:
 
-The offset space is continuous across both brokers: `[0..21] (Broker A) + [22..27] (Broker B)`. This is the foundation for consumers to work correctly.
+- `StorageStateSealed` as the takeover marker
+- `SegmentDescriptor` plus `segments/cur` as the durable-history catalog
+- `StorageFactory::resolve_recovery_start()` to choose the next correct offset
+- `WalStorage` hot-cutover logic to keep historical and hot reads aligned after takeover
 
-### Step 4: Consumer Reconnects
+The move protocol no longer depends on an “uploader checkpoint” model or `objects/...` metadata layout. The authoritative continuity mechanisms are the sealed mobility state and the durable segment catalog.
 
-**Consumer automatic reconnection**: The Danube client detects the topic has moved and reconnects to Broker B with the same subscription
+## Summary
 
-```bash
-Consumer subscribes to "subs_reliable"
-    ↓
-SubscriptionEngine.init_stream_from_progress_or_latest()
-    ├─> Read cursor from metadata store: 13
-    └─> start_offset = 14 (next unacked message)
-    ↓
-WalStorage.create_reader(start_offset=14)
-    │
-    ├─> Get WAL checkpoint on Broker B:
-    │   wal_start_offset = 22 (WAL only has 22+)
-    │
-    ├─> Compare: 14 < 22 (requested offset is OLDER than WAL)
-    │   
-    └─> ✅ Tiered Reading Strategy:
-        │
-        ├─> Step 1: Read from CLOUD (14-21)
-        │   CloudReader.read_range(14, 21)
-        │   ├─> Query metadata store: get objects covering 14-21
-        │   │   Returns: objects/00000000000000000000 (0-21)
-        │   ├─> Download: data-0-21.dnb1
-        │   ├─> Extract frames: offsets 14-21
-        │   └─> Stream: [msg_14, msg_15, ..., msg_21]
-        │
-        └─> Step 2: Chain to WAL (22+)
-            WAL.tail_reader(22, false)
-            ├─> Read from cache: [22, 23, 24, 25, 26, 27]
-            └─> Stream: [msg_22, msg_23, ..., msg_27]
-            └─> Then switch to live broadcast for future messages
-    ↓
-Consumer receives continuous stream:
-    [14, 15, 16, 17, 18, 19, 20, 21] ← from cloud
-    [22, 23, 24, 25, 26, 27]         ← from WAL
-    ✅ No gaps, no duplicates!
-```
+Reliable topic moves in Danube are implemented as a controlled handoff between:
 
-**What just happened?**
+- the old broker’s final local WAL boundary
+- the durable segment history stored outside the broker
+- the new broker’s recovered WAL starting offset
 
-This is where the magic of **tiered reading** shines:
-
-1. **Cursor Resume**: The consumer's subscription cursor was at 13 (last ACKed message), so it resumes from offset 14
-2. **Storage Decision**: The consumer asks for offset 14, but Broker B's WAL only has offsets 22+. The system detects this gap.
-3. **Cloud Fallback**: For offsets 14-21, the reader automatically fetches data from cloud storage (uploaded by Broker A)
-4. **WAL Handoff**: Once caught up to offset 22, the reader seamlessly switches to reading from Broker B's local WAL
-5. **Continuous Stream**: From the consumer's perspective, it's a single continuous stream of messages,  it has no idea the topic moved!
-
-This works **only because offsets are continuous**: there's no collision between Broker A's offsets (0-21) and Broker B's offsets (22+).
-
-### Step 5: Consumer ACKs and Cursor Updates
-
-```bash
-Consumer processes and ACKs messages:
-    ACK(14) → ACK(15) → ... → ACK(27)
-    ↓
-SubscriptionEngine.on_acked(offset)
-    ├─> Update in-memory cursor: 27
-    └─> Batch flush to metadata store (every 1000 acks or 5s):
-        • /topics/.../subscriptions/subs_reliable/cursor: 27
-```
-
----
-
-## Key Mechanisms Ensuring Continuity
-
-### 1. Offset Continuity via Sealed State
-
-```bash
-Broker A: Messages 0-21
-    ↓ (sealed state: last=21)
-Broker B: Messages 22+ ✅ Continuous!
-```
-
-### 2. Consumer Read Strategy (Tiered)
-
-```bash
-Consumer wants offset X
-    ↓
-Is X in WAL range?
-    YES → Read from WAL only
-    NO  → Read from Cloud, then chain to WAL
-```
-
-### 3. Uploader State Preservation
-
-```bash
-Old Broker:
-  Uploader checkpoint: 21
-    ↓ (written to sealed state)
-New Broker:
-  Uploader checkpoint: 21 (from sealed state)
-  Won't re-upload 0-21 ✅
-  Will upload 22+ ✅
-```
-
-### 4. Subscription Cursor Independence
-
-```bash
-Subscription cursor in metadata store: 13
-    ↓ (persisted independently)
-Consumer reads from 14 regardless of which broker
-    ✅ Works because offset space is continuous
-```
-
----
-
-## Complete Timeline Example
-
-| Time | Event | Broker A | Broker B | Cloud | Consumer |
-|------|-------|----------|----------|-------|----------|
-| T1 | Produce msgs | Offsets 0-21 | - | - | - |
-| T2 | Upload | - | - | 0-21 stored | - |
-| T3 | Consumer reads | - | - | - | Reads 0-13, cursor=13 |
-| T4 | **UNLOAD** | Seal state (21) | - | State saved | - |
-| T5 | Assign to B | - | Load, WAL=22 ✅ | - | - |
-| T6 | Produce msgs | - | Offsets 22-27 ✅ | - | - |
-| T7 | Upload | - | - | 22-27 stored | - |
-| T8 | Consumer reconnect | - | - | - | Reads 14-21 (cloud) |
-| T9 | Continue read | - | - | - | Reads 22-27 (WAL) ✅ |
-| T10 | ACK all | - | - | - | Cursor=27 ✅ |
-
----
-
-## Conclusion
-
-The reliable topic workflow is designed to be **broker-agnostic**: a topic can be moved between brokers without any impact on producers or consumers, as long as offset continuity is preserved.
-
-The **sealed state mechanism** is the linchpin that enables this:
-
-- Old broker captures `last_committed_offset` when unloading
-- New broker reads this state and initializes its WAL from `last_committed_offset + 1`
-- Offset space remains continuous across the move
-- Consumers read seamlessly from cloud (old messages) and WAL (new messages)
-
-The architecture is built to handle topic mobility at scale, making Danube suitable for cloud-native deployments where resources are constantly shifting.
+As long as the old owner seals with the correct `last_committed_offset` and the new owner resumes from `last_committed_offset + 1`, producers and consumers keep seeing one continuous topic history even though ownership changed underneath them.
