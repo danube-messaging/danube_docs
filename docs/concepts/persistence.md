@@ -28,7 +28,7 @@ Instead, the broker uses:
 This gives Danube two important properties:
 
 - producers write with low latency because the active write path is local
-- consumers can still read older history even after local WAL files were rotated away or the topic moved to another broker
+- in `shared_fs` and `object_store`, consumers can still read older history even after local WAL files were rotated away or the topic moved to another broker
 
 ## The three storage modes
 
@@ -36,19 +36,19 @@ Danube supports three broker storage modes.
 
 ## `local`
 
-`local` keeps both the hot WAL and the durable segment backend on the broker’s local filesystem.
+`local` keeps the hot WAL on the broker’s local filesystem and does not use a separate shared or remote durable backend.
 
 Use this when:
 
 - you are running a single broker
 - you want the simplest persistence setup
-- you do not need a separate shared durable backend
+- you do not need durable history to be shared across brokers
 
 Operational meaning:
 
 - active writes go to local WAL files
 - durable-history export is not continuously running in the background
-- durable segment publication matters mainly for sealed handoff and durable-history replay
+- continuity relies mainly on broker-local WAL state and sealed mobility state on that broker
 
 Good fit:
 
@@ -117,21 +117,24 @@ A practical rule:
 - choose **`shared_fs`** if you already operate shared storage reliably
 - choose **`object_store`** if you want the most portable multi-broker durable storage model
 
-## Broker configuration overview
+## Current broker configuration model
 
 Danube broker persistence is configured under the `storage:` section of `config/danube_broker.yml`.
 
-At the top level, the broker accepts one of these shapes:
+The current documented field names are:
 
-- `mode: local`
-- `mode: shared_fs`
-- `mode: object_store`
+- `storage.mode`
+- `storage.local_wal_root`
+- `storage.metadata_prefix`
+- `storage.local_retention`
+- `storage.wal`
+- `storage.durable` for `shared_fs` and `object_store`
 
-The actual YAML is a tagged structure, so the available fields depend on the selected mode.
+Danube still accepts older aliases for compatibility, including `root`, `cache_root`, `metadata_root`, `object_store`, and `storage.wal.retention`, but the preferred shape for new configs is the one above.
 
 ## Common WAL settings
 
-All storage modes support a `storage.wal` section.
+All storage modes support a `storage.wal` block.
 
 ```yaml
 storage:
@@ -144,133 +147,64 @@ storage:
     rotation:
       max_bytes: 536870912
       max_hours: 24
-    retention:
-      time_minutes: 2880
-      size_mb: 20480
-      check_interval_minutes: 5
 ```
 
-Here is what each field means.
+The most important WAL settings are:
 
-## `storage.wal.file_name`
+| Field | Default | What it controls |
+|---|---|---|
+| `file_name` | `wal.log` | The active WAL filename inside each topic’s local WAL directory |
+| `cache_capacity` | `1024` messages | How much recent history stays in the in-memory replay cache |
+| `file_sync.interval_ms` | `5000` ms | How long the background writer can buffer WAL writes before flushing |
+| `file_sync.max_batch_bytes` | `10485760` bytes | How much buffered data can accumulate before the writer flushes early |
+| `rotation.max_bytes` | disabled when omitted | The size threshold for rotating the active WAL file |
+| `rotation.max_hours` | disabled when omitted | The age threshold for rotating the active WAL file |
 
-Default active WAL filename.
+Notes for operators:
 
-What it affects:
+- `file_sync` is a **flush policy**, not a promise that every message performs its own synchronous fsync before producer progress continues.
+- `rotation.max_hours` is checked on the **next write** after the threshold is reached; it is not an always-running idle-file timer.
+- The preferred config shape is the flat one shown above. Older configs may still use `storage.wal.advanced.cache_capacity`, `storage.wal.advanced.file_sync`, and `storage.wal.advanced.rotation`; the broker merges both forms.
+- `storage.wal.dir` is also supported as an explicit override for the effective local WAL directory, but most users should prefer the mode-level `local_wal_root` and only use `wal.dir` when they need a special override.
 
-- the name of the active local WAL file inside the topic WAL directory
+## Local staged WAL retention
 
-What it does **not** affect:
-
-- rotated WAL files, which use generated names like `wal.<seq>.log`
-
-## `storage.wal.cache_capacity`
-
-The number of recent messages kept in the in-memory replay cache.
-
-What it affects:
-
-- how much recent history can be replayed from memory
-- how often readers can satisfy recent reads without going back to files
-
-Trade-off:
-
-- larger value = better hot replay window, more memory
-- smaller value = lower memory, more fallback to file/durable reads
-
-## `storage.wal.file_sync.interval_ms`
-
-How long the background writer can wait before flushing its buffered WAL writes.
-
-What it affects:
-
-- write-buffer flush cadence
-- checkpoint freshness
-- I/O pressure on the local WAL disk
-
-Important note:
-
-- despite the YAML name `file_sync`, this is effectively a **flush interval**, not a guarantee that every message performs its own synchronous fsync before producer progress continues
-
-## `storage.wal.file_sync.max_batch_bytes`
-
-The maximum number of buffered bytes before the writer flushes immediately.
-
-What it affects:
-
-- write latency under load
-- memory used by the writer buffer
-- how large a burst can accumulate before a flush happens
-
-## `storage.wal.rotation.max_bytes`
-
-Rotate the WAL after at least this many bytes have been written to the active file.
-
-What it affects:
-
-- local WAL file size
-- granularity of exported durable segments
-- retention/deletion behavior in export-later modes
-
-## `storage.wal.rotation.max_hours`
-
-Rotate the WAL after the file has been open this long.
-
-What it affects:
-
-- how long one active file is kept before rotation in low-write topics
-
-Important note:
-
-- this threshold is checked **when a new write arrives**
-- it is not an always-running background idle-file rotation timer
-
-## `storage.wal.retention.*`
-
-Retention settings for **local staged WAL files**.
-
-What they affect:
-
-- pruning of older local WAL files after they are safely covered by durable history
-
-What they do **not** currently do:
-
-- they do not delete durable segment objects from shared storage or object storage
-
-Important mode note:
-
-- these settings matter in **`shared_fs`** and **`object_store`**
-- in **`local`** mode, local staged WAL retention is not currently managed by the background deleter path
-
-## `storage.wal.retention.time_minutes`
-
-Age-based pruning threshold for eligible local staged WAL files.
-
-## `storage.wal.retention.size_mb`
-
-Size-based pruning threshold for eligible local staged WAL files.
-
-## `storage.wal.retention.check_interval_minutes`
-
-How often the local WAL retention task checks for files it can delete.
-
-## `metadata_root`
-
-Optional metadata prefix used under the Raft metadata store.
-
-If omitted, the broker defaults it to:
+`storage.local_retention` controls pruning of **local staged WAL files** once durable history safely covers them.
 
 ```yaml
-metadata_root: "/danube"
+storage:
+  local_retention:
+    time_minutes: 2880
+    size_mb: 20480
+    check_interval_minutes: 5
 ```
 
-What it affects:
+The retention fields mean:
 
-- where storage metadata such as segment descriptors and sealed-state markers are written
+| Field | Meaning |
+|---|---|
+| `time_minutes` | Age-based pruning threshold for eligible local staged WAL files |
+| `size_mb` | Size-based pruning threshold for eligible local staged WAL files |
+| `check_interval_minutes` | How often the retention task checks for files it can delete |
 
-Use this when:
+Important scope note:
 
-- you want to isolate multiple logical Danube environments inside the same metadata store namespace
+- this retention applies to local staged WAL files, not to durable segment objects in shared storage or object storage
+- it matters most in `shared_fs` and `object_store`, where durable coverage is normally published independently of the local WAL files
+- in `local` mode it can still be configured, but it is usually less useful because there is no separate shared or remote durable-history backend
+
+## Metadata prefix
+
+`storage.metadata_prefix` controls where persistence metadata is written in the Raft metadata store.
+
+If you omit it, the broker uses:
+
+```yaml
+storage:
+  metadata_prefix: "/danube"
+```
+
+Use it when you need to isolate multiple logical Danube environments inside the same metadata-store namespace.
 
 ## `local` mode configuration
 
@@ -279,8 +213,12 @@ Example:
 ```yaml
 storage:
   mode: local
-  root: "./danube-data/wal"
-  metadata_root: "/danube"
+  local_wal_root: "./danube-data/wal"
+  metadata_prefix: "/danube"
+  local_retention:
+    time_minutes: 2880
+    size_mb: 20480
+    check_interval_minutes: 5
   wal:
     file_name: "wal.log"
     cache_capacity: 1024
@@ -294,21 +232,21 @@ storage:
 What this means:
 
 - each topic gets a local WAL under `./danube-data/wal`
-- the same local filesystem root is also reused as the durable segment backend
+- there is no separate shared or remote durable backend
 - the broker does not continuously export segments in the background like export-later modes do
 
-### `root` in `local` mode
+### `local_wal_root` in `local` mode
 
-In `local` mode, `storage.root` is the default WAL root.
+In `local` mode, `storage.local_wal_root` is the normal WAL root.
 
-If `storage.wal.dir` is also set, it overrides `root` for the actual WAL directory.
+If `storage.wal.dir` is also set, it overrides `local_wal_root` for the actual WAL directory.
 
 Example:
 
 ```yaml
 storage:
   mode: local
-  root: "./danube-data/wal"
+  local_wal_root: "./danube-data/wal"
   wal:
     dir: "./custom-wal-root"
 ```
@@ -324,9 +262,14 @@ Example:
 ```yaml
 storage:
   mode: shared_fs
-  root: "/mnt/danube-shared-segments"
-  cache_root: "/var/lib/danube/shared-fs-cache"
-  metadata_root: "/danube"
+  local_wal_root: "/var/lib/danube/shared-fs-cache"
+  metadata_prefix: "/danube"
+  durable:
+    root: "/mnt/danube-shared-segments"
+  local_retention:
+    time_minutes: 1440
+    size_mb: 10240
+    check_interval_minutes: 5
   wal:
     file_name: "wal.log"
     cache_capacity: 4096
@@ -336,28 +279,24 @@ storage:
     rotation:
       max_bytes: 268435456
       max_hours: 6
-    retention:
-      time_minutes: 1440
-      size_mb: 10240
-      check_interval_minutes: 5
 ```
 
 What this means:
 
-- local hot WAL files are written under `cache_root`
-- durable exported segments are written under the shared filesystem `root`
+- local hot WAL files are written under `local_wal_root`
+- durable exported segments are written under `durable.root`
 - background export publishes sealed local WAL files into the shared durable store
-- retention may prune old local staged WAL files after durable coverage is established
+- `local_retention` may prune old local staged WAL files after durable coverage is established
 
-### `root` in `shared_fs` mode
+### `durable.root` in `shared_fs` mode
 
-In `shared_fs` mode, `storage.root` is **not** the broker-local WAL directory.
+In `shared_fs` mode, `storage.durable.root` is **not** the broker-local WAL directory.
 
 It is the durable shared segment root.
 
-### `cache_root` in `shared_fs` mode
+### `local_wal_root` in `shared_fs` mode
 
-`cache_root` is the local broker directory used for hot WAL staging.
+`local_wal_root` is the local broker directory used for hot WAL staging.
 
 If omitted, the broker derives a default cache path next to `meta_store.data_dir` using the suffix:
 
@@ -374,8 +313,21 @@ Example for S3-compatible storage:
 ```yaml
 storage:
   mode: object_store
-  cache_root: "/var/lib/danube/object-store-cache"
-  metadata_root: "/danube"
+  local_wal_root: "/var/lib/danube/object-store-cache"
+  metadata_prefix: "/danube"
+  durable:
+    backend: s3
+    root: "s3://my-bucket/danube"
+    region: "us-east-1"
+    endpoint: "https://s3.us-east-1.amazonaws.com"
+    access_key: "<access-key>"
+    secret_key: "<secret-key>"
+    anonymous: false
+    virtual_host_style: false
+  local_retention:
+    time_minutes: 1440
+    size_mb: 10240
+    check_interval_minutes: 5
   wal:
     file_name: "wal.log"
     cache_capacity: 4096
@@ -385,31 +337,18 @@ storage:
     rotation:
       max_bytes: 268435456
       max_hours: 6
-    retention:
-      time_minutes: 1440
-      size_mb: 10240
-      check_interval_minutes: 5
-  object_store:
-    backend: s3
-    root: "s3://my-bucket/danube"
-    region: "us-east-1"
-    endpoint: "https://s3.us-east-1.amazonaws.com"
-    access_key: "<access-key>"
-    secret_key: "<secret-key>"
-    anonymous: false
-    virtual_host_style: false
 ```
 
 What this means:
 
-- local hot WAL files are written under `cache_root`
+- local hot WAL files are written under `local_wal_root`
 - durable exported segments are written to the configured S3 bucket/prefix
 - background export and local retention both run
 - durable historical reads come from the object store when the requested offset is older than the hot local retention window
 
-### `cache_root` in `object_store` mode
+### `local_wal_root` in `object_store` mode
 
-`cache_root` is the broker-local WAL staging directory.
+`local_wal_root` is the broker-local WAL staging directory.
 
 If omitted, the broker derives a default cache path next to `meta_store.data_dir` using the suffix:
 
@@ -417,13 +356,13 @@ If omitted, the broker derives a default cache path next to `meta_store.data_dir
 object-store-cache
 ```
 
-### `object_store` block
+### `durable` block in `object_store` mode
 
 In `object_store` mode, the durable backend is configured under:
 
 ```yaml
 storage:
-  object_store:
+  durable:
     backend: ...
 ```
 
@@ -440,7 +379,7 @@ Currently supported backends in broker configuration are:
 ```yaml
 storage:
   mode: object_store
-  object_store:
+  durable:
     backend: s3
     root: "s3://my-bucket/danube"
     region: "us-east-1"
@@ -459,7 +398,7 @@ storage:
 ```yaml
 storage:
   mode: object_store
-  object_store:
+  durable:
     backend: gcs
     root: "gcs://my-bucket/danube"
     project: "my-gcp-project"
@@ -472,7 +411,7 @@ storage:
 ```yaml
 storage:
   mode: object_store
-  object_store:
+  durable:
     backend: azblob
     root: "my-container/danube"
     endpoint: "https://<account>.blob.core.windows.net"
@@ -482,24 +421,26 @@ storage:
 
 ## How reads behave with these modes
 
-The mode changes where durable history comes from, but the reader model is consistent.
+The reader model is consistent, but the available history sources differ by mode.
 
 If the requested offset is:
 
 - still within local WAL coverage
   - the broker reads from WAL only
-- older than local WAL coverage
+- older than local WAL coverage in `shared_fs` or `object_store`
   - the broker reads from durable history first and then hands off to the hot WAL
+- older than local WAL coverage in `local`
+  - continuity depends on the broker still having the local WAL files needed for replay
 
 That means consumers can still read old messages after:
 
-- local WAL files were rotated and pruned
-- a topic moved to another broker
-- the new broker no longer has the old owner’s local files
+- local WAL files were rotated and pruned in `shared_fs` or `object_store`
+- a topic moved to another broker in `shared_fs` or `object_store`
+- the new broker no longer has the old owner’s local files in `shared_fs` or `object_store`
 
 ## How topic moves relate to storage mode
 
-All reliable topic moves use the same continuity rule:
+Reliable topic mobility always preserves the same offset rule:
 
 - the old broker seals the topic and records the `last_committed_offset`
 - the new broker resumes from `last_committed_offset + 1`
@@ -507,7 +448,7 @@ All reliable topic moves use the same continuity rule:
 What changes by mode is where the durable historical prefix comes from:
 
 - `local`
-  - local durable segments on the broker filesystem
+  - continuity is mainly broker-local; it does not provide the same shared durable-history path used for cross-broker replay
 - `shared_fs`
   - shared durable filesystem segments
 - `object_store`
@@ -517,10 +458,10 @@ What changes by mode is where the durable historical prefix comes from:
 
 - **Assuming `file_sync.interval_ms` means every message is synced immediately**
   - it controls background flush cadence, not per-message synchronous durability
-- **Assuming `storage.root` means the same thing in every mode**
-  - it does not; in `shared_fs` it is the durable shared root, not the local cache path
-- **Assuming `retention` deletes durable history**
-  - today it governs local staged WAL cleanup in export-later modes
+- **Assuming `local_wal_root` and `durable.root` are interchangeable**
+  - they are not; `local_wal_root` is broker-local staging, while `durable.root` is shared or remote durable history
+- **Assuming `local_retention` deletes durable history**
+  - today it governs local staged WAL cleanup only; it does not delete durable segment objects
 - **Hardcoding credentials into version-controlled config**
   - prefer secret management or environment-based injection for production
 
@@ -531,7 +472,7 @@ What changes by mode is where the durable historical prefix comes from:
 ```yaml
 storage:
   mode: local
-  root: "./danube-data/wal"
+  local_wal_root: "./danube-data/wal"
   wal:
     cache_capacity: 1024
     file_sync:
@@ -546,8 +487,13 @@ storage:
 ```yaml
 storage:
   mode: shared_fs
-  root: "/mnt/danube-shared-segments"
-  cache_root: "/var/lib/danube/shared-fs-cache"
+  local_wal_root: "/var/lib/danube/shared-fs-cache"
+  durable:
+    root: "/mnt/danube-shared-segments"
+  local_retention:
+    time_minutes: 1440
+    size_mb: 10240
+    check_interval_minutes: 5
   wal:
     cache_capacity: 4096
     file_sync:
@@ -556,10 +502,6 @@ storage:
     rotation:
       max_bytes: 268435456
       max_hours: 6
-    retention:
-      time_minutes: 1440
-      size_mb: 10240
-      check_interval_minutes: 5
 ```
 
 ## Cloud-native deployment
@@ -567,7 +509,18 @@ storage:
 ```yaml
 storage:
   mode: object_store
-  cache_root: "/var/lib/danube/object-store-cache"
+  local_wal_root: "/var/lib/danube/object-store-cache"
+  durable:
+    backend: s3
+    root: "s3://my-bucket/danube"
+    region: "us-east-1"
+    endpoint: "https://s3.us-east-1.amazonaws.com"
+    access_key: "<access-key>"
+    secret_key: "<secret-key>"
+  local_retention:
+    time_minutes: 1440
+    size_mb: 10240
+    check_interval_minutes: 5
   wal:
     cache_capacity: 4096
     file_sync:
@@ -576,17 +529,6 @@ storage:
     rotation:
       max_bytes: 268435456
       max_hours: 6
-    retention:
-      time_minutes: 1440
-      size_mb: 10240
-      check_interval_minutes: 5
-  object_store:
-    backend: s3
-    root: "s3://my-bucket/danube"
-    region: "us-east-1"
-    endpoint: "https://s3.us-east-1.amazonaws.com"
-    access_key: "<access-key>"
-    secret_key: "<secret-key>"
 ```
 
 ## Summary

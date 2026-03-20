@@ -62,10 +62,10 @@ nav:
 
         - 💡 Core Concepts:
                   - Topics: concepts/topics.md
-                  - Persistence & Storage: concepts/persistence.md
                   - Subscriptions: concepts/subscriptions.md
                   - Dispatch Strategies: concepts/dispatch_strategy.md
                   - Messages & Schemas: concepts/messages.md
+                  - Persistence & Storage: concepts/persistence.md
                   - Schema Registry Guide: concepts/schema_registry_guide.md
                   - Scaling the Cluster: concepts/scaling_cluster.md
 
