@@ -384,20 +384,35 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#configure-the-broker" class="md-nav__link">
+  <a href="#option-1-single-node-quick-start" class="md-nav__link">
     <span class="md-ellipsis">
-      Configure the Broker
+      Option 1: Single-Node Quick Start
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#run-the-broker" class="md-nav__link">
+  <a href="#option-2-config-file" class="md-nav__link">
     <span class="md-ellipsis">
-      Run the Broker
+      Option 2: Config File
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Option 2: Config File">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#run-the-broker-with-config-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      Run the Broker with Config File
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1645,20 +1660,35 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#configure-the-broker" class="md-nav__link">
+  <a href="#option-1-single-node-quick-start" class="md-nav__link">
     <span class="md-ellipsis">
-      Configure the Broker
+      Option 1: Single-Node Quick Start
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#run-the-broker" class="md-nav__link">
+  <a href="#option-2-config-file" class="md-nav__link">
     <span class="md-ellipsis">
-      Run the Broker
+      Option 2: Config File
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Option 2: Config File">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#run-the-broker-with-config-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      Run the Broker with Config File
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1727,80 +1757,125 @@ dependencies (like etcd) are required. A single broker auto-initializes as a
 single-node Raft cluster on first boot.</p>
 <h2 id="download-the-danube-broker">Download the Danube Broker</h2>
 <p>Download the latest binary from the <a href="https://github.com/danube-messaging/danube/releases">releases</a> page.</p>
-<h2 id="configure-the-broker">Configure the Broker</h2>
-<p>Create a local config file using the <a href="https://github.com/danube-messaging/danube/blob/main/config/danube_broker.yml">sample config</a> as a reference:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>curl<span class="w"> </span>-O<span class="w"> </span>https://raw.githubusercontent.com/danube-messaging/danube/main/config/danube_broker.yml
+<h2 id="option-1-single-node-quick-start">Option 1: Single-Node Quick Start</h2>
+<p>The fastest way to get a broker running locally — no config file needed:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>./danube-broker<span class="w"> </span>--single-node<span class="w"> </span>--data-dir<span class="w"> </span>./danube-data
 </span></code></pre></div>
-<h2 id="run-the-broker">Run the Broker</h2>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nv">RUST_LOG</span><span class="o">=</span>info<span class="w"> </span>./danube-broker-linux<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span>--config-file<span class="w"> </span>danube_broker.yml<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span>--broker-addr<span class="w"> </span><span class="m">0</span>.0.0.0:6650<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span>--admin-addr<span class="w"> </span><span class="m">0</span>.0.0.0:50051<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span>--raft-addr<span class="w"> </span><span class="m">0</span>.0.0.0:7650<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span>--data-dir<span class="w"> </span>./danube-data/raft<span class="w"> </span>&gt;<span class="w"> </span>broker.log<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">&amp;</span>
+<p>This auto-generates sensible defaults:</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Broker address</td>
+<td><code>127.0.0.1:6650</code></td>
+</tr>
+<tr>
+<td>Admin address</td>
+<td><code>127.0.0.1:50051</code></td>
+</tr>
+<tr>
+<td>Raft address</td>
+<td><code>127.0.0.1:7650</code></td>
+</tr>
+<tr>
+<td>Raft data</td>
+<td><code>./danube-data/raft</code></td>
+</tr>
+<tr>
+<td>WAL storage</td>
+<td><code>./danube-data/wal</code></td>
+</tr>
+<tr>
+<td>Authentication</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Storage mode</td>
+<td>Local</td>
+</tr>
+</tbody>
+</table>
+<p>Data is persisted across restarts. To start fresh, remove the data directory and re-run.</p>
+<p>Skip to <a href="#use-danube-cli-to-publish-and-consume-messages">Use Danube CLI to Publish and Consume Messages</a> to test it.</p>
+<h2 id="option-2-config-file">Option 2: Config File</h2>
+<p>Create a local config file using the <a href="https://github.com/danube-messaging/danube/blob/main/config/danube_broker.yml">sample config</a> as a reference:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>curl<span class="w"> </span>-O<span class="w"> </span>https://raw.githubusercontent.com/danube-messaging/danube/main/config/danube_broker.yml
+</span></code></pre></div>
+<h3 id="run-the-broker-with-config-file">Run the Broker with Config File</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>./danube-broker-linux<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span>--config-file<span class="w"> </span>danube_broker.yml<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span>--broker-addr<span class="w"> </span><span class="m">0</span>.0.0.0:6650<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span>--admin-addr<span class="w"> </span><span class="m">0</span>.0.0.0:50051<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span>--raft-addr<span class="w"> </span><span class="m">0</span>.0.0.0:7650<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span>--data-dir<span class="w"> </span>./danube-data/raft<span class="w"> </span>&gt;<span class="w"> </span>broker.log<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">&amp;</span>
 </span></code></pre></div>
 <p>Check the logs:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">100</span><span class="w"> </span>-f<span class="w"> </span>broker.log
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">100</span><span class="w"> </span>-f<span class="w"> </span>broker.log
 </span></code></pre></div>
 <p>You should see the Raft node initialize and the broker start:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>INFO danube_broker: Raft metadata store initialized node_id=... raft_addr=0.0.0.0:7650
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>INFO danube_broker: Start the Danube Service
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>INFO danube_broker::danube_service: Setting up the cluster MY_CLUSTER
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>INFO danube_broker::danube_service::broker_register: Broker ... registered in the cluster
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>INFO danube_broker::broker_server: Server is listening on address: 0.0.0.0:6650
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>INFO danube_broker::admin: Admin is listening on address: 0.0.0.0:50051
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>INFO danube_broker: Raft metadata store initialized node_id=... raft_addr=0.0.0.0:7650
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>INFO danube_broker: Start the Danube Service
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>INFO danube_broker::danube_service: Setting up the cluster MY_CLUSTER
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>INFO danube_broker::danube_service::broker_register: Broker ... registered in the cluster
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>INFO danube_broker::broker_server: Server is listening on address: 0.0.0.0:6650
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>INFO danube_broker::admin: Admin is listening on address: 0.0.0.0:50051
 </span></code></pre></div>
 <h2 id="use-danube-cli-to-publish-and-consume-messages">Use Danube CLI to Publish and Consume Messages</h2>
 <p>Download the latest Danube CLI binary from the <a href="https://github.com/danube-messaging/danube/releases">releases</a> page and run it:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>./danube-cli-linux<span class="w"> </span>produce<span class="w"> </span>-s<span class="w"> </span>http://127.0.0.1:6650<span class="w"> </span>-t<span class="w"> </span>/default/demo_topic<span class="w"> </span>-c<span class="w"> </span><span class="m">1000</span><span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Hello, Danube!&quot;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>./danube-cli-linux<span class="w"> </span>produce<span class="w"> </span>-s<span class="w"> </span>http://127.0.0.1:6650<span class="w"> </span>-t<span class="w"> </span>/default/demo_topic<span class="w"> </span>-c<span class="w"> </span><span class="m">1000</span><span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Hello, Danube!&quot;</span>
 </span></code></pre></div>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Message<span class="w"> </span>sent<span class="w"> </span>successfully<span class="w"> </span>with<span class="w"> </span>ID:<span class="w"> </span><span class="m">9</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>Message<span class="w"> </span>sent<span class="w"> </span>successfully<span class="w"> </span>with<span class="w"> </span>ID:<span class="w"> </span><span class="m">10</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>Message<span class="w"> </span>sent<span class="w"> </span>successfully<span class="w"> </span>with<span class="w"> </span>ID:<span class="w"> </span><span class="m">11</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>Message<span class="w"> </span>sent<span class="w"> </span>successfully<span class="w"> </span>with<span class="w"> </span>ID:<span class="w"> </span><span class="m">12</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>Message<span class="w"> </span>sent<span class="w"> </span>successfully<span class="w"> </span>with<span class="w"> </span>ID:<span class="w"> </span><span class="m">9</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>Message<span class="w"> </span>sent<span class="w"> </span>successfully<span class="w"> </span>with<span class="w"> </span>ID:<span class="w"> </span><span class="m">10</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>Message<span class="w"> </span>sent<span class="w"> </span>successfully<span class="w"> </span>with<span class="w"> </span>ID:<span class="w"> </span><span class="m">11</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>Message<span class="w"> </span>sent<span class="w"> </span>successfully<span class="w"> </span>with<span class="w"> </span>ID:<span class="w"> </span><span class="m">12</span>
 </span></code></pre></div>
 <p>Open a new terminal and run the below command to consume the messages:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>./danube-cli-linux<span class="w"> </span>consume<span class="w"> </span>-s<span class="w"> </span>http://127.0.0.1:6650<span class="w"> </span>-t<span class="w"> </span>/default/demo_topic<span class="w"> </span>-m<span class="w"> </span>my_subscription
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>./danube-cli-linux<span class="w"> </span>consume<span class="w"> </span>-s<span class="w"> </span>http://127.0.0.1:6650<span class="w"> </span>-t<span class="w"> </span>/default/demo_topic<span class="w"> </span>-m<span class="w"> </span>my_subscription
 </span></code></pre></div>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Received<span class="w"> </span>bytes<span class="w"> </span>message:<span class="w"> </span><span class="m">9</span>,<span class="w"> </span>with<span class="w"> </span>payload:<span class="w"> </span>Hello,<span class="w"> </span>Danube!
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>Received<span class="w"> </span>bytes<span class="w"> </span>message:<span class="w"> </span><span class="m">10</span>,<span class="w"> </span>with<span class="w"> </span>payload:<span class="w"> </span>Hello,<span class="w"> </span>Danube!
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>Received<span class="w"> </span>bytes<span class="w"> </span>message:<span class="w"> </span><span class="m">11</span>,<span class="w"> </span>with<span class="w"> </span>payload:<span class="w"> </span>Hello,<span class="w"> </span>Danube!
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>Received<span class="w"> </span>bytes<span class="w"> </span>message:<span class="w"> </span><span class="m">12</span>,<span class="w"> </span>with<span class="w"> </span>payload:<span class="w"> </span>Hello,<span class="w"> </span>Danube!
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Received<span class="w"> </span>bytes<span class="w"> </span>message:<span class="w"> </span><span class="m">9</span>,<span class="w"> </span>with<span class="w"> </span>payload:<span class="w"> </span>Hello,<span class="w"> </span>Danube!
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>Received<span class="w"> </span>bytes<span class="w"> </span>message:<span class="w"> </span><span class="m">10</span>,<span class="w"> </span>with<span class="w"> </span>payload:<span class="w"> </span>Hello,<span class="w"> </span>Danube!
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>Received<span class="w"> </span>bytes<span class="w"> </span>message:<span class="w"> </span><span class="m">11</span>,<span class="w"> </span>with<span class="w"> </span>payload:<span class="w"> </span>Hello,<span class="w"> </span>Danube!
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>Received<span class="w"> </span>bytes<span class="w"> </span>message:<span class="w"> </span><span class="m">12</span>,<span class="w"> </span>with<span class="w"> </span>payload:<span class="w"> </span>Hello,<span class="w"> </span>Danube!
 </span></code></pre></div>
 <h2 id="validate">Validate</h2>
 <p>Ensure the broker is running and listening on the expected port:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>ss<span class="w"> </span>-tuln<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="m">6650</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>ss<span class="w"> </span>-tuln<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="m">6650</span>
 </span></code></pre></div>
 <p>Check cluster state with the admin CLI:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>list
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>list
 </span></code></pre></div>
 <p>For debugging, check <code>broker.log</code>.</p>
 <h2 id="running-a-multi-broker-cluster">Running a Multi-Broker Cluster</h2>
 <p>To run multiple brokers locally, give each broker a unique port set and pass
 <code>--seed-nodes</code> so they discover each other:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Broker 1</span>
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>./danube-broker-linux<span class="w"> </span>--config-file<span class="w"> </span>danube_broker.yml<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">  </span>--broker-addr<span class="w"> </span><span class="m">0</span>.0.0.0:6650<span class="w"> </span>--admin-addr<span class="w"> </span><span class="m">0</span>.0.0.0:50051<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">  </span>--raft-addr<span class="w"> </span><span class="m">0</span>.0.0.0:7650<span class="w"> </span>--data-dir<span class="w"> </span>./data1/raft<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">  </span>--seed-nodes<span class="w"> </span><span class="s2">&quot;0.0.0.0:7650,0.0.0.0:7651&quot;</span><span class="w"> </span><span class="p">&amp;</span>
-</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>
-</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="c1"># Broker 2</span>
-</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>./danube-broker-linux<span class="w"> </span>--config-file<span class="w"> </span>danube_broker.yml<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">  </span>--broker-addr<span class="w"> </span><span class="m">0</span>.0.0.0:6651<span class="w"> </span>--admin-addr<span class="w"> </span><span class="m">0</span>.0.0.0:50052<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="w">  </span>--raft-addr<span class="w"> </span><span class="m">0</span>.0.0.0:7651<span class="w"> </span>--data-dir<span class="w"> </span>./data2/raft<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="w">  </span>--seed-nodes<span class="w"> </span><span class="s2">&quot;0.0.0.0:7650,0.0.0.0:7651&quot;</span><span class="w"> </span><span class="p">&amp;</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Broker 1</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>./danube-broker-linux<span class="w"> </span>--config-file<span class="w"> </span>danube_broker.yml<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">  </span>--broker-addr<span class="w"> </span><span class="m">0</span>.0.0.0:6650<span class="w"> </span>--admin-addr<span class="w"> </span><span class="m">0</span>.0.0.0:50051<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">  </span>--raft-addr<span class="w"> </span><span class="m">0</span>.0.0.0:7650<span class="w"> </span>--data-dir<span class="w"> </span>./data1/raft<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">  </span>--seed-nodes<span class="w"> </span><span class="s2">&quot;0.0.0.0:7650,0.0.0.0:7651&quot;</span><span class="w"> </span><span class="p">&amp;</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="c1"># Broker 2</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>./danube-broker-linux<span class="w"> </span>--config-file<span class="w"> </span>danube_broker.yml<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="w">  </span>--broker-addr<span class="w"> </span><span class="m">0</span>.0.0.0:6651<span class="w"> </span>--admin-addr<span class="w"> </span><span class="m">0</span>.0.0.0:50052<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="w">  </span>--raft-addr<span class="w"> </span><span class="m">0</span>.0.0.0:7651<span class="w"> </span>--data-dir<span class="w"> </span>./data2/raft<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="w">  </span>--seed-nodes<span class="w"> </span><span class="s2">&quot;0.0.0.0:7650,0.0.0.0:7651&quot;</span><span class="w"> </span><span class="p">&amp;</span>
 </span></code></pre></div>
 <p>The broker with the lowest Raft node ID initializes the cluster; the other
 joins automatically.</p>
 <h2 id="cleanup">Cleanup</h2>
 <p>Stop the broker:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>pkill<span class="w"> </span>danube-broker
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>pkill<span class="w"> </span>danube-broker
 </span></code></pre></div>
 <p>Remove Raft data (for a fresh start):</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>rm<span class="w"> </span>-rf<span class="w"> </span>./danube-data
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>rm<span class="w"> </span>-rf<span class="w"> </span>./danube-data
 </span></code></pre></div>
 <p>Verify cleanup:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>ps<span class="w"> </span>aux<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>danube-broker
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>ps<span class="w"> </span>aux<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>danube-broker
 </span></code></pre></div>
 
 
