@@ -10,7 +10,7 @@ At a high level, the runtime is designed around a simple idea:
 
 This page explains the internal architecture of the crate, how the main components collaborate, and how behavior changes between `local`, `shared_fs`, and `object_store` modes.
 
-For operator-facing configuration guidance, see the user-oriented persistence concepts page.
+For operator-facing configuration guidance, see [Persistence & Storage](../concepts/persistence.md).
 
 ## Design goals
 
@@ -42,7 +42,7 @@ The system is intentionally split this way:
 
 ## Core components
 
-## `StorageFactory`
+### `StorageFactory`
 
 `StorageFactory` is the orchestration layer. It is the entry point used by the broker to obtain per-topic storage.
 
@@ -60,7 +60,7 @@ Important internal behavior:
 - `get_or_create_wal()` determines the correct starting offset for the local WAL
 - `seal()` exports remaining local history, clears local state, and writes a mobility marker
 
-## `Wal`
+### `Wal`
 
 `Wal` is the hot-path append log for a topic.
 
@@ -80,7 +80,7 @@ Each frame is stored as:
 
 The CRC is used by file and durable-history readers to detect corruption.
 
-## WAL writer
+### WAL writer
 
 The writer task owns WAL file I/O.
 
@@ -93,7 +93,7 @@ Responsibilities:
 
 The writer is deliberately separated from `Wal::append()`, so producers do not pay synchronous file I/O latency on the hot path.
 
-## `WalCheckpoint` and `CheckpointStore`
+### `WalCheckpoint` and `CheckpointStore`
 
 `WalCheckpoint` is the local summary of WAL topology.
 
@@ -113,7 +113,7 @@ This checkpoint is used by:
 
 `CheckpointStore` keeps the latest checkpoint in memory and atomically persists it to disk using temp-file plus rename.
 
-## `WalStorage`
+### `WalStorage`
 
 `WalStorage` implements the broker-facing `PersistentStorage` trait.
 
@@ -124,7 +124,7 @@ It is the layer that decides how reads should be served:
 
 It also contains the special `history_cutover_from_hot` behavior used after sealed topic recovery. In that case, durable history is treated as authoritative for the historical prefix and the hot WAL is only used for the new owner’s local tail.
 
-## WAL readers
+### WAL readers
 
 There are two important reader paths inside the WAL:
 
@@ -140,7 +140,7 @@ The key invariant is continuity:
 - gaps are repaired from cache when possible
 - unrecoverable gaps are surfaced as errors
 
-## Durable history path
+### Durable history path
 
 Historical durable reads are handled by:
 
@@ -158,7 +158,7 @@ The reader:
 
 This means durable history uses the same frame format as the local WAL. Exported segments are not a different logical message format; they are immutable slices of WAL history.
 
-## Metadata abstractions
+### Metadata abstractions
 
 Persistent-storage metadata lives in the broker’s Raft metadata store and is wrapped by these components:
 
@@ -182,17 +182,17 @@ Important metadata objects:
 
 Export turns sealed local WAL byte ranges into immutable durable objects.
 
-The export flow is:
+The export flow:
 
-1. read the current WAL checkpoint
-2. select eligible rotated files, and optionally the active file during sealing
-3. trim each file to the last safe frame boundary
-4. extract the segment’s offset range
-5. upload the safe byte prefix into the durable backend
-6. write the `SegmentDescriptor` into metadata
-7. advance the `segments/cur` pointer
+1. Read the current WAL checkpoint
+2. Select eligible rotated files (and optionally the active file during sealing)
+3. Trim each file to the last safe frame boundary
+4. Extract the segment's offset range from intact frames
+5. Upload the safe byte prefix into the durable backend
+6. Write the `SegmentDescriptor` into metadata
+7. Advance the `segments/cur` pointer
 
-Duplicate exports are avoided by consulting existing segment descriptors and skipping files whose `start_offset` is already published.
+Duplicate exports are avoided by consulting existing segment descriptors and skipping files whose `start_offset` is already published. A sparse offset index is built during export to accelerate historical reads.
 
 ## Local retention deleter
 
@@ -269,60 +269,11 @@ The important distinction is between:
 
 ## Storage modes
 
-The crate supports three runtime modes.
+All three modes use the same core components. What changes is where durable segments live and which background tasks run.
 
-## `local`
-
-`local` keeps the hot WAL on the broker's local filesystem and does not require a separate durable backend.
-
-Characteristics:
-
-- no background export loop
-- no separate shared or remote durable-history backend
-- local retention can be configured, but it only removes files that are proven safely covered by durable metadata, so it is typically far less useful here than in export-later modes
-- best fit for single-broker deployments, development, or simple durable local storage
-
-Behavioral consequence:
-
-- local WAL is the primary source of truth while the topic remains on the same broker
-- sealed mobility state preserves offset continuity across restart or reload on that broker, but `local` mode does not provide the same cross-broker durable-history path as `shared_fs` or `object_store`
-
-## `shared_fs`
-
-`shared_fs` uses two filesystem locations:
-
-- a **local cache/staging WAL root** on the current broker
-- a **shared durable segment root** visible across brokers
-
-Characteristics:
-
-- background export is enabled
-- local retention deleter is enabled
-- the broker stages active writes locally and periodically exports sealed files into the shared durable location
-- good fit for environments with a shared POSIX-style filesystem
-
-Behavioral consequence:
-
-- local WAL stays fast and broker-local
-- durable history becomes cluster-visible through the shared filesystem
-
-## `object_store`
-
-`object_store` also uses local staging, but the durable backend is remote object storage accessed through OpenDAL.
-
-Characteristics:
-
-- background export is enabled
-- local retention deleter is enabled
-- durable segments are written to S3, GCS, Azure Blob, or another OpenDAL-supported backend
-- best fit for cloud-native deployments where brokers should not depend on shared disks
-
-Behavioral consequence:
-
-- local WAL absorbs the active write workload
-- exported immutable segments provide elastic durable history independent of broker disks
-
-## Differences between the modes
+- **`local`** — WAL-only on the broker's local disk. No background export, no separate durable backend. The local WAL is the sole source of truth.
+- **`shared_fs`** — local WAL for hot writes, background export to a shared filesystem root visible to all brokers.
+- **`object_store`** — local WAL for hot writes, background export to remote object storage (S3, GCS, Azure Blob) via OpenDAL.
 
 | Aspect | `local` | `shared_fs` | `object_store` |
 |---|---|---|---|
@@ -347,19 +298,17 @@ Behavioral consequence:
 
 ## Broker integration
 
-The broker builds `StorageFactoryConfig` from the `storage:` section of `config/danube_broker.yml`.
+The broker builds `StorageFactoryConfig` from the `storage:` section of `config/danube_broker.yml` (see `build_storage_factory_config()` in `main.rs`). `StorageFactory` receives the config together with an `Arc<dyn MetadataStore>` and manages all per-topic storage from there.
 
-Key integration facts:
+Key integration points:
 
-- `local` uses `storage.local_wal_root` as the local WAL root
-- `shared_fs` uses `storage.durable.root` as the shared durable segment root and `storage.local_wal_root` as the broker-local staging root when it is set
-- if `shared_fs.local_wal_root` is omitted, the broker derives a broker-local cache path next to `meta_store.data_dir` using the suffix `shared-fs-cache`
-- `object_store` uses `storage.durable` as the durable backend definition and `storage.local_wal_root` as the broker-local staging root when it is set
-- if `object_store.local_wal_root` is omitted, the broker derives a broker-local cache path next to `meta_store.data_dir` using the suffix `object-store-cache`
-- `storage.metadata_prefix` controls where persistence metadata is written in the Raft metadata store and defaults to `/danube`
-- `storage.local_retention` configures pruning of eligible local staged WAL files in export-later modes
-- older YAML aliases such as `root`, `cache_root`, `metadata_root`, `object_store`, and `wal.retention` are still accepted for compatibility, but the current documented shape uses `local_wal_root`, `metadata_prefix`, `durable`, and `local_retention`
-- the broker currently uses the default segment export interval from the storage factory unless this is extended in configuration
+- `StorageFactory::for_topic()` is called by `TopicManager::ensure_local()` when a topic is assigned to this broker
+- `StorageFactory::seal()` is called during topic unload to persist mobility state and export remaining WAL data
+- `StorageFactory::delete_storage_metadata()` is used for full topic cleanup
+- Background segment export runs at a default interval of 300 seconds (configurable)
+- If `local_wal_root` is omitted in `shared_fs` or `object_store` modes, the broker auto-derives a local cache path next to `meta_store.data_dir`
+
+For YAML configuration details, see [Persistence & Storage](../concepts/persistence.md).
 
 ## Summary
 

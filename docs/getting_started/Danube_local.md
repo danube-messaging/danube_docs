@@ -8,7 +8,31 @@ single-node Raft cluster on first boot.
 
 Download the latest binary from the [releases](https://github.com/danube-messaging/danube/releases) page.
 
-## Configure the Broker
+## Option 1: Single-Node Quick Start
+
+The fastest way to get a broker running locally — no config file needed:
+
+```bash
+./danube-broker --single-node --data-dir ./danube-data
+```
+
+This auto-generates sensible defaults:
+
+| Setting         | Value                  |
+|-----------------|------------------------|
+| Broker address  | `127.0.0.1:6650`      |
+| Admin address   | `127.0.0.1:50051`     |
+| Raft address    | `127.0.0.1:7650`      |
+| Raft data       | `./danube-data/raft`   |
+| WAL storage     | `./danube-data/wal`    |
+| Authentication  | None                   |
+| Storage mode    | Local                  |
+
+Data is persisted across restarts. To start fresh, remove the data directory and re-run.
+
+Skip to [Use Danube CLI to Publish and Consume Messages](#use-danube-cli-to-publish-and-consume-messages) to test it.
+
+## Option 2: Config File
 
 Create a local config file using the [sample config](https://github.com/danube-messaging/danube/blob/main/config/danube_broker.yml) as a reference:
 
@@ -16,10 +40,10 @@ Create a local config file using the [sample config](https://github.com/danube-m
 curl -O https://raw.githubusercontent.com/danube-messaging/danube/main/config/danube_broker.yml
 ```
 
-## Run the Broker
+### Run the Broker with Config File
 
 ```bash
-RUST_LOG=info ./danube-broker-linux \
+./danube-broker-linux \
   --config-file danube_broker.yml \
   --broker-addr 0.0.0.0:6650 \
   --admin-addr 0.0.0.0:50051 \
