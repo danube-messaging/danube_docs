@@ -451,6 +451,7 @@ storage:
   wal:
     rotation:
       max_bytes: 536870912
+      # max_hours: 24
 ```
 
 **storage.local_wal_root**
@@ -539,20 +540,21 @@ storage:
 
 ### WAL settings
 
-The `storage.wal` block is supported by all storage modes.
+The `storage.wal` block is supported by all storage modes. Most deployments only need `rotation`. Advanced tuning knobs live under `wal.advanced`.
 
 ```yaml
 wal:
-  dir: "./custom-wal-root"
-  file_name: "wal.log"
-  cache_capacity: 1024
-  file_sync:
-    interval_ms: 5000
-    max_batch_bytes: 10485760
   rotation:
-    max_bytes: 536870912
-    max_hours: 24
+    max_bytes: 536870912     # 512 MB — rotate WAL file at this size
+    # max_hours: 24           # optional time-based rotation
+  # advanced:
+  #   cache_capacity: 1024   # in-memory replay cache (number of messages)
+  #   file_sync:
+  #     interval_ms: 5000    # background flush interval (ms)
+  #     max_batch_bytes: 10485760  # force flush at this buffer size
 ```
+
+Legacy note: `cache_capacity`, `file_sync`, and `rotation` are also accepted directly under `wal:` (outside `advanced`), but new configs should prefer the structure above.
 
 **storage.wal.dir**
 
@@ -566,12 +568,16 @@ If `storage.wal.dir` is set, it overrides the effective local WAL path derived f
 
 **storage.wal.file_name**
 
-- **Type**: String
+- **Type**: String (optional)
 - **Default**: `wal.log`
 - **Impact**: Base filename for the active WAL file
 - **When to change**: Rarely needed
 
-**storage.wal.cache_capacity**
+### Advanced WAL tuning
+
+These settings live under `storage.wal.advanced` (or directly under `storage.wal` for backward compatibility).
+
+**storage.wal.advanced.cache_capacity**
 
 - **Type**: Integer (number of messages)
 - **Default**: `1024`
@@ -580,11 +586,9 @@ If `storage.wal.dir` is set, it overrides the effective local WAL path derived f
   - Higher (`4096+`): Better hot replay window, more memory usage
   - Lower (`512`): Less memory, more fallback to files or durable history
 
-Danube also accepts `storage.wal.advanced.cache_capacity` for compatibility.
-
 ### File flush behavior
 
-**storage.wal.file_sync.interval_ms**
+**storage.wal.advanced.file_sync.interval_ms**
 
 - **Type**: Integer (milliseconds)
 - **Default**: `5000`
@@ -593,9 +597,9 @@ Danube also accepts `storage.wal.advanced.cache_capacity` for compatibility.
   - Lower values: fresher on-disk WAL state, more disk pressure
   - Higher values: better throughput, less frequent flushes
 
-This setting controls the writer’s flush interval. It should not be read as “every message is synchronously fsynced before producer progress continues.”
+This setting controls the writer's background flush interval — it is not per-message synchronous fsync.
 
-**storage.wal.file_sync.max_batch_bytes**
+**storage.wal.advanced.file_sync.max_batch_bytes**
 
 - **Type**: Integer (bytes)
 - **Default**: `10485760` (10 MiB)
@@ -603,8 +607,6 @@ This setting controls the writer’s flush interval. It should not be read as �
 - **When to change**:
   - Increase for high-volume workloads that benefit from larger batches
   - Decrease for lower-latency flush behavior
-
-Danube also accepts `storage.wal.advanced.file_sync` for compatibility.
 
 ### WAL rotation
 
@@ -626,7 +628,7 @@ Danube also accepts `storage.wal.advanced.file_sync` for compatibility.
 
 This threshold is checked when new writes arrive; it is not an always-running idle rotation timer.
 
-Danube also accepts `storage.wal.advanced.rotation` for compatibility.
+`rotation` is also accepted under `storage.wal.advanced.rotation` for backward compatibility.
 
 ### Local staged WAL retention
 
