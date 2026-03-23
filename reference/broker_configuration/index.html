@@ -1682,6 +1682,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#advanced-wal-tuning" class="md-nav__link">
+    <span class="md-ellipsis">
+      Advanced WAL tuning
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#file-flush-behavior" class="md-nav__link">
     <span class="md-ellipsis">
       File flush behavior
@@ -2147,6 +2156,15 @@
   <a href="#wal-settings" class="md-nav__link">
     <span class="md-ellipsis">
       WAL settings
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#advanced-wal-tuning" class="md-nav__link">
+    <span class="md-ellipsis">
+      Advanced WAL tuning
     </span>
   </a>
   
@@ -2775,6 +2793,7 @@
 </span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">  </span><span class="nt">wal</span><span class="p">:</span>
 </span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">    </span><span class="nt">rotation</span><span class="p">:</span>
 </span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">      </span><span class="nt">max_bytes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">536870912</span>
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">      </span><span class="c1"># max_hours: 24</span>
 </span></code></pre></div>
 <p><strong>storage.local_wal_root</strong></p>
 <ul>
@@ -2855,18 +2874,18 @@
 <li><strong>Supported backends</strong>: <code>s3</code>, <code>gcs</code>, <code>azblob</code></li>
 </ul>
 <h3 id="wal-settings">WAL settings</h3>
-<p>The <code>storage.wal</code> block is supported by all storage modes.</p>
+<p>The <code>storage.wal</code> block is supported by all storage modes. Most deployments only need <code>rotation</code>. Advanced tuning knobs live under <code>wal.advanced</code>.</p>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nt">wal</span><span class="p">:</span>
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span><span class="nt">dir</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./custom-wal-root&quot;</span>
-</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">  </span><span class="nt">file_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;wal.log&quot;</span>
-</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">  </span><span class="nt">cache_capacity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1024</span>
-</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">  </span><span class="nt">file_sync</span><span class="p">:</span>
-</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">    </span><span class="nt">interval_ms</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5000</span>
-</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">    </span><span class="nt">max_batch_bytes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10485760</span>
-</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="w">  </span><span class="nt">rotation</span><span class="p">:</span>
-</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="w">    </span><span class="nt">max_bytes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">536870912</span>
-</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="w">    </span><span class="nt">max_hours</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">24</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span><span class="nt">rotation</span><span class="p">:</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="nt">max_bytes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">536870912</span><span class="w">     </span><span class="c1"># 512 MB — rotate WAL file at this size</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">    </span><span class="c1"># max_hours: 24           # optional time-based rotation</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">  </span><span class="c1"># advanced:</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">  </span><span class="c1">#   cache_capacity: 1024   # in-memory replay cache (number of messages)</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">  </span><span class="c1">#   file_sync:</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="w">  </span><span class="c1">#     interval_ms: 5000    # background flush interval (ms)</span>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="w">  </span><span class="c1">#     max_batch_bytes: 10485760  # force flush at this buffer size</span>
 </span></code></pre></div>
+<p>Legacy note: <code>cache_capacity</code>, <code>file_sync</code>, and <code>rotation</code> are also accepted directly under <code>wal:</code> (outside <code>advanced</code>), but new configs should prefer the structure above.</p>
 <p><strong>storage.wal.dir</strong></p>
 <ul>
 <li><strong>Type</strong>: String (path, optional)</li>
@@ -2878,12 +2897,14 @@
 <p>If <code>storage.wal.dir</code> is set, it overrides the effective local WAL path derived from <code>storage.local_wal_root</code>.</p>
 <p><strong>storage.wal.file_name</strong></p>
 <ul>
-<li><strong>Type</strong>: String</li>
+<li><strong>Type</strong>: String (optional)</li>
 <li><strong>Default</strong>: <code>wal.log</code></li>
 <li><strong>Impact</strong>: Base filename for the active WAL file</li>
 <li><strong>When to change</strong>: Rarely needed</li>
 </ul>
-<p><strong>storage.wal.cache_capacity</strong></p>
+<h3 id="advanced-wal-tuning">Advanced WAL tuning</h3>
+<p>These settings live under <code>storage.wal.advanced</code> (or directly under <code>storage.wal</code> for backward compatibility).</p>
+<p><strong>storage.wal.advanced.cache_capacity</strong></p>
 <ul>
 <li><strong>Type</strong>: Integer (number of messages)</li>
 <li><strong>Default</strong>: <code>1024</code></li>
@@ -2892,9 +2913,8 @@
 <li>Higher (<code>4096+</code>): Better hot replay window, more memory usage</li>
 <li>Lower (<code>512</code>): Less memory, more fallback to files or durable history</li>
 </ul>
-<p>Danube also accepts <code>storage.wal.advanced.cache_capacity</code> for compatibility.</p>
 <h3 id="file-flush-behavior">File flush behavior</h3>
-<p><strong>storage.wal.file_sync.interval_ms</strong></p>
+<p><strong>storage.wal.advanced.file_sync.interval_ms</strong></p>
 <ul>
 <li><strong>Type</strong>: Integer (milliseconds)</li>
 <li><strong>Default</strong>: <code>5000</code></li>
@@ -2903,8 +2923,8 @@
 <li>Lower values: fresher on-disk WAL state, more disk pressure</li>
 <li>Higher values: better throughput, less frequent flushes</li>
 </ul>
-<p>This setting controls the writer’s flush interval. It should not be read as “every message is synchronously fsynced before producer progress continues.”</p>
-<p><strong>storage.wal.file_sync.max_batch_bytes</strong></p>
+<p>This setting controls the writer's background flush interval — it is not per-message synchronous fsync.</p>
+<p><strong>storage.wal.advanced.file_sync.max_batch_bytes</strong></p>
 <ul>
 <li><strong>Type</strong>: Integer (bytes)</li>
 <li><strong>Default</strong>: <code>10485760</code> (10 MiB)</li>
@@ -2913,7 +2933,6 @@
 <li>Increase for high-volume workloads that benefit from larger batches</li>
 <li>Decrease for lower-latency flush behavior</li>
 </ul>
-<p>Danube also accepts <code>storage.wal.advanced.file_sync</code> for compatibility.</p>
 <h3 id="wal-rotation">WAL rotation</h3>
 <p><strong>storage.wal.rotation.max_bytes</strong></p>
 <ul>
@@ -2932,7 +2951,7 @@
 <li><strong>When to enable</strong>: Low-traffic topics where size-based rotation alone would keep files open too long</li>
 </ul>
 <p>This threshold is checked when new writes arrive; it is not an always-running idle rotation timer.</p>
-<p>Danube also accepts <code>storage.wal.advanced.rotation</code> for compatibility.</p>
+<p><code>rotation</code> is also accepted under <code>storage.wal.advanced.rotation</code> for backward compatibility.</p>
 <h3 id="local-staged-wal-retention">Local staged WAL retention</h3>
 <p><code>storage.local_retention</code> controls pruning of eligible local staged WAL files once durable history safely covers them.</p>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nt">local_retention</span><span class="p">:</span>
