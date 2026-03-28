@@ -539,6 +539,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#failure-handling-reliable-dispatch" class="md-nav__link">
+    <span class="md-ellipsis">
+      Failure Handling (Reliable Dispatch)
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1608,6 +1617,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#failure-handling-reliable-dispatch" class="md-nav__link">
+    <span class="md-ellipsis">
+      Failure Handling (Reliable Dispatch)
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1638,7 +1656,7 @@
 <p><strong>Writer path (producer)</strong></p>
 <ul>
 <li>The producer sends a message to the broker specifying the topic.</li>
-<li>The broker validates and routes the message to the topic’s dispatcher.</li>
+<li>The broker validates and routes the message to the topic's dispatcher.</li>
 <li>Depending on subscription type (Exclusive/Shared/Failover), the dispatcher selects the target consumer(s).</li>
 <li>The message is immediately forwarded to consumer channels. There is no on-disk persistence and no acknowledgment gating.</li>
 </ul>
@@ -1665,7 +1683,54 @@
 <li>The consumer acknowledges processed messages; the subscription engine advances progress and triggers redelivery if needed.</li>
 <li>If the consumer is late or reconnects after a gap, historical data is replayed from the WAL or, if needed, from cloud storage, then seamlessly handed off to the live WAL tail.</li>
 </ul>
-<p>These strategies embody Danube’s flexibility, letting you choose the right balance between performance and reliability per topic. You can run non-reliable and reliable topics side by side in the same cluster.</p>
+<p>These strategies embody Danube's flexibility, letting you choose the right balance between performance and reliability per topic. You can run non-reliable and reliable topics side by side in the same cluster.</p>
+<h3 id="failure-handling-reliable-dispatch">Failure Handling (Reliable Dispatch)</h3>
+<p>When a consumer cannot process a message, two paths trigger redelivery:</p>
+<ul>
+<li><strong>Explicit NACK</strong> — The consumer calls <code>nack(message, delay_ms, reason)</code> to reject the message. The broker schedules a redelivery after applying the subscription's backoff policy (fixed or exponential delay).</li>
+<li><strong>Ack timeout</strong> — If the consumer does not respond within <code>ack_timeout_ms</code>, the broker treats it as a failure and schedules redelivery automatically.</li>
+</ul>
+<p>Each subscription has a configurable <strong>failure policy</strong> (set via <code>danube-admin topics set-failure-policy</code>) that controls:</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>max_redelivery_count</code></td>
+<td>Maximum delivery attempts before the message is considered poisoned</td>
+</tr>
+<tr>
+<td><code>ack_timeout_ms</code></td>
+<td>Time the broker waits for an ack before treating the message as failed</td>
+</tr>
+<tr>
+<td><code>base_redelivery_delay_ms</code></td>
+<td>Base delay between retries</td>
+</tr>
+<tr>
+<td><code>max_redelivery_delay_ms</code></td>
+<td>Maximum delay cap</td>
+</tr>
+<tr>
+<td><code>backoff_strategy</code></td>
+<td><code>fixed</code> (constant delay) or <code>exponential</code> (doubling delay)</td>
+</tr>
+<tr>
+<td><code>poison_policy</code></td>
+<td>What happens when retries are exhausted (see below)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Poison policies</strong> — when a message exceeds <code>max_redelivery_count</code>:</p>
+<ul>
+<li><strong><code>dead_letter</code></strong> — The message is routed to a configurable dead-letter topic with origin metadata (<code>x-original-topic</code>, <code>x-original-subscription</code>, <code>x-failure-reason</code>, etc.). The subscription resumes with the next message.</li>
+<li><strong><code>drop</code></strong> — The message is discarded and the subscription advances past it.</li>
+<li><strong><code>block</code></strong> — The subscription halts until an operator intervenes (e.g., adjusts the policy or resets the subscription).</li>
+</ul>
 
 
 
