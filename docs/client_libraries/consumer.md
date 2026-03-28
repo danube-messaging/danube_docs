@@ -422,6 +422,78 @@ Like Exclusive, but allows **standby consumers**. One active, others wait.
 
 ---
 
+## Negative Acknowledgment (NACK)
+
+When a consumer cannot process a message (e.g., validation failure, transient dependency error), it can explicitly reject the message with `nack()`. The broker will schedule a redelivery based on the subscription's failure policy.
+
+=== "Rust"
+
+    ```rust
+    while let Some(message) = message_stream.recv().await {
+        match process(&message) {
+            Ok(_) => consumer.ack(&message).await?,
+            Err(e) => {
+                // NACK with optional delay (ms) and reason
+                consumer.nack(
+                    &message,
+                    Some(1000),                         // retry after 1s minimum
+                    Some(format!("processing failed: {}", e)),
+                ).await?;
+            }
+        }
+    }
+    ```
+
+=== "Go"
+
+    ```go
+    for msg := range stream {
+        if err := process(msg); err != nil {
+            // NACK with optional delay and reason
+            consumer.Nack(ctx, msg, 1000, fmt.Sprintf("processing failed: %v", err))
+        } else {
+            consumer.Ack(ctx, msg)
+        }
+    }
+    ```
+
+=== "Python"
+
+    ```python
+    while True:
+        message = await queue.get()
+        try:
+            process(message)
+            await consumer.ack(message)
+        except Exception as e:
+            # NACK with optional delay (ms) and reason
+            await consumer.nack(message, delay_ms=1000, reason=f"failed: {e}")
+    ```
+
+=== "Java"
+
+    ```java
+    // Inside onNext(StreamMessage msg):
+    try {
+        process(msg);
+        consumer.ack(msg);
+    } catch (Exception e) {
+        // NACK with optional delay (ms) and reason
+        consumer.nack(msg, 1000, "processing failed: " + e.getMessage());
+    }
+    ```
+
+**Parameters:**
+
+- **`delay_ms`** (optional) — Minimum delay before redelivery, in milliseconds. The broker uses the larger of this value and the subscription's configured backoff delay.
+- **`reason`** (optional) — Human-readable failure reason, attached to metrics and dead-letter metadata.
+
+**What happens after NACK:**
+
+The broker applies the subscription's failure policy to decide what to do next. If the message has remaining delivery attempts, it is redelivered after the backoff delay. If `max_redelivery_count` is exceeded, the message is handled according to the configured poison policy (`dead_letter`, `drop`, or `block`). See [Dispatch Strategy - Failure Handling](../concepts/dispatch_strategy.md#failure-handling-reliable-dispatch) for details.
+
+---
+
 ## Consuming from Partitioned Topics
 
 When a topic has partitions, consumers automatically receive from all partitions.

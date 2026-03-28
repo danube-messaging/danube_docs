@@ -41,7 +41,7 @@ For design details, see the [Architecture](architecture/architecture.md).
 ### 📨 **Message Delivery**
 
 - **[Topics](concepts/topics.md)**: Partitioned and non-partitioned with automatic load balancing
-- **[Reliable Dispatch](concepts/dispatch_strategy.md)**: At-least-once delivery with configurable storage backends
+- **[Reliable Dispatch](concepts/dispatch_strategy.md)**: At-least-once delivery with configurable failure policies (NACK, retry backoff, dead-letter queues)
 - **Non-Reliable Dispatch**: High-throughput, low-latency for real-time scenarios
 
 ### 🔄 **Subscription Models**
