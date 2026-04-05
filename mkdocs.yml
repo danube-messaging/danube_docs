@@ -67,6 +67,7 @@ nav:
                   - Messages & Schemas: concepts/messages.md
                   - Persistence & Storage: concepts/persistence.md
                   - Schema Registry Guide: concepts/schema_registry_guide.md
+                  - Security: concepts/security.md
                   - Scaling the Cluster: concepts/scaling_cluster.md
 
         - 🏗️ Architecture:
@@ -92,6 +93,7 @@ nav:
                             - Namespaces: danube_admin/admin_cli/namespaces.md
                             - Topics: danube_admin/admin_cli/topics.md
                             - Schema Registry: danube_admin/admin_cli/schema_registry.md
+                            - Security: danube_admin/admin_cli/security.md
 
         - 💫 Client CLI:
                   - Getting Started: danube_cli/getting_started.md

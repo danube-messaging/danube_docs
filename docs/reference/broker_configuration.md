@@ -170,41 +170,52 @@ auto_create_topics: true
 
 ## Security Configuration
 
+Controls TLS encryption, JWT authentication, and RBAC authorization. See [Security Concepts](../concepts/security.md) for a full guide on principals, roles, bindings, and step-by-step cluster hardening.
+
 ```yaml
 auth:
-  mode: tls  # Options: none | tls | tlswithjwt
+  mode: tls
   tls:
     cert_file: "./cert/server-cert.pem"
     key_file: "./cert/server-key.pem"
     ca_file: "./cert/ca-cert.pem"
-    verify_client: false
   jwt:
     secret_key: "your-secret-key"
     issuer: "danube-auth"
     expiration_time: 3600
+  super_admins:
+    - "admin"
 ```
 
-### Authentication Modes
+A complete secure configuration example is available in `config/danube_broker_secure.yml`.
 
-| Mode | Description | Use Case |
-|------|-------------|----------|
-| `none` | No authentication | Local development, trusted networks |
-| `tls` | Mutual TLS (mTLS) | Secure production, service-to-service |
-| `tlswithjwt` | TLS + JWT tokens | Multi-tenant, user-level auth |
+### Security Modes
+
+| Mode | Encryption | Authentication | Authorization | Use Case |
+|------|-----------|---------------|---------------|----------|
+| `none` | Off | Off | Off | Local development and testing |
+| `tls` | TLS everywhere | JWT tokens | RBAC with default-deny | Production deployments |
 
 **auth.mode**
 
-- **Type**: String enum
+- **Type**: String enum (`none` | `tls`)
 - **Default**: `none`
-- **Impact**: Security layer for client connections
-- **When to change**: Always use `tls` or `tlswithjwt` in production
+- **Impact**: Master security switch. When `tls`:
+  - Client connections use server TLS (port 6650)
+  - Inter-broker replication uses mutual TLS (mTLS)
+  - Raft consensus uses mutual TLS (mTLS)
+  - All requests require a valid JWT token
+  - Every operation is checked against RBAC policies (default-deny)
+- **When to change**: Always use `tls` in production
 
 ### TLS Settings
+
+Required when `auth.mode: tls`. A single set of certificates is shared across all broker services.
 
 **auth.tls.cert_file**
 
 - **Type**: File path
-- **Impact**: Server certificate (public key)
+- **Impact**: Server certificate presented to clients and peers
 - **When to change**: Use valid certificates from your PKI/CA
 
 **auth.tls.key_file**
@@ -216,41 +227,64 @@ auth:
 **auth.tls.ca_file**
 
 - **Type**: File path
-- **Impact**: Certificate authority for validating client certs
+- **Impact**: Certificate authority for verifying peers (inter-broker mTLS) and client certificates
 - **When to change**: Match your organization's CA
 
-**auth.tls.verify_client**
-
-- **Type**: Boolean
-- **Default**: `false`
-- **Impact**: Require client certificates (mutual TLS)
-- **When to change**:
-  - `true`: Maximum security, requires client certs
-  - `false`: Server-only TLS, simpler client setup
+> **Tip:** Danube ships with a convenience script to generate self-signed certificates for development:
+> ```bash
+> cd cert/ && bash gen_certs.sh
+> ```
+> This creates CA, server, and client certificates with SANs for `localhost` / `127.0.0.1`.
 
 ### JWT Settings
+
+Required when `auth.mode: tls`. JWT tokens authenticate clients and administrators.
 
 **auth.jwt.secret_key**
 
 - **Type**: String
-- **Impact**: Shared secret for signing/validating JWT tokens
-- **When to change**: Use strong random key, rotate regularly, store in secrets manager
+- **Impact**: HMAC-SHA256 shared secret for signing and validating JWT tokens
+- **When to change**: Use a strong random key, rotate regularly, store in a secrets manager
+- **Note**: Must match the `--secret-key` used when creating tokens with `danube-admin security tokens create`
 
 **auth.jwt.issuer**
 
 - **Type**: String
 - **Default**: `danube-auth`
-- **Impact**: JWT issuer claim for validation
-- **When to change**: Match your auth service's issuer
+- **Impact**: Expected `iss` claim in JWT tokens — tokens with a different issuer are rejected
+- **When to change**: Match the `--issuer` used when creating tokens
 
 **auth.jwt.expiration_time**
 
 - **Type**: Integer (seconds)
 - **Default**: `3600` (1 hour)
-- **Impact**: Token validity duration
+- **Impact**: Default token validity duration (used by the broker for reference; actual TTL is set at token creation time)
 - **When to change**:
   - Shorter: More secure, requires frequent renewal
   - Longer: Less overhead, wider security window
+
+### Super-Admins
+
+**auth.super_admins**
+
+- **Type**: Array of strings (optional)
+- **Default**: `[]` (empty)
+- **Impact**: JWT subjects listed here bypass RBAC entirely — they can perform any operation on any resource
+- **When to use**:
+  - **Initial bootstrap**: Before any roles or bindings exist, a super-admin is needed to create the first RBAC policies
+  - **Break-glass**: Emergency access when RBAC configuration is broken
+- **Security note**: Remove entries once RBAC policies are in place for tighter security
+
+**Example bootstrap workflow:**
+
+```bash
+# 1. Add "admin" to super_admins in broker config and start the broker
+# 2. Create a super-admin token
+danube-admin security tokens create --subject admin --secret-key your-secret-key
+
+# 3. Use the token to create roles and bindings via the admin API
+# 4. Optionally remove "admin" from super_admins once RBAC is configured
+```
 
 ---
 

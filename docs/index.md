@@ -18,7 +18,7 @@ For design details, see the [Architecture](architecture/architecture.md).
 - **Horizontal scaling**: Add brokers in seconds with zero-downtime expansion
 - **Intelligent load balancing**: Automatic topic placement and rebalancing across brokers
 - **Broker resilience**: Automatic leader election, failover, and topic reconciliation on restart
-- **Security-ready**: TLS/mTLS support in Admin and data paths
+- **Security**: TLS/mTLS, multi-method authentication, and fine-grained RBAC authorization
 
 ### 🌩️ **Write-Ahead Log + Durable Storage**
 
