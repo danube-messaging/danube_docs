@@ -47,7 +47,7 @@ go get github.com/danube-messaging/danube-go
 - ✅ Schema registry (JSON Schema, Avro, Protobuf)
 - ✅ Schema versioning and compatibility checking
 - ✅ TLS and mTLS support
-- ✅ JWT authentication (API key)
+- ✅ JWT authentication
 
 **Learn more:** [Go Examples](https://github.com/danube-messaging/danube-go/tree/main/examples)
 
@@ -72,7 +72,7 @@ pip install danube-client
 - ✅ Schema registry (JSON Schema, Avro, Protobuf)
 - ✅ Schema versioning and compatibility checking
 - ✅ TLS and mTLS support
-- ✅ JWT authentication (API key)
+- ✅ JWT authentication
 
 **Learn more:** [Python Examples](https://github.com/danube-messaging/danube-py/tree/main/examples)
 
@@ -88,14 +88,14 @@ The official [danube-java](https://github.com/danube-messaging/danube-java) libr
 <dependency>
     <groupId>com.danube-messaging</groupId>
     <artifactId>danube-client</artifactId>
-    <version>0.2.0</version>
+    <version>0.4.0</version>
 </dependency>
 ```
 
 **Installation (Gradle):**
 
 ```groovy
-implementation 'com.danube-messaging:danube-client:0.2.0'
+implementation 'com.danube-messaging:danube-client:0.4.0'
 ```
 
 **Features:**
@@ -108,7 +108,7 @@ implementation 'com.danube-messaging:danube-client:0.2.0'
 - ✅ Schema registry (JSON Schema, Avro, Protobuf)
 - ✅ Schema versioning and compatibility checking
 - ✅ TLS and mTLS support
-- ✅ JWT authentication (API key)
+- ✅ JWT authentication
 
 **Learn more:** [Java Examples](https://github.com/danube-messaging/danube-java/tree/main/examples)
 

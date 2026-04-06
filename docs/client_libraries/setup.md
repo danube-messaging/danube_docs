@@ -230,7 +230,33 @@ For secure production environments, enable TLS encryption:
 
 ## JWT Authentication
 
-For authenticated environments, use API keys to obtain JWT tokens:
+When the broker is running with `auth.mode: tls`, all client requests must carry a valid JWT token. Tokens are created offline using `danube-admin` and passed to the client at construction time — **no API key exchange occurs at runtime**.
+
+### Creating a Token
+
+Tokens are generated offline using `danube-admin` (no broker connection needed):
+
+```bash
+# Create a service account token (default: 1-year TTL)
+danube-admin security tokens create \
+  --subject my-app \
+  --secret-key your-secret-key
+
+# Create a token with custom TTL and issuer
+danube-admin security tokens create \
+  --subject my-app \
+  --ttl 24h \
+  --issuer danube-auth \
+  --secret-key your-secret-key
+```
+
+The `secret_key` must match the broker's `jwt.secret_key` configuration. The token's `sub` claim (subject) is the principal name used for RBAC authorization.
+
+For a complete guide on tokens, roles, bindings, and RBAC setup, see [Security Concepts](../concepts/security.md).
+
+### Connecting with a Token
+
+Use `with_token` to authenticate. This automatically enables TLS:
 
 === "Rust"
 
@@ -251,13 +277,13 @@ For authenticated environments, use API keys to obtain JWT tokens:
         })
         .await;
 
-        let api_key = std::env::var("DANUBE_API_KEY")
-            .expect("DANUBE_API_KEY environment variable not set");
+        let token = std::env::var("DANUBE_TOKEN")
+            .expect("DANUBE_TOKEN environment variable not set");
 
         let client = DanubeClient::builder()
             .service_url("https://127.0.0.1:6650")
             .with_tls("./certs/ca-cert.pem")?
-            .with_api_key(api_key)
+            .with_token(&token)
             .build()
             .await?;
 
@@ -276,15 +302,15 @@ For authenticated environments, use API keys to obtain JWT tokens:
     )
 
     func main() {
-        apiKey := os.Getenv("DANUBE_API_KEY")
-        if apiKey == "" {
-            log.Fatal("DANUBE_API_KEY environment variable not set")
+        token := os.Getenv("DANUBE_TOKEN")
+        if token == "" {
+            log.Fatal("DANUBE_TOKEN environment variable not set")
         }
 
-        // WithAPIKey automatically enables TLS with system CA roots
+        // WithToken automatically enables TLS with system CA roots
         client, err := danube.NewClient().
             ServiceURL("127.0.0.1:6650").
-            WithAPIKey(apiKey).
+            WithToken(token).
             Build()
         if err != nil {
             log.Fatalf("failed to create client: %v", err)
@@ -293,7 +319,7 @@ For authenticated environments, use API keys to obtain JWT tokens:
     }
     ```
 
-    To combine API key authentication with a custom CA certificate:
+    To combine token authentication with a custom CA certificate:
 
     ```go
     builder, err := danube.NewClient().
@@ -303,7 +329,7 @@ For authenticated environments, use API keys to obtain JWT tokens:
         log.Fatalf("failed to configure TLS: %v", err)
     }
 
-    client, err := builder.WithAPIKey(apiKey).Build()
+    client, err := builder.WithToken(token).Build()
     if err != nil {
         log.Fatalf("failed to create client: %v", err)
     }
@@ -317,27 +343,27 @@ For authenticated environments, use API keys to obtain JWT tokens:
     from danube import DanubeClientBuilder
 
     async def main():
-        api_key = os.environ["DANUBE_API_KEY"]
+        token = os.environ["DANUBE_TOKEN"]
 
-        # with_api_key automatically enables TLS with system CA roots
+        # with_token automatically enables TLS with system CA roots
         client = await (
             DanubeClientBuilder()
             .service_url("https://127.0.0.1:6650")
-            .with_api_key(api_key)
+            .with_token(token)
             .build()
         )
 
     asyncio.run(main())
     ```
 
-    To combine API key authentication with a custom CA certificate:
+    To combine token authentication with a custom CA certificate:
 
     ```python
     client = await (
         DanubeClientBuilder()
         .service_url("https://127.0.0.1:6650")
         .with_tls("./certs/ca-cert.pem")
-        .with_api_key(api_key)
+        .with_token(token)
         .build()
     )
     ```
@@ -347,19 +373,19 @@ For authenticated environments, use API keys to obtain JWT tokens:
     ```java
     import com.danubemessaging.client.DanubeClient;
 
-    String apiKey = System.getenv("DANUBE_API_KEY");
-    if (apiKey == null || apiKey.isBlank()) {
-        throw new IllegalStateException("DANUBE_API_KEY environment variable not set");
+    String token = System.getenv("DANUBE_TOKEN");
+    if (token == null || token.isBlank()) {
+        throw new IllegalStateException("DANUBE_TOKEN environment variable not set");
     }
 
-    // withApiKey automatically enables TLS and exchanges the key for a JWT token
+    // withToken automatically enables TLS
     DanubeClient client = DanubeClient.builder()
             .serviceUrl("https://127.0.0.1:6650")
-            .withApiKey(apiKey)
+            .withToken(token)
             .build();
     ```
 
-    To combine API key authentication with a custom CA certificate:
+    To combine token authentication with a custom CA certificate:
 
     ```java
     import java.nio.file.Path;
@@ -367,23 +393,87 @@ For authenticated environments, use API keys to obtain JWT tokens:
     DanubeClient client = DanubeClient.builder()
             .serviceUrl("https://127.0.0.1:6650")
             .withTls(Path.of("./certs/ca-cert.pem"))
-            .withApiKey(apiKey)
+            .withToken(token)
             .build();
     ```
 
 **How it works:**
 
-1. Client exchanges API key for JWT token on first request
-2. Token is cached and automatically renewed when expired
-3. Token included in `Authorization` header for all requests
-4. Default token lifetime: 1 hour
+1. Token is created offline using `danube-admin security tokens create`
+2. Client sends the token as `Authorization: Bearer <token>` on every gRPC request
+3. Broker validates the token signature and expiration, then checks RBAC policies
+4. No server-side token exchange — the client never calls an authentication RPC
 
 **Security best practices:**
 
-- Store API keys in environment variables
-- Never hardcode API keys in source code
-- Use different API keys per environment (dev/staging/prod)
-- Rotate API keys regularly
+- Store tokens in environment variables or secret managers
+- Never hardcode tokens in source code
+- Use short-lived tokens with `--ttl` for production workloads
+- Assign minimal RBAC permissions via roles and bindings
+
+---
+
+## Token Rotation
+
+For environments where tokens need to be refreshed at runtime (e.g., Kubernetes projected volumes, vault-injected secrets), use `with_token_supplier`. The supplier function is called **on every gRPC request** to get the current token:
+
+=== "Rust"
+
+    ```rust
+    let client = DanubeClient::builder()
+        .service_url("https://127.0.0.1:6650")
+        .with_tls("./certs/ca-cert.pem")?
+        .with_token_supplier(|| {
+            std::fs::read_to_string("/var/run/secrets/danube/token")
+                .unwrap_or_default()
+        })
+        .build()
+        .await?;
+    ```
+
+=== "Go"
+
+    ```go
+    client, err := danube.NewClient().
+        ServiceURL("127.0.0.1:6650").
+        WithTLS("./certs/ca-cert.pem").
+        WithTokenSupplier(func() string {
+            data, _ := os.ReadFile("/var/run/secrets/danube/token")
+            return string(data)
+        }).
+        Build()
+    ```
+
+=== "Python"
+
+    ```python
+    def read_token():
+        with open("/var/run/secrets/danube/token") as f:
+            return f.read().strip()
+
+    client = await (
+        DanubeClientBuilder()
+        .service_url("https://127.0.0.1:6650")
+        .with_tls("./certs/ca-cert.pem")
+        .with_token_supplier(read_token)
+        .build()
+    )
+    ```
+
+=== "Java"
+
+    ```java
+    import java.nio.file.Files;
+    import java.nio.file.Path;
+
+    DanubeClient client = DanubeClient.builder()
+            .serviceUrl("https://127.0.0.1:6650")
+            .withTls(Path.of("./certs/ca-cert.pem"))
+            .withTokenSupplier(() ->
+                Files.readString(Path.of("/var/run/secrets/danube/token")).strip()
+            )
+            .build();
+    ```
 
 ---
 
@@ -393,7 +483,8 @@ For authenticated environments, use API keys to obtain JWT tokens:
 # Production
 export DANUBE_URL=https://danube.example.com:6650
 export DANUBE_CA_CERT=/etc/danube/certs/ca.pem
-export DANUBE_API_KEY=your-secret-api-key
+export DANUBE_TOKEN=$(danube-admin security tokens create \
+  --subject my-app --secret-key your-secret-key)
 ```
 
 ---
@@ -403,3 +494,5 @@ export DANUBE_API_KEY=your-secret-api-key
 - **[Producer Guide](producer.md)** - Start sending messages
 - **[Consumer Guide](consumer.md)** - Start receiving messages
 - **[Schema Registry](schema-registry.md)** - Add type safety with schemas
+- **[Security Concepts](../concepts/security.md)** - Full RBAC setup guide
+
