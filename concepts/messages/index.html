@@ -891,6 +891,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../../architecture/key_shared_architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Key-Shared Dispatch
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../architecture/reliable_topic_move/" class="md-nav__link">
         
   
@@ -1022,6 +1043,27 @@
   
   <span class="md-ellipsis">
     Consumer Guide
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client_libraries/key-shared/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Key-Shared Subscriptions
   </span>
   
 
@@ -1897,7 +1939,8 @@
 </span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">attributes</span><span class="p">:</span><span class="w"> </span><span class="nc">HashMap</span><span class="o">&lt;</span><span class="nb">String</span><span class="p">,</span><span class="w"> </span><span class="nb">String</span><span class="o">&gt;</span><span class="p">,</span>
 </span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">schema_id</span><span class="p">:</span><span class="w"> </span><span class="nb">Option</span><span class="o">&lt;</span><span class="kt">u64</span><span class="o">&gt;</span><span class="p">,</span>
 </span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">schema_version</span><span class="p">:</span><span class="w"> </span><span class="nb">Option</span><span class="o">&lt;</span><span class="kt">u32</span><span class="o">&gt;</span><span class="p">,</span>
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="p">}</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">routing_key</span><span class="p">:</span><span class="w"> </span><span class="nb">Option</span><span class="o">&lt;</span><span class="nb">String</span><span class="o">&gt;</span><span class="p">,</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="p">}</span>
 </span></code></pre></div>
 <h3 id="field-reference">Field Reference</h3>
 <table>
@@ -1953,6 +1996,11 @@
 <td><code>schema_version</code></td>
 <td><code>Option&lt;u32&gt;</code></td>
 <td>Version of the schema used to serialize this message</td>
+</tr>
+<tr>
+<td><code>routing_key</code></td>
+<td><code>Option&lt;String&gt;</code></td>
+<td>Routing key for <a href="../subscriptions/#key-shared">Key-Shared</a> dispatch. When set via <code>send_with_key()</code>, all messages with the same key are delivered to the same consumer. Falls back to <code>producer_name</code> if not set</td>
 </tr>
 </tbody>
 </table>

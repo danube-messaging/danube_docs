@@ -902,6 +902,27 @@
   
   
     <li class="md-nav__item">
+      <a href="architecture/key_shared_architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Key-Shared Dispatch
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="architecture/reliable_topic_move/" class="md-nav__link">
         
   
@@ -1033,6 +1054,27 @@
   
   <span class="md-ellipsis">
     Consumer Guide
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="client_libraries/key-shared/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Key-Shared Subscriptions
   </span>
   
 
@@ -1952,6 +1994,7 @@
 <li><strong><a href="concepts/subscriptions/">Exclusive</a></strong>: Single consumer per subscription</li>
 <li><strong>Shared</strong>: Load-balanced message distribution across consumers</li>
 <li><strong>Failover</strong>: Automatic consumer failover with ordered delivery</li>
+<li><strong>Key-Shared</strong>: Key-based message routing with per-key ordering and optional key filtering</li>
 </ul>
 <h3 id="schema-registry">📋 <strong>Schema Registry</strong></h3>
 <ul>
@@ -1984,6 +2027,12 @@
 <li>Schema versioning and compatibility checking</li>
 <li>Support for JSON Schema, Avro, and Protobuf</li>
 <li>Data validation and governance</li>
+</ul>
+<p><strong><a href="architecture/key_shared_architecture/">Key-Shared Dispatch</a></strong> - Key-affinity routing architecture</p>
+<ul>
+<li>Consistent hashing with virtual-node ring for stable key-to-consumer assignment</li>
+<li>Per-key ordering with multi-message in-flight window and contiguous cursor tracking</li>
+<li>Glob-based key filtering, per-consumer backpressure, and inactive consumer eviction</li>
 </ul>
 <hr />
 <h2 id="integrations">Integrations</h2>

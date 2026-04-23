@@ -795,6 +795,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../../architecture/key_shared_architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Key-Shared Dispatch
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../architecture/reliable_topic_move/" class="md-nav__link">
         
   
@@ -926,6 +947,27 @@
   
   <span class="md-ellipsis">
     Consumer Guide
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client_libraries/key-shared/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Key-Shared Subscriptions
   </span>
   
 
@@ -1699,12 +1741,12 @@
 <ul>
 <li>The producer sends a message to the broker specifying the topic.</li>
 <li>The broker validates and routes the message to the topic's dispatcher.</li>
-<li>Depending on subscription type (Exclusive/Shared/Failover), the dispatcher selects the target consumer(s).</li>
+<li>Depending on subscription type (Exclusive/Shared/Failover/Key-Shared), the dispatcher selects the target consumer(s).</li>
 <li>The message is immediately forwarded to consumer channels. There is no on-disk persistence and no acknowledgment gating.</li>
 </ul>
 <p><strong>Reader path (consumer)</strong></p>
 <ul>
-<li>A consumer subscribes to a topic under an existing subscription (Exclusive/Shared/Failover).</li>
+<li>A consumer subscribes to a topic under an existing subscription (Exclusive/Shared/Failover/Key-Shared).</li>
 <li>The broker registers the consumer and attaches a live message stream to it.</li>
 <li>The dispatcher pushes incoming messages directly to the consumer stream.</li>
 <li>Acknowledgments are optional and do not affect delivery; if a consumer disconnects, messages in flight may be lost.</li>
@@ -1715,7 +1757,7 @@
 <ul>
 <li>The producer sends a message to the broker for a reliable topic.</li>
 <li>The message is appended to the local WAL (durable on disk) and becomes eligible for dispatch.</li>
-<li>The dispatcher prepares the message for the subscription type (Exclusive/Shared/Failover) while the subscription engine records it as pending.</li>
+<li>The dispatcher prepares the message for the subscription type (Exclusive/Shared/Failover/Key-Shared) while the subscription engine records it as pending.</li>
 <li>A background uploader asynchronously persists WAL frames to cloud object storage; this does not block producers.</li>
 </ul>
 <p><strong>Reader path (consumer)</strong></p>
@@ -1770,7 +1812,7 @@
 <p><strong>Poison policies</strong> — when a message exceeds <code>max_redelivery_count</code>:</p>
 <ul>
 <li><strong><code>dead_letter</code></strong> — The message is routed to a configurable dead-letter topic with origin metadata (<code>x-original-topic</code>, <code>x-original-subscription</code>, <code>x-failure-reason</code>, etc.). The subscription resumes with the next message.</li>
-<li><strong><code>drop</code></strong> — The message is discarded and the subscription advances past it.</li>
+<li><strong><code>drop</code></strong> — The message is skipped by this subscription and the subscription advances past it. The message still remains in the topic and is available for delivery to other subscriptions on the same topic.</li>
 <li><strong><code>block</code></strong> — The subscription halts until an operator intervenes (e.g., adjusts the policy or resets the subscription).</li>
 </ul>
 

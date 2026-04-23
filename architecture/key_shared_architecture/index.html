@@ -12,22 +12,28 @@
         <meta name="author" content="Dan Rusei">
       
       
+        <link rel="canonical" href="https://danube-docs.dev-state.com/architecture/key_shared_architecture/">
       
       
+        <link rel="prev" href="../persistence/">
       
-      <link rel="icon" href="/assets/favicon.ico">
+      
+        <link rel="next" href="../reliable_topic_move/">
+      
+      
+      <link rel="icon" href="../../assets/favicon.ico">
       <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.30">
     
     
       
-        <title>Danube Messaging</title>
+        <title>Key-Shared Dispatch - Danube Messaging</title>
       
     
     
-      <link rel="stylesheet" href="/assets/stylesheets/main.3cba04c6.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.3cba04c6.min.css">
       
         
-        <link rel="stylesheet" href="/assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -46,7 +52,7 @@
       
     
     
-    <script>__md_scope=new URL("/",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
   
@@ -81,6 +87,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#key-shared-dispatch-architecture" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -93,9 +104,9 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="/." title="Danube Messaging" class="md-header__button md-logo" aria-label="Danube Messaging" data-md-component="logo">
+    <a href="../.." title="Danube Messaging" class="md-header__button md-logo" aria-label="Danube Messaging" data-md-component="logo">
       
-  <img src="/assets/wave.png" alt="logo">
+  <img src="../../assets/wave.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -112,7 +123,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              
+              Key-Shared Dispatch
             
           </span>
         </div>
@@ -232,9 +243,9 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="/." title="Danube Messaging" class="md-nav__button md-logo" aria-label="Danube Messaging" data-md-component="logo">
+    <a href="../.." title="Danube Messaging" class="md-nav__button md-logo" aria-label="Danube Messaging" data-md-component="logo">
       
-  <img src="/assets/wave.png" alt="logo">
+  <img src="../../assets/wave.png" alt="logo">
 
     </a>
     Danube Messaging
@@ -261,7 +272,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -316,7 +327,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/getting_started/Danube_local/" class="md-nav__link">
+      <a href="../../getting_started/Danube_local/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -337,7 +348,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/getting_started/Danube_docker_compose/" class="md-nav__link">
+      <a href="../../getting_started/Danube_docker_compose/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -358,7 +369,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/getting_started/Danube_kubernetes/" class="md-nav__link">
+      <a href="../../getting_started/Danube_kubernetes/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -421,7 +432,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/concepts/topics/" class="md-nav__link">
+      <a href="../../concepts/topics/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -442,7 +453,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/concepts/subscriptions/" class="md-nav__link">
+      <a href="../../concepts/subscriptions/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -463,7 +474,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/concepts/dispatch_strategy/" class="md-nav__link">
+      <a href="../../concepts/dispatch_strategy/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -484,7 +495,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/concepts/messages/" class="md-nav__link">
+      <a href="../../concepts/messages/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -505,7 +516,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/concepts/persistence/" class="md-nav__link">
+      <a href="../../concepts/persistence/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -526,7 +537,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/concepts/schema_registry_guide/" class="md-nav__link">
+      <a href="../../concepts/schema_registry_guide/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -547,7 +558,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/concepts/security/" class="md-nav__link">
+      <a href="../../concepts/security/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -568,7 +579,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/concepts/scaling_cluster/" class="md-nav__link">
+      <a href="../../concepts/scaling_cluster/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -593,17 +604,19 @@
       
   
   
+    
   
   
+  
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
           
           <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
@@ -617,7 +630,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             🏗️ Architecture
@@ -631,7 +644,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/architecture/architecture/" class="md-nav__link">
+      <a href="../architecture/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -652,7 +665,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/architecture/load_manager_architecture/" class="md-nav__link">
+      <a href="../load_manager_architecture/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -673,7 +686,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/architecture/schema_registry_architecture/" class="md-nav__link">
+      <a href="../schema_registry_architecture/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -694,7 +707,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/architecture/persistence/" class="md-nav__link">
+      <a href="../persistence/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -712,10 +725,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="/architecture/key_shared_architecture/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Key-Shared Dispatch
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -724,6 +757,257 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#design-goals" class="md-nav__link">
+    <span class="md-ellipsis">
+      Design Goals
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#high-level-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      High-level Model
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core Components
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Components">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#keysharedconsumerstate" class="md-nav__link">
+    <span class="md-ellipsis">
+      KeySharedConsumerState
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="KeySharedConsumerState">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#consistent-hashing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Consistent Hashing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-filtering" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Filtering
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inflightwindow" class="md-nav__link">
+    <span class="md-ellipsis">
+      InFlightWindow
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="InFlightWindow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-invariant" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Invariant
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-structures" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Structures
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contiguous-cursor-advancement" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contiguous Cursor Advancement
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#per-consumer-backpressure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Per-Consumer Backpressure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#window-capacity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Window Capacity
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dispatch-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dispatch Loop
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#heartbeat-watchdog" class="md-nav__link">
+    <span class="md-ellipsis">
+      Heartbeat Watchdog
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Heartbeat Watchdog">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-ack-timeouts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 1: Ack Timeouts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-poison-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 2: Poison Handling
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-retry-ready-re-dispatch" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 3: Retry-Ready Re-dispatch
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-4-inactive-consumer-eviction" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 4: Inactive Consumer Eviction
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-5-lag-driven-polling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 5: Lag-Driven Polling
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consumer-eviction-and-cursor-safety" class="md-nav__link">
+    <span class="md-ellipsis">
+      Consumer Eviction and Cursor Safety
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#message-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Message Flow
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#non-reliable-key-shared" class="md-nav__link">
+    <span class="md-ellipsis">
+      Non-Reliable Key-Shared
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comparison-with-other-subscription-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comparison with Other Subscription Models
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -736,7 +1020,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/architecture/reliable_topic_move/" class="md-nav__link">
+      <a href="../reliable_topic_move/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -799,7 +1083,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/client_libraries/clients/" class="md-nav__link">
+      <a href="../../client_libraries/clients/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -820,7 +1104,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/client_libraries/setup/" class="md-nav__link">
+      <a href="../../client_libraries/setup/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -841,7 +1125,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/client_libraries/producer/" class="md-nav__link">
+      <a href="../../client_libraries/producer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -862,7 +1146,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/client_libraries/consumer/" class="md-nav__link">
+      <a href="../../client_libraries/consumer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -883,7 +1167,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/client_libraries/key-shared/" class="md-nav__link">
+      <a href="../../client_libraries/key-shared/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -904,7 +1188,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/client_libraries/schema-registry/" class="md-nav__link">
+      <a href="../../client_libraries/schema-registry/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -967,7 +1251,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/danube_admin/getting_started/" class="md-nav__link">
+      <a href="../../danube_admin/getting_started/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -988,7 +1272,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/danube_admin/ai_admin_assistant/" class="md-nav__link">
+      <a href="../../danube_admin/ai_admin_assistant/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1044,7 +1328,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/danube_admin/admin_cli/cluster/" class="md-nav__link">
+      <a href="../../danube_admin/admin_cli/cluster/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1065,7 +1349,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/danube_admin/admin_cli/brokers/" class="md-nav__link">
+      <a href="../../danube_admin/admin_cli/brokers/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1086,7 +1370,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/danube_admin/admin_cli/namespaces/" class="md-nav__link">
+      <a href="../../danube_admin/admin_cli/namespaces/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1107,7 +1391,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/danube_admin/admin_cli/topics/" class="md-nav__link">
+      <a href="../../danube_admin/admin_cli/topics/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1128,7 +1412,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/danube_admin/admin_cli/schema_registry/" class="md-nav__link">
+      <a href="../../danube_admin/admin_cli/schema_registry/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1149,7 +1433,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/danube_admin/admin_cli/security/" class="md-nav__link">
+      <a href="../../danube_admin/admin_cli/security/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1220,7 +1504,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/danube_cli/getting_started/" class="md-nav__link">
+      <a href="../../danube_cli/getting_started/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1241,7 +1525,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/danube_cli/producer/" class="md-nav__link">
+      <a href="../../danube_cli/producer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1262,7 +1546,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/danube_cli/consumer/" class="md-nav__link">
+      <a href="../../danube_cli/consumer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1283,7 +1567,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/danube_cli/schema_registry/" class="md-nav__link">
+      <a href="../../danube_cli/schema_registry/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1346,7 +1630,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/integrations/danube_connect_overview/" class="md-nav__link">
+      <a href="../../integrations/danube_connect_overview/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1367,7 +1651,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/integrations/danube_connect_architecture/" class="md-nav__link">
+      <a href="../../integrations/danube_connect_architecture/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1388,7 +1672,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/integrations/sink_connector_development/" class="md-nav__link">
+      <a href="../../integrations/sink_connector_development/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1409,7 +1693,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/integrations/source_connector_development/" class="md-nav__link">
+      <a href="../../integrations/source_connector_development/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1472,7 +1756,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/reference/broker_configuration/" class="md-nav__link">
+      <a href="../../reference/broker_configuration/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1535,7 +1819,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/contributing/dev_environment/" class="md-nav__link">
+      <a href="../../contributing/dev_environment/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1556,7 +1840,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/contributing/etcd_metadata_structure/" class="md-nav__link">
+      <a href="../../contributing/etcd_metadata_structure/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1594,6 +1878,247 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#design-goals" class="md-nav__link">
+    <span class="md-ellipsis">
+      Design Goals
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#high-level-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      High-level Model
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core Components
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Components">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#keysharedconsumerstate" class="md-nav__link">
+    <span class="md-ellipsis">
+      KeySharedConsumerState
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="KeySharedConsumerState">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#consistent-hashing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Consistent Hashing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-filtering" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Filtering
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inflightwindow" class="md-nav__link">
+    <span class="md-ellipsis">
+      InFlightWindow
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="InFlightWindow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-invariant" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Invariant
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-structures" class="md-nav__link">
+    <span class="md-ellipsis">
+      Data Structures
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#contiguous-cursor-advancement" class="md-nav__link">
+    <span class="md-ellipsis">
+      Contiguous Cursor Advancement
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#per-consumer-backpressure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Per-Consumer Backpressure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#window-capacity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Window Capacity
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dispatch-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dispatch Loop
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#heartbeat-watchdog" class="md-nav__link">
+    <span class="md-ellipsis">
+      Heartbeat Watchdog
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Heartbeat Watchdog">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-ack-timeouts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 1: Ack Timeouts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-poison-handling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 2: Poison Handling
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-retry-ready-re-dispatch" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 3: Retry-Ready Re-dispatch
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-4-inactive-consumer-eviction" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 4: Inactive Consumer Eviction
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-5-lag-driven-polling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 5: Lag-Driven Polling
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consumer-eviction-and-cursor-safety" class="md-nav__link">
+    <span class="md-ellipsis">
+      Consumer Eviction and Cursor Safety
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#message-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Message Flow
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#non-reliable-key-shared" class="md-nav__link">
+    <span class="md-ellipsis">
+      Non-Reliable Key-Shared
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comparison-with-other-subscription-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      Comparison with Other Subscription Models
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -1605,8 +2130,295 @@
             <div class="md-content" data-md-component="content">
               <article class="md-content__inner md-typeset">
                 
-  <h1>404 - Not found</h1>
+                  
 
+  
+    <a href="https://github.com/danube-messaging/danube_docs/edit/main/docs/architecture/key_shared_architecture.md" title="Edit this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="key-shared-dispatch-architecture">Key-Shared Dispatch Architecture</h1>
+<p>Key-Shared is a subscription model that combines <strong>per-key ordering</strong> with <strong>multi-consumer parallelism</strong>. All messages sharing the same routing key are delivered to exactly one consumer, in order, while different keys are dispatched to different consumers in parallel.</p>
+<p>At a high level, the design is built around three ideas:</p>
+<ul>
+<li>keep <strong>key-to-consumer assignment stable and predictable</strong> with consistent hashing</li>
+<li>keep the <strong>subscription cursor safe</strong> by advancing only past contiguously-acked offsets</li>
+<li>keep <strong>poisoned keys isolated</strong> so one misbehaving key cannot stall the entire subscription</li>
+</ul>
+<p>This page describes the internal architecture of the Key-Shared dispatcher, how the main components collaborate, and the design decisions behind them.</p>
+<h2 id="design-goals">Design Goals</h2>
+<ul>
+<li><strong>Per-key ordering</strong></li>
+<li>Messages with the same routing key must always be delivered to the same consumer, in order. No two messages for the same key may be in-flight simultaneously.</li>
+<li><strong>Multi-key parallelism</strong></li>
+<li>Different routing keys can be dispatched to different consumers and remain in-flight concurrently. This provides throughput proportional to the number of distinct keys.</li>
+<li><strong>Key-affinity stability</strong></li>
+<li>Adding or removing a consumer should remap only ~1/N of existing key assignments, not all of them.</li>
+<li><strong>Cursor safety</strong></li>
+<li>The persisted subscription cursor must never skip past unacknowledged messages. A broker restart must replay from the correct position.</li>
+<li><strong>Key-level fault isolation</strong></li>
+<li>A poison message (retry-exhausted) on one key should not block other keys from making progress.</li>
+<li><strong>Per-consumer backpressure</strong></li>
+<li>A single slow consumer should not consume the entire in-flight window.</li>
+</ul>
+<h2 id="high-level-model">High-level Model</h2>
+<p>Each reliable Key-Shared subscription is backed by these components:</p>
+<ol>
+<li><strong><code>KeySharedConsumerState</code></strong> — Maps routing keys to consumers via a consistent hash ring with optional glob-based key filtering.</li>
+<li><strong><code>InFlightWindow</code></strong> — Tracks all in-flight and blocked messages. Enforces single-message-per-key, contiguous cursor advancement, and per-consumer capacity limits.</li>
+<li><strong>Dispatch loop</strong> — A <code>tokio::select!</code> loop driven by two sources: a command channel (acks, nacks, consumer add/remove, poll requests) and a periodic heartbeat timer.</li>
+<li><strong>Heartbeat watchdog</strong> — Runs every 500ms to detect ack timeouts, retry poison messages, evict inactive consumers, and poll for WAL lag.</li>
+<li><strong><code>SubscriptionEngine</code></strong> — Owns the WAL stream cursor, failure policy, and debounced cursor persistence.</li>
+<li><strong>Poison handler</strong> — Applies the configured poison policy (Drop, DeadLetter, Block) to retry-exhausted messages.</li>
+</ol>
+<p>The non-reliable Key-Shared variant omits components 2, 4, 5, and 6. It routes messages by key hash and drops them on saturation with no ack tracking, no retry, and no cursor persistence.</p>
+<h2 id="core-components">Core Components</h2>
+<h3 id="keysharedconsumerstate"><code>KeySharedConsumerState</code></h3>
+<p><code>KeySharedConsumerState</code> maintains the consumer ring and handles the two-stage key routing algorithm:</p>
+<ol>
+<li><strong>Filter</strong>: which consumers accept this key? A consumer with no key filters accepts all keys. A consumer with filters accepts only keys matching at least one glob pattern.</li>
+<li><strong>Hash</strong>: among eligible consumers, use consistent hashing to select the owner.</li>
+</ol>
+<h4 id="consistent-hashing">Consistent Hashing</h4>
+<p>Each consumer is allocated <code>VNODES_PER_CONSUMER</code> (100) virtual nodes on a 32-bit hash ring. Virtual node hashes are derived from <code>FNV-1a("{consumer_id}-{vnode_idx}")</code> with murmur3 finalization to ensure good bit distribution.</p>
+<p>When a message arrives, the routing key is hashed to a 32-bit value, and a binary search on the sorted ring finds the first virtual node ≥ that hash (clockwise walk, wrapping at the end).</p>
+<p>Important properties:</p>
+<ul>
+<li><strong>Stability</strong>: adding or removing one consumer remaps approximately 1/N of keys. Verified by unit tests over 1,000 keys, remapping stays within 15-55% when going from 2→3 consumers.</li>
+<li><strong>Determinism</strong>: the same routing key always selects the same consumer for a given consumer set.</li>
+<li><strong>Filter interaction</strong>: when some consumers declare key filters, the ring is projected onto only the eligible consumers for that key. The common path (no filters, all consumers eligible) uses the full ring with zero allocation.</li>
+</ul>
+<h4 id="key-filtering">Key Filtering</h4>
+<p>Consumers may declare one or more glob patterns at subscription time:</p>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Matches</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>"payment"</code></td>
+<td>Exact match only</td>
+</tr>
+<tr>
+<td><code>"ship*"</code></td>
+<td><code>"shipping"</code>, <code>"shipment"</code>, etc.</td>
+</tr>
+<tr>
+<td><code>"eu-west-?"</code></td>
+<td><code>"eu-west-1"</code>, <code>"eu-west-2"</code>, etc.</td>
+</tr>
+<tr>
+<td><code>"*"</code></td>
+<td>Everything (same as no filter)</td>
+</tr>
+</tbody>
+</table>
+<p>Glob matching is implemented with an iterative backtracking algorithm (<code>simple_glob</code>) that handles <code>*</code> and <code>?</code> without regex overhead.</p>
+<p>If a message's routing key matches no consumer's filters, the message is skipped, the offset is treated as implicitly acked and the cursor advances past it.</p>
+<h3 id="inflightwindow"><code>InFlightWindow</code></h3>
+<p><code>InFlightWindow</code> replaces the single-slot <code>Option&lt;PendingDelivery&gt;</code> used by Shared and Exclusive dispatchers with a multi-message concurrent tracking window.</p>
+<h4 id="key-invariant">Key Invariant</h4>
+<p><strong>At most one message per routing key is in-flight at any time.</strong> Additional messages for the same key are held in <code>blocked_queue</code> until the in-flight one is resolved.</p>
+<h4 id="data-structures">Data Structures</h4>
+<table>
+<thead>
+<tr>
+<th>Structure</th>
+<th>Type</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>in_flight</code></td>
+<td><code>BTreeMap&lt;u64, InFlightEntry&gt;</code></td>
+<td>Messages dispatched and awaiting ack, keyed by WAL offset</td>
+</tr>
+<tr>
+<td><code>active_keys</code></td>
+<td><code>HashMap&lt;String, u64&gt;</code></td>
+<td>Which routing keys currently have an in-flight message</td>
+</tr>
+<tr>
+<td><code>blocked_queue</code></td>
+<td><code>VecDeque&lt;StreamMessage&gt;</code></td>
+<td>Messages polled from WAL but blocked because their key is active</td>
+</tr>
+<tr>
+<td><code>acked_offsets</code></td>
+<td><code>BTreeSet&lt;u64&gt;</code></td>
+<td>Offsets that have been acked but are ahead of the contiguous frontier</td>
+</tr>
+<tr>
+<td><code>safe_cursor</code></td>
+<td><code>Option&lt;u64&gt;</code></td>
+<td>The highest offset where all offsets ≤ this value are resolved</td>
+</tr>
+<tr>
+<td><code>per_consumer_in_flight</code></td>
+<td><code>HashMap&lt;u64, usize&gt;</code></td>
+<td>Per-consumer in-flight count for backpressure</td>
+</tr>
+</tbody>
+</table>
+<h4 id="contiguous-cursor-advancement">Contiguous Cursor Advancement</h4>
+<p>The <code>safe_cursor</code> advances only when offsets form a contiguous chain from the current position. This is critical because the <code>SubscriptionEngine</code> persists this cursor and uses it as the replay start point after restart.</p>
+<p>Example:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Dispatched: offsets 10, 11, 12, 13
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>Acked:      offsets 10, 12, 13  (11 still in-flight)
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>safe_cursor = 10  (can&#39;t advance past 11)
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>When offset 11 is acked:
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>safe_cursor = 13  (10,11,12,13 all contiguous)
+</span></code></pre></div>
+<p>Out-of-order acks are common in Key-Shared dispatch because different keys are acked independently. The <code>acked_offsets</code> set accumulates future acks, and <code>advance_safe_cursor()</code> walks forward from the current position, draining contiguous entries.</p>
+<h4 id="per-consumer-backpressure">Per-Consumer Backpressure</h4>
+<p>Each consumer has a maximum in-flight capacity (default: 1,000 messages). When a consumer's count reaches this limit, new messages destined for that consumer are pushed to the blocked queue instead. This prevents a single slow consumer from occupying the entire window.</p>
+<h4 id="window-capacity">Window Capacity</h4>
+<p>The global window has a <code>max_window_size</code> (default: 10,000) that limits the total number of in-flight + blocked messages. When the window is full, the heartbeat stops polling new messages from the WAL, creating natural backpressure into the storage layer.</p>
+<h3 id="dispatch-loop">Dispatch Loop</h3>
+<p>The main loop is a <code>tokio::select!</code> between two sources:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>loop {
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    select! {
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>        cmd = control_rx.recv() =&gt; handle_command(cmd, ...)
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>        _   = heartbeat.tick()  =&gt; handle_heartbeat(...)
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    }
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>}
+</span></code></pre></div>
+<p><strong>Commands</strong> are sent by the broker's consumer handler and subscription engine. They include consumer add/remove, message ack/nack, poll-and-dispatch triggers, and flush requests.</p>
+<p><strong>Heartbeat</strong> fires every 500ms and performs five phases of maintenance work.</p>
+<h3 id="heartbeat-watchdog">Heartbeat Watchdog</h3>
+<p>The heartbeat runs every 500ms and performs five phases:</p>
+<h4 id="phase-1-ack-timeouts">Phase 1: Ack Timeouts</h4>
+<p>Scans all in-flight entries for messages past their <code>ack_timeout</code>. Timed-out messages are marked for retry by recording the timeout event and making them eligible for re-dispatch.</p>
+<h4 id="phase-2-poison-handling">Phase 2: Poison Handling</h4>
+<p>Scans for in-flight entries that have exhausted their retry budget. Delegates to <code>resolve_poisoned_delivery</code> from the shared poison handler:</p>
+<ul>
+<li><strong>Drop</strong>: The message is skipped by this subscription — it is no longer tracked or retried for this subscription's consumers. However, the message still remains in the topic WAL and is available for delivery to other subscriptions on the same topic. The offset is marked as acked in <code>acked_offsets</code> so the cursor can advance. Any blocked messages for the same key are also drained.</li>
+<li><strong>DeadLetter</strong>: Message is published to the configured DLQ topic via the replicator, then treated like Drop.</li>
+<li><strong>Block</strong>: Message stays in place. The key remains active, preventing new messages for that key from being dispatched. Other keys continue normally.</li>
+</ul>
+<p>The Key-Shared dispatcher manages its own cursor advancement rather than delegating to the engine, because multi-message contiguous tracking requires coordination with <code>InFlightWindow</code>.</p>
+<h4 id="phase-3-retry-ready-re-dispatch">Phase 3: Retry-Ready Re-dispatch</h4>
+<p>Messages that have completed their backoff delay are re-dispatched to a consumer. The consumer selection uses the same hash ring, so a retried message may land on a different consumer if the ring has changed (e.g., due to eviction).</p>
+<h4 id="phase-4-inactive-consumer-eviction">Phase 4: Inactive Consumer Eviction</h4>
+<p>Tracks per-consumer "inactive tick" counters. A consumer is considered inactive when its <code>Arc&lt;AtomicBool&gt;</code> status flag is <code>false</code> (set by the gRPC handler when the client disconnects). After 6 consecutive inactive ticks (3 seconds), the consumer is evicted:</p>
+<ol>
+<li>All its in-flight entries are removed and their offsets marked as acked in <code>acked_offsets</code></li>
+<li>The consumer is removed from the hash ring (triggers ring rebuild)</li>
+<li>Freed keys are dispatched to remaining consumers via <code>dispatch_unblocked</code></li>
+<li>The cursor is persisted if it advanced</li>
+</ol>
+<h4 id="phase-5-lag-driven-polling">Phase 5: Lag-Driven Polling</h4>
+<p>If the window has capacity and the WAL has unread messages (lag), the heartbeat polls new messages. This ensures continuous throughput when the WAL is being written to faster than consumers can ack.</p>
+<h3 id="consumer-eviction-and-cursor-safety">Consumer Eviction and Cursor Safety</h3>
+<p>When a consumer is evicted, its in-flight entries become orphaned, they can no longer be acked because the consumer is gone. Without special handling, these offsets would create permanent gaps in the contiguous cursor, stalling the subscription forever.</p>
+<p>The fix: <code>remove_consumer_entries()</code> treats evicted offsets as implicitly acked by inserting them into <code>acked_offsets</code>. This allows the safe cursor to advance past them. The tradeoff is that messages assigned to the evicted consumer may be lost (at-most-once for those specific messages during eviction), but the subscription as a whole continues making progress.</p>
+<h2 id="message-flow">Message Flow</h2>
+<p>A message's lifecycle through the Key-Shared dispatcher:</p>
+<ol>
+<li><strong>Poll</strong>: <code>poll_next()</code> reads the next message from the WAL stream.</li>
+<li><strong>Filter</strong>: <code>select_consumer()</code> checks key filters and hashes to a consumer. If no consumer matches, the offset is skipped.</li>
+<li><strong>Block check</strong>: if the message's routing key is already active (another message for the same key is in-flight), the message is pushed to <code>blocked_queue</code>.</li>
+<li><strong>Capacity check</strong>: if the consumer has reached its per-consumer limit, the message is also blocked.</li>
+<li><strong>Send</strong>: <code>send_message()</code> pushes the message to the consumer's gRPC output channel.</li>
+<li><strong>Ack</strong>: the consumer acks, freeing the key lock and triggering <code>dispatch_unblocked()</code> to check if blocked messages can now be sent.</li>
+<li><strong>Cursor</strong>: <code>advance_safe_cursor()</code> walks forward from the current cursor, advancing past contiguously-acked offsets.</li>
+</ol>
+<h2 id="non-reliable-key-shared">Non-Reliable Key-Shared</h2>
+<p>The non-reliable variant uses the same <code>KeySharedConsumerState</code> (consistent hashing + key filters) but skips all reliability machinery:</p>
+<ul>
+<li><strong>No <code>InFlightWindow</code></strong>: no per-key blocking, no cursor tracking</li>
+<li><strong>No ack/nack</strong>: messages are fire-and-forget</li>
+<li><strong>No retry or DLQ</strong>: dropped messages are lost</li>
+<li><strong>No background task</strong>: dispatch is inline, called directly by the message write path</li>
+<li><strong>Drop-on-saturation</strong>: if the target consumer's channel is full, <code>try_send_message()</code> drops the message</li>
+</ul>
+<p>This mode is appropriate when per-key routing is desired but message loss is acceptable (e.g., real-time metrics, live streaming).</p>
+<h2 id="comparison-with-other-subscription-models">Comparison with Other Subscription Models</h2>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Exclusive</th>
+<th>Shared</th>
+<th>Key-Shared</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Consumers</td>
+<td>1</td>
+<td>N</td>
+<td>N</td>
+</tr>
+<tr>
+<td>Ordering</td>
+<td>Total</td>
+<td>None</td>
+<td>Per-key</td>
+</tr>
+<tr>
+<td>In-flight tracking</td>
+<td>Single slot</td>
+<td>Single slot</td>
+<td>Multi-message window</td>
+</tr>
+<tr>
+<td>Cursor advancement</td>
+<td>Sequential</td>
+<td>Sequential</td>
+<td>Contiguous-ack</td>
+</tr>
+<tr>
+<td>Key affinity</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>Consistent hash ring</td>
+</tr>
+<tr>
+<td>Key filtering</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>Glob patterns</td>
+</tr>
+<tr>
+<td>Backpressure</td>
+<td>Per-subscription</td>
+<td>Per-subscription</td>
+<td>Per-consumer + global</td>
+</tr>
+<tr>
+<td>Consumer rebalancing</td>
+<td>Failover</td>
+<td>Round-robin</td>
+<td>Hash ring rebuild (~1/N remapped)</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
               </article>
             </div>
           
@@ -1704,10 +2516,10 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "/", "features": ["content.action.edit", "content.code.copy", "content.tabs.link", "content.tooltips", "navigation.top", "search.suggest", "search.share"], "search": "/assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.action.edit", "content.code.copy", "content.tabs.link", "content.tooltips", "navigation.top", "search.suggest", "search.share"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="/assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      <script src="../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
       
     
   </body>

@@ -600,6 +600,66 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#key-shared" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key-Shared
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Key-Shared">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      How It Works
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-filtering" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Filtering
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#producer-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Producer Usage
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consumer-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Consumer Usage
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Use Cases
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#messaging-patterns" class="md-nav__link">
     <span class="md-ellipsis">
       Messaging Patterns
@@ -622,6 +682,15 @@
   <a href="#fan-out-broadcast" class="md-nav__link">
     <span class="md-ellipsis">
       Fan-Out (Broadcast)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-affinity-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key-Affinity Processing
     </span>
   </a>
   
@@ -909,6 +978,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../../architecture/key_shared_architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Key-Shared Dispatch
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../architecture/reliable_topic_move/" class="md-nav__link">
         
   
@@ -1040,6 +1130,27 @@
   
   <span class="md-ellipsis">
     Consumer Guide
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../client_libraries/key-shared/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Key-Shared Subscriptions
   </span>
   
 
@@ -1855,6 +1966,66 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#key-shared" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key-Shared
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Key-Shared">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      How It Works
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-filtering" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Filtering
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#producer-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Producer Usage
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#consumer-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Consumer Usage
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Use Cases
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#messaging-patterns" class="md-nav__link">
     <span class="md-ellipsis">
       Messaging Patterns
@@ -1877,6 +2048,15 @@
   <a href="#fan-out-broadcast" class="md-nav__link">
     <span class="md-ellipsis">
       Fan-Out (Broadcast)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-affinity-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key-Affinity Processing
     </span>
   </a>
   
@@ -1966,6 +2146,80 @@ This consumer has exclusive access to all messages published to the topic or par
 <li><code>Message Handling</code>: Failover occurs independently per partition, ensuring continuity and ordering within each partition.</li>
 </ul>
 <p><img alt="Failover Partitioned" src="../../assets/img/concepts/failover_subscription_partitioned.png" title="Failover Partitioned" /></p>
+<h2 id="key-shared">Key-Shared</h2>
+<p>The <strong>Key-Shared</strong> subscription type allows multiple consumers to attach to the same subscription, where each message is routed to a consumer based on its <strong>routing key</strong>. All messages with the same routing key are guaranteed to be delivered to the same consumer, in order.</p>
+<p>This combines the parallelism of Shared subscriptions with per-key ordering guarantees.</p>
+<h3 id="how-it-works">How It Works</h3>
+<ul>
+<li><code>Key Routing</code>: Messages are assigned to consumers using consistent hashing on the routing key. Each consumer is allocated virtual nodes on a hash ring, and the routing key determines which consumer owns it.</li>
+<li><code>Per-Key Ordering</code>: At most one message per routing key is in-flight at any time. Additional messages for the same key are queued until the in-flight one is acknowledged.</li>
+<li><code>Consumer Elasticity</code>: When consumers join or leave, only approximately 1/N of existing key assignments are remapped (where N is the number of consumers). The rest remain stable.</li>
+</ul>
+<h3 id="key-filtering">Key Filtering</h3>
+<p>Consumers can optionally declare <strong>key filter patterns</strong> to receive only specific subsets of messages. Filters use glob syntax:</p>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Matches</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>"payment"</code></td>
+<td>Exact match only</td>
+</tr>
+<tr>
+<td><code>"ship*"</code></td>
+<td><code>"shipping"</code>, <code>"shipment"</code>, etc.</td>
+</tr>
+<tr>
+<td><code>"eu-west-?"</code></td>
+<td><code>"eu-west-1"</code>, <code>"eu-west-2"</code>, etc.</td>
+</tr>
+<tr>
+<td><code>"*"</code></td>
+<td>Everything (same as no filter)</td>
+</tr>
+</tbody>
+</table>
+<p>If a consumer has no filters, it accepts all keys. If a message's routing key matches no consumer's filters, the message is skipped by this subscription.</p>
+<h3 id="producer-usage">Producer Usage</h3>
+<p>Producers tag messages with a routing key using <code>send_with_key()</code>:</p>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">// All &quot;payment&quot; messages go to the same consumer</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">producer</span><span class="p">.</span><span class="n">send_with_key</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="nb">None</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;payment&quot;</span><span class="p">).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">producer</span><span class="p">.</span><span class="n">send_with_key</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="nb">None</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;shipping&quot;</span><span class="p">).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span>
+</span></code></pre></div>
+<p>If a message is sent without a routing key (using <code>send()</code>), the producer name is used as the fallback key.</p>
+<h3 id="consumer-usage">Consumer Usage</h3>
+<div class="language-rust highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1">// Automatic key distribution — no filters</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">consumer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="p">.</span><span class="n">new_consumer</span><span class="p">()</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="p">.</span><span class="n">with_topic</span><span class="p">(</span><span class="s">&quot;/default/orders&quot;</span><span class="p">)</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="p">.</span><span class="n">with_consumer_name</span><span class="p">(</span><span class="s">&quot;worker_1&quot;</span><span class="p">)</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="p">.</span><span class="n">with_subscription</span><span class="p">(</span><span class="s">&quot;orders_sub&quot;</span><span class="p">)</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="p">.</span><span class="n">with_subscription_type</span><span class="p">(</span><span class="n">SubType</span><span class="p">::</span><span class="n">KeyShared</span><span class="p">)</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="p">.</span><span class="n">build</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="c1">// Explicit key filtering — only receive matching keys</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">consumer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="p">.</span><span class="n">new_consumer</span><span class="p">()</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="p">.</span><span class="n">with_topic</span><span class="p">(</span><span class="s">&quot;/default/orders&quot;</span><span class="p">)</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">    </span><span class="p">.</span><span class="n">with_consumer_name</span><span class="p">(</span><span class="s">&quot;payments_worker&quot;</span><span class="p">)</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">    </span><span class="p">.</span><span class="n">with_subscription</span><span class="p">(</span><span class="s">&quot;orders_sub&quot;</span><span class="p">)</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">    </span><span class="p">.</span><span class="n">with_subscription_type</span><span class="p">(</span><span class="n">SubType</span><span class="p">::</span><span class="n">KeyShared</span><span class="p">)</span>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">    </span><span class="p">.</span><span class="n">with_key_filter</span><span class="p">(</span><span class="s">&quot;payment&quot;</span><span class="p">)</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">    </span><span class="p">.</span><span class="n">with_key_filter</span><span class="p">(</span><span class="s">&quot;invoice&quot;</span><span class="p">)</span>
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">    </span><span class="p">.</span><span class="n">build</span><span class="p">()</span><span class="o">?</span><span class="p">;</span>
+</span></code></pre></div>
+<h3 id="use-cases">Use Cases</h3>
+<ul>
+<li><strong>Order processing</strong>: route all events for the same order ID to one consumer for consistent state management</li>
+<li><strong>Per-user event streams</strong>: group user activity events by user ID across consumers</li>
+<li><strong>Multi-tenant workloads</strong>: route tenant data to dedicated consumer instances</li>
+<li><strong>IoT device routing</strong>: route device telemetry by device ID</li>
+</ul>
+<p>For implementation details, see <a href="../../architecture/key_shared_architecture/">Key-Shared Dispatch Architecture</a>.</p>
 <h2 id="messaging-patterns">Messaging Patterns</h2>
 <p>Subscription types map directly to common messaging patterns:</p>
 <h3 id="queuing-point-to-point">Queuing (Point-to-Point)</h3>
@@ -1984,6 +2238,16 @@ subscription</strong> per service, typically using <code>Exclusive</code> or <co
 <li><strong>Topic</strong>: <code>/default/events</code></li>
 <li><strong>Subscriptions</strong>: <code>billing</code> (Exclusive), <code>analytics</code> (Exclusive), <code>monitoring</code> (Failover)</li>
 <li>Each subscription receives the full event stream independently.</li>
+</ul>
+<h3 id="key-affinity-processing">Key-Affinity Processing</h3>
+<p>Messages with the same key must be processed by the same consumer for ordering
+or state consistency. Use a <strong>Key-Shared</strong> subscription:</p>
+<ul>
+<li><strong>Topic</strong>: <code>/default/orders</code></li>
+<li><strong>Subscription</strong>: <code>order-processors</code> (type <code>KeyShared</code>)</li>
+<li>Run N consumers with the same subscription name. Messages are distributed
+  by routing key — all events for the same key go to the same consumer.</li>
+<li>Optionally use key filters to assign specific key patterns to specific consumers.</li>
 </ul>
 <h3 id="choosing-a-dispatch-mode">Choosing a Dispatch Mode</h3>
 <p>Both patterns work with either dispatch mode:</p>

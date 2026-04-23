@@ -18,7 +18,7 @@
         <link rel="prev" href="../producer/">
       
       
-        <link rel="next" href="../schema-registry/">
+        <link rel="next" href="../key-shared/">
       
       
       <link rel="icon" href="../../assets/favicon.ico">
@@ -726,6 +726,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../../architecture/key_shared_architecture/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Key-Shared Dispatch
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../architecture/reliable_topic_move/" class="md-nav__link">
         
   
@@ -960,6 +981,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#key-shared" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key-Shared
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1077,6 +1107,27 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../key-shared/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Key-Shared Subscriptions
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -1849,6 +1900,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#key-shared" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key-Shared
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2111,7 +2171,7 @@
 <li><strong>Topic:</strong> Source of messages</li>
 <li><strong>Consumer Name:</strong> Unique identifier for this consumer instance</li>
 <li><strong>Subscription:</strong> Logical grouping of consumers (multiple consumers can share)</li>
-<li><strong>Subscription Type:</strong> Controls how messages are distributed (Exclusive, Shared, Failover)</li>
+<li><strong>Subscription Type:</strong> Controls how messages are distributed (Exclusive, Shared, Failover, Key-Shared)</li>
 </ul>
 <hr />
 <h2 id="subscription-types">Subscription Types</h2>
@@ -2142,6 +2202,16 @@
 <li>✅ High availability</li>
 <li><strong>Use case:</strong> Critical services needing HA with ordering</li>
 </ul>
+<h3 id="key-shared">Key-Shared</h3>
+<p><strong>Multiple consumers</strong> receive messages based on <strong>routing key</strong>. All messages with the same key go to the same consumer.</p>
+<p><strong>Characteristics:</strong></p>
+<ul>
+<li>✅ Per-key ordering guaranteed</li>
+<li>✅ Horizontal scaling across keys</li>
+<li>✅ Optional key filtering (glob patterns)</li>
+<li><strong>Use case:</strong> Order processing by ID, per-user events, multi-tenant workloads</li>
+</ul>
+<p>See <a href="../key-shared/">Key-Shared Subscriptions</a> for the full guide.</p>
 <hr />
 <h2 id="receiving-messages">Receiving Messages</h2>
 <h3 id="basic-message-loop">Basic Message Loop</h3>
