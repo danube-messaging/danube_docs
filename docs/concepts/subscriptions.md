@@ -61,6 +61,76 @@ The **Failover** subscription type allows multiple consumers to attach to the sa
 
 ![Failover Partitioned](../assets/img/concepts/failover_subscription_partitioned.png "Failover Partitioned")
 
+## Key-Shared
+
+The **Key-Shared** subscription type allows multiple consumers to attach to the same subscription, where each message is routed to a consumer based on its **routing key**. All messages with the same routing key are guaranteed to be delivered to the same consumer, in order.
+
+This combines the parallelism of Shared subscriptions with per-key ordering guarantees.
+
+### How It Works
+
+* `Key Routing`: Messages are assigned to consumers using consistent hashing on the routing key. Each consumer is allocated virtual nodes on a hash ring, and the routing key determines which consumer owns it.
+* `Per-Key Ordering`: At most one message per routing key is in-flight at any time. Additional messages for the same key are queued until the in-flight one is acknowledged.
+* `Consumer Elasticity`: When consumers join or leave, only approximately 1/N of existing key assignments are remapped (where N is the number of consumers). The rest remain stable.
+
+### Key Filtering
+
+Consumers can optionally declare **key filter patterns** to receive only specific subsets of messages. Filters use glob syntax:
+
+| Pattern | Matches |
+|---------|---------|
+| `"payment"` | Exact match only |
+| `"ship*"` | `"shipping"`, `"shipment"`, etc. |
+| `"eu-west-?"` | `"eu-west-1"`, `"eu-west-2"`, etc. |
+| `"*"` | Everything (same as no filter) |
+
+If a consumer has no filters, it accepts all keys. If a message's routing key matches no consumer's filters, the message is skipped by this subscription.
+
+### Producer Usage
+
+Producers tag messages with a routing key using `send_with_key()`:
+
+```rust
+// All "payment" messages go to the same consumer
+producer.send_with_key(data, None, "payment").await?;
+producer.send_with_key(data, None, "shipping").await?;
+```
+
+If a message is sent without a routing key (using `send()`), the producer name is used as the fallback key.
+
+### Consumer Usage
+
+```rust
+// Automatic key distribution — no filters
+let mut consumer = client
+    .new_consumer()
+    .with_topic("/default/orders")
+    .with_consumer_name("worker_1")
+    .with_subscription("orders_sub")
+    .with_subscription_type(SubType::KeyShared)
+    .build()?;
+
+// Explicit key filtering — only receive matching keys
+let mut consumer = client
+    .new_consumer()
+    .with_topic("/default/orders")
+    .with_consumer_name("payments_worker")
+    .with_subscription("orders_sub")
+    .with_subscription_type(SubType::KeyShared)
+    .with_key_filter("payment")
+    .with_key_filter("invoice")
+    .build()?;
+```
+
+### Use Cases
+
+* **Order processing**: route all events for the same order ID to one consumer for consistent state management
+* **Per-user event streams**: group user activity events by user ID across consumers
+* **Multi-tenant workloads**: route tenant data to dedicated consumer instances
+* **IoT device routing**: route device telemetry by device ID
+
+For implementation details, see [Key-Shared Dispatch Architecture](../architecture/key_shared_architecture.md).
+
 ## Messaging Patterns
 
 Subscription types map directly to common messaging patterns:
@@ -84,6 +154,17 @@ subscription** per service, typically using `Exclusive` or `Failover` for HA:
 - **Subscriptions**: `billing` (Exclusive), `analytics` (Exclusive), `monitoring` (Failover)
 - Each subscription receives the full event stream independently.
 
+### Key-Affinity Processing
+
+Messages with the same key must be processed by the same consumer for ordering
+or state consistency. Use a **Key-Shared** subscription:
+
+- **Topic**: `/default/orders`
+- **Subscription**: `order-processors` (type `KeyShared`)
+- Run N consumers with the same subscription name. Messages are distributed
+  by routing key — all events for the same key go to the same consumer.
+- Optionally use key filters to assign specific key patterns to specific consumers.
+
 ### Choosing a Dispatch Mode
 
 Both patterns work with either dispatch mode:
@@ -92,3 +173,4 @@ Both patterns work with either dispatch mode:
 - **Reliable** — at-least-once delivery with WAL + Cloud persistence and replay.
 
 See [Dispatch Strategies](dispatch_strategy.md) for details.
+

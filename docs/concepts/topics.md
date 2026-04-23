@@ -20,7 +20,7 @@ Messages for the topic are broadcast to two consumers. The **routing mode** dete
 
 * `Scalability`: Partitioned topics enable horizontal scaling by distributing the load across multiple partitions. This is essential for high-throughput systems that need to handle large volumes of data efficiently.
 * `Parallel Processing`: It allows multiple consumers to process different partitions of the same topic concurrently, improving throughput and processing efficiency.
-* `Data Locality`: Partitioning can help in maintaining data locality and reducing processing latency, as consumers handle a specific subset of the data (key-shared distribution not yet supported).
+* `Data Locality`: Partitioning can help in maintaining data locality and reducing processing latency, as consumers handle a specific subset of the data. Combined with [Key-Shared subscriptions](subscriptions.md#key-shared), messages can be routed by key to specific consumers for per-key ordering.
 
 ### Creation of Partitioned Topics
 

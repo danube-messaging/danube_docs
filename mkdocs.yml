@@ -75,6 +75,7 @@ nav:
                   - Load Manager & Rebalancing: architecture/load_manager_architecture.md
                   - Schema Registry Architecture: architecture/schema_registry_architecture.md
                   - Persistence Architecture: architecture/persistence.md
+                  - Key-Shared Dispatch: architecture/key_shared_architecture.md
                   - Reliable Topic Workflow: architecture/reliable_topic_move.md
 
         - 📦 Client Libraries:
@@ -82,6 +83,7 @@ nav:
                   - Setup & Configuration: client_libraries/setup.md
                   - Producer Guide: client_libraries/producer.md
                   - Consumer Guide: client_libraries/consumer.md
+                  - Key-Shared Subscriptions: client_libraries/key-shared.md
                   - Schema Registry: client_libraries/schema-registry.md
 
         - 🔧 Admin Tools:

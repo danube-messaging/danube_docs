@@ -49,6 +49,7 @@ For design details, see the [Architecture](architecture/architecture.md).
 - **[Exclusive](concepts/subscriptions.md)**: Single consumer per subscription
 - **Shared**: Load-balanced message distribution across consumers
 - **Failover**: Automatic consumer failover with ordered delivery
+- **Key-Shared**: Key-based message routing with per-key ordering and optional key filtering
 
 ### 📋 **Schema Registry**
 
@@ -87,6 +88,12 @@ Explore how Danube works under the hood:
 - Schema versioning and compatibility checking
 - Support for JSON Schema, Avro, and Protobuf
 - Data validation and governance
+
+**[Key-Shared Dispatch](architecture/key_shared_architecture.md)** - Key-affinity routing architecture
+
+- Consistent hashing with virtual-node ring for stable key-to-consumer assignment
+- Per-key ordering with multi-message in-flight window and contiguous cursor tracking
+- Glob-based key filtering, per-consumer backpressure, and inactive consumer eviction
 
 ---
 

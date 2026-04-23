@@ -17,6 +17,7 @@ pub struct StreamMessage {
     pub attributes: HashMap<String, String>,
     pub schema_id: Option<u64>,
     pub schema_version: Option<u32>,
+    pub routing_key: Option<String>,
 }
 ```
 
@@ -33,6 +34,7 @@ pub struct StreamMessage {
 | `attributes` | `HashMap<String, String>` | User-defined key-value pairs for custom metadata |
 | `schema_id` | `Option<u64>` | Schema Registry ID for message validation (see [Schema Integration](#schema-integration)) |
 | `schema_version` | `Option<u32>` | Version of the schema used to serialize this message |
+| `routing_key` | `Option<String>` | Routing key for [Key-Shared](subscriptions.md#key-shared) dispatch. When set via `send_with_key()`, all messages with the same key are delivered to the same consumer. Falls back to `producer_name` if not set |
 
 ---
 

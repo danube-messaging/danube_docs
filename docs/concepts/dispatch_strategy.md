@@ -10,12 +10,12 @@ This strategy prioritizes speed and minimal resource usage by delivering message
 
   - The producer sends a message to the broker specifying the topic.
   - The broker validates and routes the message to the topic's dispatcher.
-  - Depending on subscription type (Exclusive/Shared/Failover), the dispatcher selects the target consumer(s).
+  - Depending on subscription type (Exclusive/Shared/Failover/Key-Shared), the dispatcher selects the target consumer(s).
   - The message is immediately forwarded to consumer channels. There is no on-disk persistence and no acknowledgment gating.
 
 **Reader path (consumer)**
 
-  - A consumer subscribes to a topic under an existing subscription (Exclusive/Shared/Failover).
+  - A consumer subscribes to a topic under an existing subscription (Exclusive/Shared/Failover/Key-Shared).
   - The broker registers the consumer and attaches a live message stream to it.
   - The dispatcher pushes incoming messages directly to the consumer stream.
   - Acknowledgments are optional and do not affect delivery; if a consumer disconnects, messages in flight may be lost.
@@ -28,7 +28,7 @@ This strategy ensures at-least-once delivery using a WAL + Cloud store-and-forwa
 
   - The producer sends a message to the broker for a reliable topic.
   - The message is appended to the local WAL (durable on disk) and becomes eligible for dispatch.
-  - The dispatcher prepares the message for the subscription type (Exclusive/Shared/Failover) while the subscription engine records it as pending.
+  - The dispatcher prepares the message for the subscription type (Exclusive/Shared/Failover/Key-Shared) while the subscription engine records it as pending.
   - A background uploader asynchronously persists WAL frames to cloud object storage; this does not block producers.
 
 **Reader path (consumer)**
@@ -61,5 +61,5 @@ Each subscription has a configurable **failure policy** (set via `danube-admin t
 **Poison policies** — when a message exceeds `max_redelivery_count`:
 
 - **`dead_letter`** — The message is routed to a configurable dead-letter topic with origin metadata (`x-original-topic`, `x-original-subscription`, `x-failure-reason`, etc.). The subscription resumes with the next message.
-- **`drop`** — The message is discarded and the subscription advances past it.
+- **`drop`** — The message is skipped by this subscription and the subscription advances past it. The message still remains in the topic and is available for delivery to other subscriptions on the same topic.
 - **`block`** — The subscription halts until an operator intervenes (e.g., adjusts the policy or resets the subscription).

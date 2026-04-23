@@ -1,5 +1,8 @@
 # ETCD Metadata Structure
 
+
+**ETCD is not used anymore, this document has to be updated !**
+
 This document explains how Danube organizes metadata in ETCD. Understanding this structure is essential for developers working on cluster management, persistence, schema registry, or debugging production issues.
 
 ## Overview

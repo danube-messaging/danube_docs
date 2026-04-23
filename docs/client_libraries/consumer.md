@@ -133,7 +133,7 @@ The minimal setup to receive messages:
 - **Topic:** Source of messages
 - **Consumer Name:** Unique identifier for this consumer instance
 - **Subscription:** Logical grouping of consumers (multiple consumers can share)
-- **Subscription Type:** Controls how messages are distributed (Exclusive, Shared, Failover)
+- **Subscription Type:** Controls how messages are distributed (Exclusive, Shared, Failover, Key-Shared)
 
 ---
 
@@ -171,6 +171,19 @@ Like Exclusive, but allows **standby consumers**. One active, others wait.
 - ✅ Automatic failover to standby
 - ✅ High availability
 - **Use case:** Critical services needing HA with ordering
+
+### Key-Shared
+
+**Multiple consumers** receive messages based on **routing key**. All messages with the same key go to the same consumer.
+
+**Characteristics:**
+
+- ✅ Per-key ordering guaranteed
+- ✅ Horizontal scaling across keys
+- ✅ Optional key filtering (glob patterns)
+- **Use case:** Order processing by ID, per-user events, multi-tenant workloads
+
+See [Key-Shared Subscriptions](key-shared.md) for the full guide.
 
 ---
 
