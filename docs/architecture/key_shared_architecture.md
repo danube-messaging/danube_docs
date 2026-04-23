@@ -12,29 +12,23 @@ This page describes the internal architecture of the Key-Shared dispatcher, how 
 
 ## Design Goals
 
-- **Per-key ordering**
-  - Messages with the same routing key must always be delivered to the same consumer, in order. No two messages for the same key may be in-flight simultaneously.
-- **Multi-key parallelism**
-  - Different routing keys can be dispatched to different consumers and remain in-flight concurrently. This provides throughput proportional to the number of distinct keys.
-- **Key-affinity stability**
-  - Adding or removing a consumer should remap only ~1/N of existing key assignments, not all of them.
-- **Cursor safety**
-  - The persisted subscription cursor must never skip past unacknowledged messages. A broker restart must replay from the correct position.
-- **Key-level fault isolation**
-  - A poison message (retry-exhausted) on one key should not block other keys from making progress.
-- **Per-consumer backpressure**
-  - A single slow consumer should not consume the entire in-flight window.
+- **Per-key ordering**: Messages with the same routing key must always be delivered to the same consumer, in order. No two messages for the same key may be in-flight simultaneously.
+- **Multi-key parallelism**: Different routing keys can be dispatched to different consumers and remain in-flight concurrently. This provides throughput proportional to the number of distinct keys.
+- **Key-affinity stability**: Adding or removing a consumer should remap only ~1/N of existing key assignments, not all of them.
+- **Cursor safety**: The persisted subscription cursor must never skip past unacknowledged messages. A broker restart must replay from the correct position.
+- **Key-level fault isolation**: A poison message (retry-exhausted) on one key should not block other keys from making progress.
+- **Per-consumer backpressure**: A single slow consumer should not consume the entire in-flight window.
 
 ## High-level Model
 
 Each reliable Key-Shared subscription is backed by these components:
 
-1. **`KeySharedConsumerState`** — Maps routing keys to consumers via a consistent hash ring with optional glob-based key filtering.
-2. **`InFlightWindow`** — Tracks all in-flight and blocked messages. Enforces single-message-per-key, contiguous cursor advancement, and per-consumer capacity limits.
-3. **Dispatch loop** — A `tokio::select!` loop driven by two sources: a command channel (acks, nacks, consumer add/remove, poll requests) and a periodic heartbeat timer.
-4. **Heartbeat watchdog** — Runs every 500ms to detect ack timeouts, retry poison messages, evict inactive consumers, and poll for WAL lag.
-5. **`SubscriptionEngine`** — Owns the WAL stream cursor, failure policy, and debounced cursor persistence.
-6. **Poison handler** — Applies the configured poison policy (Drop, DeadLetter, Block) to retry-exhausted messages.
+1. **`KeySharedConsumerState`** : Maps routing keys to consumers via a consistent hash ring with optional glob-based key filtering.
+2. **`InFlightWindow`** : Tracks all in-flight and blocked messages. Enforces single-message-per-key, contiguous cursor advancement, and per-consumer capacity limits.
+3. **Dispatch loop** : A `tokio::select!` loop driven by two sources: a command channel (acks, nacks, consumer add/remove, poll requests) and a periodic heartbeat timer.
+4. **Heartbeat watchdog** : Runs every 500ms to detect ack timeouts, retry poison messages, evict inactive consumers, and poll for WAL lag.
+5. **`SubscriptionEngine`** : Owns the WAL stream cursor, failure policy, and debounced cursor persistence.
+6. **Poison handler** : Applies the configured poison policy (Drop, DeadLetter, Block) to retry-exhausted messages.
 
 The non-reliable Key-Shared variant omits components 2, 4, 5, and 6. It routes messages by key hash and drops them on saturation with no ack tracking, no retry, and no cursor persistence.
 
@@ -82,16 +76,7 @@ If a message's routing key matches no consumer's filters, the message is skipped
 
 **At most one message per routing key is in-flight at any time.** Additional messages for the same key are held in `blocked_queue` until the in-flight one is resolved.
 
-#### Data Structures
-
-| Structure | Type | Purpose |
-|-----------|------|---------|
-| `in_flight` | `BTreeMap<u64, InFlightEntry>` | Messages dispatched and awaiting ack, keyed by WAL offset |
-| `active_keys` | `HashMap<String, u64>` | Which routing keys currently have an in-flight message |
-| `blocked_queue` | `VecDeque<StreamMessage>` | Messages polled from WAL but blocked because their key is active |
-| `acked_offsets` | `BTreeSet<u64>` | Offsets that have been acked but are ahead of the contiguous frontier |
-| `safe_cursor` | `Option<u64>` | The highest offset where all offsets ≤ this value are resolved |
-| `per_consumer_in_flight` | `HashMap<u64, usize>` | Per-consumer in-flight count for backpressure |
+The window maintains several coordinated tracking structures: dispatched messages awaiting ack (indexed by WAL offset), a set of currently active routing keys (to enforce the one-in-flight-per-key invariant), a queue of blocked messages waiting for their key to become free, and a set of out-of-order acked offsets used to compute the contiguous safe cursor. It also tracks per-consumer in-flight counts for backpressure.
 
 #### Contiguous Cursor Advancement
 
@@ -148,7 +133,7 @@ Scans all in-flight entries for messages past their `ack_timeout`. Timed-out mes
 
 Scans for in-flight entries that have exhausted their retry budget. Delegates to `resolve_poisoned_delivery` from the shared poison handler:
 
-- **Drop**: The message is skipped by this subscription — it is no longer tracked or retried for this subscription's consumers. However, the message still remains in the topic WAL and is available for delivery to other subscriptions on the same topic. The offset is marked as acked in `acked_offsets` so the cursor can advance. Any blocked messages for the same key are also drained.
+- **Drop**: The message is skipped by this subscription, it is no longer tracked or retried for this subscription's consumers. However, the message still remains in the topic WAL and is available for delivery to other subscriptions on the same topic. The offset is marked as acked in `acked_offsets` so the cursor can advance. Any blocked messages for the same key are also drained.
 - **DeadLetter**: Message is published to the configured DLQ topic via the replicator, then treated like Drop.
 - **Block**: Message stays in place. The key remains active, preventing new messages for that key from being dispatched. Other keys continue normally.
 
@@ -177,27 +162,9 @@ When a consumer is evicted, its in-flight entries become orphaned, they can no l
 
 The fix: `remove_consumer_entries()` treats evicted offsets as implicitly acked by inserting them into `acked_offsets`. This allows the safe cursor to advance past them. The tradeoff is that messages assigned to the evicted consumer may be lost (at-most-once for those specific messages during eviction), but the subscription as a whole continues making progress.
 
-## Message Flow
-
-A message's lifecycle through the Key-Shared dispatcher:
-
-1. **Poll**: `poll_next()` reads the next message from the WAL stream.
-2. **Filter**: `select_consumer()` checks key filters and hashes to a consumer. If no consumer matches, the offset is skipped.
-3. **Block check**: if the message's routing key is already active (another message for the same key is in-flight), the message is pushed to `blocked_queue`.
-4. **Capacity check**: if the consumer has reached its per-consumer limit, the message is also blocked.
-5. **Send**: `send_message()` pushes the message to the consumer's gRPC output channel.
-6. **Ack**: the consumer acks, freeing the key lock and triggering `dispatch_unblocked()` to check if blocked messages can now be sent.
-7. **Cursor**: `advance_safe_cursor()` walks forward from the current cursor, advancing past contiguously-acked offsets.
-
 ## Non-Reliable Key-Shared
 
-The non-reliable variant uses the same `KeySharedConsumerState` (consistent hashing + key filters) but skips all reliability machinery:
-
-- **No `InFlightWindow`**: no per-key blocking, no cursor tracking
-- **No ack/nack**: messages are fire-and-forget
-- **No retry or DLQ**: dropped messages are lost
-- **No background task**: dispatch is inline, called directly by the message write path
-- **Drop-on-saturation**: if the target consumer's channel is full, `try_send_message()` drops the message
+The non-reliable variant uses the same `KeySharedConsumerState` (consistent hashing + key filters) but skips all reliability machinery, no in-flight window, no ack tracking, no retry, no cursor persistence. Messages are dispatched inline and dropped if the target consumer's channel is full.
 
 This mode is appropriate when per-key routing is desired but message loss is acceptable (e.g., real-time metrics, live streaming).
 
@@ -213,3 +180,62 @@ This mode is appropriate when per-key routing is desired but message loss is acc
 | Key filtering | N/A | N/A | Glob patterns |
 | Backpressure | Per-subscription | Per-subscription | Per-consumer + global |
 | Consumer rebalancing | Failover | Round-robin | Hash ring rebuild (~1/N remapped) |
+
+## Key Shared Example (Rust)
+
+### Producer — sending with routing keys
+
+```rust
+let mut producer = client
+    .new_producer()
+    .with_topic("/default/orders")
+    .with_name("orders_producer")
+    .with_reliable_dispatch()
+    .build()?;
+
+producer.create().await?;
+
+// All "payment" messages go to the same consumer
+producer.send_with_key(b"Payment for order #1001".to_vec(), None, "payment").await?;
+producer.send_with_key(b"Order #1001 shipped".to_vec(), None, "shipping").await?;
+producer.send_with_key(b"Payment for order #1002".to_vec(), None, "payment").await?;
+```
+
+### Consumer — automatic key distribution
+
+```rust
+let mut consumer = client
+    .new_consumer()
+    .with_topic("/default/orders")
+    .with_consumer_name("worker_1")
+    .with_subscription("orders_sub")
+    .with_subscription_type(SubType::KeyShared)
+    .build()?;
+
+consumer.subscribe().await?;
+
+let mut stream = consumer.receive().await?;
+while let Some(message) = stream.recv().await {
+    let key = message.routing_key.as_deref().unwrap_or("<none>");
+    println!("key={} | {}", key, String::from_utf8_lossy(&message.payload));
+    consumer.ack(&message).await?;
+}
+```
+
+### Consumer — with key filtering
+
+```rust
+let mut consumer = client
+    .new_consumer()
+    .with_topic("/default/orders")
+    .with_consumer_name("payments_worker")
+    .with_subscription("orders_sub")
+    .with_subscription_type(SubType::KeyShared)
+    .with_key_filter("payment")
+    .with_key_filter("invoice")
+    .build()?;
+```
+
+This consumer only receives messages whose routing key matches `"payment"` or `"invoice"`. All other keys are routed to other consumers in the subscription.
+
+For the full client API guide, see [Key-Shared Subscriptions](../client_libraries/key-shared.md).
