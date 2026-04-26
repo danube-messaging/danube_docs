@@ -30,71 +30,86 @@ Tag each message with a routing key using `send_with_key()`. Messages sent with 
 === "Rust"
 
     ```rust
-    use anyhow::Result;
-    use danube_client::DanubeClient;
+    let mut producer = client
+        .new_producer()
+        .with_topic("/default/orders")
+        .with_name("orders_producer")
+        .with_reliable_dispatch()
+        .build()?;
 
-    #[tokio::main]
-    async fn main() -> Result<()> {
-        let client = DanubeClient::builder()
-            .service_url("http://127.0.0.1:6650")
-            .build()
-            .await?;
+    producer.create().await?;
 
-        let mut producer = client
-            .new_producer()
-            .with_topic("/default/orders")
-            .with_name("orders_producer")
-            .with_reliable_dispatch()
-            .build()?;
+    // All "payment" messages go to the same consumer
+    producer.send_with_key(b"Payment for #1001".to_vec(), None, "payment").await?;
 
-        producer.create().await?;
+    // "shipping" messages go to (potentially) a different consumer
+    producer.send_with_key(b"Order #1001 shipped".to_vec(), None, "shipping").await?;
 
-        // Send messages with routing keys
-        // All "payment" messages go to the same consumer
-        producer
-            .send_with_key(
-                b"Payment received for order #1001".to_vec(),
-                None,        // no attributes
-                "payment",   // routing key
-            )
-            .await?;
-
-        // "shipping" messages go to (potentially) a different consumer
-        producer
-            .send_with_key(
-                b"Order #1001 shipped".to_vec(),
-                None,
-                "shipping",
-            )
-            .await?;
-
-        // Same key = same consumer, guaranteed
-        producer
-            .send_with_key(
-                b"Payment received for order #1002".to_vec(),
-                None,
-                "payment",
-            )
-            .await?;
-
-        Ok(())
-    }
+    // Same key = same consumer, guaranteed
+    producer.send_with_key(b"Payment for #1002".to_vec(), None, "payment").await?;
     ```
 
 === "Go"
 
-    !!! note "Coming soon"
-        Key-Shared support for the Go client is under development.
+    ```go
+    producer, err := client.NewProducer().
+        WithName("orders_producer").
+        WithTopic("/default/orders").
+        WithDispatchStrategy(danube.NewReliableDispatchStrategy()).
+        Build()
+    producer.Create(ctx)
+
+    // All "payment" messages go to the same consumer
+    producer.SendWithKey(ctx, []byte("Payment for #1001"), nil, "payment")
+
+    // "shipping" messages go to (potentially) a different consumer
+    producer.SendWithKey(ctx, []byte("Order #1001 shipped"), nil, "shipping")
+
+    // Same key = same consumer, guaranteed
+    producer.SendWithKey(ctx, []byte("Payment for #1002"), nil, "payment")
+    ```
 
 === "Python"
 
-    !!! note "Coming soon"
-        Key-Shared support for the Python client is under development.
+    ```python
+    producer = (
+        client.new_producer()
+        .with_topic("/default/orders")
+        .with_name("orders_producer")
+        .with_dispatch_strategy(DispatchStrategy.RELIABLE)
+        .build()
+    )
+    await producer.create()
+
+    # All "payment" messages go to the same consumer
+    await producer.send_with_key(b"Payment for #1001", None, "payment")
+
+    # "shipping" messages go to (potentially) a different consumer
+    await producer.send_with_key(b"Order #1001 shipped", None, "shipping")
+
+    # Same key = same consumer, guaranteed
+    await producer.send_with_key(b"Payment for #1002", None, "payment")
+    ```
 
 === "Java"
 
-    !!! note "Coming soon"
-        Key-Shared support for the Java client is under development.
+    ```java
+    Producer producer = client.newProducer()
+            .withTopic("/default/orders")
+            .withName("orders_producer")
+            .withDispatchStrategy(DispatchStrategy.RELIABLE)
+            .build();
+    producer.create();
+
+    // All "payment" messages go to the same consumer
+    producer.sendWithKey("Payment for #1001".getBytes(), Map.of(), "payment");
+
+    // "shipping" messages go to (potentially) a different consumer
+    producer.sendWithKey("Order #1001 shipped".getBytes(), Map.of(), "shipping");
+
+    // Same key = same consumer, guaranteed
+    producer.sendWithKey("Payment for #1002".getBytes(), Map.of(), "payment");
+    ```
 
 **Key points:**
 
@@ -112,80 +127,145 @@ The simplest Key-Shared consumer uses automatic key distribution via consistent 
 === "Rust"
 
     ```rust
-    use anyhow::Result;
-    use danube_client::{DanubeClient, SubType};
+    let mut consumer = client
+        .new_consumer()
+        .with_topic("/default/orders")
+        .with_consumer_name("worker_1")
+        .with_subscription("orders_sub")
+        .with_subscription_type(SubType::KeyShared)
+        .build()?;
 
-    #[tokio::main]
-    async fn main() -> Result<()> {
-        let client = DanubeClient::builder()
-            .service_url("http://127.0.0.1:6650")
-            .build()
-            .await?;
+    consumer.subscribe().await?;
+    let mut stream = consumer.receive().await?;
 
-        let mut consumer = client
-            .new_consumer()
-            .with_topic("/default/orders")
-            .with_consumer_name("worker_1")
-            .with_subscription("orders_sub")
-            .with_subscription_type(SubType::KeyShared)
-            .build()?;
-
-        consumer.subscribe().await?;
-        println!("✅ Consumer subscribed (Key-Shared)");
-
-        let mut stream = consumer.receive().await?;
-
-        while let Some(message) = stream.recv().await {
-            let payload = String::from_utf8_lossy(&message.payload);
-            let key = message.routing_key.as_deref().unwrap_or("<none>");
-
-            println!("📥 key={:<10} | '{}'", key, payload);
-
-            consumer.ack(&message).await?;
-        }
-
-        Ok(())
+    while let Some(message) = stream.recv().await {
+        let key = message.routing_key.as_deref().unwrap_or("<none>");
+        let payload = String::from_utf8_lossy(&message.payload);
+        println!("📥 key={:<10} | '{}'", key, payload);
+        consumer.ack(&message).await?;
     }
     ```
 
 === "Go"
 
-    !!! note "Coming soon"
-        Key-Shared support for the Go client is under development.
+    ```go
+    consumer, err := client.NewConsumer().
+        WithConsumerName("worker_1").
+        WithTopic("/default/orders").
+        WithSubscription("orders_sub").
+        WithSubscriptionType(danube.KeyShared).
+        Build()
+
+    consumer.Subscribe(ctx)
+    stream, _ := consumer.Receive(ctx)
+
+    for msg := range stream {
+        fmt.Printf("📥 key=%s payload=%s\n",
+            msg.GetRoutingKey(), string(msg.GetPayload()))
+        consumer.Ack(ctx, msg)
+    }
+    ```
 
 === "Python"
 
-    !!! note "Coming soon"
-        Key-Shared support for the Python client is under development.
+    ```python
+    consumer = (
+        client.new_consumer()
+        .with_topic("/default/orders")
+        .with_consumer_name("worker_1")
+        .with_subscription("orders_sub")
+        .with_subscription_type(SubType.KEY_SHARED)
+        .build()
+    )
+
+    await consumer.subscribe()
+    queue = await consumer.receive()
+
+    while True:
+        message = await queue.get()
+        key = message.routing_key if message.HasField("routing_key") else ""
+        print(f"📥 key={key} payload={message.payload.decode()}")
+        await consumer.ack(message)
+    ```
 
 === "Java"
 
-    !!! note "Coming soon"
-        Key-Shared support for the Java client is under development.
+    ```java
+    Consumer consumer = client.newConsumer()
+            .withTopic("/default/orders")
+            .withConsumerName("worker_1")
+            .withSubscription("orders_sub")
+            .withSubscriptionType(SubType.KEY_SHARED)
+            .build();
+
+    consumer.subscribe();
+
+    consumer.receive().subscribe(new Flow.Subscriber<>() {
+        @Override public void onSubscribe(Flow.Subscription s) { s.request(Long.MAX_VALUE); }
+
+        @Override
+        public void onNext(StreamMessage msg) {
+            String key = msg.routingKey() != null ? msg.routingKey() : "";
+            System.out.printf("📥 key=%s payload=%s%n", key, new String(msg.payload()));
+            consumer.ack(msg);
+        }
+
+        @Override public void onError(Throwable t) {}
+        @Override public void onComplete() {}
+    });
+    ```
 
 ### Running Multiple Consumers
 
 Start multiple consumers with the same subscription to see key distribution:
 
-```bash
-# Terminal 1
-cargo run --example key_shared_consumer -- consumer_1
+=== "Rust"
 
-# Terminal 2
-cargo run --example key_shared_consumer -- consumer_2
+    ```bash
+    # Terminal 1 & 2 — consumers
+    cargo run --example key_shared_consumer
 
-# Terminal 3 — start the producer
-cargo run --example key_shared_producer
-```
+    # Terminal 3 — producer
+    cargo run --example key_shared_producer
+    ```
+
+=== "Go"
+
+    ```bash
+    # Terminal 1 & 2 — consumers
+    go run examples/key_shared/consumer/consumer.go
+
+    # Terminal 3 — producer
+    go run examples/key_shared/producer/producer.go
+    ```
+
+=== "Python"
+
+    ```bash
+    # Terminal 1 & 2 — consumers
+    python examples/key_shared_consumer.py
+
+    # Terminal 3 — producer
+    python examples/key_shared_producer.py
+    ```
+
+=== "Java"
+
+    ```bash
+    # Terminal 1 & 2 — consumers
+    java examples/KeySharedConsumer.java
+
+    # Terminal 3 — producer
+    java examples/KeySharedProducer.java
+    ```
 
 **Expected output:**
 
-Each consumer receives a distinct subset of routing keys. For example:
+Each consumer receives a distinct subset of routing keys:
 
 ```
 # consumer_1 output
 📥 key=shipping   | 'Order #1001 shipped via express'
-📥 key=return     | 'Return request for order #998'
 📥 key=shipping   | 'Order #1002 shipped via standard'
 
 # consumer_2 output
@@ -200,64 +280,109 @@ The exact key-to-consumer assignment depends on consistent hashing but is determ
 
 ## Consumer: Key Filtering
 
-Key filtering gives consumers explicit control over which keys they handle. Instead of relying on automatic consistent hashing, each consumer declares glob patterns and only receives messages whose routing key matches.
+Key filtering gives consumers explicit control over which keys they handle. Each consumer declares glob patterns and only receives messages whose routing key matches.
 
 === "Rust"
 
     ```rust
-    use anyhow::Result;
-    use danube_client::{DanubeClient, SubType};
+    // This consumer only receives "payment" and "invoice" messages
+    let mut consumer = client
+        .new_consumer()
+        .with_topic("/default/orders")
+        .with_consumer_name("payments_worker")
+        .with_subscription("orders_filtered")
+        .with_subscription_type(SubType::KeyShared)
+        .with_key_filter("payment")
+        .with_key_filter("invoice")
+        .build()?;
 
-    #[tokio::main]
-    async fn main() -> Result<()> {
-        let client = DanubeClient::builder()
-            .service_url("http://127.0.0.1:6650")
-            .build()
-            .await?;
+    consumer.subscribe().await?;
+    let mut stream = consumer.receive().await?;
 
-        // This consumer only receives "payment" and "invoice" messages
-        let mut consumer = client
-            .new_consumer()
-            .with_topic("/default/orders")
-            .with_consumer_name("payments_worker")
-            .with_subscription("orders_filtered")
-            .with_subscription_type(SubType::KeyShared)
-            .with_key_filter("payment")    // exact match
-            .with_key_filter("invoice")    // exact match
-            .build()?;
-
-        consumer.subscribe().await?;
-        println!("✅ Payments consumer subscribed");
-
-        let mut stream = consumer.receive().await?;
-
-        while let Some(message) = stream.recv().await {
-            let payload = String::from_utf8_lossy(&message.payload);
-            let key = message.routing_key.as_deref().unwrap_or("<none>");
-
-            println!("📥 key={:<10} | '{}'", key, payload);
-
-            consumer.ack(&message).await?;
-        }
-
-        Ok(())
+    while let Some(message) = stream.recv().await {
+        let key = message.routing_key.as_deref().unwrap_or("<none>");
+        println!("📥 key={:<10} | '{}'", key, String::from_utf8_lossy(&message.payload));
+        consumer.ack(&message).await?;
     }
     ```
 
 === "Go"
 
-    !!! note "Coming soon"
-        Key-Shared support for the Go client is under development.
+    ```go
+    // This consumer only receives "payment" and "invoice" messages
+    consumer, err := client.NewConsumer().
+        WithConsumerName("payments_worker").
+        WithTopic("/default/orders").
+        WithSubscription("orders_filtered").
+        WithSubscriptionType(danube.KeyShared).
+        WithKeyFilter("payment").
+        WithKeyFilter("invoice").
+        Build()
+
+    consumer.Subscribe(ctx)
+    stream, _ := consumer.Receive(ctx)
+
+    for msg := range stream {
+        fmt.Printf("📥 key=%s payload=%s\n",
+            msg.GetRoutingKey(), string(msg.GetPayload()))
+        consumer.Ack(ctx, msg)
+    }
+    ```
 
 === "Python"
 
-    !!! note "Coming soon"
-        Key-Shared support for the Python client is under development.
+    ```python
+    # This consumer only receives "payment" and "invoice" messages
+    consumer = (
+        client.new_consumer()
+        .with_topic("/default/orders")
+        .with_consumer_name("payments_worker")
+        .with_subscription("orders_filtered")
+        .with_subscription_type(SubType.KEY_SHARED)
+        .with_key_filter("payment")
+        .with_key_filter("invoice")
+        .build()
+    )
+
+    await consumer.subscribe()
+    queue = await consumer.receive()
+
+    while True:
+        message = await queue.get()
+        key = message.routing_key if message.HasField("routing_key") else ""
+        print(f"📥 key={key} payload={message.payload.decode()}")
+        await consumer.ack(message)
+    ```
 
 === "Java"
 
-    !!! note "Coming soon"
-        Key-Shared support for the Java client is under development.
+    ```java
+    // This consumer only receives "payment" and "invoice" messages
+    Consumer consumer = client.newConsumer()
+            .withTopic("/default/orders")
+            .withConsumerName("payments_worker")
+            .withSubscription("orders_filtered")
+            .withSubscriptionType(SubType.KEY_SHARED)
+            .withKeyFilter("payment")
+            .withKeyFilter("invoice")
+            .build();
+
+    consumer.subscribe();
+
+    consumer.receive().subscribe(new Flow.Subscriber<>() {
+        @Override public void onSubscribe(Flow.Subscription s) { s.request(Long.MAX_VALUE); }
+
+        @Override
+        public void onNext(StreamMessage msg) {
+            String key = msg.routingKey() != null ? msg.routingKey() : "";
+            System.out.printf("📥 key=%s payload=%s%n", key, new String(msg.payload()));
+            consumer.ack(msg);
+        }
+
+        @Override public void onError(Throwable t) {}
+        @Override public void onComplete() {}
+    });
+    ```
 
 ### Filter Patterns
 
@@ -272,60 +397,61 @@ Filters use glob syntax:
 
 ### Multiple Filters
 
-Use `with_key_filters()` to set multiple filters at once:
+You can set multiple filters at once or chain individual calls:
 
-```rust
-let filters = vec![
-    "payment".to_string(),
-    "invoice".to_string(),
-];
+=== "Rust"
 
-let mut consumer = client
-    .new_consumer()
-    .with_topic("/default/orders")
-    .with_consumer_name("payments_worker")
-    .with_subscription("orders_sub")
-    .with_subscription_type(SubType::KeyShared)
-    .with_key_filters(filters)
-    .build()?;
-```
-
-Or chain individual `with_key_filter()` calls:
-
-```rust
-let mut consumer = client
-    .new_consumer()
-    .with_topic("/default/orders")
-    .with_consumer_name("payments_worker")
-    .with_subscription("orders_sub")
-    .with_subscription_type(SubType::KeyShared)
+    ```rust
+    // Chain individual filters
     .with_key_filter("payment")
     .with_key_filter("invoice")
-    .build()?;
+
+    // Or set multiple at once
+    .with_key_filters(vec!["payment".into(), "invoice".into()])
+    ```
+
+=== "Go"
+
+    ```go
+    // Chain individual filters
+    .WithKeyFilter("payment").
+    .WithKeyFilter("invoice")
+
+    // Or set multiple at once
+    .WithKeyFilters([]string{"payment", "invoice"})
+    ```
+
+=== "Python"
+
+    ```python
+    # Chain individual filters
+    .with_key_filter("payment")
+    .with_key_filter("invoice")
+
+    # Or set multiple at once
+    .with_key_filters(["payment", "invoice"])
+    ```
+
+=== "Java"
+
+    ```java
+    // Chain individual filters
+    .withKeyFilter("payment")
+    .withKeyFilter("invoice")
+
+    // Or set multiple at once
+    .withKeyFilters(List.of("payment", "invoice"))
+    ```
+
+### Expected Filtered Output
+
 ```
-
-### Running Filtered Consumers
-
-```bash
-# Terminal 1 — payments consumer (filters: "payment", "invoice")
-cargo run --example key_shared_filtered_consumer -- payments
-
-# Terminal 2 — logistics consumer (filters: "ship*", "return")
-cargo run --example key_shared_filtered_consumer -- logistics
-
-# Terminal 3 — start the producer
-cargo run --example key_shared_producer
-```
-
-**Expected output:**
-
-```
-# payments consumer
+# payments consumer (filters: "payment", "invoice")
 📥 key=payment    | 'Payment received for order #1001'
 📥 key=payment    | 'Payment received for order #1002'
 📥 key=invoice    | 'Invoice generated for order #1001'
 
-# logistics consumer
+# logistics consumer (filters: "ship*", "return")
 📥 key=shipping   | 'Order #1001 shipped via express'
 📥 key=return     | 'Return request for order #998'
 📥 key=shipping   | 'Order #1002 shipped via standard'
@@ -362,47 +488,99 @@ For failure policy configuration, see [Dispatch Strategy - Failure Handling](../
 
 ### Order Processing
 
-Route all events for the same order to the same consumer for consistent state management:
+Route all events for the same order to the same consumer:
 
-```rust
-// Producer
-producer.send_with_key(data, None, &format!("order-{}", order_id)).await?;
+=== "Rust"
 
-// Consumer — processes all events for its assigned order IDs
-```
+    ```rust
+    producer.send_with_key(data, None, &format!("order-{}", order_id)).await?;
+    ```
 
-### Per-User Event Streams
+=== "Go"
 
-Group user activity by user ID across a pool of consumers:
+    ```go
+    producer.SendWithKey(ctx, data, nil, fmt.Sprintf("order-%s", orderID))
+    ```
 
-```rust
-producer.send_with_key(data, None, &format!("user-{}", user_id)).await?;
-```
+=== "Python"
+
+    ```python
+    await producer.send_with_key(data, None, f"order-{order_id}")
+    ```
+
+=== "Java"
+
+    ```java
+    producer.sendWithKey(data, Map.of(), "order-" + orderId);
+    ```
 
 ### Multi-Tenant Workloads
 
 Dedicate consumers to specific tenants using key filtering:
 
-```rust
-// Tenant A consumer
-consumer.with_key_filter("tenant-a-*").build()?;
+=== "Rust"
 
-// Tenant B consumer
-consumer.with_key_filter("tenant-b-*").build()?;
-```
+    ```rust
+    .with_key_filter("tenant-a-*")  // Tenant A consumer
+    .with_key_filter("tenant-b-*")  // Tenant B consumer
+    ```
+
+=== "Go"
+
+    ```go
+    .WithKeyFilter("tenant-a-*")  // Tenant A consumer
+    .WithKeyFilter("tenant-b-*")  // Tenant B consumer
+    ```
+
+=== "Python"
+
+    ```python
+    .with_key_filter("tenant-a-*")  # Tenant A consumer
+    .with_key_filter("tenant-b-*")  # Tenant B consumer
+    ```
+
+=== "Java"
+
+    ```java
+    .withKeyFilter("tenant-a-*")  // Tenant A consumer
+    .withKeyFilter("tenant-b-*")  // Tenant B consumer
+    ```
 
 ### IoT Device Routing
 
 Route device telemetry by device ID for per-device state tracking:
 
-```rust
-producer.send_with_key(data, None, &format!("device-{}", device_id)).await?;
-```
+=== "Rust"
+
+    ```rust
+    producer.send_with_key(data, None, &format!("device-{}", device_id)).await?;
+    ```
+
+=== "Go"
+
+    ```go
+    producer.SendWithKey(ctx, data, nil, fmt.Sprintf("device-%s", deviceID))
+    ```
+
+=== "Python"
+
+    ```python
+    await producer.send_with_key(data, None, f"device-{device_id}")
+    ```
+
+=== "Java"
+
+    ```java
+    producer.sendWithKey(data, Map.of(), "device-" + deviceId);
+    ```
 
 ---
 
 ## Full Examples
 
-For complete runnable examples, see:
+For complete runnable examples, see the client repositories:
 
-- Rust: [key_shared_producer.rs](https://github.com/danube-messaging/danube/tree/main/danube-client/examples/key_shared_producer.rs), [key_shared_consumer.rs](https://github.com/danube-messaging/danube/tree/main/danube-client/examples/key_shared_consumer.rs), [key_shared_filtered_consumer.rs](https://github.com/danube-messaging/danube/tree/main/danube-client/examples/key_shared_filtered_consumer.rs)
+- [Rust examples](https://github.com/danube-messaging/danube/tree/main/danube-client/examples)
+- [Go examples](https://github.com/danube-messaging/danube-go/tree/main/examples/key_shared)
+- [Python examples](https://github.com/danube-messaging/danube-py/tree/main/examples)
+- [Java examples](https://github.com/danube-messaging/danube-java/tree/main/examples)
