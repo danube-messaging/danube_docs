@@ -56,6 +56,7 @@ nav:
         - 🏠 Home: index.md
 
         - 📚 Getting Started:
+                  - Broker Modes: getting_started/Broker_modes.md
                   - Run Danube on Local Machine: getting_started/Danube_local.md
                   - Run Danube with Docker Compose: getting_started/Danube_docker_compose.md
                   - Run Danube on Kubernetes: getting_started/Danube_kubernetes.md

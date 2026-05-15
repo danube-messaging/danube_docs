@@ -4,6 +4,9 @@ Danube brokers use an embedded Raft consensus layer for metadata — no external
 dependencies (like etcd) are required. A single broker auto-initializes as a
 single-node Raft cluster on first boot.
 
+For an overview of all deployment modes (standalone, cluster, edge), see
+[Broker Modes](Broker_modes.md).
+
 ## Download the Danube Broker
 
 Download the latest binary from the [releases](https://github.com/danube-messaging/danube/releases) page.
