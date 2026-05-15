@@ -12,13 +12,13 @@
         <meta name="author" content="Dan Rusei">
       
       
-        <link rel="canonical" href="https://danube-docs.dev-state.com/getting_started/Danube_local/">
+        <link rel="canonical" href="https://danube-docs.dev-state.com/getting_started/Broker_modes/">
       
       
-        <link rel="prev" href="../Broker_modes/">
+        <link rel="prev" href="../..">
       
       
-        <link rel="next" href="../Danube_docker_compose/">
+        <link rel="next" href="../Danube_local/">
       
       
       <link rel="icon" href="../../assets/favicon.ico">
@@ -26,7 +26,7 @@
     
     
       
-        <title>Run Danube on Local Machine - Danube Messaging</title>
+        <title>Broker Modes - Danube Messaging</title>
       
     
     
@@ -88,7 +88,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#run-danube-broker-on-your-local-machine" class="md-skip">
+        <a href="#broker-modes" class="md-skip">
           Skip to content
         </a>
       
@@ -123,7 +123,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Run Danube on Local Machine
+              Broker Modes
             
           </span>
         </div>
@@ -326,27 +326,6 @@
                 
   
   
-  
-  
-    <li class="md-nav__item">
-      <a href="../Broker_modes/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Broker Modes
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
     
   
   
@@ -363,7 +342,7 @@
           
   
   <span class="md-ellipsis">
-    Run Danube on Local Machine
+    Broker Modes
   </span>
   
 
@@ -374,7 +353,7 @@
         
   
   <span class="md-ellipsis">
-    Run Danube on Local Machine
+    Broker Modes
   </span>
   
 
@@ -396,37 +375,64 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#download-the-danube-broker" class="md-nav__link">
+  <a href="#at-a-glance" class="md-nav__link">
     <span class="md-ellipsis">
-      Download the Danube Broker
+      At a Glance
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#option-1-single-node-quick-start" class="md-nav__link">
+  <a href="#standalone-mode" class="md-nav__link">
     <span class="md-ellipsis">
-      Option 1: Single-Node Quick Start
+      Standalone Mode
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#option-2-config-file" class="md-nav__link">
+  <a href="#cluster-mode" class="md-nav__link">
     <span class="md-ellipsis">
-      Option 2: Config File
+      Cluster Mode
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Option 2: Config File">
+    <nav class="md-nav" aria-label="Cluster Mode">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#run-the-broker-with-config-file" class="md-nav__link">
+  <a href="#requirements" class="md-nav__link">
     <span class="md-ellipsis">
-      Run the Broker with Config File
+      Requirements
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#starting-a-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      Starting a Cluster
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cluster-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cluster Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration Reference
     </span>
   </a>
   
@@ -438,36 +444,78 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#use-danube-cli-to-publish-and-consume-messages" class="md-nav__link">
+  <a href="#edge-mode" class="md-nav__link">
     <span class="md-ellipsis">
-      Use Danube CLI to Publish and Consume Messages
+      Edge Mode
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Edge Mode">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      How It Works
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#validate" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#requirements_1" class="md-nav__link">
     <span class="md-ellipsis">
-      Validate
+      Requirements
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#running-a-multi-broker-cluster" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#starting-an-edge-broker" class="md-nav__link">
     <span class="md-ellipsis">
-      Running a Multi-Broker Cluster
+      Starting an Edge Broker
     </span>
   </a>
   
 </li>
+        
+          <li class="md-nav__item">
+  <a href="#edge-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Edge Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Concepts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing-with-an-mqtt-client" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing with an MQTT Client
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#cleanup" class="md-nav__link">
+  <a href="#cli-reference" class="md-nav__link">
     <span class="md-ellipsis">
-      Cleanup
+      CLI Reference
     </span>
   </a>
   
@@ -477,6 +525,27 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Danube_local/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Run Danube on Local Machine
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -1756,37 +1825,64 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#download-the-danube-broker" class="md-nav__link">
+  <a href="#at-a-glance" class="md-nav__link">
     <span class="md-ellipsis">
-      Download the Danube Broker
+      At a Glance
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#option-1-single-node-quick-start" class="md-nav__link">
+  <a href="#standalone-mode" class="md-nav__link">
     <span class="md-ellipsis">
-      Option 1: Single-Node Quick Start
+      Standalone Mode
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#option-2-config-file" class="md-nav__link">
+  <a href="#cluster-mode" class="md-nav__link">
     <span class="md-ellipsis">
-      Option 2: Config File
+      Cluster Mode
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Option 2: Config File">
+    <nav class="md-nav" aria-label="Cluster Mode">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#run-the-broker-with-config-file" class="md-nav__link">
+  <a href="#requirements" class="md-nav__link">
     <span class="md-ellipsis">
-      Run the Broker with Config File
+      Requirements
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#starting-a-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      Starting a Cluster
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cluster-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cluster Features
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration Reference
     </span>
   </a>
   
@@ -1798,36 +1894,78 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#use-danube-cli-to-publish-and-consume-messages" class="md-nav__link">
+  <a href="#edge-mode" class="md-nav__link">
     <span class="md-ellipsis">
-      Use Danube CLI to Publish and Consume Messages
+      Edge Mode
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Edge Mode">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      How It Works
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#validate" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#requirements_1" class="md-nav__link">
     <span class="md-ellipsis">
-      Validate
+      Requirements
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#running-a-multi-broker-cluster" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#starting-an-edge-broker" class="md-nav__link">
     <span class="md-ellipsis">
-      Running a Multi-Broker Cluster
+      Starting an Edge Broker
     </span>
   </a>
   
 </li>
+        
+          <li class="md-nav__item">
+  <a href="#edge-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Edge Configuration
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Concepts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing-with-an-mqtt-client" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing with an MQTT Client
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#cleanup" class="md-nav__link">
+  <a href="#cli-reference" class="md-nav__link">
     <span class="md-ellipsis">
-      Cleanup
+      CLI Reference
     </span>
   </a>
   
@@ -1848,7 +1986,7 @@
                   
 
   
-    <a href="https://github.com/danube-messaging/danube_docs/edit/main/docs/getting_started/Danube_local.md" title="Edit this page" class="md-content__button md-icon">
+    <a href="https://github.com/danube-messaging/danube_docs/edit/main/docs/getting_started/Broker_modes.md" title="Edit this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
     </a>
@@ -1856,24 +1994,77 @@
   
 
 
-<h1 id="run-danube-broker-on-your-local-machine">Run Danube Broker on your local machine</h1>
-<p>Danube brokers use an embedded Raft consensus layer for metadata — no external
-dependencies (like etcd) are required. A single broker auto-initializes as a
-single-node Raft cluster on first boot.</p>
-<p>For an overview of all deployment modes (standalone, cluster, edge), see
-<a href="../Broker_modes/">Broker Modes</a>.</p>
-<h2 id="download-the-danube-broker">Download the Danube Broker</h2>
-<p>Download the latest binary from the <a href="https://github.com/danube-messaging/danube/releases">releases</a> page.</p>
-<h2 id="option-1-single-node-quick-start">Option 1: Single-Node Quick Start</h2>
-<p>The fastest way to get a broker running locally — no config file needed:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>./danube-broker<span class="w"> </span>--single-node<span class="w"> </span>--data-dir<span class="w"> </span>./danube-data
+<h1 id="broker-modes">Broker Modes</h1>
+<p>Danube runs as a single binary (<code>danube-broker</code>) in one of three modes. The mode
+determines how the broker manages metadata, handles client traffic, and
+coordinates with other brokers.</p>
+<h2 id="at-a-glance">At a Glance</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Standalone</strong></th>
+<th><strong>Cluster</strong></th>
+<th><strong>Edge</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Use case</strong></td>
+<td>Development, testing, single-server</td>
+<td>Production, multi-broker</td>
+<td>IoT ingestion at the edge</td>
+</tr>
+<tr>
+<td><strong>Brokers</strong></td>
+<td>1</td>
+<td>3+ (recommended)</td>
+<td>1 per site</td>
+</tr>
+<tr>
+<td><strong>Config file</strong></td>
+<td>None (zero-config)</td>
+<td><code>danube_broker.yml</code></td>
+<td><code>edge.yaml</code></td>
+</tr>
+<tr>
+<td><strong>Raft consensus</strong></td>
+<td>Single-node (auto-init)</td>
+<td>Multi-node (auto-discovery)</td>
+<td>Single-node (auto-init)</td>
+</tr>
+<tr>
+<td><strong>Load balancing</strong></td>
+<td>No</td>
+<td>Yes (leader election, load manager)</td>
+<td>No</td>
+</tr>
+<tr>
+<td><strong>MQTT gateway</strong></td>
+<td>No</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><strong>Clients</strong></td>
+<td>Danube gRPC clients</td>
+<td>Danube gRPC clients</td>
+<td>MQTT devices + Danube gRPC</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="standalone-mode">Standalone Mode</h2>
+<p>The fastest way to get started, a single broker with no config file and no
+external dependencies.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>danube-broker<span class="w"> </span>--mode<span class="w"> </span>standalone<span class="w"> </span>--data-dir<span class="w"> </span>./danube-data
 </span></code></pre></div>
 <p>This auto-generates sensible defaults:</p>
 <table>
 <thead>
 <tr>
 <th>Setting</th>
-<th>Value</th>
+<th>Default</th>
 </tr>
 </thead>
 <tbody>
@@ -1890,99 +2081,182 @@ single-node Raft cluster on first boot.</p>
 <td><code>127.0.0.1:7650</code></td>
 </tr>
 <tr>
-<td>Raft data</td>
-<td><code>./danube-data/raft</code></td>
-</tr>
-<tr>
-<td>WAL storage</td>
-<td><code>./danube-data/wal</code></td>
+<td>Storage mode</td>
+<td>Local WAL</td>
 </tr>
 <tr>
 <td>Authentication</td>
 <td>None</td>
 </tr>
-<tr>
-<td>Storage mode</td>
-<td>Local</td>
-</tr>
 </tbody>
 </table>
-<p>Data is persisted across restarts. To start fresh, remove the data directory and re-run.</p>
-<p>Skip to <a href="#use-danube-cli-to-publish-and-consume-messages">Use Danube CLI to Publish and Consume Messages</a> to test it.</p>
-<h2 id="option-2-config-file">Option 2: Config File</h2>
-<p>Create a local config file using the <a href="https://github.com/danube-messaging/danube/blob/main/config/danube_broker.yml">sample config</a> as a reference:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>curl<span class="w"> </span>-O<span class="w"> </span>https://raw.githubusercontent.com/danube-messaging/danube/main/config/danube_broker.yml
+<p>Override any default with CLI flags:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>danube-broker<span class="w"> </span>--mode<span class="w"> </span>standalone<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span>--data-dir<span class="w"> </span>./danube-data<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span>--broker-addr<span class="w"> </span><span class="m">0</span>.0.0.0:6650<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span>--admin-addr<span class="w"> </span><span class="m">0</span>.0.0.0:50051
 </span></code></pre></div>
-<h3 id="run-the-broker-with-config-file">Run the Broker with Config File</h3>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>./danube-broker-linux<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span>--config-file<span class="w"> </span>danube_broker.yml<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span>--broker-addr<span class="w"> </span><span class="m">0</span>.0.0.0:6650<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span>--admin-addr<span class="w"> </span><span class="m">0</span>.0.0.0:50051<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span>--raft-addr<span class="w"> </span><span class="m">0</span>.0.0.0:7650<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span>--data-dir<span class="w"> </span>./danube-data/raft<span class="w"> </span>&gt;<span class="w"> </span>broker.log<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">&amp;</span>
+<div class="admonition note">
+<p class="admonition-title">When to use standalone</p>
+<p>Standalone mode is ideal for local development, CI pipelines, and
+single-server deployments where high availability is not required. It
+supports the same client APIs (producers, consumers, schemas) as cluster
+mode, just without multi-broker orchestration.</p>
+</div>
+<p>Data persists across restarts. To start fresh, remove the data directory.</p>
+<hr />
+<h2 id="cluster-mode">Cluster Mode</h2>
+<p>The default and recommended mode for production. Multiple brokers form a Raft
+consensus group, share metadata, and distribute topics across the cluster.</p>
+<h3 id="requirements">Requirements</h3>
+<ul>
+<li>A config file (<code>danube_broker.yml</code>)</li>
+<li>At least 3 brokers for Raft quorum (recommended)</li>
+<li>Network connectivity between broker Raft ports</li>
+</ul>
+<h3 id="starting-a-cluster">Starting a Cluster</h3>
+<p>Each broker needs the config file and unique port assignments. The <code>--seed-nodes</code>
+flag tells brokers how to discover each other:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Broker 1</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>danube-broker<span class="w"> </span>--config-file<span class="w"> </span>danube_broker.yml<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span>--broker-addr<span class="w"> </span><span class="m">0</span>.0.0.0:6650<span class="w"> </span>--admin-addr<span class="w"> </span><span class="m">0</span>.0.0.0:50051<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span>--raft-addr<span class="w"> </span><span class="m">0</span>.0.0.0:7650<span class="w"> </span>--data-dir<span class="w"> </span>./data1/raft<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span>--seed-nodes<span class="w"> </span><span class="s2">&quot;0.0.0.0:7650,0.0.0.0:7651,0.0.0.0:7652&quot;</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># Broker 2</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>danube-broker<span class="w"> </span>--config-file<span class="w"> </span>danube_broker.yml<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">  </span>--broker-addr<span class="w"> </span><span class="m">0</span>.0.0.0:6651<span class="w"> </span>--admin-addr<span class="w"> </span><span class="m">0</span>.0.0.0:50052<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">  </span>--raft-addr<span class="w"> </span><span class="m">0</span>.0.0.0:7651<span class="w"> </span>--data-dir<span class="w"> </span>./data2/raft<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">  </span>--seed-nodes<span class="w"> </span><span class="s2">&quot;0.0.0.0:7650,0.0.0.0:7651,0.0.0.0:7652&quot;</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="c1"># Broker 3</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>danube-broker<span class="w"> </span>--config-file<span class="w"> </span>danube_broker.yml<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">  </span>--broker-addr<span class="w"> </span><span class="m">0</span>.0.0.0:6652<span class="w"> </span>--admin-addr<span class="w"> </span><span class="m">0</span>.0.0.0:50053<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">  </span>--raft-addr<span class="w"> </span><span class="m">0</span>.0.0.0:7652<span class="w"> </span>--data-dir<span class="w"> </span>./data3/raft<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">  </span>--seed-nodes<span class="w"> </span><span class="s2">&quot;0.0.0.0:7650,0.0.0.0:7651,0.0.0.0:7652&quot;</span>
 </span></code></pre></div>
-<p>Check the logs:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">100</span><span class="w"> </span>-f<span class="w"> </span>broker.log
+<p>The broker with the lowest Raft node ID initializes the cluster; the others join
+automatically. No manual cluster setup is needed.</p>
+<h3 id="cluster-features">Cluster Features</h3>
+<p>Cluster mode enables capabilities that don't apply to standalone:</p>
+<ul>
+<li><strong>Leader election</strong> : one broker is the Raft leader; metadata writes go through it</li>
+<li><strong>Load manager</strong> : topics are assigned to brokers based on configurable strategies (<code>fair</code>, <code>balanced</code>, <code>weighted_load</code>)</li>
+<li><strong>Automated rebalancing</strong> : optional proactive topic redistribution to maintain cluster balance</li>
+<li><strong>Broker scaling</strong> : add brokers at runtime with <code>--join</code> or <code>danube-admin cluster add-node</code></li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Deployment guides</p>
+<p>For step-by-step cluster deployment instructions, see:</p>
+<ul>
+<li><a href="../Danube_docker_compose/">Run Danube with Docker Compose</a></li>
+<li><a href="../Danube_kubernetes/">Run Danube on Kubernetes</a></li>
+</ul>
+</div>
+<h3 id="configuration-reference">Configuration Reference</h3>
+<p>The cluster config file (<code>danube_broker.yml</code>) controls broker ports, storage
+backend, authentication, load management, and policies. See the
+<a href="../../reference/broker_configuration/">Broker Configuration Reference</a> and the
+<a href="https://github.com/danube-messaging/danube/blob/main/config/danube_broker.yml">sample config</a>
+for all available options.</p>
+<hr />
+<h2 id="edge-mode">Edge Mode</h2>
+<p>Edge mode turns the broker into a lightweight MQTT gateway that ingests data from
+IoT devices and replicates it to a central Danube cluster. It is designed for
+constrained environments (factory floors, remote sites) where devices
+speak MQTT and need a local buffer that can survive network outages.</p>
+<h3 id="how-it-works">How It Works</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>MQTT devices ──► Edge broker ──► Local WAL ──► Cluster broker(s)
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>                  (edge.yaml)     (on disk)     (gRPC replication)
 </span></code></pre></div>
-<p>You should see the Raft node initialize and the broker start:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>INFO danube_broker: Raft metadata store initialized node_id=... raft_addr=0.0.0.0:7650
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>INFO danube_broker: Start the Danube Service
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>INFO danube_broker::danube_service: Setting up the cluster MY_CLUSTER
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>INFO danube_broker::danube_service::broker_register: Broker ... registered in the cluster
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>INFO danube_broker::broker_server: Server is listening on address: 0.0.0.0:6650
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>INFO danube_broker::admin: Admin is listening on address: 0.0.0.0:50051
+<ol>
+<li>Devices publish via standard MQTT (v3.1.1 / v5.0)</li>
+<li>The edge broker routes messages to Danube topics via wildcard pattern matching</li>
+<li>Messages are batched and written to a local WAL</li>
+<li>A background replicator tail-reads the WAL and sends batches to the cluster</li>
+<li>If the cluster is unreachable, messages accumulate safely in the local WAL</li>
+</ol>
+<h3 id="requirements_1">Requirements</h3>
+<ul>
+<li>A running Danube cluster (standalone or multi-broker) to replicate into</li>
+<li>An edge config file (<code>edge.yaml</code>)</li>
+</ul>
+<h3 id="starting-an-edge-broker">Starting an Edge Broker</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>danube-broker<span class="w"> </span>--mode<span class="w"> </span>edge<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span>--data-dir<span class="w"> </span>./edge-data<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span>--edge-config<span class="w"> </span>edge.yaml<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span>--broker-addr<span class="w"> </span><span class="m">0</span>.0.0.0:6653<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span>--admin-addr<span class="w"> </span><span class="m">0</span>.0.0.0:50054<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">  </span>--raft-addr<span class="w"> </span><span class="m">0</span>.0.0.0:7653
 </span></code></pre></div>
-<h2 id="use-danube-cli-to-publish-and-consume-messages">Use Danube CLI to Publish and Consume Messages</h2>
-<p>Download the latest Danube CLI binary from the <a href="https://github.com/danube-messaging/danube/releases">releases</a> page and run it:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>./danube-cli-linux<span class="w"> </span>produce<span class="w"> </span>-s<span class="w"> </span>http://127.0.0.1:6650<span class="w"> </span>-t<span class="w"> </span>/default/demo_topic<span class="w"> </span>-c<span class="w"> </span><span class="m">1000</span><span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Hello, Danube!&quot;</span>
+<h3 id="edge-configuration">Edge Configuration</h3>
+<p>The edge config file (<code>edge.yaml</code>) defines the edge identity, cluster
+connection, and MQTT topic mappings:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nt">edge</span><span class="p">:</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">edge_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;edge1&quot;</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="nt">cluster_url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;http://cluster-broker:6650&quot;</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span><span class="nt">token</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="w">                    </span><span class="c1"># optional auth token</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">  </span><span class="nt">heartbeat_interval_ms</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30000</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="nt">replicator</span><span class="p">:</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">  </span><span class="nt">batch_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">  </span><span class="nt">batch_timeout_ms</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="nt">mqtt</span><span class="p">:</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">  </span><span class="nt">listener</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0.0.0.0:1883&quot;</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">  </span><span class="c1"># max_payload_size: 262144   # 256 KB (default)</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="w">  </span><span class="c1"># max_connections: 10000     # default</span>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="w">  </span><span class="nt">topic_mappings</span><span class="p">:</span>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">mqtt_pattern</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;device/+/telemetry&quot;</span>
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="w">      </span><span class="nt">danube_topic</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/edge1/telemetry&quot;</span>
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="w">      </span><span class="nt">schema_subject</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;telemetry-events&quot;</span>
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="w">      </span><span class="nt">extract_attributes</span><span class="p">:</span>
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="w">        </span><span class="nt">device_id</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;$1&quot;</span>
+</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a>
+</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">mqtt_pattern</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;#&quot;</span>
+</span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a><span class="w">      </span><span class="nt">danube_topic</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/edge1/raw&quot;</span>
+</span><span id="__span-5-25"><a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a>
+</span><span id="__span-5-26"><a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a><span class="w">  </span><span class="nt">ingestion</span><span class="p">:</span>
+</span><span id="__span-5-27"><a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a><span class="w">    </span><span class="nt">batch_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span>
+</span><span id="__span-5-28"><a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a><span class="w">    </span><span class="nt">batch_timeout_ms</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">500</span>
 </span></code></pre></div>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>Message<span class="w"> </span>sent<span class="w"> </span>successfully<span class="w"> </span>with<span class="w"> </span>ID:<span class="w"> </span><span class="m">9</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>Message<span class="w"> </span>sent<span class="w"> </span>successfully<span class="w"> </span>with<span class="w"> </span>ID:<span class="w"> </span><span class="m">10</span>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>Message<span class="w"> </span>sent<span class="w"> </span>successfully<span class="w"> </span>with<span class="w"> </span>ID:<span class="w"> </span><span class="m">11</span>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>Message<span class="w"> </span>sent<span class="w"> </span>successfully<span class="w"> </span>with<span class="w"> </span>ID:<span class="w"> </span><span class="m">12</span>
+<h3 id="key-concepts">Key Concepts</h3>
+<ul>
+<li><strong>Namespace isolation</strong> : all Danube topics must be under <code>/{edge_name}/</code> (e.g. <code>/edge1/telemetry</code>)</li>
+<li><strong>Topic mappings</strong> : MQTT wildcards (<code>+</code>, <code>#</code>) map incoming messages to Danube topics; <code>extract_attributes</code> captures path segments as message attributes</li>
+<li><strong>Schema enforcement</strong> : if <code>schema_subject</code> is set, the edge pulls the schema from the cluster registry and validates payloads locally. Invalid messages are acknowledged but silently dropped</li>
+<li><strong>WAL buffering</strong> : messages survive edge broker restarts and network partitions; replication resumes from the last checkpoint</li>
+</ul>
+<h3 id="testing-with-an-mqtt-client">Testing with an MQTT Client</h3>
+<p>Once the edge broker is running, any MQTT client can publish:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Using mosquitto_pub</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>mosquitto_pub<span class="w"> </span>-h<span class="w"> </span><span class="m">127</span>.0.0.1<span class="w"> </span>-p<span class="w"> </span><span class="m">1883</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">  </span>-t<span class="w"> </span><span class="s2">&quot;device/sensor-1/telemetry&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span>-m<span class="w"> </span><span class="s1">&#39;{&quot;temperature&quot;: 25.5, &quot;device_id&quot;: &quot;sensor-1&quot;}&#39;</span>
 </span></code></pre></div>
-<p>Open a new terminal and run the below command to consume the messages:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>./danube-cli-linux<span class="w"> </span>consume<span class="w"> </span>-s<span class="w"> </span>http://127.0.0.1:6650<span class="w"> </span>-t<span class="w"> </span>/default/demo_topic<span class="w"> </span>-m<span class="w"> </span>my_subscription
-</span></code></pre></div>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Received<span class="w"> </span>bytes<span class="w"> </span>message:<span class="w"> </span><span class="m">9</span>,<span class="w"> </span>with<span class="w"> </span>payload:<span class="w"> </span>Hello,<span class="w"> </span>Danube!
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>Received<span class="w"> </span>bytes<span class="w"> </span>message:<span class="w"> </span><span class="m">10</span>,<span class="w"> </span>with<span class="w"> </span>payload:<span class="w"> </span>Hello,<span class="w"> </span>Danube!
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>Received<span class="w"> </span>bytes<span class="w"> </span>message:<span class="w"> </span><span class="m">11</span>,<span class="w"> </span>with<span class="w"> </span>payload:<span class="w"> </span>Hello,<span class="w"> </span>Danube!
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>Received<span class="w"> </span>bytes<span class="w"> </span>message:<span class="w"> </span><span class="m">12</span>,<span class="w"> </span>with<span class="w"> </span>payload:<span class="w"> </span>Hello,<span class="w"> </span>Danube!
-</span></code></pre></div>
-<h2 id="validate">Validate</h2>
-<p>Ensure the broker is running and listening on the expected port:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>ss<span class="w"> </span>-tuln<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="m">6650</span>
-</span></code></pre></div>
-<p>Check cluster state with the admin CLI:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>danube-admin<span class="w"> </span>brokers<span class="w"> </span>list
-</span></code></pre></div>
-<p>For debugging, check <code>broker.log</code>.</p>
-<h2 id="running-a-multi-broker-cluster">Running a Multi-Broker Cluster</h2>
-<p>To run multiple brokers locally, give each broker a unique port set and pass
-<code>--seed-nodes</code> so they discover each other:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Broker 1</span>
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>./danube-broker-linux<span class="w"> </span>--config-file<span class="w"> </span>danube_broker.yml<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">  </span>--broker-addr<span class="w"> </span><span class="m">0</span>.0.0.0:6650<span class="w"> </span>--admin-addr<span class="w"> </span><span class="m">0</span>.0.0.0:50051<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">  </span>--raft-addr<span class="w"> </span><span class="m">0</span>.0.0.0:7650<span class="w"> </span>--data-dir<span class="w"> </span>./data1/raft<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">  </span>--seed-nodes<span class="w"> </span><span class="s2">&quot;0.0.0.0:7650,0.0.0.0:7651&quot;</span><span class="w"> </span><span class="p">&amp;</span>
-</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
-</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="c1"># Broker 2</span>
-</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>./danube-broker-linux<span class="w"> </span>--config-file<span class="w"> </span>danube_broker.yml<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="w">  </span>--broker-addr<span class="w"> </span><span class="m">0</span>.0.0.0:6651<span class="w"> </span>--admin-addr<span class="w"> </span><span class="m">0</span>.0.0.0:50052<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="w">  </span>--raft-addr<span class="w"> </span><span class="m">0</span>.0.0.0:7651<span class="w"> </span>--data-dir<span class="w"> </span>./data2/raft<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="w">  </span>--seed-nodes<span class="w"> </span><span class="s2">&quot;0.0.0.0:7650,0.0.0.0:7651&quot;</span><span class="w"> </span><span class="p">&amp;</span>
-</span></code></pre></div>
-<p>The broker with the lowest Raft node ID initializes the cluster; the other
-joins automatically.</p>
-<h2 id="cleanup">Cleanup</h2>
-<p>Stop the broker:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>pkill<span class="w"> </span>danube-broker
-</span></code></pre></div>
-<p>Remove Raft data (for a fresh start):</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>rm<span class="w"> </span>-rf<span class="w"> </span>./danube-data
-</span></code></pre></div>
-<p>Verify cleanup:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>ps<span class="w"> </span>aux<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>danube-broker
+<p>The message flows through the edge WAL to the cluster, where standard Danube
+consumers can read it from <code>/edge1/telemetry</code>.</p>
+<hr />
+<h2 id="cli-reference">CLI Reference</h2>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>danube-broker [OPTIONS]
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>Common options:
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>  --mode &lt;mode&gt;          cluster (default), standalone, or edge
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>  --broker-addr &lt;addr&gt;   gRPC listen address
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>  --admin-addr &lt;addr&gt;    Admin API listen address
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>  --raft-addr &lt;addr&gt;     Raft transport address
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>  --data-dir &lt;path&gt;      Base data directory
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>  --prom-exporter &lt;addr&gt; Prometheus metrics endpoint
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>Cluster only:
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>  --config-file &lt;path&gt;   Path to danube_broker.yml (required)
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>  --seed-nodes &lt;addrs&gt;   Comma-separated Raft peer addresses
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>  --join                 Join an existing cluster
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>Edge only:
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>  --edge-config &lt;path&gt;   Path to edge.yaml (required)
+</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>  --edge-token &lt;token&gt;   Auth token override (optional)
 </span></code></pre></div>
 
 
