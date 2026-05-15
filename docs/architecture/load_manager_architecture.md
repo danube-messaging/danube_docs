@@ -12,21 +12,21 @@ The **Load Manager** is a critical subsystem in Danube that handles the distribu
 
 ### Core Responsibilities
 
-- **Topic Assignment** - Places new topics on the least loaded broker using intelligent ranking algorithms
-- **Load Monitoring** - Continuously tracks broker resource utilization (CPU, memory, throughput, topic count)
-- **Cluster Rebalancing** - Automatically moves topics between brokers to maintain balanced load distribution
-- **Failover Management** - Reassigns topics from failed brokers to healthy ones
-- **Resource Optimization** - Prevents hotspots and ensures efficient cluster utilization
+- **Topic Assignment** : Places new topics on the least loaded broker using intelligent ranking algorithms
+- **Load Monitoring** : Continuously tracks broker resource utilization (CPU, memory, throughput, topic count)
+- **Cluster Rebalancing** : Automatically moves topics between brokers to maintain balanced load distribution
+- **Failover Management** : Reassigns topics from failed brokers to healthy ones
+- **Resource Optimization** : Prevents hotspots and ensures efficient cluster utilization
 
 ### Why It Matters
 
 Without intelligent load management, clusters suffer from:
 
-- **Hotspots** - One broker handles most traffic while others are idle
-- **Resource waste** - Underutilized brokers mean wasted infrastructure costs
-- **Performance degradation** - Overloaded brokers cause latency spikes and message backlogs
-- **Manual toil** - Operators spend time manually moving topics to fix imbalances
-- **Scaling challenges** - Hard to add/remove brokers without disrupting service
+- **Hotspots** : One broker handles most traffic while others are idle
+- **Resource waste** : Underutilized brokers mean wasted infrastructure costs
+- **Performance degradation** : Overloaded brokers cause latency spikes and message backlogs
+- **Manual toil** : Operators spend time manually moving topics to fix imbalances
+- **Scaling challenges** : Hard to add/remove brokers without disrupting service
 
 The Load Manager solves these problems automatically, keeping your cluster healthy 24/7.
 
