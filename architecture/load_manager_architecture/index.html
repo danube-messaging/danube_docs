@@ -2608,20 +2608,20 @@
 <p>The <strong>Load Manager</strong> is a critical subsystem in Danube that handles the distribution of topics across brokers in a cluster. Think of it as the "traffic controller" that decides which broker should handle which topic, ensuring that no single broker becomes overwhelmed while others sit idle.</p>
 <h3 id="core-responsibilities">Core Responsibilities</h3>
 <ul>
-<li><strong>Topic Assignment</strong> - Places new topics on the least loaded broker using intelligent ranking algorithms</li>
-<li><strong>Load Monitoring</strong> - Continuously tracks broker resource utilization (CPU, memory, throughput, topic count)</li>
-<li><strong>Cluster Rebalancing</strong> - Automatically moves topics between brokers to maintain balanced load distribution</li>
-<li><strong>Failover Management</strong> - Reassigns topics from failed brokers to healthy ones</li>
-<li><strong>Resource Optimization</strong> - Prevents hotspots and ensures efficient cluster utilization</li>
+<li><strong>Topic Assignment</strong> : Places new topics on the least loaded broker using intelligent ranking algorithms</li>
+<li><strong>Load Monitoring</strong> : Continuously tracks broker resource utilization (CPU, memory, throughput, topic count)</li>
+<li><strong>Cluster Rebalancing</strong> : Automatically moves topics between brokers to maintain balanced load distribution</li>
+<li><strong>Failover Management</strong> : Reassigns topics from failed brokers to healthy ones</li>
+<li><strong>Resource Optimization</strong> : Prevents hotspots and ensures efficient cluster utilization</li>
 </ul>
 <h3 id="why-it-matters">Why It Matters</h3>
 <p>Without intelligent load management, clusters suffer from:</p>
 <ul>
-<li><strong>Hotspots</strong> - One broker handles most traffic while others are idle</li>
-<li><strong>Resource waste</strong> - Underutilized brokers mean wasted infrastructure costs</li>
-<li><strong>Performance degradation</strong> - Overloaded brokers cause latency spikes and message backlogs</li>
-<li><strong>Manual toil</strong> - Operators spend time manually moving topics to fix imbalances</li>
-<li><strong>Scaling challenges</strong> - Hard to add/remove brokers without disrupting service</li>
+<li><strong>Hotspots</strong> : One broker handles most traffic while others are idle</li>
+<li><strong>Resource waste</strong> : Underutilized brokers mean wasted infrastructure costs</li>
+<li><strong>Performance degradation</strong> : Overloaded brokers cause latency spikes and message backlogs</li>
+<li><strong>Manual toil</strong> : Operators spend time manually moving topics to fix imbalances</li>
+<li><strong>Scaling challenges</strong> : Hard to add/remove brokers without disrupting service</li>
 </ul>
 <p>The Load Manager solves these problems automatically, keeping your cluster healthy 24/7.</p>
 <hr />
